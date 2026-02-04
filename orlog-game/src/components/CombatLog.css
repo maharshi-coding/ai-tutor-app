@@ -1,0 +1,104 @@
+.combat-log {
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+  border: 2px solid #d4af37;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  animation: slideIn 0.5s ease;
+}
+
+.log-title {
+  text-align: center;
+  color: #d4af37;
+  font-size: 18px;
+  margin-bottom: 16px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.log-section {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.log-player {
+  flex: 1;
+  min-width: 250px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.log-player h5 {
+  color: #d4af37;
+  font-size: 16px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.log-divider {
+  font-size: 24px;
+  font-weight: 700;
+  color: #d4af37;
+  align-self: center;
+}
+
+.log-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.log-line {
+  font-size: 14px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.log-line .icon {
+  font-size: 16px;
+  min-width: 24px;
+}
+
+.log-line.total {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+  color: #d4af37;
+}
+
+.log-line.success {
+  color: #52c41a;
+}
+
+.log-line.warning {
+  color: #fa8c16;
+}
+
+.log-footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.rule-reminder {
+  text-align: center;
+  font-size: 12px;
+  color: #a0aec0;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .log-section {
+    flex-direction: column;
+  }
+  
+  .log-divider {
+    transform: rotate(90deg);
+    font-size: 20px;
+  }
+}
