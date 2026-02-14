@@ -1,0 +1,312 @@
+INTRODUCTION TO PYTHON PROGRAMMING LANGUAGE
+
+What is Python?
+
+Python is a high-level, interpreted, general-purpose, and open-source programming language designed to make programming simple, readable, and efficient.
+
+It allows developers to write clean and logical code for small as well as large-scale projects.
+
+Python emphasizes simplicity, readability, and productivity.
+
+Definition:
+Python is an easy-to-learn, powerful, and versatile programming language used for building software, websites, artificial intelligence systems, data analysis tools, automation scripts, and many other applications.
+
+History of Python
+
+Python was created by Guido van Rossum.
+It was first released in 1991.
+It was developed at Centrum Wiskunde and Informatica (CWI), Netherlands.
+The name Python was inspired by the comedy show "Monty Python’s Flying Circus".
+
+Major Python Versions:
+Python 1.0 - 1991
+Python 2.0 - 2000
+Python 3.0 - 2008
+Latest versions: Python 3.x (actively updated)
+
+Note: Python 2 is discontinued. Python 3 is the standard version used today.
+
+Why Python is Popular
+
+Python is widely used because of the following reasons:
+
+Simple and readable syntax.
+
+Beginner-friendly programming language.
+
+Large standard library and third-party modules.
+
+Cross-platform compatibility.
+
+Open-source and free to use.
+
+Huge community support.
+
+Features of Python
+
+High-level language.
+
+Interpreted language.
+
+Dynamically typed.
+
+Object-oriented.
+
+Portable.
+
+Extensible.
+
+Scalable.
+
+Easy to maintain.
+
+Applications of Python
+
+Python is used in many domains:
+
+Web development using Django, Flask, FastAPI.
+
+Artificial intelligence and machine learning.
+
+Data science and data analytics.
+
+Automation and scripting.
+
+Cybersecurity and ethical hacking.
+
+Game development.
+
+Desktop application development.
+
+Embedded systems and IoT.
+
+Python Language Characteristics
+
+Interpreted Language:
+Python executes code line by line, which makes debugging easy.
+
+Dynamically Typed:
+Data types do not need to be declared explicitly.
+
+Object-Oriented:
+Supports classes, objects, inheritance, encapsulation, and polymorphism.
+
+Python Program Structure
+
+Example Program:
+print("Hello, World!")
+
+Explanation:
+print() is a built-in function used to display output.
+
+Python Keywords
+
+Python contains reserved words that have special meanings.
+
+Examples:
+if, else, elif, for, while, break, continue, pass, class, def, return, import, try, except, finally, lambda, with, yield, global, nonlocal, assert, del, raise, from, as, and, or, not, in, is
+
+Python Variables and Data Types
+
+Variables:
+Variables are used to store data values.
+
+Example:
+x = 10
+name = "Python"
+
+Built-in Data Types:
+
+Numeric Types:
+int, float, complex
+
+Text Type:
+str
+
+Boolean Type:
+bool
+
+Sequence Types:
+list, tuple, range
+
+Mapping Type:
+dict
+
+Set Types:
+set, frozenset
+
+Python Operators
+
+Arithmetic Operators:
+
+/ % ** //
+
+Comparison Operators:
+== != > < >= <=
+
+Logical Operators:
+and or not
+
+Assignment Operators:
+= += -= *= /= %= **=
+
+Bitwise Operators:
+& | ^ ~ << >>
+
+Python Control Flow Statements
+
+Conditional Statements:
+if
+elif
+else
+
+Looping Statements:
+for loop
+while loop
+
+Control Statements:
+break
+continue
+pass
+
+Python Functions
+
+Functions are reusable blocks of code that perform a specific task.
+
+Example:
+def greet(name):
+return "Hello " + name
+
+Python Modules and Packages
+
+Module:
+A file containing Python code is called a module.
+
+Package:
+A collection of modules is called a package.
+
+Example:
+import math
+print(math.sqrt(25))
+
+Python File Handling
+
+Python allows reading and writing files.
+
+Example:
+file = open("data.txt", "r")
+print(file.read())
+file.close()
+
+Python Exception Handling
+
+Exception handling is used to manage runtime errors.
+
+Example:
+try:
+x = 10 / 0
+except:
+print("Error occurred")
+
+Python Object-Oriented Programming (OOP)
+
+OOP concepts supported by Python:
+
+Class
+
+Object
+
+Inheritance
+
+Encapsulation
+
+Polymorphism
+
+Abstraction
+
+Python Memory Management
+
+Python automatically handles memory using:
+
+Dynamic memory allocation
+
+Garbage collection
+
+Reference counting
+
+Python Interpreter and Execution Flow
+
+Steps of Execution:
+
+Python source code is written.
+
+Interpreter converts it into bytecode.
+
+Python Virtual Machine executes the bytecode.
+
+Python Installation Platforms
+
+Python runs on:
+
+Windows
+Linux
+macOS
+Unix
+Raspberry Pi
+Embedded systems
+
+Advantages of Python
+
+Simple syntax.
+
+Easy to learn.
+
+High productivity.
+
+Platform independent.
+
+Large library support.
+
+Rapid development.
+
+Limitations of Python
+
+Slower execution speed compared to compiled languages.
+
+Higher memory consumption.
+
+Not ideal for mobile and low-level programming.
+
+Global Interpreter Lock (GIL) limits multi-threading performance.
+
+Python Use in Industry
+
+Companies using Python include:
+
+Google
+Netflix
+NASA
+Instagram
+Spotify
+Dropbox
+Reddit
+Microsoft
+
+Career Scope of Python
+
+Job roles:
+
+Python Developer
+Backend Developer
+Data Scientist
+Machine Learning Engineer
+Artificial Intelligence Engineer
+Cybersecurity Engineer
+Automation Engineer
+DevOps Engineer
+
+Summary
+
+Python is a powerful, easy-to-learn, flexible, and industry-standard programming language suitable for beginners as well as professionals.
+
+It is widely used in software development, artificial intelligence, data science, automation, and cybersecurity.
