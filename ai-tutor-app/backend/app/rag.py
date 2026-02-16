@@ -91,7 +91,7 @@ def retrieve_relevant_chunks(
       return []
 
   embedder = get_embedder()
-  query_vec = embedder.encode(query).tolist()
+  query_vec = embedder.encode([query]).tolist()[0]
 
   results = collection.query(
       query_embeddings=[query_vec],

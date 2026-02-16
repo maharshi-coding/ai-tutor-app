@@ -59,7 +59,6 @@ async def upload_photo(
             current_size += len(chunk)
             if current_size > settings.MAX_FILE_SIZE:
                 # Remove partial file if size limit exceeded
-                buffer.close()
                 file_path.unlink(missing_ok=True)
                 raise HTTPException(status_code=400, detail="File too large")
             buffer.write(chunk)
@@ -99,7 +98,6 @@ async def upload_voice(
             current_size += len(chunk)
             if current_size > settings.MAX_FILE_SIZE:
                 # Remove partial file if size limit exceeded
-                buffer.close()
                 file_path.unlink(missing_ok=True)
                 raise HTTPException(status_code=400, detail="File too large")
             buffer.write(chunk)

@@ -9,10 +9,13 @@ const nextConfig = {
         port: '8000',
         pathname: '/uploads/**',
       },
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
+      // Add production domains as needed in production environment
+      // Example for production:
+      // {
+      //   protocol: 'https',
+      //   hostname: 'api.yourdomain.com',
+      //   pathname: '/uploads/**',
+      // },
     ],
   },
 }
