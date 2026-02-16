@@ -47,18 +47,22 @@ async def upload_photo(
     if not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="File must be an image")
     
-    # Validate file size
-    contents = await file.read()
-    if len(contents) > settings.MAX_FILE_SIZE:
-        raise HTTPException(status_code=400, detail="File too large")
-    
-    # Save file
+    # Save file with streaming to avoid loading entire file into memory
     file_extension = Path(file.filename).suffix
     filename = f"{current_user.id}_photo{file_extension}"
     file_path = UPLOAD_DIR / "photos" / filename
     
+    # Stream file to disk in chunks
+    current_size = 0
     with open(file_path, "wb") as buffer:
-        buffer.write(contents)
+        while chunk := await file.read(1024 * 1024):  # 1MB chunks
+            current_size += len(chunk)
+            if current_size > settings.MAX_FILE_SIZE:
+                # Remove partial file if size limit exceeded
+                buffer.close()
+                file_path.unlink(missing_ok=True)
+                raise HTTPException(status_code=400, detail="File too large")
+            buffer.write(chunk)
     
     # Update user record
     current_user.avatar_photo_path = str(file_path)
@@ -83,18 +87,22 @@ async def upload_voice(
     if file.content_type not in allowed_types:
         raise HTTPException(status_code=400, detail="File must be an audio file (wav, mp3, webm)")
     
-    # Validate file size
-    contents = await file.read()
-    if len(contents) > settings.MAX_FILE_SIZE:
-        raise HTTPException(status_code=400, detail="File too large")
-    
-    # Save file
+    # Save file with streaming to avoid loading entire file into memory
     file_extension = Path(file.filename).suffix
     filename = f"{current_user.id}_voice{file_extension}"
     file_path = UPLOAD_DIR / "voices" / filename
     
+    # Stream file to disk in chunks
+    current_size = 0
     with open(file_path, "wb") as buffer:
-        buffer.write(contents)
+        while chunk := await file.read(1024 * 1024):  # 1MB chunks
+            current_size += len(chunk)
+            if current_size > settings.MAX_FILE_SIZE:
+                # Remove partial file if size limit exceeded
+                buffer.close()
+                file_path.unlink(missing_ok=True)
+                raise HTTPException(status_code=400, detail="File too large")
+            buffer.write(chunk)
     
     # Update user record
     current_user.voice_sample_path = str(file_path)
