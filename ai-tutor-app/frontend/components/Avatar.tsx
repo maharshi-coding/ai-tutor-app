@@ -1,12 +1,12 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, memo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera, Environment, Html } from '@react-three/drei'
 import { motion } from 'framer-motion'
 import * as THREE from 'three'
 
-function AvatarModel({ isSpeaking }: { isSpeaking: boolean }) {
+const AvatarModel = memo(function AvatarModel({ isSpeaking }: { isSpeaking: boolean }) {
   const headRef = useRef<THREE.Mesh>(null)
   const ringRef = useRef<THREE.Mesh>(null)
 
@@ -32,9 +32,9 @@ function AvatarModel({ isSpeaking }: { isSpeaking: boolean }) {
 
   return (
     <>
-      {/* Neon back disc */}
+      {/* Neon back disc - reduced segments from 64 to 32 */}
       <mesh position={[0, 0, -0.8]}>
-        <circleGeometry args={[1.6, 64]} />
+        <circleGeometry args={[1.6, 32]} />
         <meshBasicMaterial color="#0ea5e9" transparent opacity={0.08} />
       </mesh>
 
@@ -50,9 +50,9 @@ function AvatarModel({ isSpeaking }: { isSpeaking: boolean }) {
         />
       </mesh>
 
-      {/* Main head */}
+      {/* Main head - reduced segments from 64 to 32 for better performance */}
       <mesh ref={headRef} position={[0, 0.1, 0]}>
-        <sphereGeometry args={[1, 64, 64]} />
+        <sphereGeometry args={[1, 32, 32]} />
         <meshStandardMaterial
           color="#0f172a"
           metalness={0.5}
@@ -73,13 +73,13 @@ function AvatarModel({ isSpeaking }: { isSpeaking: boolean }) {
         />
       </mesh>
 
-      {/* Eyes */}
+      {/* Eyes - reduced segments from 32 to 16 */}
       <mesh position={[-0.3, 0.3, 1.01]}>
-        <circleGeometry args={[0.1, 32]} />
+        <circleGeometry args={[0.1, 16]} />
         <meshBasicMaterial color="#e0f2fe" />
       </mesh>
       <mesh position={[0.3, 0.3, 1.01]}>
-        <circleGeometry args={[0.1, 32]} />
+        <circleGeometry args={[0.1, 16]} />
         <meshBasicMaterial color="#e0f2fe" />
       </mesh>
 
@@ -94,7 +94,7 @@ function AvatarModel({ isSpeaking }: { isSpeaking: boolean }) {
       </mesh>
     </>
   )
-}
+})
 
 interface AvatarProps {
   isSpeaking?: boolean

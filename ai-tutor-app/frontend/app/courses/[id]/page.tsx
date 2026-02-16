@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback, memo } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
 import { useAuthStore } from '@/store/authStore'
@@ -22,6 +22,38 @@ interface TutorResponse {
   response: string
   suggestions?: string[]
 }
+
+// Memoized message bubble component to prevent unnecessary re-renders
+const MessageBubble = memo(function MessageBubble({
+  msg,
+  idx
+}: {
+  msg: { role: 'user' | 'tutor'; content: string }
+  idx: number
+}) {
+  return (
+    <motion.div
+      key={idx}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+    >
+      <div
+        className={`max-w-[80%] rounded-2xl px-3 py-2 text-xs sm:text-sm ${
+          msg.role === 'user'
+            ? 'bg-sky-500/90 text-slate-950'
+            : 'bg-slate-900/80 text-slate-100 border border-slate-700/70'
+        }`}
+      >
+        {msg.role === 'user' ? (
+          <p className="whitespace-pre-wrap">{msg.content}</p>
+        ) : (
+          <MarkdownMessage content={msg.content} />
+        )}
+      </div>
+    </motion.div>
+  )
+})
 
 export default function CoursePage() {
   const router = useRouter()
@@ -64,7 +96,7 @@ export default function CoursePage() {
     }
   }, [isAuthenticated, user, courseId, router])
 
-  const handleSendMessage = async (e: React.FormEvent) => {
+  const handleSendMessage = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
     if (!message.trim() || isLoading) return
 
@@ -86,7 +118,7 @@ export default function CoursePage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [message, isLoading, courseId])
 
   if (!isAuthenticated || !user || !course) {
     return null
@@ -207,26 +239,7 @@ export default function CoursePage() {
               </div>
               <div className="max-h-96 space-y-3 overflow-y-auto pr-1 pt-1 text-sm">
                 {messages.map((msg, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={`max-w-[80%] rounded-2xl px-3 py-2 text-xs sm:text-sm ${
-                        msg.role === 'user'
-                          ? 'bg-sky-500/90 text-slate-950'
-                          : 'bg-slate-900/80 text-slate-100 border border-slate-700/70'
-                      }`}
-                    >
-                      {msg.role === 'user' ? (
-                        <p className="whitespace-pre-wrap">{msg.content}</p>
-                      ) : (
-                        <MarkdownMessage content={msg.content} />
-                      )}
-                    </div>
-                  </motion.div>
+                  <MessageBubble key={idx} msg={msg} idx={idx} />
                 ))}
                 {isLoading && (
                   <div className="flex justify-start">

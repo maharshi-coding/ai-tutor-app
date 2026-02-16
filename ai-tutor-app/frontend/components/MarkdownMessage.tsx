@@ -1,5 +1,6 @@
 'use client'
 
+import { memo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -26,7 +27,7 @@ interface MarkdownMessageProps {
   className?: string
 }
 
-export default function MarkdownMessage({ content, className = '' }: MarkdownMessageProps) {
+const MarkdownMessage = memo(function MarkdownMessage({ content, className = '' }: MarkdownMessageProps) {
   return (
     <div className={`${proseClasses.root} ${className}`}>
       <ReactMarkdown
@@ -59,4 +60,6 @@ export default function MarkdownMessage({ content, className = '' }: MarkdownMes
       </ReactMarkdown>
     </div>
   )
-}
+})
+
+export default MarkdownMessage

@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useAuthStore } from '@/store/authStore'
 import { uploadAPI } from '@/lib/api'
 import { motion } from 'framer-motion'
@@ -41,7 +42,7 @@ export default function ProfilePage() {
     }
   }, [isAuthenticated, user, router])
 
-  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
 
@@ -62,9 +63,9 @@ export default function ProfilePage() {
     } finally {
       setIsUploading(false)
     }
-  }
+  }, [fetchUser])
 
-  const handleVoiceUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVoiceUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
 
@@ -86,9 +87,9 @@ export default function ProfilePage() {
     } finally {
       setIsUploading(false)
     }
-  }
+  }, [fetchUser])
 
-  const handleGenerateCharacter = async () => {
+  const handleGenerateCharacter = useCallback(async () => {
     if (!avatarConfig?.has_photo) {
       toast.error('Please upload a profile photo first.')
       return
@@ -109,7 +110,7 @@ export default function ProfilePage() {
     } finally {
       setIsGeneratingCharacter(false)
     }
-  }
+  }, [avatarConfig?.has_photo, isGeneratingCharacter])
 
   if (!isAuthenticated || !user) {
     return null
@@ -174,10 +175,11 @@ export default function ProfilePage() {
                 {avatarConfig?.character_image_url && (
                   <div className="flex items-center gap-3">
                     <div className="h-14 w-14 overflow-hidden rounded-full border border-sky-500/60 shadow-[0_0_15px_rgba(56,189,248,0.6)]">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                      <Image
                         src={`${API_URL}${avatarConfig.character_image_url}`}
                         alt="Character avatar"
+                        width={56}
+                        height={56}
                         className="h-full w-full object-cover"
                       />
                     </div>
