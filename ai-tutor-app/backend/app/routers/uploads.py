@@ -296,8 +296,11 @@ async def generate_character_avatar(
     # Save the generated avatar
     avatar_filename = f"{current_user.id}_avatar.png"
     avatar_path = UPLOAD_DIR / "avatars" / avatar_filename
+    
+    print(f"[Avatar Generation] Saving avatar to: {avatar_path}")
     with open(avatar_path, "wb") as out:
         out.write(image_bytes)
+    print(f"[Avatar Generation] Avatar saved successfully: {len(image_bytes)} bytes")
 
     # Store in user's avatar_config JSON
     config: Dict[str, Any] = current_user.avatar_config or {}
@@ -305,6 +308,8 @@ async def generate_character_avatar(
     current_user.avatar_config = config
     db.commit()
     db.refresh(current_user)
+    
+    print(f"[Avatar Generation] Config updated: {config.get('character_image_url')}")
 
     return {
         "message": "Character avatar generated",

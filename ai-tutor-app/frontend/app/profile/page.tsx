@@ -98,11 +98,23 @@ export default function ProfilePage() {
 
     setIsGeneratingCharacter(true)
     try {
-      await uploadAPI.generateCharacterAvatar()
-      toast.success('Character avatar generation started!')
+      const result = await uploadAPI.generateCharacterAvatar()
+      console.log('Avatar generation result:', result)
+      
+      // Fetch fresh config to get the updated character_image_url
       const config = await uploadAPI.getAvatarConfig()
-      setAvatarConfig(config)
+      console.log('Updated avatar config:', config)
+      
+      // Force state update with new object reference
+      setAvatarConfig({ ...config, _timestamp: Date.now() })
+      
+      if (config?.character_image_url) {
+        toast.success('Character avatar generated successfully!')
+      } else {
+        toast.error('Avatar generated but image URL not found. Please refresh the page.')
+      }
     } catch (error: any) {
+      console.error('Avatar generation error:', error)
       toast.error(
         error.response?.data?.detail ||
           'Avatar generation failed. Check your Stable Diffusion API settings.',
@@ -176,11 +188,12 @@ export default function ProfilePage() {
                   <div className="flex items-center gap-3">
                     <div className="h-14 w-14 overflow-hidden rounded-full border border-sky-500/60 shadow-[0_0_15px_rgba(56,189,248,0.6)]">
                       <Image
-                        src={`${API_URL}${avatarConfig.character_image_url}`}
+                        src={`${API_URL}${avatarConfig.character_image_url}?t=${avatarConfig._timestamp || Date.now()}`}
                         alt="Character avatar"
                         width={56}
                         height={56}
                         className="h-full w-full object-cover"
+                        unoptimized
                       />
                     </div>
                     <div className="text-xs text-slate-300">
