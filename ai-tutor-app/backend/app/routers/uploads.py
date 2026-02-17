@@ -47,18 +47,21 @@ async def upload_photo(
     if not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="File must be an image")
     
-    # Validate file size
-    contents = await file.read()
-    if len(contents) > settings.MAX_FILE_SIZE:
-        raise HTTPException(status_code=400, detail="File too large")
-    
-    # Save file
+    # Save file with streaming to avoid loading entire file into memory
     file_extension = Path(file.filename).suffix
     filename = f"{current_user.id}_photo{file_extension}"
     file_path = UPLOAD_DIR / "photos" / filename
     
+    # Stream file to disk in chunks
+    current_size = 0
     with open(file_path, "wb") as buffer:
-        buffer.write(contents)
+        while chunk := await file.read(1024 * 1024):  # 1MB chunks
+            current_size += len(chunk)
+            if current_size > settings.MAX_FILE_SIZE:
+                # Remove partial file if size limit exceeded
+                file_path.unlink(missing_ok=True)
+                raise HTTPException(status_code=400, detail="File too large")
+            buffer.write(chunk)
     
     # Update user record
     current_user.avatar_photo_path = str(file_path)
@@ -83,18 +86,21 @@ async def upload_voice(
     if file.content_type not in allowed_types:
         raise HTTPException(status_code=400, detail="File must be an audio file (wav, mp3, webm)")
     
-    # Validate file size
-    contents = await file.read()
-    if len(contents) > settings.MAX_FILE_SIZE:
-        raise HTTPException(status_code=400, detail="File too large")
-    
-    # Save file
+    # Save file with streaming to avoid loading entire file into memory
     file_extension = Path(file.filename).suffix
     filename = f"{current_user.id}_voice{file_extension}"
     file_path = UPLOAD_DIR / "voices" / filename
     
+    # Stream file to disk in chunks
+    current_size = 0
     with open(file_path, "wb") as buffer:
-        buffer.write(contents)
+        while chunk := await file.read(1024 * 1024):  # 1MB chunks
+            current_size += len(chunk)
+            if current_size > settings.MAX_FILE_SIZE:
+                # Remove partial file if size limit exceeded
+                file_path.unlink(missing_ok=True)
+                raise HTTPException(status_code=400, detail="File too large")
+            buffer.write(chunk)
     
     # Update user record
     current_user.voice_sample_path = str(file_path)
@@ -290,8 +296,11 @@ async def generate_character_avatar(
     # Save the generated avatar
     avatar_filename = f"{current_user.id}_avatar.png"
     avatar_path = UPLOAD_DIR / "avatars" / avatar_filename
+    
+    print(f"[Avatar Generation] Saving avatar to: {avatar_path}")
     with open(avatar_path, "wb") as out:
         out.write(image_bytes)
+    print(f"[Avatar Generation] Avatar saved successfully: {len(image_bytes)} bytes")
 
     # Store in user's avatar_config JSON
     config: Dict[str, Any] = current_user.avatar_config or {}
@@ -299,6 +308,8 @@ async def generate_character_avatar(
     current_user.avatar_config = config
     db.commit()
     db.refresh(current_user)
+    
+    print(f"[Avatar Generation] Config updated: {config.get('character_image_url')}")
 
     return {
         "message": "Character avatar generated",

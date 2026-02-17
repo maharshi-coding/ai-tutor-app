@@ -12,7 +12,11 @@ router = APIRouter()
 # Initialize with some sample courses
 def init_sample_courses(db: Session):
     """Initialize sample courses if none exist"""
-    if db.query(Course).count() == 0:
+    # Use exists() instead of count() for better performance
+    from sqlalchemy import exists
+    course_exists = db.query(exists().where(Course.id.isnot(None))).scalar()
+    
+    if not course_exists:
         sample_courses = [
             Course(
                 title="Introduction to Python Programming",
@@ -49,9 +53,14 @@ def init_sample_courses(db: Session):
 
 
 @router.get("/", response_model=List[CourseResponse])
-async def get_courses(db: Session = Depends(get_db)):
+async def get_courses(
+    db: Session = Depends(get_db),
+    skip: int = 0,
+    limit: int = 100
+):
+    """Get courses with pagination support"""
     init_sample_courses(db)
-    courses = db.query(Course).all()
+    courses = db.query(Course).offset(skip).limit(limit).all()
     return courses
 
 

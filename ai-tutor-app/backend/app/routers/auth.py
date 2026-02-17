@@ -2,6 +2,7 @@ from datetime import timedelta
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
 from jose import JWTError, jwt
 from app.database import get_db
 from app.models import User
@@ -35,11 +36,16 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def register(user_data: UserCreate, db: Session = Depends(get_db)):
-    # Check if user already exists
-    if db.query(User).filter(User.email == user_data.email).first():
-        raise HTTPException(status_code=400, detail="Email already registered")
-    if db.query(User).filter(User.username == user_data.username).first():
-        raise HTTPException(status_code=400, detail="Username already taken")
+    # Check if user already exists (single query for both email and username)
+    existing_user = db.query(User).filter(
+        or_(User.email == user_data.email, User.username == user_data.username)
+    ).first()
+    
+    if existing_user:
+        if existing_user.email == user_data.email:
+            raise HTTPException(status_code=400, detail="Email already registered")
+        else:
+            raise HTTPException(status_code=400, detail="Username already taken")
     
     # Create new user
     hashed_password = get_password_hash(user_data.password)

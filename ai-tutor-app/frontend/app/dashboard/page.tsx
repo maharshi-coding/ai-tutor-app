@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, memo } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuthStore } from '@/store/authStore'
@@ -15,6 +15,54 @@ interface Course {
   subject: string
   difficulty_level: string
 }
+
+// Memoized course card component to prevent unnecessary re-renders
+const CourseCard = memo(function CourseCard({ 
+  course, 
+  onClick 
+}: { 
+  course: Course
+  onClick: () => void 
+}) {
+  return (
+    <motion.button
+      type="button"
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -4, scale: 1.02 }}
+      transition={{ duration: 0.18 }}
+      className="glass-panel group flex h-full flex-col justify-between rounded-2xl p-4 text-left"
+      onClick={onClick}
+    >
+      <div>
+        <div className="mb-3 flex items-center justify-between text-[0.65rem]">
+          <span className="rounded-full bg-sky-500/10 px-2 py-1 text-sky-200">
+            {course.subject}
+          </span>
+          <span className="rounded-full bg-slate-800/80 px-2 py-1 text-[0.6rem] text-slate-300">
+            {course.difficulty_level}
+          </span>
+        </div>
+        <h3 className="text-sm font-semibold text-slate-50">
+          {course.title}
+        </h3>
+        <p className="mt-2 line-clamp-3 text-xs text-slate-400">
+          {course.description ||
+            'Start learning this course with your AI tutor.'}
+        </p>
+      </div>
+      <div className="mt-4 flex items-center justify-between text-[0.65rem] text-slate-300">
+        <span className="flex items-center gap-1 text-sky-200">
+          <span className="h-1.5 w-1.5 rounded-full bg-sky-400 group-hover:bg-emerald-400 transition-colors" />
+          Resume with your tutor
+        </span>
+        <span className="text-slate-400 group-hover:text-sky-200 transition-colors">
+          Enter space →
+        </span>
+      </div>
+    </motion.button>
+  )
+})
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -144,43 +192,11 @@ export default function DashboardPage() {
                   </div>
                 ) : (
                   courses.map((course) => (
-                    <motion.button
+                    <CourseCard
                       key={course.id}
-                      type="button"
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      whileHover={{ y: -4, scale: 1.02 }}
-                      transition={{ duration: 0.18 }}
-                      className="glass-panel group flex h-full flex-col justify-between rounded-2xl p-4 text-left"
+                      course={course}
                       onClick={() => router.push(`/courses/${course.id}`)}
-                    >
-                      <div>
-                        <div className="mb-3 flex items-center justify-between text-[0.65rem]">
-                          <span className="rounded-full bg-sky-500/10 px-2 py-1 text-sky-200">
-                            {course.subject}
-                          </span>
-                          <span className="rounded-full bg-slate-800/80 px-2 py-1 text-[0.6rem] text-slate-300">
-                            {course.difficulty_level}
-                          </span>
-                        </div>
-                        <h3 className="text-sm font-semibold text-slate-50">
-                          {course.title}
-                        </h3>
-                        <p className="mt-2 line-clamp-3 text-xs text-slate-400">
-                          {course.description ||
-                            'Start learning this course with your AI tutor.'}
-                        </p>
-                      </div>
-                      <div className="mt-4 flex items-center justify-between text-[0.65rem] text-slate-300">
-                        <span className="flex items-center gap-1 text-sky-200">
-                          <span className="h-1.5 w-1.5 rounded-full bg-sky-400 group-hover:bg-emerald-400 transition-colors" />
-                          Resume with your tutor
-                        </span>
-                        <span className="text-slate-400 group-hover:text-sky-200 transition-colors">
-                          Enter space →
-                        </span>
-                      </div>
-                    </motion.button>
+                    />
                   ))
                 )}
               </div>

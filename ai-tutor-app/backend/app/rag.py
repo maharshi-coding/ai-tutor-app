@@ -67,7 +67,7 @@ def ingest_course_chunks(
   ids = [cid for cid, _ in chunks]
   texts = [txt for _, txt in chunks]
 
-  embeddings = embedder.encode(texts, convert_to_numpy=True).tolist()
+  embeddings = embedder.encode(texts).tolist()
 
   collection.add(
       ids=ids,
@@ -91,7 +91,7 @@ def retrieve_relevant_chunks(
       return []
 
   embedder = get_embedder()
-  query_vec = embedder.encode([query], convert_to_numpy=True).tolist()[0]
+  query_vec = embedder.encode([query]).tolist()[0]
 
   results = collection.query(
       query_embeddings=[query_vec],
