@@ -22,6 +22,7 @@ dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.tsbuildinfo
 
 # Environment variables
 .env
@@ -55,3 +56,7 @@ uploads/
 
 # RAG data
 rag_data/
+
+# Test / cache
+.pytest_cache/
+__pycache__/

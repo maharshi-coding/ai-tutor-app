@@ -395,18 +395,18 @@ async def upload_course_document(
     Upload a course document (PDF, DOCX, TXT, MD), extract text,
     chunk it, and ingest into the RAG vector store for the given course.
     """
-    # Validate course exists
-    course = db.query(Course).filter(Course.id == course_id).first()
-    if not course:
-        raise HTTPException(status_code=404, detail="Course not found")
-
-    # Validate extension
+    # Validate extension first (cheap check)
     ext = Path(file.filename or "").suffix.lower()
     if ext not in ALLOWED_DOC_EXTENSIONS:
         raise HTTPException(
             status_code=400,
             detail=f"Unsupported file type. Allowed: {', '.join(sorted(ALLOWED_DOC_EXTENSIONS))}",
         )
+
+    # Validate course exists
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
 
     # Save file
     safe_name = f"{course_id}_{current_user.id}_{file.filename}"

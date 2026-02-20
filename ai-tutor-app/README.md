@@ -10,15 +10,24 @@ A modern web application for personalized AI tutoring where users can create the
 - 💬 **Interactive Learning**: Chat with your AI tutor in real-time
 - 📊 **Progress Tracking**: Track your learning progress across courses
 - 🎨 **Modern UI**: Beautiful, responsive interface with smooth animations
+- 🧠 **RAG Pipeline**: Upload course materials (PDF, DOCX, TXT, MD) for context-aware tutoring
+- 🗣 **Kokoro TTS**: Local text-to-speech for natural voice output
+- 👄 **SadTalker Avatar**: Lip-synced talking-head video generation from a reference image
+- 🔁 **Streaming Responses**: Server-Sent Events for real-time token streaming
+- 🏠 **Fully Local & Free**: Supports Ollama for 100% offline, open-source LLM inference
 
 ## Tech Stack
 
 ### Backend
 - **FastAPI** - Python web framework
-- **PostgreSQL** - Database
+- **PostgreSQL / SQLite** - Database
 - **SQLAlchemy** - ORM
 - **JWT** - Authentication
-- **OpenAI API** - AI tutor (can use Hugging Face as alternative)
+- **Ollama** - Local LLM inference (Llama 3, Mistral, DeepSeek, Phi)
+- **LangChain-style RAG** - ChromaDB + Sentence Transformers
+- **Kokoro TTS** - Local text-to-speech
+- **SadTalker** - Talking-head avatar video generation
+- **OpenRouter / Gemini / OpenAI** - Optional cloud LLM providers
 
 ### Frontend
 - **Next.js 14** - React framework
@@ -34,8 +43,11 @@ A modern web application for personalized AI tutoring where users can create the
 ### Prerequisites
 - Python 3.9+
 - Node.js 18+
-- PostgreSQL database
-- (Optional) OpenAI API key or Hugging Face API key
+- PostgreSQL database (or SQLite for quick local dev)
+- **Ollama** (recommended for free local LLM) — [install from ollama.com](https://ollama.com)
+- (Optional) Kokoro TTS for voice generation
+- (Optional) SadTalker for talking-head avatar videos
+- (Optional) OpenAI / Gemini / OpenRouter API key for cloud LLMs
 
 ### Backend Setup
 
@@ -149,10 +161,18 @@ The "Generate my character" feature uses your uploaded photo and an img2img API 
 ### Tutor
 - `POST /api/tutor/chat` - Chat with AI tutor
 - `POST /api/tutor/generate-lesson` - Generate lesson content
+- `GET /api/tutor/stream` - Stream AI response via SSE (token-by-token)
+
+### Voice (Kokoro TTS)
+- `POST /api/voice` - Generate speech audio from text
+
+### Avatar Video (SadTalker)
+- `POST /api/avatar` - Generate talking-head video from audio + image
 
 ### Uploads
 - `POST /api/uploads/photo` - Upload profile photo
 - `POST /api/uploads/voice` - Upload voice sample
+- `POST /api/uploads/course-document` - Upload course materials (PDF, DOCX, TXT, MD)
 - `GET /api/uploads/avatar-config` - Get avatar configuration
 
 ## Project Structure
@@ -168,12 +188,17 @@ ai-tutor-app/
 │   │   ├── models.py
 │   │   ├── schemas.py
 │   │   ├── auth.py
+│   │   ├── rag.py
 │   │   └── routers/
 │   │       ├── auth.py
 │   │       ├── users.py
 │   │       ├── courses.py
 │   │       ├── tutor.py
-│   │       └── uploads.py
+│   │       ├── uploads.py
+│   │       ├── voice.py
+│   │       └── avatar.py
+│   ├── tests/
+│   │   └── test_ai_tutor_integration.py
 │   ├── requirements.txt
 │   └── .env.example
 ├── frontend/
@@ -197,13 +222,40 @@ ai-tutor-app/
 
 ## Future Enhancements
 
+- [x] Ollama local LLM support (free, offline)
+- [x] RAG-based course document ingestion
+- [x] Kokoro TTS voice generation
+- [x] SadTalker talking-head avatar video
+- [x] Streaming AI responses via SSE
 - [ ] Enhanced 3D avatar models with facial animation
-- [ ] Real-time voice synthesis using Coqui TTS or similar
 - [ ] Quiz system with progress tracking
 - [ ] More course content and subjects
 - [ ] User-generated courses
 - [ ] Social features and leaderboards
 - [ ] Mobile app support
+
+## Ollama Setup (Local LLM)
+
+To use Ollama for free, local LLM inference:
+
+1. Install Ollama: https://ollama.com
+2. Pull a model:
+```bash
+ollama pull llama3
+```
+3. Ollama runs at `http://localhost:11434` by default — the app auto-connects.
+4. Change the model in `.env`:
+```env
+OLLAMA_MODEL=llama3
+```
+
+## Running Tests
+
+```bash
+cd backend
+pip install pytest pytest-asyncio
+pytest tests/ -v
+```
 
 ## License
 
