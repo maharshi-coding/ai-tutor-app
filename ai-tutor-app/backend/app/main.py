@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from app.routers import auth, users, courses, tutor, uploads
+from app.routers import auth, users, courses, tutor, uploads, voice, avatar
 from app.database import engine, Base
 from app.config import settings
 from sqlalchemy.exc import OperationalError
@@ -61,6 +61,8 @@ app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(courses.router, prefix="/api/courses", tags=["courses"])
 app.include_router(tutor.router, prefix="/api/tutor", tags=["tutor"])
 app.include_router(uploads.router, prefix="/api/uploads", tags=["uploads"])
+app.include_router(voice.router, prefix="/api", tags=["voice"])
+app.include_router(avatar.router, prefix="/api", tags=["avatar"])
 
 
 @app.get("/")

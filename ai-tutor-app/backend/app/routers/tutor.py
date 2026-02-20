@@ -1,7 +1,9 @@
 from typing import Any, Dict, Optional
+import json
 
 import httpx
 from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
 from app.database import get_db
@@ -215,6 +217,48 @@ async def _get_openrouter_tutor_response(
         return None
 
 
+async def _get_ollama_tutor_response(
+    message: str,
+    course_context: Optional[str] = None,
+) -> Optional[str]:
+    """
+    Call a local Ollama instance to get a tutor-style response.
+
+    Ollama must be running at OLLAMA_BASE_URL (default http://localhost:11434).
+    Configure the model via OLLAMA_MODEL (default llama3).
+    """
+    system_prompt = (
+        "You are a friendly, engaging AI tutor. Your goal is to help students learn effectively. "
+        "Explain concepts clearly and use examples when helpful. "
+        f"{TUTOR_SCOPE_INSTRUCTION}"
+    )
+    if course_context:
+        system_prompt += f"\nCurrent course context: {course_context}"
+
+    payload: Dict[str, Any] = {
+        "model": settings.OLLAMA_MODEL,
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": message},
+        ],
+        "stream": False,
+    }
+
+    url = f"{settings.OLLAMA_BASE_URL}/api/chat"
+    try:
+        async with httpx.AsyncClient(timeout=120) as client:
+            resp = await client.post(url, json=payload)
+        resp.raise_for_status()
+        data = resp.json()
+        content = data.get("message", {}).get("content")
+        if content and content.strip():
+            return content
+        return None
+    except Exception as e:
+        print("OLLAMA_API_ERROR:", repr(e))
+        return None
+
+
 async def get_tutor_response(
     message: str,
     course_context: str | None = None,
@@ -222,28 +266,33 @@ async def get_tutor_response(
     course_id: int | None = None,
 ) -> str:
     """
-    Get AI tutor response using Gemini (preferred) or OpenAI.
-    Falls back to a simple handcrafted response if no API is configured.
+    Get AI tutor response trying providers in order:
+    Ollama (local/free) → OpenRouter → Gemini → OpenAI → fallback.
     """
     # Optionally enhance the message with retrieved course context (RAG)
     enriched_message, _ = _build_rag_enhanced_prompt(message, course_id)
 
-    # 1) OpenRouter / DeepSeek
+    # 1) Ollama (local, free, open-source)
+    ollama_resp = await _get_ollama_tutor_response(enriched_message, course_context)
+    if ollama_resp:
+        return ollama_resp
+
+    # 2) OpenRouter / DeepSeek
     openrouter_resp = await _get_openrouter_tutor_response(enriched_message, course_context)
     if openrouter_resp:
         return openrouter_resp
 
-    # 2) Gemini
+    # 3) Gemini
     gemini_resp = await _get_gemini_tutor_response(enriched_message, course_context)
     if gemini_resp:
         return gemini_resp
 
-    # 3) OpenAI
+    # 4) OpenAI
     openai_resp = await _get_openai_tutor_response(message, course_context, api_key=api_key)
     if openai_resp:
         return openai_resp
 
-    # 4) Simple fallback
+    # 5) Simple fallback
     return (
         "I'm here to help you learn! You asked: "
         f"{message}. Let me explain this concept step by step using simple language and examples."
@@ -303,3 +352,69 @@ async def generate_lesson(
         "content": lesson_content,
         "course_id": course_id
     }
+
+
+@router.get("/stream")
+async def stream_tutor_response(
+    message: str = Query(...),
+    course_id: Optional[int] = Query(None),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Stream AI tutor response token-by-token using Server-Sent Events.
+
+    Tries Ollama streaming first; falls back to chunked non-streaming output.
+    """
+    course_context = None
+    if course_id:
+        course = db.query(Course).filter(Course.id == course_id).first()
+        if course:
+            course_context = f"{course.title} - {course.subject}"
+
+    enriched_message, _ = _build_rag_enhanced_prompt(message, course_id)
+
+    system_prompt = (
+        "You are a friendly, engaging AI tutor. Your goal is to help students learn effectively. "
+        "Explain concepts clearly and use examples when helpful. "
+        f"{TUTOR_SCOPE_INSTRUCTION}"
+    )
+    if course_context:
+        system_prompt += f"\nCurrent course context: {course_context}"
+
+    async def _ollama_stream():
+        """Yield SSE tokens from Ollama streaming API."""
+        payload: Dict[str, Any] = {
+            "model": settings.OLLAMA_MODEL,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": enriched_message},
+            ],
+            "stream": True,
+        }
+        url = f"{settings.OLLAMA_BASE_URL}/api/chat"
+        try:
+            async with httpx.AsyncClient(timeout=120) as client:
+                async with client.stream("POST", url, json=payload) as resp:
+                    resp.raise_for_status()
+                    async for line in resp.aiter_lines():
+                        if not line.strip():
+                            continue
+                        chunk = json.loads(line)
+                        token = chunk.get("message", {}).get("content", "")
+                        if token:
+                            yield f"data: {json.dumps({'token': token})}\n\n"
+                        if chunk.get("done"):
+                            break
+            yield "data: [DONE]\n\n"
+        except Exception:
+            # Fall back to non-streaming full response
+            full = await get_tutor_response(
+                enriched_message,
+                course_context=course_context,
+                course_id=course_id,
+            )
+            yield f"data: {json.dumps({'token': full})}\n\n"
+            yield "data: [DONE]\n\n"
+
+    return StreamingResponse(_ollama_stream(), media_type="text/event-stream")

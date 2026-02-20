@@ -1,18 +1,21 @@
 import base64
+import hashlib
+import io
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import os
 import shutil
-from fastapi import APIRouter, Depends, UploadFile, File, HTTPException
+from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException, Query
 from sqlalchemy.orm import Session
 import httpx
 from PIL import Image
 
 from app.database import get_db
-from app.models import User
+from app.models import User, Course
 from app.routers.auth import get_current_user
 from app.config import settings
+from app.rag import ingest_course_chunks
 
 router = APIRouter()
 
@@ -22,6 +25,7 @@ UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 (UPLOAD_DIR / "photos").mkdir(exist_ok=True)
 (UPLOAD_DIR / "voices").mkdir(exist_ok=True)
 (UPLOAD_DIR / "avatars").mkdir(exist_ok=True)
+(UPLOAD_DIR / "course_docs").mkdir(exist_ok=True)
 
 
 def _image_size_sd_friendly(image_path: Path, max_side: int = 768) -> Tuple[int, int]:
@@ -314,4 +318,130 @@ async def generate_character_avatar(
     return {
         "message": "Character avatar generated",
         "character_image_url": current_user.avatar_config.get("character_image_url"),
+    }
+
+
+# ---------------------------------------------------------------------------
+# Course document upload & RAG ingestion
+# ---------------------------------------------------------------------------
+
+ALLOWED_DOC_EXTENSIONS = {".pdf", ".docx", ".txt", ".md"}
+
+
+def _extract_text_from_file(file_path: Path) -> str:
+    """Extract plain text from supported document formats."""
+    ext = file_path.suffix.lower()
+
+    if ext == ".txt" or ext == ".md":
+        return file_path.read_text(encoding="utf-8", errors="replace")
+
+    if ext == ".pdf":
+        try:
+            import fitz  # PyMuPDF
+
+            doc = fitz.open(str(file_path))
+            pages = [page.get_text() for page in doc]
+            doc.close()
+            return "\n\n".join(pages)
+        except ImportError:
+            raise HTTPException(
+                status_code=500,
+                detail="PyMuPDF (fitz) is required for PDF parsing. "
+                "Install with: pip install PyMuPDF",
+            )
+
+    if ext == ".docx":
+        try:
+            import docx  # python-docx
+
+            document = docx.Document(str(file_path))
+            return "\n\n".join(p.text for p in document.paragraphs if p.text.strip())
+        except ImportError:
+            raise HTTPException(
+                status_code=500,
+                detail="python-docx is required for DOCX parsing. "
+                "Install with: pip install python-docx",
+            )
+
+    raise HTTPException(status_code=400, detail=f"Unsupported file type: {ext}")
+
+
+def _chunk_text(
+    text: str,
+    chunk_size: int = 500,
+    overlap: int = 50,
+) -> List[str]:
+    """Split text into overlapping chunks of roughly ``chunk_size`` words."""
+    words = text.split()
+    chunks: List[str] = []
+    start = 0
+    while start < len(words):
+        end = start + chunk_size
+        chunk = " ".join(words[start:end])
+        if chunk.strip():
+            chunks.append(chunk)
+        start += chunk_size - overlap
+    return chunks
+
+
+@router.post("/course-document")
+async def upload_course_document(
+    file: UploadFile = File(...),
+    course_id: int = Form(...),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Upload a course document (PDF, DOCX, TXT, MD), extract text,
+    chunk it, and ingest into the RAG vector store for the given course.
+    """
+    # Validate course exists
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+
+    # Validate extension
+    ext = Path(file.filename or "").suffix.lower()
+    if ext not in ALLOWED_DOC_EXTENSIONS:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported file type. Allowed: {', '.join(sorted(ALLOWED_DOC_EXTENSIONS))}",
+        )
+
+    # Save file
+    safe_name = f"{course_id}_{current_user.id}_{file.filename}"
+    file_path = UPLOAD_DIR / "course_docs" / safe_name
+
+    current_size = 0
+    with open(file_path, "wb") as buf:
+        while chunk := await file.read(1024 * 1024):
+            current_size += len(chunk)
+            if current_size > settings.MAX_COURSE_FILE_SIZE:
+                file_path.unlink(missing_ok=True)
+                raise HTTPException(status_code=400, detail="File too large (max 50 MB)")
+            buf.write(chunk)
+
+    # Extract text
+    raw_text = _extract_text_from_file(file_path)
+    if not raw_text.strip():
+        file_path.unlink(missing_ok=True)
+        raise HTTPException(status_code=400, detail="Could not extract any text from the document")
+
+    # Chunk and ingest into vector DB
+    text_chunks = _chunk_text(raw_text)
+    chunk_tuples = [
+        (
+            hashlib.sha256(f"{course_id}:{safe_name}:{i}".encode()).hexdigest()[:20],
+            chunk,
+        )
+        for i, chunk in enumerate(text_chunks)
+    ]
+
+    ingest_course_chunks(course_id, chunk_tuples)
+
+    return {
+        "message": "Document uploaded and ingested successfully",
+        "filename": file.filename,
+        "course_id": course_id,
+        "chunks_ingested": len(chunk_tuples),
     }

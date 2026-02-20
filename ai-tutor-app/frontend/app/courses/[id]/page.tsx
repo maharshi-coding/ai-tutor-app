@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, memo } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
 import { useAuthStore } from '@/store/authStore'
-import { coursesAPI, tutorAPI } from '@/lib/api'
+import { coursesAPI, tutorAPI, voiceAPI, avatarVideoAPI } from '@/lib/api'
 import Avatar from '@/components/Avatar'
 import MarkdownMessage from '@/components/MarkdownMessage'
 import { motion } from 'framer-motion'
@@ -68,6 +68,8 @@ export default function CoursePage() {
   const [messages, setMessages] = useState<Array<{ id: string; role: 'user' | 'tutor'; content: string }>>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isSpeaking, setIsSpeaking] = useState(false)
+  const [avatarVideoUrl, setAvatarVideoUrl] = useState<string | null>(null)
+  const [audioUrl, setAudioUrl] = useState<string | null>(null)
 
   useEffect(() => {
     fetchUser()
@@ -114,6 +116,19 @@ export default function CoursePage() {
       const response: TutorResponse = await tutorAPI.chat(userMessage, courseId)
       setMessages((prev) => [...prev, { id: `msg-${Date.now()}-tutor`, role: 'tutor', content: response.response }])
       
+      // Try generating voice via Kokoro TTS (best-effort)
+      try {
+        const voiceResp = await voiceAPI.generate(response.response)
+        if (voiceResp.audio_url) {
+          setAudioUrl(voiceResp.audio_url)
+          // Try generating avatar video via SadTalker (best-effort)
+          try {
+            const avatarResp = await avatarVideoAPI.generate({ audio_url: voiceResp.audio_url })
+            if (avatarResp.video_url) setAvatarVideoUrl(avatarResp.video_url)
+          } catch { /* SadTalker unavailable – use 3D avatar fallback */ }
+        }
+      } catch { /* Kokoro TTS unavailable – silent fallback */ }
+
       // Simulate speaking animation
       setTimeout(() => setIsSpeaking(false), 2000)
     } catch (error: any) {
@@ -227,8 +242,28 @@ export default function CoursePage() {
                 </span>
               </div>
               <div className="h-64">
-                <Avatar isSpeaking={isSpeaking} />
+                {avatarVideoUrl ? (
+                  <video
+                    key={avatarVideoUrl}
+                    autoPlay
+                    className="h-full w-full rounded-xl object-cover"
+                    onEnded={() => { setAvatarVideoUrl(null); setIsSpeaking(false) }}
+                  >
+                    <source src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${avatarVideoUrl}`} type="video/mp4" />
+                  </video>
+                ) : (
+                  <Avatar isSpeaking={isSpeaking} />
+                )}
               </div>
+              {audioUrl && !avatarVideoUrl && (
+                <audio
+                  key={audioUrl}
+                  autoPlay
+                  src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${audioUrl}`}
+                  onEnded={() => { setAudioUrl(null); setIsSpeaking(false) }}
+                  className="hidden"
+                />
+              )}
             </motion.div>
 
             {/* Chat Messages */}
