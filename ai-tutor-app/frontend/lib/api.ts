@@ -156,10 +156,6 @@ export const streamTutorResponse = (
   if (courseId) params.append('course_id', courseId.toString())
   const url = `${API_URL}/api/tutor/stream?${params.toString()}`
 
-  const eventSource = new EventSource(url)
-
-  // EventSource doesn't support custom headers, so for authenticated
-  // streaming we fall back to fetch if the browser supports ReadableStream.
   const controller = new AbortController()
 
   fetch(url, {

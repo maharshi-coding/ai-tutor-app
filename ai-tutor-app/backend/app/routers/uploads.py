@@ -408,8 +408,9 @@ async def upload_course_document(
     if not course:
         raise HTTPException(status_code=404, detail="Course not found")
 
-    # Save file
-    safe_name = f"{course_id}_{current_user.id}_{file.filename}"
+    # Save file (sanitize filename to prevent path traversal)
+    base_name = Path(file.filename or "upload").name  # strip directory components
+    safe_name = f"{course_id}_{current_user.id}_{base_name}"
     file_path = UPLOAD_DIR / "course_docs" / safe_name
 
     current_size = 0

@@ -101,8 +101,10 @@ async def generate_avatar_video(
         )
 
     # --- Call SadTalker ----------------------------------------------------------
+    with open(image_path, "rb") as f:
+        img_head = f.read(1024)
     cache_key = hashlib.sha256(
-        image_path.read_bytes()[:1024] + audio_bytes[:1024]
+        img_head + audio_bytes[:1024]
     ).hexdigest()[:16]
     video_filename = f"{current_user.id}_{cache_key}.mp4"
     video_path = AVATAR_VIDEO_DIR / video_filename
