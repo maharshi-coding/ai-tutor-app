@@ -108,6 +108,15 @@ export const uploadAPI = {
     })
     return response.data
   },
+  uploadCourseDocument: async (file: File, courseId: number) => {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('course_id', courseId.toString())
+    const response = await api.post('/api/uploads/course-document', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    return response.data
+  },
   getAvatarConfig: async () => {
     const response = await api.get('/api/uploads/avatar-config')
     return response.data
@@ -116,4 +125,73 @@ export const uploadAPI = {
     const response = await api.post('/api/uploads/avatar/generate-character')
     return response.data
   },
+}
+
+// Voice API (Kokoro TTS)
+export const voiceAPI = {
+  generate: async (text: string, voice?: string, speed?: number) => {
+    const response = await api.post('/api/voice', { text, voice, speed })
+    return response.data
+  },
+}
+
+// Avatar Video API (SadTalker)
+export const avatarVideoAPI = {
+  generate: async (params: { audio_url?: string; text?: string; image_url?: string }) => {
+    const response = await api.post('/api/avatar', params)
+    return response.data
+  },
+}
+
+// Streaming helper for SSE tutor responses
+export const streamTutorResponse = (
+  message: string,
+  courseId?: number,
+  onToken?: (token: string) => void,
+  onDone?: () => void,
+  onError?: (err: Error) => void,
+) => {
+  const token = localStorage.getItem('token')
+  const params = new URLSearchParams({ message })
+  if (courseId) params.append('course_id', courseId.toString())
+  const url = `${API_URL}/api/tutor/stream?${params.toString()}`
+
+  const controller = new AbortController()
+
+  fetch(url, {
+    headers: { Authorization: `Bearer ${token}` },
+    signal: controller.signal,
+  })
+    .then(async (res) => {
+      if (!res.ok) throw new Error(`Stream error: ${res.status}`)
+      const reader = res.body?.getReader()
+      if (!reader) throw new Error('No reader available')
+      const decoder = new TextDecoder()
+      let buffer = ''
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop() || ''
+        for (const line of lines) {
+          if (line.startsWith('data: [DONE]')) {
+            onDone?.()
+            return
+          }
+          if (line.startsWith('data: ')) {
+            try {
+              const payload = JSON.parse(line.slice(6))
+              if (payload.token) onToken?.(payload.token)
+            } catch { /* skip malformed lines */ }
+          }
+        }
+      }
+      onDone?.()
+    })
+    .catch((err) => {
+      if (err.name !== 'AbortError') onError?.(err)
+    })
+
+  return () => controller.abort()
 }

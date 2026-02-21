@@ -41,10 +41,22 @@ class Settings(BaseSettings):
     # Optional avatar video generation service (image + text/audio -> video)
     AVATAR_VIDEO_API_URL: Optional[AnyHttpUrl] = None
     AVATAR_VIDEO_API_KEY: Optional[str] = None
-    
+
+    # Ollama (local LLM – free, open-source)
+    OLLAMA_BASE_URL: str = "http://localhost:11434"
+    OLLAMA_MODEL: str = "llama3"
+
+    # Kokoro TTS (local text-to-speech)
+    KOKORO_API_URL: str = "http://localhost:8880"
+
+    # SadTalker (local talking-head avatar video)
+    SADTALKER_API_URL: str = "http://localhost:8870"
+    SADTALKER_REF_IMAGE: Optional[str] = None  # Path to default avatar reference image
+
     # File Upload Settings
     UPLOAD_DIR: str = "./uploads"
     MAX_FILE_SIZE: int = 10485760  # 10MB
+    MAX_COURSE_FILE_SIZE: int = 52428800  # 50MB for course documents
     
     # Server
     HOST: str = "0.0.0.0"
