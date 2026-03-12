@@ -30,10 +30,21 @@ export async function generateAndPollAvatar(
 
   onStatusUpdate?.('Animating avatar...');
 
+  return pollAvatarJob(job_id, onStatusUpdate);
+}
+
+export async function pollAvatarJob(
+  jobId: string,
+  onStatusUpdate?: (status: string) => void,
+): Promise<string> {
+  if (!jobId) {
+    throw new Error('Missing avatar job id');
+  }
+
   for (let i = 0; i < MAX_POLLS; i++) {
     await sleep(POLL_INTERVAL_MS);
 
-    const statusResp = await avatarAPI.getJobStatus(job_id);
+    const statusResp = await avatarAPI.getJobStatus(jobId);
     const job: AvatarJob = statusResp.data;
 
     switch (job.status) {

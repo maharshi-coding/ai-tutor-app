@@ -5,51 +5,15 @@ from app.database import get_db
 from app.models import Course, Progress, User
 from app.schemas import CourseResponse, ProgressResponse
 from app.routers.auth import get_current_user
+from app.services.course_bootstrap import ensure_seed_courses
 
 router = APIRouter()
 
 
 # Initialize with some sample courses
 def init_sample_courses(db: Session):
-    """Initialize sample courses if none exist"""
-    # Use exists() instead of count() for better performance
-    from sqlalchemy import exists
-    course_exists = db.query(exists().where(Course.id.isnot(None))).scalar()
-    
-    if not course_exists:
-        sample_courses = [
-            Course(
-                title="Introduction to Python Programming",
-                description="Learn the fundamentals of Python programming from scratch",
-                subject="Computer Science",
-                difficulty_level="Beginner",
-                content={"lessons": 10, "topics": ["Variables", "Loops", "Functions", "Data Structures"]}
-            ),
-            Course(
-                title="Mathematics Fundamentals",
-                description="Master basic mathematical concepts and problem-solving",
-                subject="Mathematics",
-                difficulty_level="Beginner",
-                content={"lessons": 12, "topics": ["Algebra", "Geometry", "Calculus Basics"]}
-            ),
-            Course(
-                title="World History Overview",
-                description="Explore major events and civilizations throughout history",
-                subject="History",
-                difficulty_level="Intermediate",
-                content={"lessons": 15, "topics": ["Ancient Civilizations", "World Wars", "Modern Era"]}
-            ),
-            Course(
-                title="Introduction to Physics",
-                description="Understand the fundamental principles of physics",
-                subject="Science",
-                difficulty_level="Intermediate",
-                content={"lessons": 14, "topics": ["Mechanics", "Thermodynamics", "Electromagnetism"]}
-            ),
-        ]
-        for course in sample_courses:
-            db.add(course)
-        db.commit()
+    """Ensure the default AI course catalog is present."""
+    ensure_seed_courses(db)
 
 
 @router.get("/", response_model=List[CourseResponse])

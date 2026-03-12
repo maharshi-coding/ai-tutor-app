@@ -20,6 +20,7 @@ interface AuthState {
   }) => Promise<void>;
   logout: () => Promise<void>;
   bootstrapAuth: () => Promise<void>;
+  refreshCurrentUser: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -91,6 +92,26 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       token: null,
       isAuthenticated: false,
       authError: null,
+    });
+  },
+
+  refreshCurrentUser: async () => {
+    const token = await AsyncStorage.getItem('auth_token');
+
+    if (!token) {
+      set({
+        user: null,
+        token: null,
+        isAuthenticated: false,
+      });
+      return;
+    }
+
+    const response = await authAPI.getMe();
+    set({
+      user: response.data,
+      token,
+      isAuthenticated: true,
     });
   },
 

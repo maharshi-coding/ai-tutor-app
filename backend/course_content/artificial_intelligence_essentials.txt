@@ -1,0 +1,57 @@
+ARTIFICIAL INTELLIGENCE ESSENTIALS
+
+Artificial intelligence is the broader field of creating systems that can perform
+tasks that usually require human intelligence, such as reasoning, language use,
+planning, perception, and decision making.
+
+Relationship to machine learning:
+- AI is the broad umbrella.
+- Machine learning is a major subfield of AI.
+- Deep learning is a specialized area within machine learning.
+
+Classical AI:
+Classical AI focuses on logic, search, planning, and explicit rules.
+Examples include path finding, game trees, expert systems, and symbolic reasoning.
+
+Search and planning:
+AI agents often solve problems by exploring possible actions and selecting the best
+path toward a goal. Algorithms such as breadth-first search, depth-first search,
+and A* are common examples.
+
+Knowledge representation:
+An AI system needs a way to represent facts, relationships, and uncertainty.
+Knowledge graphs, rule systems, and probability models are all examples.
+
+Machine learning driven AI:
+Modern AI often learns from examples instead of depending only on rules.
+This includes image recognition, speech recognition, recommendation systems, and
+language models.
+
+Neural networks:
+Neural networks are layered mathematical models inspired loosely by the brain.
+They transform input data through multiple layers to learn complex patterns.
+
+Generative AI:
+Generative AI creates new content such as text, images, code, audio, or video.
+Large language models predict likely next tokens and are trained on massive text
+collections. Diffusion models learn to generate images by reversing a noising
+process.
+
+Responsible AI:
+AI systems must be designed with safety, privacy, fairness, and reliability in
+mind. Good AI practice includes:
+- evaluating bias,
+- protecting user data,
+- explaining limitations,
+- monitoring misuse,
+- keeping a human review path when stakes are high.
+
+Prompting and grounding:
+Language models are more reliable when given clear instructions and grounded
+context. Retrieval-augmented generation improves factuality by feeding relevant
+source material to the model before it answers.
+
+Good mental model:
+Think of AI systems as decision tools with strengths and limits. They can be fast
+and creative, but they can also be confidently wrong if their inputs, data, or
+guardrails are weak.

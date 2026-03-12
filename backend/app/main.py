@@ -5,9 +5,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from app.routers import auth, users, courses, tutor, uploads, voice, avatar
-from app.database import engine, Base
+from app.routers import auth, users, courses, tutor, uploads, voice, avatar, mobile_api
+from app.database import engine, Base, SessionLocal
 from app.config import settings
+from app.services.course_bootstrap import ensure_seed_course_rag, ensure_seed_courses
 from sqlalchemy.exc import OperationalError
 
 
@@ -39,11 +40,21 @@ async def on_startup() -> None:
     for _ in range(20):
         try:
             Base.metadata.create_all(bind=engine)
+            db = SessionLocal()
+            try:
+                ensure_seed_courses(db)
+                ensure_seed_course_rag(db)
+            finally:
+                db.close()
             last_err = None
             break
         except OperationalError as e:
             last_err = e
             await asyncio.sleep(1)
+        except Exception as e:
+            print("COURSE_BOOTSTRAP_WARNING:", repr(e))
+            last_err = None
+            break
     if last_err:
         raise last_err
 
@@ -67,6 +78,7 @@ app.include_router(tutor.router, prefix="/api/tutor", tags=["tutor"])
 app.include_router(uploads.router, prefix="/api/uploads", tags=["uploads"])
 app.include_router(voice.router, prefix="/api", tags=["voice"])
 app.include_router(avatar.router, prefix="/api", tags=["avatar"])
+app.include_router(mobile_api.router, tags=["mobile-aliases"])
 
 
 @app.get("/")

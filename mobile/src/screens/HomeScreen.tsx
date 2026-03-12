@@ -119,7 +119,10 @@ export default function HomeScreen() {
       activeOpacity={0.88}
       style={styles.courseCard}
       onPress={() =>
-        nav.navigate('Chat', {courseId: item.id, courseName: item.title})
+        nav.navigate('Chat', {
+          screen: 'TutorChat',
+          params: {courseId: item.id, courseName: item.title},
+        })
       }>
       <View style={styles.courseBadge}>
         <Text style={styles.courseBadgeText}>{subjectLabel(item.subject)}</Text>
@@ -158,7 +161,11 @@ export default function HomeScreen() {
               key={action.tab}
               activeOpacity={0.88}
               style={[styles.actionCard, {backgroundColor: action.bg}]}
-              onPress={() => nav.navigate(action.tab)}>
+              onPress={() =>
+                action.tab === 'Chat'
+                  ? nav.navigate('Chat', {screen: 'AvatarTutor'})
+                  : nav.navigate(action.tab)
+              }>
               <Text style={styles.actionHeading}>{action.label}</Text>
               <Text style={styles.actionCaption}>{action.caption}</Text>
             </TouchableOpacity>

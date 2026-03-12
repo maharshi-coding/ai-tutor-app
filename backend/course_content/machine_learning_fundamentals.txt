@@ -1,0 +1,78 @@
+MACHINE LEARNING FUNDAMENTALS
+
+Machine learning is the practice of building systems that learn patterns from data
+instead of following only fixed, hand-written rules.
+
+Core idea:
+- A model observes examples.
+- The model finds relationships between inputs and outputs.
+- We evaluate whether the learned relationship generalizes to new examples.
+
+Supervised learning:
+Supervised learning uses labeled data. Each training example includes an input and
+the correct output. Typical tasks are classification and regression.
+
+Classification:
+The goal is to predict a category, such as spam vs. not spam.
+
+Regression:
+The goal is to predict a numeric value, such as house price or delivery time.
+
+Unsupervised learning:
+Unsupervised learning uses unlabeled data. The model tries to discover structure,
+such as groups of similar examples or lower-dimensional representations.
+
+Clustering:
+Clustering groups similar observations together without predefined labels.
+
+Dimensionality reduction:
+Techniques such as PCA compress data while preserving important structure.
+
+Training, validation, and test splits:
+- Training set: used to fit the model.
+- Validation set: used to tune hyperparameters and compare model choices.
+- Test set: used once at the end to estimate real-world performance.
+
+Overfitting:
+Overfitting happens when a model memorizes noise or quirks in the training data.
+It looks strong on training examples but performs poorly on new data.
+
+Underfitting:
+Underfitting happens when a model is too simple to capture the signal in the data.
+
+Bias and variance:
+- High bias usually means the model is too simple.
+- High variance usually means the model is too sensitive to the training data.
+- Good model design balances both.
+
+Common algorithms:
+- Linear regression
+- Logistic regression
+- Decision trees
+- Random forests
+- Support vector machines
+- Neural networks
+- k-nearest neighbors
+
+Feature engineering:
+Features are the inputs a model uses. Useful feature engineering can improve model
+performance by creating clearer signals from raw data.
+
+Evaluation metrics:
+Classification metrics often include accuracy, precision, recall, F1 score, and
+ROC-AUC. Regression metrics often include MAE, MSE, RMSE, and R-squared.
+
+Example workflow:
+1. Define the prediction task clearly.
+2. Gather and clean data.
+3. Split data into train, validation, and test sets.
+4. Train baseline models.
+5. Compare metrics and error patterns.
+6. Improve features, tune hyperparameters, and retrain.
+7. Evaluate on the test set.
+8. Deploy and monitor model quality over time.
+
+Important idea:
+A high metric is not enough. You should also ask whether the training data is
+representative, whether the model is fair, and whether mistakes are acceptable for
+the real-world use case.

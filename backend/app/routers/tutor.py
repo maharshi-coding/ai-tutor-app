@@ -2,16 +2,19 @@ from typing import Any, Dict, Optional
 import json
 
 import httpx
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import User, Course
-from app.schemas import TutorMessage, TutorResponse
+from app.schemas import AskTutorRequest, AskTutorResponse, TutorMessage, TutorResponse
 from app.routers.auth import get_current_user
 from app.config import settings
 from app.rag import retrieve_relevant_chunks
+from app.services.avatar_pipeline import AvatarJobRequest, create_avatar_job, run_avatar_job
+from app.services.course_bootstrap import ensure_seed_courses, get_blueprint_by_slug
+from app.services.tts import ensure_voice_audio
 
 router = APIRouter()
 
@@ -299,35 +302,129 @@ async def get_tutor_response(
     )
 
 
+def _resolve_course(
+    db: Session,
+    course_id: Optional[int],
+    course_slug: Optional[str] = None,
+) -> Optional[Course]:
+    ensure_seed_courses(db)
+
+    if course_id:
+        return db.query(Course).filter(Course.id == course_id).first()
+
+    blueprint = get_blueprint_by_slug(course_slug)
+    if blueprint is None:
+        return None
+
+    return db.query(Course).filter(Course.title == blueprint.title).first()
+
+
+def _follow_up_suggestions(course: Optional[Course]) -> list[str]:
+    course_name = course.title if course else "this topic"
+    return [
+        "Can you explain that step by step?",
+        f"Show me a simple {course_name} example.",
+        "Give me a short practice exercise.",
+        "What should I learn next?",
+    ]
+
+
 @router.post("/chat", response_model=TutorResponse)
 async def chat_with_tutor(
     tutor_message: TutorMessage,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
+    course = _resolve_course(db, tutor_message.course_id)
     course_context = None
-    if tutor_message.course_id:
-        course = db.query(Course).filter(Course.id == tutor_message.course_id).first()
-        if course:
-            course_context = f"{course.title} - {course.subject}"
+    if course:
+        course_context = f"{course.title} - {course.subject}"
     
     # Get API key from user's request headers or use default
     # In production, users would provide their own API keys
     response_text = await get_tutor_response(
         tutor_message.message,
         course_context=course_context,
-        course_id=tutor_message.course_id,
+        course_id=course.id if course else tutor_message.course_id,
     )
     
-    # Generate suggestions for follow-up questions
-    suggestions = [
-        "Can you explain that in simpler terms?",
-        "Can you give me an example?",
-        "What should I practice next?",
-        "I understand, what's next?"
-    ]
+    suggestions = _follow_up_suggestions(course)
     
     return TutorResponse(response=response_text, suggestions=suggestions)
+
+
+@router.post("/ask-tutor", response_model=AskTutorResponse)
+async def ask_tutor(
+    request: AskTutorRequest,
+    background_tasks: BackgroundTasks,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Tutor endpoint for the mobile avatar workflow.
+
+    Returns the text explanation immediately and can optionally:
+    - generate voice audio
+    - queue a talking avatar video job
+    """
+    course = _resolve_course(db, request.course_id, request.course_slug)
+    course_context = f"{course.title} - {course.subject}" if course else None
+
+    response_text = await get_tutor_response(
+        request.message,
+        course_context=course_context,
+        course_id=course.id if course else request.course_id,
+    )
+
+    suggestions = _follow_up_suggestions(course)
+    media_errors: list[str] = []
+    audio_url: Optional[str] = None
+    audio_duration_ms: Optional[int] = None
+    avatar_job_id: Optional[str] = None
+    avatar_status: Optional[str] = None
+
+    if request.generate_voice:
+        try:
+            audio_artifact = await ensure_voice_audio(
+                user_id=current_user.id,
+                text=response_text,
+                voice=request.voice,
+                speed=request.speed,
+            )
+            audio_url = audio_artifact.audio_url
+            audio_duration_ms = audio_artifact.duration_ms
+        except HTTPException as exc:
+            media_errors.append(str(exc.detail))
+        except Exception as exc:
+            media_errors.append(f"Voice generation failed: {exc!r}")
+
+    if request.generate_avatar_video:
+        try:
+            avatar_request = AvatarJobRequest(
+                user_id=current_user.id,
+                avatar_photo_path=current_user.avatar_photo_path,
+                avatar_config=current_user.avatar_config or {},
+                text=None if audio_url else response_text,
+                audio_url=audio_url,
+                image_url=request.image_url,
+            )
+            avatar_job_id = create_avatar_job(avatar_request)
+            background_tasks.add_task(run_avatar_job, avatar_job_id, avatar_request)
+            avatar_status = "pending"
+        except Exception as exc:
+            media_errors.append(f"Avatar generation failed to start: {exc!r}")
+
+    return AskTutorResponse(
+        response=response_text,
+        suggestions=suggestions,
+        course_id=course.id if course else request.course_id,
+        course_title=course.title if course else None,
+        audio_url=audio_url,
+        audio_duration_ms=audio_duration_ms,
+        avatar_job_id=avatar_job_id,
+        avatar_status=avatar_status,
+        media_errors=media_errors or None,
+    )
 
 
 @router.post("/generate-lesson")

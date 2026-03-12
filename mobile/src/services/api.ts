@@ -6,6 +6,7 @@ import axios, {
 } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NativeModules, Platform} from 'react-native';
+import {AskTutorResponse} from '../types';
 
 declare module 'axios' {
   export interface AxiosRequestConfig {
@@ -239,30 +240,47 @@ export const coursesAPI = {
 export const tutorAPI = {
   chat: (message: string, courseId?: number) =>
     apiClient.post('/api/tutor/chat', {message, course_id: courseId}),
+  askTutor: (data: {
+    message: string;
+    courseId?: number;
+    courseSlug?: string;
+    generateVoice?: boolean;
+    generateAvatarVideo?: boolean;
+    voice?: string;
+    speed?: number;
+    imageUrl?: string;
+  }) =>
+    apiClient.post<AskTutorResponse>('/ask-tutor', {
+      message: data.message,
+      course_id: data.courseId,
+      course_slug: data.courseSlug,
+      generate_voice: data.generateVoice ?? false,
+      generate_avatar_video: data.generateAvatarVideo ?? false,
+      voice: data.voice,
+      speed: data.speed ?? 1.0,
+      image_url: data.imageUrl,
+    }),
 };
 
 export const uploadAPI = {
   uploadPhoto: (formData: FormData) =>
-    apiClient.post('/api/uploads/photo', formData, {
+    apiClient.post('/upload-photo', formData, {
       headers: {'Content-Type': 'multipart/form-data'},
-      timeout: 60000,
+      timeout: 120000,
     }),
   uploadCourseDocument: (formData: FormData, courseId: number) =>
-    apiClient.post(
-      `/api/uploads/course-document?course_id=${courseId}`,
-      formData,
-      {
-        headers: {'Content-Type': 'multipart/form-data'},
-        timeout: 120000,
-      },
-    ),
+    apiClient.post('/api/uploads/course-document', formData, {
+      headers: {'Content-Type': 'multipart/form-data'},
+      params: {course_id: courseId},
+      timeout: 120000,
+    }),
   getAvatarConfig: () =>
     apiClient.get('/api/uploads/avatar-config', {retryable: true}),
 };
 
 export const avatarAPI = {
   generate: (data: {text?: string; audio_url?: string; image_url?: string}) =>
-    apiClient.post('/api/avatar/generate', data),
+    apiClient.post('/generate-avatar-video', data),
   getJobStatus: (jobId: string) =>
     apiClient.get(`/api/avatar/job/${jobId}`, {retryable: true}),
 };

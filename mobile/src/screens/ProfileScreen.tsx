@@ -81,6 +81,7 @@ export default function ProfileScreen() {
         type: file.type ?? 'application/pdf',
         name: file.name ?? 'document.pdf',
       } as unknown as Blob);
+      formData.append('course_id', String(selectedCourse));
 
       await uploadAPI.uploadCourseDocument(formData, selectedCourse);
       setScreenMessage(

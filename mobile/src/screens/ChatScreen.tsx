@@ -13,15 +13,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Video from 'react-native-video';
 import NoticeBanner from '../components/NoticeBanner';
 import {extractErrorMessage, getApiBaseUrl, tutorAPI} from '../services/api';
-import {generateAndPollAvatar} from '../services/avatarService';
-import {MainTabParamList, Message} from '../types';
+import {pollAvatarJob} from '../services/avatarService';
+import {Message, TutorStackParamList} from '../types';
 
-type ChatRoute = RouteProp<MainTabParamList, 'Chat'>;
+type ChatRoute = RouteProp<TutorStackParamList, 'TutorChat'>;
+type ChatNav = NativeStackNavigationProp<TutorStackParamList, 'TutorChat'>;
 
 let messageCounter = 0;
 const nextId = () => `msg-${++messageCounter}`;
@@ -36,17 +38,17 @@ async function toAbsUrl(url: string): Promise<string> {
 }
 
 export default function ChatScreen() {
+  const navigation = useNavigation<ChatNav>();
   const route = useRoute<ChatRoute>();
   const courseId = route.params?.courseId;
-  const courseName = route.params?.courseName ?? 'AI Tutor';
+  const courseName = route.params?.courseName ?? 'General AI Tutor';
   const [messages, setMessages] = useState<Message[]>([
     {
       id: nextId(),
       role: 'assistant',
-      content:
-        courseName === 'AI Tutor'
-          ? 'Hi, I am your AI tutor. Ask me anything to get started.'
-          : `Hi, I am your AI tutor for ${courseName}. Ask me anything to get started.`,
+      content: courseId
+        ? `Hi, I am your AI tutor for ${courseName}. Ask me a question and I will explain it step by step.`
+        : 'Hi, I am your AI tutor. Pick a course or ask a question to get started.',
       timestamp: new Date(),
     },
   ]);
@@ -100,15 +102,26 @@ export default function ChatScreen() {
     setTimeout(() => listRef.current?.scrollToEnd({animated: true}), 120);
   }, []);
 
-  const startAvatarGeneration = useCallback(
-    async (assistantResponse: string, messageId: string) => {
+  const openFullVideo = useCallback(() => {
+    if (!heroVideoUrl) {
+      return;
+    }
+
+    navigation.navigate('AvatarVideoPlayer', {
+      videoUrl: heroVideoUrl,
+      title: courseName,
+    });
+  }, [courseName, heroVideoUrl, navigation]);
+
+  const startAvatarPolling = useCallback(
+    async (jobId: string, messageId: string) => {
       const token = `${messageId}-${Date.now()}`;
       latestAvatarTokenRef.current = token;
       setIsGeneratingAvatar(true);
-      setAvatarStatus('Preparing avatar preview...');
+      setAvatarStatus('Preparing tutor video...');
 
       try {
-        const videoUrl = await generateAndPollAvatar(assistantResponse, status => {
+        const videoUrl = await pollAvatarJob(jobId, status => {
           if (
             !isMountedRef.current ||
             latestAvatarTokenRef.current !== token
@@ -140,11 +153,17 @@ export default function ChatScreen() {
               : message,
           ),
         );
-      } catch {
+      } catch (error) {
         if (
           isMountedRef.current &&
           latestAvatarTokenRef.current === token
         ) {
+          setChatError(
+            extractErrorMessage(
+              error,
+              'The tutor reply was generated, but the avatar video could not be finished.',
+            ),
+          );
           setAvatarStatus('');
         }
       } finally {
@@ -183,7 +202,12 @@ export default function ChatScreen() {
       setIsSending(true);
 
       try {
-        const response = await tutorAPI.chat(trimmed, courseId);
+        const response = await tutorAPI.askTutor({
+          message: trimmed,
+          courseId,
+          generateVoice: true,
+          generateAvatarVideo: true,
+        });
 
         if (!isMountedRef.current) {
           return;
@@ -214,10 +238,34 @@ export default function ChatScreen() {
                 .slice(0, 3)
             : [],
         );
+
+        if (
+          Array.isArray(response.data?.media_errors) &&
+          response.data.media_errors.length > 0
+        ) {
+          setChatError(response.data.media_errors.join(' '));
+        }
+
         scrollToBottom();
-        startAvatarGeneration(assistantResponse, assistantMessageId).catch(
-          () => {},
-        );
+
+        if (response.data?.avatar_video_url) {
+          const fullUrl = await toAbsUrl(response.data.avatar_video_url);
+          setHeroVideoUrl(fullUrl);
+          setMessages(current =>
+            current.map(message =>
+              message.id === assistantMessageId
+                ? {
+                    ...message,
+                    videoUrl: fullUrl,
+                  }
+                : message,
+            ),
+          );
+        } else if (response.data?.avatar_job_id) {
+          startAvatarPolling(response.data.avatar_job_id, assistantMessageId).catch(
+            () => {},
+          );
+        }
       } catch (error) {
         if (!isMountedRef.current) {
           return;
@@ -235,7 +283,7 @@ export default function ChatScreen() {
         }
       }
     },
-    [courseId, isSending, scrollToBottom, startAvatarGeneration],
+    [courseId, isSending, scrollToBottom, startAvatarPolling],
   );
 
   const renderMessage = ({item}: {item: Message}) => {
@@ -248,7 +296,11 @@ export default function ChatScreen() {
           <Text style={[styles.msgText, isUser ? styles.msgTextUser : styles.msgTextAI]}>
             {item.content}
           </Text>
-          {item.videoUrl ? <Text style={styles.videoTag}>Avatar preview ready</Text> : null}
+          {item.videoUrl ? (
+            <TouchableOpacity onPress={openFullVideo}>
+              <Text style={styles.videoTag}>Avatar preview ready</Text>
+            </TouchableOpacity>
+          ) : null}
           <Text style={styles.timestamp}>
             {item.timestamp.toLocaleTimeString([], {
               hour: '2-digit',
@@ -261,10 +313,12 @@ export default function ChatScreen() {
   };
 
   const statusLine = isSending
-    ? 'Thinking...'
+    ? 'Thinking through your question...'
     : isGeneratingAvatar
-      ? avatarStatus || 'Rendering avatar...'
-      : 'AI Tutor online';
+      ? avatarStatus || 'Rendering avatar video...'
+      : courseId
+        ? 'Course-aware tutor online'
+        : 'Choose a course or ask freely';
 
   return (
     <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
@@ -279,14 +333,32 @@ export default function ChatScreen() {
             <Text style={styles.headerTitle} numberOfLines={1}>
               {courseName}
             </Text>
-            <Text style={[styles.headerSub, (isSending || isGeneratingAvatar) && styles.headerSubActive]}>
+            <Text
+              style={[
+                styles.headerSub,
+                (isSending || isGeneratingAvatar) && styles.headerSubActive,
+              ]}>
               {statusLine}
             </Text>
           </View>
+          <TouchableOpacity
+            style={styles.courseSwitch}
+            onPress={() => navigation.navigate('CourseSelection')}>
+            <Text style={styles.courseSwitchText}>Courses</Text>
+          </TouchableOpacity>
         </View>
 
+        {courseId ? (
+          <View style={styles.courseBadgeRow}>
+            <Text style={styles.courseBadgeText}>Course mode: {courseName}</Text>
+          </View>
+        ) : null}
+
         {heroVideoUrl ? (
-          <View style={styles.heroPanel}>
+          <TouchableOpacity
+            activeOpacity={0.94}
+            style={styles.heroPanel}
+            onPress={openFullVideo}>
             <Video
               source={{uri: heroVideoUrl}}
               style={styles.heroVideo}
@@ -304,10 +376,10 @@ export default function ChatScreen() {
             />
             <View style={styles.heroOverlay}>
               <Text style={styles.heroLabel}>
-                {isGeneratingAvatar ? 'Generating a fresh preview' : 'Latest avatar response'}
+                {isGeneratingAvatar ? 'Generating a fresh preview' : 'Tap to open tutor video'}
               </Text>
             </View>
-          </View>
+          </TouchableOpacity>
         ) : (
           <View style={styles.heroPanelPlaceholder}>
             <Animated.View
@@ -320,7 +392,7 @@ export default function ChatScreen() {
             <Text style={styles.placeholderText}>
               {isGeneratingAvatar
                 ? avatarStatus || 'Rendering avatar...'
-                : 'Your tutor video will appear here after a response.'}
+                : 'Your tutor video will appear here after each response.'}
             </Text>
           </View>
         )}
@@ -421,8 +493,25 @@ const styles = StyleSheet.create({
   headerTitle: {color: '#FFFFFF', fontWeight: '700', fontSize: 15},
   headerSub: {color: '#4B5563', fontSize: 12, marginTop: 1},
   headerSubActive: {color: '#6C63FF'},
+  courseSwitch: {
+    borderRadius: 14,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: '#2A2A4A',
+    backgroundColor: '#12122A',
+  },
+  courseSwitchText: {color: '#C7D2FE', fontWeight: '700', fontSize: 12},
+  courseBadgeRow: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: '#111126',
+    borderBottomWidth: 1,
+    borderColor: '#1C1C3A',
+  },
+  courseBadgeText: {color: '#A5B4FC', fontSize: 12, fontWeight: '700'},
   heroPanel: {
-    height: 200,
+    height: 208,
     backgroundColor: '#000000',
     position: 'relative',
   },

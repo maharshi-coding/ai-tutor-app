@@ -16,6 +16,7 @@ import Video from 'react-native-video';
 import NoticeBanner from '../components/NoticeBanner';
 import {extractErrorMessage, getApiBaseUrl, uploadAPI} from '../services/api';
 import {generateAndPollAvatar} from '../services/avatarService';
+import {useAuthStore} from '../store/authStore';
 
 type StepStatus = 'idle' | 'uploading' | 'polling' | 'done' | 'error';
 
@@ -26,7 +27,9 @@ export default function AvatarSetupScreen() {
   const [statusMessage, setStatusMessage] = useState('');
   const [screenMessage, setScreenMessage] = useState<string | null>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [avatarImageUrl, setAvatarImageUrl] = useState<string | null>(null);
   const [isLoadingConfig, setIsLoadingConfig] = useState(true);
+  const refreshCurrentUser = useAuthStore(state => state.refreshCurrentUser);
 
   const isWorking = stepStatus === 'uploading' || stepStatus === 'polling';
 
@@ -44,6 +47,21 @@ export default function AvatarSetupScreen() {
         if (response.data.has_photo) {
           setPhotoUploaded(true);
           setScreenMessage('A photo is already saved for this account.');
+        }
+
+        const avatarImage =
+          (response.data.character_image_url as string | undefined) ||
+          (response.data.photo_path as string | undefined);
+        if (avatarImage) {
+          const baseUrl = await getApiBaseUrl();
+
+          if (!isMounted) {
+            return;
+          }
+
+          setAvatarImageUrl(
+            avatarImage.startsWith('http') ? avatarImage : `${baseUrl}${avatarImage}`,
+          );
         }
 
         const clip = response.data.last_generated_clip_url as string | undefined;
@@ -98,6 +116,7 @@ export default function AvatarSetupScreen() {
       setPhotoUri(asset.uri);
       setPhotoUploaded(false);
       setVideoUrl(null);
+      setAvatarImageUrl(null);
       setStepStatus('idle');
       setScreenMessage(null);
     }
@@ -121,10 +140,25 @@ export default function AvatarSetupScreen() {
       } as unknown as Blob);
 
       await uploadAPI.uploadPhoto(formData);
+      await refreshCurrentUser();
       setPhotoUploaded(true);
       setStepStatus('idle');
       setStatusMessage('');
-      setScreenMessage('Photo uploaded. You can generate a talking avatar now.');
+      try {
+        const refreshedConfig = await uploadAPI.getAvatarConfig();
+        const avatarImage =
+          (refreshedConfig.data.character_image_url as string | undefined) ||
+          (refreshedConfig.data.photo_path as string | undefined);
+        if (avatarImage) {
+          const baseUrl = await getApiBaseUrl();
+          setAvatarImageUrl(
+            avatarImage.startsWith('http') ? avatarImage : `${baseUrl}${avatarImage}`,
+          );
+        }
+      } catch {}
+      setScreenMessage(
+        'Photo uploaded and your tutor avatar preview is ready below.',
+      );
     } catch (error) {
       setStepStatus('error');
       setStatusMessage('Upload failed');
@@ -243,6 +277,33 @@ export default function AvatarSetupScreen() {
               <Text style={styles.successText}>Photo ready for avatar generation</Text>
             </View>
           ) : null}
+        </View>
+
+        <View style={styles.card}>
+          <View style={styles.stepRow}>
+            <View
+              style={[
+                styles.stepBadge,
+                avatarImageUrl && styles.stepDone,
+              ]}>
+              <Text style={styles.stepNum}>{avatarImageUrl ? 'OK' : '1B'}</Text>
+            </View>
+            <Text style={styles.stepTitle}>Cartoon avatar preview</Text>
+          </View>
+          <Text style={styles.stepDesc}>
+            This image becomes the tutor face used for voice-driven animation.
+          </Text>
+
+          {avatarImageUrl ? (
+            <Image source={{uri: avatarImageUrl}} style={styles.generatedAvatarImg} />
+          ) : (
+            <View style={styles.generatedAvatarPlaceholder}>
+              <Text style={styles.photoPlaceholderTitle}>No avatar yet</Text>
+              <Text style={styles.photoPlaceholderText}>
+                Upload a photo to generate the tutor portrait automatically.
+              </Text>
+            </View>
+          )}
         </View>
 
         <View style={styles.card}>
@@ -371,6 +432,24 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   photoImg: {width: '100%', height: '100%', resizeMode: 'cover'},
+  generatedAvatarImg: {
+    width: '100%',
+    height: 250,
+    borderRadius: 16,
+    resizeMode: 'cover',
+    backgroundColor: '#1C1C3A',
+  },
+  generatedAvatarPlaceholder: {
+    height: 220,
+    backgroundColor: '#1C1C3A',
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: '#2A2A4A',
+  },
   photoPlaceholder: {
     flex: 1,
     alignItems: 'center',

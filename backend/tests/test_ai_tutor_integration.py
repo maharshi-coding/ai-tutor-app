@@ -109,6 +109,24 @@ async def test_tutor_chat_requires_auth(ac):
     assert resp.status_code in (401, 403)
 
 
+@pytest.mark.asyncio
+async def test_ask_tutor_alias(ac):
+    headers = await _auth_header(ac)
+    resp = await ac.post(
+        "/ask-tutor",
+        json={
+            "message": "Explain what a Python function does.",
+            "generate_voice": False,
+            "generate_avatar_video": False,
+        },
+        headers=headers,
+    )
+    assert resp.status_code == 200, resp.text
+    data = resp.json()
+    assert "response" in data
+    assert data.get("course_id") is None
+
+
 # ---------------------------------------------------------------------------
 # Ollama provider unit test
 # ---------------------------------------------------------------------------
@@ -149,6 +167,12 @@ async def test_voice_requires_auth(ac):
 
 
 @pytest.mark.asyncio
+async def test_generate_voice_alias_requires_auth(ac):
+    resp = await ac.post("/generate-voice", json={"text": "Hello world"})
+    assert resp.status_code in (401, 403)
+
+
+@pytest.mark.asyncio
 async def test_voice_empty_text(ac):
     headers = await _auth_header(ac)
     resp = await ac.post(
@@ -179,6 +203,12 @@ async def test_voice_service_unavailable(ac):
 @pytest.mark.asyncio
 async def test_avatar_requires_auth(ac):
     resp = await ac.post("/api/avatar", json={"text": "Hello"})
+    assert resp.status_code in (401, 403)
+
+
+@pytest.mark.asyncio
+async def test_generate_avatar_video_alias_requires_auth(ac):
+    resp = await ac.post("/generate-avatar-video", json={"text": "Hello"})
     assert resp.status_code in (401, 403)
 
 
@@ -229,6 +259,20 @@ async def test_course_doc_upload_requires_auth(ac):
         files={"file": ("test.txt", b"hello", "text/plain")},
     )
     assert resp.status_code in (401, 403)
+
+
+@pytest.mark.asyncio
+async def test_upload_photo_alias_partial_success(ac):
+    headers = await _auth_header(ac)
+    resp = await ac.post(
+        "/upload-photo",
+        files={"file": ("avatar.png", b"not-a-real-image", "image/png")},
+        headers=headers,
+    )
+    assert resp.status_code == 200, resp.text
+    data = resp.json()
+    assert data["photo_url"].startswith("/uploads/photos/")
+    assert data["avatar_generation_status"] in ("ready", "failed")
 
 
 @pytest.mark.asyncio

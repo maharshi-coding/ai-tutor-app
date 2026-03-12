@@ -4,7 +4,11 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StyleSheet, Text, View} from 'react-native';
 import {useAuthStore} from '../store/authStore';
-import {MainTabParamList, RootStackParamList} from '../types';
+import {
+  MainTabParamList,
+  RootStackParamList,
+  TutorStackParamList,
+} from '../types';
 
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -13,9 +17,13 @@ import HomeScreen from '../screens/HomeScreen';
 import ChatScreen from '../screens/ChatScreen';
 import AvatarSetupScreen from '../screens/AvatarSetupScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import AvatarTutorScreen from '../screens/AvatarTutorScreen';
+import CourseSelectionScreen from '../screens/CourseSelectionScreen';
+import AvatarVideoPlayerScreen from '../screens/AvatarVideoPlayerScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<MainTabParamList>();
+const TutorStack = createNativeStackNavigator<TutorStackParamList>();
 const TAB_LABELS: Record<keyof MainTabParamList, string> = {
   Home: 'HM',
   Chat: 'AI',
@@ -80,7 +88,7 @@ function MainTabs() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen
         name="Chat"
-        component={ChatScreen}
+        component={TutorNavigator}
         options={{tabBarLabel: 'Ask AI'}}
       />
       <Tab.Screen
@@ -94,6 +102,28 @@ function MainTabs() {
         options={{tabBarLabel: 'Profile'}}
       />
     </Tab.Navigator>
+  );
+}
+
+function TutorNavigator() {
+  return (
+    <TutorStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        animation: 'slide_from_right',
+        contentStyle: styles.stackContent,
+      }}>
+      <TutorStack.Screen name="AvatarTutor" component={AvatarTutorScreen} />
+      <TutorStack.Screen
+        name="CourseSelection"
+        component={CourseSelectionScreen}
+      />
+      <TutorStack.Screen name="TutorChat" component={ChatScreen} />
+      <TutorStack.Screen
+        name="AvatarVideoPlayer"
+        component={AvatarVideoPlayerScreen}
+      />
+    </TutorStack.Navigator>
   );
 }
 

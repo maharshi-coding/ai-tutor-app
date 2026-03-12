@@ -46,12 +46,26 @@ class Settings(BaseSettings):
     OLLAMA_BASE_URL: str = "http://localhost:11434"
     OLLAMA_MODEL: str = "llama3"
 
-    # Kokoro TTS (local text-to-speech)
+    # TTS provider selection: auto | piper | coqui | kokoro
+    TTS_PROVIDER: str = "auto"
+    TTS_REQUEST_TIMEOUT_SECONDS: int = 120
+    PIPER_TTS_URL: Optional[str] = None  # e.g. http://localhost:5001/synthesize
+    PIPER_DEFAULT_VOICE: str = "en_US-lessac-medium"
+    COQUI_TTS_URL: Optional[str] = None  # e.g. http://localhost:5002/api/tts
+    COQUI_DEFAULT_VOICE: str = "tts_models/en/ljspeech/tacotron2-DDC"
+
+    # Kokoro TTS (legacy fallback)
     KOKORO_API_URL: str = "http://localhost:8880"
+    KOKORO_DEFAULT_VOICE: str = "af_heart"
 
     # SadTalker (local talking-head avatar video)
     SADTALKER_API_URL: str = "http://localhost:8870"
     SADTALKER_REF_IMAGE: Optional[str] = None  # Path to default avatar reference image
+    SADTALKER_TIMEOUT_SECONDS: int = 300
+    ENABLE_VIDEO_COMPRESSION: bool = True
+    FFMPEG_BINARY: str = "ffmpeg"
+    VIDEO_COMPRESSION_CRF: int = 30
+    VIDEO_COMPRESSION_TIMEOUT_SECONDS: int = 120
 
     # File Upload Settings
     UPLOAD_DIR: str = "./uploads"

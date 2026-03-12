@@ -1,3 +1,5 @@
+import {NavigatorScreenParams} from '@react-navigation/native';
+
 export interface User {
   id: number;
   email: string;
@@ -31,6 +33,17 @@ export interface TutorResponse {
   suggestions?: string[];
 }
 
+export interface AskTutorResponse extends TutorResponse {
+  course_id?: number;
+  course_title?: string;
+  audio_url?: string;
+  audio_duration_ms?: number;
+  avatar_job_id?: string;
+  avatar_status?: 'pending' | 'processing' | 'done' | 'failed';
+  avatar_video_url?: string;
+  media_errors?: string[];
+}
+
 export interface AvatarJob {
   job_id: string;
   status: 'pending' | 'processing' | 'done' | 'failed';
@@ -45,6 +58,7 @@ export interface AvatarConfig {
   voice_path?: string;
   character_image_url?: string;
   last_generated_clip_url?: string;
+  last_script?: string;
 }
 
 export type RootStackParamList = {
@@ -54,9 +68,16 @@ export type RootStackParamList = {
   Main: undefined;
 };
 
+export type TutorStackParamList = {
+  AvatarTutor: {courseId?: number; courseName?: string} | undefined;
+  CourseSelection: {autoStart?: boolean} | undefined;
+  TutorChat: {courseId?: number; courseName?: string} | undefined;
+  AvatarVideoPlayer: {videoUrl: string; title?: string};
+};
+
 export type MainTabParamList = {
   Home: undefined;
-  Chat: {courseId?: number; courseName?: string} | undefined;
+  Chat: NavigatorScreenParams<TutorStackParamList> | undefined;
   Avatar: undefined;
   Profile: undefined;
 };

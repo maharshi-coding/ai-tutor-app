@@ -1,0 +1,70 @@
+DATA SCIENCE WORKFLOW
+
+Data science is the practice of turning raw data into useful insight, predictions,
+or decisions.
+
+Typical workflow:
+1. Frame the question.
+2. Gather data.
+3. Clean and prepare data.
+4. Explore patterns.
+5. Build models when needed.
+6. Communicate findings clearly.
+
+Framing the question:
+Strong data projects start with a clear business or learning question.
+Example: "Which students are likely to need extra support next week?"
+
+Data collection:
+Data can come from databases, APIs, spreadsheets, surveys, application logs, or
+third-party datasets. It is important to understand how the data was collected and
+what might be missing.
+
+Data cleaning:
+Cleaning often includes:
+- handling missing values,
+- fixing inconsistent categories,
+- converting data types,
+- removing duplicates,
+- checking outliers,
+- standardizing units and timestamps.
+
+Exploratory data analysis:
+EDA helps us understand distributions, relationships, anomalies, and early
+hypotheses before modeling. Common tools include summary statistics, histograms,
+scatter plots, correlation checks, and grouped comparisons.
+
+Feature preparation:
+Raw columns are often not ideal for modeling. A data scientist may normalize
+numeric fields, encode categories, aggregate records, or create lag features.
+
+Visualization:
+Charts help communicate patterns quickly. Good visualizations answer a question
+clearly and avoid unnecessary clutter.
+
+Modeling:
+Not every data science problem needs machine learning. Sometimes a dashboard,
+descriptive analysis, or an experiment is enough. When modeling is appropriate,
+you should compare a simple baseline against more advanced options.
+
+Communication:
+A successful data science result explains:
+- what question was asked,
+- what data was used,
+- what assumptions were made,
+- what the main findings are,
+- what actions should follow.
+
+Common tools:
+- Python
+- pandas
+- NumPy
+- matplotlib
+- seaborn
+- scikit-learn
+- Jupyter notebooks
+- SQL
+
+Important principle:
+Data science is not just about models. It is about making trustworthy decisions
+with evidence and explaining those decisions clearly to other people.

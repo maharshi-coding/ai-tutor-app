@@ -1,11 +1,8 @@
 import base64
 import hashlib
-import io
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-import os
-import shutil
 from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException, Query
 from sqlalchemy.orm import Session
 import httpx
@@ -15,7 +12,7 @@ from app.database import get_db
 from app.models import User, Course
 from app.routers.auth import get_current_user
 from app.config import settings
-from app.rag import ingest_course_chunks
+from app.rag import ingest_course_chunks, split_text_for_rag
 
 router = APIRouter()
 
@@ -40,6 +37,50 @@ def _image_size_sd_friendly(image_path: Path, max_side: int = 768) -> Tuple[int,
     return (w_out, h_out)
 
 
+def _to_public_upload_url(path_value: str | Path | None) -> Optional[str]:
+    if not path_value:
+        return None
+
+    file_path = Path(path_value)
+    try:
+        relative_path = file_path.relative_to(UPLOAD_DIR)
+        return f"/uploads/{relative_path.as_posix()}"
+    except Exception:
+        return str(path_value)
+
+
+async def _save_uploaded_photo(
+    file: UploadFile,
+    current_user: User,
+    db: Session,
+) -> dict[str, Any]:
+    if not file.content_type or not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="File must be an image")
+
+    file_extension = Path(file.filename or "photo.jpg").suffix or ".jpg"
+    filename = f"{current_user.id}_photo{file_extension}"
+    file_path = UPLOAD_DIR / "photos" / filename
+
+    current_size = 0
+    with open(file_path, "wb") as buffer:
+        while chunk := await file.read(1024 * 1024):
+            current_size += len(chunk)
+            if current_size > settings.MAX_FILE_SIZE:
+                file_path.unlink(missing_ok=True)
+                raise HTTPException(status_code=400, detail="File too large")
+            buffer.write(chunk)
+
+    current_user.avatar_photo_path = str(file_path)
+    db.commit()
+    db.refresh(current_user)
+
+    return {
+        "message": "Photo uploaded successfully",
+        "file_path": _to_public_upload_url(file_path),
+        "user_id": current_user.id,
+    }
+
+
 @router.post("/photo")
 async def upload_photo(
     file: UploadFile = File(...),
@@ -47,35 +88,7 @@ async def upload_photo(
     db: Session = Depends(get_db)
 ):
     """Upload user photo for avatar generation"""
-    # Validate file type
-    if not file.content_type.startswith("image/"):
-        raise HTTPException(status_code=400, detail="File must be an image")
-    
-    # Save file with streaming to avoid loading entire file into memory
-    file_extension = Path(file.filename).suffix
-    filename = f"{current_user.id}_photo{file_extension}"
-    file_path = UPLOAD_DIR / "photos" / filename
-    
-    # Stream file to disk in chunks
-    current_size = 0
-    with open(file_path, "wb") as buffer:
-        while chunk := await file.read(1024 * 1024):  # 1MB chunks
-            current_size += len(chunk)
-            if current_size > settings.MAX_FILE_SIZE:
-                # Remove partial file if size limit exceeded
-                file_path.unlink(missing_ok=True)
-                raise HTTPException(status_code=400, detail="File too large")
-            buffer.write(chunk)
-    
-    # Update user record
-    current_user.avatar_photo_path = str(file_path)
-    db.commit()
-    
-    return {
-        "message": "Photo uploaded successfully",
-        "file_path": f"/uploads/photos/{filename}",
-        "user_id": current_user.id
-    }
+    return await _save_uploaded_photo(file, current_user, db)
 
 
 @router.post("/voice")
@@ -124,8 +137,8 @@ async def get_avatar_config(current_user: User = Depends(get_current_user)):
     return {
         "has_photo": current_user.avatar_photo_path is not None,
         "has_voice": current_user.voice_sample_path is not None,
-        "photo_path": current_user.avatar_photo_path,
-        "voice_path": current_user.voice_sample_path,
+        "photo_path": _to_public_upload_url(current_user.avatar_photo_path),
+        "voice_path": _to_public_upload_url(current_user.voice_sample_path),
         "character_image_url": config.get("character_image_url"),
         "last_generated_clip_url": config.get("last_generated_clip_url"),
         "last_script": config.get("last_script"),
@@ -241,13 +254,13 @@ async def generate_character_avatar(
     db: Session = Depends(get_db),
 ) -> Dict[str, Any]:
     """
-    Generate a realistic avatar from the user's uploaded photo.
+    Generate a cartoon tutor avatar from the user's uploaded photo.
     
     Tries multiple backends in order:
     1. Replicate API (cloud, recommended - set REPLICATE_API_TOKEN)
     2. Local SD WebUI (set SD_API_URL)
     
-    Returns a realistic, face-preserving portrait.
+    Returns a stylized, face-preserving portrait.
     """
     if not current_user.avatar_photo_path:
         raise HTTPException(status_code=400, detail="Please upload a profile photo first.")
@@ -264,15 +277,15 @@ async def generate_character_avatar(
     # Preserve aspect ratio and use SD-friendly dimensions
     out_width, out_height = _image_size_sd_friendly(photo_path, max_side=768)
 
-    # Realistic, likeness-preserving prompt
+    # Cartoon-style, likeness-preserving prompt
     prompt = (
-        "professional portrait of this person, same face, same identity, realistic photo, "
-        "soft studio lighting, clean neutral background, high quality, sharp focus, "
-        "friendly expression, natural skin, detailed eyes"
+        "cartoon portrait of this person, same face, same identity, friendly educational tutor, "
+        "clean illustrated shading, polished mascot design, vibrant but professional colors, "
+        "expressive eyes, warm smile, high quality digital illustration"
     )
     negative_prompt = (
-        "anime, cartoon, illustration, painting, deformed, ugly, bad anatomy, "
-        "extra limbs, disfigured, blurry, low quality, oversaturated, cartoon face"
+        "photorealistic, blurry, deformed, ugly, bad anatomy, extra limbs, disfigured, "
+        "low quality, oversaturated, duplicate face, warped eyes, cropped forehead"
     )
 
     # Try Replicate first (best quality), then fall back to local SD WebUI
@@ -319,6 +332,47 @@ async def generate_character_avatar(
         "message": "Character avatar generated",
         "character_image_url": current_user.avatar_config.get("character_image_url"),
     }
+
+
+@router.post("/upload-photo")
+async def upload_photo_and_generate_avatar(
+    file: UploadFile = File(...),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> Dict[str, Any]:
+    """
+    Upload a profile photo and immediately try to generate a cartoon avatar.
+
+    The photo upload succeeds even if image generation is unavailable, so the
+    client can show a partial-success message instead of discarding the photo.
+    """
+    upload_result = await _save_uploaded_photo(file, current_user, db)
+    photo_url = upload_result["file_path"]
+
+    try:
+        avatar_result = await generate_character_avatar(current_user=current_user, db=db)
+        return {
+            "message": "Photo uploaded and avatar generated successfully",
+            "photo_url": photo_url,
+            "avatar_url": avatar_result.get("character_image_url"),
+            "avatar_generation_status": "ready",
+        }
+    except HTTPException as exc:
+        return {
+            "message": "Photo uploaded, but avatar generation is not ready yet",
+            "photo_url": photo_url,
+            "avatar_url": None,
+            "avatar_generation_status": "failed",
+            "avatar_error": str(exc.detail),
+        }
+    except Exception as exc:
+        return {
+            "message": "Photo uploaded, but avatar generation hit an unexpected error",
+            "photo_url": photo_url,
+            "avatar_url": None,
+            "avatar_generation_status": "failed",
+            "avatar_error": repr(exc),
+        }
 
 
 # ---------------------------------------------------------------------------
@@ -371,23 +425,28 @@ def _chunk_text(
     chunk_size: int = 500,
     overlap: int = 50,
 ) -> List[str]:
-    """Split text into overlapping chunks of roughly ``chunk_size`` words."""
+    """Split text using the shared RAG chunking strategy."""
+    chunks = split_text_for_rag(text)
+    if chunks:
+        return chunks
+
     words = text.split()
-    chunks: List[str] = []
+    fallback_chunks: List[str] = []
     start = 0
     while start < len(words):
         end = start + chunk_size
         chunk = " ".join(words[start:end])
         if chunk.strip():
-            chunks.append(chunk)
+            fallback_chunks.append(chunk)
         start += chunk_size - overlap
-    return chunks
+    return fallback_chunks
 
 
 @router.post("/course-document")
 async def upload_course_document(
     file: UploadFile = File(...),
-    course_id: int = Form(...),
+    course_id: Optional[int] = Form(None),
+    course_id_query: Optional[int] = Query(None, alias="course_id"),
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
@@ -395,6 +454,10 @@ async def upload_course_document(
     Upload a course document (PDF, DOCX, TXT, MD), extract text,
     chunk it, and ingest into the RAG vector store for the given course.
     """
+    resolved_course_id = course_id or course_id_query
+    if resolved_course_id is None:
+        raise HTTPException(status_code=400, detail="course_id is required")
+
     # Validate extension first (cheap check)
     ext = Path(file.filename or "").suffix.lower()
     if ext not in ALLOWED_DOC_EXTENSIONS:
@@ -404,13 +467,13 @@ async def upload_course_document(
         )
 
     # Validate course exists
-    course = db.query(Course).filter(Course.id == course_id).first()
+    course = db.query(Course).filter(Course.id == resolved_course_id).first()
     if not course:
         raise HTTPException(status_code=404, detail="Course not found")
 
     # Save file (sanitize filename to prevent path traversal)
     base_name = Path(file.filename or "upload").name  # strip directory components
-    safe_name = f"{course_id}_{current_user.id}_{base_name}"
+    safe_name = f"{resolved_course_id}_{current_user.id}_{base_name}"
     file_path = UPLOAD_DIR / "course_docs" / safe_name
 
     current_size = 0
@@ -432,17 +495,17 @@ async def upload_course_document(
     text_chunks = _chunk_text(raw_text)
     chunk_tuples = [
         (
-            hashlib.sha256(f"{course_id}:{safe_name}:{i}".encode()).hexdigest()[:20],
+            hashlib.sha256(f"{resolved_course_id}:{safe_name}:{i}".encode()).hexdigest()[:20],
             chunk,
         )
         for i, chunk in enumerate(text_chunks)
     ]
 
-    ingest_course_chunks(course_id, chunk_tuples)
+    ingest_course_chunks(resolved_course_id, chunk_tuples)
 
     return {
         "message": "Document uploaded and ingested successfully",
         "filename": file.filename,
-        "course_id": course_id,
+        "course_id": resolved_course_id,
         "chunks_ingested": len(chunk_tuples),
     }
