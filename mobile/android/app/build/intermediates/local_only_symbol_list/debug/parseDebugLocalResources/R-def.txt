@@ -1,0 +1,5 @@
+R_DEF: Internal format may change without notice
+local
+integer react_native_dev_server_port
+string app_name
+style AppTheme
