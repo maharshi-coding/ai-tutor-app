@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {DarkTheme, NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {View, Text, StyleSheet} from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {StyleSheet, Text, View} from 'react-native';
 import {useAuthStore} from '../store/authStore';
-import {RootStackParamList, MainTabParamList} from '../types';
+import {MainTabParamList, RootStackParamList} from '../types';
 
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -16,33 +16,65 @@ import ProfileScreen from '../screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<MainTabParamList>();
+const TAB_LABELS: Record<keyof MainTabParamList, string> = {
+  Home: 'HM',
+  Chat: 'AI',
+  Avatar: 'AV',
+  Profile: 'ME',
+};
 
-// Inline icon component to avoid vector-icon native setup requirement
-function TabIcon({name, color}: {name: string; color: string}) {
-  const icons: Record<string, string> = {
-    Home: '🏠',
-    Chat: '💬',
-    Avatar: '🤖',
-    Profile: '👤',
-  };
+const navigationTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    primary: '#6C63FF',
+    background: '#0A0A1B',
+    card: '#0D0D24',
+    text: '#FFFFFF',
+    border: '#1C1C3A',
+    notification: '#6C63FF',
+  },
+};
+
+function TabIcon({
+  label,
+  color,
+  focused,
+}: {
+  label: string;
+  color: string;
+  focused: boolean;
+}) {
   return (
-    <Text style={{fontSize: 22, color, opacity: color === '#6C63FF' ? 1 : 0.5}}>
-      {icons[name] ?? '●'}
-    </Text>
+    <View
+      style={[
+        styles.tabIcon,
+        focused && styles.tabIconFocused,
+        focused ? styles.tabIconActiveBorder : styles.tabIconIdleBorder,
+      ]}>
+      <Text style={[styles.tabIconText, {color}]}>{label}</Text>
+    </View>
   );
 }
 
 function MainTabs() {
   return (
     <Tab.Navigator
-      screenOptions={({route}: {route: {name: string}}) => ({
-        tabBarIcon: ({color}: {color: string}) => (
-          <TabIcon name={route.name} color={color} />
+      sceneContainerStyle={styles.sceneContainer}
+      screenOptions={({route}) => ({
+        tabBarIcon: ({color, focused}) => (
+          <TabIcon
+            label={TAB_LABELS[route.name]}
+            color={color}
+            focused={focused}
+          />
         ),
         tabBarStyle: styles.tabBar,
+        tabBarItemStyle: styles.tabItem,
         tabBarActiveTintColor: '#6C63FF',
-        tabBarInactiveTintColor: '#4B5563',
+        tabBarInactiveTintColor: '#94A3B8',
         tabBarLabelStyle: styles.tabLabel,
+        tabBarHideOnKeyboard: true,
         headerShown: false,
       })}>
       <Tab.Screen name="Home" component={HomeScreen} />
@@ -66,21 +98,30 @@ function MainTabs() {
 }
 
 export default function AppNavigator() {
-  const {isAuthenticated, fetchUser} = useAuthStore();
+  const bootstrapAuth = useAuthStore(state => state.bootstrapAuth);
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const isBootstrapping = useAuthStore(state => state.isBootstrapping);
 
   useEffect(() => {
-    fetchUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    bootstrapAuth().catch(() => {});
+  }, [bootstrapAuth]);
+
+  if (isBootstrapping) {
+    return <SplashScreen />;
+  }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false, animation: 'fade'}}>
+    <NavigationContainer theme={navigationTheme}>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          animation: 'fade',
+          contentStyle: styles.stackContent,
+        }}>
         {isAuthenticated ? (
           <Stack.Screen name="Main" component={MainTabs} />
         ) : (
           <>
-            <Stack.Screen name="Splash" component={SplashScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
           </>
@@ -91,17 +132,49 @@ export default function AppNavigator() {
 }
 
 const styles = StyleSheet.create({
+  stackContent: {
+    backgroundColor: '#0A0A1B',
+  },
+  sceneContainer: {
+    backgroundColor: '#0A0A1B',
+  },
   tabBar: {
     backgroundColor: '#0D0D24',
     borderTopColor: '#1C1C3A',
     borderTopWidth: 1,
-    paddingBottom: 8,
-    paddingTop: 4,
-    height: 64,
+    height: 72,
+    paddingBottom: 10,
+    paddingTop: 8,
+  },
+  tabItem: {
+    paddingVertical: 4,
   },
   tabLabel: {
     fontSize: 11,
-    fontWeight: '600',
-    marginTop: -2,
+    fontWeight: '700',
+    marginTop: 0,
+  },
+  tabIcon: {
+    minWidth: 38,
+    borderRadius: 12,
+    borderWidth: 1,
+    paddingHorizontal: 8,
+    paddingVertical: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tabIconFocused: {
+    backgroundColor: '#171733',
+  },
+  tabIconActiveBorder: {
+    borderColor: '#6C63FF',
+  },
+  tabIconIdleBorder: {
+    borderColor: '#2A2A4A',
+  },
+  tabIconText: {
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 0.4,
   },
 });

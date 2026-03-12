@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.aitutormobile.app-mergeDebugResources-23:/values-v25/values-v25.xml",
+            "outputFile": "com.aitutormobile.app-mergeDebugResources-46:/values-v25/values-v25.xml",
             "map": [
                 {
-                    "source": "/home/maharshi/.gradle/caches/transforms-4/3e32a387c2410ba51bea9d50914398e4/transformed/appcompat-1.6.1/res/values-v25/values-v25.xml",
+                    "source": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\.gradle-user-home\\caches\\transforms-4\\3e32a387c2410ba51bea9d50914398e4\\transformed\\appcompat-1.6.1\\res\\values-v25\\values-v25.xml",
                     "from": {
                         "startLines": "2,3,4,6",
                         "startColumns": "4,4,4,4",

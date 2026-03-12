@@ -1,11 +1,14 @@
 // Top-level build configuration for the React Native Android project.
 buildscript {
     ext {
-        buildToolsVersion = "34.0.0"
+        buildToolsVersion = "35.0.0"
         minSdkVersion = 24
-        compileSdkVersion = 34
-        targetSdkVersion = 34
-        ndkVersion = "26.1.10909125"
+        compileSdkVersion = 35
+        targetSdkVersion = 35
+        // Use NDK r27 (16 KB support via ANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES)
+        // React Native 0.76.5 is tested with r27, while r28 can cause
+        // C++ build issues in some prefab headers.
+        ndkVersion = "27.3.13750724"
         kotlinVersion = "1.9.24"
     }
     repositories {
@@ -20,3 +23,12 @@ buildscript {
 }
 
 apply plugin: "com.facebook.react.rootproject"
+
+allprojects {
+    configurations.all {
+        resolutionStrategy {
+            force "androidx.core:core:1.16.0"
+            force "androidx.core:core-ktx:1.16.0"
+        }
+    }
+}

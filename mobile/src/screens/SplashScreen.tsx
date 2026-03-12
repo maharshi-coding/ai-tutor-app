@@ -1,28 +1,20 @@
 import React, {useEffect, useRef} from 'react';
 import {
-  View,
-  Text,
   Animated,
-  StyleSheet,
-  StatusBar,
   Dimensions,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {useAuthStore} from '../store/authStore';
-import {RootStackParamList} from '../types';
-
-type Nav = NativeStackNavigationProp<RootStackParamList, 'Splash'>;
 
 const {width} = Dimensions.get('window');
 
 export default function SplashScreen() {
-  const nav = useNavigation<Nav>();
-  const {isAuthenticated, isLoading} = useAuthStore();
-
   const scaleAnim = useRef(new Animated.Value(0.4)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
   const glowAnim = useRef(new Animated.Value(0)).current;
+  const glowLoopRef = useRef<Animated.CompositeAnimation | null>(null);
 
   useEffect(() => {
     Animated.parallel([
@@ -39,23 +31,27 @@ export default function SplashScreen() {
       }),
     ]).start();
 
-    Animated.loop(
+    glowLoopRef.current = Animated.loop(
       Animated.sequence([
-        Animated.timing(glowAnim, {toValue: 1, duration: 1200, useNativeDriver: true}),
-        Animated.timing(glowAnim, {toValue: 0, duration: 1200, useNativeDriver: true}),
+        Animated.timing(glowAnim, {
+          toValue: 1,
+          duration: 1200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(glowAnim, {
+          toValue: 0,
+          duration: 1200,
+          useNativeDriver: true,
+        }),
       ]),
-    ).start();
-  }, []);
+    );
 
-  useEffect(() => {
-    if (isLoading) {
-      return;
-    }
-    const timer = setTimeout(() => {
-      nav.replace(isAuthenticated ? 'Main' : 'Login');
-    }, 2200);
-    return () => clearTimeout(timer);
-  }, [isAuthenticated, isLoading, nav]);
+    glowLoopRef.current.start();
+
+    return () => {
+      glowLoopRef.current?.stop();
+    };
+  }, [glowAnim, opacityAnim, scaleAnim]);
 
   const borderColor = glowAnim.interpolate({
     inputRange: [0, 1],
@@ -72,27 +68,26 @@ export default function SplashScreen() {
           {transform: [{scale: scaleAnim}], opacity: opacityAnim},
         ]}>
         <Animated.View style={[styles.iconRing, {borderColor}]}>
-          <Text style={styles.iconEmoji}>🎓</Text>
+          <Text style={styles.iconText}>AI</Text>
         </Animated.View>
         <Text style={styles.title}>AI Tutor</Text>
-        <Text style={styles.subtitle}>Your Personal Learning Companion</Text>
+        <Text style={styles.subtitle}>Your personal learning companion</Text>
       </Animated.View>
 
       <Animated.View style={[styles.footer, {opacity: opacityAnim}]}>
         <View style={styles.dotsRow}>
-          {[0, 1, 2].map(i => (
+          {[0, 1, 2].map(index => (
             <View
-              key={i}
-              style={[styles.dot, {opacity: 0.3 + i * 0.3}]}
+              key={index}
+              style={[styles.dot, {opacity: 0.3 + index * 0.3}]}
             />
           ))}
         </View>
-        <Text style={styles.tagline}>Powered by AI · Personalized for You</Text>
+        <Text style={styles.tagline}>Powered by AI and shaped around you</Text>
       </Animated.View>
 
-      {/* Decorative background blobs */}
-      <View style={[styles.blob, {top: -60, left: -60, backgroundColor: '#1E1B4B'}]} />
-      <View style={[styles.blob, {bottom: -80, right: -60, backgroundColor: '#0F172A'}]} />
+      <View style={[styles.blob, styles.blobTop]} />
+      <View style={[styles.blob, styles.blobBottom]} />
     </View>
   );
 }
@@ -118,8 +113,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 24,
   },
-  iconEmoji: {
-    fontSize: 52,
+  iconText: {
+    color: '#FFFFFF',
+    fontSize: 28,
+    fontWeight: '800',
+    letterSpacing: 1.2,
   },
   title: {
     fontSize: 42,
@@ -151,7 +149,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#6C63FF',
   },
   tagline: {
-    color: '#374151',
+    color: '#4B5563',
     fontSize: 13,
   },
   blob: {
@@ -160,5 +158,15 @@ const styles = StyleSheet.create({
     height: width * 0.7,
     borderRadius: (width * 0.7) / 2,
     zIndex: -1,
+  },
+  blobTop: {
+    top: -60,
+    left: -60,
+    backgroundColor: '#1E1B4B',
+  },
+  blobBottom: {
+    bottom: -80,
+    right: -60,
+    backgroundColor: '#0F172A',
   },
 });

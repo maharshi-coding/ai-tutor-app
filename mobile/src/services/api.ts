@@ -1,37 +1,151 @@
-import axios, {InternalAxiosRequestConfig} from 'axios';
+import axios, {
+  AxiosError,
+  AxiosHeaders,
+  AxiosRequestConfig,
+  InternalAxiosRequestConfig,
+} from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {NativeModules, Platform} from 'react-native';
 
-/**
- * Base URL configuration.
- * Android emulator routes 10.0.2.2 → host machine localhost.
- * Set REACT_NATIVE_API_URL env var or update this for production.
- */
+declare module 'axios' {
+  export interface AxiosRequestConfig {
+    retryable?: boolean;
+    __retryCount?: number;
+  }
+}
+
+const API_PORT = 8000;
+const API_TIMEOUT_MS = 30000;
+const MAX_RETRIES = 2;
+
+function resolveDevApiHost(): string {
+  const scriptURL = NativeModules.SourceCode?.scriptURL;
+  const metroHost = scriptURL?.match(/^https?:\/\/([^/:]+)/)?.[1];
+
+  if (metroHost) {
+    return metroHost;
+  }
+
+  return Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function toFormUrlEncoded(data: Record<string, string>): string {
+  return Object.entries(data)
+    .map(
+      ([key, value]) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
+    )
+    .join('&');
+}
+
+function shouldRetry(error: AxiosError): boolean {
+  const config = error.config;
+
+  if (!config?.retryable) {
+    return false;
+  }
+
+  if ((config.__retryCount ?? 0) >= MAX_RETRIES) {
+    return false;
+  }
+
+  if (error.code === 'ECONNABORTED') {
+    return true;
+  }
+
+  if (!error.response) {
+    return true;
+  }
+
+  return error.response.status >= 500;
+}
+
+export function extractErrorMessage(
+  error: unknown,
+  fallback = 'Something went wrong. Please try again.',
+): string {
+  if (axios.isAxiosError(error)) {
+    const detail = error.response?.data;
+
+    if (typeof detail === 'string' && detail.trim()) {
+      return detail;
+    }
+
+    if (detail && typeof detail === 'object') {
+      const message =
+        (detail as Record<string, unknown>).detail ??
+        (detail as Record<string, unknown>).message ??
+        (detail as Record<string, unknown>).error;
+
+      if (typeof message === 'string' && message.trim()) {
+        return message;
+      }
+    }
+
+    if (error.code === 'ECONNABORTED') {
+      return 'The request timed out. Please try again.';
+    }
+
+    if (!error.response) {
+      return 'Cannot reach the AI Tutor service. Check your connection and backend server.';
+    }
+  }
+
+  if (error instanceof Error && error.message.trim()) {
+    return error.message;
+  }
+
+  return fallback;
+}
+
 export const BASE_URL = __DEV__
-  ? 'http://172.30.27.23:8000'
+  ? `http://${resolveDevApiHost()}:${API_PORT}`
   : 'https://your-production-api.com';
 
 export const apiClient = axios.create({
   baseURL: BASE_URL,
-  timeout: 30000,
+  timeout: API_TIMEOUT_MS,
   headers: {'Content-Type': 'application/json'},
 });
 
-// Attach JWT token on every request
-apiClient.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
-  const token = await AsyncStorage.getItem('auth_token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+apiClient.interceptors.request.use(
+  async (config: InternalAxiosRequestConfig) => {
+    const token = await AsyncStorage.getItem('auth_token');
 
-// ─── Auth ─────────────────────────────────────────────────────────────────────
+    if (token) {
+      const headers = AxiosHeaders.from(config.headers);
+      headers.set('Authorization', `Bearer ${token}`);
+      config.headers = headers;
+    }
+
+    return config;
+  },
+);
+
+apiClient.interceptors.response.use(
+  response => response,
+  async (error: AxiosError) => {
+    if (!shouldRetry(error)) {
+      return Promise.reject(error);
+    }
+
+    const config = error.config as AxiosRequestConfig;
+    config.__retryCount = (config.__retryCount ?? 0) + 1;
+
+    await sleep(350 * config.__retryCount);
+    return apiClient(config);
+  },
+);
 
 export const authAPI = {
   login: (email: string, password: string) =>
     apiClient.post(
       '/api/auth/login',
-      new URLSearchParams({username: email, password}).toString(),
+      toFormUrlEncoded({username: email, password}),
       {headers: {'Content-Type': 'application/x-www-form-urlencoded'}},
     ),
   register: (data: {
@@ -40,24 +154,18 @@ export const authAPI = {
     password: string;
     full_name?: string;
   }) => apiClient.post('/api/auth/register', data),
-  getMe: () => apiClient.get('/api/auth/me'),
+  getMe: () => apiClient.get('/api/auth/me', {retryable: true}),
 };
-
-// ─── Courses ──────────────────────────────────────────────────────────────────
 
 export const coursesAPI = {
-  getAll: () => apiClient.get('/api/courses/'),
-  getOne: (id: number) => apiClient.get(`/api/courses/${id}`),
+  getAll: () => apiClient.get('/api/courses/', {retryable: true}),
+  getOne: (id: number) => apiClient.get(`/api/courses/${id}`, {retryable: true}),
 };
-
-// ─── Tutor ────────────────────────────────────────────────────────────────────
 
 export const tutorAPI = {
   chat: (message: string, courseId?: number) =>
     apiClient.post('/api/tutor/chat', {message, course_id: courseId}),
 };
-
-// ─── Uploads ──────────────────────────────────────────────────────────────────
 
 export const uploadAPI = {
   uploadPhoto: (formData: FormData) =>
@@ -74,16 +182,13 @@ export const uploadAPI = {
         timeout: 120000,
       },
     ),
-  getAvatarConfig: () => apiClient.get('/api/uploads/avatar-config'),
+  getAvatarConfig: () =>
+    apiClient.get('/api/uploads/avatar-config', {retryable: true}),
 };
 
-// ─── Avatar ───────────────────────────────────────────────────────────────────
-
 export const avatarAPI = {
-  /** Async generation — returns {job_id} immediately */
   generate: (data: {text?: string; audio_url?: string; image_url?: string}) =>
     apiClient.post('/api/avatar/generate', data),
-  /** Poll for job completion */
   getJobStatus: (jobId: string) =>
-    apiClient.get(`/api/avatar/job/${jobId}`),
+    apiClient.get(`/api/avatar/job/${jobId}`, {retryable: true}),
 };

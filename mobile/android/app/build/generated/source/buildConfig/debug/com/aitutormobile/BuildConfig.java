@@ -12,5 +12,5 @@ public final class BuildConfig {
   // Field from default config.
   public static final boolean IS_HERMES_ENABLED = true;
   // Field from default config.
-  public static final boolean IS_NEW_ARCHITECTURE_ENABLED = true;
+  public static final boolean IS_NEW_ARCHITECTURE_ENABLED = false;
 }

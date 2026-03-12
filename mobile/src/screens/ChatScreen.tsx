@@ -1,30 +1,30 @@
-import React, {useState, useRef, useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
-  View,
+  ActivityIndicator,
+  Alert,
+  Animated,
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  StatusBar,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  FlatList,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-  SafeAreaView,
-  StatusBar,
-  Alert,
-  Animated,
-  ActivityIndicator,
+  View,
 } from 'react-native';
-import {useRoute, RouteProp} from '@react-navigation/native';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Video from 'react-native-video';
-import {tutorAPI} from '../services/api';
+import NoticeBanner from '../components/NoticeBanner';
+import {BASE_URL, extractErrorMessage, tutorAPI} from '../services/api';
 import {generateAndPollAvatar} from '../services/avatarService';
-import {BASE_URL} from '../services/api';
-import {Message, MainTabParamList} from '../types';
+import {MainTabParamList, Message} from '../types';
 
 type ChatRoute = RouteProp<MainTabParamList, 'Chat'>;
 
-let _msgId = 0;
-const nextId = () => String(++_msgId);
+let messageCounter = 0;
+const nextId = () => `msg-${++messageCounter}`;
 
 function toAbsUrl(url: string): string {
   return url.startsWith('http') ? url : `${BASE_URL}${url}`;
@@ -34,31 +34,54 @@ export default function ChatScreen() {
   const route = useRoute<ChatRoute>();
   const courseId = route.params?.courseId;
   const courseName = route.params?.courseName ?? 'AI Tutor';
-
   const [messages, setMessages] = useState<Message[]>([
     {
       id: nextId(),
       role: 'assistant',
-      content: `Hi! I'm your AI tutor${courseName !== 'AI Tutor' ? ` for **${courseName}**` : ''}. Ask me anything! 🎓`,
+      content:
+        courseName === 'AI Tutor'
+          ? 'Hi, I am your AI tutor. Ask me anything to get started.'
+          : `Hi, I am your AI tutor for ${courseName}. Ask me anything to get started.`,
       timestamp: new Date(),
     },
   ]);
   const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [isGeneratingAvatar, setIsGeneratingAvatar] = useState(false);
   const [avatarStatus, setAvatarStatus] = useState('');
   const [heroVideoUrl, setHeroVideoUrl] = useState<string | null>(null);
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [chatError, setChatError] = useState<string | null>(null);
 
-  const listRef = useRef<FlatList>(null);
+  const listRef = useRef<FlatList<Message>>(null);
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const pulseLoop = useRef<Animated.CompositeAnimation | null>(null);
+  const isMountedRef = useRef(true);
+  const latestAvatarTokenRef = useRef<string | null>(null);
 
   useEffect(() => {
-    if (isLoading) {
+    return () => {
+      isMountedRef.current = false;
+      pulseLoop.current?.stop();
+    };
+  }, []);
+
+  useEffect(() => {
+    const shouldPulse = isSending || isGeneratingAvatar;
+
+    if (shouldPulse) {
       pulseLoop.current = Animated.loop(
         Animated.sequence([
-          Animated.timing(pulseAnim, {toValue: 1.15, duration: 600, useNativeDriver: true}),
-          Animated.timing(pulseAnim, {toValue: 1, duration: 600, useNativeDriver: true}),
+          Animated.timing(pulseAnim, {
+            toValue: 1.15,
+            duration: 600,
+            useNativeDriver: true,
+          }),
+          Animated.timing(pulseAnim, {
+            toValue: 1,
+            duration: 600,
+            useNativeDriver: true,
+          }),
         ]),
       );
       pulseLoop.current.start();
@@ -66,113 +89,192 @@ export default function ChatScreen() {
       pulseLoop.current?.stop();
       pulseAnim.setValue(1);
     }
-  }, [isLoading, pulseAnim]);
+  }, [isGeneratingAvatar, isSending, pulseAnim]);
 
   const scrollToBottom = useCallback(() => {
     setTimeout(() => listRef.current?.scrollToEnd({animated: true}), 120);
   }, []);
 
+  const startAvatarGeneration = useCallback(
+    async (assistantResponse: string, messageId: string) => {
+      const token = `${messageId}-${Date.now()}`;
+      latestAvatarTokenRef.current = token;
+      setIsGeneratingAvatar(true);
+      setAvatarStatus('Preparing avatar preview...');
+
+      try {
+        const videoUrl = await generateAndPollAvatar(assistantResponse, status => {
+          if (
+            !isMountedRef.current ||
+            latestAvatarTokenRef.current !== token
+          ) {
+            return;
+          }
+
+          setAvatarStatus(status);
+        });
+
+        if (!isMountedRef.current || latestAvatarTokenRef.current !== token) {
+          return;
+        }
+
+        const fullUrl = toAbsUrl(videoUrl);
+        setHeroVideoUrl(fullUrl);
+        setMessages(current =>
+          current.map(message =>
+            message.id === messageId
+              ? {
+                  ...message,
+                  videoUrl: fullUrl,
+                }
+              : message,
+          ),
+        );
+      } catch {
+        if (
+          isMountedRef.current &&
+          latestAvatarTokenRef.current === token
+        ) {
+          setAvatarStatus('');
+        }
+      } finally {
+        if (
+          isMountedRef.current &&
+          latestAvatarTokenRef.current === token
+        ) {
+          setIsGeneratingAvatar(false);
+          setAvatarStatus('');
+        }
+      }
+    },
+    [],
+  );
+
   const sendMessage = useCallback(
     async (text: string) => {
       const trimmed = text.trim();
-      if (!trimmed || isLoading) {
+
+      if (!trimmed || isSending) {
         return;
       }
 
-      const userMsg: Message = {id: nextId(), role: 'user', content: trimmed, timestamp: new Date()};
-      setMessages(prev => [...prev, userMsg]);
+      const userMessage: Message = {
+        id: nextId(),
+        role: 'user',
+        content: trimmed,
+        timestamp: new Date(),
+      };
+
+      setMessages(current => [...current, userMessage]);
       setInput('');
       setSuggestions([]);
-      setIsLoading(true);
-      setHeroVideoUrl(null);
-      setAvatarStatus('');
+      setChatError(null);
       scrollToBottom();
+      setIsSending(true);
 
       try {
-        // ── 1. Get AI text response ────────────────────────────────────────────
-        const resp = await tutorAPI.chat(trimmed, courseId);
-        const {response, suggestions: suggs} = resp.data;
+        const response = await tutorAPI.chat(trimmed, courseId);
 
-        const aiMsgId = nextId();
-        const aiMsg: Message = {
-          id: aiMsgId,
+        if (!isMountedRef.current) {
+          return;
+        }
+
+        const assistantResponse =
+          typeof response.data?.response === 'string' &&
+          response.data.response.trim()
+            ? response.data.response.trim()
+            : 'I could not generate a response just now.';
+
+        const assistantMessageId = nextId();
+        const assistantMessage: Message = {
+          id: assistantMessageId,
           role: 'assistant',
-          content: response,
+          content: assistantResponse,
           timestamp: new Date(),
         };
-        setMessages(prev => [...prev, aiMsg]);
-        setSuggestions(suggs ?? []);
-        scrollToBottom();
 
-        // ── 2. Generate avatar video (async, best-effort) ─────────────────────
-        try {
-          setAvatarStatus('Preparing avatar...');
-          const videoUrl = await generateAndPollAvatar(response, setAvatarStatus);
-          const fullUrl = toAbsUrl(videoUrl);
-          setHeroVideoUrl(fullUrl);
-          setMessages(prev =>
-            prev.map(m => (m.id === aiMsgId ? {...m, videoUrl: fullUrl} : m)),
-          );
-        } catch {
-          // Avatar is optional — silently skip if SadTalker isn't running
+        setMessages(current => [...current, assistantMessage]);
+        setSuggestions(
+          Array.isArray(response.data?.suggestions)
+            ? response.data.suggestions
+                .filter(
+                  (item: unknown): item is string =>
+                    typeof item === 'string' && item.trim().length > 0,
+                )
+                .slice(0, 3)
+            : [],
+        );
+        scrollToBottom();
+        startAvatarGeneration(assistantResponse, assistantMessageId).catch(
+          () => {},
+        );
+      } catch (error) {
+        if (!isMountedRef.current) {
+          return;
         }
-      } catch (err: any) {
-        Alert.alert(
-          'Tutor Error',
-          err.response?.data?.detail ?? 'Failed to get a response. Check your connection.',
+
+        setChatError(
+          extractErrorMessage(
+            error,
+            'Failed to get a response. Check your connection.',
+          ),
         );
       } finally {
-        setIsLoading(false);
-        setAvatarStatus('');
+        if (isMountedRef.current) {
+          setIsSending(false);
+        }
       }
     },
-    [isLoading, courseId, scrollToBottom],
+    [courseId, isSending, scrollToBottom, startAvatarGeneration],
   );
 
   const renderMessage = ({item}: {item: Message}) => {
     const isUser = item.role === 'user';
+
     return (
       <View style={[styles.msgRow, isUser ? styles.msgRowUser : styles.msgRowAI]}>
-        {!isUser && (
-          <View style={styles.botDot}>
-            <Text style={{fontSize: 14}}>🤖</Text>
-          </View>
-        )}
+        {!isUser && <View style={styles.botDot} />}
         <View style={[styles.bubble, isUser ? styles.bubbleUser : styles.bubbleAI]}>
           <Text style={[styles.msgText, isUser ? styles.msgTextUser : styles.msgTextAI]}>
             {item.content}
           </Text>
+          {item.videoUrl ? <Text style={styles.videoTag}>Avatar preview ready</Text> : null}
           <Text style={styles.timestamp}>
-            {item.timestamp.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}
+            {item.timestamp.toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
           </Text>
         </View>
       </View>
     );
   };
 
-  const statusLine = isLoading ? (avatarStatus || 'Thinking...') : 'AI Tutor · Online';
+  const statusLine = isSending
+    ? 'Thinking...'
+    : isGeneratingAvatar
+      ? avatarStatus || 'Rendering avatar...'
+      : 'AI Tutor online';
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
       <StatusBar barStyle="light-content" backgroundColor="#0A0A1B" />
       <KeyboardAvoidingView
         style={styles.outer}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}>
-        {/* ── Header ──────────────────────────────────────────────────────── */}
         <View style={styles.header}>
-          <Animated.View style={[styles.headerIcon, {transform: [{scale: pulseAnim}]}]}>
-            <Text style={{fontSize: 20}}>🤖</Text>
-          </Animated.View>
+          <Animated.View style={[styles.headerIcon, {transform: [{scale: pulseAnim}]}]} />
           <View style={styles.headerText}>
-            <Text style={styles.headerTitle} numberOfLines={1}>{courseName}</Text>
-            <Text style={[styles.headerSub, isLoading && styles.headerSubActive]}>
+            <Text style={styles.headerTitle} numberOfLines={1}>
+              {courseName}
+            </Text>
+            <Text style={[styles.headerSub, (isSending || isGeneratingAvatar) && styles.headerSubActive]}>
               {statusLine}
             </Text>
           </View>
         </View>
 
-        {/* ── Avatar hero video ────────────────────────────────────────────── */}
         {heroVideoUrl ? (
           <View style={styles.heroPanel}>
             <Video
@@ -182,23 +284,43 @@ export default function ChatScreen() {
               paused={false}
               repeat={false}
               controls={false}
+              onError={() => {
+                setHeroVideoUrl(null);
+                Alert.alert(
+                  'Avatar preview unavailable',
+                  'The latest avatar clip could not be loaded.',
+                );
+              }}
             />
             <View style={styles.heroOverlay}>
-              <Text style={styles.heroLabel}>🎬 Avatar Response</Text>
+              <Text style={styles.heroLabel}>
+                {isGeneratingAvatar ? 'Generating a fresh preview' : 'Latest avatar response'}
+              </Text>
             </View>
           </View>
         ) : (
           <View style={styles.heroPanelPlaceholder}>
-            <Animated.Text style={[styles.placeholderEmoji, {transform: [{scale: pulseAnim}]}]}>
-              {isLoading ? '⏳' : '🤖'}
-            </Animated.Text>
+            <Animated.View
+              style={[
+                styles.placeholderOrb,
+                {transform: [{scale: pulseAnim}]},
+              ]}
+            />
+            <Text style={styles.placeholderTitle}>Avatar preview</Text>
             <Text style={styles.placeholderText}>
-              {isLoading ? avatarStatus || 'AI is thinking...' : 'Avatar will appear here'}
+              {isGeneratingAvatar
+                ? avatarStatus || 'Rendering avatar...'
+                : 'Your tutor video will appear here after a response.'}
             </Text>
           </View>
         )}
 
-        {/* ── Messages ────────────────────────────────────────────────────── */}
+        <NoticeBanner
+          message={chatError}
+          style={styles.banner}
+          textStyle={styles.bannerText}
+        />
+
         <FlatList
           ref={listRef}
           data={messages}
@@ -207,33 +329,37 @@ export default function ChatScreen() {
           contentContainerStyle={styles.msgContent}
           showsVerticalScrollIndicator={false}
           renderItem={renderMessage}
+          keyboardShouldPersistTaps="handled"
+          initialNumToRender={10}
+          maxToRenderPerBatch={8}
+          windowSize={7}
+          ListFooterComponent={<View style={styles.listFooter} />}
         />
 
-        {/* ── Typing indicator ─────────────────────────────────────────────── */}
-        {isLoading && (
+        {isSending && (
           <View style={styles.typingRow}>
             <View style={styles.typingBubble}>
               <ActivityIndicator size="small" color="#6C63FF" />
-              <Text style={styles.typingText}>{avatarStatus || 'Thinking...'}</Text>
+              <Text style={styles.typingText}>Thinking through your question...</Text>
             </View>
           </View>
         )}
 
-        {/* ── Suggestions ──────────────────────────────────────────────────── */}
-        {suggestions.length > 0 && !isLoading && (
+        {suggestions.length > 0 && !isSending && (
           <View style={styles.suggestionsRow}>
-            {suggestions.slice(0, 3).map((s, i) => (
+            {suggestions.map((suggestion, index) => (
               <TouchableOpacity
-                key={i}
+                key={`${suggestion}-${index}`}
                 style={styles.chip}
-                onPress={() => sendMessage(s)}>
-                <Text style={styles.chipText} numberOfLines={1}>{s}</Text>
+                onPress={() => sendMessage(suggestion)}>
+                <Text style={styles.chipText} numberOfLines={1}>
+                  {suggestion}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
         )}
 
-        {/* ── Input bar ────────────────────────────────────────────────────── */}
         <View style={styles.inputRow}>
           <TextInput
             style={styles.textInput}
@@ -244,16 +370,15 @@ export default function ChatScreen() {
             multiline
             maxLength={500}
             returnKeyType="send"
+            blurOnSubmit
             onSubmitEditing={() => sendMessage(input)}
           />
           <TouchableOpacity
-            style={[
-              styles.sendBtn,
-              (!input.trim() || isLoading) && styles.sendBtnOff,
-            ]}
+            activeOpacity={0.85}
+            style={[styles.sendBtn, (!input.trim() || isSending) && styles.sendBtnOff]}
             onPress={() => sendMessage(input)}
-            disabled={!input.trim() || isLoading}>
-            <Text style={styles.sendIcon}>↑</Text>
+            disabled={!input.trim() || isSending}>
+            <Text style={styles.sendIcon}>Send</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -264,8 +389,6 @@ export default function ChatScreen() {
 const styles = StyleSheet.create({
   safe: {flex: 1, backgroundColor: '#0A0A1B'},
   outer: {flex: 1},
-
-  // Header
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -281,8 +404,6 @@ const styles = StyleSheet.create({
     height: 42,
     borderRadius: 21,
     backgroundColor: '#1E1B4B',
-    alignItems: 'center',
-    justifyContent: 'center',
     borderWidth: 1.5,
     borderColor: '#6C63FF',
   },
@@ -290,11 +411,9 @@ const styles = StyleSheet.create({
   headerTitle: {color: '#FFFFFF', fontWeight: '700', fontSize: 15},
   headerSub: {color: '#4B5563', fontSize: 12, marginTop: 1},
   headerSubActive: {color: '#6C63FF'},
-
-  // Hero avatar panel
   heroPanel: {
     height: 200,
-    backgroundColor: '#000',
+    backgroundColor: '#000000',
     position: 'relative',
   },
   heroVideo: {width: '100%', height: '100%'},
@@ -309,20 +428,44 @@ const styles = StyleSheet.create({
   },
   heroLabel: {color: '#E5E7EB', fontSize: 12, fontWeight: '600'},
   heroPanelPlaceholder: {
-    height: 140,
+    minHeight: 148,
     backgroundColor: '#0D0D24',
     borderBottomWidth: 1,
     borderColor: '#1C1C3A',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 20,
     gap: 8,
   },
-  placeholderEmoji: {fontSize: 40},
-  placeholderText: {color: '#374151', fontSize: 13},
-
-  // Messages
+  placeholderOrb: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: '#1E1B4B',
+    borderWidth: 1.5,
+    borderColor: '#6C63FF',
+  },
+  placeholderTitle: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontWeight: '700',
+  },
+  placeholderText: {
+    color: '#6B7280',
+    fontSize: 13,
+    textAlign: 'center',
+    lineHeight: 19,
+  },
+  banner: {
+    marginHorizontal: 14,
+    marginTop: 12,
+  },
+  bannerText: {
+    fontSize: 12,
+  },
   messageList: {flex: 1},
   msgContent: {padding: 14, paddingBottom: 6},
+  listFooter: {height: 12},
   msgRow: {
     flexDirection: 'row',
     marginBottom: 10,
@@ -335,12 +478,10 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 15,
     backgroundColor: '#1E1B4B',
-    alignItems: 'center',
-    justifyContent: 'center',
     marginRight: 8,
     marginBottom: 4,
   },
-  bubble: {maxWidth: '80%', borderRadius: 18, paddingHorizontal: 14, paddingVertical: 10},
+  bubble: {maxWidth: '82%', borderRadius: 18, paddingHorizontal: 14, paddingVertical: 10},
   bubbleUser: {
     backgroundColor: '#6C63FF',
     borderBottomRightRadius: 4,
@@ -354,9 +495,13 @@ const styles = StyleSheet.create({
   msgText: {fontSize: 15, lineHeight: 22},
   msgTextUser: {color: '#FFFFFF'},
   msgTextAI: {color: '#E5E7EB'},
+  videoTag: {
+    color: '#A5B4FC',
+    fontSize: 11,
+    fontWeight: '700',
+    marginTop: 8,
+  },
   timestamp: {fontSize: 10, color: '#6B7280', marginTop: 4, alignSelf: 'flex-end'},
-
-  // Typing
   typingRow: {paddingHorizontal: 14, paddingBottom: 6},
   typingBubble: {
     flexDirection: 'row',
@@ -371,8 +516,6 @@ const styles = StyleSheet.create({
     borderColor: '#1E1E40',
   },
   typingText: {color: '#9CA3AF', fontSize: 13},
-
-  // Suggestions
   suggestionsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -390,8 +533,6 @@ const styles = StyleSheet.create({
     maxWidth: 220,
   },
   chipText: {color: '#A5B4FC', fontSize: 13},
-
-  // Input
   inputRow: {
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -415,13 +556,14 @@ const styles = StyleSheet.create({
     borderColor: '#2A2A4A',
   },
   sendBtn: {
-    width: 44,
+    minWidth: 56,
     height: 44,
     borderRadius: 22,
     backgroundColor: '#6C63FF',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 14,
   },
   sendBtnOff: {backgroundColor: '#1E1E40'},
-  sendIcon: {color: '#FFFFFF', fontSize: 20, fontWeight: '700'},
+  sendIcon: {color: '#FFFFFF', fontSize: 13, fontWeight: '700'},
 });

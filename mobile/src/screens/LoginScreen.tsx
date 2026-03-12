@@ -1,44 +1,46 @@
 import React, {useState} from 'react';
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
+  ActivityIndicator,
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  ActivityIndicator,
-  Alert,
   StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {useAuthStore} from '../store/authStore';
+import NoticeBanner from '../components/NoticeBanner';
 import {RootStackParamList} from '../types';
+import {useAuthStore} from '../store/authStore';
 
 type Nav = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
 export default function LoginScreen() {
   const nav = useNavigation<Nav>();
-  const {login, isLoading} = useAuthStore();
+  const login = useAuthStore(state => state.login);
+  const isLoading = useAuthStore(state => state.isLoading);
+  const authError = useAuthStore(state => state.authError);
+  const clearAuthError = useAuthStore(state => state.clearAuthError);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
     const trimmedEmail = email.trim();
+
     if (!trimmedEmail || !password) {
-      Alert.alert('Missing Fields', 'Please enter your email and password.');
+      Alert.alert('Missing fields', 'Please enter your email and password.');
       return;
     }
+
     try {
       await login(trimmedEmail, password);
-      nav.replace('Main');
-    } catch (err: any) {
-      Alert.alert(
-        'Login Failed',
-        err.response?.data?.detail || 'Invalid credentials. Please try again.',
-      );
+    } catch {
+      // Store-level error handling already provides the message for the UI.
     }
   };
 
@@ -51,15 +53,15 @@ export default function LoginScreen() {
         contentContainerStyle={styles.scroll}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
-        {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.logo}>🎓</Text>
-          <Text style={styles.title}>Welcome Back</Text>
+          <Text style={styles.logo}>AI</Text>
+          <Text style={styles.title}>Welcome back</Text>
           <Text style={styles.subtitle}>Sign in to continue learning</Text>
         </View>
 
-        {/* Form card */}
         <View style={styles.card}>
+          <NoticeBanner message={authError} style={styles.banner} />
+
           <Text style={styles.label}>Email</Text>
           <TextInput
             style={styles.input}
@@ -67,40 +69,57 @@ export default function LoginScreen() {
             placeholderTextColor="#4B5563"
             keyboardType="email-address"
             autoCapitalize="none"
+            autoCorrect={false}
             autoComplete="email"
+            editable={!isLoading}
             value={email}
-            onChangeText={setEmail}
+            onChangeText={value => {
+              if (authError) {
+                clearAuthError();
+              }
+              setEmail(value);
+            }}
           />
 
           <Text style={styles.label}>Password</Text>
           <TextInput
             style={styles.input}
-            placeholder="••••••••"
+            placeholder="Enter your password"
             placeholderTextColor="#4B5563"
             secureTextEntry
             autoComplete="password"
+            editable={!isLoading}
             value={password}
-            onChangeText={setPassword}
+            onChangeText={value => {
+              if (authError) {
+                clearAuthError();
+              }
+              setPassword(value);
+            }}
             onSubmitEditing={handleLogin}
           />
 
           <TouchableOpacity
+            activeOpacity={0.85}
             style={[styles.btn, isLoading && styles.btnDisabled]}
             onPress={handleLogin}
             disabled={isLoading}>
             {isLoading ? (
-              <ActivityIndicator color="#fff" />
+              <ActivityIndicator color="#FFFFFF" />
             ) : (
-              <Text style={styles.btnText}>Sign In →</Text>
+              <Text style={styles.btnText}>Sign in</Text>
             )}
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.linkRow}
-            onPress={() => nav.navigate('Register')}>
+            onPress={() => {
+              clearAuthError();
+              nav.navigate('Register');
+            }}>
             <Text style={styles.linkText}>
-              Don&apos;t have an account?{' '}
-              <Text style={styles.linkBold}>Create one →</Text>
+              Do not have an account?{' '}
+              <Text style={styles.linkBold}>Create one</Text>
             </Text>
           </TouchableOpacity>
         </View>
@@ -118,16 +137,26 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   header: {alignItems: 'center', marginBottom: 32},
-  logo: {fontSize: 56, marginBottom: 14},
+  logo: {
+    color: '#FFFFFF',
+    fontSize: 42,
+    fontWeight: '800',
+    marginBottom: 14,
+    letterSpacing: 1.5,
+  },
   title: {fontSize: 30, fontWeight: '800', color: '#FFFFFF'},
   subtitle: {color: '#6B7280', marginTop: 5, fontSize: 15},
   card: {
     width: '100%',
+    maxWidth: 460,
     backgroundColor: '#12122A',
     borderRadius: 24,
     padding: 24,
     borderWidth: 1,
     borderColor: '#1E1E40',
+  },
+  banner: {
+    marginBottom: 6,
   },
   label: {
     color: '#9CA3AF',

@@ -1,26 +1,26 @@
 {
-  "root": "/home/maharshi/projects/ai-tutor-app/mobile",
-  "reactNativePath": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native",
+  "root": "C:\\projects outside one-drive\\ai-tutor-app\\mobile",
+  "reactNativePath": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native",
   "reactNativeVersion": "0.76",
   "dependencies": {
     "@react-native-async-storage/async-storage": {
-      "root": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/@react-native-async-storage/async-storage",
+      "root": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\@react-native-async-storage\\async-storage",
       "name": "@react-native-async-storage/async-storage",
       "platforms": {
         "ios": {
-          "podspecPath": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/@react-native-async-storage/async-storage/RNCAsyncStorage.podspec",
+          "podspecPath": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\@react-native-async-storage\\async-storage\\RNCAsyncStorage.podspec",
           "version": "1.24.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/@react-native-async-storage/async-storage/android",
+          "sourceDir": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\@react-native-async-storage\\async-storage\\android",
           "packageImportPath": "import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;",
           "packageInstance": "new AsyncStoragePackage()",
           "buildTypes": [],
           "libraryName": "rnasyncstorage",
           "componentDescriptors": [],
-          "cmakeListsPath": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/@react-native-async-storage/async-storage/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/projects outside one-drive/ai-tutor-app/mobile/node_modules/@react-native-async-storage/async-storage/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -29,23 +29,23 @@
       }
     },
     "react-native-document-picker": {
-      "root": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-document-picker",
+      "root": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-document-picker",
       "name": "react-native-document-picker",
       "platforms": {
         "ios": {
-          "podspecPath": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-document-picker/react-native-document-picker.podspec",
+          "podspecPath": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-document-picker\\react-native-document-picker.podspec",
           "version": "9.3.1",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-document-picker/android",
+          "sourceDir": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-document-picker\\android",
           "packageImportPath": "import com.reactnativedocumentpicker.RNDocumentPickerPackage;",
           "packageInstance": "new RNDocumentPickerPackage()",
           "buildTypes": [],
           "libraryName": "rndocumentpicker",
           "componentDescriptors": [],
-          "cmakeListsPath": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-document-picker/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/projects outside one-drive/ai-tutor-app/mobile/node_modules/react-native-document-picker/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -54,17 +54,17 @@
       }
     },
     "react-native-gesture-handler": {
-      "root": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-gesture-handler",
+      "root": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-gesture-handler",
       "name": "react-native-gesture-handler",
       "platforms": {
         "ios": {
-          "podspecPath": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-gesture-handler/RNGestureHandler.podspec",
-          "version": "2.30.0",
+          "podspecPath": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-gesture-handler\\RNGestureHandler.podspec",
+          "version": "2.21.2",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-gesture-handler/android",
+          "sourceDir": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-gesture-handler\\android",
           "packageImportPath": "import com.swmansion.gesturehandler.RNGestureHandlerPackage;",
           "packageInstance": "new RNGestureHandlerPackage()",
           "buildTypes": [],
@@ -73,7 +73,7 @@
             "RNGestureHandlerButtonComponentDescriptor",
             "RNGestureHandlerRootViewComponentDescriptor"
           ],
-          "cmakeListsPath": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/projects outside one-drive/ai-tutor-app/mobile/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -82,23 +82,23 @@
       }
     },
     "react-native-image-picker": {
-      "root": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-image-picker",
+      "root": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-image-picker",
       "name": "react-native-image-picker",
       "platforms": {
         "ios": {
-          "podspecPath": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-image-picker/react-native-image-picker.podspec",
+          "podspecPath": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-image-picker\\react-native-image-picker.podspec",
           "version": "7.2.3",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-image-picker/android",
+          "sourceDir": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-image-picker\\android",
           "packageImportPath": "import com.imagepicker.ImagePickerPackage;",
           "packageInstance": "new ImagePickerPackage()",
           "buildTypes": [],
           "libraryName": "RNImagePickerSpec",
           "componentDescriptors": [],
-          "cmakeListsPath": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-image-picker/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/projects outside one-drive/ai-tutor-app/mobile/node_modules/react-native-image-picker/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -107,17 +107,17 @@
       }
     },
     "react-native-safe-area-context": {
-      "root": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-safe-area-context",
+      "root": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-safe-area-context",
       "name": "react-native-safe-area-context",
       "platforms": {
         "ios": {
-          "podspecPath": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-safe-area-context/react-native-safe-area-context.podspec",
+          "podspecPath": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-safe-area-context\\react-native-safe-area-context.podspec",
           "version": "4.14.1",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-safe-area-context/android",
+          "sourceDir": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-safe-area-context\\android",
           "packageImportPath": "import com.th3rdwave.safeareacontext.SafeAreaContextPackage;",
           "packageInstance": "new SafeAreaContextPackage()",
           "buildTypes": [],
@@ -126,7 +126,7 @@
             "RNCSafeAreaProviderComponentDescriptor",
             "RNCSafeAreaViewComponentDescriptor"
           ],
-          "cmakeListsPath": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-safe-area-context/android/src/main/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/projects outside one-drive/ai-tutor-app/mobile/node_modules/react-native-safe-area-context/android/src/main/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -135,17 +135,17 @@
       }
     },
     "react-native-screens": {
-      "root": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-screens",
+      "root": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-screens",
       "name": "react-native-screens",
       "platforms": {
         "ios": {
-          "podspecPath": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-screens/RNScreens.podspec",
-          "version": "4.24.0",
+          "podspecPath": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-screens\\RNScreens.podspec",
+          "version": "4.4.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-screens/android",
+          "sourceDir": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-screens\\android",
           "packageImportPath": "import com.swmansion.rnscreens.RNScreensPackage;",
           "packageInstance": "new RNScreensPackage()",
           "buildTypes": [],
@@ -161,11 +161,9 @@
             "RNSScreenComponentDescriptor",
             "RNSScreenFooterComponentDescriptor",
             "RNSScreenContentWrapperComponentDescriptor",
-            "RNSModalScreenComponentDescriptor",
-            "RNSTabsHostComponentDescriptor",
-            "RNSSafeAreaViewComponentDescriptor"
+            "RNSModalScreenComponentDescriptor"
           ],
-          "cmakeListsPath": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-screens/android/src/main/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/projects outside one-drive/ai-tutor-app/mobile/node_modules/react-native-screens/android/src/main/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -174,22 +172,22 @@
       }
     },
     "react-native-video": {
-      "root": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-video",
+      "root": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-video",
       "name": "react-native-video",
       "platforms": {
         "ios": {
-          "podspecPath": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-video/react-native-video.podspec",
+          "podspecPath": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-video\\react-native-video.podspec",
           "version": "6.19.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-video/android",
+          "sourceDir": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\node_modules\\react-native-video\\android",
           "packageImportPath": "import com.brentvatne.react.ReactVideoPackage;",
           "packageInstance": "new ReactVideoPackage()",
           "buildTypes": [],
           "componentDescriptors": [],
-          "cmakeListsPath": "/home/maharshi/projects/ai-tutor-app/mobile/node_modules/react-native-video/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/projects outside one-drive/ai-tutor-app/mobile/node_modules/react-native-video/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -355,7 +353,7 @@
         {
           "name": "--path <path>",
           "description": "Path to the React Native project root.",
-          "default": "/home/maharshi/projects/ai-tutor-app/mobile"
+          "default": "C:\\projects outside one-drive\\ai-tutor-app\\mobile"
         },
         {
           "name": "--platform <string>",
@@ -407,7 +405,7 @@
         {
           "name": "--terminal <string>",
           "description": "Launches the Metro Bundler in a new window using the specified terminal path.",
-          "default": "xterm-256color"
+          "default": "cmd.exe"
         },
         {
           "name": "--binary-path <string>",
@@ -567,7 +565,7 @@
         {
           "name": "--terminal <string>",
           "description": "Launches the Metro Bundler in a new window using the specified terminal path.",
-          "default": "xterm-256color"
+          "default": "cmd.exe"
         },
         {
           "name": "--appId <string>",
@@ -643,7 +641,7 @@
   "project": {
     "ios": null,
     "android": {
-      "sourceDir": "/home/maharshi/projects/ai-tutor-app/mobile/android",
+      "sourceDir": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\android",
       "appName": "app",
       "packageName": "com.aitutormobile",
       "applicationId": "com.aitutormobile",

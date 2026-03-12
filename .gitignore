@@ -61,3 +61,8 @@ rag_data/
 .pytest_cache/
 __pycache__/
 ../*/
+mobile/android/app/.cxx/
+mobile/android/app/build/
+mobile/.npm-cache/
+node_modules/
+.gradle/

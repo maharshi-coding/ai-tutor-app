@@ -1,34 +1,52 @@
 import React, {useState} from 'react';
 import {
-  View,
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  Alert,
-  ActivityIndicator,
-  SafeAreaView,
-  StatusBar,
+  View,
 } from 'react-native';
-import {pick, isCancel, types as DocumentPickerTypes} from 'react-native-document-picker';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {
+  isCancel,
+  pick,
+  types as DocumentPickerTypes,
+} from 'react-native-document-picker';
+import NoticeBanner from '../components/NoticeBanner';
+import {coursesAPI, extractErrorMessage, uploadAPI} from '../services/api';
 import {useAuthStore} from '../store/authStore';
-import {uploadAPI, coursesAPI} from '../services/api';
 import {Course} from '../types';
 
 export default function ProfileScreen() {
-  const {user, logout} = useAuthStore();
+  const user = useAuthStore(state => state.user);
+  const logout = useAuthStore(state => state.logout);
   const [uploading, setUploading] = useState(false);
   const [courses, setCourses] = useState<Course[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<number | null>(null);
   const [loadingCourses, setLoadingCourses] = useState(false);
+  const [screenMessage, setScreenMessage] = useState<string | null>(null);
 
   const loadCourses = async () => {
     setLoadingCourses(true);
+    setScreenMessage(null);
+
     try {
-      const r = await coursesAPI.getAll();
-      setCourses(r.data);
-    } catch {
-      Alert.alert('Error', 'Could not load courses.');
+      const response = await coursesAPI.getAll();
+      const nextCourses = Array.isArray(response.data) ? response.data : [];
+      setCourses(nextCourses);
+      setSelectedCourse(current => current ?? nextCourses[0]?.id ?? null);
+      setScreenMessage(
+        nextCourses.length === 0
+          ? 'No courses are available yet. Create one from the Home or Chat tab first.'
+          : null,
+      );
+    } catch (error) {
+      setScreenMessage(
+        extractErrorMessage(error, 'Could not load your courses.'),
+      );
     } finally {
       setLoadingCourses(false);
     }
@@ -37,8 +55,8 @@ export default function ProfileScreen() {
   const uploadMaterial = async () => {
     if (!selectedCourse) {
       Alert.alert(
-        'Select a Course',
-        'Please load courses and select one before uploading material.',
+        'Select a course',
+        'Please load your courses and choose one before uploading material.',
       );
       return;
     }
@@ -55,6 +73,8 @@ export default function ProfileScreen() {
       });
 
       setUploading(true);
+      setScreenMessage(null);
+
       const formData = new FormData();
       formData.append('file', {
         uri: file.uri,
@@ -63,15 +83,13 @@ export default function ProfileScreen() {
       } as unknown as Blob);
 
       await uploadAPI.uploadCourseDocument(formData, selectedCourse);
-      Alert.alert(
-        '✅ Uploaded',
-        `"${file.name}" has been indexed and your AI tutor can now teach from it!`,
+      setScreenMessage(
+        `"${file.name ?? 'Document'}" was uploaded and is ready for tutoring.`,
       );
-    } catch (err: unknown) {
-      if (!isCancel(err)) {
-        Alert.alert(
-          'Upload Failed',
-          (err as any)?.response?.data?.detail ?? (err as Error)?.message ?? 'Could not upload the file.',
+    } catch (error: unknown) {
+      if (!isCancel(error)) {
+        setScreenMessage(
+          extractErrorMessage(error, 'Could not upload the selected file.'),
         );
       }
     } finally {
@@ -80,107 +98,121 @@ export default function ProfileScreen() {
   };
 
   const handleLogout = () =>
-    Alert.alert('Sign Out', 'Are you sure?', [
+    Alert.alert('Sign out', 'Are you sure you want to sign out?', [
       {text: 'Cancel', style: 'cancel'},
-      {text: 'Sign Out', style: 'destructive', onPress: logout},
+      {
+        text: 'Sign out',
+        style: 'destructive',
+        onPress: () => {
+          logout().catch(() => {});
+        },
+      },
     ]);
 
-  const initial =
-    (user?.full_name ?? user?.username ?? 'U')[0].toUpperCase();
+  const initial = (user?.full_name ?? user?.username ?? 'U')[0].toUpperCase();
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar barStyle="light-content" backgroundColor="#0A0A1B" />
       <ScrollView
         style={styles.container}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: 40}}>
-        {/* ── User card ───────────────────────────────────────────────────── */}
+        contentContainerStyle={styles.content}>
         <View style={styles.profileCard}>
           <View style={styles.avatarCircle}>
             <Text style={styles.avatarInit}>{initial}</Text>
           </View>
-          <Text style={styles.userName}>
-            {user?.full_name ?? user?.username}
-          </Text>
+          <Text style={styles.userName}>{user?.full_name ?? user?.username}</Text>
           <Text style={styles.userEmail}>{user?.email}</Text>
           <View style={styles.badgeRow}>
-            {user?.avatar_photo_path && (
+            {user?.avatar_photo_path ? (
               <View style={styles.badge}>
-                <Text style={styles.badgeText}>📷 Photo uploaded</Text>
+                <Text style={styles.badgeText}>Photo uploaded</Text>
               </View>
-            )}
-            {user?.voice_sample_path && (
+            ) : null}
+            {user?.voice_sample_path ? (
               <View style={styles.badge}>
-                <Text style={styles.badgeText}>🎤 Voice uploaded</Text>
+                <Text style={styles.badgeText}>Voice uploaded</Text>
               </View>
-            )}
+            ) : null}
           </View>
         </View>
 
-        {/* ── Upload learning materials ────────────────────────────────────── */}
+        <NoticeBanner
+          message={screenMessage}
+          tone={screenMessage?.includes('ready') ? 'success' : 'info'}
+          style={styles.banner}
+        />
+
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>📚 Learning Materials</Text>
+          <Text style={styles.cardTitle}>Learning materials</Text>
           <Text style={styles.cardDesc}>
-            Upload PDFs, DOCX, or TXT files so your AI tutor can answer questions based on your content.
+            Upload PDFs, DOCX, or TXT files so your AI tutor can answer from your own content.
           </Text>
 
           <TouchableOpacity
+            activeOpacity={0.85}
             style={styles.outlineBtn}
             onPress={loadCourses}
             disabled={loadingCourses}>
             {loadingCourses ? (
               <ActivityIndicator size="small" color="#6C63FF" />
             ) : (
-              <Text style={styles.outlineBtnText}>Load My Courses</Text>
+              <Text style={styles.outlineBtnText}>Load my courses</Text>
             )}
           </TouchableOpacity>
 
-          {courses.length > 0 && (
+          {courses.length > 0 ? (
             <View style={styles.courseList}>
-              <Text style={styles.label}>Select course for this material:</Text>
-              {courses.map(c => (
+              <Text style={styles.label}>Select a course for this material:</Text>
+              {courses.map(course => (
                 <TouchableOpacity
-                  key={c.id}
+                  key={course.id}
+                  activeOpacity={0.88}
                   style={[
                     styles.courseOption,
-                    selectedCourse === c.id && styles.courseOptionSelected,
+                    selectedCourse === course.id && styles.courseOptionSelected,
                   ]}
-                  onPress={() => setSelectedCourse(c.id)}>
+                  onPress={() => setSelectedCourse(course.id)}>
                   <Text
                     style={[
                       styles.courseOptionText,
-                      selectedCourse === c.id && styles.courseOptionTextSelected,
+                      selectedCourse === course.id &&
+                        styles.courseOptionTextSelected,
                     ]}>
-                    {c.title}
+                    {course.title}
                   </Text>
                 </TouchableOpacity>
               ))}
             </View>
-          )}
+          ) : null}
 
           <TouchableOpacity
-            style={[styles.btn, uploading && styles.btnOff]}
+            activeOpacity={0.85}
+            style={[
+              styles.btn,
+              (!selectedCourse || uploading) && styles.btnOff,
+            ]}
             onPress={uploadMaterial}
-            disabled={uploading}>
+            disabled={!selectedCourse || uploading}>
             {uploading ? (
               <View style={styles.btnRow}>
-                <ActivityIndicator size="small" color="#fff" />
-                <Text style={styles.btnText}>Uploading & indexing...</Text>
+                <ActivityIndicator size="small" color="#FFFFFF" />
+                <Text style={styles.btnText}>Uploading and indexing...</Text>
               </View>
             ) : (
-              <Text style={styles.btnText}>+ Upload PDF / DOCX / TXT</Text>
+              <Text style={styles.btnText}>Upload study material</Text>
             )}
           </TouchableOpacity>
         </View>
 
-        {/* ── Account ──────────────────────────────────────────────────────── */}
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>⚙️ Account</Text>
+          <Text style={styles.cardTitle}>Account</Text>
           <TouchableOpacity
+            activeOpacity={0.85}
             style={[styles.btn, styles.btnDanger]}
             onPress={handleLogout}>
-            <Text style={[styles.btnText, {color: '#EF4444'}]}>Sign Out</Text>
+            <Text style={[styles.btnText, styles.dangerText]}>Sign out</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -191,7 +223,7 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   safe: {flex: 1, backgroundColor: '#0A0A1B'},
   container: {flex: 1, paddingHorizontal: 20},
-
+  content: {paddingBottom: 40},
   profileCard: {
     backgroundColor: '#12122A',
     borderRadius: 22,
@@ -232,7 +264,9 @@ const styles = StyleSheet.create({
     borderColor: '#3730A3',
   },
   badgeText: {color: '#A5B4FC', fontSize: 12, fontWeight: '600'},
-
+  banner: {
+    marginBottom: 16,
+  },
   card: {
     backgroundColor: '#12122A',
     borderRadius: 22,
@@ -243,7 +277,6 @@ const styles = StyleSheet.create({
   },
   cardTitle: {color: '#FFFFFF', fontWeight: '700', fontSize: 17, marginBottom: 6},
   cardDesc: {color: '#9CA3AF', fontSize: 14, lineHeight: 20, marginBottom: 16},
-
   label: {color: '#9CA3AF', fontSize: 13, fontWeight: '600', marginBottom: 8},
   outlineBtn: {
     borderRadius: 14,
@@ -254,7 +287,6 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   outlineBtnText: {color: '#6C63FF', fontWeight: '600'},
-
   courseList: {marginBottom: 14},
   courseOption: {
     backgroundColor: '#1C1C3A',
@@ -267,7 +299,6 @@ const styles = StyleSheet.create({
   courseOptionSelected: {borderColor: '#6C63FF', backgroundColor: '#1E1B4B'},
   courseOptionText: {color: '#9CA3AF', fontWeight: '500', fontSize: 14},
   courseOptionTextSelected: {color: '#A5B4FC', fontWeight: '700'},
-
   btn: {
     backgroundColor: '#6C63FF',
     borderRadius: 14,
@@ -278,4 +309,5 @@ const styles = StyleSheet.create({
   btnOff: {opacity: 0.5},
   btnRow: {flexDirection: 'row', alignItems: 'center', gap: 8},
   btnText: {color: '#FFFFFF', fontWeight: '700', fontSize: 15},
+  dangerText: {color: '#EF4444'},
 });

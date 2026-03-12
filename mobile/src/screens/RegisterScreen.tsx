@@ -1,58 +1,66 @@
 import React, {useState} from 'react';
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
+  ActivityIndicator,
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  ActivityIndicator,
-  Alert,
   StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {useAuthStore} from '../store/authStore';
+import NoticeBanner from '../components/NoticeBanner';
 import {RootStackParamList} from '../types';
+import {useAuthStore} from '../store/authStore';
 
 type Nav = NativeStackNavigationProp<RootStackParamList, 'Register'>;
 
 const fields = [
   {
     key: 'full_name',
-    label: 'Full Name (optional)',
+    label: 'Full name (optional)',
     placeholder: 'Jane Doe',
     type: 'default' as const,
     secure: false,
+    autoCapitalize: 'words' as const,
   },
   {
     key: 'username',
-    label: 'Username *',
+    label: 'Username',
     placeholder: 'janedoe',
     type: 'default' as const,
     secure: false,
+    autoCapitalize: 'none' as const,
   },
   {
     key: 'email',
-    label: 'Email *',
+    label: 'Email',
     placeholder: 'you@example.com',
     type: 'email-address' as const,
     secure: false,
+    autoCapitalize: 'none' as const,
   },
   {
     key: 'password',
-    label: 'Password * (min 8 chars)',
-    placeholder: '••••••••',
+    label: 'Password (min 8 chars)',
+    placeholder: 'Choose a password',
     type: 'default' as const,
     secure: true,
+    autoCapitalize: 'none' as const,
   },
-];
+] as const;
 
 export default function RegisterScreen() {
   const nav = useNavigation<Nav>();
-  const {register, isLoading} = useAuthStore();
+  const register = useAuthStore(state => state.register);
+  const isLoading = useAuthStore(state => state.isLoading);
+  const authError = useAuthStore(state => state.authError);
+  const clearAuthError = useAuthStore(state => state.clearAuthError);
   const [form, setForm] = useState({
     full_name: '',
     username: '',
@@ -60,18 +68,30 @@ export default function RegisterScreen() {
     password: '',
   });
 
-  const update = (key: string) => (val: string) =>
-    setForm(f => ({...f, [key]: val}));
+  const update = (key: keyof typeof form) => (value: string) => {
+    if (authError) {
+      clearAuthError();
+    }
+    setForm(current => ({...current, [key]: value}));
+  };
 
   const handleRegister = async () => {
     if (!form.email.trim() || !form.username.trim() || !form.password) {
-      Alert.alert('Missing Fields', 'Email, username and password are required.');
+      Alert.alert(
+        'Missing fields',
+        'Email, username, and password are required.',
+      );
       return;
     }
+
     if (form.password.length < 8) {
-      Alert.alert('Weak Password', 'Password must be at least 8 characters.');
+      Alert.alert(
+        'Weak password',
+        'Password must be at least 8 characters long.',
+      );
       return;
     }
+
     try {
       await register({
         email: form.email.trim(),
@@ -79,12 +99,8 @@ export default function RegisterScreen() {
         password: form.password,
         full_name: form.full_name.trim() || undefined,
       });
-      nav.replace('Main');
-    } catch (err: any) {
-      Alert.alert(
-        'Registration Failed',
-        err.response?.data?.detail || 'Could not create account. Please try again.',
-      );
+    } catch {
+      // Store-level error handling already provides the message for the UI.
     }
   };
 
@@ -97,50 +113,63 @@ export default function RegisterScreen() {
         contentContainerStyle={styles.scroll}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
-        <TouchableOpacity style={styles.back} onPress={() => nav.goBack()}>
-          <Text style={styles.backText}>← Back</Text>
+        <TouchableOpacity
+          style={styles.back}
+          onPress={() => {
+            clearAuthError();
+            nav.goBack();
+          }}>
+          <Text style={styles.backText}>Back</Text>
         </TouchableOpacity>
 
         <View style={styles.header}>
-          <Text style={styles.logo}>✨</Text>
-          <Text style={styles.title}>Create Account</Text>
+          <Text style={styles.logo}>AI</Text>
+          <Text style={styles.title}>Create account</Text>
           <Text style={styles.subtitle}>Start your learning journey</Text>
         </View>
 
         <View style={styles.card}>
-          {fields.map(f => (
-            <View key={f.key}>
-              <Text style={styles.label}>{f.label}</Text>
+          <NoticeBanner message={authError} style={styles.banner} />
+
+          {fields.map(field => (
+            <View key={field.key}>
+              <Text style={styles.label}>{field.label}</Text>
               <TextInput
                 style={styles.input}
-                placeholder={f.placeholder}
+                placeholder={field.placeholder}
                 placeholderTextColor="#4B5563"
-                keyboardType={f.type}
-                autoCapitalize="none"
-                secureTextEntry={f.secure}
-                value={(form as Record<string, string>)[f.key]}
-                onChangeText={update(f.key)}
+                keyboardType={field.type}
+                autoCapitalize={field.autoCapitalize}
+                autoCorrect={false}
+                secureTextEntry={field.secure}
+                editable={!isLoading}
+                value={form[field.key]}
+                onChangeText={update(field.key)}
               />
             </View>
           ))}
 
           <TouchableOpacity
+            activeOpacity={0.85}
             style={[styles.btn, isLoading && styles.btnDisabled]}
             onPress={handleRegister}
             disabled={isLoading}>
             {isLoading ? (
-              <ActivityIndicator color="#fff" />
+              <ActivityIndicator color="#FFFFFF" />
             ) : (
-              <Text style={styles.btnText}>Create Account →</Text>
+              <Text style={styles.btnText}>Create account</Text>
             )}
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.linkRow}
-            onPress={() => nav.navigate('Login')}>
+            onPress={() => {
+              clearAuthError();
+              nav.navigate('Login');
+            }}>
             <Text style={styles.linkText}>
               Already have an account?{' '}
-              <Text style={styles.linkBold}>Sign in →</Text>
+              <Text style={styles.linkBold}>Sign in</Text>
             </Text>
           </TouchableOpacity>
         </View>
@@ -160,16 +189,26 @@ const styles = StyleSheet.create({
   back: {alignSelf: 'flex-start', marginBottom: 12},
   backText: {color: '#6C63FF', fontSize: 16, fontWeight: '600'},
   header: {alignItems: 'center', marginBottom: 28},
-  logo: {fontSize: 50, marginBottom: 12},
+  logo: {
+    color: '#FFFFFF',
+    fontSize: 42,
+    fontWeight: '800',
+    marginBottom: 12,
+    letterSpacing: 1.5,
+  },
   title: {fontSize: 28, fontWeight: '800', color: '#FFFFFF'},
   subtitle: {color: '#6B7280', marginTop: 5},
   card: {
     width: '100%',
+    maxWidth: 460,
     backgroundColor: '#12122A',
     borderRadius: 24,
     padding: 24,
     borderWidth: 1,
     borderColor: '#1E1E40',
+  },
+  banner: {
+    marginBottom: 6,
   },
   label: {
     color: '#9CA3AF',

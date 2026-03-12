@@ -23,6 +23,8 @@ react {
     /* Hermes Commands */
     // The path to the Hermes compiler. By default it is in node_modules.
     hermesCommand = "../../node_modules/react-native/sdks/hermesc/%OS-BIN%/hermesc"
+
+    autolinkLibrariesWithApp()
 }
 
 android {
@@ -31,12 +33,29 @@ android {
     compileSdk rootProject.ext.compileSdkVersion
 
     namespace "com.aitutormobile"
+
+    // For AGP < 8.5.1, keep legacy packaging so native libs are compressed
+    // and avoid zip alignment install issues on 16 KB page size devices.
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging true
+        }
+    }
+
     defaultConfig {
         applicationId "com.aitutormobile"
         minSdk rootProject.ext.minSdkVersion
         targetSdk rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        // Ensure all CMake-based native builds opt in to flexible page sizes
+        // so generated .so files are compatible with 16 KB page size devices.
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+            }
+        }
     }
 
     signingConfigs {
