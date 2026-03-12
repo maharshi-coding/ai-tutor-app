@@ -1,0 +1,24 @@
+# React Native
+node_modules/
+.gradle/
+local.properties
+*.iml
+.idea/
+.DS_Store
+BUILD/
+build/
+*.keystore
+!debug.keystore
+
+# Bundle artifacts
+*.jsbundle
+
+# Android / IntelliJ
+android/
+ios/
+
+# CocoaPods
+/ios/Pods/
+
+# Metro
+.metro-health-check*

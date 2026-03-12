@@ -14,8 +14,10 @@ from sqlalchemy.exc import OperationalError
 def _cors_origins() -> list[str]:
     raw = (settings.CORS_ORIGINS or "").strip()
     if not raw:
+        # Default: allow local web dev + any origin (React Native sends no Origin header)
         return ["http://localhost:3000", "http://127.0.0.1:3000"]
-    return [o.strip() for o in raw.split(",") if o.strip()]
+    origins = [o.strip() for o in raw.split(",") if o.strip()]
+    return origins
 
 
 app = FastAPI(
@@ -47,10 +49,12 @@ async def on_startup() -> None:
 
 
 # CORS middleware
+# React Native apps do not send an Origin header, so allow_origins=["*"] is safe
+# when paired with JWT authentication on all protected routes.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=_cors_origins(),
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,  # must be False when allow_origins=["*"]
     allow_methods=["*"],
     allow_headers=["*"],
 )
