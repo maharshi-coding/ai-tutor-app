@@ -17,7 +17,7 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Video from 'react-native-video';
 import NoticeBanner from '../components/NoticeBanner';
-import {BASE_URL, extractErrorMessage, tutorAPI} from '../services/api';
+import {extractErrorMessage, getApiBaseUrl, tutorAPI} from '../services/api';
 import {generateAndPollAvatar} from '../services/avatarService';
 import {MainTabParamList, Message} from '../types';
 
@@ -26,8 +26,13 @@ type ChatRoute = RouteProp<MainTabParamList, 'Chat'>;
 let messageCounter = 0;
 const nextId = () => `msg-${++messageCounter}`;
 
-function toAbsUrl(url: string): string {
-  return url.startsWith('http') ? url : `${BASE_URL}${url}`;
+async function toAbsUrl(url: string): Promise<string> {
+  if (url.startsWith('http')) {
+    return url;
+  }
+
+  const baseUrl = await getApiBaseUrl();
+  return `${baseUrl}${url}`;
 }
 
 export default function ChatScreen() {
@@ -118,7 +123,12 @@ export default function ChatScreen() {
           return;
         }
 
-        const fullUrl = toAbsUrl(videoUrl);
+        const fullUrl = await toAbsUrl(videoUrl);
+
+        if (!isMountedRef.current || latestAvatarTokenRef.current !== token) {
+          return;
+        }
+
         setHeroVideoUrl(fullUrl);
         setMessages(current =>
           current.map(message =>

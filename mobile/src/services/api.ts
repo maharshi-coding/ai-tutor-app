@@ -17,6 +17,9 @@ declare module 'axios' {
 const API_PORT = 8000;
 const API_TIMEOUT_MS = 30000;
 const MAX_RETRIES = 2;
+const API_BASE_URL_OVERRIDE_KEY = 'api_base_url_override';
+let apiBaseUrlOverrideCache: string | null = null;
+let hasLoadedApiBaseUrlOverride = false;
 
 function resolveDevApiHost(): string {
   const scriptURL = NativeModules.SourceCode?.scriptURL;
@@ -29,8 +32,37 @@ function resolveDevApiHost(): string {
   return Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
 }
 
+function normalizeBaseUrl(value: string): string {
+  const trimmed = value.trim();
+
+  if (!trimmed) {
+    return '';
+  }
+
+  const withProtocol = /^https?:\/\//i.test(trimmed)
+    ? trimmed
+    : `http://${trimmed}`;
+
+  return withProtocol.replace(/\/+$/, '');
+}
+
 function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function isAbsoluteUrl(value?: string): boolean {
+  return !!value && /^[a-z][a-z\d+\-.]*:\/\//i.test(value);
+}
+
+async function readCachedApiBaseUrlOverride(): Promise<string | null> {
+  if (hasLoadedApiBaseUrlOverride) {
+    return apiBaseUrlOverrideCache;
+  }
+
+  const override = await AsyncStorage.getItem(API_BASE_URL_OVERRIDE_KEY);
+  apiBaseUrlOverrideCache = normalizeBaseUrl(override ?? '') || null;
+  hasLoadedApiBaseUrlOverride = true;
+  return apiBaseUrlOverrideCache;
 }
 
 function toFormUrlEncoded(data: Record<string, string>): string {
@@ -64,6 +96,46 @@ function shouldRetry(error: AxiosError): boolean {
   return error.response.status >= 500;
 }
 
+export function getDefaultApiBaseUrl(): string {
+  return __DEV__
+    ? `http://${resolveDevApiHost()}:${API_PORT}`
+    : 'https://your-production-api.com';
+}
+
+export const BASE_URL = getDefaultApiBaseUrl();
+
+export async function getApiBaseUrl(): Promise<string> {
+  const override = await readCachedApiBaseUrlOverride();
+  return override || getDefaultApiBaseUrl();
+}
+
+export async function setApiBaseUrlOverride(value: string): Promise<string> {
+  const normalizedValue = normalizeBaseUrl(value);
+
+  if (!normalizedValue) {
+    await AsyncStorage.removeItem(API_BASE_URL_OVERRIDE_KEY);
+    apiBaseUrlOverrideCache = null;
+    hasLoadedApiBaseUrlOverride = true;
+    apiClient.defaults.baseURL = getDefaultApiBaseUrl();
+    return apiClient.defaults.baseURL ?? getDefaultApiBaseUrl();
+  }
+
+  await AsyncStorage.setItem(API_BASE_URL_OVERRIDE_KEY, normalizedValue);
+  apiBaseUrlOverrideCache = normalizedValue;
+  hasLoadedApiBaseUrlOverride = true;
+  apiClient.defaults.baseURL = normalizedValue;
+  return normalizedValue;
+}
+
+export async function clearApiBaseUrlOverride(): Promise<string> {
+  await AsyncStorage.removeItem(API_BASE_URL_OVERRIDE_KEY);
+  apiBaseUrlOverrideCache = null;
+  hasLoadedApiBaseUrlOverride = true;
+  const defaultUrl = getDefaultApiBaseUrl();
+  apiClient.defaults.baseURL = defaultUrl;
+  return defaultUrl;
+}
+
 export function extractErrorMessage(
   error: unknown,
   fallback = 'Something went wrong. Please try again.',
@@ -91,7 +163,7 @@ export function extractErrorMessage(
     }
 
     if (!error.response) {
-      return 'Cannot reach the AI Tutor service. Check your connection and backend server.';
+      return 'Cannot reach the AI Tutor service. Check your connection and server URL.';
     }
   }
 
@@ -102,10 +174,6 @@ export function extractErrorMessage(
   return fallback;
 }
 
-export const BASE_URL = __DEV__
-  ? `http://${resolveDevApiHost()}:${API_PORT}`
-  : 'https://your-production-api.com';
-
 export const apiClient = axios.create({
   baseURL: BASE_URL,
   timeout: API_TIMEOUT_MS,
@@ -114,6 +182,12 @@ export const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
+    if (!isAbsoluteUrl(config.url)) {
+      const baseUrl = await getApiBaseUrl();
+      config.baseURL = baseUrl;
+      apiClient.defaults.baseURL = baseUrl;
+    }
+
     const token = await AsyncStorage.getItem('auth_token');
 
     if (token) {

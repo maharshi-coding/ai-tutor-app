@@ -14,7 +14,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {launchImageLibrary} from 'react-native-image-picker';
 import Video from 'react-native-video';
 import NoticeBanner from '../components/NoticeBanner';
-import {BASE_URL, extractErrorMessage, uploadAPI} from '../services/api';
+import {extractErrorMessage, getApiBaseUrl, uploadAPI} from '../services/api';
 import {generateAndPollAvatar} from '../services/avatarService';
 
 type StepStatus = 'idle' | 'uploading' | 'polling' | 'done' | 'error';
@@ -49,7 +49,13 @@ export default function AvatarSetupScreen() {
         const clip = response.data.last_generated_clip_url as string | undefined;
 
         if (clip) {
-          setVideoUrl(clip.startsWith('http') ? clip : `${BASE_URL}${clip}`);
+          const baseUrl = await getApiBaseUrl();
+
+          if (!isMounted) {
+            return;
+          }
+
+          setVideoUrl(clip.startsWith('http') ? clip : `${baseUrl}${clip}`);
           setStepStatus('done');
         }
       } catch {
@@ -146,7 +152,8 @@ export default function AvatarSetupScreen() {
         'Hello. I am your AI tutor and I am ready to help you learn.',
         message => setStatusMessage(message),
       );
-      const fullUrl = url.startsWith('http') ? url : `${BASE_URL}${url}`;
+      const baseUrl = await getApiBaseUrl();
+      const fullUrl = url.startsWith('http') ? url : `${baseUrl}${url}`;
       setVideoUrl(fullUrl);
       setStepStatus('done');
       setStatusMessage('');
