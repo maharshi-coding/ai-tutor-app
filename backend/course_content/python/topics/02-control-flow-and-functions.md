@@ -4,7 +4,7 @@ This topic bundle groups the collected Python Programming material most relevant
 
 Keywords: if, else, for, while, loop, function, argument, parameter, return, recursion
 
-Documents in bundle: 70
+Documents in bundle: 69
 
 ## Document Index
 
@@ -20,18 +20,15 @@ Documents in bundle: 70
 - 16. Appendix ¶ (Python Official Tutorial)
   Extracted file: extracted/python-official-tutorial/a83fca296e00416e-16-appendix.md
   Original URL: https://docs.python.org/3/tutorial/appendix.html
-- فئة Python من Google (Google's Python Class)
-  Extracted file: extracted/google-python-class/0e64583d90405e61-python-google.md
+- Classe Python de Google (Google's Python Class)
+  Extracted file: extracted/google-python-class/0e64583d90405e61-classe-python-de-google.md
   Original URL: https://developers.google.com/edu/python
-- Listas de Python (Google's Python Class)
-  Extracted file: extracted/google-python-class/3031f7aed3c5b66f-listas-de-python.md
-  Original URL: https://developers.google.com/edu/python/lists
-- Python 정렬 (Google's Python Class)
-  Extracted file: extracted/google-python-class/a36eda38f6272151-python.md
+- পাইথন বাছাই (Google's Python Class)
+  Extracted file: extracted/google-python-class/a36eda38f6272151-document.md
   Original URL: https://developers.google.com/edu/python/sorting
-- Baby Names Python Exercise (Google's Python Class)
-  Extracted file: extracted/google-python-class/6716b1b71a83ce77-baby-names-python-exercise.md
-  Original URL: https://developers.google.com/edu/python/exercises/baby-names
+- Log Puzzle Python Exercise (Google's Python Class)
+  Extracted file: extracted/google-python-class/8dc9b989a99acdfb-log-puzzle-python-exercise.md
+  Original URL: https://developers.google.com/edu/python/exercises/log-puzzle
 - You can order print and ebook versions of *Think Python 3e* from (Think Python)
   Extracted file: extracted/think-python/00ca4aa4c8ba985f-you-can-order-print-and-ebook-versions-of-think-.md
   Original URL: https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap00.ipynb
@@ -355,91 +352,61 @@ F2 allows for browsing command-line history with neither output nor the
 makes pasting larger blocks of code easier. Press F3 to return to
 the regular prompt....
 
-### فئة Python من Google
+### Classe Python de Google
 Source: Google's Python Class
 Original URL: https://developers.google.com/edu/python
 
-# فئة Python من Google
+# Classe Python de Google
 
 Source: Google's Python Class
 Original URL: https://developers.google.com/edu/python
 Original Path: https://developers.google.com/edu/python
 Course: Python Programming
 
-فئة Python من Google
+Classe Python de Google
 
-تنظيم صفحاتك في مجموعات
+Restez organisé à l'aide des collections
 
-يمكنك حفظ المحتوى وتصنيفه حسب إعداداتك المفضّلة.
+Enregistrez et classez les contenus selon vos préférences.
 
-مرحبًا بك في Python Class من Google -- هذا الفصل الدراسي مجاني للأشخاص الذين لديهم خبرة قليلة في البرمجة يرغبون في تعلم Python. يتضمن الصف موادًا مكتوبة ومقاطع فيديو للمحاضرات والكثير من التمارين المتعلقة بالترميز للتمرُّن على ترميز Python. يتم استخدام هذه المواد في Google لتقديم Python إلى الأشخاص الذين لديهم خبرة قليلة في البرمجة. تعمل التمارين الأولى على مفاهيم Python الأساسية مثل السلاسل والقوائم، مما يؤدي إلى التدريبات اللاحقة، وهي عبارة عن برامج كاملة تتناول الملفات النصية والعمليات واتصالات http. تم إعداد هذا الصف للأشخاص الذين لديهم خبرة قليلة في البرمجة ببعض اللغات، وهو ما يكفي لمعرفة ما يعنيه...
+Bienvenue dans le cours Python de Google. Il s'agit d'un cours sans frais destiné aux personnes ayant un peu d'expérience en programmation et qui souhaitent apprendre à utiliser Python. Le cours comprend des documents écrits, des cours vidéo et de nombreux exercices de codage pour s'entraîner au codage Python. Ces documents sont utilisés au sein de Google pour présenter Python aux personnes ayant un peu d'expérience en programmation. Les premiers exercices portent sur les concepts de base de Python, tels que les chaînes et les listes. Les prochains exercices sont des pro...
 
-### Listas de Python
-Source: Google's Python Class
-Original URL: https://developers.google.com/edu/python/lists
-
-# Listas de Python
-
-Source: Google's Python Class
-Original URL: https://developers.google.com/edu/python/lists
-Original Path: https://developers.google.com/edu/python/lists
-Course: Python Programming
-
-Listas de Python
-
-Organiza tus páginas con colecciones
-
-Guarda y categoriza el contenido según tus preferencias.
-
-Python tiene un excelente tipo de lista integrado llamado “list”. Los literales de lista se escriben entre corchetes [ ]. Las listas funcionan de manera similar a las cadenas: usa la función len() y corchetes [ ] para acceder a los datos, con el primer elemento en el índice 0. (Consulta los documentos de la lista de python.org oficiales).
-
-colors = [ 'red' , 'blue' , 'green' ]
-print ( colors [ 0 ]) ## red
-print ( colors [ 2 ]) ## green
-print ( len ( colors )) ## 3
-
-No se realizará una copia de las tareas con = en listas. En cambio, la asignación hace que las dos variables apunte...
-
-### Python 정렬
+### পাইথন বাছাই
 Source: Google's Python Class
 Original URL: https://developers.google.com/edu/python/sorting
 
-# Python 정렬
+# পাইথন বাছাই
 
 Source: Google's Python Class
 Original URL: https://developers.google.com/edu/python/sorting
 Original Path: https://developers.google.com/edu/python/sorting
 Course: Python Programming
 
-Python 정렬
+পাইথন বাছাই
 
-컬렉션을 사용해 정리하기
+সেভ করা পৃষ্ঠা গুছিয়ে রাখতে 'সংগ্রহ' ব্যবহার করুন
 
-내 환경설정을 기준으로 콘텐츠를 저장하고 분류하세요.
+আপনার পছন্দ অনুযায়ী কন্টেন্ট সেভ করুন ও সঠিক বিভাগে রাখুন।
 
-가장 쉽게 정렬하는 방법은 saved(list) 함수를 사용하는 것입니다. 이 함수는 목록을 가져와 해당 요소가 정렬된 새 목록을 반환합니다. 원래 목록은 변경되지 않습니다.
+সাজানোর সবচেয়ে সহজ উপায় হল সাজানো (তালিকা) ফাংশন, যা একটি তালিকা নেয় এবং সাজানো ক্রমে সেই উপাদানগুলির সাথে একটি নতুন তালিকা প্রদান করে। মূল তালিকা পরিবর্তন করা হয় না.
 
 a = [ 5 , 1 , 4 , 3 ]
 print ( sorted ( a )) ## [1, 3, 4, 5]
 print ( a ) ## [5, 1, 4, 3]
 
-정렬() 함수에 목록을 전달하는 것이 가장 일반적이지만, 실제로는 모든 종류의 반복 가능한 컬렉션을 입력으로 사용할 수 있습니다. 아래와 같이 이전의 list.sort() 메서드를 대안으로 사용할 수 있습니다. saved() 함수는 정렬()에 비해 사용하기 더 편할 것 같아서 saved()를 사용하는 것이 좋습니다.
+এটি sorted() ফাংশনে একটি তালিকা পাস করা সবচেয়ে সাধারণ, কিন্তু প্রকৃতপক্ষে এটি যেকোনো ধরনের পুনরাবৃত্তিযোগ্য সংগ্রহ ইনপুট হিসাবে নিতে পারে। পুরোনো list.sort() পদ্ধতিটি একটি বিকল্প নিচে বিস্তারিত। sort() ফাংশন sort() এর তুলনায় ব্যবহার করা সহজ বলে মনে হয়, তাই আমি sorted() ব্যবহার করার পরামর্শ দিই।
 
-정렬된() 함수는 선택적 인수를 통해 맞춤설정할 수 있습니다. saved() 선택적 인수 역방향=True입니다. 예: kind(list, replace=True)는 역순으로 정렬합니다.
+sorted() ফাংশন...
 
-strs = [ 'aa' , 'BB' , 'zz' , 'CC' ]
-print ( sorted ( strs )) ## ['BB', 'CC', 'aa', 'zz'] (case sensitive)
-print ( sorted ( strs , reverse = True )) ## ['zz', 'aa', 'CC', 'B...
-
-### Baby Names Python Exercise
+### Log Puzzle Python Exercise
 Source: Google's Python Class
-Original URL: https://developers.google.com/edu/python/exercises/baby-names
+Original URL: https://developers.google.com/edu/python/exercises/log-puzzle
 
-# Baby Names Python Exercise
+# Log Puzzle Python Exercise
 
 Source: Google's Python Class
-Original URL: https://developers.google.com/edu/python/exercises/baby-names
-Original Path: https://developers.google.com/edu/python/exercises/baby-names
+Original URL: https://developers.google.com/edu/python/exercises/log-puzzle
+Original Path: https://developers.google.com/edu/python/exercises/log-puzzle
 Course: Python Programming
 
 Products
@@ -448,16 +415,15 @@ Google for Education
 
 Python
 
-Baby Names Python Exercise
+Log Puzzle Python Exercise
 
 Stay organized with collections
 
 Save and categorize content based on your preferences.
 
-The Social Security administration has this neat data by year of what names are most popular for babies born that year in the USA (see
-social security baby names ).
+For the Log Puzzle exercise, you'll use Python code to solve two puzzles. This exercise uses the urllib module, as shown in the Python Utilities section. The files for this exercise are in the "logpuzzle" directory inside google-python-exercises (download the google-python-exercises.zip if you have not already, see Set Up for details). Add your code to the "logpuzzle.py" file.
 
-The files for this exercise are in the "babynames" directory inside google-python-exercises (download the google-python-exercises.zip if you have not already, see Set Up for details). Add your code in babynames.py. The files baby1990.html baby1992.html ... contain raw html, similar to what you get visiting the above social security si...
+An image of an animal has been broken into many narrow vertical stripe images. The stripe images are on the internet some...
 
 ### You can order print and ebook versions of *Think Python 3e* from
 Source: Think Python
@@ -492,6 +458,35 @@ Original URL: https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap
 Source: Think Python
 Original URL: https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap03.ipynb
 Original Path: chapters/chap03.ipynb
+Course: Python Programming
+
+You can order print and ebook versions of *Think Python 3e* from
+[Bookshop.org](https://bookshop.org/a/98697/9781098155438) and
+[Amazon](https://www.amazon.com/_/dp/1098155432?smid=ATVPDKIKX0DER&_encoding=UTF8&tag=oreilly20-20&_encoding=UTF8&tag=greenteapre01-20&linkCode=ur2&linkId=e2a529f94920295d27ec8a06e757dc7c&camp=1789&creative=9325).
+
+```python
+from os.path import basename, exists
+
+def download(url):
+filename = basename(url)
+if not exists(filename):
+from urllib.request import urlretrieve
+
+local, _ = urlretrieve(url, filename)
+print("Downloaded " + str(local))
+return filename
+
+download('https://github.com/AllenDowney/ThinkPython/raw/v3/thinkpyt...
+
+### You can order print and ebook versions of *Think Python 3e* from
+Source: Think Python
+Original URL: https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap04.ipynb
+
+# You can order print and ebook versions of *Think Python 3e* from
+
+Source: Think Python
+Original URL: https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap04.ipynb
+Original Path: chapters/chap04.ipynb
 Course: Python Programming
 
 You can order print and ebook versions of *Think Python 3e* from

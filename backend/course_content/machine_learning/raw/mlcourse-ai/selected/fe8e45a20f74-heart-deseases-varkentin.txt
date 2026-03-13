@@ -1,0 +1,585 @@
+Original Path: jupyter_english/projects_indiv/heart_deseases_Varkentin.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+# Andrey Varkentin. Prediction of heart diseases.
+
+### 1. Feature and data explanation
+
+In this project we are going to analize factors, that contribute to heart diseases. The data was taken from UCI Machine Learning Repository from [here](http://archive.ics.uci.edu/ml/datasets/Heart+Disease)
+
+14 features have been used:
+
+-- 1. (age)
+
+-- 2. (sex) (1 = male; 0 = female)
+
+-- 3. (cp) chest pain type
+
+-- Value 1: typical angina
+-- Value 2: atypical angina
+-- Value 3: non-anginal pain
+-- Value 4: asymptomatic
+
+-- 4. (trestbps) resting blood pressure (in mm Hg on admission to the hospital)
+
+-- 5. (chol) serum cholestoral in mg/dl
+
+-- 6. (fbs) (fasting blood sugar > 120 mg/dl) (1 = true; 0 = false)
+
+-- 7. (restecg) resting electrocardiographic results
+
+-- Value 0: normal
+-- Value 1: having ST-T wave abnormality (T wave inversions and/or ST
+elevation or depression of > 0.05 mV)
+-- Value 2: showing probable or definite left ventricular hypertrophy
+by Estes' criteria
+
+-- 8. (thalach) maximum heart rate achieved
+
+-- 9. (exang) exercise induced angina (1 = yes; 0 = no)
+
+-- 10. (oldpeak) = ST depression induced by exercise relative to rest
+
+-- 11. (slope) the slope of the peak exercise ST segment
+
+-- Value 1: upsloping
+-- Value 2: flat
+-- Value 3: downsloping
+
+-- 12. (ca) number of major vessels (0-3) colored by flourosopy
+
+-- 13. (thal) 3 = normal; 6 = fixed defect; 7 = reversable defect
+
+-- 14. (num) diagnosis of heart disease (angiographic disease status)
+
+-- five diseases (0-4), where 0 - the most frequent
+
+Let's import necessary modules, read data and divide features into numerical and categorical
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib
+from matplotlib import pyplot as plt
+import matplotlib.patches as mpatches
+matplotlib.style.use('ggplot')
+%matplotlib inline
+import seaborn as sns
+```
+
+```python
+from sklearn.manifold import TSNE
+from sklearn.preprocessing import StandardScaler
+import matplotlib.cm as cm
+import warnings
+warnings.filterwarnings('ignore')
+```
+
+```python
+# data = pd.read_csv('C:/Users/Andrey/Downloads/processed.cleveland.data.txt', sep=",", header=None)
+data = pd.read_csv('/home/andrey/Загрузки/processed.cleveland.data.txt', sep=",", header=None)
+data.columns = ['age', 'sex', 'pain', 'restbp','chol', 'fbs', 'restecg',
+'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal', 'num']
+```
+
+```python
+data.head()
+```
+
+```python
+numer = ['age', 'restbp', 'chol', 'thalach', 'oldpeak']
+categ = data.drop(columns=numer).columns.tolist()
+categ
+```
+
+### 2. Primary data analysis
+
+Let's dive into distribution of features
+
+```python
+for i in categ:
+print(i)
+print(data[i].value_counts())
+print(10 * "-")
+```
+
+Oh, here we have some missing values. Let's clean the data
+
+```python
+data['ca'] = data['ca'].apply(lambda x: np.nan if str(x) == "?" else x)
+data['thal'] = data['thal'].apply(lambda x: np.nan if str(x) == "?" else x)
+```
+
+```python
+data['ca'].fillna(0, inplace = True)
+data['thal'].fillna(method='bfill', inplace = True)
+```
+
+```python
+data['ca'].value_counts()
+```
+
+```python
+for i in categ:
+data[i] = data[i].astype("float64")
+```
+
+```python
+data.dtypes
+```
+
+Let's plot features.
+
+### 3. Primary visual data analysis
+
+```python
+data["num"].value_counts().plot(kind="bar")
+
+plt.title("Target distribution")
+```
+
+Classes are imbalanced, we will account for it in our models. Moreover, there are few observations for different heart diseases, and it will be easier for algorithm to define whether a person is ill with disease 0, and harder to distinguish diseases
+
+```python
+sns.pairplot(data[numer+["num"]],
+hue="num", diag_kind="kde")
+```
+
+Almost all features look similar to normal distribution. Anomalies can be noted in age and oldpeak of people having diseases 0
+
+```python
+fig, axes = plt.subplots(nrows=3, ncols=2, figsize=(16, 16))
+
+for idx, feat in enumerate(numer+['num']):
+sns.boxplot(x='num', y=feat, data=data, ax=axes[idx // 2, idx % 2])
+axes[idx // 2, idx % 2].legend()
+axes[idx // 2, idx % 2].set_xlabel('num')
+axes[idx // 2, idx % 2].set_ylabel(feat)
+```
+
+We can't say, that there are many differences between observed groups of peolpe, though there are lots of overshooting for people with disease 0, except for age variable
+
+```python
+sns.heatmap(data[numer].corr(), square=True)
+```
+
+Most correlated variables are restbp and age, which is due to age-dependent hypertony, but still it is within normal rate
+
+```python
+fig, axes = plt.subplots(nrows=5, ncols=2, figsize=(16, 16))
+
+for idx, feat in enumerate(categ):
+sns.countplot(x=feat, hue='num', data=data, ax=axes[idx // 2, idx % 2]);
+```
+
+Conclusions from the graph:
+
+- Males are more often ill in our dataset,
+
+- Asymotimatic pain is equally distributed among classes, other types of pain primarily are reported during disease 0
+
+- Blood sugar is rarely increased
+
+- There is rare ST-T wave abnormality
+
+- Exercise during angina has been more often done for people with diseases 2-4
+
+- The slope of the peak exercise ST segment is usually flat for all diseases except disease 0
+
+- Defect is more often reversable for all diseases except disease 0
+
+```python
+y = data['num']
+X = data.drop(columns=['num'])
+```
+
+```python
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+```
+
+```python
+%%time
+tsne = TSNE(random_state=1)
+tsne_representation = tsne.fit_transform(X_scaled)
+```
+
+```python
+plt.figure(figsize=(12,8))
+plt.scatter(tsne_representation[:, 0], tsne_representation[:, 1],
+c = y, cmap='viridis_r', alpha=.8);
+```
+
+People with disease 0 are seemed to be much easier to separate as a dictinct cluster, and it is difficult to find clusters among other diseases
+
+### 4. Insights and found dependencies
+
+From the previous EDA we've found that the disease 0 has much more peculiarities, that other diseases from our data. That is why for our case, we should remember about balancing our classes and be rather suspicious considering the results we'll get about diseases 1-4, thus we're going to sove multiclass classification
+
+### 5. Data preprocessing
+
+Choose categorical variables for using in models
+
+```python
+categ2 = ['sex', 'pain', 'fbs', 'restecg', 'exang', 'slope', 'ca', 'thal']
+```
+
+Let's apply OneHotEncoding for categorical features and scale numeric features
+
+```python
+from sklearn.feature_extraction import DictVectorizer as DV
+
+encoder = DV(sparse = False)
+cat_hot_x = encoder.fit_transform(X[categ2].T.to_dict().values())
+```
+
+```python
+from sklearn.cross_validation import train_test_split
+
+(X_train_cat_oh,
+X_test_cat_oh) = train_test_split(cat_hot_x,
+test_size=0.3,
+random_state=0, stratify = y)
+
+(X_train_num,
+X_test_num,
+y_train, y_test) = train_test_split(X[numer], y,
+test_size=0.3,
+random_state=0, stratify = y)
+```
+
+```python
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+
+scaler_train = StandardScaler()
+scaler_train.fit(X_train_num, y_train)
+
+X_train_num_scaled=scaler_train.transform(X_train_num)
+X_test_num_scaled=scaler_train.transform(X_test_num)
+
+x_train=np.hstack((X_train_num_scaled,X_train_cat_oh))
+x_test=np.hstack((X_test_num_scaled,X_test_cat_oh))
+```
+
+### 6. Model selection
+
+We are solving multiclass classification problem. The classifiers supported by scikit-learn, which we are going to check here:
+
+- Inherently multiclass:
+-- sklearn.tree.DecisionTreeClassifier
+-- sklearn.neighbors.KNeighborsClassifier
+-- sklearn.ensemble.RandomForestClassifier
+-- sklearn.linear_model.RidgeClassifierCV
+- Multiclass as One-Vs-One:
+-- sklearn.svm.SVC
+- Multiclass as One-Vs-All:
+-- sklearn.linear_model.LogisticRegression (setting multi_class=”ovr”)
+
+Moreover, let's include XGBoost
+
+### 7. Metrics selection
+
+We'll also use KFold cross-validation scheme with shuffle. Moreover, we will divide our data into train and test set.
+
+After that we are going to apply default model parameters and then tune them with GridSearch.
+
+As for metrics: in our case it is better to state that people with less dangerous disease 0 are ill with more rare diseases, so that they will go for an extra observation, rather than we won't find more dangerous diseases. So for this case we need less false negatives (we say a person is relatively healthy, while he is not). So we place emphasise on recall. To account for this we can place more weights to recall variable in f1 metric. In Python we can do this by fbeta_score function. We will also include accuracy and ordinary f1 score to see how it differs from our target metric.
+
+```python
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.grid_search import GridSearchCV
+from sklearn.linear_model import LogisticRegression, RidgeClassifier, SGDClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.svm import NuSVC, SVC
+import xgboost as xgb
+from sklearn.model_selection import KFold
+
+classifier = [RandomForestClassifier(max_depth=4, criterion='entropy'),
+KNeighborsClassifier(n_neighbors=10),
+xgb.XGBClassifier(learning_rate=0.1, max_depth=5, n_estimators=40, min_child_weight=3),
+RidgeClassifier(random_state=1),
+SVC(random_state=1),
+LogisticRegression(random_state = 0, multi_class='ovr'),
+DecisionTreeClassifier(random_state=1)]
+```
+
+```python
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, fbeta_score
+metr = ['accuracy_score', 'roc_auc_score', 'f1_score']
+```
+
+```python
+CV = KFold(n_splits=3, shuffle=True, random_state=1)
+```
+
+```python
+scoress = []
+model_name = []
+for model in classifier:
+model.fit(x_train, y_train)
+y_pred = model.predict(x_test)
+model_name.append(model.__class__.__name__)
+scoress.append(({
+'accuracy': accuracy_score(y_test, y_pred),
+'f1_score_wei': f1_score(y_test, y_pred,average='weighted'),
+'f_beta': fbeta_score(y_test, y_pred, beta = 1.5, average='weighted')}))
+
+results = pd.DataFrame(data=scoress, columns=['Algorithm', 'accuracy', 'f1_score_wei', 'f_beta'])
+results['Algorithm']=model_name
+```
+
+```python
+results
+```
+
+Now according to f_beta the best model is DecisionTree. The same is true for f1_score, though the most accurate is Ridge model
+
+Let's tune everything
+
+### 8. Cross-validation and adjustment of model hyperparameters
+
+```python
+param_grid_rand = {'n_jobs' : [1,5,10,15,20],
+'max_depth' : [5,7,10,15],
+'criterion' : ['gini', 'entropy']}
+param_grid_knn = {'n_neighbors':[2,5,10,15],
+'weights':['uniform', 'distance'],
+'p': [1, 2]}
+param_grid_log = {'penalty' : ['l1', 'l2'],
+'C' : [0.01, 0.05, 0.1, 0.5, 1, 5, 10]}
+param_grid_xgb = {'max_depth' :[2,5,7,10],
+'learning_rate' : [0.01, 0,1, 1],
+'gamma' : [0.01, 0.1],
+'n_estimators' : [20, 30, 40, 50] }
+
+param_grid_ridge = {'alpha' : [0.001, 0.01, 0,1, 1]}
+param_grid_svc = {'kernel': ['linear', 'poly', 'rbf'],
+'degree': [2, 3] ,
+'decision_function_shape': ['ovo', 'ovr']}
+
+param_grid_tree = {'max_depth' : [3,4,5,7, 10],
+'min_samples_split' :[2,3,5],
+'max_features' :['auto', None]}
+param_grid = [param_grid_rand, param_grid_knn, param_grid_xgb,param_grid_ridge,
+param_grid_svc, param_grid_log,
+param_grid_tree]
+```
+
+```python
+%%time
+
+scores2 = []
+model_name = []
+for i in enumerate(classifier):
+grid_cv = GridSearchCV(classifier[i[0]], param_grid[i[0]], cv = 3)
+grid = grid_cv.fit(x_train, y_train.values)
+print(classifier[i[0]], grid_cv.best_params_)
+pred = grid_cv.best_estimator_.predict(x_test)#[:,1]
+model_name.append(classifier[i[0]].__class__.__name__)
+scores2.append(({
+'accuracy': accuracy_score(y_test, pred),
+'f1_score_wei': f1_score(y_test, pred, average='weighted'),
+'f_beta': fbeta_score(y_test, pred, beta = 1.5, average='weighted')}))
+
+results2 = pd.DataFrame(data=scores2, columns=['Algorithm', 'f1_score_wei', 'accuracy', 'f_beta'])
+results2['Algorithm']=model_name
+```
+
+```python
+results2
+```
+
+Let's plot all metrics for tuned models
+
+```python
+import seaborn as sns
+import matplotlib.pyplot as plt
+f, ax = plt.subplots(figsize=(7, 7))
+sns.set(style="whitegrid")
+
+sns.set_color_codes("muted")
+sns.barplot(x="accuracy",y = 'Algorithm', data=results2,
+label="accuracy", color="b", alpha= 0.5)
+
+sns.barplot(x="f_beta",y = 'Algorithm', data=results2,
+label="f_beta", color="g", alpha= 0.5)
+
+sns.barplot(x="f1_score_wei", y = 'Algorithm', data=results2,
+label="f1_score_wei", color="r", alpha = 0.5)
+
+ax.legend(ncol=2, loc="lower right", frameon=True)
+ax.set(xlim=(0, 1), ylabel="",
+xlabel="score")
+sns.despine(left=True, bottom=True)
+```
+
+As we can see the best perfomed model is SVC with parameters {'decision_function_shape': 'ovo', 'degree': 2, 'kernel': 'linear'}
+
+### 9. Prediction for test or hold-out samples
+
+Here is the prediction of the best model
+
+```python
+estimator=SVC(decision_function_shape = 'ovo', degree = 2, kernel='linear')
+estimator.fit(x_train, y_train)
+pred_new = estimator.predict(x_test)
+fbeta_score(y_test, pred_new, beta = 1.5, average='weighted')
+```
+
+```python
+pred_new
+```
+
+### 10. Plotting training and validation curves
+
+Let's take pur best model and look at learning curves
+
+```python
+%%time
+
+RANDOM_SEED = 0
+train_sizes, train_scores, test_scores = learning_curve(estimator=SVC(decision_function_shape = 'ovo',
+degree = 2, kernel='linear'),
+X=x_train,
+y=y_train,
+train_sizes=[0.25, 0.5, 0.75, 1.0],
+cv=CV,
+shuffle=True,
+random_state=RANDOM_SEED)
+
+train_scores_mean = np.mean(train_scores, axis=1)
+train_scores_std = np.std(train_scores, axis=1)
+test_scores_mean = np.mean(test_scores, axis=1)
+test_scores_std = np.std(test_scores, axis=1)
+
+fig = plt.figure(figsize=(20, 5))
+
+plt.xlabel('train_sizes')
+plt.ylabel('roc_auc')
+# plt.ylim(0.5, 1.01)
+
+plt.plot(train_sizes,
+train_scores_mean,
+label="Training score",
+color="b", marker='o')
+
+plt.plot(train_sizes,
+test_scores_mean,
+label="CV score",
+color="g", marker='s')
+
+plt.fill_between(train_sizes,
+train_scores_mean - train_scores_std,
+train_scores_mean + train_scores_std,
+alpha=0.2, color="b")
+
+plt.fill_between(train_sizes,
+test_scores_mean - test_scores_std,
+test_scores_mean + test_scores_std,
+alpha=0.2, color="g")
+
+plt.legend(loc="best")
+plt.show()
+```
+
+The good news: curves are coming closer to each other. The bad news: nothing happens to CV score. Maybe this model requires specific CV scheme
+
+```python
+from sklearn.model_selection import StratifiedKFold
+
+CV2 = StratifiedKFold(n_splits=3, random_state=0, shuffle=True)
+RANDOM_SEED = 0
+train_sizes, train_scores, test_scores = learning_curve(estimator=SVC(decision_function_shape = 'ovo',
+degree = 2, kernel='linear'),
+X=x_train,
+y=y_train,
+train_sizes=[0.25, 0.5, 0.75, 1.0],
+cv=CV2,
+shuffle=True,
+random_state=RANDOM_SEED)
+
+train_scores_mean = np.mean(train_scores, axis=1)
+train_scores_std = np.std(train_scores, axis=1)
+test_scores_mean = np.mean(test_scores, axis=1)
+test_scores_std = np.std(test_scores, axis=1)
+
+fig = plt.figure(figsize=(20, 5))
+
+plt.xlabel('train_sizes')
+plt.ylabel('roc_auc')
+# plt.ylim(0.5, 1.01)
+
+plt.plot(train_sizes,
+train_scores_mean,
+label="Training score",
+color="b", marker='o')
+
+plt.plot(train_sizes,
+test_scores_mean,
+label="CV score",
+color="g", marker='s')
+
+plt.fill_between(train_sizes,
+train_scores_mean - train_scores_std,
+train_scores_mean + train_scores_std,
+alpha=0.2, color="b")
+
+plt.fill_between(train_sizes,
+test_scores_mean - test_scores_std,
+test_scores_mean + test_scores_std,
+alpha=0.2, color="g")
+
+plt.legend(loc="best")
+plt.show()
+```
+
+Yes, with stratified KFold the situation is better
+
+### 11. Creation of new features and description of this process
+
+Can we improve model by creating new features? Here data contain more categorical variables. In such situation let's generate new features by cross interaction of existing ones.
+
+```python
+from sklearn.preprocessing import PolynomialFeatures
+
+poly = PolynomialFeatures(degree=2, interaction_only=True, include_bias=False)
+data_poly_train = poly.fit_transform(x_train)
+data_poly_test = poly.transform(x_test)
+
+scaler = StandardScaler()
+data_poly_scaled_train = scaler.fit_transform(data_poly_train)
+data_poly_scaled_test = scaler.transform(data_poly_test)
+```
+
+```python
+x_train_new=np.hstack((x_train, data_poly_scaled_train))
+x_test_new=np.hstack((x_test, data_poly_scaled_test))
+```
+
+```python
+x_train.shape, data_poly_scaled_train.shape, x_train_new.shape
+```
+
+```python
+estimator=SVC(decision_function_shape = 'ovo', degree = 2, kernel='linear')
+estimator.fit(x_train_new, y_train)
+pred_new = estimator.predict(x_test_new)
+fbeta_score(y_test, pred_new, beta = 1.5, average='weighted')
+```
+
+It got much worse, so just forget about this :)
+
+### 12. Conclusions
+
+We have tried 7 different algorithm for multiclass classification task. As we can see to distinguish between diseases is more difficult than to cathc whether the person have any disease. In our analysis the best performed model turned out to be SVC.
+
+As for ways of improvement, we can see from learning curves that there is need for more data. Moreover, more features considering heart can be included in the dataset, that could help to build more sophisticated algorithms.
+
+Case for application of such approach are obvious: it is automatification of patients observation and helping doctors in diagnosis clearification.
+
+Hope you've found this project interesting, as I did. (^_^)

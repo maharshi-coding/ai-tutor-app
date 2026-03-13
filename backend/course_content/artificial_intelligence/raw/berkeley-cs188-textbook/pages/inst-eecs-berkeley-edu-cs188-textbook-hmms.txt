@@ -1,0 +1,23 @@
+Title: 8. HMMs
+URL: https://inst.eecs.berkeley.edu/~cs188/textbook/hmms/
+Snapshot Type: sanitized text
+
+8. HMMs
+
+Author: Nikhil Sharma
+
+Edited by: Saathvik Selvan, Pranav Muralikrishnan, and Wesley Zheng
+
+Credit: Some sections adapted from the textbook Artificial Intelligence: A Modern Approach .
+
+Last updated: November 2024
+
+- 8.1 Markov Models
+
+- 8.2 Hidden Markov Models
+
+- 8.3 The Viterbi Algorithm
+
+- 8.4 Particle Filtering
+
+- 8.5 Summary

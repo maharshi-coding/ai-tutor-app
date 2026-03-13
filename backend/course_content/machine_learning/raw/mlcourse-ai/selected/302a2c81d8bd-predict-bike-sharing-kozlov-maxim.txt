@@ -1,0 +1,517 @@
+Original Path: jupyter_english/projects_indiv/Predict_bike_sharing_Kozlov_Maxim.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+**Research plan**
+1. Feature and data explanation
+2. Primary data analysis
+3. Primary visual data analysis
+4. Insights and found dependencies
+5. Metrics selection
+6. Model selection
+7. Data preprocessing
+8. Cross-validation and adjustment of model hyperparameters
+9. Creation of new features and description of this process
+10. Plotting training and validation curves
+11. Prediction for test or hold-out samples
+12. Conclusions
+
+### Part 1. Feature and data explanation
+
+There are provided hourly rental data spanning two years. For this [competition](https://www.kaggle.com/c/comp180bikeshare), the [training set](https://www.kaggle.com/c/comp180bikeshare/data) is comprised of the first 16 days of each month, while the test set is the 17-19th day of the month. You must predict the total count of bikes rented during each hour covered by the test set, using only information available prior to the rental period. That is, predict "count" without using "count" or it's components "casual" and "registered".
+
+**Data Fields**
+
+* *datetime* - hourly date + timestamp
+* *season* - 1 = spring, 2 = summer, 3 = fall, 4 = winter
+* *holiday* - whether the day is considered a holiday
+* *workingday* - whether the day is neither a weekend nor holiday
+* *weather* -
+1. Clear, Few clouds, Partly cloudy, Partly cloudy
+2. Mist + Cloudy, Mist + Broken clouds, Mist + Few clouds, Mist
+3. Light Snow, Light Rain + Thunderstorm + Scattered clouds, Light Rain + Scattered clouds
+4. Heavy Rain + Ice Pallets + Thunderstorm + Mist, Snow + Fog
+* *temp* - temperature in Celsius
+* *atemp* - "feels like" temperature in Celsius
+* *humidity* - relative humidity
+* *windspeed* - wind speed
+* *casual* - number of non-registered user rentals initiated
+* *registered* - number of registered user rentals initiated
+* *count* - number of total rentals
+
+### Part 2. Primary data analysis
+
+```python
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import os
+import gc
+
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split, cross_val_score
+from catboost import CatBoostRegressor, Pool, cv
+from sklearn.metrics import mean_squared_error
+
+import seaborn as sns
+from matplotlib import pyplot as plt
+%matplotlib inline
+
+import warnings
+warnings.filterwarnings('ignore')
+
+# Fixing random seed
+np.random.seed(17)
+
+print(os.listdir("../input"))
+```
+
+```python
+# Fixing random seed
+np.random.seed(17)
+# Read data
+data_df = pd.read_csv('../input/train_luc.csv')
+
+# Convert to datetime
+data_df['datetime'] = pd.to_datetime(data_df['datetime'])
+
+# Sort by datetime
+data_df.sort_values(by='datetime')
+
+# Look at the first rows of the training set
+data_df.head()
+```
+
+```python
+data_df.shape
+```
+
+*Train contains 3 target columns: ** 'casual', 'registred', 'count'.**
+Column 'count' is the sum of columns 'casual' and 'registred'. Check it:*
+
+```python
+(data_df['casual'] + data_df['registered'] - data_df['count']).value_counts()
+```
+
+```python
+# Get info by train
+data_df.info()
+```
+
+Excelent! We have not NaN.
+
+```python
+# Get statistics by train_df
+data_df.describe()
+```
+
+### Part 3. Primary visual data analysis
+
+I split data into train and hold-out samples
+
+```python
+train_df, test_df, y_train, y_test = train_test_split(data_df.drop(['casual', 'registered', 'count'], axis=1), data_df[['casual', 'registered', 'count']],
+test_size=0.3, random_state=17, shuffle=True)
+```
+
+```python
+def draw_train_test_distribution(column):
+_, axes = plt.subplots(nrows=1, ncols=2, figsize=(10,3))
+sns.distplot(train_df[column], ax = axes[0], label='train')
+sns.distplot(test_df[column], ax = axes[1], label='test');
+```
+
+```python
+# The distribution of the indicative features
+draw_train_test_distribution('season')
+draw_train_test_distribution('holiday')
+draw_train_test_distribution('workingday')
+draw_train_test_distribution('weather');
+```
+
+The distribution of the indicative features ('season', 'holiday', 'workingday', 'weather') on the train and test coincides. There is 'weather' with value 4 on the test and absent on the train
+
+```python
+test_df[test_df['weather'] == 4]['weather'].count()
+```
+
+Only 1 exampe contains 'weather'=4. This can be neglected
+
+```python
+# The distribution of the numerical features on the train and test
+draw_train_test_distribution('temp')
+draw_train_test_distribution('atemp')
+draw_train_test_distribution('humidity')
+draw_train_test_distribution('windspeed')
+```
+
+The distribution of the scale features ('temp', 'atemp', 'humidity', 'windspeed') on the train and test coincides
+
+```python
+def transformation(columnName, func = np.log1p):
+temp_train = pd.DataFrame(index=train_df.index)
+temp_train[columnName] = train_df[columnName].apply(func)
+
+temp_test = pd.DataFrame(index=test_df.index)
+temp_test[columnName] = test_df[columnName].apply(func)
+
+_, axes = plt.subplots(nrows=1, ncols=2, figsize=(10,3))
+sns.distplot(temp_train, ax = axes[0])
+sns.distplot(temp_test, ax = axes[1]);
+```
+
+```python
+transformation('temp')
+transformation('atemp')
+transformation('humidity')
+```
+
+After the transformation of the distribution on the train_df and on the test_df began to resemble each other more
+
+```python
+train_df['temp_tr'] = train_df['temp'].apply(np.log1p)
+test_df['temp_tr'] = test_df['temp'].apply(np.log1p)
+train_df['atemp_tr'] = train_df['atemp'].apply(np.log1p)
+test_df['atemp_tr'] = test_df['atemp'].apply(np.log1p)
+train_df['humidity_tr'] = train_df['humidity'].apply(np.log1p)
+test_df['humidity_tr'] = test_df['humidity'].apply(np.log1p)
+```
+
+### Part 4. Insights and found dependencies
+
+```python
+corr = train_df.join(y_train).corr('spearman')
+plt.figure(figsize = ( 12 , 10 ))
+sns.heatmap(corr,annot=True,fmt='.2f',cmap="YlGnBu");
+```
+
+We can see a strong correlation between target columns (What was expected). Among customers, correlation with registered users is higher than with unregistered ones. In this case, unregistered looking more at the weather.
+Correlations temp/temp_tr, atemp/atemp_tr, humidity/humidity_tr are equals. I'll use *_tr features, because their distibutions into train/test are similar.
+**Idea: Build an ensemble using 3 models with different target!**
+'Holiday' has a low correlation with targets. I'll not use it.
+'Workingday' has a lower correlation with 'registered' and 'count' than with 'casual'
+'Windspeed' affects both registered and unregistered users
+The effect of 'temp' and 'atemp' is the same.
+
+### Part 5. Metrics selection
+According to the terms of [competition](https://www.kaggle.com/c/comp180bikeshare#evaluation) i will use Root Mean Squared Error (RMSE)
+
+### Part 6. Model selection
+
+The [course](https://www.coursera.org/learn/competitive-data-science) recommend using [Gradient boosting](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html) model as one of the most powerful. I want use Catboost library, because i want to understand it. From catboost library i 'll use CatBoostRegression, because current task is related to regression.
+
+### Part 7. Data preprocessing
+
+* I changed 'temp', 'atemp', 'humidity' features in part 3.
+* NaN is absent.
+* I will not use OHE because the CatBoostRegressor takes a list of categorical features as a parameter
+* Scaling data in CatBoost will be auto
+
+```python
+X_train = train_df.drop(['holiday', 'datetime', 'temp', 'atemp', 'humidity'], axis=1)
+X_test = test_df.drop(['holiday', 'datetime', 'temp', 'atemp', 'humidity'], axis=1)
+```
+
+### Part 8. Cross-validation and adjustment of model hyperparameters
+
+```python
+cat_features = [0, 1, 2]
+
+X_train_cbr, X_test_cbr, y_train_cbr, y_test_cbr = train_test_split(X_train, y_train, test_size=0.3, random_state=17, shuffle=True)
+```
+
+```python
+from hyperopt import hp, fmin, tpe, STATUS_OK, Trials
+import colorama
+
+# the number of random sets of hyperparameters
+N_HYPEROPT_PROBES = 100
+
+# hyperparameter sampling algorithm
+HYPEROPT_ALGO = tpe.suggest
+
+space ={
+'depth': hp.quniform("depth", 4, 10, 1),
+'learning_rate': hp.loguniform('learning_rate', -3.0, -0.7),
+'l2_leaf_reg': hp.uniform('l2_leaf_reg', 1, 10),
+}
+
+def get_catboost_params(space):
+params = dict()
+params['learning_rate'] = space['learning_rate']
+params['depth'] = int(space['depth'])
+params['l2_leaf_reg'] = space['l2_leaf_reg']
+return params
+
+def objective(space, target_column='count'):
+global obj_call_count, cur_best_rmse
+
+obj_call_count += 1
+
+print('\nCatBoost objective call #{} cur_best_acc={:7.5f}'.format(obj_call_count, cur_best_rmse) )
+
+params = get_catboost_params(space)
+
+sorted_params = sorted(space.items(), key=lambda z: z[0])
+params_str = str.join(' ', ['{}={}'.format(k, v) for k, v in sorted_params])
+print('Params: {}'.format(params_str) )
+
+model = CatBoostRegressor(iterations=2000,
+cat_features = cat_features,
+learning_rate=params['learning_rate'],
+depth=int(params['depth']),
+use_best_model=True,
+eval_metric='RMSE',
+l2_leaf_reg=params['l2_leaf_reg'],
+early_stopping_rounds=50,
+random_seed=17,
+verbose=False
+)
+model.fit(X_train_cbr, y_train_cbr[target_column],
+eval_set=(X_test_cbr, y_test_cbr[target_column]),
+verbose=False)
+nb_trees = model.get_best_iteration()
+
+print('nb_trees={}'.format(nb_trees))
+
+y_pred = model.predict(X_test_cbr)
+
+rmse = np.sqrt(mean_squared_error(y_test_cbr[target_column], y_pred))
+
+print('rmse={}, Params:{}, nb_trees={}\n'.format(rmse, params_str, nb_trees ))
+
+if rmse<cur_best_rmse:
+cur_best_rmse = rmse
+print(colorama.Fore.GREEN + 'NEW BEST RMSE={}'.format(cur_best_rmse) + colorama.Fore.RESET)
+
+return{'loss':rmse, 'status': STATUS_OK }
+```
+
+```python
+%%time
+obj_call_count = 0
+cur_best_rmse = np.inf
+
+trials = Trials()
+best = fmin(fn=objective,
+space=space,
+algo=HYPEROPT_ALGO,
+max_evals=N_HYPEROPT_PROBES,
+trials=trials,
+verbose=1)
+```
+
+```python
+print('The best params:')
+print( best )
+```
+
+```python
+cbr = CatBoostRegressor(random_seed=17,
+eval_metric='RMSE',
+iterations=2000,
+max_depth=best['depth'],
+early_stopping_rounds=50,
+learning_rate=best['learning_rate'],
+l2_leaf_reg=best['l2_leaf_reg'],
+use_best_model=True)
+cbr.fit(X_train_cbr, y_train_cbr['count'],
+eval_set=(X_test_cbr, y_test_cbr['count']),
+cat_features=cat_features,
+silent=True,
+plot=True);
+```
+
+```python
+rmse_learn = cbr.evals_result_['learn']['RMSE']
+rmse_test = cbr.evals_result_['validation_0']['RMSE']
+
+plt.plot(rmse_learn)
+plt.plot(rmse_test)
+plt.title('RMSE on train/test data')
+plt.xlabel('trees count')
+plt.ylabel('rmse value')
+plt.legend(['leanr', 'test']);
+```
+
+```python
+#Get important features
+cbr.feature_importances_
+```
+
+Most important features are 'humidity_tr', 'atemp_tr' and 'temp_tr'
+
+### Part 9. Creation of new features and description of this process
+
+Add new features from 'datetime'
+
+```python
+train_df['hour'] = train_df['datetime'].apply(lambda ts: ts.hour)
+test_df['hour'] = test_df['datetime'].apply(lambda ts: ts.hour)
+
+train_df['weekday'] = train_df['datetime'].apply(lambda ts: ts.isoweekday())
+test_df['weekday'] = test_df['datetime'].apply(lambda ts: ts.isoweekday())
+
+train_df['month'] = train_df['datetime'].apply(lambda ts: ts.month)
+test_df['month'] = test_df['datetime'].apply(lambda ts: ts.month)
+```
+
+```python
+draw_train_test_distribution('hour')
+draw_train_test_distribution('weekday');
+draw_train_test_distribution('month');
+```
+
+Disributions in train and test datasets are equale.
+
+```python
+hours_mean_count = {}
+hours_mean_casual = {}
+hours_mean_registered = {}
+
+hours_mean ={}
+hours = np.unique(train_df['hour'])
+print("hours:",hours)
+
+temp_train_df = train_df.join(y_train)
+
+for h in hours:
+hours_mean_count[h] = temp_train_df.loc[temp_train_df['hour'] == h]['count'].mean()
+hours_mean_casual[h] = temp_train_df.loc[temp_train_df['hour'] == h]['casual'].mean()
+hours_mean_registered[h] = temp_train_df.loc[temp_train_df['hour'] == h]['registered'].mean()
+
+hours_mean[h] = [temp_train_df.loc[temp_train_df['hour'] == h]['count'].mean(),
+temp_train_df.loc[temp_train_df['hour'] == h]['casual'].mean(),
+temp_train_df.loc[temp_train_df['hour'] == h]['registered'].mean()]
+
+hours_df = pd.DataFrame.from_dict(hours_mean, orient='index',
+columns=['count', 'casual', 'registered'])
+hours_df['hours'] = hours
+
+hours_df.plot(x='hours', y=['count', 'casual', 'registered'], kind='bar',
+title = 'Measured bike use over 2 years', legend = True );
+
+del temp_train_df
+gc.collect()
+```
+
+Ok. It makes sense to make features by the hour: night (23-0-6), day (7-22)
+
+```python
+train_df['night'] = train_df['hour'].apply(lambda h: 1 if (h>=23) | (h<=6) else 0)
+train_df['day'] = train_df['hour'].apply(lambda h: 1 if (h<23) & (h>6) else 0)
+
+test_df['night'] = test_df['hour'].apply(lambda h: 1 if (h>=23) | (h<=6) else 0)
+test_df['day'] = test_df['hour'].apply(lambda h: 1 if (h<23) & (h>6) else 0)
+```
+
+I like trigonimetry)) [Here](https://habr.com/company/ods/blog/325422/#data-i-vremya) and [here](https://medium.com/open-machine-learning-course/open-machine-learning-course-topic-6-feature-engineering-and-feature-selection-8b94f870706a) is a great example of how to use trigonometry. I'll modify it a bit.
+
+```python
+def make_harmonic_features(value, period=24):
+new_value = value * 2 * np.pi / period
+return np.cos(new_value), np.sin(new_value)
+
+train_df['hour_cos'], train_df['hour_sin'] = make_harmonic_features(train_df['hour'])
+test_df['hour_cos'], test_df['hour_sin'] = make_harmonic_features(test_df['hour'])
+```
+
+```python
+train_df.head()
+```
+
+### Part 10. Plotting training and validation curves
+
+Build new model with new params
+
+```python
+X_train = train_df.drop(['holiday', 'datetime', 'temp', 'atemp', 'humidity'], axis=1)
+X_test = test_df.drop(['holiday', 'datetime', 'temp', 'atemp', 'humidity'], axis=1)
+```
+
+```python
+X_train.head()
+```
+
+```python
+cat_features = [0, 1, 2, 7, 8, 9, 10, 11]
+
+X_train_cbr, X_test_cbr, y_train_cbr, y_test_cbr = train_test_split(X_train, y_train, test_size=0.3, random_state=17, shuffle=True)
+```
+
+```python
+%%time
+obj_call_count = 0
+cur_best_rmse = np.inf
+
+trials = Trials()
+best = fmin(fn=objective,
+space=space,
+algo=HYPEROPT_ALGO,
+max_evals=N_HYPEROPT_PROBES,
+trials=trials,
+verbose=1)
+```
+
+```python
+print('The best params:')
+print(best)
+```
+
+```python
+cbr = CatBoostRegressor(random_seed=17,
+eval_metric='RMSE',
+iterations=2000,
+max_depth=best['depth'],
+early_stopping_rounds=50,
+learning_rate=best['learning_rate'],
+l2_leaf_reg=best['l2_leaf_reg'])
+cbr.fit(X_train_cbr, y_train_cbr['count'],
+eval_set=(X_test_cbr, y_test_cbr['count']),
+cat_features=cat_features,
+silent=True,
+plot=True);
+```
+
+```python
+rmse_learn = cbr.evals_result_['learn']['RMSE']
+rmse_test = cbr.evals_result_['validation_0']['RMSE']
+
+plt.plot(rmse_learn)
+plt.plot(rmse_test)
+plt.title('RMSE on train/test data')
+plt.xlabel('trees count')
+plt.ylabel('rmse value')
+plt.legend(['leanr', 'test']);
+```
+
+### Part 11. Prediction for test or hold-out samples
+
+```python
+%%time
+cbr = CatBoostRegressor(random_seed=17,
+eval_metric='RMSE',
+iterations=2000,
+max_depth=best['depth'],
+# early_stopping_rounds=50, #because fit without eval_set
+learning_rate=best['learning_rate'],
+l2_leaf_reg=best['l2_leaf_reg'])
+cbr.fit(X_train, y_train['count'],
+cat_features=cat_features,
+silent=True,
+plot=False);
+```
+
+```python
+y_pred = cbr.predict(X_test)
+rmse = np.sqrt(mean_squared_error(y_test['count'], y_pred))
+print('RMSE = ', rmse)
+```
+
+**RMSE for hold_out samples coincides with the RMSE on cross-validation!!!**
+
+### Part 12. Conclusions
+* New features significantly improved the result. 'cbr.feature_importances_' shows us the most important parameters. If you select new features from them, you can get a better model.
+* Some features can degrade the result and it would be necessary to find them and remove them from the model.
+* Here you can also apply an ensemble of models based on different targets ('casual', 'registered' and 'count'). Also try other libraries (lightgbm, XGBoost) and compare results. And can also apply an ensemble of models based on different libraries )))
+* The implemented functions **objective** and **get_catboost_params** for setting hyperparameters can be used in other projects. I think this is a good start for creating a more flexible library that can be used in Kaggle competitions
+* I used CPU, but GPU can be used in catboost.

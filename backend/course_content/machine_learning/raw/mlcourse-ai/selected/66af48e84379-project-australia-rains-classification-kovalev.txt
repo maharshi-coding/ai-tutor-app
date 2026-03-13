@@ -1,0 +1,465 @@
+Original Path: jupyter_english/projects_indiv/project_australia_rains_classification_kovalev.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+## <center> Open Machine Learning Course mlcourse.ai. English session #2
+
+### <center> Autor: Valentin Kovalev (@ValentineKvLove)
+
+## <center> Individual data analysis project </center>
+### <center> Predict rain tomorrow in Australia </center>
+
+**Research plan**
+- Feature and data explanation
+- Primary data analysis
+- Primary visual data analysis
+- Insights and found dependencies
+- Metrics selection
+- Model selection
+- Data preprocessing
+- Cross-validation and adjustment of model hyperparameters
+- Creation of new features and description of this process
+- Plotting training and validation curves
+- Prediction for test or hold-out samples
+- Conclusions
+
+Read more <a href="https://mlcourse.ai/roadmap">here</a>.
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from scipy import stats
+
+import operator
+
+import warnings
+warnings.filterwarnings('ignore')
+
+%matplotlib inline
+```
+
+### <center> 1. Feature and data explanation
+
+In this dataset there are two targets we can try to predict: **RainTomorrow** or **Risk-MM**. <br>
+
+**RainTomorrow** means: Did it rain the next day? Yes or No. <br>
+
+**Risk-MM** means: The amount of rain the next day. <br>
+
+In this project we'll try to predict **whether or not it will rain tomorrow** by training a binary classification model on target **RainTomorrow**. <br>
+<br>
+Challenges (some spoilers) in this dataset:<br>
+- Unbalanced target RainTomorrow<br>
+- Missing data (even in the target)<br>
+- Numeric and categorical variables<br><br>
+
+### Content<br>
+The content is daily weather observations from numerous Australian weather stations.<br>
+There is target we can try to predict: **RainTomorrow**.<br>
+**RainTomorrow** means: Did it rain the next day? Yes or No.<br>
+### Source & Acknowledgements<br>
+Original dataset was obtained from https://www.kaggle.com/jsphyg/weather-dataset-rattle-package <br>
+Observations were drawn from numerous weather stations. The daily observations are available from http://www.bom.gov.au/climate/data. Copyright Commonwealth of Australia 2010, Bureau of Meteorology.<br>
+<br>
+Definitions adapted from http://www.bom.gov.au/climate/dwo/IDCJDW0000.shtml<br>
+<br>
+Package home page: http://rattle.togaware.com.
+<br> Data source: http://www.bom.gov.au/climate/dwo/ and http://www.bom.gov.au/climate/data.<br>
+<br>
+And to see some great examples of how to use this data: https://togaware.com/onepager/<br>
+
+### Feature descriptions in dataset
+
+**Date**<br> The date of observation.<br>Type: Datetime<br><br>
+**Location**<br> The common name of the location of the weather station.<br>Type: String<br><br>
+**MinTemp**<br> The minimum temperature in degrees celsius.<br>Type: Numeric<br><br>
+**MaxTemp**<br> The maximum temperature in degrees celsius.<br>Type: Numeric<br><br>
+**Rainfall**<br> The amount of rainfall recorded for the day in mm.<br>Type: Numeric<br><br>
+**Evaporation**<br> The so-called Class A pan evaporation (mm) in the 24 hours to 9am.<br>Type: String<br><br>
+**Sunshine**<br> The number of hours of bright sunshine in the day.<br>Type: String<br><br>
+**WindGustDir**<br> The direction of the strongest wind gust in the 24 hours to midnight.<br>Type: String<br><br>
+**WindGustSpeed**<br> The speed (km/h) of the strongest wind gust in the 24 hours to midnight.<br>Type: Numeric<br><br>
+**WindDir9am**<br> Direction of the wind at 9am.<br>Type: String<br><br>
+**WindDir3pm**<br> Direction of the wind at 3pm.<br>Type: String<br><br>
+**WindSpeed9am**<br> Wind speed (km/hr) averaged over 10 minutes prior to 9am.<br>Type: Numeric<br><br>
+**WindSpeed3pm**<br> Wind speed (km/hr) averaged over 10 minutes prior to 3pm.<br>Type: Numeric<br><br>
+**Humidity9am**<br> Humidity (percent) at 9am.<br>Type: Numeric<br><br>
+**Humidity3pm**<br> Humidity (percent) at 3pm.<br>Type: Numeric<br><br>
+**Pressure9am**<br> Atmospheric pressure (hpa) reduced to mean sea level at 9am.<br>Type: Numeric<br><br>
+**Pressure3pm**<br> Atmospheric pressure (hpa) reduced to mean sea level at 3pm.<br>Type: Numeric<br><br>
+**Cloud9am**<br> Fraction of sky obscured by cloud at 9am. This is measured in "oktas", which are a unit of eigths. It records how many eigths of the sky are obscured by cloud. A 0 measure indicates completely clear sky whilst an 8 indicates that it is completely overcast.<br>Type: Numeric<br><br>
+**Cloud3pm**<br> Fraction of sky obscured by cloud (in "oktas": eighths) at 3pm. See Cload9am for a description of the values.<br>Type: Numeric<br><br>
+**Temp9am**<br> Temperature (degrees C) at 9am.<br>Type: Numeric<br><br>
+**Temp3pm**<br> Temperature (degrees C) at 3pm.<br>Type: Numeric<br><br>
+**RainToday**<br> 1 if precipitation (mm) in the 24 hours to 9am exceeds 1mm, otherwise 0.<br>Type: Boolean<br><br>
+**RISK_MM** <br> The amount of rain. A kind of measure of the "risk".<br>Type: Digital<br><br>
+**RainTomorrow**<br> The target variable. Did it rain tomorrow?<br>Type: Boolean<br><br>
+
+### <center> 2. Primary data analysis
+
+At first, import libraries to work
+
+```python
+import numpy as np
+import pandas as pd
+from sklearn import preprocessing
+import matplotlib.pyplot as plt
+
+# Input data files are available in the "../input/" directory.
+# For example, running this will list the files in the input directory
+
+import os
+
+# Any results you write to the current directory are saved as output.
+```
+
+Assign datatypes of all columns that we use in DataFrame object.
+
+```python
+dtype = {'Date': str,
+'Location': str,
+'MinTemp': np.float16,
+'MaxTemp': np.float16,
+'Rainfall': np.float16,
+'Evaporation': np.float16,
+'Sunshine': np.float16,
+'WindGustDir': str,
+'WindGustSpeed': np.int64,
+'WindDir9am': str,
+'WindDir3am': str,
+'WindSpeed9am': np.uint16,
+'WindSpeed3am': np.uint16,
+'Humidity9am': np.uint16,
+'Humidity3am': np.uint16,
+'Pressure9am': np.float16,
+'Pressure3am': np.float16,
+'Cloud9am': np.uint16,
+'Temp9am': np.float16,
+'Temp3am': np.float16,
+'RainToday': str,
+'RISK_MM': np.float16,
+'RainTomorrow': str}
+```
+
+Reading data into memory and creating a Pandas DataFrame object.
+
+```python
+df_all = pd.read_csv("input/weatherAUS.csv")
+```
+
+Check the number of rows and columns and print column names.
+
+```python
+print(df_all.shape)
+print(df_all.columns)
+df_all.head()
+```
+
+Drop 'RISK_MM' column, because we want to solve classification task, and print 5 rows of our new DataFrame object.
+
+```python
+df = df_all.drop(columns=['RISK_MM'])
+df.head()
+```
+
+Transpose the frame to see all features at once.
+
+```python
+df.head().T
+```
+
+Examine data types of all features and total dataframe size in memory.
+
+```python
+df.info()
+```
+
+Let's look at the characteristics of the distribution of categorical features. Immediately we bring the integer signs **Date, Location, WindGustDir, WindDir9am, WindDir3pm, RainToday, RainTomorrow** (which are categorical) to the string type for correct processing by describe () method.
+
+```python
+int_features = ['Date', 'Location', 'WindGustDir', 'WindDir9am', 'WindDir3pm', 'RainToday', 'RainTomorrow']
+
+for feat in int_features:
+df[feat] = df[feat].astype('str')
+
+df.describe(exclude=['float64']).T
+```
+
+The sample includes 49 settlement.<br>
+There are no anomalous values in the date, Location and WindDirs.<br>
+WindDir (all) - 16 values for directions, and one is for windless.<br>
+RainToday - 'Yes'/'No'/NaN - can represented as bool-type.<br>
+RainTomorrow - 'Yes'/'No' - can represented as bool-type.<br>
+
+Let us highlight the float features and look at the characteristics of their distribution.
+
+```python
+df.describe(include=['float64']).T
+```
+
+Можно сделать предварительные выводы по признакам:<br>
+- **MinTemp, MaxTemp, Temp9am, Temp3pm** (The minimum/maximum temperature at this day, or temperature at 9am/3pm in degrees celsius) - values probably do not include emissions due to errors of measurement or their number is few; it is possible to do verification using geo-services.
+- **Rainfall** (the amount of rainfall recorded for the day in mm) - want to believe that there are no measurement errors, otherwise we have questions to the data layout; more than 50% of the data contain information about the absence of precipitation, and 75% - about the absence or minor precipitation.
+- **Evaporation** (The so-called Class A pan evaporation (mm) in the 24 hours to 9am) - looks like that there are no measurement errors, at more days this indicator is > 0, got many (>60%) skipped values.
+- **Sunshine** (The number of hours of bright sunshine in the day) - got many skipped values.
+- **WindGustSpeed, WindSpeed9am, WindSpeed3pm** (Wind speed) - got NaN values at some positions.
+- **Humidity9am, Humidity3pm** (Humidity (percent) at 9am/3pm) - values got some NaN values.
+- **Pressure9am, Pressure3pm** (Atmospheric pressure (hpa) reduced to mean sea level at 9am/3pm) - about 10% of NaNs values.
+- **Cloud9am, Cloud3pm** (Fraction of sky obscured by cloud at 9am/3pm. This is measured in "oktas", which are a unit of eigths. It records how many eigths of the sky are obscured by cloud. A 0 measure indicates completely clear sky whilst an 8 indicates that it is completely overcast) - got many NaN values (about 40%), we can try to drop it.
+
+We see there are some columns with null values.<br>
+Let's find out which of the columns have maximum null values
+
+```python
+df.count().sort_values()
+```
+
+As we can see the first four columns have less than 60% data, we can ignore these four columns. It can be, because the observer was not able to check these features.
+
+Consider the correlation of real features, excluding the target. We map the distribution and top 20 correlating pairs of features by two methods: Pearson and Spearman (estimating the strength of linear and monotonic relationships, respectively).
+
+```python
+numeric_columns = [col for col in df if (df[col].dtype == 'float64')]
+
+pearson_corr = df[numeric_columns].corr(method='pearson')
+spearman_corr = df[numeric_columns].corr(method='spearman')
+```
+
+```python
+no_target_unique_pearson_corr = dict()
+no_target_unique_spearman_corr = dict()
+
+for (row, r_name) in enumerate(pearson_corr.index):
+for (col, c_name) in enumerate(pearson_corr.columns[row+1:]):
+if('RainTomorrow' in [r_name, c_name]):
+continue
+no_target_unique_pearson_corr['{}-{}'.format(r_name, c_name)] = abs(pearson_corr.iloc[row, col])
+
+for (row, r_name) in enumerate(spearman_corr.index):
+for (col, c_name) in enumerate(spearman_corr.columns[row+1:]):
+if('RainTomorrow' in [r_name, c_name]):
+continue
+no_target_unique_spearman_corr['{}-{}'.format(r_name, c_name)] = abs(spearman_corr.iloc[row, col])
+
+pearson_corr_df = pd.DataFrame(sorted(no_target_unique_pearson_corr.items(), key=operator.itemgetter(1), reverse=True))
+pearson_corr_df.columns = ['', 'pearson corr']
+
+spearman_corr_df = pd.DataFrame(sorted(no_target_unique_spearman_corr.items(), key=operator.itemgetter(1), reverse=True))
+spearman_corr_df.columns = ['', 'spearman corr']
+```
+
+```python
+corr_df = pd.concat([pearson_corr_df, spearman_corr_df], axis=1)
+corr_df.hist()
+plt.show()
+```
+
+```python
+corr_df = pd.concat([pearson_corr_df.head(20), spearman_corr_df.head(20)], axis=1)
+corr_df
+```
+
+We see that both methods on the top results give very similar indicators. It can be assumed that there is a correlation between these features, and the relationship is linear. But dependence is not due to the physical nature of the signs.
+
+Check balance between positive and negative classes:
+
+```python
+df['RainTomorrow'].value_counts()
+```
+
+We can see, that classes unbalanced.
+
+### <center> 3. Primary visual data analysis
+
+Plotting balance between positive and negative classes.
+
+```python
+plot_sb = sns.countplot(df['RainTomorrow'], label='Total')
+Rain, NotRain = df['RainTomorrow'].value_counts()
+print('Rain: ',Rain)
+print('Not Rain : ',NotRain)
+```
+
+As we saw before, classes are unbalanced.
+
+Look at heatmap by pearson correlation, that we made before.
+
+```python
+plt.subplots(figsize=(11, 9))
+sns.heatmap(pearson_corr)
+```
+
+We can see, that temperature, pressure, windspeed and humidity features at 9am and 3pm are very correlated. <br>
+And we can see, that rainfall and all wind features, and wind and cloud features correlated too.
+
+### <center> 4. Insights and found dependencies
+
+Summarise previous results, we can see that:
+- temperature, pressure, windspeed and humidity features at one day, but on 9am and 3pm are very correlated. It's usuall and talks, that this features are stable at each day. <br>
+- Rainfall and wind features correlated, because, existance of wind talks, that rain is near, and if we seen rain at this day, we got big chance to face with wind. <br>
+- Cloud and wind features are correlated, because, its normal nature law.
+
+### <center> 5. Metrics selection
+
+We can see that the classes are very unbalanced. The usual choice of metric for classification tasks with a strong imbalance of classes is a **ROC-AUC** metric. Unlike simpler metrics (for example, the proportion of correct answers), ROC-AUC takes into account both TPR (True Positive Rate) and FPR (False Positive Rate). So it's not sensitive to class imbalance. Also, this metric allows you to assess the quality of the classification, based on the probabilistic assumptions of belonging to the class, without tying to any particular threshold of classification.
+
+### <center> 6. Model selection
+
+For our task we will consider the following model:
+- **LogisticRegression**. A simple linear model is a good baseline in almost any classification problem. Its linear coefficients will also allow to assess the importance of a particular feature in the dataset, with the help of L1-regularization it will be possible to get rid of linearly dependent features.
+
+### <center> 7. Data preprocessing
+
+```python
+df.count().sort_values()
+```
+
+As we can see the first four columns have less than 60% data, we can ignore these four columns </br>
+and don't need the location column because we are going to find if it will rain in Australia(not location specific) </br>
+We are going to drop the date column too.
+
+```python
+df = df.drop(columns=['Sunshine','Evaporation','Cloud3pm','Cloud9am','Location','Date'],axis=1)
+df.shape
+```
+
+Let us get rid of all null values in df as baseline. Students are invited to fill NaN values with mean (temperature features) or zero (wind features).
+
+```python
+df = df.dropna(how='any')
+df.shape
+```
+
+Its time to remove the outliers in our data - we are using Z-score to detect and remove the outliers.
+
+```python
+from scipy import stats
+z = np.abs(stats.zscore(df._get_numeric_data()))
+print(z)
+df= df[(z < 3).all(axis=1)]
+print(df.shape)
+```
+
+Lets deal with the categorical cloumns. <br>
+Simply change yes/no to 1/0 for RainToday and RainTomorrow
+
+```python
+df['RainToday'].replace({'No': 0, 'Yes': 1},inplace = True)
+df['RainTomorrow'].replace({'No': 0, 'Yes': 1},inplace = True)
+```
+
+See unique values and convert them to int using pd.getDummies()
+
+```python
+categorical_columns = ['WindGustDir', 'WindDir3pm', 'WindDir9am']
+for col in categorical_columns:
+print(np.unique(df[col]))
+```
+
+Transform the categorical columns
+
+```python
+df = pd.get_dummies(df, columns=categorical_columns)
+df.iloc[4:9]
+```
+
+Next step is to standardize our data - using MinMaxScaler
+
+```python
+from sklearn import preprocessing
+scaler = preprocessing.MinMaxScaler()
+scaler.fit(df)
+df = pd.DataFrame(scaler.transform(df), index=df.index, columns=df.columns)
+df.iloc[4:10]
+```
+
+#### Feature Selection
+
+Now that we are done with the pre-processing part, let's see which are the important features for RainTomorrow! <br>
+Using SelectKBest to get the top features!
+
+```python
+from sklearn.feature_selection import SelectKBest, chi2
+X = df.loc[:,df.columns!='RainTomorrow']
+y = df['RainTomorrow']
+selector = SelectKBest(chi2, k=10)
+selector.fit(X, y)
+X_new = selector.transform(X)
+print(X.columns[selector.get_support(indices=True)]) #top 3 columns
+```
+
+Let's get hold of the important features as assign them as X
+
+```python
+df = df[['Rainfall', 'WindGustSpeed', 'Humidity9am', 'Humidity3pm',
+'Pressure9am', 'Pressure3pm', 'RainToday', 'WindDir9am_E',
+'WindDir9am_N', 'WindDir9am_NNW']]
+X = np.array(df) # let's use only one feature Humidity3pm
+#y = np.array(y)
+```
+
+It's time to divide data to training and hold-out sets. We will use StratifiedKFold, this cross-validation object is a variation of KFold that returns stratified folds. The folds are made by preserving the percentage of samples for each class.
+
+```python
+from sklearn.model_selection import StratifiedKFold
+```
+
+Optimal value for splits by time and quality is 5.
+
+```python
+skf = StratifiedKFold(n_splits = 5)
+```
+
+### <center> 8. Cross-validation and adjustment of model hyperparameters
+
+If we want to tune parameters in future for biggest amount of features, we need to:
+**Remember** that we use paramter C as our regularization parameter. Parameter C = 1/λ. <br>
+Lambda (λ) controls the trade-off between allowing the model to increase it's complexity as much as it wants with trying to keep it simple. For example, if λ is very low or 0, the model will have enough power to increase it's complexity (overfit) by assigning big values to the weights for each parameter. If, in the other hand, we increase the value of λ, the model will tend to underfit, as the model will become too simple. <br>
+Parameter C will work the other way around. For small values of C, we increase the regularization strength which will create simple models which underfit the data. For big values of C, we low the power of regularization which imples the model is allowed to increase it's complexity, and therefore, overfit the data. <br>
+Parameter 'penalty' is for type of regularization (l1, l2 or elastic_net).
+
+```python
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import roc_auc_score
+from sklearn.model_selection import GridSearchCV
+
+param_grid = {'C': [0.01, 0.1, 1, 10, 100, 1000, 10000, 100000], 'penalty': ['l1', 'l2']}
+gridsearch = GridSearchCV(clf_logreg, param_grid, cv=skf, scoring='roc_auc')
+gridsearch.fit(X, y)
+```
+
+As we can see, our qulity don't got big changes on each cv_split.
+
+### <center> 9. Plotting training and validation curves and prediction for test or hold-out samples
+
+Next plotting graph of gridsearch score on test y.
+
+```python
+score_l1 = list(pd.Series(gridsearch.cv_results_).mean_test_score[::2])
+score_l2 = list(pd.Series(gridsearch.cv_results_).mean_test_score[1::2])
+param = list(param_grid['C'])
+
+plt.figure(figsize=(15,5))
+plt.title('Coarse mesh of parameters')
+plt.plot(range(len(score_l1)), score_l1, label='l1-regularization')
+plt.plot(range(len(score_l2)), score_l2, label='l2-regularization')
+plt.xticks(range(len(score_l1)), param)
+plt.xlabel('C')
+plt.ylabel('score')
+plt.legend()
+plt.show()
+```
+
+Big values of regularizations tells, that our top-10 features very correlated, and we can use only 3-5 of them.
+
+### <center> 10. Conclusions
+
+As we can see, we got much correlated features, and as possible case is drop them from input dataframe. In the end of this work I just got sadness, because here we got much correlated features, and don't have others features. We can't generate new features. <br>
+But we can see, that we gotta some killer features, because, just only them gives us 0.85 auc-roc score, and it is not bad baseline for this task. <br>
+Thank you for listening! <br>

@@ -1,0 +1,33 @@
+Title: 10. Logic
+URL: https://inst.eecs.berkeley.edu/~cs188/textbook/logic/
+Snapshot Type: sanitized text
+
+10. Logic
+
+Author: Henry Zhu
+
+Edited by: Peyrin Kao, Danial Toktarbayev, and Wesley Zheng
+
+Credit: Some sections adapted from the textbook Artificial Intelligence: A Modern Approach .
+
+Last updated: September 2024
+
+- 10.1 A Knowledge Based Agent
+
+- 10.2 The Language of Logic
+
+- 10.3 Propositional Logic
+
+- 10.4 Propositional Logical Inference
+
+- 10.5 Theorem Proving
+
+- 10.6 Forward Chaining
+
+- 10.7 First Order Logic
+
+- 10.8 First Order Logical Inference
+
+- 10.9 Logical Agents
+
+- 10.10 Summary

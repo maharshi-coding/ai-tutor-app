@@ -1,0 +1,359 @@
+Title: Python Lambda Functions
+URL: https://www.geeksforgeeks.org/python/python-lambda-anonymous-functions-filter-map-reduce/
+Snapshot Type: sanitized text
+
+Courses
+
+Tutorials
+
+Interview Prep
+
+- Python Tutorial
+
+- Data Types
+
+- Interview Questions
+
+- Examples
+
+- Quizzes
+
+- DSA Python
+
+- Data Science
+
+- NumPy
+
+- Pandas
+
+- Practice
+
+- Django
+
+- Flask
+
+Python Lambda Functions
+
+Last Updated : 12 Mar, 2026
+
+Lambda functions are small anonymous functions, meaning they do not have a defined name. These are small, short-lived functions used to pass simple logic to another function.
+
+- Contain only one expression.
+
+- Result of that expression is returned automatically (no return keyword needed).
+
+In this example, a lambda function is defined to convert a string to its upper case using upper().
+
+Python
+
+a = 'GeeksforGeeks'
+upper = lambda x : x . upper ()
+print ( upper ( a ))
+
+Output
+GEEKSFORGEEKS
+
+Explanation:
+
+- 'a' store the string 'GeeksforGeeks'.
+
+- upper is a lambda function that takes an argument x and returns x.upper().
+
+- upper(a) applies the lambda to a, converting it to uppercase.
+
+Syntax
+
+In Python, lambda functions are created using the lambda keyword. Below is the syntax:
+Python Lambda Expression
+- Function name (a): Stores the lambda function so it can be reused later.
+
+- Lambda keyword (lambda): Defines an anonymous (inline) function in Python.
+
+- Argument (x): The input value passed to the lambda function.
+
+- Expression (x**2): The operation performed on the argument and returned as the result.
+
+Use Cases of Lambda Functions
+
+Let's see some of the practical uses of the Python lambda function.
+
+1. Using with Condition Checking
+
+A lambda function can use conditional expressions ( if-else ) to return different results based on a condition.
+
+Python
+
+check = lambda x : "Positive" if x > 0 else "Negative" if x < 0 else "Zero"
+print ( check ( 5 ))
+print ( check ( - 3 ))
+print ( check ( 0 ))
+
+Output
+Positive
+Negative
+Zero
+
+Explanation:
+
+- The lambda function takes x as input.
+
+- It uses nested if-else statements to return "Positive," "Negative," or "Zero."
+
+Below example checks divisibility by 2 and returns "Even" or "Odd" accordingly.
+
+Python
+
+check = lambda x : "Even" if x % 2 == 0 else "Odd"
+print ( check ( 4 ))
+print ( check ( 7 ))
+
+Output
+Even
+Odd
+
+Explanation:
+
+- The lambda checks if a number is divisible by 2 (x % 2 == 0).
+
+- Returns "Even" for true and "Odd" otherwise.
+
+2. Using with List Comprehension
+
+Lambda functions can be combined with list comprehensions to apply the same operation to multiple values in a compact way.
+
+Python
+
+func = [ lambda arg = x : arg * 10 for x in range ( 1 , 5 )]
+for i in func :
+print ( i ())
+
+Output
+10
+20
+30
+40
+
+Explanation:
+
+- lambda function multiplies each element by 10.
+
+- list comprehension iterates through li and applies the lambda to each element.
+
+3. Using for Returning Multiple Results
+
+Although a lambda can contain only one expression, it can still return multiple results by combining them into a tuple.
+
+Python
+
+calc = lambda x , y : ( x + y , x * y )
+res = calc ( 3 , 4 )
+print ( res )
+
+Output
+(7, 12)
+
+Explanation: lambda function performs both addition and multiplication and returns a tuple with both results.
+
+4. Using with filter()
+
+filter() function uses a lambda expression to select elements from a list that satisfy a given condition, such as keeping only even numbers.
+
+Python
+
+c = [ 1 , 2 , 3 , 4 , 5 , 6 ]
+even = filter ( lambda x : x % 2 == 0 , c )
+print ( list ( even ))
+
+Output
+[2, 4, 6]
+
+Explanation:
+
+- The lambda function checks if a number is even (x % 2 == 0).
+
+- filter() applies this condition to each element in nums.
+
+5. Using with map()
+
+map() function applies a lambda expression to each element of a list and returns a new list with the transformed values.
+
+Python
+
+a = [ 1 , 2 , 3 , 4 ]
+double = map ( lambda x : x * 2 , a )
+print ( list ( double ))
+
+Output
+[2, 4, 6, 8]
+
+Explanation:
+
+- The lambda function doubles each number.
+
+- map() iterates through a and applies the transformation.
+
+6. Using with reduce()
+
+reduce() function repeatedly applies a lambda expression to elements of a list to combine them into a single result.
+
+Python
+
+from functools import reduce
+a = [ 1 , 2 , 3 , 4 ]
+mul = reduce ( lambda x , y : x * y , a )
+print ( mul )
+
+Output
+24
+
+Explanation:
+
+- The lambda multiplies two numbers at a time.
+
+- reduce() applies this operation across the list.
+
+lambda vs def Keyword
+
+In Python, both lambda and def can be used to define functions, but they serve slightly different purposes. While def is used for creating standard reusable functions, lambda is mainly used for short, anonymous functions that are needed only temporarily.
+
+Python
+
+# Using lambda
+square = lambda x : x ** 2
+print ( square ( 3 ))
+
+# Using def
+def sqdef ( x ):
+return x ** 2
+print ( sqdef ( 3 ))
+
+Output
+9
+
+Explanation:
+
+- lambda function square takes a number and returns its square.
+
+- regular function sqdef does the same but is defined using the def keyword.
+
+- Both approaches give the same result, but lambda is more concise.
+
+Now, let’s see a comparison between these two in tabular form:
+
+Feature lambda Function Regular Function (def)
+
+Definition Single expression with lambda. Multiple lines of code.
+
+Name Anonymous or named if assigned. Must have a name.
+
+Statements Single expression only. Can include multiple statements.
+
+Documentation Cannot have a docstring. Can include docstrings.
+
+Reusability Best for short, temporary functions. Better for reusable and complex logic.
+
+Python
+
+Python-Functions
+
+python-lambda
+
+python
+
+Python Fundamentals
+
+- Python Introduction 2 min read
+
+- Input and Output in Python 4 min read
+
+- Python Variables 4 min read
+
+- Python Operators 4 min read
+
+- Python Keywords 2 min read
+
+- Python Data Types 8 min read
+
+- Conditional Statements in Python 3 min read
+
+- Loops in Python 5 min read
+
+- Python Functions 5 min read
+
+Python Data Structures
+
+- Python String 5 min read
+
+- Python Lists 4 min read
+
+- Python Tuples 4 min read
+
+- Python Dictionary 4 min read
+
+- Python Sets 6 min read
+
+- Python Arrays 7 min read
+
+Advanced Python
+
+- Python OOP Concepts 4 min read
+
+- Python Exception Handling 5 min read
+
+- File Handling in Python 4 min read
+
+- Python Database Tutorial 4 min read
+
+- Python MongoDB Tutorial 3 min read
+
+- Python MySQL 9 min read
+
+- Python Packages 10 min read
+
+- Python Modules 3 min read
+
+- Python DSA Libraries 5 min read
+
+- List of Python GUI Library and Packages 3 min read
+
+Data Science with Python
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Matplotlib Tutorial 3 min read
+
+- Python Seaborn Tutorial 3 min read
+
+- StatsModel Library - Tutorial 2 min read
+
+- Learning Model Building in Scikit-learn 6 min read
+
+- TensorFlow Tutorial 2 min read
+
+- PyTorch Tutorial 5 min read
+
+Web Development with Python
+
+- Flask Tutorial 4 min read
+
+- Django Tutorial | Learn Django Framework 6 min read
+
+- Django ORM - Inserting, Updating & Deleting Data 4 min read
+
+- Templating With Jinja2 in Flask 6 min read
+
+- Django Templates 5 min read
+
+- Build a REST API using Flask - Python 3 min read
+
+- Building a Simple API with Django REST Framework 3 min read
+
+Python Practice
+
+- Python Quiz 1 min read
+
+- Python Coding Practice 1 min read
+
+- Python Interview Questions and Answers 15+ min read

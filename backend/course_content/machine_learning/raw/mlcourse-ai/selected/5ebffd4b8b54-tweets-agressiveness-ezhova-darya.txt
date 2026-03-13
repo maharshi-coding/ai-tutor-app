@@ -1,0 +1,326 @@
+Original Path: jupyter_english/projects_indiv/tweets_agressiveness_ezhova_darya.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+# **Tweets classified as agressive or not**
+
+Author: Ezhova Darya (@ezhdi slack)
+
+Dataset https://www.kaggle.com/dataturks/dataset-for-detection-of-cybertrolls
+
+The dataset has 20001 items of which 20001 items have been manually labeled.
+
+The labels are divided into following 2 categories:
+
+1 - Cyber-Aggressive
+0 - Non Cyber-Aggressive
+
+```python
+from google.colab import drive
+drive.mount('/content/gdrive')
+```
+
+```python
+import os
+import json
+import numpy as np
+import pandas as pd
+import scipy
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import mean_absolute_error
+from scipy.sparse import csr_matrix, hstack
+from sklearn.linear_model import Ridge
+from sklearn.model_selection import train_test_split, validation_curve
+from sklearn.model_selection import StratifiedKFold
+```
+
+```python
+import warnings
+warnings.filterwarnings('ignore')
+```
+
+```python
+PATH_TO_DATA = '/content/gdrive/My Drive/Data/'
+```
+
+**Read the data and have a look at it**
+
+```python
+df = pd.read_json(PATH_TO_DATA + '/Dataset for Detection of Cyber-Trolls.json', lines= True)
+df.head()
+```
+
+```python
+df.shape
+```
+
+```python
+df.info()
+```
+
+**Delete null column extras, transform target column annotation and make some new features**
+
+```python
+df.drop(columns = ['extras'], inplace = True)
+```
+
+```python
+df.rename(columns = {'annotation' : 'label'}, inplace = True)
+```
+
+```python
+df.label = df.label.apply(lambda x : int(x['label'][0]))
+```
+
+```python
+df.head()
+```
+
+```python
+df[df['label'] == 0].sample(5).content
+```
+
+```python
+df[df['label'] == 1].sample(5).content
+```
+
+```python
+_, ax = plt.subplots()
+plt.bar(np.arange(2), df['label'].value_counts(), color = ['blue', 'red'])
+ax.set_xticks(np.arange(2))
+ax.set_xticklabels(['Non Cyber-Aggressive', 'Cyber-Aggressive']);
+```
+
+```python
+df['label'].value_counts()[1] / df.shape[0], df['label'].value_counts()[0] / df.shape[0]
+```
+
+```python
+df['len'] = df['content'].apply(lambda x : len(x.strip().split()))
+```
+
+```python
+import regex as re
+```
+
+```python
+df['capital'] = df['content'].apply(lambda x : sum(1 for c in x if c.isupper()))
+```
+
+```python
+df['punct'] = df['content'].apply(lambda x : len(re.findall("[^\P{P}-]+", x)))
+```
+
+```python
+df['content'] = df['content'].apply(lambda x : re.sub("[^\P{P}-]+", "", x))
+```
+
+```python
+df['content'] = df['content'].apply(lambda x : str.lower(x))
+```
+
+```python
+symbols = {}
+for x in [item for sublist in list(map(list, df['content'].tolist())) for item in sublist] :
+if x in symbols :
+symbols[x] += 1
+else :
+symbols[x] = 1
+symbols
+```
+
+```python
+digits = '0123456789'
+df['num'] = df['content'].apply(lambda x : 1 if len([s for s in x if s in digits]) > 0 else 0)
+```
+
+```python
+df.head()
+```
+
+```python
+target = df['label'].values
+```
+
+**Split dataset on train and test**
+
+```python
+X_train, X_test, y_train, y_test = train_test_split(df, target, test_size = 0.3, stratify = target, random_state = 31)
+```
+
+```python
+y_train.sum() / len(y_train), y_test.sum() / len(y_test)
+```
+
+```python
+X_train.shape, X_test.shape
+```
+
+```python
+for col in X_train.columns[2 :] :
+fig, axes = plt.subplots(nrows = 1, ncols = 2, figsize = (20, 10))
+axes[0].set_title(col)
+axes[0].hist(X_train[col], bins = 200);
+axes[1].set_title(col)
+axes[1].hist(X_train[col][X_train['label'] == 0], bins = 200, label = 'normal')
+axes[1].hist(X_train[col][X_train['label'] == 1], bins = 200, label = 'agressive')
+plt.show()
+```
+
+```python
+fig, ax = plt.subplots(figsize = (20, 10))
+sns.heatmap(X_train[['label', 'len', 'punct', 'capital','num']].corr())
+```
+
+```python
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+```
+
+```python
+cols = ['len', 'punct', 'capital', 'num']
+X_train_scaled = pd.DataFrame(scaler.fit_transform(X_train[cols]), columns = cols)
+X_test_scaled = pd.DataFrame(scaler.transform(X_test[cols]), columns = cols)
+```
+
+```python
+def valid(model, n, bayes = False) :
+skf = StratifiedKFold(n_splits = n, random_state = 31)
+auc_scores = []
+for train_index, valid_index in skf.split(X_train_scaled, y_train):
+X_train_part, X_valid = X_train_scaled.iloc[train_index], X_train_scaled.iloc[valid_index]
+y_train_part, y_valid = y_train[train_index], y_train[valid_index]
+
+X_train_sms, X_valid_sms = X_train.iloc[train_index]['content'], X_train.iloc[valid_index]['content']
+cv = TfidfVectorizer(ngram_range = (1, 3))
+X_train_bow = cv.fit_transform(X_train_sms)
+X_valid_bow = cv.transform(X_valid_sms)
+if bayes :
+X_train_new = X_train_bow
+X_valid_new = X_valid_bow
+else :
+X_train_new = scipy.sparse.csr_matrix(scipy.sparse.hstack([X_train_bow, X_train_part]))
+X_valid_new = scipy.sparse.csr_matrix(scipy.sparse.hstack([X_valid_bow, X_valid]))
+model.fit(X_train_new, y_train_part)
+model_pred_for_auc = model.predict_proba(X_valid_new)
+auc_scores.append(roc_auc_score(y_valid, model_pred_for_auc[:, 1]))
+return np.mean(auc_scores)
+```
+
+```python
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import LogisticRegression
+
+logit = LogisticRegression(random_state = 31)
+bayes = MultinomialNB()
+```
+
+```python
+from sklearn.metrics import roc_auc_score, precision_score
+```
+
+```python
+scores_logit = valid(logit, 10)
+print('Logistic regreession - rocauc : {}'.format(scores_logit))
+```
+
+```python
+scores_bayes = valid(bayes, 10, True)
+print('Bayessian classfier - rocauc : {}'.format(scores_bayes))
+```
+
+```python
+def valid_for_valid_plots(model, n, bayes = False) :
+skf = StratifiedKFold(n_splits = n, random_state = 17)
+auc_scores_cv = []
+auc_scores_valid = []
+for train_index, valid_index in skf.split(X_train_scaled, y_train):
+X_train_part, X_valid = X_train_scaled.iloc[train_index], X_train_scaled.iloc[valid_index]
+y_train_part, y_valid = y_train[train_index], y_train[valid_index]
+
+X_train_sms, X_valid_sms = X_train.iloc[train_index]['content'], X_train.iloc[valid_index]['content']
+cv = TfidfVectorizer(ngram_range = (1, 3))
+X_train_bow = cv.fit_transform(X_train_sms)
+X_valid_bow = cv.transform(X_valid_sms)
+if bayes :
+X_train_new = X_train_bow
+X_valid_new = X_valid_bow
+else :
+X_train_new = scipy.sparse.csr_matrix(scipy.sparse.hstack([X_train_bow, X_train_part]))
+X_valid_new = scipy.sparse.csr_matrix(scipy.sparse.hstack([X_valid_bow, X_valid]))
+
+model.fit(X_train_new, y_train_part)
+auc_scores_cv.append(roc_auc_score(y_train_part, model.predict_proba(X_train_new)[:, 1]))
+model_pred_for_auc = model.predict_proba(X_valid_new)
+auc_scores_valid.append(roc_auc_score(y_valid, model_pred_for_auc[:, 1]))
+return 1 - np.mean(auc_scores_valid), 1 - np.mean(auc_scores_cv)
+```
+
+```python
+Cs = [0.1 * i for i in range(1, 11)]
+```
+
+```python
+scores = []
+for c in Cs :
+logit = LogisticRegression(C = c, random_state = 31)
+scores.append(valid_for_valid_plots(logit, 10))
+```
+
+```python
+fig, axes = plt.subplots(nrows = 1, ncols = 1, figsize = (20, 10))
+plt.plot(Cs, [i[0] for i in scores], color = 'blue', label='holdout')
+plt.plot(Cs, [i[1] for i in scores], color = 'red', label='CV')
+plt.ylabel("ROCAUC")
+plt.xlabel("C")
+plt.title('Validation curve for C in (0.1, 2)');
+```
+
+```python
+Cs = np.linspace(0.5, 1.5, 10)
+```
+
+```python
+for c in Cs :
+logit = LogisticRegression(C = c, random_state = 31)
+print(c, valid(logit, 10))
+```
+
+```python
+C_opt = 1.5
+```
+
+```python
+cv = TfidfVectorizer(ngram_range = (1, 3))
+X_train_content = cv.fit_transform(X_train['content'])
+X_test_content = cv.transform(X_test['content'])
+```
+
+```python
+train = scipy.sparse.csr_matrix(scipy.sparse.hstack([X_train_content, X_train_scaled]))
+test = scipy.sparse.csr_matrix(scipy.sparse.hstack([X_test_content, X_test_scaled]))
+```
+
+```python
+logit = LogisticRegression(C = C_opt, random_state = 31)
+```
+
+```python
+logit.fit(train, y_train)
+```
+
+```python
+for x, y in zip(cols, logit.coef_[0][len(cv.get_feature_names()) :]) :
+print(x, y)
+```
+
+```python
+logit_pred = logit.predict_proba(test)
+```
+
+```python
+roc_auc_score(y_test, logit_pred[:, 1])
+```

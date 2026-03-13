@@ -1,0 +1,114 @@
+Original Path: chapters/de/chapter0/1.mdx
+Original Type: .mdx
+Snapshot Type: sanitized text
+
+# Einführung
+
+Willkommen zum Hugging-Face-Kurs! Die vorliegende Einführung wird dir dabei helfen, deine Arbeitsumgebung einzurichten. Wenn du den Kurs gerade erst beginnst, empfehlen wir dir, zuerst einen Überblick über [Kapitel 1](/course/chapter1) zu gewinnen und dann wieder hierher zurückzukommen und deine Umgebung einzurichten, damit du den Code selbst ausprobieren kannst.
+
+Alle Bibliotheken, die wir in diesem Kurs verwenden werden, sind als Python-Pakete verfügbar. Daher zeigen wir dir hier, wie du eine Python-Umgebung einrichtest und die benötigten Bibliotheken installierst.
+
+Wir stellen zwei verschiedene Möglichkeiten vor, wie du deine Arbeitsumgebung einrichten kannst: entweder über ein Colab-Notebook oder über eine virtuelle Python-Umgebung. Du kannst dich für die Variante entscheiden, die dir am meisten zusagt. Anfängern empfehlen wir dringend, mit einem Colab-Notebook zu beginnen.
+
+Wir werden nicht auf das Windows-System eingehen. Wenn du auf einem Windows-System arbeitest, empfehlen wir dir, ein Colab-Notebook zu verwenden. Wenn du eine Linux-Distribution oder macOS verwendest, kannst du beide der hier beschriebenen Ansätze nutzen.
+
+Für den Großteil des Kurses ist es erforderlich, dass du ein Konto bei Hugging Face hast. Wir raten dir, am besten gleich eines zu erstellen: [Konto erstellen](https://huggingface.co/join).
+
+## Verwendung eines Google-Colab-Notebooks
+
+Ein Colab-Notebook zu verwenden, ist die einfachste Lösung: Starte einfach ein Notebook in deinem Browser und fange direkt an zu programmieren!
+
+Falls du mit Colab noch nicht vertraut sein solltest, empfehlen wir dir, zunächst mit der [bereitstehenden Einführung](https://colab.research.google.com/notebooks/intro.ipynb) zu beginnen. Colab ermöglicht die Verwendung von beschleunigter Hardware, wie GPUs oder TPUs, und ist für kleinere Workloads kostenlos.
+
+Sobald du dich in Colab ausreichend zurechtfindest, kannst du ein neues Notebook anlegen und mit der Einrichtung beginnen:
+
+<div class="flex justify-center">
+<img src="https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter0/new_colab.png" alt="An empty colab notebook" width="80%"/>
+</div>
+
+Im nächsten Schritt installieren wir die Bibliotheken, die wir in diesem Kurs verwenden werden. Für die Installation werden wir die Paketverwaltung für Python, `pip`, verwenden. Um Systembefehle in Notebooks ausführen zu können, musst du ihnen das Zeichen `!` voranstellen. Dementsprechend kannst du die 🤗 Transformers-Bibliothek wie folgt installieren:
+
+```
+!pip install transformers
+```
+
+Wenn du gleich sicherstellen möchtest, dass das Paket korrekt installiert wurde, kannst du es einfach in deiner Python-Laufzeitumgebung importieren:
+
+```
+import transformers
+```
+
+<div class="flex justify-center">
+<img src="https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter0/install.gif" alt="A gif showing the result of the two commands above: installation and import" width="80%"/>
+</div>
+
+Damit wird eine sehr abgespeckte Version der 🤗 Transformers-Bibliothek installiert. Insbesondere werden keine spezifischen Frameworks für maschinelles Lernen (wie PyTorch oder TensorFlow) installiert. Da wir viele verschiedene Funktionen der Bibliothek verwenden werden, empfehlen wir die Installation der Entwicklungs- bzw. Development-Version, die alle erforderlichen Abhängigkeiten für so ziemlich jeden erdenklichen Anwendungsfall enthält:
+
+```
+!pip install transformers[sentencepiece]
+```
+
+Dies dauert zwar etwas länger, aber anschließend bist du bereit für den Rest des Kurses!
+
+## Verwendung einer virtuellen Python-Umgebung
+
+Wenn du lieber eine virtuelle Python-Umgebung verwenden möchtest, musst du zunächst Python auf deinem System installieren. Für den Anfang empfehlen wir [diese Anleitung](https://realpython.com/installing-python/).
+
+Sobald du Python installiert hast, solltest du in der Lage sein, Python-Befehle in deinem Terminal auszuführen. Zunächst kannst du den folgenden Befehl ausführen, um sicherzustellen, dass Python korrekt installiert ist, bevor du mit den nächsten Schritten fortfährst: `python --version`. Dies sollte die Python-Version ausgeben, die jetzt auf deinem System installiert ist.
+
+Wenn du einen Python-Befehl in deinem Terminal ausführst, z. B. `python --version`, solltest du das Programm, das deinen Befehl ausführt, als Hauptinstallation von Python auf deinem System betrachten. Wir empfehlen, diese Hauptinstallation frei von Paketen zu halten und für jede Anwendung, an der du arbeitest, eine eigene Umgebung zu erstellen. Auf diese Weise kann jede Anwendung ihre eigenen Abhängigkeiten und Pakete haben, und du musst dir keine Gedanken über mögliche Kompatibilitätsprobleme mit anderen Anwendungen machen.
+
+In Python wird dies mit [*virtuellen Umgebungen*](https://docs.python.org/3/tutorial/venv.html) bewerkstelligt. Das sind in sich geschlossene Verzeichnisbäume, die jeweils eine Python-Installation mit einer bestimmten Python-Version sowie alle Pakete enthalten, die die Anwendung benötigt. Eine solche virtuelle Umgebung kann mit verschiedenen Werkzeugen erstellt werden. Wir werden dafür auf das offizielle Python-Paket [`venv`](https://docs.python.org/3/library/venv.html#module-venv) zurückgreifen.
+
+Erstelle zunächst das Verzeichnis, in dem du deine Anwendung unterbringen möchtest - zum Beispiel könntest du ein neues Verzeichnis namens *transformers-course* als Unterverzeichnis deines Hauptverzeichnisses (*home*) anlegen:
+
+```
+mkdir ~/transformers-course
+cd ~/transformers-course
+```
+
+Erstelle nun in diesem Verzeichnis mithilfe des Python-Moduls `venv` eine virtuelle Umgebung:
+
+```
+python -m venv .env
+```
+
+Du solltest jetzt ein Verzeichnis namens *.env* in deinem ansonsten leeren Ordner haben:
+
+```
+ls -a
+```
+
+```out
+. .. .env
+```
+
+Mit den Skripten "activate" und "deactivate" kannst du in deine virtuelle Umgebung hinein- und herauswechseln:
+
+```
+# Aktivieren der virtuellen Umgebung
+source .env/bin/activate
+
+# Deaktivieren der virtuellen Umgebung
+deactivate
+```
+
+Du kannst dich vergewissern, dass die Umgebung aktiviert ist, indem du den Befehl `which python` ausführst: Wenn er auf die virtuelle Umgebung verweist, dann hast du sie erfolgreich aktiviert!
+
+```
+which python
+```
+
+```out
+/home/<user>/transformers-course/.env/bin/python
+```
+
+### Installieren von Abhängigkeiten
+
+Wie im vorherigen Abschnitt zur Verwendung von Google-Colab-Instanzen musst du nun noch die Pakete installieren, die du zum Fortfahren benötigst. Auch hier empfehlen wir, die Entwicklungsversion von 🤗 Transformers mithilfe des Paketverwaltungsprogramm `pip` zu installieren:
+
+```
+pip install "transformers[sentencepiece]"
+```
+
+So, nun bist du startklar und kannst loslegen!

@@ -1,0 +1,351 @@
+Title: Agents in AI
+URL: https://www.geeksforgeeks.org/artificial-intelligence/agents-artificial-intelligence/
+Snapshot Type: sanitized text
+
+Courses
+
+Tutorials
+
+Interview Prep
+
+- Artificial Intelligence
+
+- Interview Questions
+
+- Project Ideas
+
+- Search Algorithms
+
+- Local Search Algorithm
+
+- Generative AI
+
+- Data Science
+
+- Machine Learning
+
+- Deep Learning
+
+- ML-Projects
+
+- Robotics
+
+Agents in AI
+
+Last Updated : 14 Aug, 2025
+
+An artificial intelligence (AI) agent is a software program that can interact with its environment, collect data and use that data to perform self-directed tasks that meet predetermined goals. Humans set goals, but an AI agent independently chooses the best actions it needs to perform to achieve those goals.
+
+For example, consider a customer support AI agent that wants to resolve customer queries. The agent will automatically ask the customer different questions, look up information in internal documents and respond with a solution. Based on the customer responses, it determines if it can resolve the query itself or pass it on to a human.
+
+Key Features of AI Agents
+
+- Autonomous: Act without constant human input and decide next steps from past data like a bookstore bot flags missing invoices.
+
+- Goal‑driven: Optimize for defined objectives like a logistics AI balancing speed, cost and fuel use.
+
+- Perceptive: Gather info from sensors, inputs or APIs like a cybersecurity agent tracking new threats.
+
+- Adaptable: Adjust strategies when situations change.
+
+- Collaborative: Work with humans or other agents toward shared goals like healthcare agents coordinating with patients and doctor.
+
+How do AI Agents Work?
+
+1. Persona: Each agent is given a clearly defined role, personality and communication style along with specific instructions and descriptions of the tools it can use. A well‑crafted persona ensures the agent behaves consistently and appropriately for its role, while also evolving as it gains experience and engages with users or other systems.
+
+2. Memory: Agents typically have multiple types of memory:
+
+- Short‑term memory for the current interaction
+
+- Long‑term memory for storing historical data and conversations
+
+- Episodic memory for recalling specific past events
+
+- Consensus memory for sharing knowledge among multiple agents
+
+Memory enables an agent to keep context, learn from experience and adapt its behaviour over time.
+
+3. Tools: These are functions or external resources the agent can use to access information, process data, control devices or connect with other systems. Tools may involve physical interfaces, graphical UIs or programmatic APIs. Agents also learn how and when to use these tools effectively, based on their capabilities and context.
+
+4. Model: Agents use large language model (LLM) which serves as the agent’s “brain”. The LLM interprets instructions, reasons about solutions, generates language and orchestrates other components including memory retrieval and tools to use to carry out tasks.
+
+Architecture of AI Agents
+
+There are four main components in an AI agent’s architecture :
+
+- Profiling Module: This module helps the agent understand its role and purpose. It gathers information from the environment to form perceptions. For example: A self-driving car uses sensors and cameras to detect obstacles.
+
+- Memory Module: The memory module enables the agent to store and retrieve past experiences. This helps the agent learn from prior actions and improve over time. For example: A chatbot remembers past conversations to give better responses.
+
+- Planning Module: This module is responsible for decision-making. It evaluates situations, weighs alternatives and selects the most effective course of action. For example: A chess-playing AI plans its moves based on future possibilities.
+
+- Action Module: The action module executes the decisions made by the planning module in the real world. It translates decisions into real-world actions. For example: A robot vacuum moves to clean a designated area after detecting dirt.
+
+AI Agent Classification
+
+An agent is a system designed to perceive its environment, make decisions and take actions to achieve specific goals. Agents operate autonomously, without direct human control and can be classified based on their behavior, environment and number of interacting agents.
+
+- Reactive Agents: Respond to immediate environmental stimuli without foresight or planning.
+
+- Proactive Agents: Anticipate future states and plan actions to achieve long-term goals.
+
+- Single-Agent Systems: One agent solves a problem independently.
+
+- Multi-Agent Systems: Multiple agents interact, coordinate or compete to achieve goals; may be homogeneous (similar roles) or heterogeneous (diverse roles).
+
+- Rational Agents: Choose actions to maximize expected outcomes using both current and historical information.
+
+Types of Agents
+
+1. Simple Reflex Agents
+Simple Reflex Agent Working
+Simple reflex agents act based solely on current perceptions using condition-action rules. These agents respond directly to stimuli without considering past experiences or potential future states. They operate on basic "if-then" logic: if a specific condition is detected, execute a corresponding action.
+
+Key Features:
+
+- No memory of past states
+
+- No model of how the world works
+
+- Purely reactive behavior
+
+- Function best in fully observable environments
+
+For Example, Traffic light control systems that change signals based on fixed timing.
+
+2. Model-Based Reflex Agents
+Model-Based Reflex Agent Working
+Model-based reflex agents maintain an internal representation of the world, allowing them to track aspects of the environment they cannot directly observe. This internal model helps them make more informed decisions by considering how the world evolves and how their actions affect it.
+
+Key Features:
+
+- Track the world's state over time
+
+- Infer unobserved aspects of current states
+
+- Function effectively in partially observable environments
+
+- Still primarily reactive, but with contextual awareness
+
+For example, Robot vacuum cleaners that map rooms and tracks cleaned areas.
+
+3. Goal-Based Agents
+Goal-Based Agents Working
+Goal-based agents plan their actions with a specific objective in mind. Unlike reflex agents that respond to immediate stimuli, goal-based agents evaluate how different action sequences might lead toward their defined goal, selecting the path that appears most promising.
+
+Key Features:
+
+- Employ search and planning mechanisms
+
+- Evaluate actions based on their contribution toward goal achievement
+
+- Consider future states and outcomes
+
+- May explore multiple possible routes to a goal
+
+For example, Logistics routing agents that find optimal delivery routes based on factors like distance and time. They continually adjust to reach the most efficient route.
+
+4. Utility-Based Agents
+Utility-Based Agent Working
+Utility-based agents extend goal-based thinking by evaluating actions based on how well they maximize a utility function—essentially a measure of "happiness" or "satisfaction." This approach allows them to make nuanced trade-offs between competing goals or uncertain outcomes.
+
+Key Features:
+
+- Balance multiple, sometimes conflicting objectives
+
+- Handle probabilistic and uncertain environments
+
+- Evaluate actions based on expected utility
+
+- Make rational decisions under constraints
+
+For example, Financial portfolio management agents that evaluate investments based on factors like risk, return and diversification operate by choosing options that provide the most value.
+
+5. Learning Agents
+Learning Agent Working
+Learning agents improve their performance over time based on experience. They modify their behavior by observing the consequences of their actions, adjusting their internal models and decision-making approaches to achieve better outcomes in future interactions.
+
+Key Features:
+
+- Adapt to changing environments
+
+- Improve performance with experience
+
+- Contain both a performance element and a learning element
+
+- Generate new knowledge rather than simply applying existing rules
+
+For example, Customer service chatbots can improve response accuracy over time by learning from previous interactions and adapting to user needs.
+
+6. Multi-Agent Systems (MAS)
+Multi-Agent System Working
+Multi-agent systems consist of multiple autonomous agents that interact with each other within an environment. These agents may cooperate toward common goals, compete for resources or exhibit a mix of cooperative and competitive behaviors. Types of multi-agent systems:
+
+- Cooperative MAS: Agents work together toward shared objectives.
+
+- Competitive MAS: Agents pursue individual goals that may conflict.
+
+- Mixed MAS: Agents cooperate in some scenarios and compete in others.
+
+Key Features:
+
+- Agents act independently and control their own state.
+
+- Agents align, collaborate or compete to reach goals.
+
+- The system remains resilient if individual agents fail.
+
+- Decisions are distributed; there’s no single controller.
+
+For example, a warehouse robot might use:
+
+- Model-based reflexes for navigation
+
+- Goal-based planning for task sequencing
+
+- Utility-based decision-making for prioritizing tasks
+
+- Learning capabilities for route optimization
+
+7. Hierarchical agents
+Hierarchical agents Working
+Hierarchical agents organize decision-making across multiple levels, with high-level agents making strategic decisions and delegating specific tasks to lower-level agents. This structure mirrors many human organizations and allows for managing problems at appropriate levels of abstraction.
+
+Key Features:
+
+- Division of responsibilities across multiple levels
+
+- Abstract decision-making at higher levels
+
+- Detailed execution at lower levels
+
+- Simplified information flow (higher levels receive summarized data)
+
+For example, Drone delivery systems in which fleet management is done at top level and individual navigation at lower level.
+
+Use Cases of AI Agents
+
+Agents are used in a wide range of applications in artificial intelligence, including:
+
+- Robotics: Agents can be used to control robots and automate tasks in manufacturing, transportation and other industries.
+
+- Smart homes and buildings: They can be used to control heating, lighting and other systems in smart homes and buildings, optimizing energy use and improving comfort.
+
+- Healthcare: They can be used to monitor patients, provide personalized treatment plans and optimize healthcare resource allocation.
+
+- Finance: They can be used for automated trading, fraud detection and risk management in the financial industry.
+
+- Games: They can be used to create intelligent opponents in games and simulations, providing a more challenging and realistic experience for players.
+
+Benefits of AI Agents
+
+- Fast and efficient operations.
+
+- Adapt and learn from experience.
+
+- Scalable for large or complex problems.
+
+- Operate autonomously with minimal human input.
+
+- Consistent, reliable task performance.
+
+Limitations:
+
+- Struggle with complex or unpredictable environments.
+
+- High computational needs for learning and planning.
+
+- Communication issues in multi-agent setups.
+
+- Risk of bias or unintended actions.
+
+- Challenges in designing clear goals and utility functions.
+
+Related Articles:
+
+AI Agent Framework
+AI Agent architecture
+Types of Agents in AI
+
+Artificial Intelligence
+
+AI-ML-DS
+
+Introduction to AI
+
+- What is Artificial Intelligence (AI) 10 min read
+
+- Types of Artificial Intelligence (AI) 6 min read
+
+- Types of AI Based on Functionalities 4 min read
+
+- Agents in AI 7 min read
+
+- Artificial intelligence vs Machine Learning vs Deep Learning 3 min read
+
+- Problem Solving in Artificial Intelligence 6 min read
+
+- Top 20 Applications of Artificial Intelligence (AI) in 2025 13 min read
+
+AI Concepts
+
+- Search Algorithms in AI 6 min read
+
+- Local Search Algorithm in Artificial Intelligence 7 min read
+
+- Adversarial Search Algorithms in Artificial Intelligence (AI) 15+ min read
+
+- Constraint Satisfaction Problems (CSP) in Artificial Intelligence 10 min read
+
+- Knowledge Representation in AI 9 min read
+
+- First-Order Logic in Artificial Intelligence 4 min read
+
+- Reasoning Mechanisms in AI 9 min read
+
+Machine Learning in AI
+
+- Machine Learning Tutorial 5 min read
+
+- Deep Learning Tutorial 2 min read
+
+- Natural Language Processing (NLP) Tutorial 2 min read
+
+- Computer Vision Tutorial 3 min read
+
+Robotics and AI
+
+- Artificial Intelligence in Robotics 5 min read
+
+- What is Robotics Process Automation 8 min read
+
+- Automated Planning in AI 8 min read
+
+- AI in Transportation 8 min read
+
+- AI in Manufacturing : Revolutionizing the Industry 6 min read
+
+Generative AI
+
+- What is Generative AI? 7 min read
+
+- Generative Adversarial Network (GAN) 11 min read
+
+- Cycle Generative Adversarial Network (CycleGAN) 7 min read
+
+- StyleGAN - Style Generative Adversarial Networks 5 min read
+
+- Introduction to Generative Pre-trained Transformer (GPT) 4 min read
+
+- BERT Model - NLP 12 min read
+
+- Generative AI Applications 7 min read
+
+AI Practice
+
+- Top Artificial Intelligence(AI) Interview Questions and Answers 15+ min read
+
+- Top Generative AI and LLM Interview Question with Answer 15+ min read
+
+- 30+ Best Artificial Intelligence Project Ideas with Source Code [2026 Updated] 15+ min read

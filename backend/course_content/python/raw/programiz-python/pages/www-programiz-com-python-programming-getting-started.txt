@@ -1,0 +1,708 @@
+Title: Getting Started with Python
+URL: https://www.programiz.com/python-programming/getting-started
+Snapshot Type: sanitized text
+
+Course Index
+
+Tutorials
+
+Courses
+
+Python
+JavaScript
+TypeScript
+SQL
+HTML
+CSS
+C
+C++
+Java
+R
+Ruby
+RUST
+Golang
+Kotlin
+Swift
+C#
+DSA
+
+Become a certified Python
+programmer.
+
+ENROLL
+
+Popular Tutorials
+
+Getting Started With Python
+
+Python if Statement
+
+while Loop in Python
+
+Python Lists
+
+Dictionaries in Python
+
+Start Learning Python
+
+Popular Examples
+
+Add two numbers
+
+Check prime number
+
+Find the factorial of a number
+
+Print the Fibonacci sequence
+
+Check leap year
+
+Explore Python Examples
+
+Reference Materials
+
+Built-in Functions
+
+List Methods
+
+Dictionary Methods
+
+String Methods
+
+View all
+
+Created with over a decade of experience.
+
+Learn
+
+Practice
+
+Compete
+
+Learn Python
+
+Learn HTML
+
+Learn JavaScript
+
+Learn SQL
+
+Learn DSA
+
+Learn C
+
+Learn C++
+
+Learn Java
+
+View all Courses on
+
+Python Basics
+
+Python Intermediate
+
+C++ Basics
+
+C++ Intermediate
+
+C++ OOP
+
+C Programming
+
+Java Basics
+
+Java Intermediate
+
+Java OOP
+
+View all Courses on
+
+Python Challenges
+
+JavaScript Challenges
+
+Java Challenges
+
+C++ Challenges
+
+C Challenges
+
+View all Challenges on
+
+Learn
+
+Practice
+
+Compete
+
+Certification Courses
+
+Created with over a decade of experience and thousands of feedback.
+
+Learn Python
+
+Learn HTML
+
+Learn JavaScript
+
+Learn SQL
+
+Learn DSA
+
+View all Courses on
+
+Learn C
+
+Learn C++
+
+Learn Java
+
+Python
+
+JavaScript
+
+TypeScript
+
+SQL
+
+HTML
+
+CSS
+
+C
+
+C++
+
+Java
+
+More languages
+
+Become a certified Python
+programmer.
+
+Try Programiz PRO!
+
+Popular Tutorials
+
+Getting Started With Python
+
+Python if Statement
+
+while Loop in Python
+
+Python Lists
+
+Dictionaries in Python
+
+Start Learning Python
+
+All Python Tutorials
+
+Reference Materials
+
+Built-in Functions
+
+List Methods
+
+Dictionary Methods
+
+String Methods
+
+View all
+
+Python
+
+JavaScript
+
+C
+
+C++
+
+Java
+
+R
+
+Kotlin
+
+Become a certified Python
+programmer.
+
+Try Programiz PRO!
+
+Popular Examples
+
+Add two numbers
+
+Check prime number
+
+Find the factorial of a number
+
+Print the Fibonacci sequence
+
+Check leap year
+
+All Python Examples
+
+Python Introduction
+
+- Get Started With Python
+
+- Your First Python Program
+
+- Python Comments
+
+Python Fundamentals
+
+- Python Variables and Literals
+
+- Python Type Conversion
+
+- Python Basic Input and Output
+
+- Python Operators
+
+Python Flow Control
+
+- Python if...else Statement
+
+- Python for Loop
+
+- Python while Loop
+
+- Python break and continue
+
+- Python pass Statement
+
+Python Data types
+
+- Python Numbers and Mathematics
+
+- Python List
+
+- Python Tuple
+
+- Python String
+
+- Python Set
+
+- Python Dictionary
+
+Python Functions
+
+- Python Functions
+
+- Python Function Arguments
+
+- Python Variable Scope
+
+- Python Global Keyword
+
+- Python Recursion
+
+- Python Modules
+
+- Python Package
+
+- Python Main function
+
+Python Files
+
+- Python Directory and Files Management
+
+- Python CSV: Read and Write CSV files
+
+- Reading CSV files in Python
+
+- Writing CSV files in Python
+
+Python Exception Handling
+
+- Python Exceptions
+
+- Python Exception Handling
+
+- Python Custom Exceptions
+
+Python Object & Class
+
+- Python Objects and Classes
+
+- Python Inheritance
+
+- Python Multiple Inheritance
+
+- Polymorphism in Python
+
+- Python Operator Overloading
+
+Python Advanced Topics
+
+- List comprehension
+
+- Python Lambda/Anonymous Function
+
+- Python Iterators
+
+- Python Generators
+
+- Python Namespace and Scope
+
+- Python Closures
+
+- Python Decorators
+
+- Python @property decorator
+
+- Python RegEx
+
+Python Date and Time
+
+- Python datetime
+
+- Python strftime()
+
+- Python strptime()
+
+- How to get current date
+and time in Python?
+
+- Python Get Current Time
+
+- Python timestamp to
+datetime and vice-versa
+
+- Python time Module
+
+- Python sleep()
+
+Additional Topic
+
+- Precedence and Associativity of Operators in Python
+
+- Python Keywords and Identifiers
+
+- Python Asserts
+
+- Python Json
+
+- Python pip
+
+- Python *args and **kwargs
+
+Python Tutorials
+
+Python pip
+
+Python IDEs and Code Editors
+
+Python List reverse()
+
+Your First Python Program
+
+Python Matrices and NumPy Arrays
+
+Python Main function
+
+Getting Started with Python
+
+Python is a versatile, high-level programming language that is widely supported across all major operating systems.
+
+You can run Python on your computer using the following two methods:
+
+- Run Python online
+
+- Install Python on your computer
+
+In this tutorial, you will learn both methods.
+
+Run Python Online
+
+To execute Python code, you need to have a Python interpreter installed on your system. However, if you want to start immediately, you can use our free online Python editor .
+
+Online Python Editor
+
+The online editor enables you to run Python code directly in your browser—no installation required.
+
+Install Python on Your Computer
+
+For those who prefer to install Python on your computer, this guide will walk you through the installation process on Windows, macOS, and Linux (Ubuntu).
+
+Windows
+
+MacOS
+
+Linux
+
+To install Python on your Windows, just follow these steps:
+
+- Install VS Code
+
+- Download Python Installer File
+
+- Run the Installer
+
+- Install Python
+
+- Verify your installation
+
+Here is a detailed explanation of each of the steps:
+
+Step 1: Install VS Code
+
+Go to the VS Code Official website and download the Windows installer. Once the download is complete, run the installer and follow the installation process.
+
+Click Finish to complete the installation process
+
+Step 2: Download the Python Installer File
+
+Go to the official Python website and download the latest version (Python 3.12.2 at the time of writing this tutorial) for Windows.
+
+The website automatically detects your operating system and gives you the right installer.
+
+Python Download Page
+
+Step 3: Run the Installer
+
+Now, go to your download folder and run the installer you just downloaded. Depending on your security settings, you might be prompted to allow access.
+
+Simply allow it and proceed.
+
+Step 4: Install Python
+
+Once you have run the installer, you will come across this screen.
+
+Install Python on Windows
+
+On the screen, you will see two options: Install Now and Customize Installation . We suggest you skip all customization steps and simply click Install Now.
+
+- Check on Add python.exe to PATH as it ensures Python is added to our system's PATH variable.(Recommended)
+
+- Click Install Now , as it will include all the necessary files needed later.
+
+This makes it easier to run a Python Program from the command prompt (cmd) directly without specifying the full path of the Python executable.
+
+After using this option, Python will be successfully installed in your device.
+
+Python Default Installation
+
+Step 4: Verify your installation
+
+After the installation is complete, you can verify whether Python is installed by using the following command in the command prompt.
+
+python --version
+
+Python Installation Verify
+
+Note: The version number might differ from the one above, depending on your installed version.
+
+Now, you are all set to run Python programs on your device.
+
+To install Python on your Mac, just follow these steps:
+
+- Install VS Code
+
+- Check Python version
+
+- Download the Python Installer File
+
+- Run the Installer
+
+- Follow the Instructions
+
+- Verify your installation
+
+Here is a detailed explanation of each of the steps:
+
+Step 1: Install VS Code
+
+Go to the VS Code official website and download the zipped file. Once the download is complete, open the zipped file.
+
+In Finder, open a new window and navigate to the Applications folder. Drag the VS Code application from the zip file into the Applications folder to install it.
+
+You can now launch VS Code directly from the Applications folder.
+
+Step 2: Check Python Version
+
+Since macOS often comes with an older version of Python (Python 2.x) pre-installed on it, you can check the current version by using the following command in the Terminal app.
+
+python --version
+
+or, for Python 3:
+
+python3 --version
+
+If you are satisfied with the installed version of Python 3.x, you can skip the remaining steps. Otherwise, follow the steps below.
+
+Step 3: Download the Python Installer File
+
+Visit the official Python website and download the latest version (Python 3.12.2 at the time of writing this tutorial) for mac.
+
+The website automatically detects your operating system and gives you the right installer.
+
+Python Download Page for Mac
+
+Step 4: Run the Installer
+
+Go to your downloads folder and run the installer you just downloaded.
+
+Python Run Installer for Mac
+
+Step 5: Follow the Instructions
+
+You will be prompted to agree to the software license agreement, choose the installation location (we recommend using default location), and enter your administrator password.
+
+Simply proceed through it.
+
+Step 6: Verify your installation
+
+Once the installation is complete, you can verify whether Python is installed by using the following command in the Terminal app.
+
+python3 --version
+
+Python Installation Verify for Mac
+
+Note: The version number might differ from the one above, depending on your installed version.
+
+Linux has various distributions, and the installation process differs slightly from each other. For now, we will focus on Ubuntu distribution.
+
+Most Linux distributions come pre-installed with Python. However, if you need to install or upgrade follow these steps:
+
+- Install VS Code
+
+- Check Python Version
+
+- Install Python via Package Manager
+
+- Verify your installation
+
+Here is a detailed explanation of each of the steps:
+
+Step 1: Install VS Code
+
+Open the Terminal and type
+
+sudo apt update
+
+This command updates your package lists to ensure you get the latest versions of your software.
+
+Proceed to install VS Code with
+
+sudo snap install code --classic
+
+Step 2: Check Python Version
+
+You can check the current version by using the following command in the terminal window.
+
+python --version
+
+or, for Python 3
+
+python3 --version
+
+If you are satisfied with the installed version of Python, you can skip the remaining steps. Otherwise, follow the steps below.
+
+Step 3: Install Python via Package Manager
+
+Update the package list to ensure you get the latest version available:
+
+sudo apt update
+
+Install Python 3:
+
+sudo apt install python3
+
+This command installs Python along pip (Python package installer), documentation, and other useful packages.
+
+Python Installation for Linux
+
+Wait until the installation finishes to start using Python.
+
+Step 4: Verify your Installation
+
+Once the installation is complete, you can verify whether Python is installed by using the following command in the Terminal app.
+
+python3 --version
+
+Python Installation Verification for Linux
+
+Now, you are all set to run Python programs on your device.
+
+Run Your First Python Program
+
+First open VS Code, click on the File in the top menu and then select New File.
+
+Create a New File in VS Code
+
+Then, save this file with a .py extension by clicking on File again, then Save As , and type your filename ending in .py. (Here, we are saving it as Hello_World.py)
+
+Before you start coding, make sure the Python extension is installed in VS Code. Open VS Code and click on Extensions on the left sidebar. Then, search for the Python extension by Microsoft and click on install.
+
+Install Python Extension in VS Code
+
+Now, write the following code into your file:
+
+print("Hello World")
+
+Then click on the run button on the top right side of your screen.
+
+Python Run Program
+
+You should see Hello World printed to the command prompt.
+
+Note : Type python3 in command prompt for macOS and Linux.
+
+Now that you have set everything up to run Python programs on your computer, you'll be learning how the basic program works in Python in the next tutorial.
+
+- Introduction
+
+- Run Python Online
+
+- Install Python on Your Computer
+
+Next Tutorial:
+
+Your First Python Program
+
+Share on:
+
+Did you find this article helpful?
+
+Sorry about that.
+
+How can we improve it?
+
+Feedback *
+
+Leave this field blank
+
+Your builder path starts here. Builders don't just know how to code, they create solutions that matter.
+
+Escape tutorial hell and ship real projects.
+
+Try Programiz PRO
+
+Real-World Projects
+
+On-Demand Learning
+
+- AI Mentor
+
+Builder Community
+
+Related Tutorials
+
+Python Tutorial
+
+Python pip
+
+Python Tutorial
+
+Python IDEs and Code Editors
+
+Python Library
+
+Python List reverse()
+
+Python Tutorial
+
+Your First Python Program

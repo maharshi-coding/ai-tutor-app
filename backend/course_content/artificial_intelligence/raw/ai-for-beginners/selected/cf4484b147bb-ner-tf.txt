@@ -1,0 +1,233 @@
+Original Path: lessons/5-NLP/19-NER/NER-TF.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+# Named Entity Recognition (NER)
+
+This notebook is from [AI for Beginners Curriculum](http://aka.ms/ai-beginners).
+
+In this example, we will learn how to train NER model on [Annotated Corpus for Named Entity Recognition](https://www.kaggle.com/datasets/abhinavwalia95/entity-annotated-corpus) Dataset from Kaggle. Before procedding, please donwload [ner_dataset.csv](https://www.kaggle.com/datasets/abhinavwalia95/entity-annotated-corpus?resource=download&select=ner_dataset.csv) file into current directory.
+
+```python
+import pandas as pd
+from tensorflow import keras
+import numpy as np
+```
+
+## Preparing the Dataset
+
+We will start by reading the dataset into a dataframe. If you want to learn more about using Pandas, visit a [lesson on data processing](https://github.com/microsoft/Data-Science-For-Beginners/tree/main/2-Working-With-Data/07-python) in our [Data Science for Beginners](http://aka.ms/datascience-beginners)
+
+```python
+df = pd.read_csv('ner_dataset.csv',encoding='unicode-escape')
+df.head()
+```
+
+Output:
+```text
+Sentence # Word POS Tag
+0 Sentence: 1 Thousands NNS O
+1 NaN of IN O
+2 NaN demonstrators NNS O
+3 NaN have VBP O
+4 NaN marched VBN O
+```
+
+Let's get unique tags and create lookup dictionaries that we can use to convert tags into class numbers:
+
+```python
+tags = df.Tag.unique()
+tags
+```
+
+Output:
+```text
+array(['O', 'B-geo', 'B-gpe', 'B-per', 'I-geo', 'B-org', 'I-org', 'B-tim',
+'B-art', 'I-art', 'I-per', 'I-gpe', 'I-tim', 'B-nat', 'B-eve',
+'I-eve', 'I-nat'], dtype=object)
+```
+
+```python
+id2tag = dict(enumerate(tags))
+tag2id = { v : k for k,v in id2tag.items() }
+
+id2tag[0]
+```
+
+Output:
+```text
+'O'
+```
+
+Now we need to do the same with vocabulary. For simplicity, we will create vocabulary without taking word frequency into account; in real life you might want to use Keras vectorizer, and limit the number of words.
+
+```python
+vocab = set(df['Word'].apply(lambda x: x.lower()))
+id2word = { i+1 : v for i,v in enumerate(vocab) }
+id2word[0] = '<UNK>'
+vocab.add('<UNK>')
+word2id = { v : k for k,v in id2word.items() }
+```
+
+We need to create a dataset of sentences for training. Let's loop through the original dataset and separate all individual sentences into `X` (lists of words) and `Y` (list of tokens):
+
+```python
+X,Y = [],[]
+s,t = [],[]
+for i,row in df[['Sentence #','Word','Tag']].iterrows():
+if pd.isna(row['Sentence #']):
+s.append(row['Word'])
+t.append(row['Tag'])
+else:
+if len(s)>0:
+X.append(s)
+Y.append(t)
+s,t = [row['Word']],[row['Tag']]
+X.append(s)
+Y.append(t)
+```
+
+We will now vectorize all words and tokens:
+
+```python
+def vectorize(seq):
+return [word2id[x.lower()] for x in seq]
+
+def tagify(seq):
+return [tag2id[x] for x in seq]
+
+Xv = list(map(vectorize,X))
+Yv = list(map(tagify,Y))
+
+Xv[0], Yv[0]
+```
+
+Output:
+```text
+([10386,
+23515,
+4134,
+29620,
+7954,
+13583,
+21193,
+12222,
+27322,
+18258,
+5815,
+15880,
+5355,
+25242,
+31327,
+18258,
+27067,
+23515,
+26444,
+14412,
+358,
+26551,
+5011,
+30558],
+[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0])
+```
+
+For simplicity, we will pad all sentences with 0 tokens to the maximum length. In real life, we might want to use more clever strategy, and pad sequences only within one minibatch.
+
+```python
+X_data = keras.preprocessing.sequence.pad_sequences(Xv,padding='post')
+Y_data = keras.preprocessing.sequence.pad_sequences(Yv,padding='post')
+```
+
+## Defining Token Classification Network
+
+We will use two-layer bidirectional LSTM network for token classification. In order to apply dense classifier to each of the output of the last LSTM layer, we will use `TimeDistributed` construction, which replicates the same dense layer to each of the outputs of LSTM at each step:
+
+```python
+maxlen = X_data.shape[1]
+vocab_size = len(vocab)
+num_tags = len(tags)
+model = keras.models.Sequential([
+keras.layers.Embedding(vocab_size, 300, input_length=maxlen),
+keras.layers.Bidirectional(keras.layers.LSTM(units=100, activation='tanh', return_sequences=True)),
+keras.layers.TimeDistributed(keras.layers.Dense(num_tags, activation='softmax'))
+])
+model.compile(loss='sparse_categorical_crossentropy',optimizer='adam',metrics=['acc'])
+model.summary()
+```
+
+Output:
+```text
+Model: "sequential_3"
+_________________________________________________________________
+Layer (type) Output Shape Param #
+=================================================================
+embedding_4 (Embedding) (None, 104, 300) 9545400
+
+bidirectional_6 (Bidirectio (None, 104, 200) 320800
+nal)
+
+bidirectional_7 (Bidirectio (None, 104, 200) 240800
+nal)
+
+time_distributed_3 (TimeDis (None, 104, 17) 3417
+tributed)
+
+=================================================================
+Total params: 10,110,417
+Trainable params: 10,110,417
+Non-trainable params: 0
+_________________________________________________________________
+```
+
+Note here that we are explicity specifying `maxlen` for our dataset - in case we want the network to be able to handle variable length sequences, we need to be a bit more clever when defining the network.
+
+Let's now train the model. For speed, we will only train for one epoch, but you may try training for longer time. Also, you may want to separate some part of the dataset as training dataset, to observe validation accuracy.
+
+```python
+model.fit(X_data,Y_data)
+```
+
+Output:
+```text
+1499/1499 [==============================] - 740s 488ms/step - loss: 0.0667 - acc: 0.9841
+
+<keras.callbacks.History at 0x16f0bb2a310>
+```
+
+## Testing the Result
+
+Let's now see how our entity recognition model works on a sample sentence:
+
+```python
+sent = 'John Smith went to Paris to attend a conference in cancer development institute'
+words = sent.lower().split()
+v = keras.preprocessing.sequence.pad_sequences([[word2id[x] for x in words]],padding='post',maxlen=maxlen)
+res = model(v)[0]
+```
+
+```python
+r = np.argmax(res.numpy(),axis=1)
+for i,w in zip(r,words):
+print(f"{w} -> {id2tag[i]}")
+```
+
+Output:
+```text
+john -> B-per
+smith -> I-per
+went -> O
+to -> O
+paris -> B-geo
+to -> O
+attend -> O
+a -> O
+conference -> O
+in -> O
+cancer -> B-org
+development -> I-org
+institute -> I-org
+```
+
+## Takeaway
+
+Even simple LSTM model shows reasonable results at NER. However, to get much better results, you may want to use large pre-trained language models such as BERT. Training BERT for NER using Huggingface Transformers library is described [here](https://huggingface.co/course/chapter7/2?fw=pt).

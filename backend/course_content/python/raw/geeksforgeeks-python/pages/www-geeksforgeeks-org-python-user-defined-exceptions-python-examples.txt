@@ -1,0 +1,310 @@
+Title: User-defined Exceptions in Python with Examples
+URL: https://www.geeksforgeeks.org/python/user-defined-exceptions-python-examples/
+Snapshot Type: sanitized text
+
+Courses
+
+Tutorials
+
+Interview Prep
+
+- Python Tutorial
+
+- Data Types
+
+- Interview Questions
+
+- Examples
+
+- Quizzes
+
+- DSA Python
+
+- Data Science
+
+- NumPy
+
+- Pandas
+
+- Practice
+
+- Django
+
+- Flask
+
+User-defined Exceptions in Python with Examples
+
+Last Updated : 12 Feb, 2026
+
+User-defined exceptions are created by defining a new class that inherits from Python's built-in Exception class or one of its subclasses. By doing this, we can create custom error messages and handle specific errors in a way that makes sense for our application.
+
+Steps to Create and Use User-Defined Exceptions
+
+Follow these steps to create and use User-Defined Exceptions in Python:
+
+- Define a New Exception Class: Create a new class that inherits from Exception or any of its subclasses.
+
+- Raise the Exception: Use the raise statement to raise the user-defined exception when a specific condition occurs.
+
+- Handle the Exception: Use try-except blocks to handle the user-defined exception.
+
+Example: In this example, we create a custom exception InvalidAgeError to ensure that age values fall within a valid range (0–120).
+
+Python
+
+# Step 1: Define a custom exception class
+class InvalidAgeError ( Exception ):
+def __init__ ( self , age , msg = "Age must be between 0 and 120" ):
+self . age = age
+self . msg = msg
+super () . __init__ ( self . msg )
+
+def __str__ ( self ):
+return f ' { self . age } -> { self . msg } '
+
+# Step 2: Use the custom exception in your code
+def set_age ( age ):
+if age < 0 or age > 120 :
+raise InvalidAgeError ( age )
+else :
+print ( f "Age set to: { age } " )
+
+# Step 3: Handling the custom exception
+try :
+set_age ( 150 ) # This will raise the custom exception
+except InvalidAgeError as e :
+print ( e )
+
+Output
+150 -> Age must be between 0 and 120
+
+Explanation:
+
+- InvalidAgeError class inherits from Exception. It defines an __init__ method to accept age and message.
+
+- The __str__ method returns a readable string representation of the error.
+
+- In set_age(), if the age is outside the valid range (0–120), the exception is raised.
+
+- The try-except block catches the exception and prints the error message.
+
+Customizing Exception Classes
+
+When we create a custom exception, we subclass Python’s built-in Exception class (or a subclass like ValueError, TypeError, etc.). We can then add our own attributes, methods or custom logic to make our exception more informative.
+
+We can also enhance custom exceptions by adding extra attributes or overriding methods.
+
+Example: Here, we improve the InvalidAgeError by adding an error code and customizing the error message.
+
+Python
+
+class InvalidAgeError ( Exception ):
+def __init__ ( self , age , msg = "Age must be between 0 and 120" , error_code = 1001 ):
+self . age = age
+self . msg = msg
+self . error_code = error_code
+super () . __init__ ( self . msg )
+
+def __str__ ( self ):
+return f "[Error Code { self . error_code } ] { self . age } -> { self . msg } "
+
+def set_age ( age ):
+if age < 0 or age > 120 :
+raise InvalidAgeError ( age )
+else :
+print ( f "Age set to: { age } " )
+
+try :
+set_age ( 150 ) # This will raise the custom exception
+except InvalidAgeError as e :
+print ( e )
+
+Output
+[Error Code 1001] 150 -> Age must be between 0 and 120
+
+Explanation:
+
+- InvalidAgeError now has an additional attribute error_code.
+
+- __str__ method is overridden to display both the error code and the age.
+
+- When set_age(150) is executed, the exception is raised and caught in the try-except block.
+
+- The customized error message is printed, making the error more descriptive.
+
+Using Standard Exceptions as a Base Class
+
+Sometimes, instead of directly inheriting from Exception, we can create a custom exception by subclassing a standard exception such as RuntimeError, ValueError, etc. This is useful when your custom exception should be treated as a specific kind of error.
+
+Example: This example shows how to create a custom exception NetworkError by inheriting from RuntimeError, which is a standard built-in exception.
+
+Python
+
+# NetworkError has base RuntimeError and not Exception
+class NetworkError ( RuntimeError ):
+def __init__ ( self , arg ):
+self . args = ( arg ,) # store as tuple
+
+try :
+raise NetworkError ( "Connection failed" )
+except NetworkError as e :
+print ( e . args )
+
+Output
+('Connection failed',)
+
+Explanation:
+
+- NetworkError inherits from RuntimeError, which is a built-in exception type.
+
+- When raised, the message is stored in the args attribute as a tuple.
+
+- The exception is caught and its stored arguments are displayed.
+
+Real-World Example: Invalid Email Error
+
+Here’s a simple example where we raise a custom exception if the email address is not valid:
+
+Python
+
+class InvalidEmailError ( Exception ):
+def __init__ ( self , email , msg = "Invalid email format" ):
+self . email = email
+self . msg = msg
+super () . __init__ ( self . msg )
+
+def __str__ ( self ):
+return f " { self . email } -> { self . msg } "
+
+def set_email ( email ):
+if "@" not in email :
+raise InvalidEmailError ( email )
+print ( f "Email set to: { email } " )
+
+try :
+set_email ( "userexample.com" )
+except InvalidEmailError as e :
+print ( e )
+
+Output
+userexample.com -> Invalid email format
+
+Explanation:
+
+- A new exception class InvalidEmailError is defined to validate email addresses.
+
+- If the given email does not contain "@", the exception is raised.
+
+- The try-except block catches the error and prints the formatted message.
+
+When to Use User-Defined Exceptions?
+
+User-defined exceptions should be considered in the following scenarios:
+
+- Representing specific errors in an application (e.g., InvalidAgeError, DatabaseConnectionError).
+
+- Providing clearer and more descriptive error messages.
+
+- Handling a group of related errors separately using except.
+
+By using user-defined exceptions, programs become more readable, maintainable and easier to debug.
+
+Python
+
+Python Fundamentals
+
+- Python Introduction 2 min read
+
+- Input and Output in Python 4 min read
+
+- Python Variables 4 min read
+
+- Python Operators 4 min read
+
+- Python Keywords 2 min read
+
+- Python Data Types 8 min read
+
+- Conditional Statements in Python 3 min read
+
+- Loops in Python 5 min read
+
+- Python Functions 5 min read
+
+Python Data Structures
+
+- Python String 5 min read
+
+- Python Lists 4 min read
+
+- Python Tuples 4 min read
+
+- Python Dictionary 4 min read
+
+- Python Sets 6 min read
+
+- Python Arrays 7 min read
+
+Advanced Python
+
+- Python OOP Concepts 4 min read
+
+- Python Exception Handling 5 min read
+
+- File Handling in Python 4 min read
+
+- Python Database Tutorial 4 min read
+
+- Python MongoDB Tutorial 3 min read
+
+- Python MySQL 9 min read
+
+- Python Packages 10 min read
+
+- Python Modules 3 min read
+
+- Python DSA Libraries 5 min read
+
+- List of Python GUI Library and Packages 3 min read
+
+Data Science with Python
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Matplotlib Tutorial 3 min read
+
+- Python Seaborn Tutorial 3 min read
+
+- StatsModel Library - Tutorial 2 min read
+
+- Learning Model Building in Scikit-learn 6 min read
+
+- TensorFlow Tutorial 2 min read
+
+- PyTorch Tutorial 5 min read
+
+Web Development with Python
+
+- Flask Tutorial 4 min read
+
+- Django Tutorial | Learn Django Framework 6 min read
+
+- Django ORM - Inserting, Updating & Deleting Data 4 min read
+
+- Templating With Jinja2 in Flask 6 min read
+
+- Django Templates 5 min read
+
+- Build a REST API using Flask - Python 3 min read
+
+- Building a Simple API with Django REST Framework 3 min read
+
+Python Practice
+
+- Python Quiz 1 min read
+
+- Python Coding Practice 1 min read
+
+- Python Interview Questions and Answers 15+ min read

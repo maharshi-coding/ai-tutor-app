@@ -1,0 +1,269 @@
+Title: Feature Selection Techniques in Machine Learning
+URL: https://www.geeksforgeeks.org/machine-learning/feature-selection-techniques-in-machine-learning/
+Snapshot Type: sanitized text
+
+Courses
+
+Tutorials
+
+Interview Prep
+
+- Python for Machine Learning
+
+- Machine Learning with R
+
+- Machine Learning Algorithms
+
+- EDA
+
+- Math for Machine Learning
+
+- Machine Learning Interview Questions
+
+- ML Projects
+
+- Deep Learning
+
+- NLP
+
+- Computer vision
+
+- Data Science
+
+- Artificial Intelligence
+
+Feature Selection Techniques in Machine Learning
+
+Last Updated : 12 Dec, 2025
+
+Feature selection is the process of choosing only the most useful input features for a machine learning model. It helps improve model performance, reduces noise and makes results easier to understand.
+
+- Helps remove irrelevant and redundant features
+
+- Improves accuracy and reduces overfitting
+
+- Speeds up model training
+
+- Makes models simpler and easier to interpret
+
+Need of Feature Selection
+
+Feature selection methods are essential in data science and machine learning for several key reasons:
+
+- Improved Accuracy : Models learn better when trained on only important features.
+
+- Faster Training : Fewer features reduce computation time.
+
+- Greater Interpretability : With fewer inputs, understanding model behavior becomes easier.
+
+- Avoiding the Curse of Dimensionality : Reduces complexity when working with high-dimensional data.
+
+Types of Feature Selection Methods
+
+There are various algorithms used for feature selection and are grouped into three main categories and each one has its own strengths and trade-offs depending on the use case.
+
+1. Filter Methods
+
+Filter methods evaluate each feature independently with target variable. Feature with high correlation with target variable are selected as it means this feature has some relation and can help us in making predictions. These methods are used in the preprocessing phase to remove irrelevant or redundant features based on statistical tests (correlation) or other criteria.
+Filter Method
+Common Filter Techniques
+
+- Information Gain : Measures reduction in entropy when a feature is used.
+
+- Chi-square test : Checks the relationship between categorical features.
+
+- Fisher’s Score: Ranks features based on class separability.
+
+- Pearson’s Correlation Coefficient : Measures linear relationship between two continuous variables.
+
+- Variance Threshold : Removes features with very low variance.
+
+- Mean Absolute Difference : Similar to variance threshold but uses absolute differences.
+
+- Dispersion ratio : Ratio of arithmetic mean to geometric mean; higher values indicate useful features.
+
+Advantages
+
+- Fast and efficient : Filter methods are computationally inexpensive, making them ideal for large datasets.
+
+- Easy to implement : These methods are often built-in to popular machine learning libraries, requiring minimal coding effort.
+
+- Model Independence : Filter methods can be used with any type of machine learning model, making them versatile tools.
+
+Limitations
+
+- Limited interaction with the model : Since they operate independently, filter methods might miss data interactions that could be important for prediction.
+
+- Choosing the right metric : Selecting the appropriate metric for our data and task is important for optimal performance.
+
+2. Wrapper methods
+
+Wrapper methods are also referred as greedy algorithms that train algorithm. They use different combination of features and compute relation between these subset features and target variable and based on conclusion addition and removal of features are done. Stopping criteria for selecting the best subset are usually pre-defined by the person training the model such as when the performance of the model decreases or a specific number of features are achieved.
+Wrapper Method
+Common Wrapper Techniques
+
+- Forward Selection : Start with no features and add one at a time based on improvement.
+
+- Backward Elimination : Start with all features and remove the least useful ones.
+
+- Recursive Feature Elimination (RFE) : Removes the least important features step by step.
+
+Advantages
+
+- Model-specific optimization : Wrapper methods directly consider how features influence the model, potentially leading to better performance compared to filter methods.
+
+- Flexible : These methods can be adapted to various model types and evaluation metrics.
+
+Limitations
+
+- Computationally expensive : Evaluating different feature combinations can be time-consuming, especially for large datasets.
+
+- Risk of overfitting : Fine-tuning features to a specific model can lead to an overfitted model that performs poorly on unseen data.
+
+3. Embedded methods
+
+Embedded methods perform feature selection during the model training process. They combine the benefits of both filter and wrapper methods. Feature selection is integrated into the model training allowing the model to select the most relevant features based on the training process dynamically.
+Embedded Method
+Common Embedded Techniques
+
+- L1 Regularization (Lasso) : Keeps only features with non-zero coefficients.
+
+- Decision Trees and Random Forests : Select features based on impurity reduction.
+
+- Gradient Boosting : Pick features that reduce prediction error the most
+
+Advantages
+
+- Efficient and effective : Embedded methods can achieve good results without the computational burden of some wrapper methods.
+
+- Model-specific learning : Similar to wrapper methods these techniques uses the learning process to identify relevant features.
+
+Limitations
+
+- Limited interpretability : Embedded methods can be more challenging to interpret compared to filter methods making it harder to understand why specific features were chosen.
+
+- Not universally applicable : Not all machine learning algorithms support embedded feature selection techniques.
+
+Choosing the Right Feature Selection Method
+
+Choice of feature selection method depends on several factors:
+
+- Dataset size : Filter methods are generally faster for large datasets while wrapper methods might be suitable for smaller datasets.
+
+- Model type : Some models like tree-based models, have built-in feature selection capabilities.
+
+- Interpretability : If understanding the rationale behind feature selection is crucial, filter methods might be a better choice.
+
+- Computational resources: Wrapper methods can be time-consuming, so consider our available computing power.
+
+With these feature selection methods we can easily improve performance of our model and reduce its computational cost.
+
+Technical Scripter
+
+Machine Learning
+
+AI-ML-DS
+
+Technical Scripter 2020
+
+ML-EDA
+
+ML Algorithms
+
++ 2 More
+
+Machine Learning Basics
+
+- Introduction to Machine Learning 8 min read
+
+- Types of Machine Learning 7 min read
+
+- What is Machine Learning Pipeline? 6 min read
+
+- Applications of Machine Learning 3 min read
+
+Python for Machine Learning
+
+- Machine Learning with Python Tutorial 3 min read
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Data Preprocessing in Python 4 min read
+
+- EDA - Exploratory Data Analysis in Python 6 min read
+
+Feature Engineering
+
+- What is Feature Engineering? 5 min read
+
+- Introduction to Dimensionality Reduction 4 min read
+
+- Feature Selection Techniques in Machine Learning 4 min read
+
+Supervised Learning
+
+- Supervised Machine Learning 7 min read
+
+- Linear Regression in Machine learning 14 min read
+
+- Logistic Regression in Machine Learning 10 min read
+
+- Decision Tree in Machine Learning 8 min read
+
+- Random Forest Algorithm in Machine Learning 5 min read
+
+- K-Nearest Neighbor(KNN) Algorithm 8 min read
+
+- Support Vector Machine (SVM) Algorithm 9 min read
+
+- Naive Bayes Classifiers 6 min read
+
+Unsupervised Learning
+
+- What is Unsupervised Learning 5 min read
+
+- K means Clustering – Introduction 6 min read
+
+- Hierarchical Clustering in Machine Learning 6 min read
+
+- DBSCAN Clustering in ML - Density based clustering 6 min read
+
+- Apriori Algorithm 6 min read
+
+- Frequent Pattern Growth Algorithm 4 min read
+
+- ECLAT Algorithm - ML 5 min read
+
+- Principal Component Analysis (PCA) 7 min read
+
+Model Evaluation and Tuning
+
+- Evaluation Metrics in Machine Learning 9 min read
+
+- Regularization in Machine Learning 5 min read
+
+- Cross Validation in Machine Learning 5 min read
+
+- Hyperparameter Tuning 5 min read
+
+- Underfitting and Overfitting in ML 3 min read
+
+- Bias and Variance in Machine Learning 6 min read
+
+Advanced Techniques
+
+- Reinforcement Learning 9 min read
+
+- Semi-Supervised Learning in ML 5 min read
+
+- Self-Supervised Learning (SSL) 6 min read
+
+- Ensemble Learning 7 min read
+
+Machine Learning Practice
+
+- Machine Learning Interview Questions and Answers 15+ min read
+
+- 100+ Machine Learning Projects with Source Code 5 min read

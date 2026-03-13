@@ -1,0 +1,789 @@
+Title: Python Dictionary
+URL: https://www.programiz.com/python-programming/dictionary
+Snapshot Type: sanitized text
+
+Course Index
+
+Tutorials
+
+Courses
+
+Python
+JavaScript
+TypeScript
+SQL
+HTML
+CSS
+C
+C++
+Java
+R
+Ruby
+RUST
+Golang
+Kotlin
+Swift
+C#
+DSA
+
+Become a certified Python
+programmer.
+
+ENROLL
+
+Popular Tutorials
+
+Getting Started With Python
+
+Python if Statement
+
+while Loop in Python
+
+Python Lists
+
+Dictionaries in Python
+
+Start Learning Python
+
+Popular Examples
+
+Add two numbers
+
+Check prime number
+
+Find the factorial of a number
+
+Print the Fibonacci sequence
+
+Check leap year
+
+Explore Python Examples
+
+Reference Materials
+
+Built-in Functions
+
+List Methods
+
+Dictionary Methods
+
+String Methods
+
+View all
+
+Created with over a decade of experience.
+
+Learn
+
+Practice
+
+Compete
+
+Learn Python
+
+Learn HTML
+
+Learn JavaScript
+
+Learn SQL
+
+Learn DSA
+
+Learn C
+
+Learn C++
+
+Learn Java
+
+View all Courses on
+
+Python Basics
+
+Python Intermediate
+
+C++ Basics
+
+C++ Intermediate
+
+C++ OOP
+
+C Programming
+
+Java Basics
+
+Java Intermediate
+
+Java OOP
+
+View all Courses on
+
+Python Challenges
+
+JavaScript Challenges
+
+Java Challenges
+
+C++ Challenges
+
+C Challenges
+
+View all Challenges on
+
+Learn
+
+Practice
+
+Compete
+
+Certification Courses
+
+Created with over a decade of experience and thousands of feedback.
+
+Learn Python
+
+Learn HTML
+
+Learn JavaScript
+
+Learn SQL
+
+Learn DSA
+
+View all Courses on
+
+Learn C
+
+Learn C++
+
+Learn Java
+
+Python
+
+JavaScript
+
+TypeScript
+
+SQL
+
+HTML
+
+CSS
+
+C
+
+C++
+
+Java
+
+More languages
+
+Become a certified Python
+programmer.
+
+Try Programiz PRO!
+
+Popular Tutorials
+
+Getting Started With Python
+
+Python if Statement
+
+while Loop in Python
+
+Python Lists
+
+Dictionaries in Python
+
+Start Learning Python
+
+All Python Tutorials
+
+Reference Materials
+
+Built-in Functions
+
+List Methods
+
+Dictionary Methods
+
+String Methods
+
+View all
+
+Python
+
+JavaScript
+
+C
+
+C++
+
+Java
+
+R
+
+Kotlin
+
+Become a certified Python
+programmer.
+
+Try Programiz PRO!
+
+Popular Examples
+
+Add two numbers
+
+Check prime number
+
+Find the factorial of a number
+
+Print the Fibonacci sequence
+
+Check leap year
+
+All Python Examples
+
+Python Introduction
+
+- Get Started With Python
+
+- Your First Python Program
+
+- Python Comments
+
+Python Fundamentals
+
+- Python Variables and Literals
+
+- Python Type Conversion
+
+- Python Basic Input and Output
+
+- Python Operators
+
+Python Flow Control
+
+- Python if...else Statement
+
+- Python for Loop
+
+- Python while Loop
+
+- Python break and continue
+
+- Python pass Statement
+
+Python Data types
+
+- Python Numbers and Mathematics
+
+- Python List
+
+- Python Tuple
+
+- Python String
+
+- Python Set
+
+- Python Dictionary
+
+Python Functions
+
+- Python Functions
+
+- Python Function Arguments
+
+- Python Variable Scope
+
+- Python Global Keyword
+
+- Python Recursion
+
+- Python Modules
+
+- Python Package
+
+- Python Main function
+
+Python Files
+
+- Python Directory and Files Management
+
+- Python CSV: Read and Write CSV files
+
+- Reading CSV files in Python
+
+- Writing CSV files in Python
+
+Python Exception Handling
+
+- Python Exceptions
+
+- Python Exception Handling
+
+- Python Custom Exceptions
+
+Python Object & Class
+
+- Python Objects and Classes
+
+- Python Inheritance
+
+- Python Multiple Inheritance
+
+- Polymorphism in Python
+
+- Python Operator Overloading
+
+Python Advanced Topics
+
+- List comprehension
+
+- Python Lambda/Anonymous Function
+
+- Python Iterators
+
+- Python Generators
+
+- Python Namespace and Scope
+
+- Python Closures
+
+- Python Decorators
+
+- Python @property decorator
+
+- Python RegEx
+
+Python Date and Time
+
+- Python datetime
+
+- Python strftime()
+
+- Python strptime()
+
+- How to get current date
+and time in Python?
+
+- Python Get Current Time
+
+- Python timestamp to
+datetime and vice-versa
+
+- Python time Module
+
+- Python sleep()
+
+Additional Topic
+
+- Precedence and Associativity of Operators in Python
+
+- Python Keywords and Identifiers
+
+- Python Asserts
+
+- Python Json
+
+- Python pip
+
+- Python *args and **kwargs
+
+Python Tutorials
+
+Python reversed()
+
+Python Dictionary clear()
+
+Python Dictionary items()
+
+Python Dictionary keys()
+
+Python Dictionary fromkeys()
+
+Python Nested Dictionary
+
+Python Dictionary
+
+A Python dictionary is a collection of items, similar to lists and tuples. However, unlike lists and tuples, each item in a dictionary is a key-value pair (consisting of a key and a value).
+
+Create a Dictionary
+
+We create a dictionary by placing
+key: value
+pairs inside curly brackets
+{}
+, separated by commas. For example,
+
+# creating a dictionary
+country_capitals = {
+"Germany": "Berlin",
+"Canada": "Ottawa",
+"England": "London"
+}
+
+# printing the dictionary
+print(country_capitals)
+
+Output
+
+{'Germany': 'Berlin', 'Canada': 'Ottawa', 'England': 'London'}
+
+The
+country_capitals
+dictionary has three elements (key-value pairs), where
+'Germany'
+is the key and
+'Berlin'
+is the value assigned to it and so on.
+Python Dictionary
+
+Notes :
+
+- Dictionary keys must be immutable, such as tuples, strings, integers, etc. We cannot use mutable (changeable) objects such as lists as keys.
+
+- We can also create a dictionary using a Python built-in function
+dict()
+. To learn more, visit Python dict() .
+
+Valid and Invalid Dictionaries
+
+Keys of a dictionary must be immutable
+
+Immutable objects can't be changed once created. Some immutable objects in Python are integer, tuple and string.
+
+# valid dictionary
+# integer as a key
+my_dict = {1: "one", 2: "two", 3: "three"}
+
+# valid dictionary
+# tuple as a key
+my_dict = {(1, 2): "one two", 3: "three"}
+
+# invalid dictionary
+# Error: using a list as a key is not allowed
+my_dict = {1: "Hello", [1, 2]: "Hello Hi"}
+
+# valid dictionary
+# string as a key, list as a value
+my_dict = {"USA": ["Chicago", "California", "New York"]}
+
+In this example, we have used integers, tuples, and strings as keys for the dictionaries. When we used a list as a key, an error message occurred due to the list's mutable nature.
+
+Note: Dictionary values can be of any data type, including mutable types like lists.
+
+Keys of a dictionary must be unique
+
+The keys of a dictionary must be unique. If there are duplicate keys, the later value of the key overwrites the previous value.
+
+hogwarts_houses = {
+"Harry Potter": "Gryffindor",
+"Hermione Granger": "Gryffindor",
+"Ron Weasley": "Gryffindor",
+
+# duplicate key with a different house
+"Harry Potter": "Slytherin"
+
+}
+
+print(hogwarts_houses)
+
+Output
+
+{'Harry Potter': 'Slytherin', 'Hermione Granger': 'Gryffindor', 'Ron Weasley': 'Gryffindor'}
+
+Here, the key
+Harry Potter
+is first assigned to
+Gryffindor
+. However, there is a second entry where
+Harry Potter
+is assigned to
+Slytherin
+.
+
+As duplicate keys are not allowed in a dictionary, the last entry
+Slytherin
+overwrites the previous value
+Gryffindor
+.
+
+Access Dictionary Items
+
+We can access the value of a dictionary item by placing the key inside square brackets.
+
+country_capitals = {
+"Germany": "Berlin",
+"Canada": "Ottawa",
+"England": "London"
+}
+
+# access the value of keys
+print(country_capitals["Germany"]) # Output: Berlin
+print(country_capitals["England"]) # Output: London
+
+Note: We can also use the get() method to access dictionary items.
+
+Add Items to a Dictionary
+
+We can add an item to a dictionary by assigning a value to a new key. For example,
+
+country_capitals = {
+"Germany": "Berlin",
+"Canada": "Ottawa",
+}
+
+# add an item with "Italy" as key and "Rome" as its value
+country_capitals["Italy"] = "Rome"
+
+print(country_capitals)
+
+Output
+
+{'Germany': 'Berlin', 'Canada': 'Ottawa', 'Italy': 'Rome'}
+
+Remove Dictionary Items
+
+We can use the del statement to remove an element from a dictionary. For example,
+
+country_capitals = {
+"Germany": "Berlin",
+"Canada": "Ottawa",
+}
+
+# delete item having "Germany" key
+del country_capitals["Germany"]
+
+print(country_capitals)
+
+Output
+
+{'Canada': 'Ottawa'}
+
+Note : We can also use the pop() method to remove an item from a dictionary.
+
+If we need to remove all items from a dictionary at once, we can use the clear() method.
+
+country_capitals = {
+"Germany": "Berlin",
+"Canada": "Ottawa",
+}
+
+# clear the dictionary
+country_capitals.clear()
+
+print(country_capitals)
+
+Output
+
+{}
+
+Change Dictionary Items
+
+Python dictionaries are mutable (changeable). We can change the value of a dictionary element by referring to its key. For example,
+
+country_capitals = {
+"Germany": "Berlin",
+"Italy": "Naples",
+"England": "London"
+}
+
+# change the value of "Italy" key to "Rome"
+country_capitals["Italy"] = "Rome"
+
+print(country_capitals)
+
+Output
+
+{'Germany': 'Berlin', 'Italy': 'Rome', 'England': 'London'}
+
+Note : We can also use the update() method to add or change dictionary items.
+
+Iterate Through a Dictionary
+
+A dictionary is an ordered collection of items (starting from Python 3.7), therefore it maintains the order of its items.
+
+We can iterate through dictionary keys one by one using a for loop .
+
+country_capitals = {
+"United States": "Washington D.C.",
+"Italy": "Rome"
+}
+
+# print dictionary keys one by one
+for country in country_capitals:
+print(country)
+
+print()
+
+# print dictionary values one by one
+for country in country_capitals:
+capital = country_capitals[country]
+print(capital)
+
+Output
+
+United States
+Italy
+
+Washington D.C.
+Rome
+
+Find Dictionary Length
+
+We can find the length of a dictionary by using the len() function.
+
+country_capitals = {"England": "London", "Italy": "Rome"}
+
+# get dictionary's length
+print(len(country_capitals)) # Output: 2
+
+numbers = {10: "ten", 20: "twenty", 30: "thirty"}
+
+# get dictionary's length
+print(len(numbers)) # Output: 3
+
+countries = {}
+
+# get dictionary's length
+print(len(countries)) # Output: 0
+
+Python Dictionary Methods
+
+Here are some of the commonly used dictionary methods .
+
+Function
+Description
+
+pop()
+Removes the item with the specified key.
+
+update()
+Adds or changes dictionary items.
+
+clear()
+Remove all the items from the dictionary.
+
+keys()
+Returns all the dictionary's keys.
+
+values()
+Returns all the dictionary's values.
+
+get()
+Returns the value of the specified key.
+
+popitem()
+Returns the last inserted key and value as a tuple.
+
+copy()
+Returns a copy of the dictionary.
+
+Dictionary Membership Test
+
+We can check whether a key exists in a dictionary by using the
+in
+and
+not in
+operators.
+
+file_types = {
+".txt": "Text File",
+".pdf": "PDF Document",
+".jpg": "JPEG Image",
+}
+
+# use of in and not in operators
+print(".pdf" in file_types) # Output: True
+print(".mp3" in file_types) # Output: False
+print(".mp3" not in file_types) # Output: True
+
+Note: The
+in
+operator checks whether a key exists; it doesn't check whether a value exists or not.
+
+- Create a Dictionary
+
+- Access Dictionary Items
+
+- Add Items to a Dictionary
+
+- Remove Dictionary Items
+
+- Change Dictionary Items
+
+- Iterate Through a Dictionary
+
+- Find Dictionary Length
+
+- Python Dictionary Methods
+
+- Dictionary Membership Test
+
+Before we wrap up, let’s put your knowledge of Python dictionary to the test! Can you solve the following challenge?
+
+Challenge:
+
+Write a function to merge two dictionaries.
+
+- Merge
+dict1
+and
+dict2
+, then return the merged dictionary.
+
+Check Code
+
+Video: Python Dictionaries to Store key/value Pairs
+
+Previous Tutorial:
+
+Python Sets
+
+Next Tutorial:
+
+Python Functions
+
+Share on:
+
+Did you find this article helpful?
+
+Sorry about that.
+
+How can we improve it?
+
+Feedback *
+
+Leave this field blank
+
+Your builder path starts here. Builders don't just know how to code, they create solutions that matter.
+
+Escape tutorial hell and ship real projects.
+
+Try Programiz PRO
+
+Real-World Projects
+
+On-Demand Learning
+
+- AI Mentor
+
+Builder Community
+
+Related Tutorials
+
+Python Library
+
+Python reversed()
+
+Python Library
+
+Python Dictionary clear()
+
+Python Library
+
+Python Dictionary fromkeys()
+
+Python Tutorial
+
+Python Data Types

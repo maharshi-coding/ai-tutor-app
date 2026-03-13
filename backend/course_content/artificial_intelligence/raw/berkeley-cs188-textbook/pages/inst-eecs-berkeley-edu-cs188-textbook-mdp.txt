@@ -1,0 +1,23 @@
+Title: 4. MDPs
+URL: https://inst.eecs.berkeley.edu/~cs188/textbook/mdp/
+Snapshot Type: sanitized text
+
+4. MDPs
+
+Author: Nikhil Sharma
+
+Edited by: Saathvik Selvan and Wesley Zheng
+
+Credit: Some sections adapted from the textbook Artificial Intelligence: A Modern Approach .
+
+Last updated: October 2024
+
+- 4.1 Markov Decision Processes
+
+- 4.2 Solving Markov Decision Processes
+
+- 4.3 Value Iteration
+
+- 4.4 Policy Iteration
+
+- 4.5 Summary

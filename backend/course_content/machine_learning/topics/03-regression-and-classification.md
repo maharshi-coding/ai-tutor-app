@@ -4,7 +4,7 @@ This topic bundle groups the collected Machine Learning material most relevant t
 
 Keywords: regression, linear, logistic, classification, decision tree, random forest, svm, ensemble, boosting
 
-Documents in bundle: 49
+Documents in bundle: 47
 
 ## Document Index
 
@@ -74,32 +74,26 @@ Documents in bundle: 49
 - ```{.python .input n=1} (Dive into Deep Learning)
   Extracted file: extracted/d2l-en/f6ca3a0495ee69c0-python-input-n-1.md
   Original URL: https://github.com/d2l-ai/d2l-en/blob/HEAD/chapter_linear-classification/softmax-regression-scratch.md
-- Regresja logistyczna (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/cebc564d0bdea9f9-regresja-logistyczna.md
+- Logistic Regression (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/cebc564d0bdea9f9-logistic-regression.md
   Original URL: https://developers.google.com/machine-learning/crash-course/logistic-regression
-- Fairness (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/36526ca6941d339d-fairness.md
-  Original URL: https://developers.google.com/machine-learning/crash-course/fairness
-- Regresja liniowa: ćwiczenie dotyczące parametrów (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/609cdadc12d61ab5-regresja-liniowa-wiczenie-dotycz-ce-parametr-w.md
+- رگرسیون خطی: تمرین پارامترها (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/609cdadc12d61ab5-document.md
   Original URL: https://developers.google.com/machine-learning/crash-course/linear-regression/parameters-exercise
-- Régression linéaire: descente de gradient (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/c6b38a29b8b03969-r-gression-lin-aire-descente-de-gradient.md
-  Original URL: https://developers.google.com/machine-learning/crash-course/linear-regression/gradient-descent
-- 線性迴歸：梯度下降練習 (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/f1b683cc7acaeeba-document.md
-  Original URL: https://developers.google.com/machine-learning/crash-course/linear-regression/gradient-descent-exercise
-- Regressão linear: exercício de programação (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/bfa395d7aa57fafd-regress-o-linear-exerc-cio-de-programa-o.md
+- الانحدار الخطي: تمرين برمجي (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/bfa395d7aa57fafd-document.md
   Original URL: https://developers.google.com/machine-learning/crash-course/linear-regression/programming-exercise
-- Regresja logistyczna: obliczanie prawdopodobieństwa za pomocą funkcji sigmoidalnej (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/c1c01c6656e3d0fa-regresja-logistyczna-obliczanie-prawdopodobie-st.md
+- Linear regression: Test your knowledge (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/13557212a10184a4-linear-regression-test-your-knowledge.md
+  Original URL: https://developers.google.com/machine-learning/crash-course/linear-regression/test-your-knowledge
+- Logistic regression: Calculating a probability with the sigmoid function (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/c1c01c6656e3d0fa-logistic-regression-calculating-a-probability-wi.md
   Original URL: https://developers.google.com/machine-learning/crash-course/logistic-regression/sigmoid-function
-- ロジスティック回帰: 損失と正則化 (Google Machine Learning Crash Course)
+- رگرسیون لجستیک: از دست دادن و منظم شدن (Google Machine Learning Crash Course)
   Extracted file: extracted/google-ml-crash-course/53b2051ea9ce3bee-document.md
   Original URL: https://developers.google.com/machine-learning/crash-course/logistic-regression/loss-regularization
-- رگرسیون لجستیک: دانش خود را آزمایش کنید (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/793aa2851ade828e-document.md
+- Logistic regression: Test your knowledge (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/793aa2851ade828e-logistic-regression-test-your-knowledge.md
   Original URL: https://developers.google.com/machine-learning/crash-course/logistic-regression/test-your-knowledge
 - Python for Machine Learning (GeeksforGeeks Machine Learning Tutorial)
   Extracted file: extracted/geeksforgeeks-machine-learning/8cca9f7d76774924-python-for-machine-learning.md

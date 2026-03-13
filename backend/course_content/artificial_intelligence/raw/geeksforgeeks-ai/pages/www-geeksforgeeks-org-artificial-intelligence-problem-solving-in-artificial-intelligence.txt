@@ -1,0 +1,267 @@
+Title: Problem Solving in Artificial Intelligence
+URL: https://www.geeksforgeeks.org/artificial-intelligence/problem-solving-in-artificial-intelligence/
+Snapshot Type: sanitized text
+
+Courses
+
+Tutorials
+
+Interview Prep
+
+- Artificial Intelligence
+
+- Interview Questions
+
+- Project Ideas
+
+- Search Algorithms
+
+- Local Search Algorithm
+
+- Generative AI
+
+- Data Science
+
+- Machine Learning
+
+- Deep Learning
+
+- ML-Projects
+
+- Robotics
+
+Problem Solving in Artificial Intelligence
+
+Last Updated : 17 Jul, 2025
+
+Problem solving is a fundamental concept in artificial intelligence (AI) where systems are designed to identify challenges, make decisions and find efficient solutions. AI uses agents which are systems that perceive their environment and take actions to achieve specific goals. They go beyond simple reflex agents which react to stimuli based on pre-defined rules. Instead, problem-solving agents actively analyze situations, evaluate different options and choose the best action to reach their goal.
+
+These agents work by:
+
+- Perceiving the environment: They collect data about their surroundings such as sensor inputs or observations.
+
+- Defining the problem: They clearly understand the problem including the starting point, the available actions and the desired goal.
+
+- Exploring different possibilities: They consider various ways to solve the problem and evaluate which approach is likely to succeed.
+
+- Evaluating and deciding: Once they explore options, they assess the outcomes and pick the best course of action based on factors like time, resources and success likelihood.
+
+- Learning and adapting: Many problem-solving agents can learn from past experiences, improving their decision-making abilities over time.
+
+Types of Problems in AI
+
+AI systems can face different types of problems. These problems are categorized based on their impact on the system’s performance and how they can be handled:
+
+1. Ignorable Problems
+
+These are minor issues that have little or no effect on the AI system’s overall performance. They are often harmless and do not require immediate attention.
+
+Examples :
+
+- Small inaccuracies in predictions that don't affect the final result like a slight error in image classification.
+
+- Minor issues in data preprocessing that don't change the outcome.
+
+Handling : Ignored as they don't interfere with the system's primary function.
+
+2. Recoverable Problems
+
+Recoverable problems are those where the AI system encounters an issue but can be fixed with intervention either automatically or manually, such as error-handling functions.
+
+Examples :
+
+- Missing data that can be filled in using statistical methods.
+
+- System crashes that can be fixed by restoring from a backup.
+
+Handling : Requires action like automated error handling, retraining the model or system recovery through checkpoints.
+
+3. Irrecoverable Problems
+
+These are severe issues that cause permanent damage or failure, making it impossible for the system to recover. They can lead to significant performance loss.
+
+Examples :
+
+- Corrupted training data that causes bias and reduces the model's effectiveness.
+
+- Adversarial attacks that make the model untrustworthy.
+
+- Overfitting, where the model becomes too specialized and cannot adapt to new data.
+
+Handling : Requires a complete rebuild of the system including retraining the model or updating the data to eliminate underlying issues.
+
+Steps in Problem Solving in AI
+
+AI problem solving follows a structured, logical process similar to human thinking, it's steps include:
+
+- Problem Definition: First, the problem needs to be clearly defined. This includes understanding the inputs, constraints and what the solution should look like.
+
+- Problem Analysis: Once the problem is defined, it’s analyzed in more detail. This helps in understanding its limitations and possible solutions.
+
+- Knowledge Representation: All the important information is organized so the AI can understand and work with it. This could include creating graphs or using databases.
+
+- Problem Solving: AI uses appropriate methods to solve the problem. This often means comparing different strategies to find the most efficient one.
+
+- Testing and Evaluation: Finally, after the solution is implemented, testing and evaluation ensure the solution meets all requirements and performs as expected.
+
+Key Components of Problem Formulation in AI
+
+Effective problem-solving in AI is dependent on several important components:
+
+- Initial State: This is the starting point of the problem where the AI begins its process. It sets the context and helps identify how the agent will approach the challenge.
+
+- Action: At this stage, AI identifies all the possible actions it can take from the initial state. Each action has an impact on how the system moves closer to solving the problem.
+
+- Transition: This refers to how the system changes from one state to another after an action is taken. Transition modeling helps show how the agent’s actions influence the next steps.
+
+- Goal Test: Once an action is taken, AI checks if it has reached its goal. If the goal is achieved, the problem-solving process stops and the solution is considered complete.
+
+- Cost Function: This step assigns a numerical value to the cost of achieving the goal. The cost can include resources like time, energy or money and helps decide the most efficient way to reach the goal.
+
+Techniques for Problem Solving in AI
+
+Several techniques are available to solve different types of problems in AI. The choice of technique depends on the nature of the problem and the resources available.
+
+1. Search Algorithms
+
+Search Algorithms are important for exploring possible solutions. There are two main categories:
+
+- Uninformed Search : These algorithms such as breadth-first and depth-first search, don’t use additional knowledge about the problem and explore all possible paths.
+
+- Informed Search : Algorithms like A* use heuristics or domain-specific knowledge to guide the search toward more promising paths making the search process more efficient.
+
+2. Constraint Satisfaction Problems (CSP)
+
+In CSPs the goal is to find solutions that satisfy a set of constraints. Techniques like backtracking, constraint propagation and local search are used to explore the solution space efficiently while ensuring that all constraints are met.
+
+3. Optimization Techniques
+
+AI often addresses optimization problems where the goal is to find the best possible solution among many options. Techniques include:
+
+- Linear programming for solving problems involving linear relationships.
+
+- Dynamic programming for breaking down complex problems into smaller subproblems.
+
+- Evolutionary algorithms like genetic algorithms that simulate natural selection to find optimal solutions.
+
+4. Machine Learning
+
+Machine learning allows AI systems to learn from data and improve over time. The three major learning types are:
+
+- Supervised Learning: Learning from labeled data to make predictions or classifications.
+
+- Unsupervised Learning: Discovering patterns in data without labeled outputs.
+
+- Reinforcement Learning: Learning through trial and error, receiving feedback in the form of rewards or penalties.
+
+5. Natural Language Processing (NLP)
+
+Natural Language Processing (NLP) helps AI systems understand and generate human language. Techniques like tokenization, Part-of-speech (PoS) and named entity recognition are important for chatbots, language translation and text summarization.
+
+Advantages of AI in Problem Solving
+
+- Efficiency : It can solve problems much faster than humans, processes large amounts of data and identifying patterns quickly.
+
+- Accuracy : With the right data and models, AI can make decisions with high accuracy, especially in tasks like medical diagnoses or image recognition.
+
+- Automation : It automates repetitive tasks, freeing up human time for more complex and creative work.
+
+- Adaptability : AI systems, particularly those using machine learning can improve over time, adapting to new data and evolving challenges.
+
+- Cost-Effectiveness : Once implemented, it can reduce costs by simplifying operations, improving productivity and minimizing human error.
+
+Challenges in AI Problem Solving
+
+Despite its many advantages, it faces several challenges:
+
+- Complexity : Some problems are highly complex, requiring significant computational resources and time to solve.
+
+- Data Quality : AI systems depend on data quality and poor or biased data can lead to inaccurate or misleading outcomes.
+
+- Interpretability : Many AI models, especially deep learning, lack transparency, making it hard to understand how decisions are made.
+
+- Ethics and Bias : AI can conserve biases in data which leads to unfair or unethical outcomes, ensuring fairness is a key challenge.
+
+As AI continues to evolve, enhancing problem-solving capabilities will remain important for advancing technology and improving human experiences.
+
+Artificial Intelligence
+
+AI-ML-DS
+
+Introduction to AI
+
+- What is Artificial Intelligence (AI) 10 min read
+
+- Types of Artificial Intelligence (AI) 6 min read
+
+- Types of AI Based on Functionalities 4 min read
+
+- Agents in AI 7 min read
+
+- Artificial intelligence vs Machine Learning vs Deep Learning 3 min read
+
+- Problem Solving in Artificial Intelligence 6 min read
+
+- Top 20 Applications of Artificial Intelligence (AI) in 2025 13 min read
+
+AI Concepts
+
+- Search Algorithms in AI 6 min read
+
+- Local Search Algorithm in Artificial Intelligence 7 min read
+
+- Adversarial Search Algorithms in Artificial Intelligence (AI) 15+ min read
+
+- Constraint Satisfaction Problems (CSP) in Artificial Intelligence 10 min read
+
+- Knowledge Representation in AI 9 min read
+
+- First-Order Logic in Artificial Intelligence 4 min read
+
+- Reasoning Mechanisms in AI 9 min read
+
+Machine Learning in AI
+
+- Machine Learning Tutorial 5 min read
+
+- Deep Learning Tutorial 2 min read
+
+- Natural Language Processing (NLP) Tutorial 2 min read
+
+- Computer Vision Tutorial 3 min read
+
+Robotics and AI
+
+- Artificial Intelligence in Robotics 5 min read
+
+- What is Robotics Process Automation 8 min read
+
+- Automated Planning in AI 8 min read
+
+- AI in Transportation 8 min read
+
+- AI in Manufacturing : Revolutionizing the Industry 6 min read
+
+Generative AI
+
+- What is Generative AI? 7 min read
+
+- Generative Adversarial Network (GAN) 11 min read
+
+- Cycle Generative Adversarial Network (CycleGAN) 7 min read
+
+- StyleGAN - Style Generative Adversarial Networks 5 min read
+
+- Introduction to Generative Pre-trained Transformer (GPT) 4 min read
+
+- BERT Model - NLP 12 min read
+
+- Generative AI Applications 7 min read
+
+AI Practice
+
+- Top Artificial Intelligence(AI) Interview Questions and Answers 15+ min read
+
+- Top Generative AI and LLM Interview Question with Answer 15+ min read
+
+- 30+ Best Artificial Intelligence Project Ideas with Source Code [2026 Updated] 15+ min read

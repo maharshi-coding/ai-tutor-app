@@ -1,7 +1,7 @@
 {
   "course": "Python Programming",
   "slug": "python",
-  "generatedAt": "2026-03-13T06:35:50.720Z",
+  "generatedAt": "2026-03-13T07:59:31.261Z",
   "sourceCount": 8,
   "documentCount": 217,
   "topicCount": 6,
@@ -75,22 +75,22 @@
     {
       "id": "syntax-and-data-types",
       "title": "Syntax and Data Types",
-      "documentCount": 78
+      "documentCount": 79
     },
     {
       "id": "control-flow-and-functions",
       "title": "Control Flow and Functions",
-      "documentCount": 70
+      "documentCount": 69
     },
     {
       "id": "data-structures",
       "title": "Data Structures",
-      "documentCount": 9
+      "documentCount": 10
     },
     {
       "id": "modules-files-and-packages",
       "title": "Modules, Files, and Packages",
-      "documentCount": 57
+      "documentCount": 56
     },
     {
       "id": "objects-errors-and-testing",
@@ -259,20 +259,20 @@
     },
     {
       "id": "0e64583d90405e61",
-      "title": "فئة Python من Google",
+      "title": "Classe Python de Google",
       "sourceId": "google-python-class",
       "sourceTitle": "Google's Python Class",
       "sourceUrl": "https://developers.google.com/edu/python",
-      "extractPath": "extracted/google-python-class/0e64583d90405e61-python-google.md",
+      "extractPath": "extracted/google-python-class/0e64583d90405e61-classe-python-de-google.md",
       "topicId": "control-flow-and-functions"
     },
     {
       "id": "2428ba36e5966461",
-      "title": "Python Set Up",
+      "title": "পাইথন সেট আপ",
       "sourceId": "google-python-class",
       "sourceTitle": "Google's Python Class",
       "sourceUrl": "https://developers.google.com/edu/python/set-up",
-      "extractPath": "extracted/google-python-class/2428ba36e5966461-python-set-up.md",
+      "extractPath": "extracted/google-python-class/2428ba36e5966461-document.md",
       "topicId": "syntax-and-data-types"
     },
     {
@@ -295,20 +295,20 @@
     },
     {
       "id": "3031f7aed3c5b66f",
-      "title": "Listas de Python",
+      "title": "Python Lists",
       "sourceId": "google-python-class",
       "sourceTitle": "Google's Python Class",
       "sourceUrl": "https://developers.google.com/edu/python/lists",
-      "extractPath": "extracted/google-python-class/3031f7aed3c5b66f-listas-de-python.md",
-      "topicId": "control-flow-and-functions"
+      "extractPath": "extracted/google-python-class/3031f7aed3c5b66f-python-lists.md",
+      "topicId": "syntax-and-data-types"
     },
     {
       "id": "a36eda38f6272151",
-      "title": "Python 정렬",
+      "title": "পাইথন বাছাই",
       "sourceId": "google-python-class",
       "sourceTitle": "Google's Python Class",
       "sourceUrl": "https://developers.google.com/edu/python/sorting",
-      "extractPath": "extracted/google-python-class/a36eda38f6272151-python.md",
+      "extractPath": "extracted/google-python-class/a36eda38f6272151-document.md",
       "topicId": "control-flow-and-functions"
     },
     {
@@ -322,57 +322,57 @@
     },
     {
       "id": "0da4093ce867b27e",
-      "title": "التعبيرات العادية في بايثون",
+      "title": "Python Regular Expressions",
       "sourceId": "google-python-class",
       "sourceTitle": "Google's Python Class",
       "sourceUrl": "https://developers.google.com/edu/python/regular-expressions",
-      "extractPath": "extracted/google-python-class/0da4093ce867b27e-document.md",
+      "extractPath": "extracted/google-python-class/0da4093ce867b27e-python-regular-expressions.md",
       "topicId": "syntax-and-data-types"
     },
     {
       "id": "3c304d960c05babd",
-      "title": "Python Utilities",
+      "title": "Utilidades de Python",
       "sourceId": "google-python-class",
       "sourceTitle": "Google's Python Class",
       "sourceUrl": "https://developers.google.com/edu/python/utilities",
-      "extractPath": "extracted/google-python-class/3c304d960c05babd-python-utilities.md",
+      "extractPath": "extracted/google-python-class/3c304d960c05babd-utilidades-de-python.md",
       "topicId": "modules-files-and-packages"
     },
     {
       "id": "268cd3122d52394b",
-      "title": "Latihan Python Dasar",
+      "title": "Basic Python Exercises",
       "sourceId": "google-python-class",
       "sourceTitle": "Google's Python Class",
       "sourceUrl": "https://developers.google.com/edu/python/exercises/basic",
-      "extractPath": "extracted/google-python-class/268cd3122d52394b-latihan-python-dasar.md",
-      "topicId": "modules-files-and-packages"
+      "extractPath": "extracted/google-python-class/268cd3122d52394b-basic-python-exercises.md",
+      "topicId": "data-structures"
     },
     {
       "id": "6716b1b71a83ce77",
-      "title": "Baby Names Python Exercise",
+      "title": "تمرین اسم بچه پایتون",
       "sourceId": "google-python-class",
       "sourceTitle": "Google's Python Class",
       "sourceUrl": "https://developers.google.com/edu/python/exercises/baby-names",
-      "extractPath": "extracted/google-python-class/6716b1b71a83ce77-baby-names-python-exercise.md",
-      "topicId": "control-flow-and-functions"
+      "extractPath": "extracted/google-python-class/6716b1b71a83ce77-document.md",
+      "topicId": "modules-files-and-packages"
     },
     {
       "id": "86d1460f7fa3452e",
-      "title": "특수 Python 실습 복사",
+      "title": "Copier un exercice Python spécial",
       "sourceId": "google-python-class",
       "sourceTitle": "Google's Python Class",
       "sourceUrl": "https://developers.google.com/edu/python/exercises/copy-special",
-      "extractPath": "extracted/google-python-class/86d1460f7fa3452e-python.md",
+      "extractPath": "extracted/google-python-class/86d1460f7fa3452e-copier-un-exercice-python-sp-cial.md",
       "topicId": "modules-files-and-packages"
     },
     {
       "id": "8dc9b989a99acdfb",
-      "title": "記錄解謎 Python 運動",
+      "title": "Log Puzzle Python Exercise",
       "sourceId": "google-python-class",
       "sourceTitle": "Google's Python Class",
       "sourceUrl": "https://developers.google.com/edu/python/exercises/log-puzzle",
-      "extractPath": "extracted/google-python-class/8dc9b989a99acdfb-python.md",
-      "topicId": "modules-files-and-packages"
+      "extractPath": "extracted/google-python-class/8dc9b989a99acdfb-log-puzzle-python-exercise.md",
+      "topicId": "control-flow-and-functions"
     },
     {
       "id": "effaae48ae3fb70d",

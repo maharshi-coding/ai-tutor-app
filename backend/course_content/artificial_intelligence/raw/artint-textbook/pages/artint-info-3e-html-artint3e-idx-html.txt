@@ -1,0 +1,4452 @@
+Title: Artificial Intelligence 3E
+URL: https://artint.info/3e/html/ArtInt3e.idx.html
+Snapshot Type: sanitized text
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+⊧̸ (not entails) §5.1.2
+
+← (if) 2nd item , Figure 5.1 , 2nd item , 2nd item
+
+→ (implies) Figure 5.1 , 2nd item
+
+↔ (equivalence) Figure 5.1 , 2nd item
+
+= (equals) §15.8
+
+≠ (not equal to) §15.8.2
+
+¬ (not) Figure 5.1 , 2nd item
+
+∧ (and) Figure 5.1 , 2nd item , 2nd item
+
+∨ (or) Figure 5.1 , 2nd item
+
+⊕ (exclusive-or) Figure 5.1 , 2nd item
+
+⊢ (prove) §5.3.2
+
+⊥ (bottom) 3rd item
+
+⊧ (entails) §15.3.2 , §5.1.2
+
+⟼ (rewritten as) §15.7.1
+
+0–1 loss 1st item
+
+A ∗ search §3.6.1 , §3.7.2
+
+abduction §5.8 , §5.8
+
+abductive diagnosis §5.8
+
+abilities 5th item
+
+ableist §12.6
+
+ABox 2nd item
+
+absolute loss 2nd item
+
+absorbing state §12.5
+
+abstraction §1.6.4
+
+abundant homogenous data 2nd item
+
+accident §13.10
+
+accountability §18.3
+
+accuracy 1st item , §7.2.1
+
+achievement goal 1st item , 1st item
+
+acting intelligently §1.1
+
+action §2.1 , §6.1
+
+constraint §6.4.1
+
+feature §6.4.1
+
+function 4th item
+
+instance §6.5
+
+profile §14.2.1 , §14.4
+
+replay §13.9.1
+
+variable 2nd item
+
+activation function §7.3.2 , §8.1
+
+active learning item Online and offline
+
+active sensor 2nd item , §5.4
+
+acts §1.1
+
+actuator 2nd item
+
+acyclic directed graph (DAG) §3.3.1
+
+acyclic knowledge base §5.7
+
+Adam (optimizer) Table B.2 , §8.2.3
+
+Adam (robot scientist) §15.10
+
+adaptive importance sampling §9.7.5
+
+additive independence §12.1.2
+
+additive utility §12.1.2
+
+adjective 2nd item
+
+admissible
+
+heuristic 3rd item , §3.6 , §3.6.3
+
+search algorithm §3.6.1
+
+adversarial
+
+debiasing §8.6.2
+
+network §8.6.2
+
+reasoning 2nd item , §14.3.1
+
+aerodynamics §1.2.1
+
+agent §1.1 , §1.3 , §2.1 , §2.1
+
+autonomous §1.3 , Chapter 18
+
+purposive §1.3
+
+semi-autonomous §1.3 , Chapter 18 , §18.3
+
+aggregator §17.3.1
+
+AGI , see artificial general intelligence
+
+AI §1.1
+
+AI Act , see Artificial Intelligence Act
+
+AI ethics §18.7
+
+for humans item A.
+
+for systems item B.
+
+AIPython ( aipython.org ) Example 2.6 , §4.11 , New to This Edition
+
+AIspace §18.6
+
+algebraic variable §4.1.1
+
+algorithm
+
+asynchronous value iteration Figure 12.18
+
+boosting Figure 7.19
+
+branch-and-bound
+
+factored optimization Figure 4.12
+
+collaborative filtering Figure 17.2
+
+constraint satisfaction problem (CSP)
+
+domain splitting Figure 4.6
+
+generalized arc consistency Figure 4.4
+
+Conv2D Figure 8.9
+
+debugging
+
+false positive Figure 5.6
+
+missing answer Figure 5.7
+
+decision tree learner Figure 7.9
+
+depth-first
+
+branch-and-bound Figure 3.14
+
+CSP solver Figure 4.1
+
+decision network optimization Figure 12.13
+
+probabilistic inference Figure 9.9
+
+search Figure 3.9
+
+dropout Figure 8.7
+
+expectation maximization (EM) Figure 10.8
+
+game tree search Figure 14.5
+
+genetic algorithm Figure 4.11
+
+crossover 28
+
+Gibbs sampling Figure 9.35
+
+gradient-boosted trees Figure 7.21
+
+iterative deepening Figure 3.11
+
+k -means Figure 10.4
+
+likelihood weighting Figure 9.33
+
+local search Figure 4.8
+
+logistic regression Figure 7.12
+
+minimax with α – β pruning Figure 14.7
+
+model-based reinforcement learning Figure 13.6
+
+neural network
+
+dense linear function Figure 8.3
+
+stochastic gradient descent 15
+
+partial-order planner Figure 6.6
+
+particle filtering Figure 9.34
+
+policy iteration Figure 12.19
+
+proof procedure
+
+conflict
+
+bottom-up Figure 5.9
+
+top-down Figure 5.10
+
+Datalog
+
+top-down Figure 15.5
+
+definite clause
+
+bottom-up Figure 5.3
+
+top-down Figure 5.4
+
+negation-as-failure
+
+bottom-up Figure 5.11
+
+top-down Figure 5.12
+
+Q -learning Figure 13.3
+
+recursive conditioning Figure 9.12
+
+ReLU (neural network) Figure 8.4
+
+SARSA Figure 13.5
+
+with generalization Figure 13.7
+
+with linear function approximation Figure 13.8
+
+generic Figure 3.5
+
+multiple-path pruning Figure 3.16
+
+sigmoid (neural network) 9
+
+stochastic policy iteration Figure 14.10
+
+unification Figure 15.4
+
+value iteration Figure 12.17
+
+variable elimination
+
+belief network Figure 9.13
+
+CSP Figure 4.7
+
+decision network Figure 12.14
+
+single-stage decision network Figure 12.8
+
+algorithm portfolio §4.11 , §4.6.2
+
+algorithms
+
+bottom-up
+
+conflict 1
+
+definite clause 1
+
+negation-as-failure 1
+
+branch-and-bound 1
+
+conflict
+
+bottom-up 1
+
+top-down 1
+
+constraint satisfaction problem (CSP)
+
+branch-and-bound 1
+
+depth-first search 1
+
+genetic algorithm 1
+
+local search 1
+
+variable elimination 1
+
+Datalog
+
+top-down proof procedure 1
+
+decision network
+
+depth-first search 1
+
+variable elimination 1
+
+single-stage 1
+
+definite clause
+
+bottom-up 1
+
+top-down 1
+
+depth-first
+
+iterative deepening 1
+
+domain splitting 1
+
+generalized arc consistency 1
+
+learner
+
+k -means 1
+
+boosting 1
+
+decision tree 1
+
+expectation maximization (EM) 1
+
+gradient-boosted trees 1
+
+logistic regression
+
+stochastic gradient descent 1
+
+neural network
+
+Conv2D 1
+
+dense linear function 1
+
+dropout 1
+
+ReLU 1
+
+sigmoid 10
+
+stochastic gradient descent 16
+
+stochastic gradient descent
+
+logistic regression 1
+
+neural network 16
+
+Markov decision process (MDP)
+
+asynchronous value iteration 1
+
+policy iteration 1
+
+value iteration 1
+
+multiple-path pruning 1
+
+negation-as-failure
+
+bottom-up 1
+
+top-down 1
+
+neural network
+
+Conv2D 1
+
+dropout 1
+
+planning
+
+as CSP §6.4
+
+forward §6.2
+
+partial-order 1
+
+regression §6.3
+
+probabilistic inference
+
+depth-first 1
+
+Gibbs sampling 1
+
+likelihood weighting 1
+
+MCMC 1
+
+particle filtering 1
+
+recursive conditioning 1
+
+variable elimination 1
+
+reinforcement learning
+
+model-based 1
+
+Q -learning 1
+
+SARSA 1
+
+with generalization 1
+
+with linear function approximation 1
+
+stochastic policy iteration 1
+
+depth-first 1
+
+game tree 1
+
+iterative deepening 1
+
+minimax with α – β pruning 1
+
+stochastic gradient descent
+
+logistic regression 1
+
+neural network 16
+
+top-down proof procedure
+
+conflict 1
+
+Datalog 1
+
+definite clause 1
+
+negation-as-failure 1
+
+value iteration
+
+asynchronous 1
+
+alignment problem §18.3
+
+Allais Paradox §12.1.1
+
+alpha–beta ( α – β ) pruning §14.3.1
+
+AlphaGo §14.10
+
+AlphaZero §14.10 , §14.7.3
+
+alternating least squares Example 17.3
+
+analysis 1st item
+
+Analytical Engine §1.2
+
+annealing §4.6.3
+
+schedule §4.6.3
+
+answer §15.4.1 , §5.3.1 , §5.3.2 , §5.6.2
+
+clause §15.5.4 , §5.3.2
+
+extraction §15.4.1 , §15.5.4
+
+any-conflict algorithm §4.6.3
+
+any-space algorithm 4th item
+
+anytime algorithm §1.5.4 , §12.5.2 , 1st item
+
+aperiodic Markov chain §9.6.1
+
+application of substitution §15.5.1
+
+applications of AI §1.1 , §1.4
+
+approximate inference item Approximate inference , §9.7
+
+approximately optimal solution item Approximately optimal solution
+
+arc 2nd item
+
+arc consistent §4.3 , §4.8.1
+
+area under the ROC curve §7.2.3
+
+argument 5th item , §5.7.1
+
+Aristotelian definition §16.2.2
+
+array §A.3
+
+Arrow’s impossibility theorem Proposition 14.1
+
+art §19.3
+
+artificial general intelligence §18.3 , §19.2
+
+artificial intelligence §1.1
+
+Artificial Intelligence Act §18.8
+
+ask item Step 4 , §5.3.1
+
+ask-the-user §5.4
+
+askable atom §5.4
+
+assertional knowledge base 2nd item
+
+assignment §4.1.1
+
+assisted action §18.3
+
+assisted cognition §18.3
+
+assisted perception §18.3
+
+assistive technology §18.3
+
+assumable §5.6.2 , 2nd item
+
+assumption-based truth maintenance system §5.12 , §5.6.4
+
+asymptotic complexity §1.6.2 , §3.5.2
+
+asynchronous value iteration §12.5.2
+
+algorithm Figure 12.18
+
+ATMS , see assumption-based truth maintenance system
+
+atom 5th item , §5.1.1 , 1st item
+
+atomic
+
+clause §15.9 , 2nd item
+
+proposition §5.1.1 , 1st item
+
+symbol 5th item
+
+atoms-to-bits §18.1 , 2nd item
+
+attention
+
+economy §18.1
+
+human §18.1 , §18.3
+
+neural network 4th item , 5th item , §18.3 , §8.5.4
+
+to environment §12.5.5
+
+attribute §16.1.1
+
+auction §14.6
+
+AUROC , see area under the ROC curve
+
+autoencoder §8.6.1
+
+autoML §7.9 , §8.3
+
+autonomous
+
+agent §1.3 , Chapter 18
+
+delivery robot §1.4.1
+
+vehicle §18.5 , §2.4
+
+average reward item Average reward
+
+axiom item Step 4 , item Step 3 , §5.1.2
+
+axiomatizing the domain item Step 4 , item Step 3
+
+axioms of rationality §12.1
+
+backdoor criterion §11.3.1
+
+backpropagation §8.1.1 , §8.1.1
+
+backtracking §3.5.2
+
+backward induction §14.3
+
+backward search §3.8.1
+
+bag item Data , 3rd item
+
+bag-of-words §17.3.3 , §9.6.6
+
+bagging 1st item
+
+bandit §13.5
+
+base learner 1st item
+
+base-level algorithms §7.5
+
+Basic Formal Ontology §16.6
+
+batch §7.3.2
+
+Bayes classifier §10.2.2
+
+Bayes’ rule §10.1 , Proposition 9.1
+
+Bayesian
+
+information criteria (BIC) §10.2.4 , §10.3.1
+
+learning §10.2
+
+network , see belief network
+
+probability §9.1
+
+beam search §4.7
+
+behavior §1.1
+
+belief §1.6.2 , 6th item
+
+monitoring §9.6.3
+
+network §1.2 , §10.4 , §9.3 , §9.3
+
+state §1.3 , §12.5.5 , §2.1.2 , §8.5.2
+
+transition function 2nd item , §2.1.3 , §2.2 , §8.5.2 , 2nd item
+
+Bell number §17.4
+
+best response §14.4
+
+best-first search §3.6
+
+beta distribution §10.2.1
+
+BFO , see Basic Formal Ontology
+
+bias
+
+human §18.2
+
+machine learning §18.2 , item Bias , 1st item , §7.6 , §8.1 , 4th item
+
+bias §10.1
+
+representation 1st item
+
+search 1st item
+
+bias–variance trade-off 2nd item
+
+bidirectional search §3.8.1
+
+bigram model §9.6.6
+
+binary
+
+constraint §4.1.2
+
+cross-entropy loss §7.2.1
+
+log loss §7.2.1 , 2nd item
+
+variable §4.1.1 , §9.1.1 , §9.2
+
+binning 3rd item , §7.3.2
+
+binomial distribution §10.2.1
+
+biology item Biology , §8.5.4
+
+bipartite graph 3rd item
+
+bit §10.2.4 , §7.2.1
+
+blame attribution problem 1st item
+
+blocks §11.1.2
+
+body
+
+agent §2.1
+
+clause 2nd item
+
+Boltzmann distribution 3rd item , §4.6.3 , §4.7
+
+Boolean
+
+feature §7.2
+
+property §16.1.1
+
+variable §4.1.1 , 1st item , §9.1.1
+
+boosting §7.5.1
+
+algorithm Figure 7.19
+
+bot §1.3 , §2.1
+
+bottom ⊥ 3rd item
+
+bottom-up proof procedure §5.3.2
+
+assumables §5.6.4
+
+Datalog §15.5.2
+
+definite clauses Figure 5.3
+
+negation as failure §5.7.2
+
+bounded above zero §3.6.1
+
+bounded arc costs §3.5.4
+
+bounded rationality 2nd item , §19.2
+
+branch-and-bound
+
+factored optimization
+
+algorithm Figure 4.12
+
+branch-and-bound search §3.6.2
+
+factored optimization §4.8.1
+
+branching factor §3.3.1
+
+breadth-first search §3.5.1
+
+bucket elimination , see variable elimination
+
+burn-in §9.7.7
+
+canonical representation §12.1.2 , §12.1.2 , §15.8.1 , §9.3.3 , §9.3.3
+
+canyon §8.2
+
+cardinal item Optimal solution
+
+preference 2nd item , §12.1.1
+
+case analysis §4.4
+
+catastrophic forgetting §13.9.1 , §7.3.2
+
+categorical
+
+cross entropy §7.2.1
+
+feature §7.2.1
+
+log loss §7.2.1 , 3rd item
+
+target §7.3.2
+
+variable §10.2.1
+
+causal §2.1.1
+
+link §6.5
+
+mechanism §11.1 , §5.9
+
+model Chapter 11 , §5.9
+
+network §11.1 , 2nd item
+
+rule 1st item
+
+causality §1.2 , Chapter 11 , §5.9 , §5.9
+
+chain rule 2nd item , §9.1.2
+
+chance node 2nd item
+
+channel 3rd item
+
+characteristic function item relations , §16.2
+
+CHAT-80 §1.2
+
+ChatGPT Example 1.2 , §18.3
+
+checkers §1.2
+
+chess §14.10
+
+child §3.3.1
+
+choose 2nd item , §3.4 , §5.3.2
+
+Church–Turing thesis §1.2
+
+Cicero §14.10
+
+citation matching §17.4
+
+clarity principle §4.1.1 , 2nd item
+
+Clark normal form §15.9
+
+Clark’s completion §15.9 , §5.7
+
+class §10.2.2 , §16.2 , 2nd item
+
+classification item Task , §7.2
+
+tree §7.3.1
+
+clause 2nd item
+
+definite 1st item , 2nd item
+
+Horn §5.6.1
+
+climate change §18.6
+
+closed list , see explored set
+
+closed-world assumption §5.7
+
+clustering §10.3
+
+CNF , see conjunctive normal form
+
+CNN , see convolutional neural network
+
+cognitive science §1.2.1
+
+cold-start problem §17.2.1
+
+collaborative filtering §17.2.1
+
+algorithm Figure 17.2
+
+collective classification §17.3.2
+
+collusion §17.3.2
+
+combinatorial auction §18.6
+
+command §13.4.1 , §2.1 , §2.1.3 , §2.2
+
+function 3rd item , §2.1.3 , §2.2 , §8.5.2
+
+trace §2.1.1
+
+common sense §1.1.1 , §18.3 , §19.3
+
+reasoning §1.6.3 , Example 1.2
+
+competitive agents 2nd item
+
+compile §9.5.3
+
+complement (activation function) §8.1
+
+complements 1st item
+
+complete
+
+algorithm §3.7.3 , §4.6
+
+bottom-up proof procedure item Completeness
+
+knowledge assumption §5.7
+
+proof procedure §5.3.2
+
+completeness of preferences Axiom 12.1
+
+complex preference 2nd item
+
+complexity §3.5.2
+
+compound proposition 2nd item
+
+compress §8.6.1
+
+computational
+
+agent §1.1
+
+limits dimension §1.5.4
+
+linguistics §15.7
+
+sustainability §18.6
+
+concept §16.3.1
+
+conceptualization §15.2 , §16.3 , item Step 2
+
+condition §4.1.2
+
+conditional
+
+effect §6.1.2 , §6.1.3
+
+expected value §9.1.3
+
+odds 2nd item
+
+plan 3rd item
+
+probability §9.1.2
+
+probability distribution §9.1.2
+
+probability table §9.3.3
+
+conditionally independent §9.2
+
+Condorcet paradox Example 14.17
+
+conflict §4.6.1 , §5.6.2
+
+conflicting variable §4.6.3
+
+confounder §11.3
+
+conjugate prior §10.2.1
+
+conjunction 2nd item
+
+conjunctive normal form Example 5.22
+
+consequence set §5.3.2
+
+consistency-based diagnosis §5.6.3 , §5.6.3
+
+consistent heuristic §3.7.2
+
+constant 2nd item
+
+constrained optimization problem §4.8
+
+constraint §18.6 , §4.1.2
+
+action §6.4.1
+
+binary §4.1.2
+
+effect 2nd item
+
+frame 3rd item
+
+goal §18.3 , §18.6 , 5th item
+
+hard Chapter 4
+
+initial-state 4th item
+
+network §4.3
+
+precondition 1st item
+
+satisfaction §18.6 , §4.1.3
+
+soft §4.8
+
+state 6th item
+
+constraint satisfaction problem (CSP) §4.1.3
+
+branch-and-bound 1
+
+depth-first search 1
+
+domain splitting 1
+
+algorithm Figure 4.6
+
+generalized arc consistency 1
+
+algorithm Figure 4.4
+
+genetic algorithm 1
+
+local search 1
+
+planning §6.4
+
+variable elimination 1
+
+context §8.5.1 , §8.5.1
+
+context-free grammar §15.7.1
+
+context-specific independence §9.2 , §9.3.3
+
+contingent attribute 2nd item
+
+continuant 2nd item
+
+continuous §2.3.1 , §2.3.1 , §4.8.3
+
+time §9.6.5
+
+variable §4.1.1
+
+continuous bag of words (CBOW) 1st item
+
+controller §14.2.1 , §2.1 , §2.1.1
+
+model-based reinforcement learning Figure 13.6
+
+Q -learning Figure 13.3
+
+SARSA Figure 13.5
+
+with generalization Figure 13.7
+
+with linear function approximation Figure 13.8
+
+stochastic policy iteration Figure 14.10
+
+Conv2D
+
+class Figure 8.9
+
+convolution mask §8.4
+
+convolutional
+
+model §17.3.4
+
+neural network (CNN) §17.3.1 , §8.4 , §8.4 , §8.4 , §9.6.1
+
+relational graph (R-GCN) §17.3.4
+
+cooperate §14.7.2
+
+cooperative agents 1st item
+
+cooperative games §14.10
+
+cooperative system Example 5.28
+
+coordinate §14.7.2
+
+coordination Example 14.12
+
+corner cases §18.3
+
+corpus §8.5
+
+cost §3.3.1 , §4.8 , §7.2.3
+
+function §4.8
+
+counterfactual
+
+explanation §11.6
+
+counterfactual reasoning §11.5
+
+CPT , see conditional probability table
+
+credit assignment problem 1st item
+
+cross entropy §7.2.1
+
+cross validation §7.4.3 , §8.3
+
+k -fold §7.4.3 , §8.3
+
+crossover §4.7 , §4.7
+
+crowd sourcing §17.3.2
+
+cryptocurrency §18.6
+
+CSP , see constraint satisfaction problem
+
+culture item Culture
+
+cumulative probability distribution §9.7.1
+
+cumulative reward §12.5
+
+curse of dimensionality item Curse of dimensionality
+
+cut 2nd item , §7.3.2
+
+cut-set §3.8.1
+
+Cyc §16.3
+
+cycle §3.3.1
+
+pruning §3.7.1
+
+d-separated §11.1.2
+
+d-separation §11.1.2
+
+DAG (directed acyclic graph) §3.3.1
+
+data Chapter 10 , Chapter 7 , item Data
+
+augmentation 2nd item
+
+likelihood §10.1
+
+lineage §16.4
+
+provenance §16.4
+
+relational Chapter 17
+
+sequential §8.5
+
+structure §15.6
+
+Datalog §15.4
+
+datatype property 3rd item
+
+DBN , see dynamic belief network
+
+DCG , see definite clause grammar
+
+dead reckoning §2.3.2
+
+death by GPS §3.9
+
+debugging
+
+false negative §5.5.2
+
+false positive §5.5.1
+
+algorithm Figure 5.6
+
+incorrect answers §5.5.1
+
+missing answer §5.5.2 , §5.5.2
+
+algorithm Figure 5.7
+
+decision
+
+function §12.3.2
+
+Markov decision process §12.5
+
+network §12.3.1 , §12.3.1 , 3rd item
+
+dynamic §12.5.4
+
+multiagent §14.2.3
+
+single-stage §12.2.1
+
+node 1st item
+
+process §12.5
+
+sequential §12.3 , §12.3
+
+single §12.2
+
+variable §12.2
+
+decision tree §1.2 , §12.2 , 2nd item , §14.2.2 , §7.3.1 , §9.3.3
+
+learning §10.2.3 , §7.3.1
+
+decision tree learner
+
+algorithm Figure 7.9
+
+decision-theoretic planning §1.2 , §12.5.4
+
+decoder §8.5.1 , §8.5.2
+
+deduction §5.3.2 , §5.8
+
+deep §8.1
+
+fake Chapter 18 , §8.6.1 , §8.6.2
+
+learning §1.5.10 , Chapter 8
+
+reinforcement learning §13.9 , 5th item
+
+Deep Blue §14.10
+
+Deep Space One §5.13
+
+default §5.7.1
+
+deficiency 2nd item
+
+definite clause 1st item , 2nd item
+
+grammar (DCG) §15.7.1
+
+resolution §5.3.2
+
+definitive prediction 1st item
+
+delay §15.8.2
+
+delivery robot §1.4.1
+
+dematerialization §18.1 , §18.6 , 2nd item
+
+DENDRAL §1.2
+
+denoise §8.6.3
+
+denote item Step 2 , §15.3.1
+
+dense linear function §8.1.1
+
+dependent continuant 3rd item
+
+deployed cases are like training cases 4th item
+
+deployment §19.1 , item Measuring success
+
+depth bound §3.5.3
+
+depth of neural network §8.1
+
+depth-bounded search §3.5.3
+
+algorithm 12
+
+depth-first
+
+branch-and-bound §3.6.2
+
+algorithm Figure 3.14
+
+CSP solver
+
+algorithm Figure 4.1
+
+decision network optimization
+
+algorithm Figure 12.13
+
+probabilistic inference
+
+algorithm Figure 9.9
+
+search §3.5.2
+
+algorithm Figure 3.9
+
+derivation §15.5.4 , §5.3.2 , §5.3.2
+
+derivative §4.8.3
+
+derived §5.3.2
+
+atom §5.9
+
+feature §6.1.2
+
+knowledge §16.2
+
+description logic §16.3.1
+
+descriptive theory §12.1.3
+
+design §1.1 , §5.8
+
+space §1.5
+
+design-time computation §1.5.9
+
+desire 6th item
+
+determinism 3rd item
+
+deterministic 1st item
+
+planning 2nd item , Chapter 6
+
+dev (development) set §7.4.3
+
+diagnosis §5.8
+
+abductive §5.8
+
+consistency-based §5.6.3
+
+decision-theoretic Example 12.9
+
+diagnostic assistant §1.4.2
+
+dictator §14.6
+
+dictionary §9.7.6
+
+difference list §15.7.1
+
+differentia 2nd item
+
+diffusion model §8.6.3
+
+Digital Services Act §18.8
+
+Dijkstra’s algorithm §3.11
+
+dimension §8.6.1
+
+computational limits §1.5.4
+
+effect uncertainty §1.5.6
+
+interactivity §1.5.9
+
+learning §1.5.5
+
+modularity §1.5.1
+
+number of agents §1.5.8
+
+planning horizon §1.5.2
+
+preference §1.5.7
+
+representation §1.5.3
+
+sensing uncertainty §1.5.6
+
+dimensionality reduction §8.6.1
+
+Diplomacy §14.10 , §14.10
+
+direct cause §11.1
+
+directed acyclic graph §3.3.1
+
+directed graph §3.3.1
+
+Dirichlet distribution §10.2.1 , 5th item
+
+discount §12.5
+
+discount factor item Discounted reward
+
+discounted reward item Discounted reward
+
+discrete
+
+feature §2.3.1
+
+optimization §4.8.1
+
+time §2.1.1 , §2.3.1 , §9.6.4
+
+variable §4.1.1 , §9.1.1
+
+discretization §9.1.1 , §9.6.5
+
+disintermediation §18.1 , §18.4 , 3rd item
+
+disjoint union §9.5.1
+
+disjunction 2nd item , §5.6.1
+
+disjunctive normal form Example 5.22
+
+distribution law §9.5
+
+distributional shift 5th item
+
+DNF , see disjunctive normal form
+
+do
+
+calculus §11.3.2
+
+command §13.4.1 , §2.2
+
+notation §11.1.1
+
+document §9.6.6
+
+domain item functions , 1st item , §16.1.1 , §16.2.1 , §4.1.1 , §7.2 , §9.1.1
+
+consistent §4.3
+
+ontology §16.3.1
+
+splitting §4.4
+
+dominant strategy 1st item
+
+dominated strategy §14.4.1
+
+dominates §7.2.3
+
+don’t-care non-determinism 1st item
+
+don’t-know non-determinism 2nd item
+
+dot product §9.6.3
+
+down-sample 5th item
+
+DPLL algorithm §5.2.1
+
+dropout §8.3
+
+class Figure 8.7
+
+DSA , see Digital Services Act
+
+dynamic
+
+belief network §9.6.4
+
+decision network §12.5.4 , §12.5.4
+
+dynamic programming §1.2 , §3.8.2 , §8.1.1 , §9.5.2
+
+dynamics §1.5.6 , 3rd item , 5th item , 2nd item , 2nd item
+
+early stopping §7.4.3
+
+echo chambers §17.5
+
+ecological sustainability §18.6
+
+economically efficient mechanism 2nd item
+
+effect 2nd item , §6.1
+
+constraint 2nd item
+
+uncertainty dimension §1.5.6
+
+effectively computable function §1.2
+
+effector 2nd item
+
+elimination ordering §4.5
+
+EM , see expectation maximization
+
+embedding
+
+item item Add k latent properties
+
+object 4th item
+
+relation 5th item
+
+subject 4th item
+
+user item Add k latent properties
+
+word §8.5.1
+
+embodied §19.3
+
+agent §1.2 , §2.1
+
+empirical frequency §7.2.2
+
+empirical systems §1.1
+
+empty body 2nd item
+
+encoder §8.5.1 , §8.5.2
+
+encoder–decoder recurrent neural network §8.5.2
+
+encoding §8.6.1
+
+endogenous variable §9.3.3
+
+engagement §17.5 , §17.5
+
+engineering goal §1.1
+
+ensemble learning §7.5
+
+entails §5.1.2
+
+entity §1.5.3 , 1st item , §16.3.2 , Chapter 17
+
+entropy §7.2.1 , §7.2.1 , §7.3.1
+
+environment §1.3
+
+epistemology §1.2.1 , §9.1
+
+epoch §7.3.2
+
+equality §15.8
+
+uncertainty §17.4
+
+equilibrium distribution §9.6.1
+
+equivalence 2nd item
+
+ergodic Markov chain §9.6.1
+
+error item Measuring success
+
+data item Imperfect data
+
+debugging §5.5.1
+
+false negative §5.5.2 , §7.2.3
+
+false positive §5.5.1 , §7.2.3
+
+error function §4.8
+
+ethics §18.7
+
+AI §18.7
+
+consequentialist 2nd item
+
+deontological 3rd item , §18.7
+
+Kantian 3rd item
+
+utilitarian 2nd item
+
+virtue 1st item
+
+washing §18.8
+
+Euclidean distance §3.7.2
+
+evaluate (learner) item Measuring success
+
+evaluation function §14.3.1 , §4.6.1
+
+event 3rd item
+
+evidence Chapter 10 , §9.1.2
+
+evidential model §5.9
+
+evolutionary algorithm §13.2 , §13.9.2
+
+exact inference item Exact inference
+
+example Chapter 7
+
+test item Measuring success
+
+training item Task , item Measuring success , 3rd item
+
+validation (dev) §7.4.3
+
+exchangeability §17.3.1
+
+exclusive-or 2nd item , Example 7.13
+
+existence 4th item
+
+existence uncertainty §17.4
+
+existentially quantified variable 2nd item , 2nd item
+
+exogenous variable §9.3.3
+
+expanding a path §3.4
+
+expectation 1st item
+
+expectation maximization (EM) §10.3.2 , §10.4.1 , §17.3.2
+
+algorithm Figure 10.8
+
+expected
+
+monetary value 2nd item
+
+return of policy §12.5.1
+
+sample size §10.5
+
+utility §12.2
+
+decision network §12.3.2
+
+value §9.1.3
+
+of policy §12.5.1
+
+experience §13.4
+
+expert §1.2
+
+knowledge §10.2.1 , 3rd item
+
+system §1.2 , §2.3.3
+
+explainability §18.3
+
+explainable AI §1.6.2 , §18.3 , §7.7
+
+explained away Example 5.32 , Example 9.13
+
+explanation §11.6 , §5.8
+
+exploit 1st item
+
+exploration §13.5
+
+safe 4th item
+
+explore 2nd item
+
+explore–exploit dilemma 3rd item
+
+explored set §3.7.2
+
+exponentially-decaying rolling average §A.1
+
+extension §4.1.2
+
+extensional set §16.2
+
+extensive form of game §14.2.2 , 4th item
+
+external knowledge source 3rd item
+
+external validity §7.7
+
+extrapolation item Interpolation and extrapolation
+
+f ⁢ ( p ) in A ∗ §3.6.1
+
+facial
+
+characterization 2nd item
+
+detection 1st item
+
+identification 4th item
+
+recognition §18.2 , §18.7 , §18.8 , §7.7
+
+verification 3rd item
+
+fact 1st item , 2nd item
+
+factor §A.3 , §9.3.3
+
+graph §9.3.3
+
+factored finite state machine §2.1.3
+
+factored optimization problem §4.8
+
+factored representation §2.1.3
+
+factorization §9.3
+
+failure 2nd item , §5.7.2
+
+natural §3.5.3
+
+fairness §1.6.1 , §12.6 , §15.6.1 , §18.3 , 1st item
+
+false §15.3.1 , §5.1.2
+
+false-negative error item Probable solution , §5.5.2 , §7.2.3
+
+false-positive error item Probable solution , §5.5.1 , §5.5.1 , §7.2.3
+
+false-positive rate 2nd item
+
+fault §5.6.3
+
+feasible §4.8
+
+feature §1.5.3 , Chapter 4 , §7.2
+
+action §6.4.1
+
+state §6.4.1
+
+feature engineering §13.9.1 , §13.9.1 , §7.3.2 , Chapter 8
+
+feature selection §7.4.2
+
+feature-based representation of actions §6.1.3
+
+feedback item Feedback
+
+feedforward neural network §8.1
+
+fictitious play §14.7.2
+
+FIFO §3.5.1
+
+filter §8.4
+
+filter bubbles §17.5
+
+filtering 1st item , §9.6.2 , §9.6.3
+
+finite failure §5.7.2
+
+finite horizon 2nd item
+
+finite state controller §2.1.3
+
+finite state machine §2.1.3
+
+first-order predicate calculus §15.6
+
+first-order weighted logical formula 2nd item
+
+fitness proportional selection 1st item
+
+fixed point item Fixed Point
+
+flat structure 1st item
+
+flatten 7th item
+
+floundering goal 2nd item
+
+flying machines §1.2.1
+
+fold 1st item
+
+for all ( ∀ ) 1st item
+
+forward
+
+chaining §5.3.2
+
+planner §6.2
+
+prediction §2.3.2
+
+sampling §9.7.2
+
+search §3.8.1
+
+found a solution §3.4
+
+foundation models §8.9
+
+frame
+
+constraint 3rd item
+
+rule 2nd item
+
+frames §1.2
+
+framing effect §12.1.1
+
+free parameters §9.2
+
+fringe §3.4
+
+front-door criterion §11.3.3
+
+frontier §3.4
+
+fully convolutional neural network 7th item
+
+fully expressive §17.2.2
+
+fully observable 1st item , §14.3
+
+Markov decision process (MDP) 1st item
+
+function item functions
+
+symbol §15.6
+
+functional gradient boosting §7.5.1
+
+functional property §16.2.1 , 1st item
+
+fuzzy terms 2nd item
+
+gambling §9.1
+
+game
+
+adversarial §14.3.1
+
+decision network §14.2.3
+
+extensive form §14.2.2
+
+normal-form §14.2.1
+
+tree §14.2.2
+
+zero-sum 2nd item , §14.3.1
+
+game tree search 4th item
+
+algorithm Figure 14.5
+
+GAN , see generative adversarial network
+
+GDPR , see General Data Protection Regulation
+
+General Data Protection Regulation §18.8
+
+general game playing §14.10
+
+generalization §16.2 , item Measuring success
+
+generalized additive independence §12.1.2
+
+generalized answer clause §15.5.4
+
+generalized arc consistency (GAC) §4.3
+
+generate and test §4.2
+
+generative
+
+adversarial network §1.2 , §8.6.2
+
+AI §1.2 , §19.3 , §8.6.3 , 10th item
+
+image model §8.6.1
+
+language model §8.5.2 , 3rd item , §9.6.6
+
+generic search algorithm §3.4
+
+genetic algorithm §4.7
+
+algorithm Figure 4.11
+
+crossover
+
+algorithm 28
+
+genus 1st item
+
+Gibbard–Satterthwaite theorem §14.6
+
+Gibbs distribution 3rd item , §4.6.3 , §4.7
+
+Gibbs sampling §9.7.7
+
+algorithm Figure 9.35
+
+gig economy §18.4
+
+global optimum §4.6.1 , §4.8.2
+
+global positioning system (GPS) §2.3.2 , §9.8
+
+Glorot uniform initializer §8.2.4
+
+Go §14.10
+
+goal 4th item , 1st item , 6th item , 5th item , §3.3.1 , §6.1.4 , §6.2
+
+constraint §18.3 , §18.6 , 5th item
+
+node §3.3.1
+
+state 5th item
+
+Google §17.3.3 , §9.6.1 , Example 9.38
+
+translate §8.5.4
+
+governance §18.8
+
+external §18.8
+
+internal §18.8
+
+GPT §15.7.4
+
+GPT-3 Example 1.2 , Figure 8.15 , §8.5.5
+
+GPU §8.5.1
+
+gradient descent §4.8.3 , §7.3.2
+
+gradient-boosted trees §1.2 , §19.1 , §7.5.2
+
+algorithm Figure 7.21
+
+grammar §15.7.1
+
+context-free §15.7.1
+
+definite clause §15.7.1
+
+granularity §9.6.5
+
+graph §3.3.1
+
+neural network §17.3.4
+
+graphical models §1.2 , §9.3.3
+
+graphics processing units §8.5.1
+
+greedy 2nd item
+
+ascent §4.6.1
+
+best-first search §3.6
+
+decoding §8.5.2
+
+descent §4.6.1
+
+optimal split §7.3.1
+
+green information technology §18.6
+
+ground expression §15.3
+
+ground instance §15.5.1 , §15.5.2 , §17.3.1
+
+ground truth §7.2.1 , 1st item
+
+grounding §17.3.1
+
+guaranteed bounds 1st item
+
+h ⁢ ( n ) , see heuristic function
+
+Hanabi §14.10
+
+hard clustering §10.3
+
+hard constraint Chapter 4 , §4.1.2
+
+HCI §18.3
+
+head §16.1.3 , 2nd item
+
+transformer 1st item
+
+help system Example 10.5 , Example 9.36
+
+Herbrand interpretation §15.5.2
+
+heuristic 1st item
+
+depth-first search §3.6
+
+function §3.6
+
+knowledge §3.1
+
+search §3.6
+
+hidden
+
+Markov model (HMM) 2nd item , §9.6.2
+
+property item Add a latent property
+
+variable §10.3.2 , §10.4.1 , 3rd item
+
+hidden layer §8.1
+
+hierarchical
+
+control 1st item , §19.2 , §2.2
+
+softmax §7.3.2
+
+structure 3rd item
+
+high stakes 1st item
+
+hill climbing §4.6.1
+
+history 3rd item , §13.4 , §2.1.1
+
+HMM , see hidden Markov model
+
+Hoeffding’s inequality §10.2.1 , §9.7.1
+
+holdout §7.4.3
+
+horizon §1.5.2 , §2.2 , §6.4
+
+Horn clause §5.6.1
+
+human-centred AI §18.3
+
+human-compatible AI §18.3
+
+human-in-the-loop §1.1 , §1.3 , §18.3
+
+human–computer interaction §18.3
+
+hybrid system §2.3.1
+
+hyperbolic tangent 2nd item
+
+hyperparameter §7.4.2 , §7.4.3
+
+tuning §7.4.2 , §7.9 , §8.3
+
+hyperplane §7.3.2
+
+i.i.d. , see independent and identically distributed
+
+identifiable §11.2
+
+identifier §16.1.2
+
+identity §15.8.1 , 3rd item
+
+uncertainty §17.4
+
+ImageNet §1.2
+
+immaterial entity 5th item
+
+imperfect data item Imperfect data
+
+imperfect information §12.4
+
+game §14.2.2 , §14.4
+
+implication 2nd item
+
+importance sampling §9.7.4 , §9.7.5
+
+incoming arc §3.3.1
+
+inconsistent §5.6.1
+
+incorrect answer §5.5.1
+
+incremental gradient descent §7.3.2
+
+indefinite horizon 3rd item , §12.5
+
+independent and identically distributed (i.i.d.) §10.2
+
+independent continuant 3rd item
+
+independent variables §9.2
+
+indicator variable 1st item , 1st item , §7.3.2 , §8.2.4 , §8.5.1
+
+indifferent §12.1.1
+
+individual §1.5.3 , 1st item , 1st item , 1st item , §4.7
+
+individual–property–value triple §16.1.1
+
+induction §5.8
+
+inductive bias item Bias
+
+inference §5.3.2
+
+infinite horizon 4th item , §12.5
+
+influence diagram §12.3.1
+
+information
+
+content §7.2.1
+
+gain §7.3.1
+
+seeking actions §12.3
+
+set §14.2.2
+
+theory §10.2.4 , §7.2.1
+
+inheritance §16.2.1
+
+initial part of a path §3.3.1
+
+initial-state constraint 4th item
+
+innate §1.2
+
+input
+
+feature 1st item
+
+layer §8.1
+
+insects 2nd item
+
+instance §15.4.1 , §15.5.1 , §15.5.1
+
+ground §15.5.2
+
+instrumental variable §11.4
+
+insurance Example 12.1
+
+integrity constraint §5.6.1
+
+intelligence §1.1
+
+augmentation §1.1
+
+intended interpretation §15.2 , item Step 3 , §16.3 , item Step 2 , §5.1.2
+
+intension §4.1.2 , Example 4.7
+
+intensional set §16.2
+
+intention 6th item
+
+interactivity dimension §1.5.9 , §19.2
+
+internal validity §7.7
+
+internationalized resource identifier §16.1.2 , §16.3
+
+interpolation item Interpolation and extrapolation
+
+interpretability §18.3
+
+interpretation §15.3.1 , §5.1.2
+
+intersection §A.4
+
+intervention Chapter 11 , §5.9
+
+inverse graph 2nd item
+
+inverse reinforcement learning §19.3
+
+IRI , see internationalized resource identifier
+
+is_a Example 16.4
+
+island §3.8.1
+
+island-driven search §3.8.1
+
+item embedding item Add k latent properties
+
+iterative best improvement §4.6.1
+
+iterative deepening §3.5.3
+
+algorithm Figure 3.11
+
+iterative soft-thresholding §7.4.2
+
+Java §16.2.1
+
+join §A.4 , §4.5
+
+joint probability distribution §9.1.1 , §9.3
+
+k -fold cross validation §7.4.3 , §8.3
+
+k -means §10.3.1
+
+algorithm Figure 10.4
+
+Kaggle §7.9
+
+Keras §B.2 , §8.1.1 , §8.2.2 , §8.2.3 , §8.2.4 , §8.9 , Example 8.3
+
+kernel §8.4
+
+function §7.5
+
+one-dimensional §8.4
+
+size §8.4
+
+two-dimensional §8.4
+
+key embedding 2nd item
+
+keys
+
+in attention §8.5.4
+
+knowledge §1.1.1 , §1.6.2
+
+base item Step 4 , §5.1.2 , 3rd item
+
+designer §5.1.2
+
+given 1st item
+
+graph §16.1.3
+
+learned 2nd item
+
+level 1st item , §5.5
+
+debugging §5.5
+
+map 1st item
+
+knowledge graph §17.3.4
+
+L ⁢ 0 loss 1st item
+
+L ⁢ 1
+
+loss 2nd item
+
+regularizer §7.4.2
+
+L ⁢ 2
+
+loss 3rd item
+
+regularizer §7.4.2
+
+L ⁢ ∞ loss 4th item
+
+lambda calculus §1.2
+
+landmark 1st item
+
+language §15.7.1
+
+model
+
+definite clause §15.7
+
+probabilistic §17.3.3 , §9.6.6
+
+natural §15.7 , §9.6.6
+
+language model
+
+large §8.5.5 , §9.7.2
+
+neural §8.5
+
+Laplace smoothing §10.2.1 , §10.2.1 , §7.4.1
+
+large language model §15.7.4 , §18.2 , §8.5.5 , §9.7.2
+
+lasso §7.4.2
+
+latent
+
+Dirichlet allocation (LDA) 4th item , §17.3.3
+
+property item Add a latent property
+
+tree model 3rd item
+
+variable 3rd item , see hidden variable
+
+law of large numbers §9.7.1
+
+Laws of Robotics §18.7
+
+layer §8.1
+
+LDA , see latent Dirichlet allocation
+
+leaf §3.3.1
+
+learning §1.2 , Chapter 10 — §10.8 , Chapter 13 — §13.13 , §17.2.1 — §17.7 , §2.3.3 , Chapter 7 — §7.10
+
+as search item Learning as search
+
+Bayesian §10.2
+
+belief network §10.4 — §10.4.4
+
+bias §10.1 , item Bias , 1st item
+
+collaborative filtering §17.2.1
+
+decision tree §10.2.3 , §7.3.1
+
+deep Chapter 8
+
+dimension §1.5.5
+
+expectation maximization (EM) §10.3.2 , §10.4.1
+
+k -means §10.3.1
+
+minimum description length §10.2.4
+
+missing data §10.4.2
+
+multiagent §14.7.2
+
+naive Bayes classifier §10.2.2
+
+neural network Chapter 8
+
+probabilistic classifier §10.2.2
+
+probabilities §10.1
+
+rate §7.3.2
+
+reinforcement Chapter 13
+
+relational Chapter 17
+
+stochastic policies §14.7.2
+
+structure §10.4.3
+
+supervised item Feedback
+
+to act Chapter 13
+
+unsupervised §10.3 , item Feedback
+
+least fixed point item Fixed Point
+
+least-cost search §3.5.4
+
+leave-one-out cross validation §7.4.3
+
+lethal autonomous weapon systems §18.10
+
+level of abstraction §1.6.4
+
+lifelong learning item Lifelong learning
+
+LIFO §3.5.2
+
+lifted inference §17.1
+
+lifted model §17.3.1
+
+LightGBM §B.1 , §7.5.2 , §7.9
+
+likelihood 1st item , §9.1.2
+
+of data §10.1
+
+ratio 2nd item
+
+weighting §9.7.4
+
+likelihood weighting
+
+algorithm Figure 9.33
+
+linear
+
+classifier §7.3.2
+
+function §7.3.2
+
+programming §4.8
+
+regression §13.9.1 , §7.3.2
+
+linear rule for differentiation 1st item
+
+linearly separable §7.3.2
+
+linked data §16.6
+
+Linnaean taxonomy §16.2.2
+
+list Example 15.27
+
+literal 2nd item , §5.7
+
+liveness §1.6.1
+
+local optimum §4.6.1 , §4.8.2
+
+local search §4.6 , §4.6
+
+algorithm Figure 4.8
+
+locality 1st item
+
+localization §9.6.2
+
+log loss §7.2.1 , §7.3.2
+
+binary §7.2.1
+
+categorical §7.2.1
+
+log-likelihood 1st item
+
+log-linear model §9.3.3 , §9.3.3
+
+logic §1.2
+
+predicate §15.3
+
+program §15.6
+
+programming §5.12 , §5.7
+
+propositional §5.1
+
+Logic Theorist §1.2
+
+logical
+
+connectives §5.1.1
+
+consequence §15.3.2 , §5.1.2
+
+form §15.7.3
+
+formula §15.3 , §5.1.1
+
+variable 1st item
+
+logically follows §5.1.2
+
+logistic
+
+function §7.3.2
+
+regression §1.2 , §10.2.2 , §7.3.2 , §9.3.3
+
+relational 2nd item
+
+logistic regression
+
+algorithm Figure 7.12
+
+logit §9.3.3
+
+long short-term memory (LSTM) §8.5.3
+
+loop pruning §3.7.1
+
+loss item Measuring success , §7.2.1
+
+0–1 1st item
+
+absolute 2nd item
+
+sum squares 3rd item
+
+worst case 4th item
+
+loss function §4.8
+
+lottery §12.1.1
+
+low stakes 1st item
+
+lowest-cost-first search §3.5.4 , §3.5.4
+
+LSTM §8.5.3
+
+m -graph §11.2
+
+machine learning , see learning
+
+maintenance goal 1st item , 2nd item
+
+MAP model §10.1
+
+mapping item functions
+
+marginalizing §9.5 , §9.5
+
+Markov
+
+assumption §9.6.1
+
+blanket §9.3 , §9.7.7
+
+chain §9.6.1
+
+aperiodic §9.6.1
+
+ergodic §9.6.1
+
+periodic §9.6.1
+
+chain Monte Carlo (MCMC) §17.3.2 , §17.4 , §9.7.7
+
+decision process (MDP) §1.2 , §12.5 — §12.5.5 , §13.1 , 3rd item
+
+fully observable 1st item
+
+partially observable (POMDP) 2nd item
+
+hidden Markov model (HMM) §9.6.2
+
+logic network (MLN) §17.3.4
+
+network §9.3.3
+
+random field §9.3.3
+
+matched RNN §8.5.2
+
+material entity 5th item
+
+matrix §8.5.1
+
+factorization item Add k latent properties
+
+multiplication item Add k latent properties , §8.5.1 , §8.5.1 , §9.6.3
+
+max-pooling 6th item
+
+maximization 2nd item
+
+maximum a posteriori probability model §10.1
+
+maximum likelihood estimate §7.2.2
+
+maximum likelihood model §10.1
+
+MCMC , see Markov chain Monte Carlo
+
+MDL , see minimum description length
+
+MDP , see Markov decision process
+
+mean §7.2.2
+
+loss §7.2.1
+
+mean log loss §7.2.1
+
+measure §9.1.1
+
+measure of improvement item Measure of improvement
+
+measurement model §12.6
+
+measuring success item Measuring success
+
+mechanism §14.1 , §14.6
+
+causal §11.1 , §5.9
+
+mechanism design §14.6
+
+median §7.2.2
+
+mediating variable §11.3.3 , §11.3.3
+
+memory §2.1.2 , §8.5.2
+
+metadata §16.4
+
+MGU , see most general unifier
+
+micromobility §18.5
+
+min-factor elimination ordering 1st item
+
+mind map 1st item
+
+minibatch §7.3.2
+
+minimal
+
+conflict §5.6.2
+
+diagnosis §5.6.3
+
+explanation §5.8
+
+model §15.5.2 , item Fixed Point
+
+minimax §14.3.1 , §14.7.1
+
+minimax with α – β pruning
+
+algorithm Figure 14.7
+
+minimum deficiency elimination ordering 2nd item
+
+minimum description length (MDL) §10.2.4
+
+MDL principle §10.2.4
+
+misinformation §17.3.2
+
+missing at random (MAR) §11.2
+
+missing completely at random (MCAR) §11.2
+
+missing data §10.2.2 , §10.4.2 , item Imperfect data
+
+missingness graph §11.2
+
+MLN , see Markov logic network
+
+MNIST Example 8.3
+
+mode §10.2.1 , §7.2.2
+
+model §1.6.4 , §5.1.2 , item Representation , §7.1
+
+complexity §7.4
+
+MAP §10.1
+
+maximum likelihood §10.1
+
+model averaging §10.2
+
+model-based reinforcement learning
+
+algorithm Figure 13.6
+
+modified policy iteration §12.5.3
+
+modular
+
+structure 2nd item
+
+modularity §1.5.1 , §1.5.1
+
+modus ponens §5.3.2
+
+momentum Table B.2 , §8.2.1
+
+money pump §12.1.1
+
+monitoring §9.6.2 , §9.6.3
+
+monotone restriction §3.7.2
+
+monotonic logic §5.7.1
+
+Monte Carlo
+
+Markov chain §9.7.7
+
+sequential §9.7.6
+
+tree search (MCTS) 2nd item , §9.7.2
+
+moral §18.7
+
+agent §18.7
+
+machines §2.4
+
+patient §18.7
+
+most general unifier §15.5.1 , §15.5.3
+
+most improving step §4.6.3
+
+multi-armed bandit §13.5
+
+multi-head attention 1st item
+
+multi-task learning 4th item
+
+multiagent decision network §14.2.3
+
+multiagent reasoning 3rd item , Chapter 14 — §14.11
+
+multinomial
+
+distribution §10.2.1
+
+logistic regression §7.3.2
+
+logit §7.3.2
+
+multiple-path pruning §3.7.2 , §3.7.2
+
+multiset item Data
+
+mutex constraint §6.4.1
+
+MYCIN §1.2
+
+myopic 2nd item
+
+n -gram §9.6.6
+
+naive baseline §7.2.2
+
+naive Bayes classifier §10.2.2 , §10.3.2 , Example 9.36
+
+Nash equilibrium §14.4
+
+natural kind §10.2.2 , §16.2
+
+natural language processing §15.7 , §9.6.6
+
+nature §1.3 , 1st item , §14.1
+
+negation 2nd item , §5.6.1
+
+negation as failure §15.9 , §15.9 , §5.7 , §5.7.2
+
+negatively 2nd item
+
+neighbor §3.3.1
+
+Netflix Prize §17.2.1
+
+neural
+
+network §1.2
+
+graph §17.3.4
+
+relational graph convolutional §17.3.4
+
+neural language model §8.5
+
+neural network §11.6 , Chapter 8 — §8.10
+
+convolutional (CNN) §8.4
+
+dense linear function
+
+class Figure 8.3
+
+recurrent §8.5.2
+
+stochastic gradient descent
+
+algorithm 15
+
+neural networks Chapter 8
+
+neuro-symbolic AI Chapter 17
+
+neuroevolution §13.12 , §13.2
+
+neuron §1.2 , Chapter 8
+
+no answer §5.3.1
+
+no-forgetting
+
+agent §12.3.1
+
+decision network §12.3.1
+
+no-free-lunch theorem §18.2 , §7.6
+
+node 1st item
+
+noise item Imperfect data , 3rd item
+
+variable Example 17.10 , §9.3.3 , §9.3.3
+
+noisy observation §9.6.2
+
+noisy-or 1st item , Example 17.10 , §9.3.3 , §9.3.3 , Example 9.38
+
+non-cooperative games §14.10
+
+non-deterministic choice §3.4
+
+non-deterministic procedure 2nd item
+
+non-monotonic logic §5.7.1
+
+non-planning agent 1st item
+
+non-serial dynamic programming §4.11
+
+non-terminal symbol §15.7.1
+
+nonlinear function §8.1
+
+nonlinear planning §6.5
+
+nonparametric distribution §9.1.1
+
+normal-form game §14.2.1
+
+normalize §8.2.4
+
+normative theory §12.1.3
+
+noun 2nd item
+
+N ⁢ P 2nd item
+
+N ⁢ P -complete 2nd item
+
+N ⁢ P -hard 2nd item
+
+# ⁢ N ⁢ P (sharp-NP) §9.4
+
+number of agents dimension §1.5.8
+
+number uncertainty §17.4
+
+NumPy §8.5.1
+
+object §1.5.3 , 1st item , 3rd item , §16.1.1 , §16.3.2
+
+embedding 4th item
+
+property 3rd item
+
+object-oriented languages §16.2.1
+
+objective function 2nd item
+
+observation 2nd item , §5.4 , §9.1.2
+
+occurrent 2nd item
+
+occurs check §15.6.1
+
+Ockham’s razor §7.4.2 , §7.6
+
+odds 2nd item
+
+off-policy learner §13.7
+
+offline 1st item
+
+computation §2.3.3
+
+learning item Online and offline
+
+reasoning 1st item
+
+offspring §4.7
+
+omniscient agent §4.1.1
+
+on-policy learner §13.7
+
+one-dimensional kernel §8.4
+
+one-hot encoding §7.3.2 , §8.1 , §8.2.4 , §8.5.1
+
+one-point crossover §4.7
+
+online 2nd item
+
+computation 2nd item , §2.3.3
+
+gradient descent §7.3.2
+
+learning item Online and offline
+
+ontology §16.3 , 3rd item , §5.4 , §9.1
+
+open §15.3.2
+
+open-world assumption §5.7
+
+optimal
+
+policy
+
+decision network §12.2.1 , §12.3.2
+
+MDP §12.5.1
+
+search §3.8.2
+
+single decision §12.2
+
+solution item Optimal solution , §3.3.1 , §3.5.4
+
+optimal solution item Optimal solution , §3.2
+
+optimality criterion 3rd item
+
+optimism in the face of uncertainty 1st item
+
+optimization problem §4.8
+
+constrained §4.8
+
+factored §4.8
+
+oracle 2nd item , 2nd item
+
+orders of magnitude reasoning 2nd item
+
+ordinal item Optimal solution
+
+feature 2nd item , §7.3.2
+
+preference 2nd item , §12.1.1
+
+organizations §1.1.2
+
+outcome §12.1.1 , §12.2 , §14.2.1
+
+outgoing arc §3.3.1
+
+outlier Example 7.3
+
+output Chapter 7
+
+output layer §8.1
+
+over-parametrized §7.3.2
+
+overconfidence §7.4
+
+overfitting §10.1 , Example 10.1 , §7.4
+
+overflow §7.3.2
+
+OWL §16.3 , §16.3.1 , §16.3.1
+
+PAC , see probably approximately correct
+
+padding 2nd item
+
+PageRank §9.6.1
+
+pair item tuples
+
+parameter sharing §17.3.1 , 2nd item , §8.5.2 , §9.6.1
+
+parameterized random variable §17.3.1
+
+parametric distribution §9.1.1
+
+paramodulation §15.8.1
+
+parent
+
+belief network §9.3
+
+graph §3.3.1
+
+partial derivative §4.8.3
+
+partial observation §9.6.2
+
+partial restart §4.6.5
+
+partial-order planner
+
+algorithm Figure 6.6
+
+partial-order planning §6.5
+
+partially observable 2nd item , §12.5.5
+
+game §14.2.2 , §14.4
+
+Markov decision process 2nd item , §12.5.5
+
+particle §9.7.6
+
+particle filtering §9.7.6
+
+algorithm Figure 9.34
+
+partition function §10.1 , §9.3.3
+
+passive sensor 2nd item
+
+past experience 3rd item
+
+path §3.3.1
+
+consistency §4.3
+
+pattern database §3.6.3 , §3.8.2
+
+payoff matrix Example 14.1
+
+percept §13.4.1 , §2.1
+
+function §2.2
+
+stream §2.1.1
+
+trace §2.1.1
+
+perceptron §1.2
+
+perdurant 2nd item
+
+perfect information §14.3
+
+perfect rationality 1st item
+
+perfect-information game §14.2.2 , §14.7.1
+
+periodic Markov chain §9.6.1
+
+personalized recommendations §17.2.1 , §17.2.1
+
+philosophy §1.2.1
+
+physical symbol system §1.6.4
+
+hypothesis §1.6.4
+
+piecewise constant function §7.5
+
+piecewise linear function §7.5
+
+pixel §2.1
+
+plan §6.2
+
+planner §6.2
+
+planning §1.2 , §6.2 — §6.9
+
+CSP §6.4
+
+deterministic Chapter 6
+
+forward §6.2
+
+horizon §1.5.2 , §12.5 , §2.2
+
+dimension §1.5.2
+
+partial-order §6.5
+
+regression §6.3
+
+plate §17.3.1
+
+model §17.3.1
+
+Pluribus §14.10
+
+point estimate §7.2.1 , 3rd item
+
+categorical §7.2.1
+
+poker §14.10
+
+policy §12.2.1 , §3.8.2
+
+decision network §12.3.2
+
+MDP §12.5.1
+
+POMDP 3rd item
+
+stochastic §14.7.2
+
+policy iteration §12.5.3
+
+algorithm Figure 12.19
+
+stochastic 1
+
+policy search §13.2
+
+polyadic decomposition §17.2.2
+
+with inverses §17.2.2
+
+POMDP , see partially observable Markov decision process
+
+pooling 6th item
+
+population Chapter 17 , §4.7 , §9.7.6
+
+portfolio §4.6.2
+
+positional encoding 3rd item
+
+positively 2nd item
+
+possible action 1st item
+
+possible world §12.2 , §12.3.2 , §9.1.1
+
+posterior distribution §9.3.1 , §9.4
+
+posterior probability §9.1 , §9.1.2 , §9.1.2
+
+pragmatics item Pragmatics
+
+precision §7.2.3
+
+precondition 1st item , §6.1 , §6.1.2
+
+precondition constraint 1st item
+
+predicate
+
+calculus §15.3
+
+logic §15.3
+
+symbol 3rd item
+
+predictive policing §7.7
+
+predictor §7.2 , §7.2.1 , §7.3
+
+preference 4th item , §12.1.1 , §4.8
+
+bias item Representation
+
+dimension §1.5.7
+
+elicitation §12.1.2 , §19.3
+
+relation §12.1.1
+
+preposition 3rd item
+
+primitive
+
+atom §5.9
+
+feature §6.1.2
+
+knowledge §16.2
+
+proposition §9.1.1
+
+relation 3rd item
+
+prior §7.4.1
+
+count §7.4.1
+
+knowledge 1st item
+
+odds 2nd item
+
+probability §10.1 , §9.1 , §9.1.2 , §9.1.2
+
+prisoner’s dilemma §14.4
+
+privacy §17.2.1
+
+privacy-by-design §18.7
+
+probabilistic
+
+bounds 2nd item
+
+causal model §11.1
+
+circuit §9.5.3
+
+independence §9.2
+
+inference §9.4 , §9.5
+
+language model §17.3.3 , §9.6.6
+
+logic model §17.3.1
+
+logic program 1st item , §17.3.4 , §9.3.3
+
+logic programming 1st item
+
+prediction 2nd item
+
+programming 1st item , §9.3.3
+
+relational model , see relational probabilistic model
+
+soft logic (PSL) §17.3.4
+
+probabilistically
+
+depends on §9.3
+
+probability §9.1 — §9.11
+
+Bayes’ rule §10.1 , Proposition 9.1
+
+conditional §9.1.2
+
+density function §9.1.1
+
+distribution §9.1.1
+
+measure §9.1.1
+
+posterior §9.1.2
+
+prior §9.1.2
+
+semantics §9.1.1
+
+probable solution item Probable solution , item Probable solution
+
+probably approximately correct (PAC) §1.6.3 , §10.2.1 , §9.7.1
+
+process 4th item , 3rd item
+
+project §A.4 , §4.5
+
+Prolog §1.2 , §15.3 , §5.3.2
+
+proof §5.3.2
+
+predicate calculus §15.5
+
+procedure §5.3.2
+
+bottom-up §15.5.2 , §5.3.2
+
+conflict Figure 5.10
+
+Datalog §15.5.2 , §15.5.4
+
+negation-as-failure §5.7.2
+
+top-down §15.5.4 , §5.3.2
+
+proof procedure
+
+conflict
+
+bottom-up
+
+algorithm Figure 5.9
+
+top-down
+
+algorithm Figure 5.10
+
+Datalog
+
+top-down
+
+algorithm Figure 15.5
+
+definite clause
+
+bottom-up
+
+algorithm Figure 5.3
+
+top-down
+
+algorithm Figure 5.4
+
+negation-as-failure
+
+bottom-up
+
+algorithm Figure 5.11
+
+top-down
+
+algorithm Figure 5.12
+
+p ⁢ r ⁢ o ⁢ p Example 16.3
+
+property §1.5.3 , §16.1.1 , §16.1.1 , 3rd item , Chapter 17
+
+inheritance §16.2.1
+
+proposal distribution §9.7.5
+
+proposition §1.5.3 , 2nd item , Chapter 5 , §5.1.1 , §5.1.1
+
+propositional
+
+constraint §5.2
+
+definite clause §5.3
+
+resolution §5.3.2
+
+satisfiability §5.2
+
+prospect theory §12.1.1 , §12.1.3
+
+Protégé §16.3.1
+
+protein folding §8.5.4 , §8.7
+
+proved §5.3.2
+
+provenance §16.4
+
+pruning belief network §9.5.3
+
+pseudo-examples §7.4.1
+
+pseudocount §10.2.1 , §10.2.2 , §7.4.1
+
+psychology §1.2.1
+
+punishment §12.5
+
+pure literal §5.2.1
+
+pure strategy §14.4
+
+purposive agent §1.3 , §2.1
+
+Python §16.2.1
+
+PyTorch §B.2 , §8.1.1
+
+Q function
+
+Q π 2nd item
+
+Q ∗ §12.5.1 , §13.4.1
+
+Q -value 2nd item
+
+Q -learning §1.2 , §13.4.1 , 5th item
+
+algorithm Figure 13.3
+
+qualitative
+
+derivatives 3rd item
+
+reasoning §2.3.1
+
+quality-adjusted life year (QALY) §12.6
+
+quantitative reasoning §2.3.1
+
+query
+
+(Datalog) §15.4.1
+
+(logic) §5.3.1
+
+in attention §8.5.4
+
+variable (belief network) §9.3.1
+
+query embedding 1st item
+
+querying the user §5.4
+
+queue §3.5.1
+
+random
+
+forest §7.5
+
+initialization §4.6
+
+restart §10.3.1 , 1st item , §4.6 , §4.6.5
+
+sampling §4.6
+
+step 2nd item
+
+variable §9.1.1
+
+walk §4.6
+
+randomized clinical trial §11.6
+
+randomized controlled trial §11.3
+
+range item functions , §16.1.1 , §16.2.1
+
+ranking §17.2.1
+
+rational §12.1.1
+
+rational agent §12.1
+
+RDF §16.3
+
+RDFS (RDF schema) §16.3
+
+reactive system §2.3.2
+
+reasoning Chapter 9
+
+reasoning with uncertainty Chapter 9
+
+recall 1st item
+
+receiver operating characteristic space §7.2.3
+
+recognition §5.8
+
+recommender system §17.2.1
+
+record linkage §17.4
+
+recoverable §11.2
+
+rectified linear unit §7.3.2 , §8.1
+
+recurrent neural network (RNN) §8.5.2 , §9.6.3
+
+recursive conditioning
+
+algorithm Figure 9.12
+
+reference point §12.1.3
+
+regression item Task , §7.2
+
+linear §7.3.2
+
+logistic §7.3.2
+
+planning §6.3 , §6.3
+
+to the mean §7.4
+
+tree §7.3.1 , §7.5
+
+regularization item Regularize , §7.4.2
+
+regularization parameter §7.4.2
+
+regularizer §7.4.2
+
+regulatory capture §18.8
+
+reify §16.1.1
+
+reinforcement learning §1.2 , Chapter 13 — §13.13 , item Feedback
+
+from human feedback §18.3
+
+rejection sampling §9.7.3
+
+relation item relations , §A.4 , §1.5.3 , 2nd item , Chapter 17 , Chapter 17
+
+embedding 5th item
+
+relation scheme §A.4
+
+relational
+
+algebra §A.4
+
+data Chapter 17
+
+database §A.4
+
+dependency network §17.3.4
+
+graph convolutional network (R-GCN) §17.3.4
+
+learning Chapter 17 , §7.2
+
+logistic regression 2nd item , §17.3.4
+
+probabilistic model §17.3.1 , §17.3.1
+
+representations 3rd item
+
+uncertainty §17.3.1 , §17.4
+
+ReLU §7.3.2 , §8.1
+
+ReLU (neural network)
+
+class Figure 8.4
+
+remember §2.1.3 , §2.2
+
+renaming §15.5.1
+
+Rephil §17.3.3 , Example 9.38
+
+representation §1.6.2 , §1.6.4 , §8.6.1
+
+bias item Representation , 1st item
+
+dimension §1.5.3 , §1.5.3
+
+learning §7.3.2
+
+representation learning Chapter 8
+
+resampling §9.7.6
+
+residual network 8th item
+
+resilience §18.6
+
+resolution §5.3.2 , §5.3.2
+
+SLD §15.5.4 , §5.3.2
+
+resolvent §5.3.2
+
+resource §16.1.2 , §16.3
+
+description framework (RDF) §16.3
+
+goal 4th item
+
+retry 2nd item
+
+return §12.5 , §13.4.1
+
+revelation principle §14.6
+
+reward 6th item , §12.5 , §12.5 , item Measuring success
+
+average item Average reward
+
+discounted item Discounted reward
+
+engineering §12.6
+
+function 4th item
+
+hacking 2nd item
+
+total item Total reward
+
+rewrite rule §15.7.1 , §15.8.1
+
+ridge regression §7.4.2
+
+risk averse §12.1.1
+
+RL , see reinforcement learning
+
+RLHF , see Reinforcement Learning from Human Feedback
+
+RMS-Prop Table B.2 , §8.2.2
+
+RNN , see recurrent neural network
+
+RoboCup §18.6
+
+robot §1.3 , §1.4.1 , §2.1
+
+scientist §15.10
+
+ROC space §7.2.3
+
+rolling average §A.1
+
+root §3.3.1
+
+root-mean-square (RMS) error 3rd item
+
+RPM , see relational probabilistic model
+
+rule 1st item , 2nd item
+
+rule of inference §5.3.2
+
+run §14.2.2
+
+run-time distribution §4.6.4
+
+saddle point §8.2
+
+safe exploration 4th item
+
+safety §1.6.1 , §18.3 , §18.3 , §18.3 , §18.5 , §18.8
+
+safety goal 2nd item
+
+salience §18.3
+
+sample Chapter 7
+
+sample average §9.7.1
+
+SARSA §13.7
+
+algorithm Figure 13.5
+
+with generalization
+
+algorithm Figure 13.7
+
+with linear function approximation §13.9.1
+
+algorithm Figure 13.8
+
+SAT §5.2
+
+satisfiable §5.8
+
+satisficing solution item Satisficing solution , §3.1
+
+satisfy
+
+constraint §4.1.2
+
+policy §12.3.2
+
+scalable oversight 3rd item
+
+scenario §5.8
+
+schema (Kant) §1.2
+
+scheme
+
+relation §A.4
+
+scientific goal §1.1
+
+scope §A.3 , §A.4 , 1st item , §4.1.2 , §4.8 , §9.3.3
+
+SDG , see Sustainable Development Goals
+
+search 2nd item , Chapter 3 — §3.12
+
+A ∗ §3.6.1
+
+bias item Learning as search , 1st item
+
+bidirectional §3.8.1
+
+breadth-first §3.5.1
+
+cycle-pruning §3.7.1
+
+depth-first §3.5.2
+
+domain splitting §4.4
+
+dynamic programming §3.8.2
+
+for CSPs §4.2
+
+generic
+
+algorithm Figure 3.5
+
+gradient descent §4.8.3
+
+greedy best-first §3.6
+
+heuristic §3.6
+
+island driven §3.8.1
+
+iterative deepening §3.5.3
+
+local search §4.6
+
+lowest-cost-first §3.5.4
+
+minimax §14.3.1
+
+multiple-path pruning
+
+algorithm Figure 3.16
+
+policy §13.2
+
+stochastic local §4.6.2
+
+search and score §10.4.3
+
+search strategy §3.5
+
+second-order logic §15.6
+
+second-price auction §14.6
+
+select §3.4 , §5.3.2
+
+selection §A.4
+
+self-attention §8.5.4
+
+self-driving cars §2.4
+
+semantic interoperability 3rd item
+
+semantic network §16.1.3
+
+semantic roles Example 16.5
+
+semantic web §16.3
+
+semantics Figure 15.1 , §5.1.2
+
+natural language item Semantics
+
+predicate calculus §15.3.1
+
+propositional calculus §5.1.2
+
+variables §15.3.2
+
+semi-autonomous §18.3 , §18.3
+
+agent §1.3 , Chapter 18 , §18.3
+
+semi-decidable logic §15.6
+
+semi-supervised learning §8.6.1
+
+sensing uncertainty dimension §1.5.6 , §19.2
+
+sensor 1st item , 2nd item
+
+sensor fusion Example 9.33
+
+sentence §15.7.1 , §9.6.6
+
+separable control problem §2.3.2
+
+sequence-to-sequence mapping §8.5.2
+
+sequential
+
+decision problem §12.3
+
+Monte Carlo §9.7.6
+
+prisoner’s dilemma §14.4
+
+probability model §9.6
+
+sequential data §8.5
+
+set item sets
+
+-of-words model §17.3.3 , §9.6.6
+
+difference §A.4
+
+SGD , see stochastic gradient descent
+
+shortcut connection 8th item
+
+SHRDLU §1.2
+
+side-effect 1st item
+
+sigmoid (neural network)
+
+class 9
+
+sigmoid function §7.3.2 , 2nd item , 1st item
+
+Simpson’s paradox §11.3.4
+
+simulated annealing §4.6.3 , §4.6.3
+
+simultaneous localization and mapping (SLAM) §9.8
+
+simultaneous-action games §14.2.2
+
+single agent 1st item
+
+single decision §12.2
+
+single-stage decision network §12.2.1
+
+singularity §18.3 , §19.3
+
+situated agent §1.2
+
+skip connection 8th item
+
+Skip-gram model 2nd item
+
+SLD derivation §15.5.4 , §5.3.2
+
+SLD resolution §15.5.4 , §5.3.2
+
+Smalltalk §16.2.1
+
+smart home §1.4.5
+
+SMC , see sequential Monte Carlo
+
+smooth §4.8.3
+
+smoothing §9.6.2 , §9.6.3
+
+Sobel–Feldman operator Example 8.8
+
+social preference function §14.5
+
+society §1.1.2
+
+soft clustering §10.3
+
+soft constraint Chapter 4 , §4.8
+
+softmax 3rd item , §7.3.2 , 3rd item
+
+hierarchical §7.3.2
+
+softmax regression §7.3.2
+
+software agent §1.3
+
+software engineering §1.6.3
+
+solution §3.2 , §3.3.1 , §4.1.3
+
+sound §5.3.2
+
+spam filter §10.5
+
+squared loss §10.3.1 , 3rd item , 1st item
+
+squashed linear function §7.3.2
+
+stable assignment §10.3.1
+
+stack §3.5.2
+
+Stackelberg security games §14.8 , §18.6
+
+stage §1.5.2 , §9.6.1
+
+stakes 1st item
+
+start node §3.3.1
+
+start state 2nd item
+
+starvation §15.6.1 , 1st item
+
+state §1.5.3 , §3.2 , §9.6.1
+
+-space search problem §3.2
+
+constraint 6th item
+
+feature §6.4.1
+
+space §3.2
+
+space graph §3.3.1 , §6.1.1 , §6.2
+
+variable 1st item
+
+stationary
+
+distribution §9.6.1 , §9.7.7
+
+model §12.5 , 3rd item , §9.6.1
+
+policy §12.5.1
+
+statistical relational AI §1.2 , Chapter 17 , §17.3.1
+
+statistics §1.2
+
+step size §4.8.3 , §4.8.3
+
+stimuli 2nd item , §2.1
+
+stochastic
+
+beam search §4.7
+
+dynamics 2nd item
+
+gradient descent (SGD) §7.3.2
+
+input §9.3.3
+
+local search §4.6.2
+
+policy §14.7.2 , §14.7.2
+
+policy iteration §14.7.2 , 6th item
+
+simulation §9.7
+
+strategy §14.4
+
+stochastic gradient descent §8.1.1
+
+stochastic policy iteration
+
+algorithm Figure 14.10
+
+stopping state §12.5
+
+strategic agent §14.1
+
+strategic-form game §14.2.1
+
+strategy §14.2.1 , §14.2.2 , §14.4
+
+profile §14.2.2 , §14.4
+
+strictly dominated §14.4.1 , §4.8.1
+
+strictly preferred §12.1.1
+
+stride 5th item
+
+STRIPS assumption §6.1.2
+
+STRIPS representation §6.1.2 , §6.1.2
+
+structural causal model §11.1 , §5.9
+
+structure learning §10.4.3
+
+structured prediction item Task , §7.2
+
+STUDENT §1.2
+
+sub-property §16.2.1
+
+subclass §16.2.1
+
+subgame-perfect equilibrium §14.4
+
+subgoal §5.3.2 , §5.3.2 , 1st item , §6.3
+
+subject 3rd item , §16.1.1
+
+embedding 4th item
+
+subjective probability §9.1
+
+substitutes 2nd item
+
+substitution §15.5.1
+
+successor §4.6
+
+sufficient statistics §10.3.1 , §10.3.2
+
+sum of losses §7.2.1
+
+superintelligence §18.3
+
+supervised learning §10.4 , item Task , item Feedback , §7.10 , §7.2 — §7.2
+
+support set item 2 , §14.4
+
+surveillance capitalism §18.1 , §18.8
+
+sustainability §18.6
+
+sustainable development §18.6
+
+Sustainable Development Goals §18.6
+
+symbol §1.6.4 , §15.3 , §4.1.1
+
+level 2nd item
+
+system §1.6.4
+
+symptoms §1.4.2
+
+syntax
+
+natural language item Syntax
+
+predicate calculus §15.3
+
+propositional calculus §5.1.1
+
+propositional definite clauses §5.3
+
+synthesis §1.1
+
+systems 1 and 2 §2.2 , §2.6
+
+tabu search §4.6.3
+
+tabu tenure §4.6.3
+
+tail §16.1.3
+
+tangent §4.8.3
+
+tanh 2nd item
+
+target Chapter 7
+
+target features 2nd item
+
+task item Task , item Task
+
+TBox 1st item
+
+TD error §13.3
+
+tell §2.2 , item Step 3
+
+temperature 3rd item
+
+temporal difference
+
+equation §13.3
+
+error §13.3
+
+temporal-difference learning §1.2
+
+tensor §8.5.1
+
+tensorflow §B.2
+
+term 4th item , §15.6
+
+terminal symbol §15.7.1
+
+terminological knowledge base 1st item
+
+test example item Measuring success
+
+thematic relations Example 16.5
+
+theorem §5.3.2
+
+Theorist §5.12
+
+there exists ( ∃ ) 2nd item
+
+thing §1.5.3 , 1st item , §16.3.2
+
+Thompson sampling 5th item
+
+thought §1.1
+
+threat Example 14.14
+
+time §2.1.1
+
+time granularity §9.6.5
+
+time-homogenous model §9.6.1
+
+tit-for-tat §14.4
+
+TMS , see truth maintenance system
+
+token §15.7.1 , §8.5
+
+tokenization §8.5
+
+top-down proof procedure §15.5.4 , §5.3.2
+
+top-level ontology §16.3.2
+
+top- n §17.2.1 , §17.2.1
+
+topic model §17.3.3 , §9.6.6
+
+total assignment §4.1.1
+
+total reward item Total reward
+
+tournament selection §4.7
+
+tractable §1.6.2
+
+trading agent §1.4.4
+
+tragedy of the commons §14.10 , §14.8 , §18.6
+
+training example item Task , item Measuring success , 3rd item
+
+transduction §2.1.1
+
+transfer learning §19.3
+
+transformer §1.2 , §9.6.6
+
+transformers §8.5.4
+
+transient goal 3rd item
+
+transitivity of preferences Axiom 12.2
+
+transparency §18.3
+
+tree §3.3.1
+
+tree-augmented naive Bayes (TAN) network 2nd item
+
+treewidth §4.5 , §9.5.3
+
+triangle inequality §3.7.2
+
+trigram §9.6.6
+
+triple item tuples , §16.1.1
+
+triple representation §16.1.1
+
+triple store 3rd item
+
+trolley problem §2.4
+
+trolley problems §12.1.3
+
+true item relations , §15.3.1 , §5.1.2
+
+true-positive rate 1st item
+
+trust §18.7
+
+trustworthiness §18.3
+
+truth discovery §17.3.2
+
+truth maintenance system §5.12
+
+truthful 1st item
+
+try (local search) §4.6
+
+tuple item tuples , §A.4
+
+Turing machine §1.2
+
+Turing test §1.1.1
+
+tutoring Example 1.7
+
+tutoring agent §1.4.3 , Example 1.10 , Example 1.17 , Example 1.22 , Example 1.28 , Example 1.33 , Example 3.5 , §5.8 , §5.8
+
+two-dimensional kernel §8.4
+
+two-player zero-sum game 2nd item
+
+two-stage choice §4.6.3
+
+two-step belief network §9.6.4
+
+t ⁢ y ⁢ p ⁢ e Example 16.4
+
+type I error §7.2.3
+
+type II error §7.2.3
+
+types of data 5th item
+
+UCB1 4th item
+
+UML 6th item
+
+unary constraint §4.1.2
+
+unary relations 2nd item
+
+unconditionally independent §9.2
+
+underflow §7.3.2
+
+undirected model §9.3.3
+
+unfolded network §12.5.4 , §9.6.4
+
+unification §15.5.3 , §15.5.3
+
+algorithm Figure 15.4
+
+unifier §15.5.1
+
+uniform resource identifier §16.1.2
+
+uniform-cost search §3.5.4
+
+unify §15.5.1
+
+unigram §17.3.3 , §9.6.6
+
+uninformed search strategy §3.5 , §3.6
+
+union §A.4
+
+unique names assumption (UNA) §15.8.2
+
+unit (neural network) Chapter 8 , §8.1
+
+unit resolution 2nd item
+
+universal basic income §18.4
+
+universal function approximator §19.3
+
+universally quantified variable 1st item , 1st item
+
+unnormalized probabilities 3rd item
+
+unsatisfiable §5.6.1
+
+unstructured 5th item
+
+unsupervised learning §10.3 , §10.3.2 , item Feedback
+
+upper confidence bound 4th item
+
+URI , see uniform resource identifier
+
+useful action 2nd item
+
+user 1st item , §4.1.1 , §5.4
+
+user embedding item Add k latent properties
+
+utility item Optimal solution , Proposition 12.3 , 2nd item , item Measuring success
+
+engineering §12.6
+
+utility node 3rd item
+
+V π 1st item , §12.5.1
+
+V ∗ §12.5.1
+
+validation set §7.4.3
+
+value §12.5
+
+decision network §12.2.1
+
+in attention §8.5.4
+
+iteration §12.5.2
+
+of control §12.4
+
+of information §12.4
+
+value embedding 3rd item
+
+value iteration
+
+algorithm Figure 12.17
+
+variable Chapter 4 , §4.1.1
+
+action 2nd item
+
+algebraic §4.1.1
+
+assignment §15.3.2
+
+binary §4.1.1 , §9.1.1
+
+Boolean §4.1.1 , 1st item , §9.1.1
+
+continuous §4.1.1
+
+decision §12.2
+
+discrete §4.1.1 , §9.1.1
+
+existentially quantified 2nd item
+
+logical 1st item
+
+random §9.1.1
+
+state 1st item
+
+universally quantified 1st item
+
+variable elimination §4.5 , §9.5.2
+
+belief network §9.10 , §9.5.2
+
+algorithm Figure 9.13
+
+CSP §4.5
+
+algorithm Figure 4.7
+
+decision network §12.3.4
+
+algorithm Figure 12.14
+
+single-stage decision network §12.2.1
+
+algorithm Figure 12.8
+
+soft constraints §4.8.1
+
+variance 2nd item
+
+variational inference 3rd item
+
+VCG (Vickrey–Clarke–Groves) mechanism §14.6
+
+VE , see variable elimination
+
+vector §8.1 , §8.5.1
+
+verb 3rd item , §16.1.1
+
+vigilance §18.3
+
+violates §4.1.2
+
+virtual body §2.2
+
+vocabulary §8.5
+
+walk §4.6
+
+Watson §1.2 , §15.10
+
+weak learner §7.5.1
+
+weakly dominated §4.8.1
+
+weakly preferred §12.1.1
+
+web ontology language , see OWL
+
+web services §1.4.4
+
+weight §7.3.2
+
+weight tying §17.3.1 , 2nd item , §9.6.1
+
+weighted logical formula §9.3.3
+
+first-order 2nd item
+
+weighted model counting §9.3.3
+
+width (neural network) §8.1
+
+Wikidata §16.1.2 , §16.6 , Example 16.7
+
+winner-take-all §18.1
+
+Winograd schema §1.1.1
+
+word §15.7.1 , §8.5 , §9.6.6
+
+word embedding item Add k latent properties , §8.5.1 , §8.5.1 , §8.5.1
+
+Word2vec §8.5.1 , §8.9
+
+world §1.3
+
+possible §12.2 , §9.1.1
+
+worst-case loss 4th item
+
+wrapper 3rd item
+
+XGBoost §B.1 , §7.5.2 , §7.9
+
+XML §16.3
+
+YAGO §16.6
+
+yes answer §15.5.4 , §5.3.1
+
+Zeno’s paradox §3.5.4
+
+zero padding 2nd item
+
+zero-sum game 2nd item , §14.3.1
+
+zero–one loss 1st item
+
+ϵ -greedy exploration strategy 2nd item
+
+π (denotation of predicate symbols) 3rd item
+
+π (meaning of atoms) §5.1.2
+
+ϕ (denotation of terms) 2nd item , §15.6
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

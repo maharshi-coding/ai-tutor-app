@@ -1,0 +1,420 @@
+Original Path: jupyter_english/projects_indiv/project_ods_student_perfomance_Chebeneva_Ekaterina.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+```python
+import os
+import json
+from tqdm import tqdm_notebook
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import mean_absolute_error
+from scipy.sparse import csr_matrix, hstack
+from sklearn.linear_model import RidgeCV, Ridge
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.model_selection import cross_val_score
+from sklearn import preprocessing
+import scipy
+import seaborn as sns
+from matplotlib import pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeRegressor
+import math
+import warnings
+warnings.filterwarnings("ignore")
+```
+
+Individual project of Ekaterina Chebeneva
+
+## Introduction
+### 1 Feature and data explanation
+
+https://www.kaggle.com/spscientist/students-performance-in-exams/home
+
+This data set consists of the marks secured by the students in various subjects.
+
+Aim of the project is to understand the influence of various factors on the students performance and to predict the average score in three subjects
+
+#### Data description
+
+- gender: male and female
+- race/ethnicity
+- parental level of education
+- lunch: lunch level, Standard or Free/Reduced
+- test preparation course: presumably, "none" means that the student did not attend preparatory courses, and "Completed" means that they completed it.
+- math score
+- reading score
+- writing score
+- **avg_score: target feature, which is the average score for three subject**
+
+```python
+df = pd.read_csv('Downloads/StudentsPerformance.csv')
+df.head()
+```
+
+```python
+df['avg_score'] = (df['math score'] + df['reading score'] + df['writing score']) / 3
+df.head()
+```
+
+```python
+df.shape
+```
+
+```python
+df.info()
+```
+
+```python
+df.describe()
+```
+
+```python
+pd.unique(df['test preparation course'])
+```
+
+```python
+pd.unique(df['parental level of education'])
+```
+
+```python
+df.isnull().sum()
+```
+
+As seen above, there are no null values in this datafram
+
+```python
+plt.figure(figsize=(20, 10))
+sns.heatmap(df.corr())
+```
+
+```python
+plt.figure(figsize=(20, 10))
+sns.boxplot(x='gender', y='avg_score', data=df)
+```
+
+```python
+plt.figure(figsize=(20, 10))
+sns.boxplot(y='avg_score', x='test preparation course', hue='gender', data=df)
+```
+
+```python
+plt.figure(figsize=(20, 10))
+sns.countplot(x='race/ethnicity', data=df)
+```
+
+```python
+plt.figure(figsize=(20, 10))
+sns.countplot(x='parental level of education', data=df)
+```
+
+```python
+sns.pairplot(df)
+```
+
+```python
+pd.unique(df['parental level of education'])
+```
+
+```python
+sns.barplot(x='avg_score', hue='parental level of education', data=df)
+```
+
+```python
+# Function that prints summary statistics of column given in parameters
+def summary_statistics(col, df):
+print('Mean: {}'.format(df[col].mean()))
+print('Max: {}'.format(df[col].max()))
+print('Min: {}'.format(df[col].min()))
+print('Median: {}'.format(df[col].median()))
+print()
+
+# Number of students with maximum and minimum score
+max_score = df[col].max()
+min_score = df[col].min()
+print("Number of students who scored maximum score: {}".format(df[col][df[col]==max_score].count()))
+print("Number of students who scored minimum score: {}".format(df[col][df[col]==min_score].count()))
+print()
+
+# Students close to mean i.e. Students that have scores equal to floor(mean score) or ceiling(mean score)
+near_mean_floor = math.floor(df[col].mean())
+near_mean_ceil = math.ceil(df[col].mean())
+near_mean_tot = df[col][df[col]==near_mean_floor].count() + df[col][df[col]==near_mean_ceil].count()
+print("Number of students close to mean score: {}".format(near_mean_tot))
+print()
+
+# Students that have 50th percentile
+print("Number of students at median score: {}".format(df[col][df[col]==df[col].median()].count()))
+
+# Students with 25th percentile and 75th percentile scores
+print("Number of students at 25th percentile: {}".format(df[col][df[col]==df[col].quantile(0.25)].count()))
+print("Number of students at 75th percentile: {}".format(df[col][df[col]==df[col].quantile(0.75)].count()))
+```
+
+```python
+summary_statistics("math score", df)
+```
+
+```python
+summary_statistics("reading score", df)
+```
+
+```python
+summary_statistics("writing score", df)
+```
+
+**Does completing course really affects the score?**
+
+```python
+#Students that have more than median marks in
+
+# Maths
+print("Maths")
+df_top_math = df[df["math score"] > df["math score"].median()]
+print(df_top_math["test preparation course"].value_counts())
+print()
+
+# Reading
+print("Reading")
+df_top_read = df[df["reading score"] > df["reading score"].median()]
+print(df_top_read["test preparation course"].value_counts())
+print()
+
+# Writing
+print("Writing")
+df_top_writ = df[df["writing score"] > df["writing score"].median()]
+print(df_top_writ["test preparation course"].value_counts())
+print()
+
+print("Average score")
+df_top_writ = df[df["avg_score"] > df["avg_score"].median()]
+print(df_top_writ["test preparation course"].value_counts())
+print()
+```
+
+We can see that there is almost a ratio of 1:1 for students who have completed the course and students who have not completed the course (for more than median score). So, we can set a hypothesis like Possibility of scoring more than median marks in test remains unchanged after completing.
+But this cannot be stated as a final conclusion.
+
+```python
+#Students that have less than or equal to median marks in
+
+# Maths
+print("Maths")
+df_bot_math = df[df["math score"] <= df["math score"].median()]
+print(df_bot_math["test preparation course"].value_counts())
+print()
+
+# Reading
+print("Reading")
+df_bot_read = df[df["reading score"] <= df["reading score"].median()]
+print(df_bot_read["test preparation course"].value_counts())
+print()
+
+# Writing
+print("Writing")
+df_bot_writ = df[df["writing score"] <= df["writing score"].median()]
+print(df_bot_writ["test preparation course"].value_counts())
+print()
+
+print("Average score")
+df_top_writ = df[df["avg_score"] <= df["avg_score"].median()]
+print(df_top_writ["test preparation course"].value_counts())
+print()
+```
+
+For the students that have less than or equal to median marks the hypothesis assumed above has been proven wrong. As, there is a ratio of 2:1 for the students that have not completed the course to the students who have completed the course. So our new hypothesis could be that
+You are twice as likely to score less than median marks if you don't complete the test preperation course
+But this too, cannot be stated as final conclusion.
+
+```python
+def graphs(score_type, suptitle, groupbyterm, kind):
+nrows = 2
+ncols = 3
+inches = 5
+df_female = df[df['gender'] == 'female']
+df_male = df[df['gender'] == 'male']
+fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(ncols*inches,nrows*inches))
+fig.suptitle(suptitle)
+temp = df[groupbyterm].value_counts().rename("")
+temp.plot.pie(ax=axes[0,0], title="Students Overall", autopct="%.2f", legend=False)
+temp = df_female[groupbyterm].value_counts().rename("")
+temp.plot.pie(ax=axes[0,1], title="Female", autopct="%.2f", legend=False)
+temp = df_male[groupbyterm].value_counts().rename("")
+temp.plot.pie(ax=axes[0,2], title="Male", autopct="%.2f", legend=False)
+pd.concat([
+df_female.groupby(groupbyterm)[score_type].mean().rename("Female"),
+df_male.groupby(groupbyterm)[score_type].mean().rename("Male")], axis=1).plot(kind="bar", ax=axes[1,0], legend=True)
+axes[1,0].set_xlabel("")
+axes[1,0].legend([x.get_text().capitalize() for x in axes[1,0].legend().get_texts()])
+axes[1,0].set_xticklabels([x.get_text().capitalize() for x in axes[1,0].get_xticklabels()])
+df_female.groupby(groupbyterm)[score_type].plot(kind=kind, ax=axes[1,1], legend=True, alpha=0.8, histtype="step")
+axes[1,1].set_xlabel("Female Scores")
+axes[1,1].set_ylabel("")
+axes[1,1].set_xticks(np.arange(0, 101, step=20))
+axes[1,1].set_yticks(np.arange(0, 101, step=20))
+axes[1,1].legend([x.get_text().capitalize() for x in axes[1,1].legend().get_texts()])
+df_male.groupby(groupbyterm)[score_type].plot(kind=kind, ax=axes[1,2], legend=True, alpha=0.8, histtype="step")
+axes[1,2].set_xlabel("Male Scores")
+axes[1,2].set_ylabel("")
+axes[1,2].set_xticks(np.arange(0, 101, step=20))
+axes[1,2].set_yticks(np.arange(0, 101, step=20))
+axes[1,2].legend([x.get_text().capitalize() for x in axes[1,2].legend().get_texts()])
+return fig, axes
+```
+
+```python
+fig, axes = graphs("avg_score","Avg Scores by Parental Level of Education", "parental level of education", "hist")
+```
+
+Very few parents hold a Bachelor's degree; fewer still, hold Master's degree. Because we have fewer samples of parents holding math degrees, it stands to show that the scores for these students will be higher on average, as opposed to the other degrees. But looking at the more populated degrees, their scores also show variations, albeit not a lot, but variations nevertheless.
+
+```python
+fig, axes = graphs("avg_score","Avg Scores by Race/Ethnicity", "race/ethnicity", "hist")
+```
+
+Shortest population in Race/Ethnic group A. And in terms of performance, they are still at the lowest on average. Most dense population in Race/Ethnic group C. In terms of performance, they're average.
+
+```python
+fig, axes = graphs("avg_score","Avg Scores by Lunch", "lunch", "hist")
+```
+
+Following the averages, boys still outperform the girls at math regardless of lunch. Almost two-thirds of the students had a standard lunch. It's good to know that these students didn't sacrifice their stomachs for scores.
+
+```python
+fig, axes = graphs("avg_score","Avg Scores by Test Preparation Course", "test preparation course", "hist")
+```
+
+Going off of the numbers in the graphs, Only a third of the students are taking these courses seriously. And the ones that did take the courses aren't having a significant advantage at scores. So should the Preparatory courses be cancelled? Looking at the smaller bounds, Students that took the preparatory course have higher baselines than the ones that didn't. So it's probably good to keep them going.
+
+**Distribution of student scores**
+
+All the scores are approximately normally distributed. Q-Q plots show skewness in both directions, indicating deviation from normal distribution in those regions.
+Joint distributions show strong correlation between test scores among different subjects which is not surprising.
+
+```python
+score_cols = ['math score', 'reading score','writing score', 'avg_score']
+from scipy.stats import norm
+
+def Plot_Dist(df, col):
+fig,axarr = plt.subplots(1,2,figsize=(12,4))
+# plot distribution
+sns.distplot(df[col], fit=norm, kde=False, ax=axarr[0])
+#Q-Q plot
+from statsmodels.graphics.gofplots import qqplot
+qqplot(df['math score'],line='s', ax=axarr[1])
+fig.suptitle(col+' distribution', fontsize=14)
+plt.show()
+
+Plot_Dist(df,col='math score')
+Plot_Dist(df,col='reading score')
+Plot_Dist(df,col='writing score')
+Plot_Dist(df,col='avg_score')
+
+ax1=sns.jointplot(x="math score", y="reading score", data=df)
+plt.show()
+
+ax2=sns.jointplot(x="math score", y="writing score", data=df)
+plt.show()
+```
+
+**Variation of Scores with Gender of the student**
+
+Female students beat male counter parts in reading and writing. In math, boys on an average do better than girls.
+
+```python
+def Plot_Set(df, xcol, ycols):
+df = df.sort_values(by=xcol)
+fig,axarr = plt.subplots(1, 4,figsize=(12,5))
+for id,ycol in enumerate(ycols):
+medians = df.groupby([xcol])[ycol].median().values
+median_labels = [str(np.round(s, 2)) for s in medians]
+pos = range(len(medians))
+sns.boxplot(x=xcol, y=ycol, data=df, width=0.5, palette='Set3', ax=axarr[id], linewidth=0.5)
+for tick,label in zip(pos,axarr[id].get_xticklabels()):
+axarr[id].text(pos[tick], medians[tick] + 0.5, median_labels[tick], horizontalalignment='center', size='medium', color='k', weight='semibold')
+axarr[id].set_ylim([0,105])
+plt.setp(axarr[id].get_xticklabels(), rotation=25,ha='right')
+plt.tight_layout()
+plt.show()
+```
+
+```python
+Plot_Set(df, xcol='gender', ycols=['math score','reading score','writing score', 'avg_score'])
+```
+
+**Variation of Scores with race/ethnicity**
+
+Race has a significant influence on test scores. For all subjects, students in group E perform better than students from other ethnicity.
+
+```python
+Plot_Set(df,xcol='race/ethnicity',ycols=['math score','reading score','writing score', 'avg_score'])
+```
+
+**Variation of Scores with parental level of education**
+
+Education level of parents has a direct impact on the test scores. Higher the education level of the parent, higher the student scores.
+
+```python
+Plot_Set(df,xcol='parental level of education',ycols=['math score','reading score','writing score', 'avg_score'])
+```
+
+**Variation of Scores with lunch type**
+
+Whether the student gets the standard lunch or free/reduced lunch has an impact on the scores. It is evident students from lower income families on an average have 5-10 points lower scores than those who can afford standard lunches.
+
+```python
+Plot_Set(df,xcol='lunch',ycols=['math score','reading score','writing score', 'avg_score'])
+```
+
+# Prediction
+
+MAE and RMSE are the two most popular metrics for continuous variables. Let’s start with the more popular one.
+
+It is easy to interpret MAE because it directly takes the average of offsets whereas RMSE penalizes the higher difference more than MAE. Therefore, I chose mse as the metric
+
+Decision tree selected as model for prediction.
+
+Tree classification techniques, when they "work" and produce accurate predictions or predicted classifications based on few logical if-then conditions, have a number of advantages over many of those alternative techniques. Simplicity of results. In most cases, the interpretation of results summarized in a tree is very simple. This simplicity is useful not only for purposes of rapid classification of new observations (it is much easier to evaluate just one or two logical conditions, than to compute classification scores for each possible group, or predicted values, based on all predictors and using possibly some complex nonlinear model equations), but can also often yield a much simpler "model" for explaining why observations are classified or predicted in a particular manner (e.g., when analyzing business problems, it is much easier to present a few simple if-then statements to management, than some elaborate equations).
+
+For data preprocessing is used one hot encoding for categorical features.
+
+```python
+df.head()
+```
+
+```python
+df = pd.concat([df, pd.get_dummies(df.gender, prefix='gender_')], axis=1)
+df = pd.concat([df, pd.get_dummies(df['race/ethnicity'], prefix='race_')], axis=1)
+df = pd.concat([df, pd.get_dummies(df['parental level of education'], prefix='edu_')], axis=1)
+df = pd.concat([df, pd.get_dummies(df['lunch'], prefix='lunch_')], axis=1)
+df = pd.concat([df, pd.get_dummies(df['test preparation course'], prefix='course_')], axis=1)
+```
+
+```python
+df.drop(columns=['gender', 'race/ethnicity','parental level of education', 'lunch', 'test preparation course'], inplace=True)
+```
+
+```python
+target = df.avg_score
+df.drop(columns=['math score', 'reading score', 'writing score', 'avg_score'], inplace=True)
+```
+
+```python
+X_train, X_test, y_train, y_test = train_test_split(df, target, test_size=0.33, random_state=17)
+```
+
+```python
+dtr = DecisionTreeRegressor(max_depth=4, random_state=17)
+
+cross_val_score(dtr, df, target, cv=10, scoring='neg_mean_squared_error')
+```
+
+```python
+dtr = DecisionTreeRegressor(max_depth=4, random_state=17)
+
+dtr.fit(X_train, y_train)
+
+y_pred = dtr.predict(X_test)
+mean_absolute_error(y_test, y_pred)
+```

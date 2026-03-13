@@ -4,7 +4,7 @@ This topic bundle groups the collected Machine Learning material most relevant t
 
 Keywords: preprocessing, cleaning, split, validation, cross-validation, metric, precision, recall, bias, variance
 
-Documents in bundle: 41
+Documents in bundle: 42
 
 ## Document Index
 
@@ -101,9 +101,12 @@ Documents in bundle: 41
 - <center> (mlcourse.ai)
   Extracted file: extracted/mlcourse-ai/f58eacc970d1be22-center.md
   Original URL: https://github.com/Yorko/mlcourse.ai/blob/HEAD/jupyter_english/tutorials/nested_cross_validation_tatyana_kudasova.ipynb
-- סיווג: דיוק, ריקול, דיוק ומדדים קשורים (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/626f6173b6f720ec-document.md
+- Classification: Accuracy, recall, precision, and related metrics (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/626f6173b6f720ec-classification-accuracy-recall-precision-and-rel.md
   Original URL: https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall
+- Classification: ROC and AUC (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/087dca4f62ba0d38-classification-roc-and-auc.md
+  Original URL: https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc
 - Understanding the Confusion Matrix in Machine Learning (GeeksforGeeks Machine Learning Tutorial)
   Extracted file: extracted/geeksforgeeks-machine-learning/a2694799a4518789-understanding-the-confusion-matrix-in-machine-le.md
   Original URL: https://www.geeksforgeeks.org/machine-learning/confusion-matrix-machine-learning/

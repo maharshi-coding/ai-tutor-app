@@ -1,0 +1,147 @@
+Original Path: 2-Regression/2-Data/solution/notebook.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+## Linear Regression for Pumpkins - Lesson 2
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+pumpkins = pd.read_csv('../../data/US-pumpkins.csv')
+
+pumpkins = pumpkins[pumpkins['Package'].str.contains('bushel', case=True, regex=True)]
+
+pumpkins.head()
+```
+
+Output:
+```text
+City Name Type Package Variety Sub Variety Grade \
+70 BALTIMORE NaN 1 1/9 bushel cartons PIE TYPE NaN NaN
+71 BALTIMORE NaN 1 1/9 bushel cartons PIE TYPE NaN NaN
+72 BALTIMORE NaN 1 1/9 bushel cartons PIE TYPE NaN NaN
+73 BALTIMORE NaN 1 1/9 bushel cartons PIE TYPE NaN NaN
+74 BALTIMORE NaN 1 1/9 bushel cartons PIE TYPE NaN NaN
+
+Date Low Price High Price Mostly Low ... Unit of Sale Quality \
+70 9/24/16 15.0 15.0 15.0 ... NaN NaN
+71 9/24/16 18.0 18.0 18.0 ... NaN NaN
+72 10/1/16 18.0 18.0 18.0 ... NaN NaN
+73 10/1/16 17.0 17.0 17.0 ... NaN NaN
+74 10/8/16 15.0 15.0 15.0 ... NaN NaN
+
+Condition Appearance Storage Crop Repack Trans Mode Unnamed: 24 \
+70 NaN NaN NaN NaN N NaN NaN
+71 NaN NaN NaN NaN N NaN NaN
+72 NaN NaN NaN NaN N NaN NaN
+73 NaN NaN NaN NaN N NaN NaN
+74 NaN NaN NaN NaN N NaN NaN
+
+Unnamed: 25
+70 NaN
+71 NaN
+72 NaN
+73 NaN
+74 NaN
+
+[5 rows x 26 columns]
+```
+
+```python
+pumpkins.isnull().sum()
+```
+
+Output:
+```text
+City Name 0
+Type 406
+Package 0
+Variety 0
+Sub Variety 167
+Grade 415
+Date 0
+Low Price 0
+High Price 0
+Mostly Low 24
+Mostly High 24
+Origin 0
+Origin District 396
+Item Size 114
+Color 145
+Environment 415
+Unit of Sale 404
+Quality 415
+Condition 415
+Appearance 415
+Storage 415
+Crop 415
+Repack 0
+Trans Mode 415
+Unnamed: 24 415
+Unnamed: 25 391
+dtype: int64
+```
+
+```python
+# A set of new columns for a new dataframe. Filter out nonmatching columns
+columns_to_select = ['Package', 'Low Price', 'High Price', 'Date']
+pumpkins = pumpkins.loc[:, columns_to_select]
+
+# Get an average between low and high price for the base pumpkin price
+price = (pumpkins['Low Price'] + pumpkins['High Price']) / 2
+
+# Convert the date to its month only
+month = pd.DatetimeIndex(pumpkins['Date']).month
+
+# Create a new dataframe with this basic data
+new_pumpkins = pd.DataFrame({'Month': month, 'Package': pumpkins['Package'], 'Low Price': pumpkins['Low Price'],'High Price': pumpkins['High Price'], 'Price': price})
+
+# Convert the price if the Package contains fractional bushel values
+new_pumpkins.loc[new_pumpkins['Package'].str.contains('1 1/9'), 'Price'] = price/(1 + 1/9)
+
+new_pumpkins.loc[new_pumpkins['Package'].str.contains('1/2'), 'Price'] = price/(1/2)
+
+print(new_pumpkins)
+```
+
+Output:
+```text
+Month Package Low Price High Price Price
+70 9 1 1/9 bushel cartons 15.00 15.0 13.50
+71 9 1 1/9 bushel cartons 18.00 18.0 16.20
+72 10 1 1/9 bushel cartons 18.00 18.0 16.20
+73 10 1 1/9 bushel cartons 17.00 17.0 15.30
+74 10 1 1/9 bushel cartons 15.00 15.0 13.50
+... ... ... ... ... ...
+1738 9 1/2 bushel cartons 15.00 15.0 30.00
+1739 9 1/2 bushel cartons 13.75 15.0 28.75
+1740 9 1/2 bushel cartons 10.75 15.0 25.75
+1741 9 1/2 bushel cartons 12.00 12.0 24.00
+1742 9 1/2 bushel cartons 12.00 12.0 24.00
+
+[415 rows x 5 columns]
+```
+
+```python
+price = new_pumpkins.Price
+month = new_pumpkins.Month
+plt.scatter(price, month)
+plt.show()
+```
+
+Output:
+```text
+<Figure size 432x288 with 1 Axes>
+```
+
+```python
+new_pumpkins.groupby(['Month'])['Price'].mean().plot(kind='bar')
+plt.ylabel("Pumpkin Price")
+```
+
+Output:
+```text
+Text(0, 0.5, 'Pumpkin Price')
+
+<Figure size 432x288 with 1 Axes>
+```

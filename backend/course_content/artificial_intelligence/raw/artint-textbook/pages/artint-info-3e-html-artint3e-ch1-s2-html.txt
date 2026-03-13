@@ -1,0 +1,310 @@
+Title: Artificial Intelligence 3E
+URL: https://artint.info/3e/html/ArtInt3e.Ch1.S2.html
+Snapshot Type: sanitized text
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+1.2 A Brief History of Artificial Intelligence
+
+Throughout human history, people have used technology to model
+themselves.
+There is evidence of this from ancient China, Egypt, and Greece, bearing
+witness to the universality of this activity. Each new technology has,
+in its turn,
+been exploited to build intelligent agents or models of mind. Clockwork,
+hydraulics, telephone switching systems, holograms, analog computers, and
+digital computers have all been proposed both as technological metaphors
+for intelligence and as mechanisms for modeling mind.
+
+Hobbes (1588–1679), who has been described by
+Haugeland [ 1985 , p. 85] as the “Grandfather of AI,” espoused the position that thinking was symbolic reasoning, like
+talking out loud or working out an answer with pen and paper.
+The idea of symbolic reasoning was further developed by
+Descartes (1596–1650), Pascal (1623–1662), Spinoza (1632–1677),
+Leibniz (1646–1716),
+and others who were pioneers in the European philosophy of mind.
+
+The idea of symbolic operations became more concrete with the
+development of computers. Babbage
+(1792–1871) designed the first general-purpose computer, the
+Analytical Engine . Leonardo Torres y Quevedo build a chess
+playing machine based on similar ideas in 1911
+[Randell, 1982 ] . In the early part of the twentieth century, there was much
+work done on understanding computation. Several models of
+computation were proposed, including the
+Turing machine by Alan Turing (1912–1954), a theoretical
+machine that writes symbols on an infinitely long tape, and the
+lambda calculus of Church (1903–1995), which is a
+mathematical formalism for
+rewriting formulas. It can be shown that these very different formalisms are
+equivalent in that any function computable by one is computable by
+the others. This leads to the Church–Turing thesis :
+
+Any effectively computable function can be
+carried out on a Turing machine (and so also in the lambda calculus or
+any of the other equivalent formalisms).
+
+Effectively computable means following well-defined
+operations. In Turing’s day, “computers” were people who followed
+well-defined steps; computers as known today did not
+exist. This thesis says that all computation can be carried out on a
+Turing machine or one of the other equivalent computational machines.
+The Church–Turing thesis cannot be proved but it is a hypothesis that
+has stood the test of time. No one has built a machine that has carried
+out computation that cannot be computed by a Turing machine. There is
+no evidence that people can compute functions that are not Turing
+computable.
+This provides an argument that
+computation is more than just a metaphor for intelligence; reasoning
+is computation and computation can be carried out by a
+computer.
+
+Some of the first applications of
+computers were AI programs. Samuel [ 1959 ] built a
+checkers program in 1952 and implemented a program that learns
+to play checkers in the late 1950s. His program beat the Connecticut
+state checkers champion in 1961. Wang [ 1960 ] implemented a program
+that proved every logic theorem (nearly 400) in Principia Mathematica [Whitehead and Russell, 1925, 1927 ] .
+Newell and Simon [ 1956 ] built a program, Logic Theorist , that discovers proofs in
+propositional logic.
+
+In parallel, there was also much work on
+neural networks learning inspired by how neurons work.
+McCulloch and Pitts [ 1943 ] showed how a simple thresholding “formal
+neuron” could be the basis for a Turing-complete machine.
+Learning for artificial neural networks was first described by
+Minsky [ 1952 ] . One of the early significant works was the
+perceptron of Rosenblatt [ 1958 ] . The work on neural networks
+became less prominent for a number of years after the 1968 book by
+Minsky and Papert [ 1988 ] , which argued that the representations
+learned were inadequate for intelligent action. Many
+technical foundations for neural networks were laid in the 1980s and 1990s
+[Rumelhart et al., 1986 ; Hochreiter and Schmidhuber, 1997 ; LeCun et al., 1998a ] .
+Widespread adoption followed the success by
+Krizhevsky et al. [ 2012 ] for ImageNet
+[Deng et al., 2009 ] , a
+dataset of over 3 million images labelled with over 5000 categories.
+Subsequent major advances include the introduction of
+generative adversarial
+networks (GANs) [Goodfellow et al., 2014 ]
+and transformers [Vaswani et al., 2017 ] .
+Neural networks in various forms are now the state of the art for predictive models for
+large perceptual datasets, including images,
+video, and speech, as well as some tasks for text. They are also used
+for generative AI , to generate images,
+text, code, molecules, and other structured output.
+See Chapter 8 .
+
+Neural
+networks are one of many machine learning tools used for making
+predictions from data in modern
+applications. Other methods have been developed though the years,
+including decision trees
+[Breiman et al., 1984 ; Quinlan, 1993 ] and
+logistic regression , introduced by Verhulst in 1832 [Cramer, 2002 ] . These
+have diverse applications in many areas of science. Combining these
+algorithms leads to the state-of-the-art gradient-boosted trees
+[Friedman, 2001 ; Chen and Guestrin, 2016 ] , which
+demonstrates the close interconnections between statistics and
+machine learning.
+
+While useful, making predictions is not sufficient to determine what
+an agent should do; an agent also needs to plan. Planning in AI was
+initially based on deterministic actions. Fikes and Nilsson [ 1971 ]
+used deterministic actions to control a mobile robot.
+Planning under uncertainty has a long history.
+Markov decision processes (MDPs) , the
+foundation for much of planning under uncertainty, and
+dynamic programming , a general way to solve them, were invented by
+Bellman [ 1957 ] . These were extended into
+decision-theoretic planning in the 1990’s
+[Boutilier et al., 1999 ] . Decision-theoretic planning with learning
+is called reinforcement learning . The first reinforcement learning
+programs were due to Andreae [ 1963 ] and
+Michie [ 1963 ] . Major advances came with the inventions of
+temporal-difference learning [Sutton, 1988 ] and
+Q -learning [Watkins and Dayan, 1992 ] . Work in reinforcement learning has
+exploded, including superhuman performance in chess, Go and other
+games [Silver et al., 2017 ] .
+
+Planning requires representations. The need for representations was
+recognized early.
+
+A computer program capable of acting intelligently in the world must
+have a general representation of the world in terms of which its
+inputs are interpreted. Designing such a program requires commitments
+about what knowledge is and how it is obtained. …More specifically, we want a computer program that decides
+what to do by inferring in a formal language that a certain strategy
+will achieve its assigned goal. This requires formalizing concepts of
+causality, ability, and knowledge.
+
+– McCarthy and Hayes [ 1969 ]
+
+Many of the early
+representations were ad hoc, such as frames
+[Minsky, 1975 ] , like the schemas of
+Kant [ 1787 ] , Bartlett [ 1932 ] , and Piaget [ 1953 ] .
+Later representations were based on logic [Kowalski, 1979 ] , with knowledge being defined
+in logic and efficient inference. This
+resulted in languages such as
+Prolog [Kowalski, 1988 ; Colmerauer and Roussel, 1996 ] .
+
+Probabilities were eschewed in AI, because of the number of parameters
+required, until the breakthrough of Bayesian networks
+( belief networks ) and
+graphical models [Pearl, 1988 ] , which exploit conditional
+independence, and form a basis for modeling causality .
+Combining first-order logic and probability is the topic of
+statistical relational AI [De Raedt et al., 2016 ] .
+
+There has been a continual tension between how much knowledge is
+learned and how much is provided by human experts or is
+innate to an agent. It has long been
+recognized that learning is needed, and it is known that learning
+cannot be achieved with data alone .
+During the 1970s and 1980s,
+expert systems came to prominence, where the aim was to
+capture the knowledge of an expert in some domain so that a computer
+could carry out expert tasks. DENDRAL
+[Buchanan and Feigenbaum, 1978 ] , developed from 1965 to 1983 in the field of
+organic chemistry, proposed plausible structures for new organic
+compounds. MYCIN [Buchanan and Shortliffe, 1984 ] , developed from 1972 to 1980,
+diagnosed infectious diseases of the blood, prescribed antimicrobial
+therapy, and explained its reasoning.
+
+An alternative approach, de-emphasizing explicit knowledge
+representations, emphasized situated
+embodied agents
+[Brooks, 1990 ; Mackworth, 2009 ] . The hypothesis is that intelligence
+emerges, in evolution and individual development, through ongoing
+interaction and coupling with a real environment.
+
+During the 1960s and 1970s, natural
+language understanding systems were developed for limited domains. For example, the
+STUDENT program of Bobrow [ 1967 ] could solve
+high-school algebra tasks expressed in natural
+language. Winograd ’s [ 1972 ] SHRDLU system could, using
+restricted natural language, discuss and carry out tasks in a
+simulated blocks world. CHAT-80 [Warren and Pereira, 1982 ] could answer geographical questions
+placed to it in natural language.
+Figure 1.3 shows some questions that CHAT-80 answered based on a database of facts about countries, rivers, and so on. These systems could only reason in very limited domains
+using restricted vocabulary and sentence structure. Interestingly,
+IBM’s Watson , which beat the world champion in the TV game
+show Jeopardy! in 2011, used a
+technique similar to CHAT-80 [Lally et al., 2012 ] for understanding questions; see Section 15.7 .
+
+Does Afghanistan border China?
+What is the capital of Upper_Volta?
+Which country’s capital is London?
+Which is the largest African country?
+How large is the smallest American country?
+What is the ocean that borders African countries
+and that borders Asian countries?
+What are the capitals of the countries bordering the Baltic?
+How many countries does the Danube flow through?
+What is the total area of countries south of the Equator
+and not in Australasia?
+What is the average area of the countries in each continent?
+Is there more than one country in each continent?
+What are the countries from which a river flows into the Black_Sea?
+What are the continents no country in which contains more than
+two cities whose population exceeds 1 million?
+Which country bordering the Mediterranean borders a country
+that is bordered by a country whose population exceeds
+the population of India?
+Which countries with a population exceeding 10 million border
+the Atlantic?
+
+Figure 1.3: Some questions CHAT-80 could answer
+
+In applications using language in the wild, such as speech recognition and translation
+in phones, many technologies are combined, including neural networks; see
+Chapter 8 . Large language
+models , trained on huge datasets, can be used to predict the next
+word in a text, enabling predictive spelling and the creation of new text.
+
+1.2.1 Relationship to Other Disciplines
+
+AI is a very young discipline. Other disciplines as diverse as
+philosophy, neurobiology, evolutionary biology, psychology, economics,
+political science, sociology, anthropology, control engineering, statistics, and
+many more have been studying aspects of intelligence much longer.
+
+The science of AI could be described as “synthetic
+psychology,” “experimental
+philosophy,” or “computational
+epistemology” – epistemology is the study
+of knowledge. AI can be seen as a way to study the
+nature of knowledge and intelligence, but with more powerful
+experimental tools than were previously available. Instead of being able
+to observe only the external behavior of intelligent systems, as
+philosophy, psychology, economics, and sociology have traditionally
+been able to do, AI researchers experiment with executable models of
+intelligent behavior. Most important, such models are open to
+inspection, redesign, and experimentation in a complete and rigorous
+way. Modern computers provide a way to construct the models about which
+philosophers have only been able to theorize. AI researchers can experiment with these
+models as opposed to just discussing their abstract properties. AI
+theories can be empirically grounded in implementations.
+Sometimes simple agents exhibit complex
+behavior, and sometimes sophisticated, theoretically motivated algorithms don’t work in
+real-world domains, which would not be known without implementing the agents.
+
+It is instructive to consider an analogy between the development of
+flying machines over the past few centuries and
+the development of thinking machines over the past few decades.
+There are several ways to understand flying. One is
+to dissect known flying animals and hypothesize their common structural
+features as necessary fundamental characteristics of any flying agent.
+With this method, an examination of birds, bats, and insects would suggest
+that flying involves the flapping of wings made of some structure
+covered with feathers or a membrane. Furthermore, the hypothesis could
+be tested by strapping feathers to one’s arms, flapping, and jumping
+into the air, as Icarus did.
+An alternative methodology is to try to understand the principles
+of flying without restricting oneself to the natural occurrences of
+flying. This typically involves the construction of artifacts that
+embody the hypothesized principles, even if they do not behave like
+flying animals in any way except flying. This second method has provided
+both useful tools – airplanes – and a better understanding of the
+principles underlying flying, namely aerodynamics .
+Birds are still much better at flying though forests.
+
+AI takes an approach analogous to that of aerodynamics.
+AI researchers are
+interested in testing general hypotheses about the nature of
+intelligence by building machines that are intelligent and that do not
+necessarily mimic humans or organizations. This also offers an approach to
+the question, “Can computers really think?” by considering the
+analogous question, “Can airplanes really fly?”
+
+AI is intimately linked with the discipline
+of computer science
+because the study of computation is central to AI. It is essential to
+understand algorithms, data structures, and combinatorial complexity
+to build intelligent machines. It is also surprising how much
+of computer science started as a spinoff from AI, from timesharing
+to computer algebra systems.
+
+Finally, AI can be seen as coming under the umbrella of cognitive science . Cognitive science links various
+disciplines that study cognition and reasoning, from psychology to
+linguistics to anthropology to neuroscience. AI distinguishes itself
+within cognitive science by providing tools to build intelligence
+rather than just studying the external behavior of intelligent agents or dissecting the inner workings of intelligent systems.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

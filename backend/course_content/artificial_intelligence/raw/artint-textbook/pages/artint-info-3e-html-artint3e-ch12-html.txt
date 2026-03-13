@@ -1,0 +1,100 @@
+Title: Artificial Intelligence 3E
+URL: https://artint.info/3e/html/ArtInt3e.Ch12.html
+Snapshot Type: sanitized text
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+Chapter 12 Planning with Uncertainty
+
+In retrospect… it is interesting to note that the original problem
+that started my research is still outstanding – namely the problem
+of planning or scheduling dynamically over time, particularly
+planning dynamically under uncertainty. If such a problem could be
+successfully solved it could eventually through better planning
+contribute to the well-being and stability of the world.
+
+– George B. Dantzig (1991)
+
+An agent that is not omniscient cannot just plan
+a fixed sequence of steps, as was assumed in
+Chapter 6 .
+Planning must take into account the
+fact that
+an agent in the real world does not know what will actually happen
+when it acts, nor what it will observe in the future.
+An agent should plan to react to its environment.
+
+What an agent
+should do at any time depends
+on what it will do in the future. For example, in a medical situation,
+sometimes tests hurt patients, but they are useful because they enable
+future actions.
+When an agent cannot precisely predict the effects of its
+actions, what it will do in the
+future depends on what it does now and what it will observe before it acts.
+
+With uncertainty, an agent typically cannot guarantee to
+satisfy its goals, and even trying to maximize the probability of
+achieving a goal may not be sensible. For example, an agent whose goal
+is to minimize the probability of injury in a car accident would not get into a car or walk
+down a sidewalk or even go to the ground floor of a building, each of
+which increases the probability of being injured in a car accident,
+however slightly. An agent that does
+not guarantee to satisfy a goal can fail in many ways, some of which
+may be much worse than others.
+
+This chapter is about how to take planning, reacting, observing,
+succeeding, and failing into account simultaneously. As George Dantzig,
+the inventor of linear programming, points out in the quote above,
+planning under uncertainty is essential for an intelligent agent.
+
+An agent’s decision on what to do at any time (see
+Figure 2.10 ) depends on:
+
+•
+
+The agent’s ability. The agent has to select from the
+actions available to it.
+
+•
+
+What the agent believes and observes. An agent might like
+to condition its action on what is true
+in the world, but it only has access to the world via its
+sensors. When an agent has to decide what to do, it only has
+access to what it has remembered and what it observes . Sensing the world updates an agent’s beliefs. Beliefs
+and observations are the only information about the world
+available to an agent at any time.
+
+•
+
+The agent’s preferences. When an agent must reason with
+uncertainty, it has to consider not only what is most likely to happen
+but also what may happen. Some possible outcomes may have
+much worse consequences than others. The simple notion of a goal ,
+considered in Chapter 6 , is not adequate when reasoning
+under uncertainty
+because the designer of an agent has to trade off
+between different outcomes that may occur. For example, if an action results
+in a good outcome most of the time, but sometimes results in a
+disastrous outcome, it must be compared with performing an alternative
+action that results in the good outcome less often and the disastrous
+outcome less often and some mediocre outcome most of the time. Decision theory specifies how to trade off the
+desirability of outcomes with the probabilities of those outcomes.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

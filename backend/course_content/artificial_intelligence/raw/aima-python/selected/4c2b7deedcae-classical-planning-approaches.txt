@@ -1,0 +1,1037 @@
+Original Path: classical_planning_approaches.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+# Classical Planning
+# Classical Planning Approaches
+
+## Introduction
+***Planning*** combines the two major areas of AI: *search* and *logic*. A planner can be seen either as a program that searches for a solution or as one that constructively proves the existence of a solution.
+
+Currently, the most popular and effective approaches to fully automated planning are:
+- searching using a *planning graph*;
+- *state-space search* with heuristics;
+- translating to a *constraint satisfaction (CSP) problem*;
+- translating to a *boolean satisfiability (SAT) problem*.
+
+```python
+from planning import *
+```
+
+## Planning as Planning Graph Search
+
+A *planning graph* is a directed graph organized into levels each of which contains information about the current state of the knowledge base and the possible state-action links to and from that level.
+
+The first level contains the initial state with nodes representing each fluent that holds in that level. This level has state-action links linking each state to valid actions in that state. Each action is linked to all its preconditions and its effect states. Based on these effects, the next level is constructed and contains similarly structured information about the next state. In this way, the graph is expanded using state-action links till we reach a state where all the required goals hold true simultaneously.
+
+In every planning problem, we are allowed to carry out the *no-op* action, ie, we can choose no action for a particular state. These are called persistence actions and has effects same as its preconditions. This enables us to carry a state to the next level.
+
+Mutual exclusivity (*mutex*) between two actions means that these cannot be taken together and occurs in the following cases:
+- *inconsistent effects*: one action negates the effect of the other;
+- *interference*: one of the effects of an action is the negation of a precondition of the other;
+- *competing needs*: one of the preconditions of one action is mutually exclusive with a precondition of the other.
+
+We can say that we have reached our goal if none of the goal states in the current level are mutually exclusive.
+
+```python
+%psource Graph
+```
+
+Output:
+```text
+[0;32mclass[0m [0mGraph[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""[0m
+[0;34m Contains levels of state and actions[0m
+[0;34m Used in graph planning algorithm to extract a solution[0m
+[0;34m """[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mdef[0m [0m__init__[0m[0;34m([0m[0mself[0m[0;34m,[0m [0mplanning_problem[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mplanning_problem[0m [0;34m=[0m [0mplanning_problem[0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mkb[0m [0;34m=[0m [0mFolKB[0m[0;34m([0m[0mplanning_problem[0m[0;34m.[0m[0minitial[0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mlevels[0m [0;34m=[0m [0;34m[[0m[0mLevel[0m[0;34m([0m[0mself[0m[0;34m.[0m[0mkb[0m[0;34m)[0m[0;34m][0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mobjects[0m [0;34m=[0m [0mset[0m[0;34m([0m[0marg[0m [0;32mfor[0m [0mclause[0m [0;32min[0m [0mself[0m[0;34m.[0m[0mkb[0m[0;34m.[0m[0mclauses[0m [0;32mfor[0m [0marg[0m [0;32min[0m [0mclause[0m[0;34m.[0m[0margs[0m[0;34m)[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mdef[0m [0m__call__[0m[0;34m([0m[0mself[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mexpand_graph[0m[0;34m([0m[0;34m)[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mdef[0m [0mexpand_graph[0m[0;34m([0m[0mself[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""Expands the graph by a level""
+```
+
+```python
+%psource Level
+```
+
+Output:
+```text
+[0;32mclass[0m [0mLevel[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""[0m
+[0;34m Contains the state of the planning problem[0m
+[0;34m and exhaustive list of actions which use the[0m
+[0;34m states as pre-condition.[0m
+[0;34m """[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mdef[0m [0m__init__[0m[0;34m([0m[0mself[0m[0;34m,[0m [0mkb[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""Initializes variables to hold state and action details of a level"""[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mkb[0m [0;34m=[0m [0mkb[0m[0;34m[0m
+[0;34m[0m [0;31m# current state[0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mcurrent_state[0m [0;34m=[0m [0mkb[0m[0;34m.[0m[0mclauses[0m[0;34m[0m
+[0;34m[0m [0;31m# current action to state link[0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mcurrent_action_links[0m [0;34m=[0m [0;34m{[0m[0;34m}[0m[0;34m[0m
+[0;34m[0m [0;31m# current state to action link[0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mcurrent_state_links[0m [0;34m=[0m [0;34m{[0m[0;34m}[0m[0;34m[0m
+[0;34m[0m [0;31m# current action to next state link[0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mnext_action_links[0m [0;34m=[0m [0;34m{[0m[0;34m}[0m[0;34m[0m
+[0;34m[0m [0;31m# next state to current action link[0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mnext_state_links[0m [0;34m=[0m [0;34m{[0m[0;34m}[0m[0;3
+```
+
+A *planning graph* can be used to give better heuristic estimates which can be applied to any of the search techniques. Alternatively, we can search for a solution over the space formed by the planning graph, using an algorithm called `GraphPlan`.
+
+The `GraphPlan` algorithm repeatedly adds a level to a planning graph. Once all the goals show up as non-mutex in the graph, the algorithm runs backward from the last level to the first searching for a plan that solves the problem. If that fails, it records the (level , goals) pair as a *no-good* (as in constraint learning for CSPs), expands another level and tries again, terminating with failure when there is no reason to go on.
+
+```python
+%psource GraphPlan
+```
+
+Output:
+```text
+[0;32mclass[0m [0mGraphPlan[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""[0m
+[0;34m Class for formulation GraphPlan algorithm[0m
+[0;34m Constructs a graph of state and action space[0m
+[0;34m Returns solution for the planning problem[0m
+[0;34m """[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mdef[0m [0m__init__[0m[0;34m([0m[0mself[0m[0;34m,[0m [0mplanning_problem[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mgraph[0m [0;34m=[0m [0mGraph[0m[0;34m([0m[0mplanning_problem[0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mno_goods[0m [0;34m=[0m [0;34m[[0m[0;34m][0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0msolution[0m [0;34m=[0m [0;34m[[0m[0;34m][0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mdef[0m [0mcheck_leveloff[0m[0;34m([0m[0mself[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""Checks if the graph has levelled off"""[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0mcheck[0m [0;34m=[0m [0;34m([0m[0mset[0m[0;34m([0m[0mself[0m[0;34m.[0m[0mgraph[0m[0;34m.[0m[0mlevels[0m[0;34m[[0m[0;34m-[0m[0;36m1[0m[0;34m][0m[0;34m.[0m[0mcurrent_state[0m[0;34m)[0m [0;34m==[0m [0mset[0m[0;34m([0m[0mself[0m[0;34m.[0m[0mgraph[0m[0;34m.[0m[0mlevels[0m[0;34m[[0m[0;34m-[0m[0;36m2[0m[0;34m][0m[0;34m.[0m[0mcurrent_state[0m[0;34m)[0m[0;34m)[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mif[0m [0mcheck[0m[0;34m:[0m[0
+```
+
+## Planning as State-Space Search
+
+The description of a planning problem defines a search problem: we can search from the initial state through the space of states, looking for a goal. One of the nice advantages of the declarative representation of action schemas is that we can also search backward from the goal, looking for the initial state.
+
+However, neither forward nor backward search is efficient without a good heuristic function because the real-world planning problems often have large state spaces. A heuristic function $h(s)$ estimates the distance from a state $s$ to the goal and, if it is admissible, ie if does not overestimate, then we can use $A^∗$ search to find optimal solutions.
+
+Planning uses a factored representation for states and action schemas which makes it possible to define good domain-independent heuristics to prune the search space.
+
+An admissible heuristic can be derived by defining a relaxed problem that is easier to solve. The length of the solution of this easier problem then becomes the heuristic for the original problem. Assume that all goals and preconditions contain only positive literals, ie that the problem is defined according to the *Stanford Research Institute Problem Solver* (STRIPS) notation: we want to create a relaxed version of the original problem that will be easier to solve by ignoring delete lists from all actions, ie removing all negative literals from effects. As shown in <a name="ref-1"/>[[1]](#cite-hoffmann2001ff) the planning graph of a relaxed problem does not contain any mutex relations at all (which is the crucial thing when building a planning graph) and for this reason GraphPlan will never backtrack looking for a solution: for this reason the **ignore delete lists** heuristic makes it possible to find the optimal solution for relaxed problem in polynomial time through `GraphPlan` algorithm.
+
+```python
+from search import *
+```
+
+### Forward State-Space Search
+
+Forward search through the space of states, starting in the initial state and using the problem’s actions to search forward for a member of the set of goal states.
+
+```python
+%psource ForwardPlan
+```
+
+Output:
+```text
+[0;32mclass[0m [0mForwardPlan[0m[0;34m([0m[0msearch[0m[0;34m.[0m[0mProblem[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""[0m
+[0;34m [Section 10.2.1][0m
+[0;34m Forward state-space search[0m
+[0;34m """[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mdef[0m [0m__init__[0m[0;34m([0m[0mself[0m[0;34m,[0m [0mplanning_problem[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0msuper[0m[0;34m([0m[0;34m)[0m[0;34m.[0m[0m__init__[0m[0;34m([0m[0massociate[0m[0;34m([0m[0;34m'&'[0m[0;34m,[0m [0mplanning_problem[0m[0;34m.[0m[0minitial[0m[0;34m)[0m[0;34m,[0m [0massociate[0m[0;34m([0m[0;34m'&'[0m[0;34m,[0m [0mplanning_problem[0m[0;34m.[0m[0mgoals[0m[0;34m)[0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mplanning_problem[0m [0;34m=[0m [0mplanning_problem[0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mexpanded_actions[0m [0;34m=[0m [0mself[0m[0;34m.[0m[0mplanning_problem[0m[0;34m.[0m[0mexpand_actions[0m[0;34m([0m[0;34m)[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mdef[0m [0mactions[0m[0;34m([0m[0mself[0m[0;34m,[0m [0mstate[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;32mreturn[0m [0;34m[[0m[0maction[0m [0;32mfor[0m [0maction[0m [0;32min[0m [0mself[0m[0;34m.[0m[0mexpanded_actions[0m [0;32mif[0m [0mall[0m[0;34m([0m[0mpre[0m [0;32min[0m [0mconjuncts[0m[0;34m([0m[0mstate[0m[0;34m)[0m [0;32mfor[0m [0mpre[0m [0;32min[0m [0maction[0m[0;34
+```
+
+### Backward Relevant-States Search
+
+Backward search through sets of relevant states, starting at the set of states representing the goal and using the inverse of the actions to search backward for the initial state.
+
+```python
+%psource BackwardPlan
+```
+
+Output:
+```text
+[0;32mclass[0m [0mBackwardPlan[0m[0;34m([0m[0msearch[0m[0;34m.[0m[0mProblem[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""[0m
+[0;34m [Section 10.2.2][0m
+[0;34m Backward relevant-states search[0m
+[0;34m """[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mdef[0m [0m__init__[0m[0;34m([0m[0mself[0m[0;34m,[0m [0mplanning_problem[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0msuper[0m[0;34m([0m[0;34m)[0m[0;34m.[0m[0m__init__[0m[0;34m([0m[0massociate[0m[0;34m([0m[0;34m'&'[0m[0;34m,[0m [0mplanning_problem[0m[0;34m.[0m[0mgoals[0m[0;34m)[0m[0;34m,[0m [0massociate[0m[0;34m([0m[0;34m'&'[0m[0;34m,[0m [0mplanning_problem[0m[0;34m.[0m[0minitial[0m[0;34m)[0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mplanning_problem[0m [0;34m=[0m [0mplanning_problem[0m[0;34m[0m
+[0;34m[0m [0mself[0m[0;34m.[0m[0mexpanded_actions[0m [0;34m=[0m [0mself[0m[0;34m.[0m[0mplanning_problem[0m[0;34m.[0m[0mexpand_actions[0m[0;34m([0m[0;34m)[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mdef[0m [0mactions[0m[0;34m([0m[0mself[0m[0;34m,[0m [0msubgoal[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""[0m
+[0;34m Returns True if the action is relevant to the subgoal, i.e.:[0m
+[0;34m - the action achieves an element of the effects[0m
+[0;34m - the action doesn't delete something that needs to be achieved[0m
+[0;34m - the preconditions are consistent with other sub
+```
+
+## Planning as Constraint Satisfaction Problem
+
+In forward planning, the search is constrained by the initial state and only uses the goal as a stopping criterion and as a source for heuristics. In regression planning, the search is constrained by the goal and only uses the start state as a stopping criterion and as a source for heuristics. By converting the problem to a constraint satisfaction problem (CSP), the initial state can be used to prune what is not reachable and the goal to prune what is not useful. The CSP will be defined for a finite number of steps; the number of steps can be adjusted to find the shortest plan. One of the CSP methods can then be used to solve the CSP and thus find a plan.
+
+To construct a CSP from a planning problem, first choose a fixed planning *horizon*, which is the number of time steps over which to plan. Suppose the horizon is
+$k$. The CSP has the following variables:
+
+- a *state variable* for each feature and each time from 0 to $k$. If there are $n$ features for a horizon of $k$, there are $n \cdot (k+1)$ state variables. The domain of the state variable is the domain of the corresponding feature;
+- an *action variable*, $Action_t$, for each $t$ in the range 0 to $k-1$. The domain of $Action_t$, represents the action that takes the agent from the state at time $t$ to the state at time $t+1$.
+
+There are several types of constraints:
+
+- a *precondition constraint* between a state variable at time $t$ and the variable $Actiont_t$ constrains what actions are legal at time $t$;
+- an *effect constraint* between $Action_t$ and a state variable at time $t+1$ constrains the values of a state variable that is a direct effect of the action;
+- a *frame constraint* among a state variable at time $t$, the variable $Action_t$, and the corresponding state variable at time $t+1$ specifies when the variable that does not change as a result of an action has the same value before and after the action;
+- an *initial-state constraint* constrains a variable on the initial state (at time 0). The initial state is represented as a set of domain constraints on the state variables at time 0;
+- a *goal constraint* constrains the final state to be a state that satisfies the achievement goal. These are domain constraints on the variables that appear in the goal;
+- a *state constraint* is a constraint among variables at the same time step. These can include physical constraints on the state or can ensure that states that violate maintenance goals are forbidden. This is extra knowledge beyond the power of the feature-based or PDDL representations of the action.
+
+The PDDL representation gives precondition, effect and frame constraints for each time
+$t$ as follows:
+
+- for each $Var = v$ in the precondition of action $A$, there is a precondition constraint:
+$$ Var_t = v \leftarrow Action_t = A $$
+that specifies that if the action is to be $A$, $Var_t$ must have value $v$ immediately before. This constraint is violated when $Action_t = A$ and $Var_t \neq v$, and thus is equivalent to $\lnot{(Var_t \neq v \land Action_t = A)}$;
+- or each $Var = v$ in the effect of action $A$, there is a effect constraint:
+$$ Var_{t+1} = v \leftarrow Action_t = A $$
+which is violated when $Action_t = A$ and $Var_{t+1} \neq v$, and thus is equivalent to $\lnot{(Var_{t+1} \neq v \land Action_t = A)}$;
+- for each $Var$, there is a frame constraint, where $As$ is the set of actions that include $Var$ in the effect of the action:
+$$ Var_{t+1} = Var_t \leftarrow Action_t \notin As $$
+which specifies that the feature $Var$ has the same value before and after any action that does not affect $Var$.
+
+The CSP representation assumes a fixed planning horizon (ie a fixed number of steps). To find a plan over any number of steps, the algorithm can be run for a horizon of $k = 0, 1, 2, \dots$ until a solution is found.
+
+```python
+from csp import *
+```
+
+```python
+%psource CSPlan
+```
+
+Output:
+```text
+[0;32mdef[0m [0mCSPlan[0m[0;34m([0m[0mplanning_problem[0m[0;34m,[0m [0msolution_length[0m[0;34m,[0m [0mCSP_solver[0m[0;34m=[0m[0mac_search_solver[0m[0;34m,[0m [0marc_heuristic[0m[0;34m=[0m[0msat_up[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""[0m
+[0;34m [Section 10.4.3][0m
+[0;34m Planning as Constraint Satisfaction Problem[0m
+[0;34m """[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mdef[0m [0mst[0m[0;34m([0m[0mvar[0m[0;34m,[0m [0mstage[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""Returns a string for the var-stage pair that can be used as a variable"""[0m[0;34m[0m
+[0;34m[0m [0;32mreturn[0m [0mstr[0m[0;34m([0m[0mvar[0m[0;34m)[0m [0;34m+[0m [0;34m"_"[0m [0;34m+[0m [0mstr[0m[0;34m([0m[0mstage[0m[0;34m)[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mdef[0m [0mif_[0m[0;34m([0m[0mv1[0m[0;34m,[0m [0mv2[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""If the second argument is v2, the first argument must be v1"""[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mdef[0m [0mif_fun[0m[0;34m([0m[0mx1[0m[0;34m,[0m [0mx2[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;32mreturn[0m [0mx1[0m [0;34m==[0m [0mv1[0m [0;32mif[0m [0mx2[0m [0;34m==[0m [0mv2[0m [0;32melse[0m [0;32mTrue[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0mif_fun[0m[0;34m.[0m[0m__name__[0m [0;34m=[0m [0;34m"if the second argument is "[0m [0;34m+[0m [0mstr[
+```
+
+## Planning as Boolean Satisfiability Problem
+
+As shown in <a name="ref-2"/>[[2]](cite-kautz1992planning) the translation of a *Planning Domain Definition Language* (PDDL) description into a *Conjunctive Normal Form* (CNF) formula is a series of straightforward steps:
+- *propositionalize the actions*: replace each action schema with a set of ground actions formed by substituting constants for each of the variables. These ground actions are not part of the translation, but will be used in subsequent steps;
+- *define the initial state*: assert $F^0$ for every fluent $F$ in the problem’s initial state, and $\lnot{F}$ for every fluent not mentioned in the initial state;
+- *propositionalize the goal*: for every variable in the goal, replace the literals that contain the variable with a disjunction over constants;
+- *add successor-state axioms*: for each fluent $F$, add an axiom of the form
+
+$$ F^{t+1} \iff ActionCausesF^t \lor (F^t \land \lnot{ActionCausesNotF^t}) $$
+
+where $ActionCausesF$ is a disjunction of all the ground actions that have $F$ in their add list, and $ActionCausesNotF$ is a disjunction of all the ground actions that have $F$ in their delete list;
+- *add precondition axioms*: for each ground action $A$, add the axiom $A^t \implies PRE(A)^t$, that is, if an action is taken at time $t$, then the preconditions must have been true;
+- *add action exclusion axioms*: say that every action is distinct from every other action.
+
+A propositional planning procedure implements the basic idea just given but, because the agent does not know how many steps it will take to reach the goal, the algorithm tries each possible number of steps $t$, up to some maximum conceivable plan length $T_{max}$ . In this way, it is guaranteed to find the shortest plan if one exists. Because of the way the propositional planning procedure searches for a solution, this approach cannot be used in a partially observable environment, ie WalkSAT, but would just set the unobservable variables to the values it needs to create a solution.
+
+```python
+from logic import *
+```
+
+```python
+%psource SATPlan
+```
+
+Output:
+```text
+[0;32mdef[0m [0mSATPlan[0m[0;34m([0m[0mplanning_problem[0m[0;34m,[0m [0msolution_length[0m[0;34m,[0m [0mSAT_solver[0m[0;34m=[0m[0mcdcl_satisfiable[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""[0m
+[0;34m [Section 10.4.1][0m
+[0;34m Planning as Boolean satisfiability[0m
+[0;34m """[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mdef[0m [0mexpand_transitions[0m[0;34m([0m[0mstate[0m[0;34m,[0m [0mactions[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0mstate[0m [0;34m=[0m [0msorted[0m[0;34m([0m[0mconjuncts[0m[0;34m([0m[0mstate[0m[0;34m)[0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0;32mfor[0m [0maction[0m [0;32min[0m [0mfilter[0m[0;34m([0m[0;32mlambda[0m [0mact[0m[0;34m:[0m [0mact[0m[0;34m.[0m[0mcheck_precond[0m[0;34m([0m[0mstate[0m[0;34m,[0m [0mact[0m[0;34m.[0m[0margs[0m[0;34m)[0m[0;34m,[0m [0mactions[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0mtransition[0m[0;34m[[0m[0massociate[0m[0;34m([0m[0;34m'&'[0m[0;34m,[0m [0mstate[0m[0;34m)[0m[0;34m][0m[0;34m.[0m[0mupdate[0m[0;34m([0m[0;34m[0m
+[0;34m[0m [0;34m{[0m[0mExpr[0m[0;34m([0m[0maction[0m[0;34m.[0m[0mname[0m[0;34m,[0m [0;34m*[0m[0maction[0m[0;34m.[0m[0margs[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0massociate[0m[0;34m([0m[0;34m'&'[0m[0;34m,[0m [0msorted[0m[0;34m([0m[0mset[0m[0;34m([0m[0mfilter[0m[0;34m([0m[0;32mlambda[0m [0mclause[0m[0;34m:[0m [0mcla
+```
+
+```python
+%psource SAT_plan
+```
+
+Output:
+```text
+[0;32mdef[0m [0mSAT_plan[0m[0;34m([0m[0minit[0m[0;34m,[0m [0mtransition[0m[0;34m,[0m [0mgoal[0m[0;34m,[0m [0mt_max[0m[0;34m,[0m [0mSAT_solver[0m[0;34m=[0m[0mcdcl_satisfiable[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""Converts a planning problem to Satisfaction problem by translating it to a cnf sentence.[0m
+[0;34m [Figure 7.22][0m
+[0;34m >>> transition = {'A': {'Left': 'A', 'Right': 'B'}, 'B': {'Left': 'A', 'Right': 'C'}, 'C': {'Left': 'B', 'Right': 'C'}}[0m
+[0;34m >>> SAT_plan('A', transition, 'C', 1) is None[0m
+[0;34m True[0m
+[0;34m """[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;31m# Functions used by SAT_plan[0m[0;34m[0m
+[0;34m[0m [0;32mdef[0m [0mtranslate_to_SAT[0m[0;34m([0m[0minit[0m[0;34m,[0m [0mtransition[0m[0;34m,[0m [0mgoal[0m[0;34m,[0m [0mtime[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0mclauses[0m [0;34m=[0m [0;34m[[0m[0;34m][0m[0;34m[0m
+[0;34m[0m [0mstates[0m [0;34m=[0m [0;34m[[0m[0mstate[0m [0;32mfor[0m [0mstate[0m [0;32min[0m [0mtransition[0m[0;34m][0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;31m# Symbol claiming state s at time t[0m[0;34m[0m
+[0;34m[0m [0mstate_counter[0m [0;34m=[0m [0mitertools[0m[0;34m.[0m[0mcount[0m[0;34m([0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0;32mfor[0m [0ms[0m [0;32min[0m [0mstates[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;32mfor[0m [0mt[0m [0;32min[0m [0mrange[0m[0;34m([0m[0mtime[0m [0;34m+[0m
+```
+
+## Experimental Results
+
+### Blocks World
+
+```python
+%psource three_block_tower
+```
+
+Output:
+```text
+[0;32mdef[0m [0mthree_block_tower[0m[0;34m([0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""[0m
+[0;34m [Figure 10.3] THREE-BLOCK-TOWER[0m
+[0;34m[0m
+[0;34m A blocks-world problem of stacking three blocks in a certain configuration,[0m
+[0;34m also known as the Sussman Anomaly.[0m
+[0;34m[0m
+[0;34m Example:[0m
+[0;34m >>> from planning import *[0m
+[0;34m >>> tbt = three_block_tower()[0m
+[0;34m >>> tbt.goal_test()[0m
+[0;34m False[0m
+[0;34m >>> tbt.act(expr('MoveToTable(C, A)'))[0m
+[0;34m >>> tbt.act(expr('Move(B, Table, C)'))[0m
+[0;34m >>> tbt.goal_test()[0m
+[0;34m False[0m
+[0;34m >>> tbt.act(expr('Move(A, Table, B)'))[0m
+[0;34m >>> tbt.goal_test()[0m
+[0;34m True[0m
+[0;34m >>>[0m
+[0;34m """[0m[0;34m[0m
+[0;34m[0m [0;32mreturn[0m [0mPlanningProblem[0m[0;34m([0m[0minitial[0m[0;34m=[0m[0;34m'On(A, Table) & On(B, Table) & On(C, A) & Clear(B) & Clear(C)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m [0mgoals[0m[0;34m=[0m[0;34m'On(A, B) & On(B, C)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m [0mactions[0m[0;34m=[0m[0;34m[[0m[0mAction[0m[0;34m([0m[0;34m'Move(b, x, y)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m [0mprecond[0m[0;34m=[0m[0;34m'On(b, x) & Clear(b) & Clear(y)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m [0meffect[0m[0;34m=[0m[0;34m'On(b, y) & Clear(x) & ~On(b, x) & ~Clear(y)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[
+```
+
+#### GraphPlan
+
+```python
+%time blocks_world_solution = GraphPlan(three_block_tower()).execute()
+linearize(blocks_world_solution)
+```
+
+Output:
+```text
+CPU times: user 4.46 ms, sys: 124 µs, total: 4.59 ms
+Wall time: 4.48 ms
+
+[MoveToTable(C, A), Move(B, Table, C), Move(A, Table, B)]
+```
+
+#### ForwardPlan
+
+```python
+%time blocks_world_solution = uniform_cost_search(ForwardPlan(three_block_tower()), display=True).solution()
+blocks_world_solution = list(map(lambda action: Expr(action.name, *action.args), blocks_world_solution))
+blocks_world_solution
+```
+
+Output:
+```text
+14 paths have been expanded and 28 paths remain in the frontier
+CPU times: user 91 ms, sys: 0 ns, total: 91 ms
+Wall time: 89.8 ms
+
+[MoveToTable(C, A), Move(B, Table, C), Move(A, Table, B)]
+```
+
+#### ForwardPlan with Ignore Delete Lists Heuristic
+
+```python
+%time blocks_world_solution = astar_search(ForwardPlan(three_block_tower()), display=True).solution()
+blocks_world_solution = list(map(lambda action: Expr(action.name, *action.args), blocks_world_solution))
+blocks_world_solution
+```
+
+Output:
+```text
+3 paths have been expanded and 9 paths remain in the frontier
+CPU times: user 81.3 ms, sys: 3.11 ms, total: 84.5 ms
+Wall time: 83 ms
+
+[MoveToTable(C, A), Move(B, Table, C), Move(A, Table, B)]
+```
+
+#### BackwardPlan
+
+```python
+%time blocks_world_solution = uniform_cost_search(BackwardPlan(three_block_tower()), display=True).solution()
+blocks_world_solution = list(map(lambda action: Expr(action.name, *action.args), blocks_world_solution))
+blocks_world_solution[::-1]
+```
+
+Output:
+```text
+116 paths have been expanded and 289 paths remain in the frontier
+CPU times: user 266 ms, sys: 718 µs, total: 267 ms
+Wall time: 265 ms
+
+[MoveToTable(C, A), Move(B, Table, C), Move(A, Table, B)]
+```
+
+#### BackwardPlan with Ignore Delete Lists Heuristic
+
+```python
+%time blocks_world_solution = astar_search(BackwardPlan(three_block_tower()), display=True).solution()
+blocks_world_solution = list(map(lambda action: Expr(action.name, *action.args), blocks_world_solution))
+blocks_world_solution[::-1]
+```
+
+Output:
+```text
+4 paths have been expanded and 20 paths remain in the frontier
+CPU times: user 477 ms, sys: 450 µs, total: 477 ms
+Wall time: 476 ms
+
+[MoveToTable(C, A), Move(B, Table, C), Move(A, Table, B)]
+```
+
+#### CSPlan
+
+```python
+%time blocks_world_solution = CSPlan(three_block_tower(), 3, arc_heuristic=no_heuristic)
+blocks_world_solution
+```
+
+Output:
+```text
+CPU times: user 172 ms, sys: 4.52 ms, total: 176 ms
+Wall time: 175 ms
+
+[MoveToTable(C, A), Move(B, Table, C), Move(A, Table, B)]
+```
+
+#### CSPlan with SAT UP Arc Heuristic
+
+```python
+%time blocks_world_solution = CSPlan(three_block_tower(), 3, arc_heuristic=sat_up)
+blocks_world_solution
+```
+
+Output:
+```text
+CPU times: user 267 ms, sys: 0 ns, total: 267 ms
+Wall time: 266 ms
+
+[MoveToTable(C, A), Move(B, Table, C), Move(A, Table, B)]
+```
+
+#### SATPlan with DPLL
+
+```python
+%time blocks_world_solution = SATPlan(three_block_tower(), 4, SAT_solver=dpll_satisfiable)
+blocks_world_solution
+```
+
+Output:
+```text
+CPU times: user 34.9 s, sys: 15.9 ms, total: 34.9 s
+Wall time: 34.9 s
+
+[MoveToTable(C, A), Move(B, Table, C), Move(A, Table, B)]
+```
+
+#### SATPlan with CDCL
+
+```python
+%time blocks_world_solution = SATPlan(three_block_tower(), 4, SAT_solver=cdcl_satisfiable)
+blocks_world_solution
+```
+
+Output:
+```text
+CPU times: user 1.15 s, sys: 4.01 ms, total: 1.15 s
+Wall time: 1.15 s
+
+[MoveToTable(C, A), Move(B, Table, C), Move(A, Table, B)]
+```
+
+### Spare Tire
+
+```python
+%psource spare_tire
+```
+
+Output:
+```text
+[0;32mdef[0m [0mspare_tire[0m[0;34m([0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""[0m
+[0;34m [Figure 10.2] SPARE-TIRE-PROBLEM[0m
+[0;34m[0m
+[0;34m A problem involving changing the flat tire of a car[0m
+[0;34m with a spare tire from the trunk.[0m
+[0;34m[0m
+[0;34m Example:[0m
+[0;34m >>> from planning import *[0m
+[0;34m >>> st = spare_tire()[0m
+[0;34m >>> st.goal_test()[0m
+[0;34m False[0m
+[0;34m >>> st.act(expr('Remove(Spare, Trunk)'))[0m
+[0;34m >>> st.act(expr('Remove(Flat, Axle)'))[0m
+[0;34m >>> st.goal_test()[0m
+[0;34m False[0m
+[0;34m >>> st.act(expr('PutOn(Spare, Axle)'))[0m
+[0;34m >>> st.goal_test()[0m
+[0;34m True[0m
+[0;34m >>>[0m
+[0;34m """[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mreturn[0m [0mPlanningProblem[0m[0;34m([0m[0minitial[0m[0;34m=[0m[0;34m'At(Flat, Axle) & At(Spare, Trunk)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m [0mgoals[0m[0;34m=[0m[0;34m'At(Spare, Axle) & At(Flat, Ground)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m [0mactions[0m[0;34m=[0m[0;34m[[0m[0mAction[0m[0;34m([0m[0;34m'Remove(obj, loc)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m [0mprecond[0m[0;34m=[0m[0;34m'At(obj, loc)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m [0meffect[0m[0;34m=[0m[0;34m'At(obj, Ground) & ~At(obj, loc)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m [0mdomain
+```
+
+#### GraphPlan
+
+```python
+%time spare_tire_solution = GraphPlan(spare_tire()).execute()
+linearize(spare_tire_solution)
+```
+
+Output:
+```text
+CPU times: user 4.24 ms, sys: 1 µs, total: 4.24 ms
+Wall time: 4.16 ms
+
+[Remove(Flat, Axle), Remove(Spare, Trunk), PutOn(Spare, Axle)]
+```
+
+#### ForwardPlan
+
+```python
+%time spare_tire_solution = uniform_cost_search(ForwardPlan(spare_tire()), display=True).solution()
+spare_tire_solution = list(map(lambda action: Expr(action.name, *action.args), spare_tire_solution))
+spare_tire_solution
+```
+
+Output:
+```text
+11 paths have been expanded and 9 paths remain in the frontier
+CPU times: user 10.3 ms, sys: 0 ns, total: 10.3 ms
+Wall time: 9.89 ms
+
+[Remove(Flat, Axle), Remove(Spare, Trunk), PutOn(Spare, Axle)]
+```
+
+#### ForwardPlan with Ignore Delete Lists Heuristic
+
+```python
+%time spare_tire_solution = astar_search(ForwardPlan(spare_tire()), display=True).solution()
+spare_tire_solution = list(map(lambda action: Expr(action.name, *action.args), spare_tire_solution))
+spare_tire_solution
+```
+
+Output:
+```text
+5 paths have been expanded and 8 paths remain in the frontier
+CPU times: user 20.4 ms, sys: 1 µs, total: 20.4 ms
+Wall time: 19.4 ms
+
+[Remove(Flat, Axle), Remove(Spare, Trunk), PutOn(Spare, Axle)]
+```
+
+#### BackwardPlan
+
+```python
+%time spare_tire_solution = uniform_cost_search(BackwardPlan(spare_tire()), display=True).solution()
+spare_tire_solution = list(map(lambda action: Expr(action.name, *action.args), spare_tire_solution))
+spare_tire_solution[::-1]
+```
+
+Output:
+```text
+29 paths have been expanded and 22 paths remain in the frontier
+CPU times: user 22.2 ms, sys: 7 µs, total: 22.2 ms
+Wall time: 21.3 ms
+
+[Remove(Flat, Axle), Remove(Spare, Trunk), PutOn(Spare, Axle)]
+```
+
+#### BackwardPlan with Ignore Delete Lists Heuristic
+
+```python
+%time spare_tire_solution = astar_search(BackwardPlan(spare_tire()), display=True).solution()
+spare_tire_solution = list(map(lambda action: Expr(action.name, *action.args), spare_tire_solution))
+spare_tire_solution[::-1]
+```
+
+Output:
+```text
+3 paths have been expanded and 11 paths remain in the frontier
+CPU times: user 13 ms, sys: 0 ns, total: 13 ms
+Wall time: 12.5 ms
+
+[Remove(Spare, Trunk), Remove(Flat, Axle), PutOn(Spare, Axle)]
+```
+
+#### CSPlan
+
+```python
+%time spare_tire_solution = CSPlan(spare_tire(), 3, arc_heuristic=no_heuristic)
+spare_tire_solution
+```
+
+Output:
+```text
+CPU times: user 94.7 ms, sys: 0 ns, total: 94.7 ms
+Wall time: 93.2 ms
+
+[Remove(Spare, Trunk), Remove(Flat, Axle), PutOn(Spare, Axle)]
+```
+
+#### CSPlan with SAT UP Arc Heuristic
+
+```python
+%time spare_tire_solution = CSPlan(spare_tire(), 3, arc_heuristic=sat_up)
+spare_tire_solution
+```
+
+Output:
+```text
+CPU times: user 119 ms, sys: 0 ns, total: 119 ms
+Wall time: 118 ms
+
+[Remove(Spare, Trunk), Remove(Flat, Axle), PutOn(Spare, Axle)]
+```
+
+#### SATPlan with DPLL
+
+```python
+%time spare_tire_solution = SATPlan(spare_tire(), 4, SAT_solver=dpll_satisfiable)
+spare_tire_solution
+```
+
+Output:
+```text
+CPU times: user 9.01 s, sys: 3.98 ms, total: 9.01 s
+Wall time: 9.01 s
+
+[Remove(Flat, Axle), Remove(Spare, Trunk), PutOn(Spare, Axle)]
+```
+
+#### SATPlan with CDCL
+
+```python
+%time spare_tire_solution = SATPlan(spare_tire(), 4, SAT_solver=cdcl_satisfiable)
+spare_tire_solution
+```
+
+Output:
+```text
+CPU times: user 630 ms, sys: 6 µs, total: 630 ms
+Wall time: 628 ms
+
+[Remove(Spare, Trunk), Remove(Flat, Axle), PutOn(Spare, Axle)]
+```
+
+### Shopping Problem
+
+```python
+%psource shopping_problem
+```
+
+Output:
+```text
+[0;32mdef[0m [0mshopping_problem[0m[0;34m([0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""[0m
+[0;34m SHOPPING-PROBLEM[0m
+[0;34m[0m
+[0;34m A problem of acquiring some items given their availability at certain stores.[0m
+[0;34m[0m
+[0;34m Example:[0m
+[0;34m >>> from planning import *[0m
+[0;34m >>> sp = shopping_problem()[0m
+[0;34m >>> sp.goal_test()[0m
+[0;34m False[0m
+[0;34m >>> sp.act(expr('Go(Home, HW)'))[0m
+[0;34m >>> sp.act(expr('Buy(Drill, HW)'))[0m
+[0;34m >>> sp.act(expr('Go(HW, SM)'))[0m
+[0;34m >>> sp.act(expr('Buy(Banana, SM)'))[0m
+[0;34m >>> sp.goal_test()[0m
+[0;34m False[0m
+[0;34m >>> sp.act(expr('Buy(Milk, SM)'))[0m
+[0;34m >>> sp.goal_test()[0m
+[0;34m True[0m
+[0;34m >>>[0m
+[0;34m """[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mreturn[0m [0mPlanningProblem[0m[0;34m([0m[0minitial[0m[0;34m=[0m[0;34m'At(Home) & Sells(SM, Milk) & Sells(SM, Banana) & Sells(HW, Drill)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m [0mgoals[0m[0;34m=[0m[0;34m'Have(Milk) & Have(Banana) & Have(Drill)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m [0mactions[0m[0;34m=[0m[0;34m[[0m[0mAction[0m[0;34m([0m[0;34m'Buy(x, store)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m [0mprecond[0m[0;34m=[0m[0;34m'At(store) & Sells(store, x)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m [0meffect[0m[0;34m=[0m[0;34m'Have(x)'[0m[0;34m,[0
+```
+
+#### GraphPlan
+
+```python
+%time shopping_problem_solution = GraphPlan(shopping_problem()).execute()
+linearize(shopping_problem_solution)
+```
+
+Output:
+```text
+CPU times: user 5.08 ms, sys: 3 µs, total: 5.08 ms
+Wall time: 5.03 ms
+
+[Go(Home, HW), Go(Home, SM), Buy(Milk, SM), Buy(Drill, HW), Buy(Banana, SM)]
+```
+
+#### ForwardPlan
+
+```python
+%time shopping_problem_solution = uniform_cost_search(ForwardPlan(shopping_problem()), display=True).solution()
+shopping_problem_solution = list(map(lambda action: Expr(action.name, *action.args), shopping_problem_solution))
+shopping_problem_solution
+```
+
+Output:
+```text
+167 paths have been expanded and 257 paths remain in the frontier
+CPU times: user 187 ms, sys: 4.01 ms, total: 191 ms
+Wall time: 190 ms
+
+[Go(Home, SM), Buy(Banana, SM), Buy(Milk, SM), Go(SM, HW), Buy(Drill, HW)]
+```
+
+#### ForwardPlan with Ignore Delete Lists Heuristic
+
+```python
+%time shopping_problem_solution = astar_search(ForwardPlan(shopping_problem()), display=True).solution()
+shopping_problem_solution = list(map(lambda action: Expr(action.name, *action.args), shopping_problem_solution))
+shopping_problem_solution
+```
+
+Output:
+```text
+9 paths have been expanded and 22 paths remain in the frontier
+CPU times: user 101 ms, sys: 3 µs, total: 101 ms
+Wall time: 100 ms
+
+[Go(Home, SM), Buy(Banana, SM), Buy(Milk, SM), Go(SM, HW), Buy(Drill, HW)]
+```
+
+#### BackwardPlan
+
+```python
+%time shopping_problem_solution = uniform_cost_search(BackwardPlan(shopping_problem()), display=True).solution()
+shopping_problem_solution = list(map(lambda action: Expr(action.name, *action.args), shopping_problem_solution))
+shopping_problem_solution[::-1]
+```
+
+Output:
+```text
+176 paths have been expanded and 7 paths remain in the frontier
+CPU times: user 109 ms, sys: 2 µs, total: 109 ms
+Wall time: 107 ms
+
+[Go(Home, HW), Buy(Drill, HW), Go(HW, SM), Buy(Milk, SM), Buy(Banana, SM)]
+```
+
+#### BackwardPlan with Ignore Delete Lists Heuristic
+
+```python
+%time shopping_problem_solution = astar_search(BackwardPlan(shopping_problem()), display=True).solution()
+shopping_problem_solution = list(map(lambda action: Expr(action.name, *action.args), shopping_problem_solution))
+shopping_problem_solution[::-1]
+```
+
+Output:
+```text
+18 paths have been expanded and 28 paths remain in the frontier
+CPU times: user 235 ms, sys: 9 µs, total: 235 ms
+Wall time: 234 ms
+
+[Go(Home, SM), Buy(Banana, SM), Buy(Milk, SM), Go(SM, HW), Buy(Drill, HW)]
+```
+
+#### CSPlan
+
+```python
+%time shopping_problem_solution = CSPlan(shopping_problem(), 5, arc_heuristic=no_heuristic)
+shopping_problem_solution
+```
+
+Output:
+```text
+CPU times: user 194 ms, sys: 6 µs, total: 194 ms
+Wall time: 192 ms
+
+[Go(Home, HW), Buy(Drill, HW), Go(HW, SM), Buy(Banana, SM), Buy(Milk, SM)]
+```
+
+#### CSPlan with SAT UP Arc Heuristic
+
+```python
+%time shopping_problem_solution = CSPlan(shopping_problem(), 5, arc_heuristic=sat_up)
+shopping_problem_solution
+```
+
+Output:
+```text
+CPU times: user 235 ms, sys: 7 µs, total: 235 ms
+Wall time: 233 ms
+
+[Go(Home, HW), Buy(Drill, HW), Go(HW, SM), Buy(Banana, SM), Buy(Milk, SM)]
+```
+
+#### SATPlan with CDCL
+
+```python
+%time shopping_problem_solution = SATPlan(shopping_problem(), 5, SAT_solver=cdcl_satisfiable)
+shopping_problem_solution
+```
+
+Output:
+```text
+CPU times: user 1min 29s, sys: 36 ms, total: 1min 29s
+Wall time: 1min 29s
+
+[Go(Home, HW), Buy(Drill, HW), Go(HW, SM), Buy(Banana, SM), Buy(Milk, SM)]
+```
+
+### Air Cargo
+
+```python
+%psource air_cargo
+```
+
+Output:
+```text
+[0;32mdef[0m [0mair_cargo[0m[0;34m([0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""[0m
+[0;34m [Figure 10.1] AIR-CARGO-PROBLEM[0m
+[0;34m[0m
+[0;34m An air-cargo shipment problem for delivering cargo to different locations,[0m
+[0;34m given the starting location and airplanes.[0m
+[0;34m[0m
+[0;34m Example:[0m
+[0;34m >>> from planning import *[0m
+[0;34m >>> ac = air_cargo()[0m
+[0;34m >>> ac.goal_test()[0m
+[0;34m False[0m
+[0;34m >>> ac.act(expr('Load(C2, P2, JFK)'))[0m
+[0;34m >>> ac.act(expr('Load(C1, P1, SFO)'))[0m
+[0;34m >>> ac.act(expr('Fly(P1, SFO, JFK)'))[0m
+[0;34m >>> ac.act(expr('Fly(P2, JFK, SFO)'))[0m
+[0;34m >>> ac.act(expr('Unload(C2, P2, SFO)'))[0m
+[0;34m >>> ac.goal_test()[0m
+[0;34m False[0m
+[0;34m >>> ac.act(expr('Unload(C1, P1, JFK)'))[0m
+[0;34m >>> ac.goal_test()[0m
+[0;34m True[0m
+[0;34m >>>[0m
+[0;34m """[0m[0;34m[0m
+[0;34m[0m[0;34m[0m
+[0;34m[0m [0;32mreturn[0m [0mPlanningProblem[0m[0;34m([0m[0minitial[0m[0;34m=[0m[0;34m'At(C1, SFO) & At(C2, JFK) & At(P1, SFO) & At(P2, JFK)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m [0mgoals[0m[0;34m=[0m[0;34m'At(C1, JFK) & At(C2, SFO)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m [0mactions[0m[0;34m=[0m[0;34m[[0m[0mAction[0m[0;34m([0m[0;34m'Load(c, p, a)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m [0mprecond[0m[0;34m=[0m[0;34m'At(c, a) & At(p, a)'[0m[0;34m,[0m[0;34m[0m
+[0;34m[0m
+```
+
+#### GraphPlan
+
+```python
+%time air_cargo_solution = GraphPlan(air_cargo()).execute()
+linearize(air_cargo_solution)
+```
+
+Output:
+```text
+CPU times: user 9.06 ms, sys: 3 µs, total: 9.06 ms
+Wall time: 8.94 ms
+
+[Load(C2, P2, JFK),
+Fly(P2, JFK, SFO),
+Load(C1, P1, SFO),
+Fly(P1, SFO, JFK),
+Unload(C1, P1, JFK),
+Unload(C2, P2, SFO)]
+```
+
+#### ForwardPlan
+
+```python
+%time air_cargo_solution = uniform_cost_search(ForwardPlan(air_cargo()), display=True).solution()
+air_cargo_solution = list(map(lambda action: Expr(action.name, *action.args), air_cargo_solution))
+air_cargo_solution
+```
+
+Output:
+```text
+838 paths have been expanded and 1288 paths remain in the frontier
+CPU times: user 3.56 s, sys: 4 ms, total: 3.57 s
+Wall time: 3.56 s
+
+[Load(C2, P2, JFK),
+Fly(P2, JFK, SFO),
+Unload(C2, P2, SFO),
+Load(C1, P2, SFO),
+Fly(P2, SFO, JFK),
+Unload(C1, P2, JFK)]
+```
+
+#### ForwardPlan with Ignore Delete Lists Heuristic
+
+```python
+%time air_cargo_solution = astar_search(ForwardPlan(air_cargo()), display=True).solution()
+air_cargo_solution = list(map(lambda action: Expr(action.name, *action.args), air_cargo_solution))
+air_cargo_solution
+```
+
+Output:
+```text
+17 paths have been expanded and 54 paths remain in the frontier
+CPU times: user 716 ms, sys: 0 ns, total: 716 ms
+Wall time: 717 ms
+
+[Load(C2, P2, JFK),
+Fly(P2, JFK, SFO),
+Unload(C2, P2, SFO),
+Load(C1, P2, SFO),
+Fly(P2, SFO, JFK),
+Unload(C1, P2, JFK)]
+```
+
+#### BackwardPlan
+
+```python
+%time air_cargo_solution = uniform_cost_search(BackwardPlan(air_cargo()), display=True).solution()
+air_cargo_solution = list(map(lambda action: Expr(action.name, *action.args), air_cargo_solution))
+air_cargo_solution[::-1]
+```
+
+Output:
+```text
+506 paths have been expanded and 65 paths remain in the frontier
+CPU times: user 970 ms, sys: 0 ns, total: 970 ms
+Wall time: 971 ms
+
+[Load(C1, P1, SFO),
+Fly(P1, SFO, JFK),
+Load(C2, P1, JFK),
+Unload(C1, P1, JFK),
+Fly(P1, JFK, SFO),
+Unload(C2, P1, SFO)]
+```
+
+#### BackwardPlan with Ignore Delete Lists Heuristic
+
+```python
+%time air_cargo_solution = astar_search(BackwardPlan(air_cargo()), display=True).solution()
+air_cargo_solution = list(map(lambda action: Expr(action.name, *action.args), air_cargo_solution))
+air_cargo_solution[::-1]
+```
+
+Output:
+```text
+23 paths have been expanded and 50 paths remain in the frontier
+CPU times: user 1.19 s, sys: 2 µs, total: 1.19 s
+Wall time: 1.2 s
+
+[Load(C2, P2, JFK),
+Fly(P2, JFK, SFO),
+Unload(C2, P2, SFO),
+Load(C1, P2, SFO),
+Fly(P2, SFO, JFK),
+Unload(C1, P2, JFK)]
+```
+
+#### CSPlan
+
+```python
+%time air_cargo_solution = CSPlan(air_cargo(), 6, arc_heuristic=no_heuristic)
+air_cargo_solution
+```
+
+Output:
+```text
+CPU times: user 6.5 s, sys: 0 ns, total: 6.5 s
+Wall time: 6.51 s
+
+[Load(C1, P1, SFO),
+Fly(P1, SFO, JFK),
+Load(C2, P1, JFK),
+Unload(C1, P1, JFK),
+Fly(P1, JFK, SFO),
+Unload(C2, P1, SFO)]
+```
+
+#### CSPlan with SAT UP Arc Heuristic
+
+```python
+%time air_cargo_solution = CSPlan(air_cargo(), 6, arc_heuristic=sat_up)
+air_cargo_solution
+```
+
+Output:
+```text
+CPU times: user 13.6 s, sys: 7.98 ms, total: 13.7 s
+Wall time: 13.7 s
+
+[Load(C1, P1, SFO),
+Fly(P1, SFO, JFK),
+Load(C2, P1, JFK),
+Unload(C1, P1, JFK),
+Fly(P1, JFK, SFO),
+Unload(C2, P1, SFO)]
+```
+
+## References
+
+<a name="cite-hoffmann2001ff"/><sup>[[1]](#ref-1) </sup>Hoffmann, J&ouml;rg. 2001. _FF: The fast-forward planning system_.
+
+<a name="cite-kautz1992planning"/><sup>[[2]](#ref-2) </sup>Kautz, Henry A and Selman, Bart and others. 1992. _Planning as Satisfiability_.

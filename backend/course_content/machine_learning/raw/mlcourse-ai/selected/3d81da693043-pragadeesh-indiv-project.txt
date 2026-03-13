@@ -1,0 +1,963 @@
+Original Path: jupyter_english/projects_indiv/pragadeesh_indiv_project.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+<center>
+<img src="../../img/ods_stickers.jpg" />
+
+## [mlcourse.ai](mlcourse.ai) – Open Machine Learning Course
+### <center> Author:Pragadeesh Suresh Babu, ODS Slack nickname : Pragadeesh
+
+## <center> Individual data analysis project
+
+**Research plan**
+- Dataset and features description
+- Exploratory data analysis
+- Visual analysis of the features
+- Patterns, insights, pecularities of data
+- Data preprocessing
+- Feature engineering and description
+- Cross-validation, hyperparameter tuning
+- Validation and learning curves
+- Prediction for hold-out and test samples
+- Model evaluation with metrics description
+- Conclusions
+
+### Part 1. Dataset and features description
+
+### **Abstract**:
+
+> The data is related with direct marketing campaigns (phone calls) of a Portuguese banking institution. The classification goal is to predict if the client will subscribe a term deposit (variable y).
+
+https://archive.ics.uci.edu/ml/datasets/Bank+Marketing
+
+### Input variables:
+#### Bank client data:
+1 - age (numeric)
+
+2 - job : type of job (categorical: 'admin.','blue-collar','entrepreneur','housemaid','management','retired','self-employed','services','student','technician','unemployed','unknown')
+
+3 - marital : marital status (categorical: 'divorced','married','single','unknown'; note: 'divorced' means divorced or widowed)
+
+4 - education (categorical:
+'basic.4y','basic.6y','basic.9y','high.school','illiterate','professional.course','university.degree','unknown')
+
+5 - default: has credit in default? (categorical: 'no','yes','unknown')
+
+6 - housing: has housing loan? (categorical: 'no','yes','unknown')
+
+7 - loan: has personal loan? (categorical: 'no','yes','unknown')
+#### Related with the last contact of the current campaign:
+8 - contact: contact communication type (categorical: 'cellular','telephone')
+
+9 - month: last contact month of year (categorical: 'jan', 'feb', 'mar', ..., 'nov', 'dec')
+
+10 - day_of_week: last contact day of the week (categorical: 'mon','tue','wed','thu','fri')
+
+11 - duration: last contact duration, in seconds (numeric). Important note: this attribute highly affects the output target (e.g., if duration=0 then y='no'). Yet, the duration is not known before a call is performed. Also, after the end of the call y is obviously known. Thus, this input should only be included for benchmark purposes and should be discarded if the intention is to have a realistic predictive model.
+
+#### Other attributes:
+12 - campaign: number of contacts performed during this campaign and for this client (numeric, includes last contact)
+
+13 - pdays: number of days that passed by after the client was last contacted from a previous campaign (numeric; 999 means client was not previously contacted)
+
+14 - previous: number of contacts performed before this campaign and for this client (numeric)
+
+15 - poutcome: outcome of the previous marketing campaign (categorical: 'failure','nonexistent','success')
+
+#### Social and economic context attributes
+16 - emp.var.rate: employment variation rate - quarterly indicator (numeric)
+
+17 - cons.price.idx: consumer price index - monthly indicator (numeric)
+
+18 - cons.conf.idx: consumer confidence index - monthly indicator (numeric)
+
+19 - euribor3m: euribor 3 month rate - daily indicator (numeric)
+
+20 - nr.employed: number of employees - quarterly indicator (numeric)
+
+### Output variable (desired target):
+21 - y - has the client subscribed a term deposit? (binary: 'yes','no')
+
+### Part 2. Exploratory data analysis
+
+```python
+import csv
+import pandas as pd
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt
+import plotly
+from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
+import plotly.graph_objs as go
+from plotly import tools
+import plotly.plotly as py
+from sklearn.preprocessing import MinMaxScaler
+init_notebook_mode(connected=True)
+```
+
+```python
+# This code is to be used for google colab only to visualize the plotly graphs
+def configure_plotly_browser_state():
+import IPython
+display(IPython.core.display.HTML('''
+<script src="/static/components/requirejs/require.js"></script>
+<script>
+requirejs.config({
+paths: {
+base: '/static/base',
+plotly: 'https://cdn.plot.ly/plotly-1.5.1.min.js?noext',
+},
+});
+</script>
+'''))
+import plotly.plotly as py
+import numpy as np
+from plotly.offline import init_notebook_mode, iplot
+from plotly.graph_objs import Contours, Histogram2dContour, Marker, Scatter
+configure_plotly_browser_state()
+
+init_notebook_mode(connected=False)
+```
+
+```python
+df=pd.read_csv('bank-additional-full.csv',sep=';') # read in the data
+df=df.replace('unknown',np.nan) # replace unknown value with NaN
+df=df.replace('N/A',np.nan) # replace N/A value with NaN
+df['y']=df['y'].map({'no':0,'yes':1}) # replace target variable mapping to No->0, Yes->1
+df.head()
+```
+
+```python
+print'Number of Rows:',df.shape[0]
+print'Number of Columns:',df.shape[1]
+```
+
+```python
+type_df=pd.DataFrame() # dataframe to show numeric and non-numeric columns
+numeric=df.select_dtypes(include=['float64','int']).columns.values.tolist()
+non_numeric=df.select_dtypes(exclude=['float64','int']).columns.values.tolist()
+non_numeric.extend([''])
+type_df['numeric columns']=numeric
+type_df['non-numeric columns']=non_numeric
+type_df.index+=1
+type_df
+```
+
+```python
+df.describe() # basic statistics of numeric columns
+```
+
+### Part 3. Visual analysis of the features &
+### Part 4. Patterns, insights, pecularities of data
+
+** Target variable**
+
+```python
+plt.figure(figsize=(10,5))
+plt.title('Distribution of target variable',size=16)
+sns.countplot(df['y'].dropna())
+df['y'].value_counts()
+```
+
+We can see that there is a class imbalance , as the data has more number of people who didnt subscribe.
+
+**Age vs Subscription**
+
+```python
+viz=df.copy()
+viz['age']=pd.cut(viz['age'],[17,30,40,50,60,70,100],right=True,include_lowest=True) # creating bins for different age groups
+age=pd.get_dummies(viz.age,prefix='age')
+viz=pd.concat([df,age],axis=1)
+
+sub=viz[viz['y']==1] # df with people who subscribed
+labels=age.columns.tolist()
+svalues=[]
+for i in range(0,len(labels)):
+l=sub[labels[i]]
+svalues.append(sum(1 for x in l if x > 0))
+
+trace0 = go.Pie(labels=labels,values=svalues,name='Subscribed',domain=dict(x=[0, 0.495]))
+
+nsub=viz[viz['y']==0] # df with people who did not subscribe
+nvalues=[]
+for i in range(0,len(labels)):
+l=nsub[labels[i]]
+nvalues.append(sum(1 for x in l if x > 0))
+
+trace1 = go.Pie(labels=labels,values=nvalues,name='Not Subscribed',domain=dict(x=[0.51, 1]))
+data = [trace0,trace1]
+
+configure_plotly_browser_state() # for colab only
+init_notebook_mode(connected=False) #for colab only
+
+layout = go.Layout(title='Age vs Subscription',annotations = go.Annotations([go.Annotation(x=0.78, y=1.1, text='Not Subscribed', showarrow=False, xref='paper', yref='paper'),
+go.Annotation(x=0.225, y=1.1, text='Subscribed', showarrow=False, xref='paper', yref='paper')]))
+
+fig = go.Figure(data=data, layout=layout)
+iplot(fig, show_link=True)
+```
+
+We can see from the pie chart that out of the age groups that subcribed -
+
+1. People in ages 30-40 are the ones who are subscribing the most.
+2. People in the ages of 17-30 came second
+3. Those who were 40-50 years old came third in the majority of people who subcribed.
+
+But this trend is a bit opposite with people who did not subscribe-
+
+1. First came the people in ages 30-40. This peculiarity is due to the class imbalance in the dataset.
+2. But in second place, we have the people of ages 40-50 who are not subscribing.
+3. And in third place, we have people of ages 17-30.
+
+**Conclusion**-
+
+> People in the age range of 17-30 are more prone to subscribe , and people in the age range of 40-50 are less prone to subscribe to this bank.
+
+```python
+job=pd.get_dummies(df.job) # one hot encoding categorical values
+job=pd.concat([df['y'],job],axis=1)
+
+sub=job[job['y']==1]
+labels=job.columns.drop('y').tolist()
+svalues=[]
+for i in range(0,len(labels)):
+l=sub[labels[i]]
+svalues.append(sum(1 for x in l if x > 0))
+
+trace0 = go.Pie(labels=labels,values=svalues,name='Subscribed',domain=dict(x=[0, 0.495]))
+
+nsub=job[job['y']==0]
+nvalues=[]
+for i in range(0,len(labels)):
+l=nsub[labels[i]]
+nvalues.append(sum(1 for x in l if x > 0))
+
+trace1 = go.Pie(labels=labels,values=nvalues,name='Not Subscribed',domain=dict(x=[0.51, 1]))
+data = [trace0,trace1]
+
+configure_plotly_browser_state() # for colab only
+init_notebook_mode(connected=False) #for colab only
+
+layout = go.Layout(title='Job vs Subscription',annotations = go.Annotations([go.Annotation(x=0.78, y=1.1, text='Not Subscribed', showarrow=False, xref='paper', yref='paper'),
+go.Annotation(x=0.225, y=1.1, text='Subscribed', showarrow=False, xref='paper', yref='paper')]))
+
+fig = go.Figure(data=data, layout=layout)
+iplot(fig, show_link=True)
+```
+
+On seeing the pie chart of people who subscribed -
+
+1. Most of the people who subscribed are administrators.
+2. Then are the tecnhicians.
+3. And in third position, are the blue collar workers.
+4. After the blue collar workers, the retired people are the ones who subscribe more.
+5. In the fifth position, are the management people.
+
+On the other side, when we see the people who did not subscribe,
+
+1. Most of the people who did not subscribe are administrators too.
+2. But now the blue collar worker arein second position.
+3. And now we have the technicians,
+4. And then we have management people
+5. And in the last place which is opposing the other pie chart, are the retired who are not subscribing.
+
+**Conlusion**-
+
+> Technicians are more likely to subscribe, when compared to blue collar workers.
+
+> Retirees are more likely to subscribe, when compared to management workers.
+
+```python
+marital=pd.get_dummies(df.marital) # one hot encoding categorical values
+marital=pd.concat([df['y'],marital],axis=1)
+
+sub=marital[marital['y']==1]
+labels=marital.columns.drop('y').tolist()
+svalues=[]
+for i in range(0,len(labels)):
+l=sub[labels[i]]
+svalues.append(sum(1 for x in l if x > 0))
+
+trace0 = go.Pie(labels=labels,values=svalues,name='Subscribed',domain=dict(x=[0, 0.495]))
+
+nsub=marital[marital['y']==0]
+nvalues=[]
+for i in range(0,len(labels)):
+l=nsub[labels[i]]
+nvalues.append(sum(1 for x in l if x > 0))
+
+trace1 = go.Pie(labels=labels,values=nvalues,name='Not Subscribed',domain=dict(x=[0.51, 1]))
+data = [trace0,trace1]
+
+configure_plotly_browser_state() # for colab only
+init_notebook_mode(connected=False) #for colab only
+
+layout = go.Layout(title='Marital Status vs Subscription',annotations = go.Annotations([go.Annotation(x=0.78, y=1.1, text='Not Subscribed', showarrow=False, xref='paper', yref='paper'),
+go.Annotation(x=0.225, y=1.1, text='Subscribed', showarrow=False, xref='paper', yref='paper')]))
+
+fig = go.Figure(data=data, layout=layout)
+iplot(fig, show_link=True)
+```
+
+From both the charts, we understand that married people top the distribution, then comes the single people and at the end are the divorced people.
+
+```python
+education_df=df.replace('basic.4y','basic') # replaceing all the basic.Yy education with Basic Education for ease of plotting
+education_df=education_df.replace('basic.6y','basic')
+education_df=education_df.replace('basic.9y','basic')
+
+education1=pd.get_dummies(education_df.education) # one hot encoding categorical values
+education=pd.concat([df['y'],education1],axis=1)
+
+sub=education[education['y']==1]
+labels=education.columns.drop('y').tolist()
+svalues=[]
+for i in range(0,len(labels)):
+l=sub[labels[i]]
+svalues.append(sum(1 for x in l if x > 0))
+
+trace0 = go.Pie(labels=labels,values=svalues,name='Subscribed',domain=dict(x=[0, 0.495]))
+
+nsub=education[education['y']==0]
+nvalues=[]
+for i in range(0,len(labels)):
+l=nsub[labels[i]]
+nvalues.append(sum(1 for x in l if x > 0))
+
+trace1 = go.Pie(labels=labels,values=nvalues,name='Not Subscribed',domain=dict(x=[0.51, 1]))
+data = [trace0,trace1]
+
+configure_plotly_browser_state() # for colab only
+init_notebook_mode(connected=False) #for colab only
+
+layout = go.Layout(title='Education vs Subscription',annotations = go.Annotations([go.Annotation(x=0.78, y=1.1, text='Not Subscribed', showarrow=False, xref='paper', yref='paper'),
+go.Annotation(x=0.225, y=1.1, text='Subscribed', showarrow=False, xref='paper', yref='paper')]))
+
+fig = go.Figure(data=data, layout=layout)
+iplot(fig, show_link=True)
+```
+
+We can clearly see here that people with a university degree are more likely to subscribe then people with just a basic degree.
+
+```python
+sub=df[df['y']==1][['housing','loan','y']]
+trace1 = go.Bar(
+y=['housing','loan'],
+x=[sub[sub['housing']=='yes'].shape[0]/float(sub.shape[0]), sub[sub['loan']=='yes'].shape[0]/float(sub.shape[0])],
+name='Yes',
+orientation = 'h',
+marker = dict(
+color = 'rgba(26, 78, 19, 0.6)',
+line = dict(
+color = 'rgba(26, 78, 19, 1.0)',
+width = 3)
+)
+trace2 = go.Bar(
+y=['housing','loan'],
+x=[sub[sub['housing']=='no'].shape[0]/float(sub.shape[0]), sub[sub['loan']=='no'].shape[0]/float(sub.shape[0])],
+name='No',
+orientation = 'h',
+marker = dict(
+color = 'rgba(258, 55, 80, 0.6)',
+line = dict(
+color = 'rgba(258, 55, 80, 0.6)',
+width = 3)
+)
+
+data = [trace1, trace2]
+layout = go.Layout(title='Subscribed', barmode='stack')
+configure_plotly_browser_state() # for colab only
+init_notebook_mode(connected=False) #for colab only
+
+fig = go.Figure(data=data, layout=layout)
+iplot(fig, show_link=True)
+```
+
+Among the people who subscribed, most of them didnt have a personal loan, but were likely to have a housing loan.
+
+### Part 5. Data preprocessing
+
+Our dataframe has many non numeric columns. Those columns can be converted to numeric by one hot encoding those values.
+
+```python
+job=pd.get_dummies(df.job) # one hot encoding of categorical variable
+df=df.join(job)
+df=df.drop('job',axis=1) # drop original column
+df=df.drop('unemployed',axis=1) # drop dependent column to avoid dummy variable trap
+
+marital=pd.get_dummies(df.marital) # one hot encoding of categorical variable
+df=df.join(marital)
+df=df.drop('marital',axis=1) # drop original column
+df=df.drop('divorced',axis=1)# drop dependent column to avoid dummy variable trap
+
+phone=pd.get_dummies(df.contact) # one hot encoding of categorical variable
+df=df.join(phone)
+df=df.drop('contact',axis=1) # drop original column
+df=df.drop('telephone',axis=1)# drop dependent column to avoid dummy variable trap
+
+month=pd.get_dummies(df.month) # one hot encoding of categorical variable
+df=df.join(month)
+df=df.drop('month',axis=1) # drop original column
+df=df.drop('jun',axis=1)# drop dependent column to avoid dummy variable trap
+
+day_of_week=pd.get_dummies(df.day_of_week) # one hot encoding of categorical variable
+df=df.join(day_of_week)
+df=df.drop('day_of_week',axis=1) # drop original column
+
+df=df.drop('duration',axis=1) # drop column as it reveals target variable (see dataset description)
+
+poutcome=pd.get_dummies(df.poutcome)# one hot encoding of categorical variable
+df=df.join(poutcome)
+df=df.drop('poutcome',axis=1) # drop original column
+df=df.drop('success',axis=1)# drop dependent column to avoid dummy variable trap
+
+df['default']=df['default'].map({'no':0,'yes':1})
+df['housing']=df['housing'].map({'no':0,'yes':1})
+df['loan']=df['loan'].map({'no':0,'yes':1})
+```
+
+We need to drop one of the newly encoded columns in each of the features to avoice dummy trap to have all columns independent of each other.
+
+### Part 6. Feature engineering and description
+
+### New Features
+
+1. Create bins for age values. Then one hot encoding values to get new columns/features
+2. Replace basic.4y, basic.6y, basic.9y with basic. One hot encode values to get new columns.
+3. Same thing is done for education column too.
+4. pdays column is made into 4 bins - representing 4 weeks of the month. One hot encode these columns.
+
+```python
+df['age']=pd.cut(df['age'],[17,30,40,50,60,70,100],right=True,include_lowest=True) # creating bins for different age groups
+age=pd.get_dummies(df.age,prefix='age')
+df=pd.concat([df,age],axis=1)
+df=df.drop('age',axis=1) # drop original column
+df=df.drop('age_(70.0, 100.0]',axis=1 )# drop dependent column to avoid dummy variable trap
+
+df=df.replace('basic.4y','basic') # combine all basic education to one basic education
+df=df.replace('basic.6y','basic')
+df=df.replace('basic.9y','basic')
+
+education=pd.get_dummies(df.education) # one hot encoding of categorical variable
+df=df.join(education)
+df=df.drop('education',axis=1)# drop original column
+df=df.drop('university.degree',axis=1)# drop dependent column to avoid dummy variable trap
+
+df['pdays']=pd.cut(df['pdays'],[1,7,14,21,28],right=True,include_lowest=True) # create bins to represent 4 weeks of the month
+pdays=pd.get_dummies(df.pdays,prefix='wk',dummy_na=True) # prefix new column with "wk"
+df=pd.concat([df,pdays],axis=1)
+df=df.rename(columns={'wk_(0.999, 7.0]':'1_wk','wk_(7.0, 14.0]':'2_wk','wk_(14.0, 21.0]':'3_wk','wk_(21.0, 28.0]':'4_wk',
+'wk_nan':'not_contacted'}) # rename columns for easy understanding
+df=df.drop('pdays',axis=1)# drop original column
+df=df.drop('4_wk',axis=1)# drop dependent column to avoid dummy variable trap
+
+for col in df.columns:
+df[col]=df[col].astype('float') # convert all columns to float data type
+```
+
+```python
+null=pd.DataFrame() # dataframe to showing columns with missing values
+null['col_name']=df.isnull().sum().sort_values(ascending=False).head(3).index
+null['# missing']=df.isnull().sum().sort_values(ascending=False).head(3).values
+null['% missing']=null['# missing'].values/float(df.shape[0])*100
+null
+```
+
+Among the columns with missing values, Default column has the highest missing values, as I think customers are not filling in this column, so our df has NaN values. I am going to drop these values because it would not be wise to fill them via imputation or other means.
+
+```python
+df=df.dropna(axis=0) # dropping NaN values
+df.shape # contains X and Y (target variable)
+```
+
+We have gone from 20 features to 52 featues.
+
+```python
+y=df['y'] # setting target variable to y
+scaler=MinMaxScaler()
+df.iloc[:,5:10]=scaler.fit_transform(df.iloc[:,5:10]) # scaling 5 columns to get values between 0 and 1
+```
+
+```python
+df.T # all the values are between 1 and 0
+```
+
+```python
+corrmat=df.corr() # correlation matrix
+corrmat=corrmat.drop('y')
+trace0 = go.Bar(x=list(corrmat['y'].index),y=list(corrmat[(abs(corrmat)<=0.35)&(abs(corrmat)>=0.20)]['y'].values),name='Medium Correlation') # 0.2 <= correlation <= .35 ------> Medium Correlation
+trace1 = go.Bar(x=list(corrmat['y'].index),y=list(corrmat[abs(corrmat)>0.35]['y'].values),name='High Correlation') # correlation > .35 ------> High Correlation
+trace2 = go.Bar(x=list(corrmat['y'].index),y=list(corrmat[abs(corrmat)<0.20]['y'].values),name='Low Correlation') # 0.2 < correlation ------> Low Correlation
+trace3=go.Scatter(x=list(corrmat['y'].index),y=list(corrmat['y'].values),opacity=0.2,showlegend=False,hoverinfo='skip')
+data = [trace1,trace0,trace2,trace3]
+
+configure_plotly_browser_state() # for colab only
+init_notebook_mode(connected=False) #for colab only
+
+layout = go.Layout(title='Correlation with Target variable',xaxis=dict(tickangle=270,tickfont=dict(size=10.5)),yaxis=dict(title='Correlation value'))
+
+fig = go.Figure(data=data, layout=layout)
+iplot(fig, show_link=False)
+```
+
+### Part 7. Cross-validation, hyperparameter tuning
+
+### Part 8. Validation and learning curves
+
+### Part 9. Prediction for hold-out and test samples
+
+### Part 10. Model evaluation with metrics description
+
+```python
+#importing required modules
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import confusion_matrix
+import itertools
+from sklearn.model_selection import learning_curve
+from sklearn.model_selection import ShuffleSplit
+import regex as re
+```
+
+```python
+# train test split the data
+X_train, X_test, y_train, y_test = train_test_split(df.drop('y',axis=1), y, test_size=0.33, random_state=40,stratify=y) # we use stratify so that equal % of both classes are present in train and test.
+X_train.shape,X_test.shape
+```
+
+```python
+y_train.value_counts()/y_train.shape[0] # equal % of both classes are present in train and test.
+```
+
+```python
+y_test.value_counts()/y_test.shape[0]# equal % of both classes are present in train and test.
+```
+
+### Model 1 - Random Forest
+
+Since we have an imbalanced dataset with respect to target variable, we need to assign weights to the class with lower number of records.
+
+```python
+# iterate over different weight values for class 1 to find best weight
+weight={}
+for i in [.1,.3,.5,.7,.9,1.1,1.3,1.5,1.7,1.9,2.1]:
+
+class_weight={0:1,1:1.3+i}
+params = {'n_estimators':range(140,190,10),'max_depth':[1,2],'min_samples_split':[0.4]} # grid search params for random forest
+rfc=RandomForestClassifier(random_state=42,class_weight=class_weight)
+rfc_grid = GridSearchCV(rfc,param_grid=params,cv=2)
+rfc_grid.fit(X_train,y_train) # fit the model
+rfc=rfc_grid.best_estimator_ # assign best model to rfc
+weight[1.3+i]=rfc_grid.best_score_ #append score in dictionary to the corresponding weight value
+```
+
+```python
+# scatter plot to visualize weight vs score change
+plt.scatter(weight.keys(),weight.values())
+plt.title('Weights Vs Score',size=15)
+plt.xlabel('Weight for Class 1',size=12)
+plt.ylabel('Score',size=12)
+```
+
+```python
+maxs=max(weight.values()) # maximum score value
+for kval in weight.keys():
+if maxs==weight[kval]:
+print(kval) # optimum weight value
+```
+
+We are getting maximum accuracy at class weight of 2 for class 1.
+
+```python
+# grid search for tuning hyper parameters
+class_weight={0:1,1:2.0} # use maxium weight value
+params = {'n_estimators':range(140,160,3),'max_depth':[1,2,3],'min_samples_split':[0.4,.7]}
+rfc=RandomForestClassifier(random_state=42,class_weight=class_weight)
+rfc_grid = GridSearchCV(rfc,param_grid=params,cv=5)
+rfc_grid.fit(X_train,y_train)
+rfc=rfc_grid.best_estimator_ # assign best model to rfc
+```
+
+```python
+rfc # to see model hyper parameters
+```
+
+```python
+rand_pred=rfc.predict(X_test) # predict on test set
+print(classification_report(y_test, rand_pred)) # classification report
+```
+
+```python
+# to plot confusion matrix
+def plot_confusion_matrix(cm, classes,normalize=False,title='Confusion matrix',cmap=plt.cm.Blues):
+plt.imshow(cm, interpolation='nearest', cmap=cmap)
+plt.title(title)
+plt.colorbar()
+tick_marks = np.arange(len(classes))
+plt.xticks(tick_marks, classes, rotation=45)
+plt.yticks(tick_marks, classes)
+
+fmt = '.2f' if normalize else 'd'
+thresh = cm.max() / 2.
+for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+plt.text(j, i, format(cm[i, j], fmt),horizontalalignment="center", color="white" if cm[i, j] > thresh else "black")
+plt.tight_layout()
+plt.ylabel('True label')
+plt.xlabel('Predicted label')
+
+class_names=[0,1]
+```
+
+```python
+#confusion matrix
+cnf_matrix = confusion_matrix(y_test, rand_pred)
+plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=False,title='Rf Confusion Matrix')
+```
+
+We are getting very low recall with class 1 and more number of misclassified records. This is not a good performing model. Lets tune the weight values more, to get a better result.
+
+**Tuning the weight value for class 1**
+
+```python
+weight={}
+for i in [.1,.3,.5,.7,.9,1.1,1.3,1.5,1.7]:
+class_weight={0:1,1:3.2+i}
+rfc=RandomForestClassifier(bootstrap=True, class_weight=class_weight, # use model found from gridsearch previously
+criterion='gini', max_depth=2, max_features='auto',
+max_leaf_nodes=None, min_impurity_decrease=0.0,
+min_impurity_split=None, min_samples_leaf=1,
+min_samples_split=0.4, min_weight_fraction_leaf=0.0,
+n_estimators=149, n_jobs=1, oob_score=False, random_state=42,
+verbose=0, warm_start=False)
+rfc.fit(X_train,y_train)
+rand_pred1=rfc.predict(X_test)
+print(3.2+i)
+
+print(classification_report(y_test, rand_pred1))
+
+print('\n')
+```
+
+From the different classification reports, we choose the weight value which is giving good recall and precision for class 1.
+
+We may have to choose a weight value which is not giving the best results for class 0, as they are overfitting to one class only and underperforming on the other class.
+
+```python
+rfc=RandomForestClassifier(bootstrap=True, class_weight={0:1,1:4.6}, # weight with best precision and recall for class 1
+criterion='gini', max_depth=2, max_features='auto',
+max_leaf_nodes=None, min_impurity_decrease=0.0,
+min_impurity_split=None, min_samples_leaf=1,
+min_samples_split=0.4, min_weight_fraction_leaf=0.0,
+n_estimators=149, n_jobs=1, oob_score=False, random_state=42,
+verbose=0, warm_start=False)
+rfc.fit(X_train,y_train)# fit the model
+rand_pred1=rfc.predict(X_test)# predict on test data
+cnf_matrix = confusion_matrix(y_test, rand_pred1) # confusion matrix
+plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=False,title='Rf Confusion Matrix')
+print(classification_report(y_test, rand_pred1))# classification report
+```
+
+We can see from the confusion matrix, we are getting more class 1 labels predicted correctly than before.
+
+Though we still have a large number of misclassified models, this is a good start, and these results can be combined with other models to get better predicition values.
+
+```python
+(pd.Series(rfc.feature_importances_, index=X_train.columns)
+.nlargest(10)
+.plot(kind='barh'))
+plt.title('Feature Importance') # top 10 features
+```
+
+We see here that nr.employed is the biggest factor influencing target variable- whether the customer will subscribe a term deposit or not. This is seen in the correlation plot too as having high correlation.
+
+```python
+# learning curve
+def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None,
+n_jobs=None, train_sizes=np.linspace(.1, 1.0, 5)):
+plt.figure()
+plt.title(title)
+if ylim is not None:
+plt.ylim(*ylim)
+plt.xlabel("Training examples")
+plt.ylabel("Score")
+train_sizes, train_scores, test_scores = learning_curve(
+estimator, X, y, cv=cv, n_jobs=n_jobs, train_sizes=train_sizes)
+train_scores_mean = np.mean(train_scores, axis=1)
+train_scores_std = np.std(train_scores, axis=1)
+test_scores_mean = np.mean(test_scores, axis=1)
+test_scores_std = np.std(test_scores, axis=1)
+plt.grid()
+
+plt.fill_between(train_sizes, train_scores_mean - train_scores_std,
+train_scores_mean + train_scores_std, alpha=0.1,
+color="r")
+plt.fill_between(train_sizes, test_scores_mean - test_scores_std,
+test_scores_mean + test_scores_std, alpha=0.1, color="g")
+plt.plot(train_sizes, train_scores_mean, 'o-', color="r",
+label="Training score")
+plt.plot(train_sizes, test_scores_mean, 'o-', color="g",
+label="Cross-validation score")
+
+plt.legend(loc="best")
+return plt
+```
+
+```python
+# plot learning curve
+cv = ShuffleSplit(n_splits=10, test_size=0.33, random_state=0)
+
+estimator = rfc
+
+title = "Learning Curves (RFC)"
+
+plot_learning_curve(estimator, title, df.drop('y',axis=1), y, (.7,1.1), cv, n_jobs=4)
+
+plt.show()
+```
+
+### Model 2 - Logistic Regression
+
+We apply the same method as we did before for logistic regression too.
+
+```python
+weight={} # iterate over different weight values for class 1 to find best weight
+for i in [.1,.3,.5,.7,.9,1.1,1.3,1.5]:
+
+class_weight={0:1,1:.3+i}
+params = {'C':[0.01,.1,5,1,10,15]} # grid search params
+log=LogisticRegression(class_weight=class_weight)
+log_grid = GridSearchCV(log,param_grid=params,cv=5)
+log_grid.fit(X_train,y_train)
+log=log_grid.best_estimator_
+weight[.3+i]=log_grid.best_score_ # store scores corresponding to weight
+```
+
+```python
+# plot scores vs weight change
+plt.scatter(weight.keys(),weight.values())
+plt.title('Weights Vs Score',size=15)
+plt.xlabel('Weight for Class 1',size=12)
+plt.ylabel('Score',size=12)
+```
+
+```python
+maxs=max(weight.values()) # maximum score value
+for kval in weight.keys():
+if maxs==weight[kval]:
+print(kval) # optimum weight value
+```
+
+```python
+class_weight={0:1,1:.8} # use best weight value
+params = {'C':[0.01,.1,5,15,10],'max_iter':[100,50,25,10]} # grid search hyper parameters
+log=LogisticRegression(class_weight=class_weight)
+log_grid = GridSearchCV(log,param_grid=params,cv=10)
+log_grid.fit(X_train,y_train) # fit on train data
+log=log_grid.best_estimator_ # best estimator
+```
+
+```python
+log # hyper parameter values
+```
+
+```python
+log_pred=log.predict(X_test) # predict on test data
+print(classification_report(y_test, log_pred))
+```
+
+```python
+cnf_matrix = confusion_matrix(y_test, log_pred) # confusion matrix
+plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=False,title='Log Confusion Matrix')
+```
+
+We are getting very low recall with class 1 and more number of misclassified records. This is not a good performing model. Lets tune the weight values more, to get a better result.
+
+```python
+weight={}
+for i in [.1,.3,.5,.7,.9,1.1]:
+class_weight={0:1,1:1.8+i} # iterate over weight values
+log=LogisticRegression(C=10, class_weight=class_weight, dual=False, # best estimator
+fit_intercept=True, intercept_scaling=1, max_iter=100,
+multi_class='ovr', n_jobs=1, penalty='l2', random_state=None,
+solver='liblinear', tol=0.0001, verbose=0, warm_start=False)
+log.fit(X_train,y_train)
+log_pred1=log.predict(X_test)
+print(1.8+i) # weight values
+
+print(classification_report(y_test, log_pred1))
+
+print('\n')
+```
+
+We should choose the weight which is not overfitting on class 0 and giving good results on class 1.
+
+```python
+class_weight={0:1,1:2.8} # optimum weight value
+log=LogisticRegression(C=10, class_weight=class_weight, dual=False, # best estimator
+fit_intercept=True, intercept_scaling=1, max_iter=100,
+multi_class='ovr', n_jobs=1, penalty='l2', random_state=None,
+solver='liblinear', tol=0.0001, verbose=0, warm_start=False)
+log.fit(X_train,y_train)
+log_pred1=log.predict(X_test) # predict on test data
+print(classification_report(y_test, log_pred1))
+cnf_matrix = confusion_matrix(y_test, log_pred1)
+plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=False,title='Log Confusion Matrix')
+```
+
+We see an improvement on number of correctly classified class 1 values.
+
+```python
+# feature importance plot
+coefs = np.abs(log.coef_[0]) # coefficients of variables
+indices = np.argsort(coefs)[::-1]
+
+plt.figure()
+plt.title("Feature importances (Logistic Regression)")
+plt.yticks(range(10), X_train.columns[indices[:10]], ha='right')
+plt.barh(range(10), coefs[indices[:10]],
+align="center")
+```
+
+Here we are getting different features which are more important than the previous feature importance plot. Here emp.var.rate is the biggest influencer for target variable.
+
+```python
+# learning curve
+cv = ShuffleSplit(n_splits=10, test_size=0.33, random_state=0)
+
+estimator = log
+
+title = "Learning Curves (LOG)"
+
+plot_learning_curve(estimator, title, df.drop('y',axis=1), y, (.7,1.1), cv, n_jobs=4)
+
+plt.show()
+```
+
+### Model 3 - Deep Learning
+
+Lets see if deep learning model(neural network) can produce better results.
+
+```python
+np.random.seed(5)
+import keras
+from keras.models import Sequential
+from keras.layers import Dense
+```
+
+```python
+classifier = Sequential()
+# Adding the input layer and the first hidden layer
+classifier.add(Dense(kernel_initializer="uniform", activation="relu", input_dim=52, units=8))
+# Adding the second hidden layer
+classifier.add(Dense(units=4, activation="relu", kernel_initializer="uniform"))
+# Adding the third hidden layer
+classifier.add(Dense(units=2, activation="relu", kernel_initializer="uniform"))
+# Adding the output layer
+classifier.add(Dense(units=1, activation="sigmoid", kernel_initializer="uniform"))
+
+# Compiling Neural Network
+classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
+```
+
+```python
+class_weight={0:1,1:2.8} # optimum weight value found by trial and error
+# Fit the model
+classifier.fit(X_train, y_train, batch_size = 100, epochs =8,class_weight=class_weight,verbose=0)
+dl_pred = classifier.predict(X_test) # predict on test data
+dl_pred1 = (dl_pred > 0.5) # convert to 0 and 1
+print(classification_report(y_test, dl_pred1))
+cnf_matrix = confusion_matrix(y_test, dl_pred1)
+plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=False,title='DL Confusion Matrix')
+```
+
+We are getting good results, which is a little bit better than the previous 2 models.
+
+```python
+# accuracy and loss plot
+class_weight={0:1,1:2.8}
+history =classifier.fit(df.drop('y',axis=1), y, validation_split=0.33, batch_size = 100, epochs = 200,class_weight=class_weight,verbose=0)
+
+# list all data in history
+print(history.history.keys())
+# summarize history for accuracy
+plt.plot(history.history['acc'])
+plt.plot(history.history['val_acc'])
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='best')
+plt.show()
+# summarize history for loss
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='best')
+plt.show()
+```
+
+Since we have an imbalanced dataset, the model is overfitting a bit on training data and not performing as well as it can on test data. This explains the non convergence of train and test loss/accuracy. If we were to get more data, this problem would not occur.
+
+### Combining Models
+
+Lets combine the models and see if we get better results.
+
+```python
+rand_prob = rfc.predict_proba(X_test)[:, 1]
+log_prob = log.predict_proba(X_test)[:, 1]
+nn_prob=classifier.predict(X_test)
+pred = pd.DataFrame(index=y_test.index) # new dataframe with combined results
+pred['Rand']=rand_prob
+pred['Log']=log_prob
+pred['Neural Network']=nn_prob
+pred['Mean']=(pred['Rand']+pred['Log']+pred['Neural Network'])/3.0
+pred['Predicted']=(pred['Mean']>0.45).astype('int') # threshold for predicting
+pred['Y-real']=y_test
+print(classification_report(y_test,pred['Predicted'].values))
+```
+
+There are some places, where one model compensates for the other model, thus making our combined model more accurate.
+
+```python
+pred[pred['Y-real']==1].sample(15) # predictions which should be 1
+```
+
+```python
+cnf_matrix=confusion_matrix(y_test, pred['Predicted'].values)#final confusion matrix
+plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=False,title='Combined Confusion Matrix')
+```
+
+The final confusion matrix shows some improvement in correctly classified Class 1.
+
+### Part 11. Conclusions
+
+To summarise this notebook :-
+
+* We first looked at the data and understood some basic statistics of the columns.
+* Exploratory data analysis was done to see what kind od people subscrined a term deposit.
+* Then we prepared the data for machine learning models and created new features.
+* Used grid search and iteration to find best value for class weight to get good precison and recall for lower numbered class.
+* Used artificial neural network to try and get a better model.
+* Combined results to get best possible prediction.
+
+The main problem as iterated before is that , as we have dataset imbalance, we need more data to get better results for Class 1.
+
+### Classification Report
+
+```python
+print('Random Forest')
+print(classification_report(y_test,rand_pred1))
+print(' '*25+'+')
+print('Logistic Regression')
+print(classification_report(y_test,log_pred1))
+print(' '*25+'+')
+print('Neural Network')
+print(classification_report(y_test,dl_pred1))
+print(' '*25+'=')
+print('Combined model')
+print(classification_report(y_test,pred['Predicted'].values))
+```

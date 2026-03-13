@@ -1,0 +1,32 @@
+Original Path: units/es/bonus-unit2/introduction.mdx
+Original Type: .mdx
+Snapshot Type: sanitized text
+
+# Observabilidad y Evaluación de Agentes de IA
+
+![Bonus Unit 2 Thumbnail](https://langfuse.com/images/cookbook/huggingface-agent-course/agent-observability-and-evaluation.png)
+
+¡Bienvenido a la **Unidad Extra 2**! En este capítulo, explorarás estrategias avanzadas para observar, evaluar y, en última instancia, mejorar el rendimiento de tus agentes.
+
+## 📚 ¿Cuándo debería hacer esta Unidad Extra?
+
+Esta unidad extra es perfecta si:
+- **Desarrollas y Despliegas Agentes de IA:** Quieres asegurarte de que tus agentes estén funcionando de manera confiable en producción.
+- **Necesitas Información Detallada:** Buscas diagnosticar problemas, optimizar el rendimiento o entender el funcionamiento interno de tu agente.
+- **Buscas Reducir la Sobrecarga Operativa:** Al monitorear los costos, la latencia y los detalles de ejecución del agente, puedes gestionar los recursos de manera eficiente.
+- **Buscas Mejora Continua:** Estás interesado en integrar tanto la retroalimentación de usuarios en tiempo real como la evaluación automatizada en tus aplicaciones de IA.
+
+En resumen, ¡para todos los que quieran poner sus agentes frente a los usuarios!
+
+## 🤓 What You’ll Learn
+## 🤓 Lo que Aprenderás
+
+En esta unidad, aprenderás:
+- **Instrumentar tu Agente:** Aprende cómo integrar herramientas de observabilidad a través de OpenTelemetry con el framework *smolagents*.
+- **Monitorear Métricas:** Seguimiento de indicadores de rendimiento como el uso de tokens (costos), latencia y trazas de errores.
+- **Evaluar en Tiempo Real:** Comprende técnicas para evaluación en vivo, incluyendo la recopilación de retroalimentación de usuarios y el aprovechamiento de un LLM como juez.
+- **Análisis Offline:** Utiliza conjuntos de datos de referencia (por ejemplo, GSM8K) para probar y comparar el rendimiento de agentes.
+
+## 🚀 ¿Listo para Empezar?
+
+En la siguiente sección, aprenderás los fundamentos de la Observabilidad y Evaluación de Agentes. Después de eso, ¡es hora de verlo en acción!

@@ -1,0 +1,107 @@
+Original Path: 19-slm/python/Phi-3-Vision-Nividia-NIM.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+```python
+import requests, base64
+```
+
+```python
+invoke_url = "https://ai.api.nvidia.com/v1/vlm/microsoft/phi-3-vision-128k-instruct"
+```
+
+```python
+with open("./img/demo.png", "rb") as f:
+image_b64 = base64.b64encode(f.read()).decode()
+```
+
+```python
+len(image_b64)
+```
+
+```python
+assert len(image_b64) < 180_000, \
+"To upload larger images, use the assets API (see docs)"
+```
+
+```python
+stream = False
+```
+
+```python
+headers = {
+"Authorization": "Bearer Your Nvidia NIM API Key",
+"Accept": "text/event-stream" if stream else "application/json"
+}
+```
+
+```python
+# payload = {
+# "messages": [
+# {
+# "role": "user",
+# "content": f'Tell me what is in the picture <img src="data:image/png;base64,{image_b64}" />'
+# }
+# ],
+# "max_tokens": 1024,
+# "temperature": 0.6,
+# "top_p": 1.0,
+# "stream": stream
+# }
+
+payload = {
+"messages": [
+{
+"role": "user",
+"content": f'Please create Python code for image, and use plt to save the new picture under imgs/ and name it phi-3-vision.jpg. <img src="data:image/png;base64,{image_b64}" />'
+}
+],
+"max_tokens": 1024,
+"temperature": 0.6,
+"top_p": 1.0,
+"stream": stream
+}
+```
+
+```python
+response = requests.post(invoke_url, headers=headers, json=payload)
+```
+
+```python
+if stream:
+for line in response.iter_lines():
+if line:
+print(line.decode("utf-8"))
+else:
+print(response.json())
+```
+
+```python
+code = response.json()["choices"][0]["message"]["content"]
+```
+
+```python
+code
+```
+
+```python
+# Find the starting index of the Python code block within the generated code
+# The index function locates the substring '```python' and adds 9 to skip past it
+begin = code.index('```python') + 9
+
+# Slice the code string from the calculated starting index to the end
+# This removes the initial part of the string up to and including '```python'
+code = code[begin:]
+```
+
+```python
+end = code.index('```')
+```
+
+```python
+code = code[:end]
+```
+
+```python
+code
+```

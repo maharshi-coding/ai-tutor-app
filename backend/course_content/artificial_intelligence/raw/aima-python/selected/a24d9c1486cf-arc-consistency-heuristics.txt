@@ -1,0 +1,929 @@
+Original Path: arc_consistency_heuristics.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+# Constraint Satisfaction Problems
+# Heuristics for Arc-Consistency Algorithms
+
+## Introduction
+A ***Constraint Satisfaction Problem*** is a triple $(X,D,C)$ where:
+- $X$ is a set of variables $X_1, …, X_n$;
+- $D$ is a set of domains $D_1, …, D_n$, one for each variable and each of which consists of a set of allowable values $v_1, ..., v_k$;
+- $C$ is a set of constraints that specify allowable combinations of values.
+
+A CSP is called *arc-consistent* if every value in the domain of every variable is supported by all the neighbors of the variable while, is called *inconsistent*, if it has no solutions. <br>
+***Arc-consistency algorithms*** remove all unsupported values from the domains of variables making the CSP *arc-consistent* or decide that a CSP is *inconsistent* by finding that some variable has no supported values in its domain. <br>
+Heuristics significantly enhance the efficiency of the *arc-consistency algorithms* improving their average performance in terms of *consistency-checks* which can be considered a standard measure of goodness for such algorithms. *Arc-heuristic* operate at arc-level and selects the constraint that will be used for the next check, while *domain-heuristics* operate at domain-level and selects which values will be used for the next support-check.
+
+```python
+from csp import *
+```
+
+## Domain-Heuristics for Arc-Consistency Algorithms
+In <a name="ref-1"/>[[1]](#cite-van2002domain) are investigated the effects of a *domain-heuristic* based on the notion of a *double-support check* by studying its average time-complexity.
+
+The objective of *arc-consistency algorithms* is to resolve some uncertainty; it has to be know, for each $v_i \in D_i$ and for each $v_j \in D_j$, whether it is supported.
+
+A *single-support check*, $(v_i, v_j) \in C_{ij}$, is one in which, before the check is done, it is already known that either $v_i$ or $v_j$ are supported.
+
+A *double-support check* $(v_i, v_j) \in C_{ij}$, is one in which there is still, before the check, uncertainty about the support-status of both $v_i$ and $v_j$.
+
+If a *double-support check* is successful, two uncertainties are resolved. If a *single-support check* is successful, only one uncertainty is resolved. A good *arc-consistency algorithm*, therefore, would always choose to do a *double-support check* in preference of a *single-support check*, because the cormer offers the potential higher payback.
+
+The improvement with *double-support check* is that, where possible, *consistency-checks* are used to find supports for two values, one value in the domain of each variable, which were previously known to be unsupported. It is motivated by the insight that *in order to minimize the number of consistency-checks it is necessary to maximize the number of uncertainties which are resolved per check*.
+
+### AC-3b: an improved version of AC-3 with Double-Support Checks
+
+As shown in <a name="ref-2"/>[[2]](#cite-van2000improving) the idea is to use *double-support checks* to improve the average performance of `AC3` which does not exploit the fact that relations are bidirectional and results in a new general purpose *arc-consistency algorithm* called `AC3b`.
+
+```python
+%psource AC3
+```
+
+Output:
+```text
+[0;32mdef[0m [0mAC3[0m[0;34m([0m[0mcsp[0m[0;34m,[0m [0mqueue[0m[0;34m=[0m[0;32mNone[0m[0;34m,[0m [0mremovals[0m[0;34m=[0m[0;32mNone[0m[0;34m,[0m [0marc_heuristic[0m[0;34m=[0m[0mdom_j_up[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""[Figure 6.3]"""[0m[0;34m[0m
+[0;34m[0m [0;32mif[0m [0mqueue[0m [0;32mis[0m [0;32mNone[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0mqueue[0m [0;34m=[0m [0;34m{[0m[0;34m([0m[0mXi[0m[0;34m,[0m [0mXk[0m[0;34m)[0m [0;32mfor[0m [0mXi[0m [0;32min[0m [0mcsp[0m[0;34m.[0m[0mvariables[0m [0;32mfor[0m [0mXk[0m [0;32min[0m [0mcsp[0m[0;34m.[0m[0mneighbors[0m[0;34m[[0m[0mXi[0m[0;34m][0m[0;34m}[0m[0;34m[0m
+[0;34m[0m [0mcsp[0m[0;34m.[0m[0msupport_pruning[0m[0;34m([0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0mqueue[0m [0;34m=[0m [0marc_heuristic[0m[0;34m([0m[0mcsp[0m[0;34m,[0m [0mqueue[0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0mchecks[0m [0;34m=[0m [0;36m0[0m[0;34m[0m
+[0;34m[0m [0;32mwhile[0m [0mqueue[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m([0m[0mXi[0m[0;34m,[0m [0mXj[0m[0;34m)[0m [0;34m=[0m [0mqueue[0m[0;34m.[0m[0mpop[0m[0;34m([0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0mrevised[0m[0;34m,[0m [0mchecks[0m [0;34m=[0m [0mrevise[0m[0;34m([0m[0mcsp[0m[0;34m,[0m [0mXi[0m[0;34m,[0m [0mXj[0m[0;34m,[0m [0mremovals[0m[0;34m,[0m [0mchecks[0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0;32mif[0m [0mrevised[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m
+```
+
+```python
+%psource revise
+```
+
+Output:
+```text
+[0;32mdef[0m [0mrevise[0m[0;34m([0m[0mcsp[0m[0;34m,[0m [0mXi[0m[0;34m,[0m [0mXj[0m[0;34m,[0m [0mremovals[0m[0;34m,[0m [0mchecks[0m[0;34m=[0m[0;36m0[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""Return true if we remove a value."""[0m[0;34m[0m
+[0;34m[0m [0mrevised[0m [0;34m=[0m [0;32mFalse[0m[0;34m[0m
+[0;34m[0m [0;32mfor[0m [0mx[0m [0;32min[0m [0mcsp[0m[0;34m.[0m[0mcurr_domains[0m[0;34m[[0m[0mXi[0m[0;34m][0m[0;34m[[0m[0;34m:[0m[0;34m][0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;31m# If Xi=x conflicts with Xj=y for every possible y, eliminate Xi=x[0m[0;34m[0m
+[0;34m[0m [0;31m# if all(not csp.constraints(Xi, x, Xj, y) for y in csp.curr_domains[Xj]):[0m[0;34m[0m
+[0;34m[0m [0mconflict[0m [0;34m=[0m [0;32mTrue[0m[0;34m[0m
+[0;34m[0m [0;32mfor[0m [0my[0m [0;32min[0m [0mcsp[0m[0;34m.[0m[0mcurr_domains[0m[0;34m[[0m[0mXj[0m[0;34m][0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;32mif[0m [0mcsp[0m[0;34m.[0m[0mconstraints[0m[0;34m([0m[0mXi[0m[0;34m,[0m [0mx[0m[0;34m,[0m [0mXj[0m[0;34m,[0m [0my[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0mconflict[0m [0;34m=[0m [0;32mFalse[0m[0;34m[0m
+[0;34m[0m [0mchecks[0m [0;34m+=[0m [0;36m1[0m[0;34m[0m
+[0;34m[0m [0;32mif[0m [0;32mnot[0m [0mconflict[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;32mbreak[0m[0;34m[0m
+[0;34m[0m [0;32mif[0m [0mconflict[0m[0;34m:[0m[0;34m[0m
+[
+```
+
+At any stage in the process of making 2-variable CSP *arc-consistent* in `AC3b`:
+- there is a set $S_i^+ \subseteq D_i$ whose values are all known to be supported by $X_j$;
+- there is a set $S_i^? = D_i \setminus S_i^+$ whose values are unknown, as yet, to be supported by $X_j$.
+
+The same holds if the roles for $X_i$ and $X_j$ are exchanged.
+
+In order to establish support for a value $v_i^? \in S_i^?$ it seems better to try to find a support among the values in $S_j^?$ first, because for each $v_j^? \in S_j^?$ the check $(v_i^?,v_j^?) \in C_{ij}$ is a *double-support check* and it is just as likely that any $v_j^? \in S_j^?$ supports $v_i^?$ than it is that any $v_j^+ \in S_j^+$ does. Only if no support can be found among the elements in $S_j^?$, should the elements $v_j^+$ in $S_j^+$ be used for *single-support checks* $(v_i^?,v_j^+) \in C_{ij}$. After it has been decided for each value in $D_i$ whether it is supported or not, either $S_x^+ = \emptyset$ and the 2-variable CSP is *inconsistent*, or $S_x^+ \neq \emptyset$ and the CSP is *satisfiable*. In the latter case, the elements from $D_i$ which are supported by $j$ are given by $S_x^+$. The elements in $D_j$ which are supported by $x$ are given by the union of $S_j^+$ with the set of those elements of $S_j^?$ which further processing will show to be supported by some $v_i^+ \in S_x^+$.
+
+```python
+%psource AC3b
+```
+
+Output:
+```text
+[0;32mdef[0m [0mAC3b[0m[0;34m([0m[0mcsp[0m[0;34m,[0m [0mqueue[0m[0;34m=[0m[0;32mNone[0m[0;34m,[0m [0mremovals[0m[0;34m=[0m[0;32mNone[0m[0;34m,[0m [0marc_heuristic[0m[0;34m=[0m[0mdom_j_up[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;32mif[0m [0mqueue[0m [0;32mis[0m [0;32mNone[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0mqueue[0m [0;34m=[0m [0;34m{[0m[0;34m([0m[0mXi[0m[0;34m,[0m [0mXk[0m[0;34m)[0m [0;32mfor[0m [0mXi[0m [0;32min[0m [0mcsp[0m[0;34m.[0m[0mvariables[0m [0;32mfor[0m [0mXk[0m [0;32min[0m [0mcsp[0m[0;34m.[0m[0mneighbors[0m[0;34m[[0m[0mXi[0m[0;34m][0m[0;34m}[0m[0;34m[0m
+[0;34m[0m [0mcsp[0m[0;34m.[0m[0msupport_pruning[0m[0;34m([0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0mqueue[0m [0;34m=[0m [0marc_heuristic[0m[0;34m([0m[0mcsp[0m[0;34m,[0m [0mqueue[0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0mchecks[0m [0;34m=[0m [0;36m0[0m[0;34m[0m
+[0;34m[0m [0;32mwhile[0m [0mqueue[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m([0m[0mXi[0m[0;34m,[0m [0mXj[0m[0;34m)[0m [0;34m=[0m [0mqueue[0m[0;34m.[0m[0mpop[0m[0;34m([0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0;31m# Si_p values are all known to be supported by Xj[0m[0;34m[0m
+[0;34m[0m [0;31m# Sj_p values are all known to be supported by Xi[0m[0;34m[0m
+[0;34m[0m [0;31m# Dj - Sj_p = Sj_u values are unknown, as yet, to be supported by Xi[0m[0;34m[0m
+[0;34m[0m [0mSi_p[0m[0;34m,[0m [0mSj_p[0m[0;34m,[0m [0mSj_u[0m[0;34m,
+```
+
+```python
+%psource partition
+```
+
+Output:
+```text
+[0;32mdef[0m [0mpartition[0m[0;34m([0m[0mcsp[0m[0;34m,[0m [0mXi[0m[0;34m,[0m [0mXj[0m[0;34m,[0m [0mchecks[0m[0;34m=[0m[0;36m0[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0mSi_p[0m [0;34m=[0m [0mset[0m[0;34m([0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0mSj_p[0m [0;34m=[0m [0mset[0m[0;34m([0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0mSj_u[0m [0;34m=[0m [0mset[0m[0;34m([0m[0mcsp[0m[0;34m.[0m[0mcurr_domains[0m[0;34m[[0m[0mXj[0m[0;34m][0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0;32mfor[0m [0mvi_u[0m [0;32min[0m [0mcsp[0m[0;34m.[0m[0mcurr_domains[0m[0;34m[[0m[0mXi[0m[0;34m][0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0mconflict[0m [0;34m=[0m [0;32mTrue[0m[0;34m[0m
+[0;34m[0m [0;31m# now, in order to establish support for a value vi_u in Di it seems better to try to find a support among[0m[0;34m[0m
+[0;34m[0m [0;31m# the values in Sj_u first, because for each vj_u in Sj_u the check (vi_u, vj_u) is a double-support check[0m[0;34m[0m
+[0;34m[0m [0;31m# and it is just as likely that any vj_u in Sj_u supports vi_u than it is that any vj_p in Sj_p does...[0m[0;34m[0m
+[0;34m[0m [0;32mfor[0m [0mvj_u[0m [0;32min[0m [0mSj_u[0m [0;34m-[0m [0mSj_p[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;31m# double-support check[0m[0;34m[0m
+[0;34m[0m [0;32mif[0m [0mcsp[0m[0;34m.[0m[0mconstraints[0m[0;34m([0m[0mXi[0m[0;34m,[0m [0mvi_u[0m[0;34m,[0m [0mXj[0m[0;34m,[0m [0mvj_u[0m[0;34m)[0m[0;34m:[0m[0;34m
+```
+
+`AC3b` is a refinement of the `AC3` algorithm which consists of the fact that if, when arc $(i,j)$ is being processed and the reverse arc $(j,i)$ is also in the queue, then consistency-checks can be saved because only support for the elements in $S_j^?$ has to be found (as opposed to support for all the elements in $D_j$ in the
+`AC3` algorithm). <br>
+`AC3b` inherits all its properties like $\mathcal{O}(ed^3)$ time-complexity and $\mathcal{O}(e + nd)$ space-complexity fron `AC3` and where $n$ denotes the number of variables in the CSP, $e$ denotes the number of binary constraints and $d$ denotes the maximum domain-size of the variables.
+
+## Arc-Heuristics for Arc-Consistency Algorithms
+
+Many *arc-heuristics* can be devised, based on three major features of CSPs:
+- the number of acceptable pairs in each constraint (the *constraint size* or *satisfiability*);
+- the *domain size*;
+- the number of binary constraints that each variable participates in, equal to the *degree* of the node of that variable in the constraint graph.
+
+Simple examples of heuristics that might be expected to improve the efficiency of relaxation are:
+- ordering the list of variable pairs by *increasing* relative *satisfiability*;
+- ordering by *increasing size of the domain* of the variable $v_j$ relaxed against $v_i$;
+- ordering by *descending degree* of node of the variable relaxed.
+
+In <a name="ref-3"/>[[3]](#cite-wallace1992ordering) are investigated the effects of these *arc-heuristics* in an empirical way, experimenting the effects of them on random CSPs. Their results demonstrate that the first two, later called `sat up` and `dom j up` for n-ary and binary CSPs respectively, significantly reduce the number of *consistency-checks*.
+
+```python
+%psource dom_j_up
+```
+
+Output:
+```text
+[0;32mdef[0m [0mdom_j_up[0m[0;34m([0m[0mcsp[0m[0;34m,[0m [0mqueue[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;32mreturn[0m [0mSortedSet[0m[0;34m([0m[0mqueue[0m[0;34m,[0m [0mkey[0m[0;34m=[0m[0;32mlambda[0m [0mt[0m[0;34m:[0m [0mneg[0m[0;34m([0m[0mlen[0m[0;34m([0m[0mcsp[0m[0;34m.[0m[0mcurr_domains[0m[0;34m[[0m[0mt[0m[0;34m[[0m[0;36m1[0m[0;34m][0m[0;34m][0m[0;34m)[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+```
+
+```python
+%psource sat_up
+```
+
+Output:
+```text
+[0;32mdef[0m [0msat_up[0m[0;34m([0m[0mto_do[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;32mreturn[0m [0mSortedSet[0m[0;34m([0m[0mto_do[0m[0;34m,[0m [0mkey[0m[0;34m=[0m[0;32mlambda[0m [0mt[0m[0;34m:[0m [0;36m1[0m [0;34m/[0m [0mlen[0m[0;34m([0m[0;34m[[0m[0mvar[0m [0;32mfor[0m [0mvar[0m [0;32min[0m [0mt[0m[0;34m[[0m[0;36m1[0m[0;34m][0m[0;34m.[0m[0mscope[0m[0;34m][0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+```
+
+## Experimental Results
+
+For the experiments below on binary CSPs, in addition to the two *arc-consistency algorithms* already cited above, `AC3` and `AC3b`, the `AC4` algorithm was used. <br>
+The `AC4` algorithm runs in $\mathcal{O}(ed^2)$ worst-case time but can be slower than `AC3` on average cases.
+
+```python
+%psource AC4
+```
+
+Output:
+```text
+[0;32mdef[0m [0mAC4[0m[0;34m([0m[0mcsp[0m[0;34m,[0m [0mqueue[0m[0;34m=[0m[0;32mNone[0m[0;34m,[0m [0mremovals[0m[0;34m=[0m[0;32mNone[0m[0;34m,[0m [0marc_heuristic[0m[0;34m=[0m[0mdom_j_up[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;32mif[0m [0mqueue[0m [0;32mis[0m [0;32mNone[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0mqueue[0m [0;34m=[0m [0;34m{[0m[0;34m([0m[0mXi[0m[0;34m,[0m [0mXk[0m[0;34m)[0m [0;32mfor[0m [0mXi[0m [0;32min[0m [0mcsp[0m[0;34m.[0m[0mvariables[0m [0;32mfor[0m [0mXk[0m [0;32min[0m [0mcsp[0m[0;34m.[0m[0mneighbors[0m[0;34m[[0m[0mXi[0m[0;34m][0m[0;34m}[0m[0;34m[0m
+[0;34m[0m [0mcsp[0m[0;34m.[0m[0msupport_pruning[0m[0;34m([0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0mqueue[0m [0;34m=[0m [0marc_heuristic[0m[0;34m([0m[0mcsp[0m[0;34m,[0m [0mqueue[0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0msupport_counter[0m [0;34m=[0m [0mCounter[0m[0;34m([0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0mvariable_value_pairs_supported[0m [0;34m=[0m [0mdefaultdict[0m[0;34m([0m[0mset[0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0munsupported_variable_value_pairs[0m [0;34m=[0m [0;34m[[0m[0;34m][0m[0;34m[0m
+[0;34m[0m [0mchecks[0m [0;34m=[0m [0;36m0[0m[0;34m[0m
+[0;34m[0m [0;31m# construction and initialization of support sets[0m[0;34m[0m
+[0;34m[0m [0;32mwhile[0m [0mqueue[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m([0m[0mXi[0m[0;34m,[0m [0mXj[0m[0;34m)[0m [0;34m=[0m [0mqueue[0m[0;34m.[0m
+```
+
+### Sudoku
+
+#### Easy Sudoku
+
+```python
+sudoku = Sudoku(easy1)
+sudoku.display(sudoku.infer_assignment())
+```
+
+Output:
+```text
+. . 3 | . 2 . | 6 . .
+9 . . | 3 . 5 | . . 1
+. . 1 | 8 . 6 | 4 . .
+------+-------+------
+. . 8 | 1 . 2 | 9 . .
+7 . . | . . . | . . 8
+. . 6 | 7 . 8 | 2 . .
+------+-------+------
+. . 2 | 6 . 9 | 5 . .
+8 . . | 2 . 3 | . . 9
+. . 5 | . 1 . | 3 . .
+```
+
+```python
+%time _, checks = AC3(sudoku, arc_heuristic=no_arc_heuristic)
+f'AC3 needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 23.6 ms, sys: 0 ns, total: 23.6 ms
+Wall time: 22.4 ms
+
+'AC3 needs 11322 consistency-checks'
+```
+
+```python
+sudoku = Sudoku(easy1)
+%time _, checks = AC3b(sudoku, arc_heuristic=no_arc_heuristic)
+f'AC3b needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 7.43 ms, sys: 3.68 ms, total: 11.1 ms
+Wall time: 10.7 ms
+
+'AC3b needs 8345 consistency-checks'
+```
+
+```python
+sudoku = Sudoku(easy1)
+%time _, checks = AC4(sudoku, arc_heuristic=no_arc_heuristic)
+f'AC4 needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 56.3 ms, sys: 0 ns, total: 56.3 ms
+Wall time: 55.4 ms
+
+'AC4 needs 27718 consistency-checks'
+```
+
+```python
+sudoku = Sudoku(easy1)
+%time _, checks = AC3(sudoku, arc_heuristic=dom_j_up)
+f'AC3 with DOM J UP arc heuristic needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 17.2 ms, sys: 0 ns, total: 17.2 ms
+Wall time: 16.9 ms
+
+'AC3 with DOM J UP arc heuristic needs 6925 consistency-checks'
+```
+
+```python
+sudoku = Sudoku(easy1)
+%time _, checks = AC3b(sudoku, arc_heuristic=dom_j_up)
+f'AC3b with DOM J UP arc heuristic needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 40.9 ms, sys: 2.47 ms, total: 43.4 ms
+Wall time: 41.7 ms
+
+'AC3b with DOM J UP arc heuristic needs 6278 consistency-checks'
+```
+
+```python
+sudoku = Sudoku(easy1)
+%time _, checks = AC4(sudoku, arc_heuristic=dom_j_up)
+f'AC4 with DOM J UP arc heuristic needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 38.9 ms, sys: 1.96 ms, total: 40.9 ms
+Wall time: 40.7 ms
+
+'AC4 with DOM J UP arc heuristic needs 9393 consistency-checks'
+```
+
+```python
+backtracking_search(sudoku, select_unassigned_variable=mrv, inference=forward_checking)
+sudoku.display(sudoku.infer_assignment())
+```
+
+Output:
+```text
+4 8 3 | 9 2 1 | 6 5 7
+9 6 7 | 3 4 5 | 8 2 1
+2 5 1 | 8 7 6 | 4 9 3
+------+-------+------
+5 4 8 | 1 3 2 | 9 7 6
+7 2 9 | 5 6 4 | 1 3 8
+1 3 6 | 7 9 8 | 2 4 5
+------+-------+------
+3 7 2 | 6 8 9 | 5 1 4
+8 1 4 | 2 5 3 | 7 6 9
+6 9 5 | 4 1 7 | 3 8 2
+```
+
+#### Harder Sudoku
+
+```python
+sudoku = Sudoku(harder1)
+sudoku.display(sudoku.infer_assignment())
+```
+
+Output:
+```text
+4 1 7 | 3 6 9 | 8 . 5
+. 3 . | . . . | . . .
+. . . | 7 . . | . . .
+------+-------+------
+. 2 . | . . . | . 6 .
+. . . | . 8 . | 4 . .
+. . . | . 1 . | . . .
+------+-------+------
+. . . | 6 . 3 | . 7 .
+5 . . | 2 . . | . . .
+1 . 4 | . . . | . . .
+```
+
+```python
+%time _, checks = AC3(sudoku, arc_heuristic=no_arc_heuristic)
+f'AC3 needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 17.7 ms, sys: 481 µs, total: 18.2 ms
+Wall time: 17.2 ms
+
+'AC3 needs 12837 consistency-checks'
+```
+
+```python
+sudoku = Sudoku(harder1)
+%time _, checks = AC3b(sudoku, arc_heuristic=no_arc_heuristic)
+f'AC3b needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 24.1 ms, sys: 2.6 ms, total: 26.7 ms
+Wall time: 25.1 ms
+
+'AC3b needs 8864 consistency-checks'
+```
+
+```python
+sudoku = Sudoku(harder1)
+%time _, checks = AC4(sudoku, arc_heuristic=no_arc_heuristic)
+f'AC4 needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 63.4 ms, sys: 3.48 ms, total: 66.9 ms
+Wall time: 65.5 ms
+
+'AC4 needs 44213 consistency-checks'
+```
+
+```python
+sudoku = Sudoku(harder1)
+%time _, checks = AC3(sudoku, arc_heuristic=dom_j_up)
+f'AC3 with DOM J UP arc heuristic needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 9.96 ms, sys: 570 µs, total: 10.5 ms
+Wall time: 10.3 ms
+
+'AC3 with DOM J UP arc heuristic needs 7045 consistency-checks'
+```
+
+```python
+sudoku = Sudoku(harder1)
+%time _, checks = AC3b(sudoku, arc_heuristic=dom_j_up)
+f'AC3b with DOM J UP arc heuristic needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 36.1 ms, sys: 0 ns, total: 36.1 ms
+Wall time: 35.5 ms
+
+'AC3b with DOM J UP arc heuristic needs 6994 consistency-checks'
+```
+
+```python
+sudoku = Sudoku(harder1)
+%time _, checks = AC4(sudoku, arc_heuristic=dom_j_up)
+f'AC4 with DOM J UP arc heuristic needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 40.3 ms, sys: 0 ns, total: 40.3 ms
+Wall time: 39.7 ms
+
+'AC4 with DOM J UP arc heuristic needs 19210 consistency-checks'
+```
+
+```python
+backtracking_search(sudoku, select_unassigned_variable=mrv, inference=forward_checking)
+sudoku.display(sudoku.infer_assignment())
+```
+
+Output:
+```text
+4 1 7 | 3 6 9 | 8 2 5
+6 3 2 | 1 5 8 | 9 4 7
+9 5 8 | 7 2 4 | 3 1 6
+------+-------+------
+8 2 5 | 4 3 7 | 1 6 9
+7 9 1 | 5 8 6 | 4 3 2
+3 4 6 | 9 1 2 | 7 5 8
+------+-------+------
+2 8 9 | 6 4 3 | 5 7 1
+5 7 3 | 2 9 1 | 6 8 4
+1 6 4 | 8 7 5 | 2 9 3
+```
+
+### 8 Queens
+
+```python
+chess = NQueensCSP(8)
+chess.display(chess.infer_assignment())
+```
+
+Output:
+```text
+. - . - . - . - 0 0 0 0 0 0 0 0
+- . - . - . - . 0 0 0 0 0 0 0 0
+. - . - . - . - 0 0 0 0 0 0 0 0
+- . - . - . - . 0 0 0 0 0 0 0 0
+. - . - . - . - 0 0 0 0 0 0 0 0
+- . - . - . - . 0 0 0 0 0 0 0 0
+. - . - . - . - 0 0 0 0 0 0 0 0
+- . - . - . - . 0 0 0 0 0 0 0 0
+```
+
+```python
+%time _, checks = AC3(chess, arc_heuristic=no_arc_heuristic)
+f'AC3 needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 689 µs, sys: 193 µs, total: 882 µs
+Wall time: 892 µs
+
+'AC3 needs 666 consistency-checks'
+```
+
+```python
+chess = NQueensCSP(8)
+%time _, checks = AC3b(chess, arc_heuristic=no_arc_heuristic)
+f'AC3b needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 451 µs, sys: 127 µs, total: 578 µs
+Wall time: 584 µs
+
+'AC3b needs 428 consistency-checks'
+```
+
+```python
+chess = NQueensCSP(8)
+%time _, checks = AC4(chess, arc_heuristic=no_arc_heuristic)
+f'AC4 needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 8.53 ms, sys: 109 µs, total: 8.64 ms
+Wall time: 8.48 ms
+
+'AC4 needs 4096 consistency-checks'
+```
+
+```python
+chess = NQueensCSP(8)
+%time _, checks = AC3(chess, arc_heuristic=dom_j_up)
+f'AC3 with DOM J UP arc heuristic needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 1.88 ms, sys: 0 ns, total: 1.88 ms
+Wall time: 1.88 ms
+
+'AC3 with DOM J UP arc heuristic needs 666 consistency-checks'
+```
+
+```python
+chess = NQueensCSP(8)
+%time _, checks = AC3b(chess, arc_heuristic=dom_j_up)
+f'AC3b with DOM J UP arc heuristic needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 1.21 ms, sys: 326 µs, total: 1.53 ms
+Wall time: 1.54 ms
+
+'AC3b with DOM J UP arc heuristic needs 792 consistency-checks'
+```
+
+```python
+chess = NQueensCSP(8)
+%time _, checks = AC4(chess, arc_heuristic=dom_j_up)
+f'AC4 with DOM J UP arc heuristic needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 4.71 ms, sys: 0 ns, total: 4.71 ms
+Wall time: 4.65 ms
+
+'AC4 with DOM J UP arc heuristic needs 4096 consistency-checks'
+```
+
+```python
+backtracking_search(chess, select_unassigned_variable=mrv, inference=forward_checking)
+chess.display(chess.infer_assignment())
+```
+
+Output:
+```text
+. - . - Q - . - 2 2 3 3 0* 1 1 2
+- Q - . - . - . 1 0* 3 3 2 2 2 2
+. - . - . Q . - 3 2 3 2 2 0* 3 2
+Q . - . - . - . 0* 3 1 2 3 3 3 3
+. - . - . - Q - 2 2 2 2 3 3 0* 2
+- . - Q - . - . 2 1 3 0* 2 3 2 2
+. - . - . - . Q 1 3 2 3 3 1 2 0*
+- . Q . - . - . 2 2 0* 2 2 2 2 2
+```
+
+For the experiments below on n-ary CSPs, due to the n-ary constraints, the `GAC` algorithm was used. <br>
+The `GAC` algorithm has $\mathcal{O}(er^2d^t)$ time-complexity and $\mathcal{O}(erd)$ space-complexity where $e$ denotes the number of n-ary constraints, $r$ denotes the constraint arity and $d$ denotes the maximum domain-size of the variables.
+
+```python
+%psource ACSolver.GAC
+```
+
+Output:
+```text
+[0;32mdef[0m [0mGAC[0m[0;34m([0m[0mself[0m[0;34m,[0m [0morig_domains[0m[0;34m=[0m[0;32mNone[0m[0;34m,[0m [0mto_do[0m[0;34m=[0m[0;32mNone[0m[0;34m,[0m [0marc_heuristic[0m[0;34m=[0m[0msat_up[0m[0;34m)[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0;34m"""Makes this CSP arc-consistent using Generalized Arc Consistency[0m
+[0;34m orig_domains is the original domains[0m
+[0;34m to_do is a set of (variable,constraint) pairs[0m
+[0;34m returns the reduced domains (an arc-consistent variable:domain dictionary)[0m
+[0;34m """[0m[0;34m[0m
+[0;34m[0m [0;32mif[0m [0morig_domains[0m [0;32mis[0m [0;32mNone[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0morig_domains[0m [0;34m=[0m [0mself[0m[0;34m.[0m[0mcsp[0m[0;34m.[0m[0mdomains[0m[0;34m[0m
+[0;34m[0m [0;32mif[0m [0mto_do[0m [0;32mis[0m [0;32mNone[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0mto_do[0m [0;34m=[0m [0;34m{[0m[0;34m([0m[0mvar[0m[0;34m,[0m [0mconst[0m[0;34m)[0m [0;32mfor[0m [0mconst[0m [0;32min[0m [0mself[0m[0;34m.[0m[0mcsp[0m[0;34m.[0m[0mconstraints[0m [0;32mfor[0m [0mvar[0m [0;32min[0m [0mconst[0m[0;34m.[0m[0mscope[0m[0;34m}[0m[0;34m[0m
+[0;34m[0m [0;32melse[0m[0;34m:[0m[0;34m[0m
+[0;34m[0m [0mto_do[0m [0;34m=[0m [0mto_do[0m[0;34m.[0m[0mcopy[0m[0;34m([0m[0;34m)[0m[0;34m[0m
+[0;34m[0m [0mdomains[0m [0;34m=[0m [0morig_domains[0m[0;34m.[0m[0mcopy[0m[0;34m([0m[0;34m)[0m[0;34m[0m
+[0;34m[0m
+```
+
+### Crossword
+
+```python
+crossword = Crossword(crossword1, words1)
+crossword.display()
+words1
+```
+
+Output:
+```text
+[_] [_] [_] [*] [*]
+[_] [*] [_] [*] [*]
+[_] [_] [_] [_] [*]
+[_] [*] [_] [*] [*]
+[*] [*] [_] [_] [_]
+[*] [*] [_] [*] [*]
+
+{'ant',
+'big',
+'book',
+'bus',
+'buys',
+'car',
+'ginger',
+'has',
+'hold',
+'lane',
+'search',
+'symbol',
+'syntax',
+'year'}
+```
+
+```python
+%time _, _, checks = ACSolver(crossword).GAC(arc_heuristic=no_heuristic)
+f'GAC needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 1min 20s, sys: 2.02 ms, total: 1min 20s
+Wall time: 1min 20s
+
+'GAC needs 64617645 consistency-checks'
+```
+
+```python
+crossword = Crossword(crossword1, words1)
+%time _, _, checks = ACSolver(crossword).GAC(arc_heuristic=sat_up)
+f'GAC with SAT UP arc heuristic needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 1.19 s, sys: 0 ns, total: 1.19 s
+Wall time: 1.19 s
+
+'GAC with SAT UP arc heuristic needs 908015 consistency-checks'
+```
+
+```python
+crossword.display(ACSolver(crossword).domain_splitting())
+```
+
+Output:
+```text
+[B] [U] [S] [*] [*]
+[U] [*] [E] [*] [*]
+[Y] [E] [A] [R] [*]
+[S] [*] [R] [*] [*]
+[*] [*] [C] [A] [R]
+[*] [*] [H] [*] [*]
+```
+
+### Kakuro
+
+#### Easy Kakuro
+
+```python
+kakuro = Kakuro(kakuro2)
+kakuro.display()
+```
+
+Output:
+```text
+[*] 10\ 13\ [*]
+\3 [_] [_] 13\
+\12 [_] [_] [_]
+\21 [_] [_] [_]
+```
+
+```python
+%time _, _, checks = ACSolver(kakuro).GAC(arc_heuristic=no_heuristic)
+f'GAC needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 17.8 ms, sys: 171 µs, total: 18 ms
+Wall time: 16.4 ms
+
+'GAC needs 2752 consistency-checks'
+```
+
+```python
+kakuro = Kakuro(kakuro2)
+%time _, _, checks = ACSolver(kakuro).GAC(arc_heuristic=sat_up)
+f'GAC with SAT UP arc heuristic needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 8.55 ms, sys: 0 ns, total: 8.55 ms
+Wall time: 8.39 ms
+
+'GAC with SAT UP arc heuristic needs 1765 consistency-checks'
+```
+
+```python
+kakuro.display(ACSolver(kakuro).domain_splitting())
+```
+
+Output:
+```text
+[*] 10\ 13\ [*]
+\3 [1] [2] 13\
+\12 [5] [3] [4]
+\21 [4] [8] [9]
+```
+
+#### Medium Kakuro
+
+```python
+kakuro = Kakuro(kakuro3)
+kakuro.display()
+```
+
+Output:
+```text
+[*] 17\ 28\ [*] 42\ 22\
+\9 [_] [_] 31\14 [_] [_]
+\20 [_] [_] [_] [_] [_]
+[*] \30 [_] [_] [_] [_]
+[*] 22\24 [_] [_] [_] [*]
+\25 [_] [_] [_] [_] 11\
+\20 [_] [_] [_] [_] [_]
+\14 [_] [_] \17 [_] [_]
+```
+
+```python
+%time _, _, checks = ACSolver(kakuro).GAC(arc_heuristic=no_heuristic)
+f'GAC needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 1.96 s, sys: 0 ns, total: 1.96 s
+Wall time: 1.96 s
+
+'GAC needs 1290179 consistency-checks'
+```
+
+```python
+kakuro = Kakuro(kakuro3)
+%time _, _, checks = ACSolver(kakuro).GAC(arc_heuristic=sat_up)
+f'GAC with SAT UP arc heuristic needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 225 ms, sys: 0 ns, total: 225 ms
+Wall time: 223 ms
+
+'GAC with SAT UP arc heuristic needs 148780 consistency-checks'
+```
+
+```python
+kakuro.display(ACSolver(kakuro).domain_splitting())
+```
+
+Output:
+```text
+[*] 17\ 28\ [*] 42\ 22\
+\9 [8] [1] 31\14 [5] [9]
+\20 [9] [2] [1] [3] [5]
+[*] \30 [6] [9] [7] [8]
+[*] 22\24 [7] [8] [9] [*]
+\25 [8] [4] [7] [6] 11\
+\20 [5] [3] [6] [4] [2]
+\14 [9] [5] \17 [8] [9]
+```
+
+#### Harder Kakuro
+
+```python
+kakuro = Kakuro(kakuro4)
+kakuro.display()
+```
+
+Output:
+```text
+[*] [*] [*] [*] [*] 4\ 24\ 11\ [*] [*] [*] 11\ 17\ [*] [*]
+[*] [*] [*] 17\ 11\12 [_] [_] [_] [*] [*] 24\10 [_] [_] 11\ [*]
+[*] 4\ 16\26 [_] [_] [_] [_] [_] [*] \20 [_] [_] [_] [_] 16\
+\20 [_] [_] [_] [_] 24\13 [_] [_] 16\ \12 [_] [_] 23\10 [_] [_]
+\10 [_] [_] 24\12 [_] [_] 16\5 [_] [_] 16\30 [_] [_] [_] [_] [_]
+[*] [*] 3\26 [_] [_] [_] [_] \12 [_] [_] 4\ 16\14 [_] [_] [*]
+[*] \8 [_] [_] \15 [_] [_] 34\26 [_] [_] [_] [_] [_] [*] [*]
+[*] \11 [_] [_] 3\ 17\ \14 [_] [_] \8 [_] [_] 7\ 17\ [*]
+[*] [*] [*] 23\10 [_] [_] 3\9 [_] [_] 4\ 23\ \13 [_] [_] [*]
+[*] [*] 10\26 [_] [_] [_] [_] [_] \7 [_] [_] 30\9 [_] [_] [*]
+[*] 17\11 [_] [_] 11\ 24\8 [_] [_] 11\21 [_] [_] [_] [_] 16\ 17\
+\29 [_] [_] [_] [_] [_] \7 [_] [_] 23\14 [_] [_] 3\17 [_] [_]
+\10 [_] [_] 3\10 [_] [_] [*] \8 [_] [_] 4\25 [_] [_] [_] [_]
+[*] \16 [_] [_] [_] [_] [*] \23 [_] [_] [_] [_] [_] [*] [*]
+[*] [*] \6 [_] [_] [*] [*] \15 [_] [_] [_] [*] [*] [*] [*]
+```
+
+```python
+%time _, _, checks = ACSolver(kakuro).GAC()
+f'GAC needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 76.5 ms, sys: 847 µs, total: 77.4 ms
+Wall time: 77 ms
+
+'GAC needs 46633 consistency-checks'
+```
+
+```python
+kakuro = Kakuro(kakuro4)
+%time _, _, checks = ACSolver(kakuro).GAC(arc_heuristic=sat_up)
+f'GAC with SAT UP arc heuristic needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 64.6 ms, sys: 0 ns, total: 64.6 ms
+Wall time: 63.6 ms
+
+'GAC with SAT UP arc heuristic needs 36828 consistency-checks'
+```
+
+```python
+kakuro.display(ACSolver(kakuro).domain_splitting())
+```
+
+Output:
+```text
+[*] [*] [*] [*] [*] 4\ 24\ 11\ [*] [*] [*] 11\ 17\ [*] [*]
+[*] [*] [*] 17\ 11\12 [3] [7] [2] [*] [*] 24\10 [2] [8] 11\ [*]
+[*] 4\ 16\26 [8] [5] [1] [9] [3] [*] \20 [8] [1] [9] [2] 16\
+\20 [3] [7] [9] [1] 24\13 [8] [5] 16\ \12 [9] [3] 23\10 [3] [7]
+\10 [1] [9] 24\12 [3] [9] 16\5 [1] [4] 16\30 [7] [5] [8] [1] [9]
+[*] [*] 3\26 [8] [2] [7] [9] \12 [3] [9] 4\ 16\14 [9] [5] [*]
+[*] \8 [1] [7] \15 [8] [7] 34\26 [1] [7] [3] [9] [6] [*] [*]
+[*] \11 [2] [9] 3\ 17\ \14 [8] [6] \8 [1] [7] 7\ 17\ [*]
+[*] [*] [*] 23\10 [1] [9] 3\9 [7] [2] 4\ 23\ \13 [4] [9] [*]
+[*] [*] 10\26 [6] [2] [8] [1] [9] \7 [1] [6] 30\9 [1] [8] [*]
+[*] 17\11 [3] [8] 11\ 24\8 [2] [6] 11\21 [3] [9] [7] [2] 16\ 17\
+\29 [8] [2] [9] [3] [7] \7 [4] [3] 23\14 [8] [6] 3\17 [9] [8]
+\10 [9] [1] 3\10 [2] [8] [*] \8 [2] [6] 4\25 [8] [1] [7] [9]
+[*] \16 [4] [2] [1] [9] [*] \23 [1] [8] [3] [9] [2] [*] [*]
+[*] [*] \6 [1] [5] [*] [*] \15 [5] [9] [1] [*] [*] [*] [*]
+```
+
+### Cryptarithmetic Puzzle
+
+$$
+\begin{array}{@{}r@{}}
+S E N D \\
+{} + M O R E \\
+\hline
+M O N E Y
+\end{array}
+$$
+
+```python
+cryptarithmetic = NaryCSP(
+{'S': set(range(1, 10)), 'M': set(range(1, 10)),
+'E': set(range(0, 10)), 'N': set(range(0, 10)), 'D': set(range(0, 10)),
+'O': set(range(0, 10)), 'R': set(range(0, 10)), 'Y': set(range(0, 10)),
+'C1': set(range(0, 2)), 'C2': set(range(0, 2)), 'C3': set(range(0, 2)),
+'C4': set(range(0, 2))},
+[Constraint(('S', 'E', 'N', 'D', 'M', 'O', 'R', 'Y'), all_diff),
+Constraint(('D', 'E', 'Y', 'C1'), lambda d, e, y, c1: d + e == y + 10 * c1),
+Constraint(('N', 'R', 'E', 'C1', 'C2'), lambda n, r, e, c1, c2: c1 + n + r == e + 10 * c2),
+Constraint(('E', 'O', 'N', 'C2', 'C3'), lambda e, o, n, c2, c3: c2 + e + o == n + 10 * c3),
+Constraint(('S', 'M', 'O', 'C3', 'C4'), lambda s, m, o, c3, c4: c3 + s + m == o + 10 * c4),
+Constraint(('M', 'C4'), eq)])
+```
+
+```python
+%time _, _, checks = ACSolver(cryptarithmetic).GAC(arc_heuristic=no_heuristic)
+f'GAC needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 21.7 s, sys: 0 ns, total: 21.7 s
+Wall time: 21.7 s
+
+'GAC needs 14080592 consistency-checks'
+```
+
+```python
+%time _, _, checks = ACSolver(cryptarithmetic).GAC(arc_heuristic=sat_up)
+f'GAC with SAT UP arc heuristic needs {checks} consistency-checks'
+```
+
+Output:
+```text
+CPU times: user 939 ms, sys: 0 ns, total: 939 ms
+Wall time: 938 ms
+
+'GAC with SAT UP arc heuristic needs 573120 consistency-checks'
+```
+
+```python
+assignment = ACSolver(cryptarithmetic).domain_splitting()
+
+from IPython.display import Latex
+display(Latex(r'\begin{array}{@{}r@{}} ' + '{}{}{}{}'.format(assignment['S'], assignment['E'], assignment['N'], assignment['D']) + r' \\ + ' +
+'{}{}{}{}'.format(assignment['M'], assignment['O'], assignment['R'], assignment['E']) + r' \\ \hline ' +
+'{}{}{}{}{}'.format(assignment['M'], assignment['O'], assignment['N'], assignment['E'], assignment['Y']) + ' \end{array}'))
+```
+
+Output:
+```text
+<IPython.core.display.Latex object>
+```
+
+## References
+
+<a name="cite-van2002domain"/><sup>[[1]](#ref-1) </sup>Van Dongen, Marc RC. 2002. _Domain-heuristics for arc-consistency algorithms_.
+
+<a name="cite-van2000improving"/><sup>[[2]](#ref-2) </sup>Van Dongen, MRC and Bowen, JA. 2000. _Improving arc-consistency algorithms with double-support checks_.
+
+<a name="cite-wallace1992ordering"/><sup>[[3]](#ref-3) </sup>Wallace, Richard J and Freuder, Eugene Charles. 1992. _Ordering heuristics for arc consistency algorithms_.

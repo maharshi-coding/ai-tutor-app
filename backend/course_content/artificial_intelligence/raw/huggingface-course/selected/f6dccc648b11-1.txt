@@ -1,0 +1,63 @@
+Original Path: chapters/bn/chapter1/1.mdx
+Original Type: .mdx
+Snapshot Type: sanitized text
+
+# ভূমিকা
+
+<CourseFloatingBanner
+chapter={1}
+classNames="absolute z-10 right-0 top-0"
+/>
+
+## 🤗 কোর্সে স্বাগতম!
+
+<Youtube id="00GKzGyWFEs" />
+
+এই কোর্সটি আপনাকে [হাগিং ফেস](https://huggingface.co/) ইকোসিস্টেম থেকে — 🤗
+[🤗 ট্রান্সফরমার](https://github.com/huggingface/transformers),[🤗 ডেটাসেট](https://github.com/huggingface/datasets), [🤗 টোকেনাইজার](https://github.com/huggingface/tokenizers),এবং [🤗 অ্যাক্সিলারেট](https://github.com/huggingface/accelerate) — সেইসাথে হাগিং ফেস হাব থেকে লাইব্রেরি ব্যবহার করে ন্যচারাল ল্যঙ্গুএজ প্রসেসিং(NLP) শেখাবে। এটি সাইট টি বিজ্ঞাপন ছাড়াই সম্পূর্ণ ফ্রি।
+
+## এই কোর্সটি থেকে কি আশা করা যায়?
+
+এখানে কোর্সের একটি সংক্ষিপ্ত বিবরণ রয়েছে:
+
+<div class="flex justify-center">
+<img class="block dark:hidden" src="https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter1/summary.svg" alt="Brief overview of the chapters of the course.">
+<img class="hidden dark:block" src="https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter1/summary-dark.svg" alt="Brief overview of the chapters of the course.">
+</div>
+
+- অধ্যায় ১ থেকে ৪ 🤗 ট্রান্সফরমার লাইব্রেরির মূল ধারণাগুলির একটি ভূমিকা প্রদান করে। কোর্সের এই অংশের শেষে, আপনি ট্রান্সফরমার মডেলগুলি কীভাবে কাজ করে তার সাথে পরিচিত হবেন। এছাড়াও [হাগিং ফেস হাব](https://huggingface.co/models) থেকে একটি মডেল কীভাবে ব্যবহার করতে হয়, কীভাবে মডেল এর ডেটাসেটিকে ফাইন-টিউন করতে হয় এবং হাবে কীভাবে আপনার ফলাফল শেয়ার করতে হয় তা জানতে পারবেন!
+
+- ক্লাসিক NLP টাস্কগুলোর গভীরে যাওয়ার আগে অধ্যায় ৫ থেকে ৮, আপনাকে 🤗 ডেটাসেট এবং 🤗 টোকেনাইজারগুলির মূল বিষয়গুলি শেখাবে৷ এই অংশের শেষে, আপনি নিজেই সবচেয়ে কমন NLP সমস্যাগুলি সমাধান করতে পাড়বেন।
+
+- অধ্যায় ৯ থেকে ১২, এবং স্পীচ প্রসেসিং এবং কম্পিউটার ভিশনের কাজগুলো ট্রান্সফরমার মডেলগুলোকে কীভাবে ব্যবহার করা যেতে পারে তা খতিয়ে দেখে। অধ্যায়টি পড়তে পড়তে আপনি শিখবেন কিভাবে আপনার মডেল বিল্ড এবং ডেমো শেয়ার করতে হয়, কিভাবে প্রডাকশন এনভায়রনমেন্টের জন্য অপ্টিমাইজ করতে হয়। এই অংশের শেষ নাগাদ, (প্রায়) যেকোনও মেশিন লার্নিং সমস্যায় আপনি 🤗 ট্রান্সফরমার প্রয়োগ করতে প্রস্তুত হয়ে যাবেন!
+
+এই কোর্স::
+
+* পাইথন সম্পর্কে ভাল জ্ঞান প্রয়োজন
+* একটি প্রাথমিক ডিপ লার্নিং কোর্স করে নেওয়া ভালো, যেমন fast.ai-এর [fast.ai's](https://www.fast.ai/) [Practical Deep Learning for Coders](https://course.fast.ai/) বা [DeepLearning.AI](https://www.deeplearning.ai/) এর প্রোগ্রামগুলির মধ্যে একটি।
+* [PyTorch](https://pytorch.org/) বা [TensorFlow](https://www.tensorflow.org/) জানা জরুরি না, যদিও এদের যেকোনো একটির সাথে কিছু পরিচয় থাকলে সেটা আপানাকে সাহায্য করবে।
+
+আপনি এই কোর্সটি সম্পন্ন করার পরে, আমরা DeepLearning.AI-এর [Natural Language Processing Specialization](https://www.coursera.org/specializations/natural-language-processing?utm_source=deeplearning-ai&utm_medium=institutions&utm_campaign=20211011-nlp-2-hugging_face-page-nlp-refresh) কোর্সটি করার পরামর্শ দিই, যেটি প্রথাগত NLP মডেল যেমন naive Bayes এবং LSTMs সম্পর্কে জানতে আপনাকে সাহায্য করবে!
+
+## আমরা কারা??
+
+লেখক সম্পর্কে::
+
+**Matthew Carrigan ম্যাথিউ ক্যারিগান** Hugging Face এর একজন মেশিন লার্নিং ইঞ্জিনিয়ার। তিনি আয়ারল্যান্ডের ডাবলিনে থাকেন এবং পূর্বে Parse.ly-এ একজন ML ইঞ্জিনিয়ার হিসেবে এবং তার আগে ট্রিনিটি কলেজ ডাবলিন-এ একজন পোস্ট-ডক্টরাল গবেষক হিসেবে কাজ করেছেন। তিনি বিশ্বাস করেন না যে আমরা বিদ্যমান আর্কিটেকচারগুলিকে স্কেল করে AGI তে পৌছাবো, তবে তিনি দৃড়ভাবে আশা করেন যে আমারা রোবট অমরত্বের দিকে যাচ্ছি৷
+
+**Lysandre Debut লিসান্দ্রে ডেব্যু** Hugging Face এর একজন মেশিন লার্নিং ইঞ্জিনিয়ার এবং খুব প্রাথমিক পর্যায় থেকে 🤗 Transformers লাইব্রেরিতে কাজ করছেন। তার লক্ষ্য হল একটি খুব সাধারণ API-এর সাহায্যে টুল ডেভেলপ করে সবার জন্য NLP কে সুবোধ্য করে তোলা।
+
+**Sylvain Gugger সিলভাইন গুগার** হলেন হাগিং ফেসের একজন গবেষণা প্রকৌশলী এবং 🤗 ট্রান্সফরমার লাইব্রেরির মূল রক্ষণাবেক্ষণকারীদের একজন। পূর্বে তিনি fast.ai-এর একজন গবেষণা বিজ্ঞানী ছিলেন এবং জেরেমি হাওয়ার্ডের সাথে _[Deep Learning for Coders with fastai and PyTorch](https://learning.oreilly.com/library/view/deep-learning-for/9781492045519/)_ বইটি লেখেন। তার গবেষণার মূল ফোকাস হল মডেল গুলিকে আরও উন্নত করে এবং অল্প রিসোর্স ব্যবহার করে ট্রেনিং ব্যবস্থা করার মাধ্যমে সবার জন্য deep learning এর কৌশলগুলি আরও সুবোধ্য করে তোলা।
+
+**Merve Noyan মার্ভে নইয়ান** হলেন Hugging Face এর একজন ডেভেলপার অ্যাডভোকেট। যিনি টুল ডেভেলপ করেন এবং সেগুলো ব্যবহার করে কন্টেন্ট তৈরি করেন যাতে মেশিন লার্নিংকে গণতান্ত্রিক করা যায়।
+
+**Lucile Saulnier** হলেন Hugging Face এর একজন মেশিন লার্নিং ইঞ্জিনিয়ার, যিনি ওপেন সোর্স টুলের ডেভেলপমেন্ট ও ব্যবহার এ সাহায্য করে থাকেন। তিনি ন্যচালার ল্যঙ্গুএজ প্রসেসিং এর পাশাপাশি collaborative training এবং বিগসায়েন্সের মতো বিষয়ের অনেক গবেষণা প্রকল্পে সক্রিয়ভাবে জড়িত।
+
+**Lewis Tunstall** হলেন একজন মেশিন লার্নিং ইঞ্জিনিয়ার, যিনি ওপেন-সোর্স টুল ডেভেলপ করতে এবং সেগুলিকে বৃহত্তর সম্প্রদায়ের কাছে অ্যাক্সেসযোগ্য করে তোলার দিকে মনোনিবেশ করেন৷ তিনি একটি আসন্ন একটি বইয়ের সহ-লেখক [O’Reilly book on Transformers](https://www.oreilly.com/library/view/natural-language-processing/9781098136789/).
+
+**Leandro von Werra** হলেন Hugging Face-এর ওপেন-সোর্স টিমের একজন মেশিন লার্নিং ইঞ্জিনিয়ার এবং ট্রান্সফরমারের উপর একটি আসন্ন O'Reilly বইয়ের সহ-লেখক [O’Reilly book on Transformers](https://www.oreilly.com/library/view/natural-language-processing/9781098136789/). পুরো মেশিন লার্নিং স্ট্যাক জুড়ে কাজ করে NLP প্রকল্পগুলিকে উৎপাদনে নিয়ে আসার কয়েক বছরের ইন্ডাস্ট্রি অভিজ্ঞতা রয়েছে তার।
+
+আপনি রোল প্রস্তুত? এই অধ্যায়ে, আপনি শিখবেন:
+* কিভাবে টেক্সট জেনারেশন এবং শ্রেণীবিভাগের মতো NLP কাজগুলি সমাধান করতে ` `pipeline()` ফাংশন ব্যবহার করবেন
+* ট্রান্সফরমার আর্কিটেকচার সম্পর্কে
+* কিভাবে এনকোডার, ডিকোডার এবং এনকোডার-ডিকোডার আর্কিটেকচারের মধ্যে পার্থক্য করা যায় এবং কেস ব্যবহার করা যায়।

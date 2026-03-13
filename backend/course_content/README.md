@@ -8,7 +8,7 @@ node scripts/build-course-content.mjs --refresh
 
 The builder downloads curated course sources from `source_manifest.json`, then writes:
 
-- `raw/<source-id>/...` source snapshots and fetched HTML pages
+- `raw/<source-id>/...` sanitized source snapshots and safe web-page text captures
 - `extracted/<source-id>/*.md` cleaned, retrieval-ready documents
 - `topics/*.md` topic bundles and representative excerpts
 - `overview.md` and `catalog.json` course metadata

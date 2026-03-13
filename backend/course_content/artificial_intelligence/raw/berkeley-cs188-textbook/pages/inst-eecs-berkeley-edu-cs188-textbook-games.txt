@@ -1,0 +1,25 @@
+Title: 3. Games
+URL: https://inst.eecs.berkeley.edu/~cs188/textbook/games/
+Snapshot Type: sanitized text
+
+3. Games
+
+Author: Nikhil Sharma
+
+Edited by: Catherine Chu and Wesley Zheng
+
+Credit: Some sections adapted from the textbook Artificial Intelligence: A Modern Approach .
+
+Last updated: September 2024
+
+- 3.1 Games
+
+- 3.2 Minimax
+
+- 3.3 Expectimax
+
+- 3.4 General Games
+
+- 3.5 Monte Carlo Tree Search
+
+- 3.6 Summary

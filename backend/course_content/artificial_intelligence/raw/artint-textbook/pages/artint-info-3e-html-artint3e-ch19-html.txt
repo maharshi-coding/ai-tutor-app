@@ -1,0 +1,46 @@
+Title: Artificial Intelligence 3E
+URL: https://artint.info/3e/html/ArtInt3e.Ch19.html
+Snapshot Type: sanitized text
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+Chapter 19 Retrospect and Prospect
+
+Computation is the fire in our modern-day caves.
+By 2056, the computational revolution will be recognised
+as a transformation as significant as the industrial revolution.
+The evolution and widespread diffusion of computation and
+its analytical fruits will have major impacts on socioeconomics, science and culture.
+
+– Eric Horvitz [ 2006 ]
+
+This chapter starts with the state-of-the-art in
+deploying AI for applications, then looks at the big picture in terms of
+the agent design space , and
+speculates on the future
+of AI.
+By placing many of the representations covered in the agent design
+space, the relationships among them become more apparent.
+This helps us to see where the frontier of AI research
+lies and provides a sense of the evolution of the field.
+As Horvitz points
+out above, computation is changing the world;
+its beneficial and harmful effects will impact us
+all.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

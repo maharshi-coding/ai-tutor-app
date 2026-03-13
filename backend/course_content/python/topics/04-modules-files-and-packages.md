@@ -4,7 +4,7 @@ This topic bundle groups the collected Python Programming material most relevant
 
 Keywords: module, package, import, file, path, json, csv, io, serialization, standard library
 
-Documents in bundle: 57
+Documents in bundle: 56
 
 ## Document Index
 
@@ -26,18 +26,15 @@ Documents in bundle: 57
 - 13. What Now? ¶ (Python Official Tutorial)
   Extracted file: extracted/python-official-tutorial/8f4b954d68592ea0-13-what-now.md
   Original URL: https://docs.python.org/3/tutorial/whatnow.html
-- Python Utilities (Google's Python Class)
-  Extracted file: extracted/google-python-class/3c304d960c05babd-python-utilities.md
+- Utilidades de Python (Google's Python Class)
+  Extracted file: extracted/google-python-class/3c304d960c05babd-utilidades-de-python.md
   Original URL: https://developers.google.com/edu/python/utilities
-- Latihan Python Dasar (Google's Python Class)
-  Extracted file: extracted/google-python-class/268cd3122d52394b-latihan-python-dasar.md
-  Original URL: https://developers.google.com/edu/python/exercises/basic
-- 특수 Python 실습 복사 (Google's Python Class)
-  Extracted file: extracted/google-python-class/86d1460f7fa3452e-python.md
+- تمرین اسم بچه پایتون (Google's Python Class)
+  Extracted file: extracted/google-python-class/6716b1b71a83ce77-document.md
+  Original URL: https://developers.google.com/edu/python/exercises/baby-names
+- Copier un exercice Python spécial (Google's Python Class)
+  Extracted file: extracted/google-python-class/86d1460f7fa3452e-copier-un-exercice-python-sp-cial.md
   Original URL: https://developers.google.com/edu/python/exercises/copy-special
-- 記錄解謎 Python 運動 (Google's Python Class)
-  Extracted file: extracted/google-python-class/8dc9b989a99acdfb-python.md
-  Original URL: https://developers.google.com/edu/python/exercises/log-puzzle
 - Think Python, 3rd edition (Think Python)
   Extracted file: extracted/think-python/effaae48ae3fb70d-think-python-3rd-edition.md
   Original URL: https://github.com/AllenDowney/ThinkPython/blob/HEAD/README.md
@@ -218,7 +215,7 @@ See History and License for more information.
 The Python Software Foundation is a non-profit corporation.
 Please donate.
 
-Last updated on Mar 13, 2026 (02:12 UTC).
+Last updated on Mar 13, 2026 (06:41 UTC).
 
 Found a bug ?
 
@@ -396,118 +393,94 @@ There are modules to read Unix mailboxes, retrieve documents via HTTP, generate
 random numbers, parse command-line options, compress data,
 and...
 
-### Python Utilities
+### Utilidades de Python
 Source: Google's Python Class
 Original URL: https://developers.google.com/edu/python/utilities
 
-# Python Utilities
+# Utilidades de Python
 
 Source: Google's Python Class
 Original URL: https://developers.google.com/edu/python/utilities
 Original Path: https://developers.google.com/edu/python/utilities
 Course: Python Programming
 
-Products
+Utilidades de Python
 
-Google for Education
+Organiza tus páginas con colecciones
 
-Python
+Guarda y categoriza el contenido según tus preferencias.
 
-Python Utilities
+En esta sección, analizaremos algunos de los numerosos módulos de utilidades estándar de Python para resolver problemas comunes.
 
-Stay organized with collections
+Sistema de archivos: os, os.path, shutil
 
-Save and categorize content based on your preferences.
+Los módulos *os* y *os.path* incluyen muchas funciones para interactuar con el sistema de archivos. El módulo *shutil* puede copiar archivos.
 
-In this section, we look at a few of Python's many standard utility modules to solve common problems.
+- documentos del módulo OS
 
-File System -- os, os.path, shutil
+- filenames = os.listdir(dir) -- lista de nombres de archivos en esa ruta de acceso al directorio (sin incluir . y ..). Los nombres de archivo son solo los nombres que aparecen en el directorio, no sus rutas de acceso absoluta...
 
-The *os* and *os.path* modules include many functions to interact with the file system. The *shutil* module can copy files.
-
-- os module docs
-
-- filenames = os.listdir(dir) -- list of filenames in that directory path (not including . and ..). The filenames are just the names in the directory, not their absolute paths.
-
-- os.path.join(dir, filename) -- given a filename from the above list, use this to p...
-
-### Latihan Python Dasar
+### تمرین اسم بچه پایتون
 Source: Google's Python Class
-Original URL: https://developers.google.com/edu/python/exercises/basic
+Original URL: https://developers.google.com/edu/python/exercises/baby-names
 
-# Latihan Python Dasar
+# تمرین اسم بچه پایتون
 
 Source: Google's Python Class
-Original URL: https://developers.google.com/edu/python/exercises/basic
-Original Path: https://developers.google.com/edu/python/exercises/basic
+Original URL: https://developers.google.com/edu/python/exercises/baby-names
+Original Path: https://developers.google.com/edu/python/exercises/baby-names
 Course: Python Programming
 
-Latihan Python Dasar
+تمرین اسم بچه پایتون
 
-Tetap teratur dengan koleksi
+با مجموعه‌ها، منظم بمانید
 
-Simpan dan kategorikan konten berdasarkan preferensi Anda.
+ذخیره و طبقه‌بندی محتوا براساس اولویت‌های شما.
 
-Ada 3 latihan yang sesuai dengan bagian pertama class Python Google. Kunci tersebut terletak di direktori "basic" dalam direktori google-python-exercises. Download google-python-exercises.zip jika Anda belum melakukannya (lihat halaman Penyiapan untuk mengetahui detailnya).
+اداره تامین اجتماعی این داده‌های دقیق را بر اساس سال در مورد نام‌هایی که برای نوزادانی که در آن سال متولد شده‌اند در ایالات متحده آمریکا محبوب‌تر است ( به نام‌های نوزاد تامین اجتماعی مراجعه کنید) در اختیار دارد.
 
-File latihan ini berada di subdirektori dasar pada google-python-exercises .
+فایل‌های این تمرین در دایرکتوری "babynames" در داخل google-python-exercises قرار دارند (اگر قبلاً google-python-exercises.zip را دانلود نکرده‌اید، برای جزئیات بیشتر به تنظیمات مراجعه کنید). کد خود را در babynames.py اضافه کنید. فایل های baby1990.html baby1992.html ... حاوی html خام، مشابه آنچه در سایت تامین اجتماعی فوق دریافت می کنید. به html نگاهی بیند...
 
-- string1.py -- melengkapi fungsi string dalam string1.py, berdasarkan materi di bagian String Python (latihan tambahan yang tersedia di string2.py)
-
-- list1.py -- selesaikan fungsi daftar di list1.py, berdasa...
-
-### 특수 Python 실습 복사
+### Copier un exercice Python spécial
 Source: Google's Python Class
 Original URL: https://developers.google.com/edu/python/exercises/copy-special
 
-# 특수 Python 실습 복사
+# Copier un exercice Python spécial
 
 Source: Google's Python Class
 Original URL: https://developers.google.com/edu/python/exercises/copy-special
 Original Path: https://developers.google.com/edu/python/exercises/copy-special
 Course: Python Programming
 
-특수 Python 실습 복사
+Copier un exercice Python spécial
 
-컬렉션을 사용해 정리하기
+Restez organisé à l'aide des collections
 
-내 환경설정을 기준으로 콘텐츠를 저장하고 분류하세요.
+Enregistrez et classez les contenus selon vos préférences.
 
-특수 복사 연습에서는 Python 유틸리티 섹션의 파일 시스템 및 외부 명령어 자료를 사용합니다. 이 연습은 'copySpecial'에서 google-python-exercises의 디렉토리로 이동합니다 (아직 다운로드하지 않은 경우 google-python-exercises.zip 을 다운로드, 자세한 내용은 설정 참고). copySpecial.py에 코드를 추가합니다.
+L'exercice de copie spéciale s'étend aux supports du système de fichiers et des commandes externes de la section Utilitaires Python . Cet exercice se trouve dans la section "copyspecial" dans google-python-exercises (téléchargez google-python-exercises.zip si ce n'est pas déjà fait, ou consultez Configurer pour en savoir plus). Ajoutez votre code dans copyspecial.py.
 
-copySpecial.py 프로그램은 하나 이상의 디렉터리를 인수로 사용합니다. '특별'라는 단어를 파일은 이름에 어딘가에 __w__ 패턴이 포함된 파일이며, 여기서 w는 하나 이상의 단어 문자입니다. 제공된 main()에는 명령줄 인수를 파싱하는 코드가 포함되어 있지만 나머지는 개발자가 결정합니다. 아래 기능을 구현하는 함수를 작성하고 함수를 호출하도록 main()을 수정합니다.
+Le programme copyspecial.py utilise un ou plusieurs répertoires comme arguments. Disons qu'un "spécial" fichier est celui dont le nom contie...
 
-솔루션에 대한 추천 함수(세부정보는 아래 참고):
+### Think Python, 3rd edition
+Source: Think Python
+Original URL: https://github.com/AllenDowney/ThinkPython/blob/HEAD/README.md
 
-- get_Special_paths(dir) -- 지정된 디렉터리에 있는 특수 파일의 절대 경로 목록을 반환합니다.
+# Think Python, 3rd edition
 
-- copy_to(paths, dir)에 지정된 경로 목록을 통해 해당 파일을 지정된 디렉터리에 복사합니다.
-
-- zip_to(paths, zip...
-
-### 記錄解謎 Python 運動
-Source: Google's Python Class
-Original URL: https://developers.google.com/edu/python/exercises/log-puzzle
-
-# 記錄解謎 Python 運動
-
-Source: Google's Python Class
-Original URL: https://developers.google.com/edu/python/exercises/log-puzzle
-Original Path: https://developers.google.com/edu/python/exercises/log-puzzle
+Source: Think Python
+Original URL: https://github.com/AllenDowney/ThinkPython/blob/HEAD/README.md
+Original Path: README.md
 Course: Python Programming
 
-記錄解謎 Python 運動
+# Think Python, 3rd edition
 
-透過集合功能整理內容
+Jupyter notebooks and other material for the 3rd edition of *Think Python: How to Think Like a Computer Scientist*
 
-你可以依據偏好儲存及分類內容。
+by Allen B. Downey
 
-在 Log Puzzle 練習中，你需要使用 Python 程式碼來解開兩個謎題。本練習使用 urllib 模組，如 Python 公用程式 一節所示。這項練習的檔案位於「logpuzzle」中google-python-exercises 內的目錄 (如果還沒有下載 google-python-exercises.zip ，請先下載，詳情請參閱「 設定 」一節)。將程式碼新增至「logpuzzle.py」檔案。
+You can order print and electronic versions of *Think Python 3e* from
+[Bookshop.org](https://bookshop.org/a/98697/9781098155438) and
+[Amazon](https://www.amazon.com/_/dp/1098155432?smid=ATVPDKIKX0DER&_encoding=UTF8&tag=oreilly20-20&_encoding=UTF8&tag=greenteapre01-20&linkCode=ur2&linkId=e2a529f94920295d27ec8a06e757dc7c&camp=1789&creative=9325).
 
-動物的圖片被分割成許多狹窄的垂直條紋圖片。網路上有條紋圖片，而圖片各有專屬的網址。網址不會顯示在網路伺服器記錄檔中。你的任務是找出網址，並下載所有圖片條紋，重新製作原始圖片。
-
-配量網址隱藏在 apache 記錄檔中 (開放原始碼 apache 網路伺服器是網際網路上最常用的伺服器)。每個記錄檔都來自某些伺服器，而所需的片段網址則隱藏在記錄中。記錄檔會將伺服器的來源伺服器編碼，如下所示：由 code.google.com 伺服器送出的記錄檔動物。native_code.google.com 記錄檔包含「animal」的資料謎題圖片。雖然記錄檔中的資料採用真正的 Pacheche 網路伺服器語法，但是除了謎題所需的資料外，其他的資料則是從真實的記錄檔中隨機化資料。
-
-以下是記錄檔中的單行程式碼 (實際上是封包記錄檔外觀)：
-
-10.254.254.28 - - [06/Aug/2007:00:14:08 -0700] "G...
+The home page for the book is at [Green Tea Press](http://thinkpython.com).

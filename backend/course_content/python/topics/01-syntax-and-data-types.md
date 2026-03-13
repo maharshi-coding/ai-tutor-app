@@ -4,7 +4,7 @@ This topic bundle groups the collected Python Programming material most relevant
 
 Keywords: syntax, variable, type, string, number, boolean, operator, expression, assignment, print, input
 
-Documents in bundle: 78
+Documents in bundle: 79
 
 ## Document Index
 
@@ -29,8 +29,8 @@ Documents in bundle: 78
 - 14. Interactive Input Editing and History Substitution ¶ (Python Official Tutorial)
   Extracted file: extracted/python-official-tutorial/44c885c20258a338-14-interactive-input-editing-and-history-substit.md
   Original URL: https://docs.python.org/3/tutorial/interactive.html
-- Python Set Up (Google's Python Class)
-  Extracted file: extracted/google-python-class/2428ba36e5966461-python-set-up.md
+- পাইথন সেট আপ (Google's Python Class)
+  Extracted file: extracted/google-python-class/2428ba36e5966461-document.md
   Original URL: https://developers.google.com/edu/python/set-up
 - Python Introduction (Google's Python Class)
   Extracted file: extracted/google-python-class/34c701cba607c02d-python-introduction.md
@@ -38,11 +38,14 @@ Documents in bundle: 78
 - Python Strings (Google's Python Class)
   Extracted file: extracted/google-python-class/5ea4b5ea19fe836e-python-strings.md
   Original URL: https://developers.google.com/edu/python/strings
+- Python Lists (Google's Python Class)
+  Extracted file: extracted/google-python-class/3031f7aed3c5b66f-python-lists.md
+  Original URL: https://developers.google.com/edu/python/lists
 - Python Dict and File (Google's Python Class)
   Extracted file: extracted/google-python-class/509440f9a3360773-python-dict-and-file.md
   Original URL: https://developers.google.com/edu/python/dict-files
-- التعبيرات العادية في بايثون (Google's Python Class)
-  Extracted file: extracted/google-python-class/0da4093ce867b27e-document.md
+- Python Regular Expressions (Google's Python Class)
+  Extracted file: extracted/google-python-class/0da4093ce867b27e-python-regular-expressions.md
   Original URL: https://developers.google.com/edu/python/regular-expressions
 - You can order print and ebook versions of *Think Python 3e* from (Think Python)
   Extracted file: extracted/think-python/576966c5f9968f3e-you-can-order-print-and-ebook-versions-of-think-.md
@@ -453,40 +456,26 @@ automatically enabled at interpreter startup so
 that the Tab key invokes the completion function; it looks at
 Python statement names, the current local variab...
 
-### Python Set Up
+### পাইথন সেট আপ
 Source: Google's Python Class
 Original URL: https://developers.google.com/edu/python/set-up
 
-# Python Set Up
+# পাইথন সেট আপ
 
 Source: Google's Python Class
 Original URL: https://developers.google.com/edu/python/set-up
 Original Path: https://developers.google.com/edu/python/set-up
 Course: Python Programming
 
-Products
+পাইথন সেট আপ
 
-Google for Education
+সেভ করা পৃষ্ঠা গুছিয়ে রাখতে 'সংগ্রহ' ব্যবহার করুন
 
-Python
+আপনার পছন্দ অনুযায়ী কন্টেন্ট সেভ করুন ও সঠিক বিভাগে রাখুন।
 
-Python Set Up
+এই পৃষ্ঠাটি ব্যাখ্যা করে কিভাবে একটি মেশিনে পাইথন সেট আপ করতে হয় যাতে আপনি পাইথন প্রোগ্রামগুলি চালাতে এবং সম্পাদনা করতে পারেন এবং ডাউনলোড করার জন্য অনুশীলন কোডের লিঙ্কগুলি। আপনি ক্লাস শুরু করার আগে এটি করতে পারেন, অথবা আপনি এটি ছেড়ে যেতে পারেন যতক্ষণ না আপনি ক্লাসে যথেষ্ট পরিমাণে না পৌঁছান যে আপনি কিছু কোড লিখতে চান। গুগল পাইথন ক্লাস একটি সাধারণ, সাধারণ পাইথন ইনস্টলেশন ব্যবহার করে, যদিও আরও জটিল কৌশল সম্ভব। Python বিনামূল্যে এবং মুক্ত উৎস, python.org থেকে সমস্ত অপারেটিং সিস্টেমের জন্য উপলব্ধ। বিশেষ করে আমরা একটি পাইথন ইনস্টল চাই যেখানে আপনি দুটি জিনিস করতে পারেন:
 
-Stay organized with collections
-
-Save and categorize content based on your preferences.
-
-Page Summary
-
-outlined_flag
-
-This page provides instructions on setting up Python on your machine for the Google Python Class, including running and editing Python programs.
-
-You need a Python installation that allows you to run existing programs and use the interactive interpreter, which are frequently used in the course.
-
-Download the provided google-python-exercises.zip file containing exercise code, including a hello.py file to test your installation.
-
-Instructions are provided for installing and running Python on Linux, Mac OS X, other OS, and W...
+- এ...
 
 ### Python Introduction
 Source: Google's Python Class

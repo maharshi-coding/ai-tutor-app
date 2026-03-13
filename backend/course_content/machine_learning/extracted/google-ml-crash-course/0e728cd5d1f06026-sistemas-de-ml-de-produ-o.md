@@ -1,0 +1,46 @@
+# Sistemas de ML de produção
+
+Source: Google Machine Learning Crash Course
+Original URL: https://developers.google.com/machine-learning/crash-course/production-ml-systems
+Original Path: https://developers.google.com/machine-learning/crash-course/production-ml-systems
+Course: Machine Learning
+
+Sistemas de ML de produção
+
+Mantenha tudo organizado com as coleções
+
+Salve e categorize o conteúdo com base nas suas preferências.
+
+Até agora, o foco deste curso foi a criação de modelos de machine learning (ML).
+No entanto, como a Figura 1 sugere, os sistemas de ML de produção reais são grandes
+ecossistemas, e o modelo é apenas uma parte relativamente pequena.
+
+Figura 1 . Um sistema de ML de produção real é composto por vários componentes.
+
+O código do modelo de ML é o centro de um sistema de produção de machine learning real, mas ele geralmente representa apenas 5% ou menos do total da base de código do sistema. Isso não é um erro de impressão. É significativamente menor do que você
+espera. Um sistema de produção de ML dedica recursos consideráveis
+aos dados de entrada: coletando, verificando e extraindo atributos deles.
+
+Central de Ajuda
+
+Anterior
+
+arrow_back
+
+Teste seus conhecimentos (10 minutos)
+
+Avançar
+
+Treinamento estático x dinâmico (10 min)
+
+arrow_forward
+
+Envie comentários
+
+Exceto em caso de indicação contrária, o conteúdo desta página é licenciado de acordo com a Licença de atribuição 4.0 do Creative Commons , e as amostras de código são licenciadas de acordo com a Licença Apache 2.0 . Para mais detalhes, consulte as políticas do site do Google Developers . Java é uma marca registrada da Oracle e/ou afiliadas.
+
+Última atualização 2025-07-27 UTC.
+
+Quer enviar seu feedback?
+
+[[["Fácil de entender","easyToUnderstand","thumb-up"],["Meu problema foi resolvido","solvedMyProblem","thumb-up"],["Outro","otherUp","thumb-up"]],[["Não contém as informações de que eu preciso","missingTheInformationINeed","thumb-down"],["Muito complicado / etapas demais","tooComplicatedTooManySteps","thumb-down"],["Desatualizado","outOfDate","thumb-down"],["Problema na tradução","translationIssue","thumb-down"],["Problema com as amostras / o código","samplesCodeIssue","thumb-down"],["Outro","otherDown","thumb-down"]],["Última atualização 2025-07-27 UTC."],[],[]]

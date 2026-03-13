@@ -1,0 +1,297 @@
+Title: Automated Planning in AI
+URL: https://www.geeksforgeeks.org/artificial-intelligence/automated-planning-in-ai/
+Snapshot Type: sanitized text
+
+Courses
+
+Tutorials
+
+Interview Prep
+
+- Artificial Intelligence
+
+- Interview Questions
+
+- Project Ideas
+
+- Search Algorithms
+
+- Local Search Algorithm
+
+- Generative AI
+
+- Data Science
+
+- Machine Learning
+
+- Deep Learning
+
+- ML-Projects
+
+- Robotics
+
+Automated Planning in AI
+
+Last Updated : 23 Jul, 2025
+
+Automated planning is an essential segment of AI. Automated planning is used to create a set of strategies that will bring about certain results from a certain starting point. This area of AI is critical in issues to do with robotics, logistics and manufacturing, game playing as well as self-controlled systems.
+
+Automated planning is a way of making efficient and effective decisions in complex systems by achieving the goal of a decision-processing method that can work in a constantly changing world. The article delves into the essence of automated planning, its mechanisms, applications, and the challenges it faces.
+
+Table of Content
+
+- The Essence of Automated Planning
+
+- Techniques in Automated Planning
+
+- Automated Planning in AI
+
+- Example of Automated Planning in Robotics
+
+- Application of Automated Planning in AI
+
+- Conclusion
+
+The Essence of Automated Planning
+
+Automated planning, often referred to as AI planning or simply planning, draws from classic theories of decision-making and control. At its core, it embodies the process of recognizing a goal and systematically organizing the steps required to achieve it under certain constraints.
+
+Key Components of Automated Planning
+
+- Domain Model : Defines the environment's rules and the actions' effects within that context. This model is crucial for understanding how actions change the state of the world.
+
+- Planner : The algorithmic core that processes input data (current state and goal) and outputs a plan, which is a sequence of actions leading to the goal.
+
+- Executor : Implements the plan, often capable of adjusting in real-time to unforeseen changes in the environment.
+
+- Monitor : Observes the execution and environment to provide feedback to the planner, facilitating dynamic re-planning if necessary.
+
+Techniques in Automated Planning
+
+Automated planning techniques can be broadly classified into two categories: deterministic and non-deterministic.
+
+- Deterministic planning assumes a predictable environment where every action has a guaranteed outcome, suitable for static or highly controlled environments.
+
+- Non-deterministic (or probabilistic) planning , on the other hand, deals with uncertainty in action outcomes, requiring more complex algorithms like Markov decision processes (MDP) or Partially Observable Markov Decision Processes (POMDP) .
+
+Automated Planning in AI
+
+Automated planning in AI constitutes a range of constituents and strategies. It involves identifying the problem, constructing the domain model, designing the algorithms to create plans, and implementing these planning systems optimally. Now let us discuss each of these steps in detail.
+
+Domain Independent Planning
+
+Domain independence focuses on development of planning algorithms can be applied to any specific problem domain without a lot of modification. These algorithms build upon a generalized concept that can interpret and analyze various inputs so that it can create efficient plans. This is different from general planning where algorithms are designed for general problems or problems solving spaces.
+
+Domain-independent planning is intended to address the issue of generating a general planning scheme. It includes:
+
+- Classical Planning: Assumes that the environment is determined and the actions that are being taken will yield determined results.
+
+- Probabilistic Planning: Covers the area of managing risks in an environment which may yield multiple outcomes based on the action taken.
+
+- Temporal Planning: Includes the time factors, or where actions are quantified for their duration and various other conditions associated with time.
+
+- Hierarchical Planning: It divides the work into smaller knowable parts that are arranged in a hierarchy.
+
+Planning Domain Modeling Languages
+
+Planning domain modeling languages are formal languages used to describe the components of a planning problem, including actions, states, and goals. These languages provide a structured way to define the parameters and constraints of the planning domain.
+
+Some prominent planning domain modeling languages include:
+
+- PDDL (Planning Domain Definition Language): The most widely used language for describing planning problems. PDDL allows the specification of the initial state, goal state, and actions, including their preconditions and effects.
+
+- PPDDL (Probabilistic PDDL): An extension of PDDL for probabilistic planning. It incorporates probabilities to handle uncertain outcomes of actions.
+
+- HTN (Hierarchical Task Network) : A planning formalism that breaks down complex tasks into simpler subtasks. HTN is appropriate for hierarchical planning methods.
+
+Algorithms for Planning
+
+Automated planning is centered around the management and creation of algorithms to generate plans. Depending on the kind of planning problem and some other features of the solution these algorithms are different. Key planning algorithms include:
+
+- State-Space Search Algorithms: Some of the considerations made while navigating is the distance from the starting point to a particular position, distance from the goal position to a particular position as well as the movements from the starting position to the goal position. Some of the well-known search algorithms include: the Breadth – First Search (BFS), Depth – First Search (DFS) and the A* search algorithms.
+
+- Graph-Based Algorithms: Model the planning problem on the graph so the vertices stand for the states and the arcs represent the actions. Two highly powerful methods that have been developed are called Planning Graphs and Graph Plan.
+
+- SAT-Based Planning: Transforms the planning problem into the Boolean Satisfiability Problem (also known as the NP complete problem) and then applies SAT solvers to get an answer. This approach takes advantage of current SAT solvers. This approach builds upon some of the efficient current SAT solvers.
+
+- Heuristic Search Algorithms : Heuristic functions should be applied to make the search process easier and to guide if towards the goal. Some examples of the AS code include the GBFS (Greedy Best-First Search) and the FF (Fast Forward) planner.
+
+These algorithms have their own advantage and disadvantage, which determine the appropriateness of utilization of these algorithms, depending on the nature of the planning problem at hand.
+
+Deployment of Planning Systems
+
+Deploying planning systems involves integrating them into real-world applications. This process includes several steps:
+
+- Problem Formulation: Accurately define the planning problem which includes initial states, goal states, and actions to be taken.
+
+- Modeling: Use a suitable planning domain modeling language to represent the problem.
+
+- Algorithm Selection: Based on the characteristics of the problem, choose an appropriate planning algorithm.
+
+- Implementation: Develop the planning system and integrate it into the application environment.
+
+- Evaluation and Optimization: Test the system’s performance, optimize the algorithm, and if necessary, refine the model.
+
+Example of Automated Planning in Robotics
+
+In this section, we have demonstrated automated planning in robotics, where a robot navigates through a dynamic environment.
+
+Automated planning, in this case, involves the following key steps:
+
+- Environment Representation : The grid and obstacles are defined. The `environment` matrix represents the grid as a 10x10 array, with obstacles marked by setting specific cells to 1. This setup gives the planning algorithm information about which areas of the grid are impassable.
+
+- Path Planning : The robot’s path is defined as a series of coordinates. This sequence represents the path that the planning algorithm has determined to be optimal for reaching the goal from the starting point. Each step in the path avoids the obstacles, demonstrating that the planning process considers these barriers when devising the route.
+
+- Visualization of the Route : The path is visually plotted on the grid, showing the trajectory the robot would follow. This not only helps in debugging and optimizing the path but also provides a clear visual representation of the planning outcome.
+
+Note: The code does not explicitly show the dynamic computation or the algorithmic steps behind path planning (like using A*, Dijkstra’s, etc.), but it demonstrates the result of such a planning process where a feasible path has been predefined to avoid obstacles and reach a target destination efficiently. This precomputed path could be the result of an offline planning process where the environment's static features (like obstacles) are fully known beforehand.
+
+Python
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Define the grid size
+grid_size = 10
+
+# Create an empty grid
+environment = np . zeros (( grid_size , grid_size ))
+
+# Define obstacles (1s represent obstacles)
+obstacles = [( 2 , 2 ), ( 3 , 2 ), ( 4 , 2 ), ( 5 , 5 ), ( 6 , 6 ), ( 7 , 8 )]
+for obstacle in obstacles :
+environment [ obstacle ] = 1
+
+# Define the robot's path
+path = [( 0 , 0 ), ( 1 , 1 ), ( 2 , 1 ), ( 3 , 1 ), ( 4 , 1 ), ( 4 , 2 ), ( 5 , 2 ), ( 6 , 3 ), ( 7 , 4 ), ( 8 , 5 ), ( 9 , 6 )]
+
+# Plot the environment
+fig , ax = plt . subplots ()
+
+# Plot obstacles
+for obstacle in obstacles :
+ax . plot ( obstacle [ 1 ], obstacle [ 0 ], 'rs' , markersize = 20 ) # 'rs' means red squares
+
+# Plot the robot's path
+path_x , path_y = zip ( * path )
+ax . plot ( path_y , path_x , 'bo-' , linewidth = 2 , markersize = 10 ) # 'bo-' means blue circles with lines
+
+# Set grid and labels
+ax . set_xticks ( np . arange ( - 0.5 , grid_size , 1 ))
+ax . set_yticks ( np . arange ( - 0.5 , grid_size , 1 ))
+ax . set_xticklabels ([])
+ax . set_yticklabels ([])
+ax . grid ( which = 'both' )
+ax . set_aspect ( 'equal' )
+plt . title ( 'Robotics' )
+
+# Display the plot
+plt . show ()
+
+Output:
+
+Automated planning in robotics
+
+This diagram effectively illustrates how automated planning within the field of robotics allows for intelligent navigation strategies, highlighting the robot's capability to analyze, adapt, and overcome spatial challenges within a structured environment.
+
+Application of Automated Planning in AI
+
+Real-world applications of planning systems span various domains:
+
+- Robotics: These algorithms help self-driven machines move around while carrying out tasks in changing surroundings.
+
+- Logistics: Planning is essential for automated systems to come up with the best routes as well as schedules for transport and delivery.
+
+- Manufacturing: They can also be applied in industries where they are used to make production processes more efficient thus minimizing on time wastage.
+
+- Game AI: In the world of gaming, non-player characters (NPCs) tend to be more intelligent and active due to enhanced behavior brought about by planning software.
+
+Conclusion
+
+Automated planning is one of the main areas of knowledge representation and reasoning in AI, which allows the machines to make adequate decisions and solve a range of complex problems without intervention. Namely, AI systems, using the basics of domain-independent planning, modeling languages, strong algorithms, and optimal methods of deploying, can strive to solve a number of tasks when applied effectively. What is more, we can observe that R&D in this field is constantly progressing, and, therefore, the functionality and potential uses of automated planning are set to grow and progress, boosting innovation in different industries.
+
+Blogathon
+
+Artificial Intelligence
+
+AI-ML-DS
+
+Data Science Blogathon 2024
+
+Introduction to AI
+
+- What is Artificial Intelligence (AI) 10 min read
+
+- Types of Artificial Intelligence (AI) 6 min read
+
+- Types of AI Based on Functionalities 4 min read
+
+- Agents in AI 7 min read
+
+- Artificial intelligence vs Machine Learning vs Deep Learning 3 min read
+
+- Problem Solving in Artificial Intelligence 6 min read
+
+- Top 20 Applications of Artificial Intelligence (AI) in 2025 13 min read
+
+AI Concepts
+
+- Search Algorithms in AI 6 min read
+
+- Local Search Algorithm in Artificial Intelligence 7 min read
+
+- Adversarial Search Algorithms in Artificial Intelligence (AI) 15+ min read
+
+- Constraint Satisfaction Problems (CSP) in Artificial Intelligence 10 min read
+
+- Knowledge Representation in AI 9 min read
+
+- First-Order Logic in Artificial Intelligence 4 min read
+
+- Reasoning Mechanisms in AI 9 min read
+
+Machine Learning in AI
+
+- Machine Learning Tutorial 5 min read
+
+- Deep Learning Tutorial 2 min read
+
+- Natural Language Processing (NLP) Tutorial 2 min read
+
+- Computer Vision Tutorial 3 min read
+
+Robotics and AI
+
+- Artificial Intelligence in Robotics 5 min read
+
+- What is Robotics Process Automation 8 min read
+
+- Automated Planning in AI 8 min read
+
+- AI in Transportation 8 min read
+
+- AI in Manufacturing : Revolutionizing the Industry 6 min read
+
+Generative AI
+
+- What is Generative AI? 7 min read
+
+- Generative Adversarial Network (GAN) 11 min read
+
+- Cycle Generative Adversarial Network (CycleGAN) 7 min read
+
+- StyleGAN - Style Generative Adversarial Networks 5 min read
+
+- Introduction to Generative Pre-trained Transformer (GPT) 4 min read
+
+- BERT Model - NLP 12 min read
+
+- Generative AI Applications 7 min read
+
+AI Practice
+
+- Top Artificial Intelligence(AI) Interview Questions and Answers 15+ min read
+
+- Top Generative AI and LLM Interview Question with Answer 15+ min read
+
+- 30+ Best Artificial Intelligence Project Ideas with Source Code [2026 Updated] 15+ min read

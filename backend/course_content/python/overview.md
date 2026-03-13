@@ -31,9 +31,9 @@ Generated from 8 curated sources.
 
 ## Topics
 
-- Syntax and Data Types - 78 documents
-- Control Flow and Functions - 70 documents
-- Data Structures - 9 documents
-- Modules, Files, and Packages - 57 documents
+- Syntax and Data Types - 79 documents
+- Control Flow and Functions - 69 documents
+- Data Structures - 10 documents
+- Modules, Files, and Packages - 56 documents
 - Objects, Errors, and Testing - 3 documents
 - Advanced Python - 0 documents

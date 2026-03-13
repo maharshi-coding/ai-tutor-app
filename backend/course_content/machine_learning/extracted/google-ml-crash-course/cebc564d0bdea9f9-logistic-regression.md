@@ -1,0 +1,41 @@
+# Logistic Regression
+
+Source: Google Machine Learning Crash Course
+Original URL: https://developers.google.com/machine-learning/crash-course/logistic-regression
+Original Path: https://developers.google.com/machine-learning/crash-course/logistic-regression
+Course: Machine Learning
+
+Logistic Regression
+
+Stay organized with collections
+
+Save and categorize content based on your preferences.
+
+In the Linear regression module ,
+you explored how to construct a model to make continuous numerical
+predictions, such as the fuel efficiency of a car. But what if you want to build
+a model to answer questions like "Will it rain today?" or "Is this email spam?"
+
+This module introduces a new type of regression model called
+logistic regression
+that is designed to predict the probability of a given outcome.
+
+Help Center
+
+arrow_back
+
+Test your knowledge (10 min)
+
+Calculating a probability (10 min)
+
+arrow_forward
+
+Send feedback
+
+Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License , and code samples are licensed under the Apache 2.0 License . For details, see the Google Developers Site Policies . Java is a registered trademark of Oracle and/or its affiliates.
+
+Last updated 2025-08-25 UTC.
+
+Need to tell us more?
+
+[[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2025-08-25 UTC."],[],[]]

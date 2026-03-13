@@ -1,0 +1,738 @@
+Title: Python Variables and Literals
+URL: https://www.programiz.com/python-programming/variables-constants-literals
+Snapshot Type: sanitized text
+
+Course Index
+
+Tutorials
+
+Courses
+
+Python
+JavaScript
+TypeScript
+SQL
+HTML
+CSS
+C
+C++
+Java
+R
+Ruby
+RUST
+Golang
+Kotlin
+Swift
+C#
+DSA
+
+Become a certified Python
+programmer.
+
+ENROLL
+
+Popular Tutorials
+
+Getting Started With Python
+
+Python if Statement
+
+while Loop in Python
+
+Python Lists
+
+Dictionaries in Python
+
+Start Learning Python
+
+Popular Examples
+
+Add two numbers
+
+Check prime number
+
+Find the factorial of a number
+
+Print the Fibonacci sequence
+
+Check leap year
+
+Explore Python Examples
+
+Reference Materials
+
+Built-in Functions
+
+List Methods
+
+Dictionary Methods
+
+String Methods
+
+View all
+
+Created with over a decade of experience.
+
+Learn
+
+Practice
+
+Compete
+
+Learn Python
+
+Learn HTML
+
+Learn JavaScript
+
+Learn SQL
+
+Learn DSA
+
+Learn C
+
+Learn C++
+
+Learn Java
+
+View all Courses on
+
+Python Basics
+
+Python Intermediate
+
+C++ Basics
+
+C++ Intermediate
+
+C++ OOP
+
+C Programming
+
+Java Basics
+
+Java Intermediate
+
+Java OOP
+
+View all Courses on
+
+Python Challenges
+
+JavaScript Challenges
+
+Java Challenges
+
+C++ Challenges
+
+C Challenges
+
+View all Challenges on
+
+Learn
+
+Practice
+
+Compete
+
+Certification Courses
+
+Created with over a decade of experience and thousands of feedback.
+
+Learn Python
+
+Learn HTML
+
+Learn JavaScript
+
+Learn SQL
+
+Learn DSA
+
+View all Courses on
+
+Learn C
+
+Learn C++
+
+Learn Java
+
+Python
+
+JavaScript
+
+TypeScript
+
+SQL
+
+HTML
+
+CSS
+
+C
+
+C++
+
+Java
+
+More languages
+
+Become a certified Python
+programmer.
+
+Try Programiz PRO!
+
+Popular Tutorials
+
+Getting Started With Python
+
+Python if Statement
+
+while Loop in Python
+
+Python Lists
+
+Dictionaries in Python
+
+Start Learning Python
+
+All Python Tutorials
+
+Reference Materials
+
+Built-in Functions
+
+List Methods
+
+Dictionary Methods
+
+String Methods
+
+View all
+
+Python
+
+JavaScript
+
+C
+
+C++
+
+Java
+
+R
+
+Kotlin
+
+Become a certified Python
+programmer.
+
+Try Programiz PRO!
+
+Popular Examples
+
+Add two numbers
+
+Check prime number
+
+Find the factorial of a number
+
+Print the Fibonacci sequence
+
+Check leap year
+
+All Python Examples
+
+Python Introduction
+
+- Get Started With Python
+
+- Your First Python Program
+
+- Python Comments
+
+Python Fundamentals
+
+- Python Variables and Literals
+
+- Python Type Conversion
+
+- Python Basic Input and Output
+
+- Python Operators
+
+Python Flow Control
+
+- Python if...else Statement
+
+- Python for Loop
+
+- Python while Loop
+
+- Python break and continue
+
+- Python pass Statement
+
+Python Data types
+
+- Python Numbers and Mathematics
+
+- Python List
+
+- Python Tuple
+
+- Python String
+
+- Python Set
+
+- Python Dictionary
+
+Python Functions
+
+- Python Functions
+
+- Python Function Arguments
+
+- Python Variable Scope
+
+- Python Global Keyword
+
+- Python Recursion
+
+- Python Modules
+
+- Python Package
+
+- Python Main function
+
+Python Files
+
+- Python Directory and Files Management
+
+- Python CSV: Read and Write CSV files
+
+- Reading CSV files in Python
+
+- Writing CSV files in Python
+
+Python Exception Handling
+
+- Python Exceptions
+
+- Python Exception Handling
+
+- Python Custom Exceptions
+
+Python Object & Class
+
+- Python Objects and Classes
+
+- Python Inheritance
+
+- Python Multiple Inheritance
+
+- Polymorphism in Python
+
+- Python Operator Overloading
+
+Python Advanced Topics
+
+- List comprehension
+
+- Python Lambda/Anonymous Function
+
+- Python Iterators
+
+- Python Generators
+
+- Python Namespace and Scope
+
+- Python Closures
+
+- Python Decorators
+
+- Python @property decorator
+
+- Python RegEx
+
+Python Date and Time
+
+- Python datetime
+
+- Python strftime()
+
+- Python strptime()
+
+- How to get current date
+and time in Python?
+
+- Python Get Current Time
+
+- Python timestamp to
+datetime and vice-versa
+
+- Python time Module
+
+- Python sleep()
+
+Additional Topic
+
+- Precedence and Associativity of Operators in Python
+
+- Python Keywords and Identifiers
+
+- Python Asserts
+
+- Python Json
+
+- Python pip
+
+- Python *args and **kwargs
+
+Python Tutorials
+
+Python Numbers, Type Conversion and Mathematics
+
+Python Data Types
+
+Python Keywords and Identifiers
+
+Python Global Keyword
+
+Python Comments
+
+Python Basic Input and Output
+
+Python Variables and Literals
+
+In the previous tutorial you learned about Python comments . Now, let's learn about variables and literals in Python.
+
+Python Variables
+
+In programming, a variable is a container (storage area) to hold data. For example,
+
+number = 10
+
+Here, number is a variable storing the value 10 .
+
+Assigning values to Variables in Python
+
+As we can see from the above example, we use the assignment operator
+=
+to assign a value to a variable.
+
+# assign value to site_name variable
+site_name = 'programiz.pro'
+
+print(site_name)
+
+# Output: programiz.pro
+
+Output
+
+programiz.pro
+
+In the above example, we assigned the value
+programiz.pro
+to the site_name variable. Then, we printed out the value assigned to site_name
+
+Note : Python is a type-inferred language, so you don't have to explicitly define the variable type. It automatically knows that
+programiz.pro
+is a string and declares the
+site_name
+variable as a string.
+
+Changing the Value of a Variable in Python
+
+site_name = 'programiz.pro'
+print(site_name)
+
+# assigning a new value to site_name
+site_name = 'apple.com'
+
+print(site_name)
+
+Output
+
+programiz.pro
+apple.com
+
+Here, the value of site_name is changed from
+'programiz.pro'
+to
+'apple.com'
+.
+
+Example: Assigning multiple values to multiple variables
+
+a, b, c = 5, 3.2, 'Hello'
+
+print (a) # prints 5
+print (b) # prints 3.2
+print (c) # prints Hello
+
+If we want to assign the same value to multiple variables at once, we can do this as:
+
+site1 = site2 = 'programiz.com'
+
+print (x) # prints programiz.com
+print (y) # prints programiz.com
+
+Here, we have assigned the same string value
+'programiz.com'
+to both the variables site1 and site2 .
+
+Rules for Naming Python Variables
+
+1. Constant and variable names should have a combination of letters in lowercase (a to z) or uppercase ( A to Z ) or digits ( 0 to 9 ) or an underscore
+( _ )
+. For example:
+
+snake_case
+MACRO_CASE
+camelCase
+CapWords
+
+2. Create a name that makes sense. For example, vowel makes more sense than v .
+
+3. If you want to create a variable name having two words, use underscore to separate them. For example:
+
+my_name
+current_salary
+
+5. Python is case-sensitive. So num and Num are different variables. For example,
+
+var num = 5
+var Num = 55
+print(num) # 5
+print(Num) # 55
+
+6. Avoid using keywords like if, True, class, etc. as variable names.
+
+Python Literals
+
+Literals are representations of fixed values in a program. They can be numbers, characters, or strings, etc. For example,
+'Hello, World!'
+,
+12
+,
+23.0
+,
+'C'
+, etc.
+
+Literals are often used to assign values to variables or constants. For example,
+
+site_name = 'programiz.com'
+
+In the above expression, site_name is a variable, and
+'programiz.com'
+is a literal.
+
+There are different types of literals in Python. Let's discuss some of the commonly used types in detail.
+
+Python Numeric Literals
+
+Numeric Literals are immutable (unchangeable). Numeric literals can belong to 3 different numerical types:
+Integer
+,
+Float
+, and
+Complex
+.
+
+1. Integer Literals
+
+Integer literals are numbers without decimal parts. It also consists of negative numbers. For example,
+5
+,
+-11
+,
+0
+,
+12
+, etc.
+
+2. Floating-Point Literals
+
+Floating-point literals are numbers that contain decimal parts.
+
+Just like integers, floating-point numbers can also be both positive and negative. For example,
+2.5
+,
+6.76
+,
+0.0
+,
+-9.45
+, etc.
+
+3. Complex Literals
+
+Complex literals are numbers that represent complex numbers.
+
+Here, numerals are in the form
+a + bj
+, where
+a
+is real and
+b
+is imaginary. For example,
+6+9j
+,
+2+3j
+.
+
+Python String Literals
+
+In Python, texts wrapped inside quotation marks are called string literals. .
+
+"This is a string."
+
+We can also use single quotes to create strings.
+
+'This is also a string.'
+
+More on Python Literals
+
+Python Boolean Literals
+
+There are two boolean literals:
+True
+and
+False
+.
+
+For example,
+
+is_pass = True
+print(is_pass)
+
+# Output: True
+
+Here,
+True
+is a boolean literal assigned to is_pass .
+
+Character Literals in Python
+
+Character literals are unicode characters enclosed in a quote. For example,
+
+some_character = 'S'
+
+Here,
+S
+is a character literal assigned to some_character .
+
+Special Literal in Python
+
+Python contains one special literal
+None
+. We use it to specify a null variable. For example,
+
+value = None
+
+print(value)
+
+# Output: None
+
+Here, we get
+None
+as an output as the value variable has no value assigned to it.
+
+Collection Literals
+
+Let's see examples of four different collection literals. List, Tuple, Dict, and Set literals.
+
+# list literal
+fruits = ["apple", "mango", "orange"]
+print(fruits)
+
+# tuple literal
+numbers = (1, 2, 3)
+print(numbers)
+
+# dictionary literal
+alphabets = {'a':'apple', 'b':'ball', 'c':'cat'}
+print(alphabets)
+
+# set literal
+vowels = {'a', 'e', 'i' , 'o', 'u'}
+print(vowels)
+
+Output
+
+['apple', 'mango', 'orange']
+(1, 2, 3)
+{'a': 'apple', 'b': 'ball', 'c': 'cat'}
+{'e', 'a', 'o', 'i', 'u'}
+
+In the above example, we created a list of fruits , a tuple of numbers , a dictionary of alphabets having values with keys designated to each value and a set of vowels .
+
+To learn more about literal collections, refer to Python Data Types .
+
+- Python Variables
+
+- Assigning values to Variables in Python
+
+- Changing the Value of a Variable in Python
+
+- Python Literals
+
+- Python Numeric Literals
+
+- Python String Literals
+
+Video: Python Variables and print()
+
+Previous Tutorial:
+
+Python Comments
+
+Next Tutorial:
+
+Python Type Conversion
+
+Share on:
+
+Did you find this article helpful?
+
+Sorry about that.
+
+How can we improve it?
+
+Feedback *
+
+Leave this field blank
+
+Your builder path starts here. Builders don't just know how to code, they create solutions that matter.
+
+Escape tutorial hell and ship real projects.
+
+Try Programiz PRO
+
+Real-World Projects
+
+On-Demand Learning
+
+- AI Mentor
+
+Builder Community
+
+Related Tutorials
+
+Python Tutorial
+
+Python Data Types
+
+Python Tutorial
+
+Python Numbers, Type Conversion and Mathematics
+
+Python Tutorial
+
+Python Keywords and Identifiers
+
+Python Tutorial
+
+Python Global Keyword

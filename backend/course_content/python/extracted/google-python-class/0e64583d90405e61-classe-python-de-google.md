@@ -1,0 +1,26 @@
+# Classe Python de Google
+
+Source: Google's Python Class
+Original URL: https://developers.google.com/edu/python
+Original Path: https://developers.google.com/edu/python
+Course: Python Programming
+
+Classe Python de Google
+
+Restez organisé à l'aide des collections
+
+Enregistrez et classez les contenus selon vos préférences.
+
+Bienvenue dans le cours Python de Google. Il s'agit d'un cours sans frais destiné aux personnes ayant un peu d'expérience en programmation et qui souhaitent apprendre à utiliser Python. Le cours comprend des documents écrits, des cours vidéo et de nombreux exercices de codage pour s'entraîner au codage Python. Ces documents sont utilisés au sein de Google pour présenter Python aux personnes ayant un peu d'expérience en programmation. Les premiers exercices portent sur les concepts de base de Python, tels que les chaînes et les listes. Les prochains exercices sont des programmes complets traitant des fichiers texte, des processus et des connexions HTTP. Le cours s'adresse aux personnes qui ont un peu d'expérience en programmation dans un langage donné, suffisamment pour savoir ce qu'est une "variable" ou "instruction if" l'adresse IP interne. En outre, vous n'avez pas besoin d'être un programmeur expérimenté pour utiliser ce support.
+
+Pour commencer, les sections Python sont accessibles via un lien situé à gauche : Configuration de Python pour installer Python sur votre machine, Introduction à Python pour une introduction au langage, puis Chaînes Python commence le matériel de codage et mène au premier exercice. La fin de chaque section écrite comprend un lien vers l'exercice de code pour le matériel de cette section. Les vidéos de cours sont parallèles aux supports écrits, en présentant Python, puis les chaînes de caractères, puis les premiers exercices, et ainsi de suite. Chez Google, tous ces supports constituent un cours intensif de deux jours. Les vidéos sont donc organisées en deux jours : jour 1 et jour 2.
+
+Ce support a été créé par Nick Parlante au sein du groupe engEDU de Google. Merci particulièrement pour l'aide de mes collègues Google : John Cox, Steve Glassman, Piotr Kaminski et Antoine Picard. Enfin, un grand merci à Google et ma directrice Maggie Johnson pour leur générosité éclairée et leur générosité qui nous a permis de mettre sans frais ces contenus en ligne sous la licence Creative Commons Attribution 2.5 . Partagez-les et profitez-en !
+
+Conseil :Consultez le forum Google Code University pour Python pour poser des questions et répondre aux questions.
+
+Sauf indication contraire, le contenu de cette page est régi par une licence Creative Commons Attribution 4.0 , et les échantillons de code sont régis par une licence Apache 2.0 . Pour en savoir plus, consultez les Règles du site Google Developers . Java est une marque déposée d'Oracle et/ou de ses sociétés affiliées.
+
+Dernière mise à jour le 2024/07/23 (UTC).
+
+[[["Facile à comprendre","easyToUnderstand","thumb-up"],["J'ai pu résoudre mon problème","solvedMyProblem","thumb-up"],["Autre","otherUp","thumb-up"]],[["Il n'y a pas l'information dont j'ai besoin","missingTheInformationINeed","thumb-down"],["Trop compliqué/Trop d'étapes","tooComplicatedTooManySteps","thumb-down"],["Obsolète","outOfDate","thumb-down"],["Problème de traduction","translationIssue","thumb-down"],["Mauvais exemple/Erreur de code","samplesCodeIssue","thumb-down"],["Autre","otherDown","thumb-down"]],["Dernière mise à jour le 2024/07/23 (UTC)."],[],[]]

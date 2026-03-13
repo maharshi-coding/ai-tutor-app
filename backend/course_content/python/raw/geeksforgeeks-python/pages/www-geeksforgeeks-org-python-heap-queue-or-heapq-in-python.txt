@@ -1,0 +1,410 @@
+Title: Heap queue or heapq in Python
+URL: https://www.geeksforgeeks.org/python/heap-queue-or-heapq-in-python/
+Snapshot Type: sanitized text
+
+Courses
+
+Tutorials
+
+Interview Prep
+
+- Python Tutorial
+
+- Data Types
+
+- Interview Questions
+
+- Examples
+
+- Quizzes
+
+- DSA Python
+
+- Data Science
+
+- NumPy
+
+- Pandas
+
+- Practice
+
+- Django
+
+- Flask
+
+Heap queue or heapq in Python
+
+Last Updated : 3 Sep, 2025
+
+A heap queue (also called a priority queue) is a special data structure that allows quick access to the smallest (min-heap) or largest (max-heap) element. In Python, heaps are implemented as min-heaps by default, meaning the smallest element is always at the root of the structure, making it efficient to access.
+
+Why do we need Heap queue?
+
+Now that you know what a heap queue is, let’s see why it’s useful in real-world scenarios:
+
+- Provides an efficient way to implement priority queues using heaps.
+
+- Helps maintain a list in heap order with minimal code and high performance.
+
+- Useful in algorithms like Dijkstra's, Huffman encoding or any task requiring quick access to smallest element.
+
+- Offers functions like heapify(), heappush() and heappop() for efficient insertion and removal.
+
+- Ideal for managing sorted data dynamically without full sorting after each operation.
+
+Importing heapq
+
+To use heap queues in Python, you need to import the heapq module in your code:
+
+import heapq
+
+Key operations of a Heap
+
+Heaps support several essential operations that help manage data efficiently while maintaining heap property. These operations are crucial in scenarios like priority queues, scheduling and graph algorithms. Operations are:
+
+- Create (heapify): Convert a regular list into a valid min-heap using heapq.heapify().
+
+- Push (heappush): Adds an element to the heap while keeping the heap property intact.
+
+- Pop (heappop) : Removes and returns the smallest element from the heap.
+
+- Peek : Access the smallest element without removing it using heap[0].
+
+- Push and Pop (heappushpop): Push a new element and pop the smallest in a single step.
+
+- Replace (heapreplace): Pop the smallest and push a new element in one step.
+
+Let’s explore these operations one by one with code examples and explanations.
+
+Creating a Heap Queue
+
+In Python, you can easily turn a normal list into a min-heap (a special tree-based structure where smallest element is always at the front). The heapify() function helps us do this in-place, meaning it rearranges the list directly without creating a new one.
+
+Syntax:
+
+heapq.heapify(x)
+
+Parameter : x list to be converted into a heap.
+
+Example: Let’s start by converting a normal list into a heap using heapify(). This rearranges the elements in place so the smallest one is always at the front.
+
+Python
+
+import heapq
+li = [ 25 , 20 , 15 , 30 , 40 ]
+
+# Convert the list into a heap
+heapq . heapify ( li )
+print ( "Heap queue:" , li )
+
+Output
+Heap queue: [15, 20, 25, 30, 40]
+
+Explanation:
+
+- heapq.heapify(li) rearranges the elements of the list into a valid heap in-place.
+
+- Output list represents the heap structure and its first element will always be the smallest element (in a min-heap).
+
+Using Heap as a Max-Heap
+
+By default, Python’s heapq implements a min-heap. To create a max-heap, you can simply invert the values (store negative numbers).
+
+Example: Below example, convert a list into a max-heap by storing negative numbers and then retrieve the largest element:
+
+Python
+
+import heapq
+nums = [ 10 , 20 , 15 , 30 , 40 ]
+
+# Convert into a max-heap by inverting values
+max_heap = [ - n for n in nums ]
+heapq . heapify ( max_heap )
+
+# Access largest element (invert sign again)
+print ( "Largest element:" , - max_heap [ 0 ])
+
+Output
+Largest element: 40
+
+Explanation: We store negative values so that the smallest (negative largest) is treated as root. When retrieving values, we multiply by -1 again to restore the original numbers.
+
+Appending and Popping Elements
+
+In a heap queue, you can efficiently insert and remove elements while maintaining the heap property.
+
+- heapq.heappush(heap, item) adds a new element to the heap.
+
+- heapq.heappop(heap) removes and returns the smallest element.
+
+These operations ensure the heap remains properly ordered at all times.
+
+Example: This code demonstrates how to create a heap, append an element and remove the smallest element using the heapq module.
+
+Python
+
+import heapq
+
+# Creating an initial heap
+h = [ 10 , 20 , 15 , 30 , 40 ]
+heapq . heapify ( h )
+
+# Appending an element
+heapq . heappush ( h , 5 )
+
+# Heap before popping
+print ( h )
+
+# Pop the smallest element from the heap
+min = heapq . heappop ( h )
+print ( "Smallest:" , min )
+print ( h )
+
+Output
+[5, 20, 10, 30, 40, 15]
+Smallest: 5
+[10, 20, 15, 30, 40]
+
+Explanation:
+
+- First, heapq.heapify(h) converts the list into a valid min-heap.
+
+- heappush(h, 5) inserts 5 into the heap and reorders it so the smallest element (5) becomes the root.
+
+- heappop(h) removes the smallest element (5) and returns it.
+
+- After popping, the next smallest element (10) takes the root position.
+
+Appending and Popping Simultaneously
+
+heapq.heappushpop() function efficiently pushes a new element onto the heap and pops the smallest one in a single step. This is faster than doing heappush() followed by heappop() separately, as it maintains the heap structure with just one adjustment. It takes two arguments: the heap and the element to be pushed.
+
+Example: Pushes 5 onto the heap and pops the smallest element in a single step using heappushpop().
+
+Python
+
+import heapq
+
+# Creating a heap
+h = [ 10 , 20 , 15 , 30 , 40 ]
+heapq . heapify ( h )
+
+# Push a new element (5) and pop the smallest element at the same time
+min = heapq . heappushpop ( h , 5 )
+print ( min )
+print ( h )
+
+Output
+5
+[10, 20, 15, 30, 40]
+
+Explanation: heappushpop(h, 5) first pushes 5 into the heap and immediately pops the smallest element (which is also 5). This operation is more efficient than calling heappush() followed by heappop() separately, because the heap is adjusted only once instead of twice.
+
+Finding Largest and Smallest Elements
+
+While heaps are optimized for retrieving the smallest element, you may also want the largest elements. Python’s nlargest() and nsmallest() functions work on any iterable, not just heaps. They scan efficiently and return the requested number of largest or smallest elements.
+
+nlargest() and nsmallest()
+
+These functions allow us to easily find n largest or n smallest elements in a heap. They do this by efficiently scanning heap and sorting the required number of elements.
+
+- heapq.nlargest(n, iterable) returns the n largest elements from the iterable.
+
+- heapq.nsmallest(n, iterable) returns the n smallest elements from the iterable.
+
+Example: Finding the largest and smallest elements using nlargest() and nsmallest()
+
+Python
+
+import heapq
+
+# Creating a heap
+h = [ 10 , 20 , 15 , 30 , 40 ]
+heapq . heapify ( h )
+
+# Find the 3 largest elements
+maxi = heapq . nlargest ( 3 , h )
+print ( "3 largest elements:" , maxi )
+
+# Find the 3 smallest elements
+min = heapq . nsmallest ( 3 , h )
+print ( "3 smallest elements:" , min )
+
+Output
+3 largest elements: [40, 30, 20]
+3 smallest elements: [10, 15, 20]
+
+Note: The heapq module allows in-place heap operations on lists, making it an efficient and simple way to implement priority queues and similar structures in Python.
+
+Replace and Merge Operations
+
+Python’s heapq module provides additional useful operations for heaps like replace and merge.
+
+Replace Operation
+
+heapq.heapreplace() function is a combination of pop and push. It pops smallest element from the heap and inserts a new element into the heap, maintaining the heap property. This operation is useful when we want to replace the smallest element with a new value in a heap.
+
+- It returns the smallest element before replacing it.
+
+- It is more efficient than using heappop() followed by heappush() because it performs both operations in one step.
+
+Merge Operation
+
+heapq.merge() function is used to merge multiple sorted iterables into a single sorted heap. It returns an iterator over the sorted values, which we can then iterate through.
+
+This operation is efficient because it avoids sorting the elements from scratch. Instead, it merges already-sorted iterables in a way that maintains the heap property.
+
+Example of replace and merge operations:
+
+Python
+
+import heapq
+
+# Creating a heap
+h1 = [ 10 , 20 , 15 , 30 , 40 ]
+heapq . heapify ( h1 )
+
+# Replacing the smallest element (10) with 5
+min = heapq . heapreplace ( h1 , 5 )
+print ( min )
+print ( h1 )
+
+# Merging Heaps
+h2 = [ 2 , 4 , 6 , 8 ]
+
+# Merging the lists
+h3 = list ( heapq . merge ( h1 , h2 ))
+print ( "Merged heap:" , h3 )
+
+Output
+10
+[5, 20, 15, 30, 40]
+Merged heap: [2, 4, 5, 6, 8, 20, 15, 30, 40]
+
+Explanation:
+
+- We use heapreplace() to replace the smallest element (10) with 5. The smallest element is popped and 5 is inserted into the heap.
+
+- We use heapq.merge() to merge these heaps into a single sorted heap while maintaining the heap property.
+
+Difference between heapreplace() and heappushpop()
+
+- heapreplace() always pops smallest element and then pushes a new one whereas, heappushpop() pushes new element first, then pops smallest.
+
+- Use heapreplace() when you always want the new element to be in the heap and heappushpop() when new element may or may not stay (depending on comparison).
+
+Advantages and Disadvantages of Heapq
+
+Advantages Disadvantages
+
+Fast for insertion and removal with priority. Not suitable for complex data manipulations
+
+Uses less memory than some other data types. No direct access to middle items.
+
+Simple to use with the heapq module. Can’t fully sort the items automatically.
+
+Works in many cases like heaps and priority queues. Not safe with multiple threads at the same time.
+
+Python
+
+priority-queue
+
+Python-DSA
+
+Python Fundamentals
+
+- Python Introduction 2 min read
+
+- Input and Output in Python 4 min read
+
+- Python Variables 4 min read
+
+- Python Operators 4 min read
+
+- Python Keywords 2 min read
+
+- Python Data Types 8 min read
+
+- Conditional Statements in Python 3 min read
+
+- Loops in Python 5 min read
+
+- Python Functions 5 min read
+
+Python Data Structures
+
+- Python String 5 min read
+
+- Python Lists 4 min read
+
+- Python Tuples 4 min read
+
+- Python Dictionary 4 min read
+
+- Python Sets 6 min read
+
+- Python Arrays 7 min read
+
+Advanced Python
+
+- Python OOP Concepts 4 min read
+
+- Python Exception Handling 5 min read
+
+- File Handling in Python 4 min read
+
+- Python Database Tutorial 4 min read
+
+- Python MongoDB Tutorial 3 min read
+
+- Python MySQL 9 min read
+
+- Python Packages 10 min read
+
+- Python Modules 3 min read
+
+- Python DSA Libraries 5 min read
+
+- List of Python GUI Library and Packages 3 min read
+
+Data Science with Python
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Matplotlib Tutorial 3 min read
+
+- Python Seaborn Tutorial 3 min read
+
+- StatsModel Library - Tutorial 2 min read
+
+- Learning Model Building in Scikit-learn 6 min read
+
+- TensorFlow Tutorial 2 min read
+
+- PyTorch Tutorial 5 min read
+
+Web Development with Python
+
+- Flask Tutorial 4 min read
+
+- Django Tutorial | Learn Django Framework 6 min read
+
+- Django ORM - Inserting, Updating & Deleting Data 4 min read
+
+- Templating With Jinja2 in Flask 6 min read
+
+- Django Templates 5 min read
+
+- Build a REST API using Flask - Python 3 min read
+
+- Building a Simple API with Django REST Framework 3 min read
+
+Python Practice
+
+- Python Quiz 1 min read
+
+- Python Coding Practice 1 min read
+
+- Python Interview Questions and Answers 15+ min read

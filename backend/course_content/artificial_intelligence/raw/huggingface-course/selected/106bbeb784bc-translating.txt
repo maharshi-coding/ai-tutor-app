@@ -1,3 +1,7 @@
+Original Path: chapters/es/TRANSLATING.txt
+Original Type: .txt
+Snapshot Type: sanitized text
+
 1. We use the informal "you" (i.e. "Tu" instead of "Usted") to keep the tone jovial. However, don't use slang or local language.
 
 2. Don't translate industry-accepted acronyms. e.g. TPU or GPU.

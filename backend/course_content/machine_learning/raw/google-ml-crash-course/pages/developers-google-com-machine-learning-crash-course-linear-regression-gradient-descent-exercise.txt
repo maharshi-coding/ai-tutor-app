@@ -1,0 +1,86 @@
+Title: Linear regression: Gradient descent exercise
+URL: https://developers.google.com/machine-learning/crash-course/linear-regression/gradient-descent-exercise
+Snapshot Type: sanitized text
+
+Products
+
+Machine Learning
+
+ML Concepts
+
+Crash Course
+
+Send feedback
+
+Linear regression: Gradient descent exercise
+
+Stay organized with collections
+
+Save and categorize content based on your preferences.
+
+In this exercise, you'll revisit the graph of fuel-efficiency data from
+the Parameters exercise . But this time, you'll
+use gradient descent to learn the optimal weight and bias values for a linear
+model that minimizes loss.
+
+Complete the three tasks below the graph.
+
+Task #1: Adjust the Learning Rate slider below the graph to set a
+learning rate of 0.03. Click the Start button to run gradient descent.
+
+How long does the model training take to converge (reach a stable minimum
+loss value)? What is the MSE value at model convergence? What weight and bias
+values produce this value?
+
+Click the plus icon to see our solution
+
+When we set a learning rate of 0.03, the model converged in
+approximately 30 seconds, achieving a MSE of 2.67 with weight and
+bias values of –1.14 and 20.389, respectively. This indicates we've
+picked a good learning rate value.
+
+Task #2: Click the Reset button below the graph to reset the Weight and
+Bias values in the graph. Adjust the Learning Rate slider to a value around
+1.10e –5 . Click the Start button to run gradient descent.
+
+What do you notice about how long it takes the model training to converge
+this time?
+
+Click the plus icon to see the solution
+
+After several minutes, model training still hasn't converged. Small
+updates to Weight and Bias values continue to result in slightly lower
+loss values. This suggests that picking a higher learning rate would
+enable gradient descent to find the optimal weight and bias values more
+quickly.
+
+Task #3: Click the Reset button below the graph to reset the Weight
+and Bias values in the graph. Adjust the Learning Rate slider up to 1.
+Click the Start button to run gradient descent.
+
+What happens to the loss values as gradient descent runs? How long will model
+training take to converge this time?
+
+Click the plus icon to see the solution
+
+Loss values fluctuate wildly at high values (MSE over 300).
+This indicates that the learning rate is too high, and model training
+will never reach convergence.
+
+arrow_back
+
+Hyperparameters (10 min)
+
+Programming exercise (20 min)
+
+arrow_forward
+
+Send feedback
+
+Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License , and code samples are licensed under the Apache 2.0 License . For details, see the Google Developers Site Policies . Java is a registered trademark of Oracle and/or its affiliates.
+
+Last updated 2026-01-12 UTC.
+
+Need to tell us more?
+
+[[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2026-01-12 UTC."],[],[]]

@@ -1,0 +1,652 @@
+Title: Python Function Arguments
+URL: https://www.programiz.com/python-programming/function-argument
+Snapshot Type: sanitized text
+
+Course Index
+
+Tutorials
+
+Courses
+
+Python
+JavaScript
+TypeScript
+SQL
+HTML
+CSS
+C
+C++
+Java
+R
+Ruby
+RUST
+Golang
+Kotlin
+Swift
+C#
+DSA
+
+Become a certified Python
+programmer.
+
+ENROLL
+
+Popular Tutorials
+
+Getting Started With Python
+
+Python if Statement
+
+while Loop in Python
+
+Python Lists
+
+Dictionaries in Python
+
+Start Learning Python
+
+Popular Examples
+
+Add two numbers
+
+Check prime number
+
+Find the factorial of a number
+
+Print the Fibonacci sequence
+
+Check leap year
+
+Explore Python Examples
+
+Reference Materials
+
+Built-in Functions
+
+List Methods
+
+Dictionary Methods
+
+String Methods
+
+View all
+
+Created with over a decade of experience.
+
+Learn
+
+Practice
+
+Compete
+
+Learn Python
+
+Learn HTML
+
+Learn JavaScript
+
+Learn SQL
+
+Learn DSA
+
+Learn C
+
+Learn C++
+
+Learn Java
+
+View all Courses on
+
+Python Basics
+
+Python Intermediate
+
+C++ Basics
+
+C++ Intermediate
+
+C++ OOP
+
+C Programming
+
+Java Basics
+
+Java Intermediate
+
+Java OOP
+
+View all Courses on
+
+Python Challenges
+
+JavaScript Challenges
+
+Java Challenges
+
+C++ Challenges
+
+C Challenges
+
+View all Challenges on
+
+Learn
+
+Practice
+
+Compete
+
+Certification Courses
+
+Created with over a decade of experience and thousands of feedback.
+
+Learn Python
+
+Learn HTML
+
+Learn JavaScript
+
+Learn SQL
+
+Learn DSA
+
+View all Courses on
+
+Learn C
+
+Learn C++
+
+Learn Java
+
+Python
+
+JavaScript
+
+TypeScript
+
+SQL
+
+HTML
+
+CSS
+
+C
+
+C++
+
+Java
+
+More languages
+
+Become a certified Python
+programmer.
+
+Try Programiz PRO!
+
+Popular Tutorials
+
+Getting Started With Python
+
+Python if Statement
+
+while Loop in Python
+
+Python Lists
+
+Dictionaries in Python
+
+Start Learning Python
+
+All Python Tutorials
+
+Reference Materials
+
+Built-in Functions
+
+List Methods
+
+Dictionary Methods
+
+String Methods
+
+View all
+
+Python
+
+JavaScript
+
+C
+
+C++
+
+Java
+
+R
+
+Kotlin
+
+Become a certified Python
+programmer.
+
+Try Programiz PRO!
+
+Popular Examples
+
+Add two numbers
+
+Check prime number
+
+Find the factorial of a number
+
+Print the Fibonacci sequence
+
+Check leap year
+
+All Python Examples
+
+Python Introduction
+
+- Get Started With Python
+
+- Your First Python Program
+
+- Python Comments
+
+Python Fundamentals
+
+- Python Variables and Literals
+
+- Python Type Conversion
+
+- Python Basic Input and Output
+
+- Python Operators
+
+Python Flow Control
+
+- Python if...else Statement
+
+- Python for Loop
+
+- Python while Loop
+
+- Python break and continue
+
+- Python pass Statement
+
+Python Data types
+
+- Python Numbers and Mathematics
+
+- Python List
+
+- Python Tuple
+
+- Python String
+
+- Python Set
+
+- Python Dictionary
+
+Python Functions
+
+- Python Functions
+
+- Python Function Arguments
+
+- Python Variable Scope
+
+- Python Global Keyword
+
+- Python Recursion
+
+- Python Modules
+
+- Python Package
+
+- Python Main function
+
+Python Files
+
+- Python Directory and Files Management
+
+- Python CSV: Read and Write CSV files
+
+- Reading CSV files in Python
+
+- Writing CSV files in Python
+
+Python Exception Handling
+
+- Python Exceptions
+
+- Python Exception Handling
+
+- Python Custom Exceptions
+
+Python Object & Class
+
+- Python Objects and Classes
+
+- Python Inheritance
+
+- Python Multiple Inheritance
+
+- Polymorphism in Python
+
+- Python Operator Overloading
+
+Python Advanced Topics
+
+- List comprehension
+
+- Python Lambda/Anonymous Function
+
+- Python Iterators
+
+- Python Generators
+
+- Python Namespace and Scope
+
+- Python Closures
+
+- Python Decorators
+
+- Python @property decorator
+
+- Python RegEx
+
+Python Date and Time
+
+- Python datetime
+
+- Python strftime()
+
+- Python strptime()
+
+- How to get current date
+and time in Python?
+
+- Python Get Current Time
+
+- Python timestamp to
+datetime and vice-versa
+
+- Python time Module
+
+- Python sleep()
+
+Additional Topic
+
+- Precedence and Associativity of Operators in Python
+
+- Python Keywords and Identifiers
+
+- Python Asserts
+
+- Python Json
+
+- Python pip
+
+- Python *args and **kwargs
+
+Python Tutorials
+
+Python User-defined Functions
+
+Python Functions
+
+Python Lambda/Anonymous Function
+
+Python *args and **kwargs
+
+Python map() Function
+
+Python staticmethod()
+
+Python Function Arguments
+
+In computer programming, an argument is a value that is accepted by a function.
+
+Before we learn about function arguments, make sure to know about Python Functions .
+
+Example 1: Python Function Arguments
+
+def add_numbers(a, b):
+sum = a + b
+print('Sum:', sum)
+
+add_numbers(2, 3)
+
+# Output: Sum: 5
+
+In the above example, the function
+add_numbers()
+takes two parameters:
+a
+and
+b
+. Notice the line,
+
+add_numbers(2, 3)
+
+Here,
+add_numbers(2, 3)
+specifies that parameters
+a
+and
+b
+will get values 2 and 3 respectively.
+
+Function Argument with Default Values
+
+In Python, we can provide default values to function arguments.
+
+We use the
+=
+operator to provide default values. For example,
+
+def add_numbers( a = 7, b = 8):
+sum = a + b
+print('Sum:', sum)
+
+# function call with two arguments
+add_numbers(2, 3)
+
+# function call with one argument
+add_numbers(a = 2)
+
+# function call with no arguments
+add_numbers()
+
+Output
+
+Sum: 5
+Sum: 10
+Sum: 15
+
+In the above example, notice the function definition
+
+def add_numbers(a = 7, b = 8):
+...
+
+Here, we have provided default values 7 and 8 for parameters a and b respectively. Here's how this program works
+
+1. add_numbers(2, 3)
+
+Both values are passed during the function call. Hence, these values are used instead of the default values.
+
+2. add_numbers(2)
+
+Only one value is passed during the function call. So, according to the positional argument 2 is assigned to argument
+a
+, and the default value is used for parameter
+b
+.
+
+3. add_numbers()
+
+No value is passed during the function call. Hence, default value is used for both parameters
+a
+and
+b
+.
+
+Python Keyword Argument
+
+In keyword arguments, arguments are assigned based on the name of the arguments. For example,
+
+def display_info(first_name, last_name):
+print('First Name:', first_name)
+print('Last Name:', last_name)
+
+display_info(last_name = 'Cartman', first_name = 'Eric')
+
+Output
+
+First Name: Eric
+Last Name: Cartman
+
+Here, notice the function call,
+
+display_info(last_name = 'Cartman', first_name = 'Eric')
+
+Here, we have assigned names to arguments during the function call.
+
+Hence,
+first_name
+in the function call is assigned to
+first_name
+in the function definition. Similarly,
+last_name
+in the function call is assigned to
+last_name
+in the function definition.
+
+In such scenarios, the position of arguments doesn't matter.
+
+Python Function With Arbitrary Arguments
+
+Sometimes, we do not know in advance the number of arguments that will be passed into a function. To handle this kind of situation, we can use arbitrary arguments in Python .
+
+Arbitrary arguments allow us to pass a varying number of values during a function call.
+
+We use an asterisk (*) before the parameter name to denote this kind of argument. For example,
+
+# program to find sum of multiple numbers
+
+def find_sum(*numbers):
+result = 0
+
+for num in numbers:
+result = result + num
+
+print("Sum = ", result)
+
+# function call with 3 arguments
+find_sum(1, 2, 3)
+
+# function call with 2 arguments
+find_sum(4, 9)
+
+Output
+
+Sum = 6
+Sum = 13
+
+In the above example, we have created the function
+find_sum()
+that accepts arbitrary arguments. Notice the lines,
+
+find_sum(1, 2, 3)
+
+find_sum(4, 9)
+
+Here, we are able to call the same function with different arguments.
+
+Note : After getting multiple values,
+numbers
+behave as an array so we are able to use the for loop to access each value.
+
+- Introduction
+
+- Example 1: Python Function Arguments
+
+- Function Argument with Default Values
+
+- Python Keyword Argument
+
+- Python Function With Arbitrary Arguments
+
+Before we wrap up, let’s put your knowledge of Python function arguments to the test! Can you solve the following challenge?
+
+Challenge:
+
+Write a function to return a full name with a space in between.
+
+- For example, if the
+first_name
+is
+John
+and the
+last_name
+is
+Doe
+, the return value should be
+John Doe
+.
+
+Check Code
+
+Video: Python Function Arguments: Positional, Keywords and Default
+
+Previous Tutorial:
+
+Python Functions
+
+Next Tutorial:
+
+Python Variable Scope
+
+Share on:
+
+Did you find this article helpful?
+
+Sorry about that.
+
+How can we improve it?
+
+Feedback *
+
+Leave this field blank
+
+Your builder path starts here. Builders don't just know how to code, they create solutions that matter.
+
+Escape tutorial hell and ship real projects.
+
+Try Programiz PRO
+
+Real-World Projects
+
+On-Demand Learning
+
+- AI Mentor
+
+Builder Community
+
+Related Tutorials
+
+Python Tutorial
+
+Python User-defined Functions
+
+Python Tutorial
+
+Python Functions
+
+Python Tutorial
+
+Python Lambda/Anonymous Function
+
+Python Tutorial
+
+Python *args and **kwargs

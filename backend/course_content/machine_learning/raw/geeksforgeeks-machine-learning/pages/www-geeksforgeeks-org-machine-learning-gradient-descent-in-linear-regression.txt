@@ -1,0 +1,272 @@
+Title: Gradient Descent in Linear Regression
+URL: https://www.geeksforgeeks.org/machine-learning/gradient-descent-in-linear-regression/
+Snapshot Type: sanitized text
+
+Courses
+
+Tutorials
+
+Interview Prep
+
+- Python for Machine Learning
+
+- Machine Learning with R
+
+- Machine Learning Algorithms
+
+- EDA
+
+- Math for Machine Learning
+
+- Machine Learning Interview Questions
+
+- ML Projects
+
+- Deep Learning
+
+- NLP
+
+- Computer vision
+
+- Data Science
+
+- Artificial Intelligence
+
+Gradient Descent in Linear Regression
+
+Last Updated : 12 Dec, 2025
+
+Gradient Descent is an optimization algorithm used in linear regression to find the best-fit line for the data. It works by gradually adjusting the line’s slope and intercept to reduce the difference between actual and predicted values. This process helps the model make accurate predictions by minimizing errors step by step.
+Gradient Descent in Linear Regression
+Above image shows two graphs, left one plots house prices against size to show errors measured by the cost function while right one shows how gradient descent moves downhill on the cost curve to minimize error by updating parameters step by step.
+
+Why Use Gradient Descent for Linear Regression
+
+Linear regression finds the best-fit line for a dataset by minimizing the error between the actual and predicted values. This error is measured using the cost function usually Mean Squared Error (MSE). The goal is to find the model parameters i.e. the slope m and the intercept b that minimize this cost function.
+
+For simple linear regression, we can use formulas like Normal Equation to find parameters directly. However for large datasets or high-dimensional data these methods become computationally expensive due to:
+
+- Large matrix computations.
+
+- Memory limitations.
+
+In models like polynomial regression , the cost function becomes highly complex and non-linear, so analytical solutions are not available. That’s where gradient descent plays an important role even for:
+
+- Large datasets.
+
+- Complex, high-dimensional problems.
+
+How Does Gradient Descent Work in Linear Regression?
+
+Lets see various steps involved in the working of Gradient Descent in Linear Regression:
+
+1. Initializing Parameters : Start with random initial values for the slope ( m ) and intercept ( b ).
+
+2. Calculate the Cost Function : Measure the error using the Mean Squared Error (MSE) :
+
+J(m, b) = \frac{1}{n} \sum_{i=1}^{n} \left( y_i - (mx_i + b) \right)^2
+
+3. Compute the Gradient : Calculate how much the cost function changes with respect to m and b .
+
+- For slope m :
+
+\frac{\partial J}{\partial m} = -\frac{2}{n} \sum_{i=1}^{n} x_i (y_i - (mx_i + b))
+
+- For intercept b :
+
+\frac{\partial J}{\partial b} = -\frac{2}{n} \sum_{i=1}^{n} (y_i - (mx_i + b))
+
+4. Update Parameters : Change m and b to reduce the error:
+
+- For slope m :
+
+m = m - \alpha \cdot \frac{\partial J}{\partial m}
+
+- For intercept b :
+
+b = b - \alpha \cdot \frac{\partial J}{\partial b}
+
+Here \alpha is the learning rate that controls the size of each update.
+
+5. Repeat : Keep repeating steps 2–4 until the error stops decreasing significantly.
+
+Implementation of Gradient Descent in Linear Regression
+
+Let’s implement linear regression step by step. To understand how gradient descent improves the model, we will first build a simple linear regression without using gradient descent and observe its results.
+
+Here we will be using Numpy , Pandas , Matplotlib and Sckit learn libraries for this.
+
+- X, y = make_regression(n_samples=100, n_features=1, noise=15, random_state=42) : Generating 100 data points with one feature and some noise for realism.
+
+- X_b = np.c_[np.ones((m, 1)), X] : Adding a column of ones to X to account for the intercept term in the model.
+
+- theta = np.array([[2.0], [3.0]]) : Initializing model parameters (intercept and slope) with starting values.
+
+Python
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_regression
+
+X , y = make_regression ( n_samples = 100 , n_features = 1 , noise = 15 , random_state = 42 )
+y = y . reshape ( - 1 , 1 )
+m = X . shape [ 0 ]
+
+X_b = np . c_ [ np . ones (( m , 1 )), X ]
+
+theta = np . array ([[ 2.0 ], [ 3.0 ]])
+
+plt . figure ( figsize = ( 10 , 5 ))
+plt . scatter ( X , y , color = "blue" , label = "Actual Data" )
+plt . plot ( X , X_b . dot ( theta ), color = "green" , label = "Initial Line (No GD)" )
+plt . xlabel ( "Feature" )
+plt . ylabel ( "Target" )
+plt . title ( "Linear Regression Without Gradient Descent" )
+plt . legend ()
+plt . show ()
+
+Output:
+Linear Regression without Gradient Descent
+Here the model’s predictions are not accurate and the line does not fit the data well. This happens because the initial parameters are not optimized which prevents the model from finding the best-fit line.
+
+Now we will apply gradient descent to improve the model and optimize these parameters.
+
+- learning_rate = 0.1, n_iterations = 100: Set the learning rate and number of iterations for gradient descent to run respectively.
+
+- gradients = (2 / m) * X_b.T.dot(y_pred - y) : Finding gradients of the cost function with respect to parameters.
+
+- theta -= learning_rate * gradients : Updating parameters by moving opposite to the gradient direction.
+
+Python
+
+learning_rate = 0.1
+n_iterations = 100
+
+for _ in range ( n_iterations ):
+
+y_pred = X_b . dot ( theta )
+
+gradients = ( 2 / m ) * X_b . T . dot ( y_pred - y )
+
+theta -= learning_rate * gradients
+
+plt . figure ( figsize = ( 10 , 5 ))
+plt . scatter ( X , y , color = "blue" , label = "Actual Data" )
+plt . plot ( X , X_b . dot ( theta ), color = "red" , label = "Optimized Line (With GD)" )
+plt . xlabel ( "Feature" )
+plt . ylabel ( "Target" )
+plt . title ( "Linear Regression With Gradient Descent" )
+plt . legend ()
+plt . show ()
+
+Output:
+Linear Regression with Gradient Descent
+Linear Regression with Gradient Descent shows how the model gradually learns to fit the line that minimizes the difference between predicted and actual values by updating parameters step by step.
+
+Machine Learning
+
+AI-ML-DS
+
+ML-Regression
+
+python
+
+AI-ML-DS With Python
+
++ 1 More
+
+Machine Learning Basics
+
+- Introduction to Machine Learning 8 min read
+
+- Types of Machine Learning 7 min read
+
+- What is Machine Learning Pipeline? 6 min read
+
+- Applications of Machine Learning 3 min read
+
+Python for Machine Learning
+
+- Machine Learning with Python Tutorial 3 min read
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Data Preprocessing in Python 4 min read
+
+- EDA - Exploratory Data Analysis in Python 6 min read
+
+Feature Engineering
+
+- What is Feature Engineering? 5 min read
+
+- Introduction to Dimensionality Reduction 4 min read
+
+- Feature Selection Techniques in Machine Learning 4 min read
+
+Supervised Learning
+
+- Supervised Machine Learning 7 min read
+
+- Linear Regression in Machine learning 14 min read
+
+- Logistic Regression in Machine Learning 10 min read
+
+- Decision Tree in Machine Learning 8 min read
+
+- Random Forest Algorithm in Machine Learning 5 min read
+
+- K-Nearest Neighbor(KNN) Algorithm 8 min read
+
+- Support Vector Machine (SVM) Algorithm 9 min read
+
+- Naive Bayes Classifiers 6 min read
+
+Unsupervised Learning
+
+- What is Unsupervised Learning 5 min read
+
+- K means Clustering – Introduction 6 min read
+
+- Hierarchical Clustering in Machine Learning 6 min read
+
+- DBSCAN Clustering in ML - Density based clustering 6 min read
+
+- Apriori Algorithm 6 min read
+
+- Frequent Pattern Growth Algorithm 4 min read
+
+- ECLAT Algorithm - ML 5 min read
+
+- Principal Component Analysis (PCA) 7 min read
+
+Model Evaluation and Tuning
+
+- Evaluation Metrics in Machine Learning 9 min read
+
+- Regularization in Machine Learning 5 min read
+
+- Cross Validation in Machine Learning 5 min read
+
+- Hyperparameter Tuning 5 min read
+
+- Underfitting and Overfitting in ML 3 min read
+
+- Bias and Variance in Machine Learning 6 min read
+
+Advanced Techniques
+
+- Reinforcement Learning 9 min read
+
+- Semi-Supervised Learning in ML 5 min read
+
+- Self-Supervised Learning (SSL) 6 min read
+
+- Ensemble Learning 7 min read
+
+Machine Learning Practice
+
+- Machine Learning Interview Questions and Answers 15+ min read
+
+- 100+ Machine Learning Projects with Source Code 5 min read

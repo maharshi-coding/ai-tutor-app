@@ -1,0 +1,355 @@
+Title: Heuristic Function In AI
+URL: https://www.geeksforgeeks.org/artificial-intelligence/heuristic-function-in-ai/
+Snapshot Type: sanitized text
+
+Courses
+
+Tutorials
+
+Interview Prep
+
+- Artificial Intelligence
+
+- Interview Questions
+
+- Project Ideas
+
+- Search Algorithms
+
+- Local Search Algorithm
+
+- Generative AI
+
+- Data Science
+
+- Machine Learning
+
+- Deep Learning
+
+- ML-Projects
+
+- Robotics
+
+Heuristic Function In AI
+
+Last Updated : 26 Jul, 2025
+
+Heuristic functions are essential in AI search algorithms, helping estimate the cost from a current state to the goal. Instead of exhaustively exploring all possibilities, heuristics guide the search by narrowing down the most promising paths. This makes problem-solving more efficient, especially in complex scenarios where exact solutions are too costly.
+
+By providing informed estimates, heuristic functions break down large problems into manageable subproblems which is widely used in AI planning and decision-making.
+
+Heuristic Search Algorithms in AI
+
+Heuristic search algorithms uses heuristic functions to make more intelligent decisions during the search process. Some common heuristic search algorithms include:
+
+1. A* Algorithm
+
+The A* algorithm is one of the most widely used heuristic search algorithms. It uses both the actual cost from the start node to the current node (g(n)) and the estimated cost from the current node to the goal (h(n)). The total estimated cost (f(n)) is the sum of these two values:
+
+f(n) = g(n) +h(n)
+
+Where:
+
+- f(n) is total estimated cost of the cheapest solution through n.
+
+- g(n) is actual cost from the start node to the node n.
+
+- h(n) is estimated cost from node n to goal.
+
+Note: This guarantees optimal path if h(n) never overestimates.
+
+2. Greedy Best-First Search
+
+The Greedy Best-First Search algorithm selects the path that appears to be the most promising based on the heuristic function alone. It prioritizes nodes with the lowest heuristic cost (h(n)) but it does not necessarily guarantee the shortest path to the goal.
+
+f(n) = h(n)
+
+- This only considers the heuristic estimate to the goal.
+
+- Ignores the actual cost already traveled (g(n)).
+
+- Fast but may take suboptimal paths.
+
+3. Hill-Climbing Algorithm
+
+The Hill-Climbing algorithm is a local search algorithm that continuously moves towards the neighbor with the lowest heuristic cost. It resembles climbing uphill towards the goal but can get stuck in local optima.
+
+- Goal is to optimize h(n).
+
+- Works by comparing neighboring states and selectin the one with lowest heuristic cost.
+
+Role of Heuristic Functions in AI
+
+Heuristic functions are essential in AI for several reasons:
+
+- Efficiency: They reduce the search space, leading to faster solution times.
+
+- Guidance: They provide a sense of direction in large problem spaces, avoiding unnecessary exploration.
+
+- Practicality: They offer practical solutions in situations where exact methods are computationally prohibitive.
+
+Path Finding with Heuristic Functions
+
+Step 1: Import Libraries.
+
+- heapq : For priority queue (used to pick lowest-cost path).
+
+- matplotlib.pyplot : To visualize the grid and path.
+
+- numpy : Helps manipulate grid data during visualization.
+
+Python
+
+import heapq
+import matplotlib.pyplot as plt
+import numpy as np
+
+Step 2: Creating A* Algorithm and Initialization
+
+- a_star(): Main function for A* pathfinding.
+
+- heuristic(): We will use Manhattan distance that estimates distance to the goal.
+
+- Here we have 4-direction movement (up, down, left, right).
+
+- open_list: Min-heap priority queue storing nodes to explore.
+
+- g_score: Cost from start to current node.
+
+- f_score : Estimated total cost (start to goal).
+
+- came_from : Tracks best path back from goal.
+
+Python
+
+def a_star ( grid , start , goal ):
+def heuristic ( a , b ):
+return abs ( a [ 0 ] - b [ 0 ]) + abs ( a [ 1 ] - b [ 1 ])
+
+directions = [( 0 , 1 ), ( 1 , 0 ), ( 0 , - 1 ), ( - 1 , 0 )]
+open_list = [( 0 , start )]
+g_score = { start : 0 }
+f_score = { start : heuristic ( start , goal )}
+came_from = {}
+
+Step 3: Main Loop and Goal reaching
+
+- Keep exploring until all possible paths are checked or the goal is found.
+
+- If goal is reached, trace back to start using came_from.
+
+Python
+
+while open_list :
+_ , current = heapq . heappop ( open_list )
+
+if current == goal :
+path = []
+while current in came_from :
+path . append ( current )
+current = came_from [ current ]
+path . append ( start )
+path . reverse ()
+return path
+
+Step 4: Process Neighbors and Update Scores
+
+- Only update if we found a better path to the neighbor.
+
+- Push to open_list with updated f_score.
+
+- If all nodes are explored and no path found.
+
+Python
+
+for direction in directions :
+neighbor = ( current [ 0 ] + direction [ 0 ], current [ 1 ] + direction [ 1 ])
+if 0 <= neighbor [ 0 ] < len ( grid ) and 0 <= neighbor [ 1 ] < len ( grid [ 0 ]) and grid [ neighbor [ 0 ]][ neighbor [ 1 ]] == 0 :
+tentative_g_score = g_score [ current ] + 1
+if neighbor not in g_score or tentative_g_score < g_score [ neighbor ]:
+came_from [ neighbor ] = current
+g_score [ neighbor ] = tentative_g_score
+f_score [ neighbor ] = tentative_g_score + heuristic ( neighbor , goal )
+heapq . heappush ( open_list , ( f_score [ neighbor ], neighbor ))
+
+return None
+
+Step 5: Define Visualization Function
+
+- Prepares grid and draws result using matplotlib.
+
+- Mark path = 2, start = 3, goal = 4 for color mapping.
+
+Python
+
+def visualize_path ( grid , path , start , goal ):
+grid = np . array ( grid )
+for ( x , y ) in path :
+grid [ x , y ] = 2
+grid [ start [ 0 ], start [ 1 ]] = 3
+grid [ goal [ 0 ], goal [ 1 ]] = 4
+
+cmap = plt . cm . get_cmap ( 'Accent' , 5 )
+bounds = [ 0 , 1 , 2 , 3 , 4 ]
+norm = plt . Normalize ( vmin = 0 , vmax = 4 )
+
+plt . imshow ( grid , cmap = cmap , norm = norm )
+plt . colorbar ( ticks = [ 0 , 1 , 2 , 3 , 4 ], format = plt . FuncFormatter (
+lambda val , loc : [ 'Empty' , 'Obstacle' , 'Path' , 'Start' , 'Goal' ][ int ( val )]))
+plt . title ( "A* Pathfinding Visualization" )
+plt . show ()
+
+Step 6: Setup Grid
+
+Python
+
+grid = [
+[ 0 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 ],
+[ 0 , 0 , 0 , 0 , 1 , 0 , 1 , 0 , 0 , 1 ],
+[ 1 , 1 , 1 , 0 , 1 , 0 , 1 , 0 , 1 , 1 ],
+[ 1 , 0 , 0 , 0 , 0 , 0 , 1 , 0 , 1 , 1 ],
+[ 1 , 0 , 1 , 1 , 1 , 1 , 1 , 0 , 1 , 1 ],
+[ 1 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 1 , 1 ],
+[ 1 , 1 , 1 , 1 , 1 , 1 , 1 , 0 , 1 , 1 ],
+[ 1 , 0 , 0 , 0 , 0 , 0 , 1 , 0 , 0 , 0 ],
+[ 1 , 1 , 1 , 1 , 1 , 0 , 1 , 1 , 1 , 0 ],
+[ 1 , 1 , 1 , 1 , 1 , 0 , 0 , 0 , 0 , 0 ]
+]
+
+start = ( 0 , 0 )
+goal = ( 9 , 9 )
+
+Step 7: Result
+
+Python
+
+path = a_star ( grid , start , goal )
+
+if path :
+print ( "Path found:" , path )
+visualize_path ( grid , path , start , goal )
+else :
+print ( "No path found" )
+
+Output:
+
+Path found: [(0, 0), (1, 0), (1, 1), (1, 2), (1, 3), (2, 3), (3, 3), (3, 2), (3, 1), (4, 1), (5, 1), (5, 2), (5, 3), (5, 4), (5, 5), (5, 6), (5, 7), (6, 7), (7, 7), (7, 8), (7, 9), (8, 9), (9, 9)]
+
+Output
+Applications
+
+Heuristic functions help AI make intelligent decisions efficiently across a wide range of domains:
+
+- Game AI : Evaluate game states like chess, tic-tac-toe, etc to select optimal moves and anticipate opponents strategies.
+
+- Robotics : Guide path planning by estimating efficient routes, avoiding obstacles and reaching targets.
+
+- Natural Language Processing (NLP) : Helps in parsing, context interpretation and generating coherent text responses.
+
+- Navigation Systems : Used in GPS and mapping tools to suggest shortest or fastest routes using distance/time estimates.
+
+- Scheduling & Planning : Optimize tasks in project management, resource allocation or automated timetabling by estimating best task sequences.
+
+Common Problem Types for Heuristic Functions
+
+Heuristic functions are particularly useful in various problem types including:
+
+- Pathfinding Problems: Pathfinding problems such as navigating a maze or finding the shortest route on a map, benefit greatly from heuristic functions that estimate the distance to the goal.
+
+- Constraint Satisfaction Problems: In constraint satisfaction problems such as scheduling and puzzle-solving, heuristics help in selecting the most promising variables and values to explore.
+
+- Optimization Problems: Optimization problems like the traveling salesman problem, use heuristics to find near-optimal solutions within a reasonable time frame.
+
+Heuristic functions are useful in AI by enhancing the efficiency and effectiveness of search algorithms. By providing estimates that guide the search process, heuristics enable practical solutions to complex problems across various domains.
+
+Blogathon
+
+Artificial Intelligence
+
+AI-ML-DS
+
+Artificial Intelligence
+
+AI-ML-DS With Python
+
+Data Science Blogathon 2024
+
++ 2 More
+
+Introduction to AI
+
+- What is Artificial Intelligence (AI) 10 min read
+
+- Types of Artificial Intelligence (AI) 6 min read
+
+- Types of AI Based on Functionalities 4 min read
+
+- Agents in AI 7 min read
+
+- Artificial intelligence vs Machine Learning vs Deep Learning 3 min read
+
+- Problem Solving in Artificial Intelligence 6 min read
+
+- Top 20 Applications of Artificial Intelligence (AI) in 2025 13 min read
+
+AI Concepts
+
+- Search Algorithms in AI 6 min read
+
+- Local Search Algorithm in Artificial Intelligence 7 min read
+
+- Adversarial Search Algorithms in Artificial Intelligence (AI) 15+ min read
+
+- Constraint Satisfaction Problems (CSP) in Artificial Intelligence 10 min read
+
+- Knowledge Representation in AI 9 min read
+
+- First-Order Logic in Artificial Intelligence 4 min read
+
+- Reasoning Mechanisms in AI 9 min read
+
+Machine Learning in AI
+
+- Machine Learning Tutorial 5 min read
+
+- Deep Learning Tutorial 2 min read
+
+- Natural Language Processing (NLP) Tutorial 2 min read
+
+- Computer Vision Tutorial 3 min read
+
+Robotics and AI
+
+- Artificial Intelligence in Robotics 5 min read
+
+- What is Robotics Process Automation 8 min read
+
+- Automated Planning in AI 8 min read
+
+- AI in Transportation 8 min read
+
+- AI in Manufacturing : Revolutionizing the Industry 6 min read
+
+Generative AI
+
+- What is Generative AI? 7 min read
+
+- Generative Adversarial Network (GAN) 11 min read
+
+- Cycle Generative Adversarial Network (CycleGAN) 7 min read
+
+- StyleGAN - Style Generative Adversarial Networks 5 min read
+
+- Introduction to Generative Pre-trained Transformer (GPT) 4 min read
+
+- BERT Model - NLP 12 min read
+
+- Generative AI Applications 7 min read
+
+AI Practice
+
+- Top Artificial Intelligence(AI) Interview Questions and Answers 15+ min read
+
+- Top Generative AI and LLM Interview Question with Answer 15+ min read
+
+- 30+ Best Artificial Intelligence Project Ideas with Source Code [2025 Updated] 15+ min read

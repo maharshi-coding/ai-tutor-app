@@ -1,0 +1,56 @@
+Original Path: units/es/unit0/discord101.mdx
+Original Type: .mdx
+Snapshot Type: sanitized text
+
+# (Opcional) Discord 101 [[discord-101]]
+
+<img src="https://huggingface.co/datasets/agents-course/course-images/resolve/main/en/unit0/discord-etiquette.jpg" alt="La Etiqueta de Discord" width="100%"/>
+
+Esta guía está diseñada para ayudarte a comenzar a utilizar Discord, una plataforma de chat gratuita popular en las comunidades de gaming e IA.
+
+Únete al servidor de Discord de la Comunidad Hugging Face, que **tiene más de 100,000 miembros**, haciendo clic <a href="https://discord.gg/UrrTSsSyjb" target="_blank">aquí</a>. ¡Es un gran lugar para conectar con otros!
+
+## El curso de Agentes en la Comunidad Discord de Hugging Face
+
+Comenzar en Discord puede ser un poco abrumador, así que aquí hay una guía rápida para ayudarte a navegar.
+
+<!-- Ya no es el caso, se te pedirá que elijas tus intereses. Asegúrate de seleccionar **"AI Agents"** para obtener acceso a la Categoría de Agentes de IA, que incluye todos los canales relacionados con el curso. ¡Siéntete libre de explorar y unirte a canales adicionales si lo deseas! 🚀-->
+
+El Servidor de la Comunidad HF alberga una comunidad vibrante con intereses en varias áreas, ofreciendo oportunidades de aprendizaje a través de discusiones de papers, eventos y más.
+
+Después de [registrarte](http://hf.co/join/discord), preséntate en el canal `#introduce-yourself`.
+
+Hemos creado 4 canales para el Curso de Agentes:
+
+- `agents-course-announcements`: para las **últimas actualizaiones del curso**.
+- `🎓-agents-course-general`: para **discusiones generales y charlas**.
+- `agents-course-questions`: para **hacer preguntas y ayudar a tus compañeros**.
+- `agents-course-showcase`: para **mostrar tus mejores agentes**.
+
+Además, puedes consultar:
+
+- `smolagents`: para **discusión y soporte con la biblioteca**.
+
+## Consejos para usar Discord de manera efectiva
+
+### Cómo unirse a un servidor
+
+Si estás menos familiarizado con Discord, quizás quieras consultar esta <a href="https://support.discord.com/hc/en-us/articles/360034842871-How-do-I-join-a-Server#h_01FSJF9GT2QJMS2PRAW36WNBS8" target="_blank">guía</a> sobre cómo unirte a un servidor.
+
+Aquí hay un resumen rápido de los pasos:
+
+1. Haz clic en el <a href="https://discord.gg/UrrTSsSyjb" target="_blank">Enlace de Invitación</a>.
+2. Inicia sesión con tu cuenta de Discord, o crea una cuenta si no tienes una.
+3. ¡Valida que no eres un agente de IA!
+4. Configura tu apodo y avatar.
+5. Haz clic en "Unirse al Servidor".
+
+### Cómo usar Discord de manera efectiva
+
+Aquí hay algunos consejos para usar Discord de manera efectiva:
+
+- Los **canales de voz** están disponibles, aunque el chat de texto se usa más comúnmente.
+- Puedes formatear texto usando **estilo markdown**, lo cual es especialmente útil para escribir código. Ten en cuenta que markdown no funciona tan bien para enlaces.
+- Considera abrir hilos para **conversaciones largas** para mantener las discusiones organizadas.
+
+Esperamos que encuentres esta guía útil. Si tienes alguna pregunta, no dudes en preguntarnos en Discord 🤗.

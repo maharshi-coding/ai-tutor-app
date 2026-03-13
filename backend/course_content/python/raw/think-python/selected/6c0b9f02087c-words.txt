@@ -1,3 +1,7 @@
+Original Path: words.txt
+Original Type: .txt
+Snapshot Type: sanitized text
+
 aa
 aah
 aahed
@@ -19404,7 +19408,6 @@ commendations
 commended
 commending
 commends
-comment
 commentaries
 commentary
 commentator
@@ -20561,7 +20564,6 @@ contentions
 contentious
 contentment
 contentments
-contents
 contes
 contest
 contestable
@@ -34208,7 +34210,6 @@ exploits
 exploration
 explorations
 exploratory
-explore
 explored
 explorer
 explorers
@@ -46182,7 +46183,6 @@ hombre
 hombres
 homburg
 homburgs
-home
 homebodies
 homebody
 homebred
@@ -49098,7 +49098,6 @@ indeterminacy
 indeterminate
 indeterminately
 indevout
-index
 indexed
 indexer
 indexers
@@ -62110,8 +62109,6 @@ modulations
 modulator
 modulators
 modulatory
-module
-modules
 moduli
 modulo
 modulus
@@ -64322,7 +64319,6 @@ navigate
 navigated
 navigates
 navigating
-navigation
 navigations
 navigator
 navigators
@@ -64815,7 +64811,6 @@ newt
 newton
 newtons
 newts
-next
 nextdoor
 nexus
 nexuses
@@ -76823,7 +76818,6 @@ preview
 previewed
 previewing
 previews
-previous
 previously
 previse
 prevised
@@ -88708,7 +88702,6 @@ seaports
 seaquake
 seaquakes
 sear
-search
 searched
 searcher
 searchers
@@ -100990,7 +100983,6 @@ thelitis
 thelitises
 them
 thematic
-theme
 themes
 themselves
 then
@@ -107340,7 +107332,6 @@ unzipped
 unzipping
 unzips
 unzoned
-up
 upas
 upases
 upbear

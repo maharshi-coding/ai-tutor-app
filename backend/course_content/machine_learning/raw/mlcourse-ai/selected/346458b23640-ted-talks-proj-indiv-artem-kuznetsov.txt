@@ -1,0 +1,1454 @@
+Original Path: jupyter_english/projects_indiv/ted_talks_proj_indiv_artem_kuznetsov.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+<center>
+
+## [mlcourse.ai](mlcourse.ai) – Open Machine Learning Course
+### <center> Author: Artem Kuznetsov, ODS Slack te
+
+## <center> Exploring TED Talks
+
+**Research plan**
+- Dataset and features description
+- Exploratory data analysis
+- Visual analysis of the features
+- Patterns, insights, pecularities of data
+- Data preprocessing
+- Metric selection
+- Feature engineering and description
+- Cross-validation, hyperparameter tuning
+- Validation and learning curves
+- Prediction for hold-out set
+- Model selection
+- Conclusions
+
+### Part 1. Dataset and features description
+
+TED is the conference organizer, which holds events were people from different areas can have a public talk of important ideas. Last years TED had significantly grown in popularity due video and audio recordings publications of talks.
+
+The dataset was collected by Rounak Banik and stored to Kaggle https://www.kaggle.com/rounakbanik/ted-talks/. It's not sure how it was collected by web scrapping or by TED api (now closed). Data contains talks before September 21st, 2017.
+
+Data set constists of two files:
+
+ted_main.csv - metadata about talks and speakers
+
+- comments- The number of first level comments made on the talk (number)
+- description - A blurb of what the talk is about (string)
+- duration - The duration of the talk in seconds (number)
+- event - The TED/TEDx event where the talk took place (string)
+- film_date - The Unix timestamp of the filming (date in unix time format)
+- languages - The number of languages in which the talk is available (number)
+- main_speaker - The first named speaker of the talk (string)
+- name - The official name of the TED Talk. Includes the title and the speaker. (string)
+- num_speaker - The number of speakers in the talk (number)
+- published_date - The Unix timestamp for the publication of the talk on TED.com (date in unix time format)
+- ratings - A stringified dictionary of the various ratings given to the talk (inspiring, fascinating, jaw dropping, etc.) (json)
+- related_talks - A list of dictionaries of recommended talks to watch next (json)
+- speaker_occupation - The occupation of the main speaker (string)
+- tags - The themes associated with the talk (list)
+- title - The title of the talk (string)
+- url - The URL of the talk (string)
+- views - The number of views on the talk (number)
+
+transcripts.csv - talk transcripts
+
+- transcript - The official English transcript of the talk. (string)
+- url - The URL of the talk (string)
+
+Target of this project is to to research how can be predicted count of views.
+
+```python
+import re
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import statsmodels.api as sm
+import seaborn as sns
+import scipy.stats
+
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split, TimeSeriesSplit, GridSearchCV, learning_curve
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import mean_squared_error, mean_absolute_error
+from sklearn.linear_model import LinearRegression, Ridge
+
+DATA_PATH = '../data/'
+
+# Set up seeds
+RANDOM_SEED = 42
+np.random.seed(RANDOM_SEED)
+
+%matplotlib inline
+```
+
+```python
+plt.rcParams['figure.figsize'] = 12., 9.
+```
+
+### Part 2. Exploratory data analysis
+
+```python
+# Load data
+df_ted_main = pd.read_csv(DATA_PATH + 'ted_main.csv.zip')
+df_ted_transcripts = pd.read_csv(DATA_PATH + 'transcripts.csv.zip')
+```
+
+```python
+df_ted_main.info()
+```
+
+```python
+df_ted_transcripts.info()
+```
+
+The datasets contains different count of records, so probably there are fewer transcripts then talks.
+
+#### Duplicates check
+
+```python
+df_ted_main[df_ted_main.duplicated()]
+```
+
+```python
+df_ted_transcripts[df_ted_transcripts.duplicated()]
+```
+
+Ok, we've got some in df_ted_transcripts, let's remove them.
+
+```python
+df_ted_transcripts = df_ted_transcripts.drop_duplicates()
+```
+
+#### Merge datasets
+
+```python
+df_ted_main.shape, df_ted_transcripts.shape
+```
+
+```python
+df_ted = pd.merge(df_ted_main, df_ted_transcripts, how='left', on='url')
+df_ted.shape
+```
+
+```python
+df_ted.columns
+```
+
+```python
+df_ted.head()
+```
+
+```python
+DATE_COLUMNS = 'film_date', 'published_date'
+for column in DATE_COLUMNS:
+df_ted[column] = pd.to_datetime(df_ted[column], unit='s')
+```
+
+```python
+df_ted.info()
+```
+
+#### Missing values
+
+Looks like we have transcript for almost all talks but also have missing values. Also some values of speaker_ocupation is missing.
+
+#### Recheck NA's
+
+```python
+for column in df_ted.columns:
+na_count = df_ted[column].isna().sum()
+if na_count > 0:
+print('%s : %s' % (column, na_count))
+```
+
+#### Common numerics stats
+
+```python
+df_ted.describe()
+```
+
+```python
+df_ted.median()
+```
+
+### description
+
+```python
+df_ted['description'].nunique(), len(df_ted['description'])
+```
+
+```python
+df_ted['description'].str.len().describe()
+```
+
+```python
+df_ted['duration'].values[:100]
+```
+
+Each talk has an unique description.
+
+### event
+
+```python
+df_ted['event'].value_counts()
+```
+
+We had different type of events here whith the most popular TED2014 event. We can see TED and TEDx events, and some events differen from it. Let's investigate a little more.
+
+```python
+sorted(df_ted['event'].unique())
+```
+
+```python
+sorted(df_ted[df_ted['event'].str.startswith('TEDx')]['event'].unique())
+```
+
+```python
+sorted(df_ted[df_ted['event'].str.startswith('TEDx') == False]['event'].unique())
+```
+
+We can add some feature to distinct different types of events.
+
+```python
+def get_event_type(event):
+'''
+Returns type of event
+'''
+if not 'TED' in event:
+return 'NOT_TED'
+elif event.startswith('TEDx'):
+return 'TEDx'
+elif event.startswith('TED@'):
+return 'TED@'
+elif re.fullmatch('TED\d{4}', event) is not None:
+return 'TED_YEAR'
+else:
+return event.split()[0]
+```
+
+```python
+df_ted['event'].apply(get_event_type).value_counts()
+```
+
+Wikipedia has some additional info on different conference types https://en.wikipedia.org/wiki/TED_(conference)
+
+```python
+df_ted.columns
+```
+
+#### film_date
+
+```python
+df_ted['film_date'].describe()
+```
+
+Some talks have filming date year as early as 1972. Let's try to find some more.
+
+```python
+df_ted[df_ted['film_date'] < '2000-01-01']
+```
+
+Can be seen that there are three talks, that are not from TED and filmed before 1992.
+
+#### languages
+
+```python
+df_ted['languages'].describe(), df_ted['languages'].median()
+```
+
+Interesting, some of the talks has language count equal to zero. Let's investigate a little bit.
+
+```python
+df_ted[df_ted['languages'] == 0]
+```
+
+```python
+df_ted[df_ted['languages'] == 0]['url'].values[:10]
+```
+
+Most of those are art perfomances, but not all. Also for those records there is no transcript.
+
+#### main_speaker
+
+```python
+df_ted['main_speaker'].value_counts()
+```
+
+```python
+df_ted['main_speaker'].value_counts().describe()
+```
+
+Most of people have a talk at TED events only once.
+
+```python
+df_ted['main_speaker'].str.len().describe()
+```
+
+```python
+df_ted[df_ted['main_speaker'].str.len() > 20]
+```
+
+In case of long main_speaker field we can suspect more then one speaker.
+
+#### name
+
+```python
+df_ted['name'].nunique()
+```
+
+Every talk has an unique name.
+
+```python
+df_ted['name'].str.len().describe()
+```
+
+#### num_speaker
+
+```python
+df_ted['num_speaker'].describe()
+```
+
+Most of people present their talks alone.
+
+#### published_date
+
+```python
+df_ted['published_date'].describe()
+```
+
+```python
+df_ted[df_ted['event'].str.startswith('TED')]['film_date'].min()
+```
+
+Fist published_date is 2006-06-27, but first filmed talk was on 1984-02-02. So it may be interesting to have a look at timespan between the filming and the publication.
+
+```python
+(df_ted['published_date'] - df_ted['film_date']).describe()
+```
+
+```python
+(df_ted['published_date'] - df_ted['film_date']).median()
+```
+
+```python
+df_ted[(df_ted['published_date'] - df_ted['film_date']).dt.total_seconds() < 0]
+```
+
+Interesting, looks like we have some mistakes in data. The records above are where published_date is earlier then film_date which is the case.
+
+#### ratings
+
+It's a rating from TED site. TED asks people to describe video (talk) in three words. Count simply means amount of people who choosen the category.
+We will not use the field because it's closely linked with our target variable "views".
+More views video has more people rated it.
+
+```python
+df_ted['ratings'].values[0]
+```
+
+```python
+df_ted['ratings'].values[1]
+```
+
+```python
+df_ted['ratings'].values[2]
+```
+
+```python
+df_ted['ratings'].values[3]
+```
+
+#### related_talks
+
+We will not use the field in research due to it complexity for analysis.
+
+```python
+df_ted['related_talks'].values[0]
+```
+
+#### speaker_occupation
+
+```python
+df_ted['speaker_occupation'].value_counts()
+```
+
+```python
+df_ted['speaker_occupation'].str.len().describe()
+```
+
+```python
+df_ted[df_ted['speaker_occupation'].str.len() > 50]['speaker_occupation']
+```
+
+The most popular occupations are from arts, business, journalism, architecture and psychology.
+Some of people describe themself with a lot of different occupation types. Count of occupations could be a feature later.
+
+#### tags
+
+```python
+df_ted['tags'].values[:5]
+```
+
+```python
+df_ted['tags'] = df_ted['tags'].apply(lambda x: eval(x))
+```
+
+```python
+df_ted['tags'].values.reshape(-1,1)
+```
+
+```python
+type(df_ted['tags'].values[0])
+```
+
+```python
+# Some code to flatten list of tags
+df_ted['tags'].apply(pd.Series).reset_index().melt(id_vars='index').value.dropna().value_counts()
+```
+
+#### title
+
+```python
+df_ted['title'].nunique()
+```
+
+Every talk has his own title.
+
+```python
+df_ted['title'].str.len().describe()
+```
+
+```python
+df_ted['title'].values[:5]
+```
+
+Looks like title + main_speaker = name
+
+```python
+df_ted[['name', 'main_speaker', 'title']].head()
+```
+
+#### url
+
+```python
+df_ted['url'].nunique()
+```
+
+```python
+df_ted['url'].values[:5]
+```
+
+```python
+sum(df_ted['url'].str.endswith('\n'))
+```
+
+Every url ends with '\n', so it could be cleaned.
+
+```python
+df_ted['url'] = df_ted['url'].str.strip()
+```
+
+```python
+df_ted['url'].apply(lambda s: s.split('/')[0]).value_counts()
+```
+
+```python
+df_ted['url'].apply(lambda s: s.split('/')[2]).value_counts()
+```
+
+```python
+df_ted['url'].apply(lambda s: s.split('/')[3]).value_counts()
+```
+
+All urls are 'https://www.ted.com/talks/name_of_talk' so we could omit the field without consequences.
+
+#### views
+
+'views' is our target variable. We also need to check normality of it distribution.
+
+```python
+df_ted['views'].describe()
+```
+
+Doesn't look normal distributed. Let's check via plots and stat tests.
+
+```python
+df_ted['views'].hist(bins=100);
+```
+
+```python
+scipy.stats.normaltest(df_ted['views'])
+```
+
+```python
+scipy.stats.shapiro(df_ted['views'])
+```
+
+```python
+sm.qqplot(df_ted['views'], line='s');
+```
+
+```python
+scipy.stats.normaltest(np.log(df_ted['views']))
+```
+
+```python
+scipy.stats.shapiro(np.log(df_ted['views']))
+```
+
+```python
+sm.qqplot(np.log(df_ted['views']), line='s');
+```
+
+```python
+np.log(df_ted['views']).hist(bins=100);
+```
+
+```python
+alpha = 0.001
+p = scipy.stats.shapiro(np.log(np.log(df_ted['views'])))[1]
+
+if p < alpha: # null hypothesis: x comes from a normal distribution
+print("The null hypothesis can be rejected")
+else:
+print("The null hypothesis cannot be rejected")
+```
+
+It doesnt't looks like we get normal distibution after applying logarithm, but it looks much closer to it. So we will assume that our target variable has normal distribution.
+
+```python
+df_ted.columns
+```
+
+```python
+df_ted['target'] = np.log(df_ted['views'])
+```
+
+#### transcripts
+
+```python
+df_ted['transcript'].nunique(), len(df_ted['transcript']), sum(df_ted['transcript'].isna())
+```
+
+Not every talk has transcipt and each transcript in unique.
+
+```python
+df_ted['transcript'].str.len().describe()
+```
+
+```python
+df_ted[df_ted['transcript'].str.len() < 200]['transcript'].values
+```
+
+Ok, looks like some transcript are from music.
+
+### Part 3. Visual analysis of the features
+
+```python
+df_ted.columns
+```
+
+```python
+df_ted.drop('views', axis=1, inplace=True)
+```
+
+```python
+df_ted.drop('related_talks', axis=1, inplace=True)
+```
+
+```python
+df_ted.drop('comments', axis=1, inplace=True)
+```
+
+```python
+# Make separate dataframe for data preparation for plotting
+df_plot = df_ted.copy()
+df_plot['film_date_unix'] = df_ted['film_date'].astype(int)
+df_plot['published_date_unix'] = df_ted['published_date'].astype(int)
+```
+
+```python
+%%time
+
+sns.pairplot(df_plot, diag_kind="kde", markers="+",
+plot_kws=dict(s=50, edgecolor="b", linewidth=1),
+diag_kws=dict(shade=True));
+```
+
+Clearly visible correlation between number of languages and views count.
+
+```python
+df_ted.columns
+```
+
+```python
+df_plot.corr(method='pearson')
+```
+
+```python
+sns.heatmap(df_plot.corr(method='pearson').abs(), annot=True)
+```
+
+```python
+df_plot.corr(method='spearman')
+```
+
+```python
+sns.heatmap(df_plot.corr(method='spearman').abs(), annot=True)
+```
+
+```python
+plt.plot(df_plot['published_date_unix'])
+```
+
+So, data is sorted by published_date
+
+```python
+plt.plot(df_plot['target'])
+```
+
+```python
+plt.plot(df_plot['published_date_unix'], df_plot['target'])
+```
+
+```python
+sns.countplot(df_ted['event']);
+```
+
+```python
+plt.plot(df_plot.groupby(by='event')['target'].mean().sort_values(ascending=False), 'o-');
+```
+
+Target mean variable looks like near normally disributed related to event name.
+
+```python
+sns.countplot(df_ted['main_speaker']);
+```
+
+```python
+plt.plot(df_plot.groupby(by='main_speaker')['target'].mean().sort_values(ascending=False), 'o-');
+```
+
+The normality of disribution also holds for speaker name.
+
+```python
+sns.countplot(df_ted['speaker_occupation']);
+```
+
+```python
+plt.plot(df_plot.groupby(by='speaker_occupation')['target'].mean().sort_values(ascending=False), 'o-');
+```
+
+speaker_occupation also looks normaly distributed.
+
+### Part 4. Patterns, insights, pecularities of data
+
+From previous analysis we have following observations:
+- 'view' variable is not normally distributed according to tests. For linear model it's should be more adequate to use normally distributed target variable, so we apply logarithm to it. It doesn't makes distribution normal but now it looks closer to it.
+- Our new target variable highly correlated with language count. May be it's due the fact that the most popular talks are moe often translated to more languages. Because we are doing correlation analysis we cann't say it for sure without additional data. But it can be useful to omit language variable.
+- Also we have strong correlation between published and film date, so we need to exclude one of them for more accurate predicictions.
+- We clearly see different kind of events, so may be useful to add additional feature with event type information
+- Url and name just redunant because contains information also available from other fields
+- Data is sorted by published date, so we can use TimeSeriesSplit to not get catched by data leak. Also it's fine because we are interested in feature prediction so we don't need to sort data.
+- We have some errors in data, when published_date is smaller than film_date, but as we are more interested in date of publication and published_date and film_date are highly correlated we will exclude film_date
+
+### Part 5. Data preprocessing
+
+We will do different type of preprocessing for different type of columns:
+- numeric columns will be scaled using StandardScaler
+- text columns will be converter to lower case and after that vectorized using TfIdfVectorizer
+- categorial variables will be factorized (similar to label encoding) and then transformed using OneHotEncoder
+- empty values in transcript field will be filled with 'na' string
+- date will be converted to unix time and used as numeric
+- tags arrays will be converted to string and used as string column
+
+```python
+df_ted.columns
+```
+
+```python
+# Only leave features filtred by assumptions from previous part
+X = df_ted[['description', 'duration', 'event', 'languages',
+'main_speaker', 'num_speaker', 'published_date',
+'speaker_occupation', 'tags', 'title', 'transcript']].copy()
+y = df_ted['target'].copy()
+
+NUMERIC_COLUMNS = ['duration', 'languages']
+DATE_COLUMNS = ['published_date']
+
+# We will convert 'tags' column to string
+TEXT_COLUMNS = ['description', 'tags', 'title', 'transcript']
+
+CATEGORICAL_COLUMNS = ['event',
+'main_speaker', 'speaker_occupation', 'num_speaker']
+
+# We will convert published_date back to unix time and use it like numeric column
+for c in DATE_COLUMNS:
+X[c] = X[c].astype(int)
+
+# We will use data columns simply as numeric_column, so
+NUMERIC_COLUMNS += DATE_COLUMNS
+
+# StandardScaler will convert fields to float64 with warning, so we will do it before
+for c in NUMERIC_COLUMNS:
+X[c] = X[c].astype(float)
+
+# Convert tags to string
+X['tags'] = X['tags'].apply(lambda tags: ' '.join(tags))
+
+X['transcript'] = X['transcript'].fillna('na')
+
+# Convert all text columns to lower case
+for c in TEXT_COLUMNS:
+X[c] = X[c].str.lower()
+
+# Factorize categorical_columns (similar to LabelEncoding)
+for c in CATEGORICAL_COLUMNS:
+X[c] = X[c].factorize()[0]
+```
+
+```python
+X.head()
+```
+
+```python
+preprocessing = ColumnTransformer(transformers=[
+('ohe', OneHotEncoder(categories='auto', handle_unknown='ignore'), CATEGORICAL_COLUMNS),
+('scaler', StandardScaler(), NUMERIC_COLUMNS),
+('tfidf_0', TfidfVectorizer(), TEXT_COLUMNS[0]),
+('tfidf_1', TfidfVectorizer(), TEXT_COLUMNS[1]),
+('tfidf_2', TfidfVectorizer(), TEXT_COLUMNS[2]),
+('tfidf_3', TfidfVectorizer(), TEXT_COLUMNS[3]),
+])
+```
+
+```python
+# It's crucial not sort splits, because we want to predict future (so no future data should be in train set)
+# We don't need seed here because shuffle is disabled
+X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size = 0.3, shuffle=False)
+```
+
+```python
+X_train.shape, X_valid.shape, y_train.shape, y_valid.shape
+```
+
+### Part 6. Metric selection
+
+For regression task there are two most popular metrics - RMSE and MAE.
+
+$
+\begin{align}
+RMSE = \sqrt{\frac{1}{n}\sum_{j=1}^{n}{(\hat{y} - y_j)^2}}
+\end{align}
+$
+
+\begin{align}
+MAE = \frac{1}{n}\sum_{j=1}^{n}{\lvert\hat{y} - y_j\rvert}
+\end{align}
+$
+
+RMSE put higher weight on the bigger errors in predictions.
+RMSE has tendency to increase more then MAE with bigger sample size.
+In our case bigger errors should not be threated in special way.
+MAE is more easy to interpretate, especially as we have log transformation of initial target variable, so exp(MAE) could be viewed as multiplicator of true value of the original variable.
+
+So we will go with MAE.
+
+### Part 7. Feature engineering and description
+
+Let's try Ridge from sklearn.
+
+```python
+%%time
+model_ridge = Pipeline(
+steps=[
+('preprocessing', preprocessing),
+('ridge', Ridge(random_state=RANDOM_SEED))
+]
+)
+
+cv = GridSearchCV(model_ridge, param_grid={}, scoring='neg_mean_absolute_error', cv=TimeSeriesSplit(n_splits=5),
+return_train_score=True, verbose=3)
+cv.fit(X_train, y_train)
+```
+
+```python
+cv.best_score_
+```
+
+We will use it as baseline for future.
+
+Let's construct new features:
+- len of transcript (because target can depends on how much time presenter speaks)
+- event type, because it's some events are clearly more popular (like TED events vs regional TEDx events)
+- published_date hour, month, dayofweek
+
+```python
+# Only leave features filtred by assumptions from previous part
+X = df_ted[['description', 'duration', 'event', 'languages',
+'main_speaker', 'num_speaker', 'published_date',
+'speaker_occupation', 'tags', 'title', 'transcript']].copy()
+y = df_ted['target'].copy()
+
+X['transcript'] = X['transcript'].fillna('na')
+X['transcript_len'] = X['transcript'].str.len()
+X['event_type'] = X['event'].apply(get_event_type)
+X['published_hour'] = X['published_date'].dt.hour
+X['published_month'] = X['published_date'].dt.month
+X['published_dayofweek'] = X['published_date'].dt.dayofweek
+
+NUMERIC_COLUMNS = ['duration', 'languages',
+'transcript_len'
+]
+DATE_COLUMNS = ['published_date']
+
+# We will convert 'tags' column to string
+TEXT_COLUMNS = ['description', 'tags', 'title', 'transcript']
+
+CATEGORICAL_COLUMNS = ['event',
+'main_speaker', 'speaker_occupation', 'num_speaker',
+'event_type',
+'published_hour',
+'published_month',
+'published_dayofweek'
+]
+
+# We will convert published_date back to unix time and use it like numeric column
+for c in DATE_COLUMNS:
+X[c] = X[c].astype(int)
+
+# We will use data columns simply as numeric_column, so
+NUMERIC_COLUMNS += DATE_COLUMNS
+
+# Convert tags to string
+X['tags'] = X['tags'].apply(lambda tags: ' '.join(tags))
+
+# StandardScaler will convert fields to float64 with warning, so we will do it before
+for c in NUMERIC_COLUMNS:
+X[c] = X[c].astype(float)
+
+# Convert all text columns to lower case
+for c in TEXT_COLUMNS:
+X[c] = X[c].str.lower()
+
+# Factorize categorical_columns (similar to LabelEncoding)
+for c in CATEGORICAL_COLUMNS:
+X[c] = X[c].factorize()[0]
+
+X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size = 0.3, shuffle=False)
+```
+
+We will test new features it one by one, using ColumnTransformer propery - it will drop columns, not mentnioned in transformers list.
+
+#### Let's try to exclude published_date
+
+```python
+%%time
+NUMERIC_COLUMNS = ['duration', 'languages']
+
+CATEGORICAL_COLUMNS = ['event',
+'main_speaker', 'speaker_occupation', 'num_speaker']
+
+preprocessing = ColumnTransformer(transformers=[
+('ohe', OneHotEncoder(categories='auto', handle_unknown='ignore'), CATEGORICAL_COLUMNS),
+('scaler', StandardScaler(), NUMERIC_COLUMNS),
+('tfidf_0', TfidfVectorizer(), TEXT_COLUMNS[0]),
+('tfidf_1', TfidfVectorizer(), TEXT_COLUMNS[1]),
+('tfidf_2', TfidfVectorizer(), TEXT_COLUMNS[2]),
+('tfidf_3', TfidfVectorizer(), TEXT_COLUMNS[3]),
+])
+
+model_ridge = Pipeline(
+steps=[
+('preprocessing', preprocessing),
+('ridge', Ridge(random_state=RANDOM_SEED))
+]
+)
+
+cv = GridSearchCV(model_ridge, param_grid={}, scoring='neg_mean_absolute_error', cv=TimeSeriesSplit(n_splits=5),
+return_train_score=True, verbose=3)
+cv.fit(X_train, y_train)
+```
+
+```python
+cv.best_score_
+```
+
+We have some improvement in score, let's continue.
+
+#### transcript_len
+
+```python
+%%time
+NUMERIC_COLUMNS = ['duration', 'languages', 'transcript_len'
+]
+
+CATEGORICAL_COLUMNS = ['event',
+'main_speaker', 'speaker_occupation', 'num_speaker']
+
+preprocessing = ColumnTransformer(transformers=[
+('ohe', OneHotEncoder(categories='auto', handle_unknown='ignore'), CATEGORICAL_COLUMNS),
+('scaler', StandardScaler(), NUMERIC_COLUMNS),
+('tfidf_0', TfidfVectorizer(), TEXT_COLUMNS[0]),
+('tfidf_1', TfidfVectorizer(), TEXT_COLUMNS[1]),
+('tfidf_2', TfidfVectorizer(), TEXT_COLUMNS[2]),
+('tfidf_3', TfidfVectorizer(), TEXT_COLUMNS[3]),
+])
+
+model_ridge = Pipeline(
+steps=[
+('preprocessing', preprocessing),
+('ridge', Ridge(random_state=RANDOM_SEED))
+]
+)
+
+cv = GridSearchCV(model_ridge, param_grid={}, scoring='neg_mean_absolute_error', cv=TimeSeriesSplit(n_splits=5),
+return_train_score=True, verbose=3)
+cv.fit(X_train, y_train)
+```
+
+```python
+cv.best_score_
+```
+
+Previous value was -0.4767736055960914, so we have some small imporvement.
+
+#### event_type
+
+```python
+%%time
+NUMERIC_COLUMNS = ['duration', 'languages', 'transcript_len']
+
+CATEGORICAL_COLUMNS = [
+'main_speaker', 'speaker_occupation', 'num_speaker', 'event_type']
+
+preprocessing = ColumnTransformer(transformers=[
+('ohe', OneHotEncoder(categories='auto', handle_unknown='ignore'), CATEGORICAL_COLUMNS),
+('scaler', StandardScaler(), NUMERIC_COLUMNS),
+('tfidf_0', TfidfVectorizer(), TEXT_COLUMNS[0]),
+('tfidf_1', TfidfVectorizer(), TEXT_COLUMNS[1]),
+('tfidf_2', TfidfVectorizer(), TEXT_COLUMNS[2]),
+('tfidf_3', TfidfVectorizer(), TEXT_COLUMNS[3]),
+])
+
+model_ridge = Pipeline(
+steps=[
+('preprocessing', preprocessing),
+('ridge', Ridge(random_state=RANDOM_SEED))
+]
+)
+
+cv = GridSearchCV(model_ridge, param_grid={}, scoring='neg_mean_absolute_error', cv=TimeSeriesSplit(n_splits=5),
+return_train_score=True, verbose=3)
+cv.fit(X_train, y_train)
+```
+
+```python
+cv.best_score_
+```
+
+This is our new best crossval score
+
+#### published_hour
+
+```python
+%%time
+NUMERIC_COLUMNS = ['duration', 'languages', 'transcript_len'
+]
+
+CATEGORICAL_COLUMNS = ['event_type',
+'main_speaker', 'speaker_occupation', 'num_speaker', 'published_hour']
+
+preprocessing = ColumnTransformer(transformers=[
+('ohe', OneHotEncoder(categories='auto', handle_unknown='ignore'), CATEGORICAL_COLUMNS),
+('scaler', StandardScaler(), NUMERIC_COLUMNS),
+('tfidf_0', TfidfVectorizer(), TEXT_COLUMNS[0]),
+('tfidf_1', TfidfVectorizer(), TEXT_COLUMNS[1]),
+('tfidf_2', TfidfVectorizer(), TEXT_COLUMNS[2]),
+('tfidf_3', TfidfVectorizer(), TEXT_COLUMNS[3]),
+])
+
+model_ridge = Pipeline(
+steps=[
+('preprocessing', preprocessing),
+('ridge', Ridge(random_state=RANDOM_SEED))
+]
+)
+
+cv = GridSearchCV(model_ridge, param_grid={}, scoring='neg_mean_absolute_error', cv=TimeSeriesSplit(n_splits=5),
+return_train_score=True, verbose=3)
+cv.fit(X_train, y_train)
+```
+
+```python
+cv.best_score_
+```
+
+Not improvement of the best score
+
+#### published_month
+
+```python
+%%time
+NUMERIC_COLUMNS = ['duration', 'languages', 'transcript_len'
+]
+
+CATEGORICAL_COLUMNS = ['event_type',
+'main_speaker', 'speaker_occupation', 'num_speaker', 'published_month']
+
+preprocessing = ColumnTransformer(transformers=[
+('ohe', OneHotEncoder(categories='auto', handle_unknown='ignore'), CATEGORICAL_COLUMNS),
+('scaler', StandardScaler(), NUMERIC_COLUMNS),
+('tfidf_0', TfidfVectorizer(), TEXT_COLUMNS[0]),
+('tfidf_1', TfidfVectorizer(), TEXT_COLUMNS[1]),
+('tfidf_2', TfidfVectorizer(), TEXT_COLUMNS[2]),
+('tfidf_3', TfidfVectorizer(), TEXT_COLUMNS[3]),
+])
+
+model_ridge = Pipeline(
+steps=[
+('preprocessing', preprocessing),
+('ridge', Ridge(random_state=RANDOM_SEED))
+]
+)
+
+cv = GridSearchCV(model_ridge, param_grid={}, scoring='neg_mean_absolute_error', cv=TimeSeriesSplit(n_splits=5),
+return_train_score=True, verbose=3)
+cv.fit(X_train, y_train)
+```
+
+```python
+cv.best_score_
+```
+
+Not improvement of score
+
+#### published_dayofweek
+
+```python
+%%time
+NUMERIC_COLUMNS = ['duration', 'languages', 'transcript_len'
+]
+
+CATEGORICAL_COLUMNS = ['event_type',
+'main_speaker', 'speaker_occupation', 'num_speaker', 'published_dayofweek']
+
+preprocessing = ColumnTransformer(transformers=[
+('ohe', OneHotEncoder(categories='auto', handle_unknown='ignore'), CATEGORICAL_COLUMNS),
+('scaler', StandardScaler(), NUMERIC_COLUMNS),
+('tfidf_0', TfidfVectorizer(), TEXT_COLUMNS[0]),
+('tfidf_1', TfidfVectorizer(), TEXT_COLUMNS[1]),
+('tfidf_2', TfidfVectorizer(), TEXT_COLUMNS[2]),
+('tfidf_3', TfidfVectorizer(), TEXT_COLUMNS[3]),
+])
+
+model_ridge = Pipeline(
+steps=[
+('preprocessing', preprocessing),
+('ridge', Ridge(random_state=RANDOM_SEED))
+]
+)
+
+cv = GridSearchCV(model_ridge, param_grid={}, scoring='neg_mean_absolute_error', cv=TimeSeriesSplit(n_splits=5),
+return_train_score=True, verbose=3)
+cv.fit(X_train, y_train)
+```
+
+```python
+cv.best_score_
+```
+
+Not improvement of the score
+
+#### Conclusion on feature engineering
+
+We just found two new useful features:
+- event_type instead of event
+- transcript_len
+
+Cross validation on Ridge shows score improvement with both of them.
+
+### Part 8. Cross-validation, hyperparameter tuning
+
+We will use features we already found and selected.
+
+```python
+%%time
+
+X = df_ted[['description', 'duration', 'event', 'languages',
+'main_speaker', 'num_speaker',
+'speaker_occupation', 'tags', 'title', 'transcript']].copy()
+y = df_ted['target'].copy()
+
+X['transcript'] = X['transcript'].fillna('na')
+X['transcript_len'] = X['transcript'].str.len()
+X['event_type'] = X['event'].apply(get_event_type)
+X.drop('event', axis=1, inplace=True)
+
+NUMERIC_COLUMNS = ['duration', 'languages', 'transcript_len']
+
+CATEGORICAL_COLUMNS = ['main_speaker', 'speaker_occupation', 'num_speaker', 'event_type']
+
+# We will convert 'tags' column to string
+TEXT_COLUMNS = ['description', 'tags', 'title', 'transcript']
+
+# Convert tags to string
+X['tags'] = X['tags'].apply(lambda tags: ' '.join(tags))
+
+# StandardScaler will convert fields to float64 with warning, so we will do it before
+for c in NUMERIC_COLUMNS:
+X[c] = X[c].astype(float)
+
+# Convert all text columns to lower case
+for c in TEXT_COLUMNS:
+X[c] = X[c].str.lower()
+
+# Factorize categorical_columns (similar to LabelEncoding)
+for c in CATEGORICAL_COLUMNS:
+X[c] = X[c].factorize()[0]
+
+X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size = 0.3, shuffle=False)
+```
+
+```python
+X_train.shape, X_valid.shape, y_train.shape, y_valid.shape
+```
+
+```python
+preprocessing = ColumnTransformer(transformers=[
+('ohe', OneHotEncoder(categories='auto', handle_unknown='ignore'), CATEGORICAL_COLUMNS),
+('scaler', StandardScaler(), NUMERIC_COLUMNS),
+('tfidf_0', TfidfVectorizer(), TEXT_COLUMNS[0]),
+('tfidf_1', TfidfVectorizer(), TEXT_COLUMNS[1]),
+('tfidf_2', TfidfVectorizer(), TEXT_COLUMNS[2]),
+('tfidf_3', TfidfVectorizer(), TEXT_COLUMNS[3]),
+])
+```
+
+Let's tune alpha (l1 regularization) for Ridge.
+
+```python
+model_ridge = Pipeline(
+steps=[
+('preprocessing', preprocessing),
+('ridge', Ridge(random_state=RANDOM_SEED))
+]
+)
+
+params = {
+
+'ridge__alpha' : np.logspace(-2, 5, num=8)
+}
+
+cv = GridSearchCV(model_ridge, param_grid=params, scoring='neg_mean_absolute_error', cv=TimeSeriesSplit(n_splits=5),
+return_train_score=True, verbose=3)
+cv.fit(X_train, y_train)
+```
+
+```python
+cv.best_score_
+```
+
+```python
+cv.best_params_
+```
+
+```python
+def plot_param_tuning(params, param_name, cv, x_scale_log=False):
+
+plt.plot(params[param_name], cv.cv_results_['mean_train_score'], 'o-', label='train')
+plt.plot(params[param_name], cv.cv_results_['mean_test_score'], 'o-', label='test')
+
+plt.fill_between(params[param_name],
+cv.cv_results_['mean_train_score'] - cv.cv_results_['std_train_score'],
+cv.cv_results_['mean_train_score'] + cv.cv_results_['std_train_score'],
+alpha=0.2
+)
+plt.fill_between(params[param_name],
+cv.cv_results_['mean_test_score'] - cv.cv_results_['std_test_score'],
+cv.cv_results_['mean_test_score'] + cv.cv_results_['std_test_score'],
+alpha=0.2
+)
+if x_scale_log:
+plt.xscale('log')
+
+plt.legend();
+```
+
+```python
+plot_param_tuning(params, 'ridge__alpha', cv, x_scale_log=True)
+plt.xlabel('alpha')
+plt.ylabel('neg_mean_absolute_error')
+plt.title('Ridge alpha tuning');
+```
+
+It rather difficult to select good alpha value, because of wide range in standard deviation and different sample sizes due to TimeSeriesSplit. But we can consider alpha=10^2 as good guess because here is minimal difference between train and test sample.
+
+```python
+model_lgb = Pipeline(
+steps=[
+('preprocessing', preprocessing),
+('lgb', LGBMRegressor(random_state=RANDOM_SEED))
+]
+)
+
+params = {
+}
+
+cv = GridSearchCV(model_lgb, param_grid=params, scoring='neg_mean_absolute_error', cv=TimeSeriesSplit(n_splits=5),
+return_train_score=True, verbose=3)
+cv.fit(X_train, y_train)
+```
+
+```python
+cv.best_score_
+```
+
+```python
+%%time
+
+model_lgb = Pipeline(
+steps=[
+('preprocessing', preprocessing),
+('lgb', LGBMRegressor(random_state=RANDOM_SEED))
+]
+)
+
+params = {
+'lgb__max_depth': [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+}
+
+cv = GridSearchCV(model_lgb, param_grid=params, scoring='neg_mean_absolute_error', cv=TimeSeriesSplit(n_splits=5),
+return_train_score=True, verbose=3)
+cv.fit(X_train, y_train)
+```
+
+```python
+cv.best_score_
+```
+
+```python
+cv.best_params_
+```
+
+```python
+plot_param_tuning(params, 'lgb__max_depth', cv)
+plt.xlabel('max_depth')
+plt.ylabel('neg_mean_absolute_error')
+plt.title('Lgb max_depth tuning');
+```
+
+Definitely we can't say something about the best max_depth for lgbm regression. We will tune n_estimators.
+
+```python
+model_lgb = Pipeline(
+steps=[
+('preprocessing', preprocessing),
+('lgb', LGBMRegressor(random_state=RANDOM_SEED))
+]
+)
+
+params = {
+'lgb__n_estimators': [10,20,30,40,50, 60, 70, 80, 90, 100, 150, 200, 300, 400, 500, 600, 700]
+}
+
+cv = GridSearchCV(model_lgb, param_grid=params, scoring='neg_mean_absolute_error', cv=TimeSeriesSplit(n_splits=5),
+return_train_score=True, verbose=3)
+cv.fit(X_train, y_train)
+```
+
+```python
+cv.best_score_, cv.best_params_
+```
+
+```python
+plot_param_tuning(params, 'lgb__n_estimators', cv)
+plt.xlabel('n_estimators')
+plt.ylabel('neg_mean_absolute_error')
+plt.title('Lgb n_estimators tuning');
+```
+
+```python
+model_lgb = Pipeline(
+steps=[
+('preprocessing', preprocessing),
+('lgb', LGBMRegressor(random_state=RANDOM_SEED))
+]
+)
+
+params = {
+'lgb__n_estimators': [30],
+'lgb__num_leaves':np.linspace(10,51, num=10, dtype=int)
+}
+
+cv = GridSearchCV(model_lgb, param_grid=params, scoring='neg_mean_absolute_error', cv=TimeSeriesSplit(n_splits=5),
+return_train_score=True, verbose=3)
+cv.fit(X_train, y_train)
+```
+
+```python
+cv.best_score_, cv.best_params_
+```
+
+```python
+plot_param_tuning(params, 'lgb__num_leaves', cv)
+plt.xlabel('num_leaves')
+plt.ylabel('neg_mean_absolute_error')
+plt.title('Lgb num_leaves tuning');
+```
+
+Looks like we haven't any visible success in lgbm tuning so we can use only 'lgb__n_estimators': 30 as parameter.
+
+#### Conclusion
+
+Our params as result of hyperparameter tuning:
+- Ridge - alpha: 10 (but 100 looks better because of smaller distance between train and test)
+- Lgbm regression - n_estimators: 30
+
+### Part 9. Validation and learning curves
+
+#### Ridge
+
+```python
+X_train.shape, y_train.shape
+```
+
+```python
+%%time
+
+model_ridge = Pipeline(
+steps=[
+('preprocessing', preprocessing),
+('ridge', Ridge(random_state=RANDOM_SEED, alpha=100))
+]
+)
+
+train_sizes, train_scores, test_scores = \
+learning_curve(model_ridge, X_train, y_train,
+cv=TimeSeriesSplit(n_splits=5), scoring='neg_mean_absolute_error', random_state=RANDOM_SEED)
+```
+
+```python
+def plot_learning_curve(train_sizes, train_scores, test_scores):
+train_scores_mean = np.mean(train_scores, axis=1)
+train_scores_std = np.std(train_scores, axis=1)
+test_scores_mean = np.mean(test_scores, axis=1)
+test_scores_std = np.std(test_scores, axis=1)
+
+plt.fill_between(train_sizes, train_scores_mean - train_scores_std,
+train_scores_mean + train_scores_std, alpha=0.1,
+color="r")
+plt.fill_between(train_sizes, test_scores_mean - test_scores_std,
+test_scores_mean + test_scores_std, alpha=0.1, color="g")
+plt.plot(train_sizes, train_scores_mean, 'o-', color="r",
+label="Training score")
+plt.plot(train_sizes, test_scores_mean, 'o-', color="g",
+label="Cross-validation score")
+
+plt.legend(loc="best")
+```
+
+```python
+plot_learning_curve(train_sizes, train_scores, test_scores)
+plt.xlabel('train_sizes')
+plt.ylabel('neg_mean_absolute_error')
+plt.title('Learning curve Ridge');
+```
+
+#### Lgbm regressor
+
+```python
+%%time
+
+model_lgb = Pipeline(
+steps=[
+('preprocessing', preprocessing),
+('lgb', LGBMRegressor(random_state=RANDOM_SEED, n_estimators=30))
+]
+)
+
+train_sizes, train_scores, test_scores = \
+learning_curve(model_lgb, X_train, y_train,
+cv=TimeSeriesSplit(n_splits=5), scoring='neg_mean_absolute_error', random_state=RANDOM_SEED)
+```
+
+```python
+plot_learning_curve(train_sizes, train_scores, test_scores)
+plt.xlabel('train_sizes')
+plt.ylabel('neg_mean_absolute_error')
+plt.title('Learning curve Ridge');
+```
+
+LGBRegressor tends towards overfitting, while for Ridge train and validation scores tends to look closer to each other.
+
+### Part 10. Prediction for hold-out set
+
+Let's check our models on hold-out set. Hold-out set was produced from all data and consist of last 30% data sorted by time.
+
+#### Ridge
+
+```python
+model_ridge.fit(X_train, y_train)
+```
+
+```python
+ridge_mae_valid = mean_absolute_error(y_valid, model_ridge.predict(X_valid))
+ridge_mae_valid
+```
+
+#### Lgbm regressor
+
+```python
+model_lgb.fit(X_train, y_train)
+```
+
+```python
+lgb_mae_valid = mean_absolute_error(y_valid, model_lgb.predict(X_valid))
+lgb_mae_valid
+```
+
+### Part 11. Model selection
+
+Let's recheck cross_val_score for models.
+
+```python
+%%time
+
+ridge_cv_score = cross_val_score(model_ridge, X_train, y_train, scoring='neg_mean_absolute_error',
+cv=TimeSeriesSplit(n_splits=5))
+lgb_cv_score = cross_val_score(model_lgb, X_train, y_train, scoring='neg_mean_absolute_error',
+cv=TimeSeriesSplit(n_splits=5))
+```
+
+```python
+ridge_cv_score.mean(), lgb_cv_score.mean()
+```
+
+```python
+pd.DataFrame(index=['Ridge', 'LGBRegressor'], data = [
+[ridge_mae_valid, -ridge_cv_score.mean()],
+[lgb_mae_valid, -lgb_cv_score.mean()],
+], columns = ['valid', 'cv_score'])
+```
+
+We've got some mess with result. No model looks like the clean winner. But on the learning plots Ridge looks more sustainable. So probably we should choose Ridge as basic model for futher research.
+
+### Part 12. Conclusions
+
+We've made some initial research on TED Talks dataset. 'Views' variable wasn't normally distributed so we used logarithm of it.
+
+After parameter tuning and model selection both Ridge and LGBM regressor was able to get about 0.48 MAE on cross-validation. Despite of fact that on hold=out set LGBM outperforms Ridge, Ridge looks better on cross-validation.
+
+The model can be useful for research on predicting TED talk popularity measured in views.
+
+Ways to impove and futher develope the model:
+- Normalization of text
+- Turning Tf-IDF ngramm_range for text fields
+- Usage of PCA before LGBM
+- Try to get more data (more new data should be available)
+- More precisely model tuning
+- Research on how model will perform without 'language' variable

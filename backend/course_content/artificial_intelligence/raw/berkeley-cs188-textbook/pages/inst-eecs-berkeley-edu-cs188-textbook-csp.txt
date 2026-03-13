@@ -1,0 +1,25 @@
+Title: 2. CSPs
+URL: https://inst.eecs.berkeley.edu/~cs188/textbook/csp/
+Snapshot Type: sanitized text
+
+2. CSPs
+
+Author: Nikhil Sharma
+
+Edited by: Pranav Muralikrishnan and Wesley Zheng
+
+Credit: Some sections adapted from the textbook Artificial Intelligence: A Modern Approach .
+
+Last updated: September 2024
+
+- 2.1 Constraint Satisfaction Problems
+
+- 2.2 Solving Constraint Satisfaction Problems
+
+- 2.3 Filtering
+
+- 2.4 Ordering
+
+- 2.5 Local Search
+
+- 2.6 Summary

@@ -1,0 +1,79 @@
+Title: Copier un exercice Python spécial
+URL: https://developers.google.com/edu/python/exercises/copy-special
+Snapshot Type: sanitized text
+
+Accueil
+
+Produits
+
+Google for Education
+
+Python
+
+Copier un exercice Python spécial
+
+Restez organisé à l'aide des collections
+
+Enregistrez et classez les contenus selon vos préférences.
+
+L'exercice de copie spéciale s'étend aux supports du système de fichiers et des commandes externes de la section Utilitaires Python . Cet exercice se trouve dans la section "copyspecial" dans google-python-exercises (téléchargez google-python-exercises.zip si ce n'est pas déjà fait, ou consultez Configurer pour en savoir plus). Ajoutez votre code dans copyspecial.py.
+
+Le programme copyspecial.py utilise un ou plusieurs répertoires comme arguments. Disons qu'un "spécial" fichier est celui dont le nom contient le modèle __w__ quelque part, où le w est un ou plusieurs caractères de mot. La fonction main() fournie inclut du code permettant d'analyser les arguments de ligne de commande, mais le reste dépend de vous. Écrivez des fonctions pour implémenter les fonctionnalités ci-dessous et modifiez main() pour appeler vos fonctions.
+
+Fonctions suggérées pour votre solution(détails ci-dessous):
+
+- get_special_paths(dir) : renvoie la liste des chemins absolus des fichiers spéciaux contenus dans le répertoire donné.
+
+- copy_to(paths, dir) copie ces fichiers dans le répertoire donné à partir d'une liste de chemins d'accès.
+
+- zip_to(paths, zippath) à partir d'une liste de chemins d'accès, compresser ces fichiers dans le fichier zip donné
+
+Partie A (manipulation des chemins d'accès aux fichiers)
+
+Rassemblez une liste des chemins d'accès absolus des fichiers spéciaux dans tous les répertoires. Dans le cas le plus simple, imprimez simplement cette liste (ici, le "." après la commande est un argument unique indiquant le répertoire actuel). Affiche un chemin absolu par ligne.
+
+$ ./copyspecial.py .
+/Users/nparlante/pycourse/day2/xyz__hello__.txt
+/Users/nparlante/pycourse/day2/zz__something__.jpg
+
+Nous partons du principe que les noms ne sont pas répétés dans les répertoires (facultatif: vérifiez cette hypothèse et émettez une erreur s'il n'est pas respecté).
+
+Partie B (copie de fichiers)
+
+Si l'option "--todir dir" est présente au début de la ligne de commande, n'imprimez rien et copiez les fichiers dans le répertoire donné, en le créant si nécessaire. Utiliser le module Python "shutil" pour copier des fichiers.
+
+$ ./copyspecial.py --todir /tmp/fooby .
+$ ls /tmp/fooby
+xyz__hello__.txt zz__something__.jpg
+
+Partie C (appeler un programme externe)
+
+Si l'option "--tozip zipfile" est disponible au début de la ligne de commande, exécutez la commande "zip -j zipfile <list all the files>". Un fichier ZIP contenant les fichiers est alors créé. Pour vous amuser et vous rassurer, imprimez également la ligne de commande que vous allez exécuter en premier (comme indiqué dans le cours). (Remarque pour Windows: Windows ne propose pas de programme permettant de produire des archives ZIP standards par défaut, mais vous pouvez télécharger le programme ZIP sans frais et ouvert sur www.info-zip.org .)
+Pour les utilisateurs de Linux, si
+zip
+n'est pas installé,
+vous pouvez l'installer en appelant
+sudo apt install zip
+.
+
+$ ./copyspecial.py --tozip tmp.zip .
+
+Command I'm going to do:zip -j tmp.zip /Users/nparlante/pycourse/day2/xyz__hello__.txt
+/Users/nparlante/pycourse/day2/zz__something__.jpg
+
+Si le processus enfant se termine avec un code d'erreur, quittez-le avec un code d'erreur et imprimez le résultat de la commande. Testez cela en essayant d'écrire un fichier ZIP dans un répertoire qui n'existe pas.
+
+$ ./copyspecial.py --tozip /no/way.zip .
+
+Command I'm going to do:zip -j /no/way.zip /Users/nparlante/pycourse/day2/xyz__hello__.txt
+/Users/nparlante/pycourse/day2/zz__something__.jpg
+
+zip I/O error: No such file or directory
+
+zip error: Could not create output file (/no/way.zip)
+
+Sauf indication contraire, le contenu de cette page est régi par une licence Creative Commons Attribution 4.0 , et les échantillons de code sont régis par une licence Apache 2.0 . Pour en savoir plus, consultez les Règles du site Google Developers . Java est une marque déposée d'Oracle et/ou de ses sociétés affiliées.
+
+Dernière mise à jour le 2025/07/24 (UTC).
+
+[[["Facile à comprendre","easyToUnderstand","thumb-up"],["J'ai pu résoudre mon problème","solvedMyProblem","thumb-up"],["Autre","otherUp","thumb-up"]],[["Il n'y a pas l'information dont j'ai besoin","missingTheInformationINeed","thumb-down"],["Trop compliqué/Trop d'étapes","tooComplicatedTooManySteps","thumb-down"],["Obsolète","outOfDate","thumb-down"],["Problème de traduction","translationIssue","thumb-down"],["Mauvais exemple/Erreur de code","samplesCodeIssue","thumb-down"],["Autre","otherDown","thumb-down"]],["Dernière mise à jour le 2025/07/24 (UTC)."],[],[]]

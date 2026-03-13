@@ -1,0 +1,522 @@
+Original Path: jupyter_english/tutorials/learn_regex_the_easy_way_aditya_soni.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+<center>
+<img src="../../img/ods_stickers.jpg" />
+
+## Open Machine Learning Course
+
+The Author of the material: Aditya Soni, the nickname in the ODS @ecdrid. This notebook serves as a very short glimpse from this [website](https://www.regular-expressions.info) primarily.
+
+# <center> A Tutorial On Understanding ([Rr]ege)(x|xp|xes|xps|xen)</center>
+
+<img src="https://i.imgur.com/bYwl7Vf.png" alt="Learn Regex">
+
+A common workflow with regular expressions is that you write a pattern for the thing you are looking for...
+
+# Let's see our very first expression
+
+- **<\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b>** It's a complex pattern as it includes lots of things like
+- Character Class
+- Alphabets
+- Percentage
+- Numbers
+- Underscores
+- $\{\}$, word Boundaries etc...
+
+> In short - **this pattern describes an email address; With the above regex pattern, we can search through a text file to find email addresses, or verify if a given string looks like an email address..**
+
+The most basic regex pattern in a token like just an $<b>$ i.e a single literal character. In the string **" Zebra is an animal."**, this will match the very first $b$ in the **Ze$b$** Note that it doesn't matter whether it's present in the middle of the word as of now..
+
+Now let me introduce few very basics things used in $<regex>$ to define itself (remeber the e-mail address pattern above, now we will break into piece by piece..)
+
+In the regex discussed in this tutorial, there are **11** characters with special meanings:
+the opening square bracket $<[>$, the backslash, the caret <^>, the dollar sign <$>, the period or dot <.>, the
+vertical bar or pipe symbol <|>, the question mark <?>, the asterisk or star <*>, the plus sign <+>, the opening
+round bracket <(> and the closing round bracket <)>. These special characters are often called **“metacharacters”**.
+
+|Meta character|Description|
+|:----:|----|
+|**.**|<b>Period matches any single character except a line break.<b>|
+|**[ ]**|<b>Character class. Matches any character contained between the square brackets.<b>|
+|**[^ ]**|<b>Negated character class. Matches any character that is not contained between the square brackets <b>.|
+|*****|<b>Matches 0 or more repetitions of the preceding symbol.<b>|
+|**+**|<b>Matches 1 or more repetitions of the preceding symbol.<b>|
+|**?**|<b>Makes the preceding symbol optional.<b>|
+|**{n,m}**|<b>Braces. Matches at least "n" but not more than "m" repetitions of the preceding symbol.<b>|
+|**(xyz)**|<b>Character group. Matches the characters xyz in that exact order.<b>|
+|**&#124;**|<b>Alternation. Matches either the characters before or the characters after the symbol.<b>|
+|**&#92;**|<b>Escapes the next character. This allows you to match reserved characters `[ ] ( ) { } . * + ? ^ $ \`.<b>|
+|**^**|<b>Matches the beginning of the input.<b>|
+|**$**|<b>Matches the end of the input.<b>|
+
+Read More [here](http://www.rexegg.com/regex-quickstart.html#chars) and [here](http://www.greenend.org.uk/rjk/tech/regexp.html). Both are Very Very Good...
+
+- Example - If you want to use any of these characters as a literal in a regex, you need to escape them with a backslash. If
+you want to match **<1+1=2>**, the correct regex is $1\+1=2$. Otherwise, the plus sign will have a special meaning. **Note** that **<1+1=2>**, with the *backslash omitted*, is a **valid** regex. So you will **not** get an error message. But it
+will not match **<1+1=2>**.
+
+# The Regex-Directed Engine Always Returns the Left-most Match
+This is a very important point to understand: a regex-directed engine will always return the leftmost match,
+even if a **better** match could be found later. When applying a regex to a string, the engine will start at the
+first character of the string. It will try all possible permutations of the regular expression at the first character.
+Only if all possibilities have been tried and found to fail, will the engine continue with the second character in
+the text. Again, it will try all possible permutations of the regex, in exactly the same order. The result is that
+the regex-directed engine will return the leftmost match.
+- When applying **<cat\>** to **He captured a catfish for his cat.**, the engine will try to match the first
+token in the regex **<c\>** to the first character in the match **H**. This fails. There are no other possible
+permutations of this regex, because it merely consists of a sequence of literal characters. So the regex engine
+tries to match the **<c\>** with the **e**. This fails too, as does matching the **c** with the space. Arriving at the 4th
+character in the match, **<c\>** matches **c**. The engine will then try to match the second token **<a\>** to the 5th
+character, **a**. This succeeds too. But then, **<t\>** fails to match **p**. At that point, the engine knows the regex
+cannot be matched starting at the 4th character in the match. So it will continue with the 5th: **a**. Again, **<c\>**
+fails to match here and the engine carries on. At the 15th character in the match, **<c\>** again matches **c**. The
+engine then proceeds to attempt to match the remainder of the regex at character 15 and finds that **<a\>**
+matches **a** and **<t\>** matches **t**.
+
+- The entire regular expression could be matched starting at character 15. The engine is **"eager"** to report a
+match. **It will therefore report the first three letters of catfish as a valid match**. The engine **never** proceeds
+beyond this point to see if there are any **better** matches. The *first match* is considered good enough.
+
+# Regex's Fundamentals
+
+## Character Sets/Classes
+
+Character sets are also called character class. **Square brackets** are used to specify character sets. Use a **hyphen** inside a character set to specify the characters' range. The order of the character range inside square brackets doesn't matter. For example, the regular expression `[Tt]he` means: `an uppercase T or lowercase t, followed by the letter h, followed by the letter e.`
+
+- **<[Tt]he>** => <font color=red>The</font> car parked in <font color=red>the</font> garage.
+
+A period inside a character set, however, means a literal period. The regular expression **<ar[.]>** means: a lowercase character a, followed by letter r, followed by a period **.** character.
+
+- **<ar[.]>** => A garage is a good place to park a c<font color=red>ar.</font>
+
+- **<[0-9]>** => Matches a **single digit between 0 and 9**. You can use more than one range.
+- **<[0-9a-fA-F]>** => Matches a **single hexadecimal digit**, case insensitively.
+- You can combine ranges and single characters. **<[0-9a-fxA-FX]>** matches a hexadecimal digit or the letter X.* Again, the order of the characters and the ranges does not matter.*
+- Find a word, even if it is misspelled, such as **<sep[ae]r[ae]te>** or **<li[cs]en[cs]e>**.
+
+### Negated Character Sets/Classes
+
+Typing a **caret(^)** after the opening square bracket will negate the character class. **The result is that the character
+class will match any character that is <font color = red>not </font> in the character class.**
+- It is important to remember that a negated character class **still must match a character**. **<q[^u]>** does not
+mean: **<font color= red> a q not followed by a u </font>**. It means: **<font color= red a q followed by a character that is not a u </font>**. It will **not** match the
+$q$ in the string $Iraq$. It will match the $q$ and $the space$ after the $q$ in **Iraq is a country**.
+
+### Shorthand Character Sets
+
+Regular expression provides **shorthands** for the commonly used character sets,
+which offer **convenient shorthands** for commonly used regular expressions. The
+shorthand character sets are as follows:
+
+|Shorthand|Description|
+|:----:|----|
+|<b>.<b>|<b>Any character except new line. It's the most commonly misused metacharacter.<b>|
+|<b>\w<b>|<b>Matches alphanumeric characters: `[a-zA-Z0-9_]`<b>|
+|<b>\W<b>|<b>Matches non-alphanumeric characters: `[^\w]`<b>|
+|<b>\d<b>|<b>Matches digit: `[0-9]`<b>|
+|<b>\D<b>|<b>Matches non-digit: `[^\d]`<b>|
+|<b>\s<b>|<b>Matches whitespace character: `[\t\n\f\r\p{Z}]`<b>|
+|<b>\S<b>|<b>Matches non-whitespace character: `[^\s]`<b>|
+
+## Repetitions
+
+Following meta characters `+`, `*` or `?` are used to specify how many times a
+subpattern can occur. These meta characters act differently in different
+situations.
+
+### The Star *
+
+The symbol `*` matches zero or more repetitions of the preceding matcher. The
+regular expression `a*` means: zero or more repetitions of preceding lowercase
+character `a`. But if it appears after a character set or class then it finds
+the repetitions of the whole character set.
+For example, the regular expression
+- `[a-z]*` means: any number of lowercase letters in a row.
+
+The `*` symbol can be used with the meta character `.` to match any string of
+characters `.*`. The `*` symbol can be used with the whitespace character `\s`
+to match a string of whitespace characters. For example, the expression
+`\s*cat\s*` means: zero or more spaces, followed by lowercase character `c`,
+followed by lowercase character `a`, followed by lowercase character `t`,
+followed by zero or more spaces.
+
+### The Plus +
+
+The symbol `+` matches one or more repetitions of the preceding character. For
+example, the regular expression `c.+t` means: lowercase letter `c`, followed by
+at least one character, followed by the lowercase character `t`. It needs to be
+clarified that `t` is the last `t` in the sentence.
+
+- **<c.+t>** => The fat <font color='red'> cat sat on the mat</font>.
+
+### The Question Mark ?
+In regular expression the meta character `?` makes the preceding character optional. This symbol matches zero or one instance of the preceding character. For example, the regular expression `[T]?he` means: `Optional the uppercase letter T, followed by the lowercase character h, followed by the lowercase character e.`
+
+- **<[Tt]he>** => <font color=red>The</font> car parked in <font color=red>the</font> garage.
+
+### The Lazy Star *?
+
+Repeats the previous item zero or more times. Lazy, so the engine first attempts to skip the
+previous item, before trying permutations with ever increasing matches of the preceding
+item.
+
+|Regex|Means|
+|:----:|----|
+|abc+| matches a string that has ab followed by one or more c|
+|abc?| matches a string that has ab followed by zero or one c|
+|abc{2}| matches a string that has ab followed by 2 c|
+|abc{2,}| matches a string that has ab followed by 2 or more c|
+|abc{2,5}| matches a string that has ab followed by 2 up to 5 c|
+|a(bc)\*| matches a string that has a followed by zero or more copies of the sequence bc|
+|a(bc){2,5}| matches a string that has a followed by 2 up to 5 copies of the sequence bc|
+|**<.+>**| matches `<div>simple div</div>`|
+
+## Full stop or Period or dot **.**
+
+In regular expressions, the dot or period is one of the most commonly used metacharacters. Unfortunately, it
+is also the most commonly misused metacharacter. The dot is short for the negated character class **<[^\n]>** (UNIX regex flavors) or
+**<[^\r\n]>** (Windows regex flavors).
+
+<font color = 'Red'> <b> Use The Dot Sparingly <b></font>
+- The dot is a **very powerful** regex metacharacter. It allows you to be **lazy**. `Put in a dot, and everything will
+match just fine when you test the regex on valid data. The problem is that the regex will also match in cases
+where it should not match..`
+
+Example - Let’s say we want to match a date in `mm/dd/yy` format, but we
+want to leave the user the choice of date separators. The quick solution is **<\d\d.\d\d.\d\d>**. Seems fine at
+first sight.. It will match a date like `02/12/03` just what we intended, So fine...
+- <font color='red'> <b> Trouble is: 02512703<b></font> is also considered a **valid date** by this regular expression. In this match, the first dot matched $5$, and the second matched $7$. Obviously $not$ what we intended.
+
+## Start of String and End of String Anchors ( $ and ^)
+
+Anchors are a different breed. They do not match any character at all. Instead, they match a position before,
+after or between characters. They can be used to `anchor` the regex match at a certain position.
+- The caret **<^>**
+matches the position before the first character in the string. Applying **<^a>** to `abc` matches `a`. **<^b>** will
+not match `abc` at all, because the **<b\>** cannot be matched right after the start of the string, matched by **<^>**.
+- Similarly, **<\$>** matches right after the last character in the string. **<c\$>** matches `c` in `abc`, while **<a\$>** `does not` match `abc` at all....
+
+<center> **So Now we are good to go!! Armed with regex, let's see what they can do..** <center>
+
+## Word Boundaries
+
+The word boundary \b matches positions where one side is a word character (usually a letter, digit or underscore—but see below for variations across engines) and the other side is not a word character (for instance, it may be the beginning of the string or a space character).
+
+The `\bcat\b` would therefore match `cat` in a `black cat`, but it wouldn't match it in `catatonic`, `tomcat` or `certificate`. Removing one of the boundaries, `\bcat` would match `cat` in `catfish`, and `cat\b` would match `cat` in `tomcat`, but not vice-versa. Both, of course, would match `cat` on its own.
+
+Word boundaries are useful when you want to match a sequence of letters (or digits) on their own, or to ensure that they occur at the beginning or the end of a sequence of characters.
+
+Be aware, though, that `\bcat\b` will not match `cat` in `_cat` or in `cat25` because there is no boundary between an underscore and a letter, nor between a letter and a digit: these all belong to what regex defines as word characters.
+
+## Grouping ()
+
+By placing part of a regular expression inside round brackets or parentheses, you can group that part of the
+regular expression together. This allows you to apply a regex operator, e.g. a repetition operator, to the entire
+group.
+Only round brackets can be used for grouping. Square brackets define a character class, and curly
+braces are used by a special repetition operator.
+
+- The regex `Set(Value)?` matches "**Set** or **SetValue**".
+- In the first case, the first backreference will be
+empty, because it did not match anything.
+- In the second case, the `first backreference` will contain **Value**.
+
+### So How can we use it?
+
+`Backreferences allow you to re-use part of the regex match. You can reuse it inside the regular expression before or afterwards depending on the Regex Flavour you are using...`
+Some regex flavours use `\`, some flavours use `$`, etc..
+In Perl, you can use the magic variables $1, $2, etc. to access the part of the string matched by the backreference
+
+**Regex** : `(\w+)\1` on String `seek` will match `ee`
+
+PS I am myself studying this section properly, hence couldn't add more details :))
+
+# Examples
+
+- Regex are now written in Quotes (\`)
+- The String to be matched is in ("bold")
+
+Suppose you want to use a regex to match a list of function names in a programming language: "**Get, GetValue, Set or SetValue.**"
+- The obvious solution is `Get|GetValue|Set|SetValue`
+
+*Now take a look closer carefully at the regex and the string, both.
+Here are some other ways to do the same task*
+- `Get(Value)?|Set(Value)?`
+- `\b(Get|GetValue|Set|SetValue)\b`
+- `\b(Get(Value)?|Set(Value)?)\b`
+- Even this one is correct `\b(Get|Set)(Value)?\b`
+
+**Regex**: `<[^>]+>`
+- **What it does**: This finds any HTML, such as `<\a>, <\b>, <\img />, <\br />, etc`. You can use this to find segments that have HTML tags you need to deal with, or to remove all HTML tags from a text.
+
+**Regex**: `https?:\/\/[\w\.\/\-?=&%,]+`
+- What it does: This will find a URL. It will capture most URLs that begin with http:// or https://.
+
+**Regex**: `'\w+?'`
+- **What it does**: This finds single words that are surrounded by apostrophes.
+
+**Regex**: `([-A-Za-z0-9_]*?([-A-Za-z_][0-9]|[0-9][-A-Za-z_])[-A-Za-z0-9_]*)`
+- **What it does**: Alphanumeric part numbers and references like: 1111_A, AA1AAA or 1-1-1-A, 21A1 and 10UC10P-BACW, abcd-1234, 1234-pqtJK, sft-0021 or 21-1_AB and 55A or AK7_GY.
+This can be very useful if you are translating documents that have a lot of alphanumeric codes or references in them, and you need to be able to find them easily.
+
+**Regex**: `\b(the|The)\b.*?\b(?=\W?\b(is|are|was|can|shall| must|that|which|about|by|at|if|when|should|among|above|under|$)\b)`
+- **What it does**: This finds text that begins with the or The and ends with stop words such as is, are, was, can, shall, must, that, which, about, by, at, if, when, should, among, above or under, or the end of the segment.
+This is particularly useful when you need to extract terminology. Suppose you have segments like these:
+`
+The Web based look up is our new feature. A project manager should not proofread... Our Product Name is...`
+- The Regex shown above would find anything between The and is, or should. With most texts, there is a good chance that anything this Regex finds is a good term that you can add to your Termbase.
+
+**Regex**: `\b(a|an|A|An)\b.*?\b(?=\W?\b(is|are|was|can|shall|must |that|which|about|by|at|if|when|among|above|under|$)\b)`
+- **What it does**: This works much like the Regex shown above, except that it finds text that begins with a or an, rather than the. This can also be very helpful when you need to extract terminology from a project.
+
+**Regex**: `\b(this|these|This|These)\b.*?\b(?=\W?\b(is|are|was|can|shall|must|that|which|about|by|at|if|when|among|above|under|$)\b)`
+- **What it does**: This works much like the Regex shown above, except that it finds text that begins with this or these. This can also be very helpful when you need to extract terminology from a project.
+
+**Regex** :`(.*?)`
+- **What it does** : Accept blah-blah-blah...
+
+## Python [re module](https://docs.python.org/3/library/re.html)
+
+- `re.sub(regex, replacement, subject)` performs a search-and-replace across subject, replacing all
+matches of regex in subject with replacement. The result is returned by the sub() function. **The subject
+string you pass is not modified**. The re.sub() function applies the same backslash logic to the replacement text as is applied to the regular expression. Therefore, you should use raw strings for the replacement text...
+
+```python
+%load_ext autoreload
+%autoreload
+import re
+import time
+```
+
+```python
+s = "How do you do this"
+print(
+"After applying re.sub -- ",
+re.sub(r"How do you", "How do I", s),
+"\nOriginal Text is still -- ",
+s,
+)
+```
+
+So does that mens that we have to type one regex expression everytime, run and check it and then the substituion willl happen? i.e Can't we stack `re.sub(), re.sub(), re.sub()....`
+
+Surely not, Remeber `re.sub()` is returning a string after making the chnages that matched the pattern you asked more..
+
+```python
+s_old = "How do you do this"
+print("After applying re.sub -- ", end="")
+s_new = re.sub(r"How do you", "How do I", s_old)
+print(f"\nOriginal Text isn't still **{s_old}** but it's now **{s_new}**")
+# Obviously s_old and s_new are different, I am just trying to show that we can stack the operations....
+```
+
+```python
+tweet = "#fingerprint #Pregnancy Test https://goo.gl/h1MfQV #android +#apps +#beautiful \
+#cute #health #igers #iphoneonly #iphonesia #iphone \
+<3 ;D :( :-("
+
+# Let's take care of emojis and the #(hash-tags)...
+
+print(f"Original Tweet ---- \n {tweet}")
+
+## Replacing #hashtag with only hashtag
+tweet = re.sub(r"#(\S+)", r" \1 ", tweet)
+# this gets a bit technical as here we are using Backreferencing and Character Sets Shorthands and replacing the captured Group.
+# \S = [^\s] Matches any charachter that isn't white space
+print(f"\n Tweet after replacing hashtags ----\n {tweet}")
+
+## Love -- <3, :*
+tweet = re.sub(r"(<3|:\*)", " EMO_POS ", tweet)
+print(f"\n Tweet after replacing Emojis for Love with EMP_POS ----\n {tweet}")
+
+# The parentheses are for Grouping, so we search (remeber the raw string (`r`))
+# either for <3 or(|) :\* (as * is a meta character, so preceeded by the backslash)
+
+## Wink -- ;-), ;), ;-D, ;D, (;, (-;
+tweet = re.sub(r"(;-?\)|;-?D|\(-?;)", " EMO_POS ", tweet)
+print(f"\n Tweet after replacing Emojis for Wink with EMP_POS ----\n {tweet}")
+
+# The parentheses are for Grouping as usual, then we first focus on `;-), ;),`, so we can see that 1st we need to have a ;
+# and then we can either have a `-` or nothing, so we can do this via using our `?` clubbed with `;` and hence we have the very
+# starting with `(;-?\)` and simarly for others...
+
+## Sad -- :-(, : (, :(, ):, )-:
+tweet = re.sub(r"(:\s?\(|:-\(|\)\s?:|\)-:)", " EMO_NEG ", tweet)
+print(f"\n Tweet after replacing Emojis for Sad with EMP_NEG ----\n {tweet}")
+```
+
+```python
+##See the Output Carefully, there are Spaces inbetween un-necessary...
+## Replace multiple spaces with a single space
+tweet = re.sub(r"\s+", " ", tweet)
+print(f"\n Tweet after replacing xtra spaces ----\n {tweet}")
+
+##Replace the Puctuations (+,;)
+tweet = re.sub(r"[^\w\s]", "", tweet)
+print(f"\n Tweet after replacing Punctuation + with PUNC ----\n {tweet}")
+```
+
+```python
+# bags of positive/negative smiles (You can extend the above example to take care of these few too...))) A good Excercise...
+
+positive_emojis = set(
+[
+":‑)",
+":)",
+":-]",
+":]",
+":-3",
+":3",
+":->",
+":>",
+"8-)",
+"8)",
+":-}",
+":}",
+":o)",
+":c)",
+":^)",
+"=]",
+"=)",
+":‑D",
+":D",
+"8‑D",
+"8D",
+"x‑D",
+"xD",
+"X‑D",
+"XD",
+"=D",
+"=3",
+"B^D",
+":-))",
+";‑)",
+";)",
+"*-)",
+"*)",
+";‑]",
+";]",
+";^)",
+":‑,",
+";D",
+":‑P",
+":P",
+"X‑P",
+"XP",
+"x‑p",
+"xp",
+":‑p",
+":p",
+":‑Þ",
+":Þ",
+":‑þ",
+":þ",
+":‑b",
+":b",
+"d:",
+"=p",
+">:P",
+":'‑)",
+":')",
+":-*",
+":*",
+":×",
+]
+)
+negative_emojis = set(
+[
+":‑(",
+":(",
+":‑c",
+":c",
+":‑<",
+":<",
+":‑[",
+":[",
+":-||",
+">:[",
+":{",
+":@",
+">:(",
+"D‑':",
+"D:<",
+"D:",
+"D8",
+"D;",
+"D=",
+"DX",
+":‑/",
+":/",
+":‑.",
+">:\\",
+">:/",
+":\\",
+"=/",
+"=\\",
+":L",
+"=L",
+":S",
+":‑|",
+":|",
+"|‑O",
+"<:‑|",
+]
+)
+```
+
+```python
+## Pattern to match any IP Addresses
+pattern = r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b"
+```
+
+the above pattern will also match `999.999.999.999` but that isn't a valid IP at all
+Now this depends on the data at hand as to how far you want the regex to be accurate...
+To restrict all `4` numbers in the IP address to `0..255`, you can use this
+complex beast:
+- `\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-
+9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-
+4][0-9]|[01]?[0-9][0-9]?)\b`
+
+```python
+updated_pattern = r"\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b"
+updated_pattern
+```
+
+```python
+if re.search(pattern, "999.999.999.999"):
+print("Matched")
+if re.search(updated_pattern, "256.999.999.999"):
+print("Matched")
+else:
+print("Not Matched")
+```
+
+```python
+# Valid Dates..
+pattern = r"(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])"
+```
+
+- matches a date in yyyy-mm-dd format from between 1900-01-01 and 2099-12-31, with a choice of four separators(space included :))
+
+- The year is matched by `(19|20)\d\d`
+- The month is matched by `(0[1-9]|1[012])` (rounding brackets are necessary so that to include both the options)
+- By using character classes,
+- the first option matches a number between `01 and 09`, and
+- the second matches `10, 11 or 12`
+- The last part of the regex consists of three options. The first matches the numbers `01
+through 09`, the second `10 through 29`, and the third matches `30 or 31`...
+
+# References (A lot)
+
+- http://www.rexegg.com/ <<<< THE ULTIMATE WEBSITE>>>>
+- https://github.com/aloisdg/awesome-regex
+- http://linuxreviews.org/beginner/tao_of_regular_expressions/tao_of_regular_expressions.en.print.pdf
+- https://developers.google.com/edu/python/regular-expressions
+- https://www.youtube.com/watch?v=EkluES9Rvak
+
+<center> <b>Oh, yes, and forget about practice, that's completely overrated.<b> </center>
+<center><b> <font color='red'> Just kidding.... </font> <b> </center>
+
+<img src='https://i0.wp.com/www.scoutingforbeer.org.uk/wp-content/uploads/2016/04/thank-you-1400x800-c-default.gif'>

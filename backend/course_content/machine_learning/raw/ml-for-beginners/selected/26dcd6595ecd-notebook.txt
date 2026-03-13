@@ -1,0 +1,382 @@
+Original Path: 2-Regression/3-Linear/solution/notebook.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+## Linear and Polynomial Regression for Pumpkin Pricing - Lesson 3
+
+Load up required libraries and dataset. Convert the data to a dataframe containing a subset of the data:
+
+- Only get pumpkins priced by the bushel
+- Convert the date to a month
+- Calculate the price to be an average of high and low prices
+- Convert the price to reflect the pricing by bushel quantity
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+from datetime import datetime
+
+pumpkins = pd.read_csv('../../data/US-pumpkins.csv')
+pumpkins.head()
+```
+
+Output:
+```text
+City Name Type Package Variety Sub Variety Grade Date \
+0 BALTIMORE NaN 24 inch bins NaN NaN NaN 4/29/17
+1 BALTIMORE NaN 24 inch bins NaN NaN NaN 5/6/17
+2 BALTIMORE NaN 24 inch bins HOWDEN TYPE NaN NaN 9/24/16
+3 BALTIMORE NaN 24 inch bins HOWDEN TYPE NaN NaN 9/24/16
+4 BALTIMORE NaN 24 inch bins HOWDEN TYPE NaN NaN 11/5/16
+
+Low Price High Price Mostly Low ... Unit of Sale Quality Condition \
+0 270.0 280.0 270.0 ... NaN NaN NaN
+1 270.0 280.0 270.0 ... NaN NaN NaN
+2 160.0 160.0 160.0 ... NaN NaN NaN
+3 160.0 160.0 160.0 ... NaN NaN NaN
+4 90.0 100.0 90.0 ... NaN NaN NaN
+
+Appearance Storage Crop Repack Trans Mode Unnamed: 24 Unnamed: 25
+0 NaN NaN NaN E NaN NaN NaN
+1 NaN NaN NaN E NaN NaN NaN
+2 NaN NaN NaN N NaN NaN NaN
+3 NaN NaN NaN N NaN NaN NaN
+4 NaN NaN NaN N NaN NaN NaN
+
+[5 rows x 26 columns]
+```
+
+```python
+pumpkins = pumpkins[pumpkins['Package'].str.contains('bushel', case=True, regex=True)]
+
+new_columns = ['Package', 'Variety', 'City Name', 'Month', 'Low Price', 'High Price', 'Date']
+pumpkins = pumpkins.drop([c for c in pumpkins.columns if c not in new_columns], axis=1)
+
+price = (pumpkins['Low Price'] + pumpkins['High Price']) / 2
+
+month = pd.DatetimeIndex(pumpkins['Date']).month
+day_of_year = pd.to_datetime(pumpkins['Date']).apply(lambda dt: (dt-datetime(dt.year,1,1)).days)
+
+new_pumpkins = pd.DataFrame(
+{'Month': month,
+'DayOfYear' : day_of_year,
+'Variety': pumpkins['Variety'],
+'City': pumpkins['City Name'],
+'Package': pumpkins['Package'],
+'Low Price': pumpkins['Low Price'],
+'High Price': pumpkins['High Price'],
+'Price': price})
+
+new_pumpkins.loc[new_pumpkins['Package'].str.contains('1 1/9'), 'Price'] = price/1.1
+new_pumpkins.loc[new_pumpkins['Package'].str.contains('1/2'), 'Price'] = price*2
+
+new_pumpkins.head()
+```
+
+Output:
+```text
+Month DayOfYear Variety City Package Low Price \
+70 9 267 PIE TYPE BALTIMORE 1 1/9 bushel cartons 15.0
+71 9 267 PIE TYPE BALTIMORE 1 1/9 bushel cartons 18.0
+72 10 274 PIE TYPE BALTIMORE 1 1/9 bushel cartons 18.0
+73 10 274 PIE TYPE BALTIMORE 1 1/9 bushel cartons 17.0
+74 10 281 PIE TYPE BALTIMORE 1 1/9 bushel cartons 15.0
+
+High Price Price
+70 15.0 13.636364
+71 18.0 16.363636
+72 18.0 16.363636
+73 17.0 15.454545
+74 15.0 13.636364
+```
+
+A scatterplot reminds us that we only have month data from August through December. We probably need more data to be able to draw conclusions in a linear fashion.
+
+```python
+new_pumpkins.plot.scatter('Month','Price')
+```
+
+Output:
+```text
+<AxesSubplot:xlabel='Month', ylabel='Price'>
+
+<Figure size 432x288 with 1 Axes>
+```
+
+```python
+new_pumpkins.plot.scatter('DayOfYear','Price')
+```
+
+Output:
+```text
+<AxesSubplot:xlabel='DayOfYear', ylabel='Price'>
+
+<Figure size 432x288 with 1 Axes>
+```
+
+Let's see if there is correlation:
+
+```python
+print(new_pumpkins['Month'].corr(new_pumpkins['Price']))
+print(new_pumpkins['DayOfYear'].corr(new_pumpkins['Price']))
+```
+
+Output:
+```text
+-0.14878293554077535
+-0.16673322492745407
+```
+
+Looks like correlation is pretty small, but there is some other more important relationship - because price points in the plot above seem to have several distinct clusters. Let's make a plot that will show different pumpkin varieties:
+
+```python
+ax=None
+colors = ['red','blue','green','yellow']
+for i,var in enumerate(new_pumpkins['Variety'].unique()):
+ax = new_pumpkins[new_pumpkins['Variety']==var].plot.scatter('DayOfYear','Price',ax=ax,c=colors[i],label=var)
+```
+
+Output:
+```text
+<Figure size 432x288 with 1 Axes>
+```
+
+```python
+new_pumpkins.groupby('Variety')['Price'].mean().plot(kind='bar')
+```
+
+Output:
+```text
+<AxesSubplot:xlabel='Variety'>
+
+<Figure size 432x288 with 1 Axes>
+```
+
+For the time being, let's concentrate only on one variety - **pie type**.
+
+```python
+pie_pumpkins = new_pumpkins[new_pumpkins['Variety']=='PIE TYPE']
+print(pie_pumpkins['DayOfYear'].corr(pie_pumpkins['Price']))
+pie_pumpkins.plot.scatter('DayOfYear','Price')
+```
+
+Output:
+```text
+-0.2669192282197318
+
+<AxesSubplot:xlabel='DayOfYear', ylabel='Price'>
+
+<Figure size 432x288 with 1 Axes>
+```
+
+### Linear Regression
+
+We will use Scikit Learn to train linear regression model:
+
+```python
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
+from sklearn.model_selection import train_test_split
+```
+
+```python
+X = pie_pumpkins['DayOfYear'].to_numpy().reshape(-1,1)
+y = pie_pumpkins['Price']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+lin_reg = LinearRegression()
+lin_reg.fit(X_train,y_train)
+
+pred = lin_reg.predict(X_test)
+
+mse = np.sqrt(mean_squared_error(y_test,pred))
+print(f'Mean error: {mse:3.3} ({mse/np.mean(pred)*100:3.3}%)')
+```
+
+Output:
+```text
+Mean error: 2.77 (17.2%)
+```
+
+```python
+plt.scatter(X_test,y_test)
+plt.plot(X_test,pred)
+```
+
+Output:
+```text
+[<matplotlib.lines.Line2D at 0x1a3232f8dc0>]
+
+<Figure size 432x288 with 1 Axes>
+```
+
+The slope of the line can be determined from linear regression coefficients:
+
+```python
+lin_reg.coef_, lin_reg.intercept_
+```
+
+Output:
+```text
+(array([-0.01751876]), 21.133734359909326)
+```
+
+We can use the trained model to predict price:
+
+```python
+# Pumpkin price on programmer's day
+
+lin_reg.predict([[256]])
+```
+
+Output:
+```text
+array([16.64893156])
+```
+
+### Polynomial Regression
+
+Sometimes the relationship between features and the results is inherently non-linear. For example, pumpkin prices might be high in winter (months=1,2), then drop over summer (months=5-7), and then rise again. Linear regression is unable to fin this relationship accurately.
+
+In this case, we may consider adding extra features. Simple way is to use polynomials from input features, which would result in **polynomial regression**. In Scikit Learn, we can automatically pre-compute polynomial features using pipelines:
+
+```python
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.pipeline import make_pipeline
+
+pipeline = make_pipeline(PolynomialFeatures(2), LinearRegression())
+
+pipeline.fit(X_train,y_train)
+
+pred = pipeline.predict(X_test)
+
+mse = np.sqrt(mean_squared_error(y_test,pred))
+print(f'Mean error: {mse:3.3} ({mse/np.mean(pred)*100:3.3}%)')
+
+score = pipeline.score(X_train,y_train)
+print('Model determination: ', score)
+
+plt.scatter(X_test,y_test)
+plt.plot(sorted(X_test),pipeline.predict(sorted(X_test)))
+```
+
+Output:
+```text
+Mean error: 2.73 (17.0%)
+Model determination: 0.07639977655280217
+
+[<matplotlib.lines.Line2D at 0x1a323368ac0>]
+
+<Figure size 432x288 with 1 Axes>
+```
+
+### Encoding varieties
+
+In the ideal world, we want to be able to predict prices for different pumpkin varieties using the same model. To take variety into account, we first need to convert it to numeric form, or **encode**. There are several way we can do it:
+
+* Simple numeric encoding that will build a table of different varieties, and then replace variety name by an index in that table. This is not the best idea for linear regression, because linear regression takes the numeric value of the index into account, and the numeric value is likely not to correlate numerically with the price.
+* One-hot encoding, which will replace `Variety` column by 4 different columns, one for each variety, that will contain 1 if the corresponding row is of given variety, and 0 otherwise.
+
+The code below shows how we can can one-hot encode a variety:
+
+```python
+pd.get_dummies(new_pumpkins['Variety'])
+```
+
+Output:
+```text
+FAIRYTALE MINIATURE MIXED HEIRLOOM VARIETIES PIE TYPE
+70 0 0 0 1
+71 0 0 0 1
+72 0 0 0 1
+73 0 0 0 1
+74 0 0 0 1
+... ... ... ... ...
+1738 0 1 0 0
+1739 0 1 0 0
+1740 0 1 0 0
+1741 0 1 0 0
+1742 0 1 0 0
+
+[415 rows x 4 columns]
+```
+
+### Linear Regression on Variety
+
+We will now use the same code as above, but instead of `DayOfYear` we will use our one-hot-encoded variety as input:
+
+```python
+X = pd.get_dummies(new_pumpkins['Variety'])
+y = new_pumpkins['Price']
+```
+
+```python
+def run_linear_regression(X,y):
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+lin_reg = LinearRegression()
+lin_reg.fit(X_train,y_train)
+
+pred = lin_reg.predict(X_test)
+
+mse = np.sqrt(mean_squared_error(y_test,pred))
+print(f'Mean error: {mse:3.3} ({mse/np.mean(pred)*100:3.3}%)')
+
+score = lin_reg.score(X_train,y_train)
+print('Model determination: ', score)
+
+run_linear_regression(X,y)
+```
+
+Output:
+```text
+Mean error: 5.24 (19.7%)
+Model determination: 0.774085281105197
+```
+
+We can also try using other features in the same manner, and combining them with numerical features, such as `Month` or `DayOfYear`:
+
+```python
+X = pd.get_dummies(new_pumpkins['Variety']) \
+.join(new_pumpkins['Month']) \
+.join(pd.get_dummies(new_pumpkins['City'])) \
+.join(pd.get_dummies(new_pumpkins['Package']))
+y = new_pumpkins['Price']
+
+run_linear_regression(X,y)
+```
+
+Output:
+```text
+Mean error: 2.84 (10.5%)
+Model determination: 0.9401096672643048
+```
+
+### Polynomial Regression
+
+Polynomial regression can also be used with categorical features that are one-hot-encoded. The code to train polynomial regression would essentially be the same as we have seen above.
+
+```python
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.pipeline import make_pipeline
+
+pipeline = make_pipeline(PolynomialFeatures(2), LinearRegression())
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+
+pipeline.fit(X_train,y_train)
+
+pred = pipeline.predict(X_test)
+
+mse = np.sqrt(mean_squared_error(y_test,pred))
+print(f'Mean error: {mse:3.3} ({mse/np.mean(pred)*100:3.3}%)')
+
+score = pipeline.score(X_train,y_train)
+print('Model determination: ', score)
+```
+
+Output:
+```text
+Mean error: 2.23 (8.25%)
+Model determination: 0.9652870784724543
+```

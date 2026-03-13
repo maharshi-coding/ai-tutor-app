@@ -1,0 +1,239 @@
+Title: Maths for Machine Learning
+URL: https://www.geeksforgeeks.org/machine-learning/machine-learning-mathematics/
+Snapshot Type: sanitized text
+
+Courses
+
+Tutorials
+
+Interview Prep
+
+- Python for Machine Learning
+
+- Machine Learning with R
+
+- Machine Learning Algorithms
+
+- EDA
+
+- Math for Machine Learning
+
+- Machine Learning Interview Questions
+
+- ML Projects
+
+- Deep Learning
+
+- NLP
+
+- Computer vision
+
+- Data Science
+
+- Artificial Intelligence
+
+Maths for Machine Learning
+
+Last Updated : 11 Mar, 2026
+
+Mathematics is the foundation of machine learning and helps explain how models learn from data, represent information and improve their performance. Concepts from areas like linear algebra, calculus, probability and statistics provide the theoretical base required to design, train and optimize machine learning algorithms effectively.
+
+- Helps understand data representation and transformations
+
+- Enables training, optimization and fine-tuning of models
+
+- Supports decision-making under uncertainty and troubleshooting models
+
+Probability for Machine Learning
+
+Probability helps measure uncertainty and model randomness in data. It is used in machine learning to understand data distributions and make predictions based on likelihood.
+
+- Basic probability:  Sample space ,  Types of events ,  Probability Rules
+
+- Joint, Conditional & Marginal probability
+
+- Bayes' theorem
+
+- Probability Distributions
+
+- Sampling Distributions
+
+- t -Distribution
+
+Statistics for Machine Learning
+
+Statistics helps summarize, analyze and interpret data. It is essential for understanding data patterns, evaluating models and making data-driven decisions.
+
+- Descriptive Statistics  : Mean, Median, Mode, Variance, Standard deviation
+
+- Inferential Statistics : Confidence Interval, Central Limit Theorem
+
+- Correlation and Covariance
+
+- Hypothesis testing
+
+- Confidence intervals
+
+- P-Value
+
+- Skewness and Kurtosis
+
+- Parametric Test :  T-test ,  F-Test ,  Z-test ,  Chi-square Test
+
+- Bias & Variance tradeoff
+
+- Maximum Likelihood Estimation (MLE)
+
+- Mean Squared Error
+
+Linear Algebra for Machine Learning
+
+Linear algebra is used to represent and manipulate data using vectors and matrices. Many machine learning algorithms rely on these operations for computations and transformations.
+
+- Vectors
+
+- Matrices and Matrix operations
+
+- Dot Product
+
+- Euclidean distance
+
+- Manhattan distance
+
+- Eigenvalues and Eigenvectors
+
+- Singular Value Decomposition (SVD)
+
+- Cosine Similarity
+
+- Jaccard Similarity
+
+- Orthogonality and Projections
+
+Calculus for Machine Learning
+
+Calculus is used to optimize machine learning models. Concepts like derivatives and gradients help minimize loss functions and improve model performance during training.
+
+- Fundamental Calculus Concepts
+
+- Gradient
+
+- Higher-Order Derivatives
+
+- Multivariable calculus
+
+- Chain rule
+
+- Jacobian & Hessian Matrices
+
+- Gradient descent
+
+- Stochastic gradient descent
+
+Related Articles
+
+- Machine learning Tutorial
+
+- Top 50 Machine Learning Interview Questions
+
+Machine Learning
+
+AI-ML-DS
+
+ML-Statistics
+
+Machine Learning Basics
+
+- Introduction to Machine Learning 8 min read
+
+- Types of Machine Learning 7 min read
+
+- What is Machine Learning Pipeline? 6 min read
+
+- Applications of Machine Learning 3 min read
+
+Python for Machine Learning
+
+- Machine Learning with Python Tutorial 3 min read
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Data Preprocessing in Python 4 min read
+
+- EDA - Exploratory Data Analysis in Python 6 min read
+
+Feature Engineering
+
+- What is Feature Engineering? 5 min read
+
+- Introduction to Dimensionality Reduction 4 min read
+
+- Feature Selection Techniques in Machine Learning 4 min read
+
+Supervised Learning
+
+- Supervised Machine Learning 7 min read
+
+- Linear Regression in Machine learning 14 min read
+
+- Logistic Regression in Machine Learning 10 min read
+
+- Decision Tree in Machine Learning 8 min read
+
+- Random Forest Algorithm in Machine Learning 5 min read
+
+- K-Nearest Neighbor(KNN) Algorithm 8 min read
+
+- Support Vector Machine (SVM) Algorithm 9 min read
+
+- Naive Bayes Classifiers 6 min read
+
+Unsupervised Learning
+
+- What is Unsupervised Learning 5 min read
+
+- K means Clustering – Introduction 6 min read
+
+- Hierarchical Clustering in Machine Learning 6 min read
+
+- DBSCAN Clustering in ML - Density based clustering 6 min read
+
+- Apriori Algorithm 6 min read
+
+- Frequent Pattern Growth Algorithm 4 min read
+
+- ECLAT Algorithm - ML 5 min read
+
+- Principal Component Analysis (PCA) 7 min read
+
+Model Evaluation and Tuning
+
+- Evaluation Metrics in Machine Learning 9 min read
+
+- Regularization in Machine Learning 5 min read
+
+- Cross Validation in Machine Learning 5 min read
+
+- Hyperparameter Tuning 5 min read
+
+- Underfitting and Overfitting in ML 3 min read
+
+- Bias and Variance in Machine Learning 6 min read
+
+Advanced Techniques
+
+- Reinforcement Learning 9 min read
+
+- Semi-Supervised Learning in ML 5 min read
+
+- Self-Supervised Learning (SSL) 6 min read
+
+- Ensemble Learning 7 min read
+
+Machine Learning Practice
+
+- Machine Learning Interview Questions and Answers 15+ min read
+
+- 100+ Machine Learning Projects with Source Code 5 min read

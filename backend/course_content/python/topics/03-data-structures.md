@@ -4,10 +4,13 @@ This topic bundle groups the collected Python Programming material most relevant
 
 Keywords: list, tuple, dictionary, dict, set, comprehension, slice, collection, stack, queue
 
-Documents in bundle: 9
+Documents in bundle: 10
 
 ## Document Index
 
+- Basic Python Exercises (Google's Python Class)
+  Extracted file: extracted/google-python-class/268cd3122d52394b-basic-python-exercises.md
+  Original URL: https://developers.google.com/edu/python/exercises/basic
 - Python Programs (GeeksforGeeks Python Tutorial)
   Extracted file: extracted/geeksforgeeks-python/910afd6948f042e4-python-programs.md
   Original URL: https://www.geeksforgeeks.org/python/python-programming-examples/
@@ -37,6 +40,35 @@ Documents in bundle: 9
   Original URL: https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/scipy_sparse/storage_schemes.md
 
 ## Representative Excerpts
+
+### Basic Python Exercises
+Source: Google's Python Class
+Original URL: https://developers.google.com/edu/python/exercises/basic
+
+# Basic Python Exercises
+
+Source: Google's Python Class
+Original URL: https://developers.google.com/edu/python/exercises/basic
+Original Path: https://developers.google.com/edu/python/exercises/basic
+Course: Python Programming
+
+Products
+
+Google for Education
+
+Python
+
+Basic Python Exercises
+
+Stay organized with collections
+
+Save and categorize content based on your preferences.
+
+There are 3 exercises that go with the first sections of Google's Python class. They are located in the "basic" directory within the google-python-exercises directory. Download the google-python-exercises.zip if you have not already (see the Set-Up page for details).
+
+These exercise files are located under the basic subdirectory under google-python-exercises .
+
+- string1.py -- complete the string functions in string1.py, based on the material in the Python Strings section (additional exercises available in string2....
 
 ### Python Programs
 Source: GeeksforGeeks Python Tutorial

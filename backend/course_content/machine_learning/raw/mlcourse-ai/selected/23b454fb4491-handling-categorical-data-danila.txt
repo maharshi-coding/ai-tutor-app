@@ -1,0 +1,689 @@
+Original Path: jupyter_english/tutorials/handling_categorical_data_Danila.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+# Approach to categorical variables
+
+Categorical variables are the essence of many real-world tasks. Every business task you're will ever solve will include categorical variables. So it's better to have a good taste of them.
+
+For demonstration purposes, I will use 2 models RF and Linear as they have different nature and would better highlight differences in category treating.
+
+Dataset from kaggle medium competition, where we should predict a number of claps (likes) to the article.
+
+```python
+import warnings
+
+import feather
+import numpy as np
+import pandas as pd
+from sklearn.decomposition import PCA
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import Ridge
+from sklearn.manifold import TSNE
+from sklearn.metrics import mean_absolute_error
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+warnings.filterwarnings("ignore")
+```
+
+```python
+def add_date_parts(df, date_column="published"):
+df["hour"] = df[date_column].dt.hour
+df["month"] = df[date_column].dt.month
+df["weekday"] = df[date_column].dt.weekday
+df["year"] = df[date_column].dt.year
+df["week"] = df[date_column].dt.week
+df["working_day"] = (df["weekday"] < 5).astype("int")
+```
+
+```python
+PATH_TO_DATA = "../../data/medium/"
+train_df = feather.read_dataframe(PATH_TO_DATA + "medium_train")
+train_df.set_index("id", inplace=True)
+add_date_parts(train_df)
+```
+
+```python
+train_df.head(1)
+```
+
+The text is not the purpose of this tutorial, so I'll drop it
+
+```python
+train_df = train_df[
+[
+"author",
+"domain",
+"lang",
+"log_recommends",
+"hour",
+"month",
+"weekday",
+"year",
+"week",
+"working_day",
+]
+train_df.head(1)
+```
+
+### Basic approach LE.
+
+LE (label encoding) is the most simple. We have some categories (country for example) ['Russia', 'USA', 'GB']. But algoritms do not work with strings, they need numbers. Ok, we can do it ['Russia', 'USA', 'GB'] -> [0, 1, 2]. Relly simple. Let's try.
+
+```python
+autor_to_int = dict(
+(zip(train_df.author.unique(), range(train_df.author.unique().shape[0])))
+)
+domain_to_int = dict(
+(zip(train_df.domain.unique(), range(train_df.domain.unique().shape[0])))
+)
+lang_to_int = dict(
+(zip(train_df.lang.unique(), range(train_df.lang.unique().shape[0])))
+)
+train_df_le = train_df.copy()
+```
+
+```python
+train_df_le["author"] = train_df_le["author"].apply(lambda aut: autor_to_int[aut])
+train_df_le["domain"] = train_df_le["domain"].apply(lambda aut: domain_to_int[aut])
+train_df_le["lang"] = train_df_le["lang"].apply(lambda aut: lang_to_int[aut])
+train_df_le.head()
+```
+
+```python
+y = train_df_le.log_recommends
+X = train_df_le.drop("log_recommends", axis=1)
+```
+
+#### RF label encoded
+
+```python
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2)
+rf = RandomForestRegressor()
+rf.fit(X_train, y_train)
+preds = rf.predict(X_val)
+mean_absolute_error(y_val, preds)
+```
+
+#### LR label encoded
+
+Linear models like scaled input
+
+```python
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2)
+```
+
+```python
+ridge = Ridge()
+ridge.fit(X_train, y_train)
+preds = ridge.predict(X_val)
+mean_absolute_error(y_val, preds)
+```
+
+It seems linear model perform worse. Yes, it is, because of their nature. Linear model tries to find weight W that would be multiplied with input X, y = W*X + b. With LE we are telling to out model (with mapping ['Russia', 'USA', 'GB'] -> [0, 1, 2]), that weight in "Russia" doesn't matter because X==0, and that GB two times bigger than USA.
+
+So it's not ok to use LE with linear models.
+
+### One-hot-encoding (OHE)
+
+We can treat category as the thing on its own. ['Russia', 'USA', 'GB'] will convert to 3 features, each of which would take value 0 or 1.
+
+This way we can treat features independently, but cardinality blows up.
+
+```python
+train_df_ohe = train_df.copy()
+y = train_df_ohe.log_recommends
+X = train_df_ohe.drop("log_recommends", axis=1)
+X[X.columns] = X[X.columns].astype("category")
+X = pd.get_dummies(X, prefix=X.columns)
+```
+
+```python
+X.shape
+```
+
+Boom! It was 9 dimensions now it's 317k dimensions. (Yes, I treat day-year-week as a category)
+
+#### RF ohe
+
+```python
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2)
+rf = RandomForestRegressor(n_jobs=-1)
+rf.fit(X_train, y_train)
+preds = rf.predict(X_val)
+mean_absolute_error(y_val, preds)
+```
+
+Score improved but learning time and memory consumption jumped drastically. (It was > 20Gb RAM)
+
+#### LR ohe
+
+```python
+ridge = Ridge()
+ridge.fit(X_train, y_train)
+preds = ridge.predict(X_val)
+mean_absolute_error(y_val, preds)
+```
+
+Wow! Significant improvement.
+
+### Categorical embeddings
+
+You already knew everything that was above.
+
+Now it's time to try something new. We'll look at NN approach to categorical variables.
+
+In kaggle competitions, we can see, that in competitions with heavy use of categorical data tree ensembling methods work the best (XGBoost). Why in ages of rising NN they still haven't conquered this area?<br>
+In principle a neural network can approximate any continuous function and piecewise continuous function. However, it is not suitable to approximate arbitrary non-continuous functions as it assumes a certain level of continuity in its general form. During the training phase the continuity of the data guarantees the convergence of the optimization, and during the prediction phase it ensures that slightly changing the values of the input keeps the output stable.<br>
+Trees don't have this assumption about data continuity and can divide the states of a variable as fine as necessary.
+
+NN is somehow close to the linear model. What have we done to linear model? We used OHE, but it blew our dimensionality. For many real-world tasks when features may have cardinality about millions it would be harder. Secondly, we've lost some information with such a transformation. In our example, we have language as a feature. When we are converting "SPANISH" -> [1,0,0,...,0] and when "ENGLISH" -> [0,1,0,...,0]. Both languages have the same distance between each other, but there is no doubts Spanish and English are more similar than English and Chinese. We want to get this inner relation.
+
+The solution to these problems is to use <b>embeddings</b>, which translate large sparse vectors into a lower-dimensional space that preserves semantic relationships.
+
+How it works in NLP field:
+
+| feature | vector |
+| puppy | [0.9, 1.0, 0.0] |
+| dog | [1.0, 0.2, 0.0]|
+| kitten | [0.0, 1.0, 0.9]|
+| cat | [0.0, 0.2, 1.0]|
+
+We see words share some values, that we can consider as "dogness" or "size".
+
+To do this, all we need is the matrix of embeddings.
+
+At the start, we are applying OHE and obtaining N rows with M columns. Where m is a category value. Then we picking row that encodes our category from the embedding matrix. Further we using this vector that repsents some rich properties of our initial category.
+We can obtain embeddings with NN magic. We are training embedding matrix with the size of MxP where P is number which we are picking (hyperparameter). Google's heuristic says us to pick M**0.25
+
+```python
+from IPython.display import Image
+
+Image(url="https://habrastorage.org/webt/of/jy/gd/ofjygd5fmbpxwz8x6boeu2nnpk4.png")
+```
+
+I'll use keras, but it's not important it's just a tool.
+
+```python
+import keras
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from keras.layers import BatchNormalization, Dense, Dropout, Embedding, Input
+from keras.models import Model, Sequential
+```
+
+```python
+class EmbeddingMapping:
+"""
+Helper class for handling categorical variables
+An instance of this class should be defined for each categorical variable we want to use.
+"""
+
+def __init__(self, series):
+# get a list of unique values
+values = series.unique().tolist()
+
+# Set a dictionary mapping from values to integer value
+self.embedding_dict = {
+value: int_value + 1 for int_value, value in enumerate(values)
+}
+
+# The num_values will be used as the input_dim when defining the embedding layer.
+# It will also be returned for unseen values
+self.num_values = len(values) + 1
+
+def get_mapping(self, value):
+# If the value was seen in the training set, return its integer mapping
+if value in self.embedding_dict:
+return self.embedding_dict[value]
+# Else, return the same integer for unseen values
+else:
+return self.num_values
+```
+
+```python
+# converting some out features
+author_mapping = EmbeddingMapping(train_df["author"])
+domain_mapping = EmbeddingMapping(train_df["domain"])
+lang_mapping = EmbeddingMapping(train_df["lang"])
+X_emb = X_emb.assign(author_mapping=X_emb["author"].apply(author_mapping.get_mapping))
+X_emb = X_emb.assign(lang_mapping=X_emb["lang"].apply(lang_mapping.get_mapping))
+X_emb = X_emb.assign(domain_mapping=X_emb["domain"].apply(domain_mapping.get_mapping))
+```
+
+```python
+X_emb.sample(1)
+```
+
+```python
+X_emb = train_df.copy()
+```
+
+```python
+X_train, X_val, y_train, y_val = train_test_split(X_emb, y, test_size=0.2)
+```
+
+```python
+# Keras functional API
+# Input
+author_input = Input(shape=(1,), dtype="int32")
+lang_input = Input(shape=(1,), dtype="int32")
+domain_input = Input(shape=(1,), dtype="int32")
+
+# It's google's fule of thumb N_embeddings == N_originall_dim**0.25
+# Let’s define the embedding layer and flatten it
+# Originally 31331 unique authors
+author_embedings = Embedding(
+output_dim=13, input_dim=author_mapping.num_values, input_length=1
+)(author_input)
+author_embedings = keras.layers.Reshape((13,))(author_embedings)
+# Originally 62 unique langs
+lang_embedings = Embedding(
+output_dim=3, input_dim=lang_mapping.num_values, input_length=1
+)(lang_input)
+lang_embedings = keras.layers.Reshape((3,))(lang_embedings)
+# Originally 221 unique domains
+domain_embedings = Embedding(
+output_dim=4, input_dim=domain_mapping.num_values, input_length=1
+)(domain_input)
+domain_embedings = keras.layers.Reshape((4,))(domain_embedings)
+
+# Concatenate continuous and embeddings inputs
+all_input = keras.layers.concatenate(
+[lang_embedings, author_embedings, domain_embedings]
+)
+```
+
+```python
+# Fully connected layer to train NN and learn embeddings
+units = 25
+dense1 = Dense(units=units, activation="relu")(all_input)
+dense1 = Dropout(0.5)(dense1)
+dense2 = Dense(units, activation="relu")(dense1)
+dense2 = Dropout(0.5)(dense2)
+predictions = Dense(1)(dense2)
+```
+
+```python
+epochs = 40
+model = Model(inputs=[lang_input, author_input, domain_input], outputs=predictions)
+model.compile(loss="mae", optimizer="adagrad")
+
+history = model.fit(
+[X_train["lang_mapping"], X_train["author_mapping"], X_train["domain_mapping"]],
+y_train,
+epochs=epochs,
+batch_size=128,
+verbose=0,
+validation_data=(
+[X_val["lang_mapping"], X_val["author_mapping"], X_val["domain_mapping"]],
+y_val,
+),
+)
+```
+
+At this step, we've trained a NN, but we are not going to use it. We want to get the embeddings layer.
+
+For each category, we have distinct embedding. Let's extract them and use it in our simple models.
+
+```python
+model.layers
+```
+
+```python
+model.layers[5].get_weights()[0].shape
+```
+
+```python
+lang_embedding = model.layers[3].get_weights()[0]
+lang_emb_cols = [f"lang_emb_{i}" for i in range(lang_embedding.shape[1])]
+```
+
+```python
+author_embedding = model.layers[4].get_weights()[0]
+aut_emb_cols = [f"aut_emb_{i}" for i in range(author_embedding.shape[1])]
+```
+
+```python
+domain_embedding = model.layers[5].get_weights()[0]
+dom_emb_cols = [f"dom_emb_{i}" for i in range(domain_embedding.shape[1])]
+```
+
+Now we have embeddings, and all we need is to take a row that corresponds to our examples.
+
+```python
+def get_author_vector(aut_num):
+return author_embedding[aut_num, :]
+
+def get_lang_vector(lang_num):
+return lang_embedding[lang_num, :]
+
+def get_domain_vector(dom_num):
+return domain_embedding[dom_num, :]
+```
+
+```python
+get_lang_vector(4)
+```
+
+```python
+lang_emb = pd.DataFrame(
+X_emb["lang_mapping"].apply(get_lang_vector).values.tolist(), columns=lang_emb_cols
+)
+lang_emb.index = X_emb.index
+X_emb[lang_emb_cols] = lang_emb
+```
+
+```python
+aut_emb = pd.DataFrame(
+X_emb["author_mapping"].apply(get_author_vector).values.tolist(),
+columns=aut_emb_cols,
+)
+aut_emb.index = X_emb.index
+X_emb[aut_emb_cols] = aut_emb
+```
+
+```python
+dom_emb = pd.DataFrame(
+X_emb["domain_mapping"].apply(get_domain_vector).values.tolist(),
+columns=dom_emb_cols,
+)
+dom_emb.index = X_emb.index
+X_emb[dom_emb_cols] = dom_emb
+```
+
+```python
+X_emb.drop(
+[
+"author",
+"lang",
+"domain",
+"log_recommends",
+"author_mapping",
+"lang_mapping",
+"domain_mapping",
+],
+axis=1,
+inplace=True,
+)
+```
+
+```python
+X_emb.columns
+```
+
+```python
+X_train, X_val, y_train, y_val = train_test_split(X_emb, y, test_size=0.2)
+```
+
+```python
+rf = RandomForestRegressor(n_jobs=-1)
+rf.fit(X_train, y_train)
+preds = rf.predict(X_val)
+mean_absolute_error(y_val, preds)
+```
+
+```python
+ridge = Ridge()
+ridge.fit(X_train, y_train)
+preds = ridge.predict(X_val)
+mean_absolute_error(y_val, preds)
+```
+
+It seems like a success.
+
+One nice property of embeddings - our categories have some simularity(distance) from each other. Let's look at the graph.
+
+```python
+import bokeh.models as bm
+import bokeh.plotting as pl
+from bokeh.io import output_notebook
+
+output_notebook()
+
+def draw_vectors(
+x,
+y,
+radius=10,
+alpha=0.25,
+color="blue",
+width=600,
+height=400,
+show=True,
+**kwargs,
+):
+""" draws an interactive plot for data points with auxilirary info on hover """
+if isinstance(color, str):
+color = [color] * len(x)
+data_source = bm.ColumnDataSource({"x": x, "y": y, "color": color, **kwargs})
+
+fig = pl.figure(active_scroll="wheel_zoom", width=width, height=height)
+fig.scatter("x", "y", size=radius, color="color", alpha=alpha, source=data_source)
+
+fig.add_tools(bm.HoverTool(tooltips=[(key, "@" + key) for key in kwargs.keys()]))
+if show:
+pl.show(fig)
+return fig
+```
+
+```python
+langs_vectors = [get_lang_vector(l) for l in lang_mapping.embedding_dict.values()]
+```
+
+```python
+lang_tsne = TSNE().fit_transform(langs_vectors)
+```
+
+```python
+draw_vectors(
+lang_tsne[:, 0], lang_tsne[:, 1], token=list(lang_mapping.embedding_dict.keys())
+)
+```
+
+```python
+langs_vectors_pca = PCA(n_components=2).fit_transform(langs_vectors)
+```
+
+```python
+draw_vectors(
+langs_vectors_pca[:, 0],
+langs_vectors_pca[:, 1],
+token=list(lang_mapping.embedding_dict.keys()),
+)
+```
+
+This time graphs doesn't look any meaningfull, but score speaks for itself.
+
+## Cat2Vec
+
+Another approach came from NLP is word2Vec that was renamed to Cat2Vec. It haven't firm confirmation about it's usefulness, but there are some papers that argue that. (Links below).
+
+Distributional semantics and John Rupert Firth says "You shall know a word by the company it keeps". Some words share the same context, so they are somehow similar. We can suggest, that categories may share some inner correlation by they co-occurrence. For example weather and city. Maybe city "Philadelphia" may be similar to weather "always sunny", or "Moskow" with "snowy".
+
+Firstly we applying Feature encoding, then we can make "sentence" from our row.
+
+In the example below, let's imagine we have an article at "Monday January 2018 English_language Medium.com" Here our sentence so maybe if English co-occurs with Medium more often then Chinese with hackernoon.com. (Poor consideration but just for example).
+
+The only consideration is "word" order. Word2Vec relays on order, fro categorical "sentence" it doesn't matter, so it's better to shuffle sentences.
+
+Let's implement it.
+
+```python
+X_w2v = train_df.copy()
+```
+
+```python
+month_int_to_name = {
+1: "jan",
+2: "feb",
+3: "apr",
+4: "march",
+5: "may",
+6: "june",
+7: "jul",
+8: "aug",
+9: "sept",
+10: "okt",
+11: "nov",
+12: "dec",
+}
+weekday_int_to_day = {
+0: "mon",
+1: "thus",
+2: "wen",
+3: "thusd",
+4: "fri",
+5: "sut",
+6: "sun",
+}
+```
+
+```python
+working_day_int_to_day = {1: "work", 0: "not_work"}
+```
+
+```python
+X_w2v.month = X_w2v.month.apply(lambda x: month_int_to_name[x])
+```
+
+```python
+X_w2v.weekday = X_w2v.weekday.apply(lambda x: weekday_int_to_day[x])
+```
+
+```python
+X_w2v.working_day = X_w2v.working_day.apply(lambda x: working_day_int_to_day[x])
+```
+
+```python
+all_list = list()
+for ind, r in X_w2v.iterrows():
+values_list = [str(val).replace(" ", "_") for val in r.values]
+all_list.append(values_list)
+```
+
+```python
+from gensim.models import Word2Vec
+
+model = Word2Vec(
+all_list,
+size=32, # embedding vector size
+min_count=5, # consider words that occured at least 5 times
+window=5,
+).wv
+```
+
+```python
+model.most_similar("june")
+```
+
+```python
+words = sorted(
+model.vocab.keys(), key=lambda word: model.vocab[word].count, reverse=True
+)[:1000]
+
+print(words[::100])
+```
+
+```python
+word_vectors = np.array([model.get_vector(wrd) for wrd in words])
+```
+
+Draw a graph as usual
+
+```python
+word_tsne = TSNE().fit_transform(word_vectors)
+```
+
+```python
+draw_vectors(word_tsne[:, 0], word_tsne[:, 1], color="green", token=words)
+```
+
+Our categories mingled, but we can notice that years, days, languages are stays apart from authors cloud.
+
+```python
+def get_phrase_embedding(phrase):
+"""
+Convert phrase to a vector by aggregating it's word embeddings. See description above.
+"""
+# 1. lowercase phrase
+# 2. tokenize phrase
+# 3. average word vectors for all words in tokenized phrase
+# skip words that are not in model's vocabulary
+# if all words are missing from vocabulary, return zeros
+
+vector = np.zeros([model.vector_size], dtype="float32")
+word_count = 0
+
+for word in phrase.split():
+if word in model.vocab:
+vector += model.get_vector(word)
+word_count += 1
+
+if word_count:
+vector /= word_count
+
+return vector
+```
+
+```python
+new_features = list()
+for ph in all_list:
+vector = get_phrase_embedding(" ".join(ph))
+new_features.append(vector)
+```
+
+```python
+new_features = pd.DataFrame(new_features)
+new_features.index = X_w2v.index
+X_w2v = pd.concat([X_w2v, new_features], axis=1)
+```
+
+```python
+X_w2v.drop(
+[
+"author",
+"domain",
+"lang",
+"working_day",
+"year",
+"month",
+"weekday",
+"log_recommends",
+],
+axis=1,
+inplace=True,
+)
+```
+
+```python
+X_train, X_val, y_train, y_val = train_test_split(X_w2v, y, test_size=0.2)
+```
+
+```python
+rf = RandomForestRegressor(n_jobs=-1)
+rf.fit(X_train, y_train)
+preds = rf.predict(X_val)
+mean_absolute_error(y_val, preds)
+```
+
+```python
+ridge = Ridge()
+ridge.fit(X_train, y_train)
+preds = ridge.predict(X_val)
+mean_absolute_error(y_val, preds)
+```
+
+Poor result, but I cutted a lot of features that could help this algorithm to word.
+
+## Conclusions
+
+Now you know that categorical variables it is a tricky beast and that we can get a lot of it by embeddings and cat2Vec technics. They work not only for NN but in simpler models, so it is possible to use it in production low-latency systems.
+
+https://arxiv.org/ftp/arxiv/papers/1603/1603.04259.pdf ITEM2VEC: NEURAL ITEM EMBEDDING FOR COLLABORATIVE FILTERING<br>
+https://openreview.net/pdf?id=HyNxRZ9xg CAT2VEC: LEARNING DISTRIBUTED REPRESENTATION OF MULTI-FIELD CATEGORICAL DATA<br>
+https://arxiv.org/pdf/1604.06737v1.pdf Entity Embeddings of Categorical Variables<br>
+https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture Embeddings<br>

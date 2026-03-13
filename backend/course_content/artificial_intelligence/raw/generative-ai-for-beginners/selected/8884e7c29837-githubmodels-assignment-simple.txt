@@ -1,0 +1,33 @@
+Original Path: 07-building-chat-applications/python/githubmodels-assignment-simple.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+```python
+import os
+from azure.ai.inference import ChatCompletionsClient
+from azure.ai.inference.models import SystemMessage, UserMessage
+from azure.core.credentials import AzureKeyCredential
+
+token = os.environ["GITHUB_TOKEN"]
+endpoint = "https://models.inference.ai.azure.com"
+
+client = ChatCompletionsClient(
+endpoint=endpoint,
+credential=AzureKeyCredential(token),
+)
+
+model_name = "gpt-4o"
+```
+
+```python
+# Create your first prompt
+text_prompt = " My foot hurts, what can be wrong?"
+
+response = client.complete(
+model=model_name,
+messages = [
+{"role":"system", "content":"I'm a doctor, specialist on surgery"},
+{"role":"user","content":text_prompt},])
+
+response.choices[0].message.content
+```

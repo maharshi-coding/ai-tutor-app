@@ -1,0 +1,302 @@
+Title: Polymorphism in Python
+URL: https://www.geeksforgeeks.org/python/polymorphism-in-python/
+Snapshot Type: sanitized text
+
+Courses
+
+Tutorials
+
+Interview Prep
+
+- Python Tutorial
+
+- Data Types
+
+- Interview Questions
+
+- Examples
+
+- Quizzes
+
+- DSA Python
+
+- Data Science
+
+- NumPy
+
+- Pandas
+
+- Practice
+
+- Django
+
+- Flask
+
+Polymorphism in Python
+
+Last Updated : 22 Jan, 2026
+
+Polymorphism means "many forms". It refers to the ability of an entity (like a function or object) to perform different actions based on the context.
+
+Technically, in Python, polymorphism allows same method, function or operator to behave differently depending on object it is working with. This makes code more flexible and reusable.
+
+Real Life Example: In a backend payment system, multiple payment options are available such as Credit Card, UPI, NetBanking and Wallet. All payment types use a common method named processPayment() but different implementations:
+
+- Credit Card Payment: validates card, talks to bank API
+
+- UPI Payment: redirects to UPI gateway
+
+- Wallet Payment: checks wallet balance
+
+- NetBanking Payment: redirects to bank login
+
+The method name remains the same, but the action changes based on the payment type.
+
+Types of Polymorphism
+
+Polymorphism in Python refers to ability of the same method or operation to behave differently based on object or context. It mainly includes compile-time and runtime polymorphism.
+Polymorphism
+Let's discuss each type in detail.
+
+1. Compile-time Polymorphism
+
+Compile-time polymorphism means deciding which method or operation to run during compilation, usually through method or operator overloading.
+Languages like Java or C++ support this. But Python doesn’t because it’s dynamically typed it resolves method calls at runtime, not during compilation. So, true method overloading isn’t supported in Python, though similar behavior can be achieved using default or variable arguments.
+
+Example: This code demonstrates method overloading in Python using default and variable-length arguments. The multiply() method works with different numbers of inputs, mimicking compile-time polymorphism.
+
+Python
+
+class Calculator :
+def multiply ( self , a = 1 , b = 1 , * args ):
+result = a * b
+for num in args :
+result *= num
+return result
+
+# Create object
+calc = Calculator ()
+
+# Using default arguments
+print ( calc . multiply ())
+print ( calc . multiply ( 4 ))
+
+# Using multiple arguments
+print ( calc . multiply ( 2 , 3 ))
+print ( calc . multiply ( 2 , 3 , 4 ))
+
+Output
+1
+4
+6
+24
+
+2. Runtime Polymorphism (Overriding)
+
+Runtime polymorphism means that the behavior of a method is decided while program is running, based on the object calling it.
+
+In Python, this happens through Method Overriding a child class provides its own version of a method already defined in the parent class. Since Python is dynamic, it supports this, allowing same method call to behave differently for different object types.
+
+Example: This code shows runtime polymorphism using method overriding. The sound() method is defined in base class Animal and overridden in Dog and Cat. At runtime, correct method is called based on object's class.
+
+Python
+
+class Animal :
+def sound ( self ):
+return "Some generic sound"
+
+class Dog ( Animal ):
+def sound ( self ):
+return "Bark"
+
+class Cat ( Animal ):
+def sound ( self ):
+return "Meow"
+
+# Polymorphic behavior
+animals = [ Dog (), Cat (), Animal ()]
+for animal in animals :
+print ( animal . sound ())
+
+Output
+Bark
+Meow
+Some generic sound
+
+Explanation: Here, sound method behaves differently depending on whether object is a Dog, Cat or Animal and this decision happens at runtime. This dynamic nature makes Python particularly powerful for runtime polymorphism.
+
+Polymorphism in Built-in Functions
+
+Python’s built-in functions like len() and max() are polymorphic they work with different data types and return results based on type of object passed. This showcases it's dynamic nature, where same function name adapts its behavior depending on input.
+
+Example: This code demonstrates polymorphism in Python’s built-in functions handling strings, lists, numbers and characters differently while using same function name.
+
+Python
+
+print ( len ( "Hello" )) # String length
+print ( len ([ 1 , 2 , 3 ])) # List length
+
+print ( max ( 1 , 3 , 2 )) # Maximum of integers
+print ( max ( "a" , "z" , "m" )) # Maximum in strings
+
+Output
+5
+3
+z
+
+Polymorphism in Functions
+
+In Python, polymorphism lets functions accept different object types as long as they support needed behavior. Using duck typing , Python focuses on whether an object has right method not its type allowing flexible and reusable code.
+
+Example: This code demonstrates polymorphism using duck typing as perform_task() function works with different object types (Pen and Eraser), as long as they have a .use() method showing flexible and reusable function design.
+
+Python
+
+class Pen :
+def use ( self ):
+return "Writing"
+
+class Eraser :
+def use ( self ):
+return "Erasing"
+
+def perform_task ( tool ):
+print ( tool . use ())
+
+perform_task ( Pen ())
+perform_task ( Eraser ())
+
+Output
+Writing
+Erasing
+
+Polymorphism in Operators
+
+In Python, same operator (+) can perform different tasks depending on operand types. This is known as operator overloading . This flexibility is a key aspect of polymorphism in Python.
+
+Example: This code shows operator polymorphism as + operator behaves differently based on data types adding integers, concatenating strings and merging lists all using same operator.
+
+Python
+
+print ( 5 + 10 ) # Integer addition
+print ( "Hello " + "World!" ) # String concatenation
+print ([ 1 , 2 ] + [ 3 , 4 ]) # List concatenation
+
+Output
+15
+Hello World!
+[1, 2, 3, 4]
+
+Technical Scripter
+
+Python
+
+Technical Scripter 2018
+
+Python-Functions
+
+python-oop-concepts
+
+python-inheritance
+
+Python-OOP
+
++ 3 More
+
+Python Fundamentals
+
+- Python Introduction 2 min read
+
+- Input and Output in Python 4 min read
+
+- Python Variables 4 min read
+
+- Python Operators 4 min read
+
+- Python Keywords 2 min read
+
+- Python Data Types 8 min read
+
+- Conditional Statements in Python 3 min read
+
+- Loops in Python 5 min read
+
+- Python Functions 5 min read
+
+Python Data Structures
+
+- Python String 5 min read
+
+- Python Lists 4 min read
+
+- Python Tuples 4 min read
+
+- Python Dictionary 4 min read
+
+- Python Sets 6 min read
+
+- Python Arrays 7 min read
+
+Advanced Python
+
+- Python OOP Concepts 4 min read
+
+- Python Exception Handling 5 min read
+
+- File Handling in Python 4 min read
+
+- Python Database Tutorial 4 min read
+
+- Python MongoDB Tutorial 3 min read
+
+- Python MySQL 9 min read
+
+- Python Packages 10 min read
+
+- Python Modules 3 min read
+
+- Python DSA Libraries 5 min read
+
+- List of Python GUI Library and Packages 3 min read
+
+Data Science with Python
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Matplotlib Tutorial 3 min read
+
+- Python Seaborn Tutorial 3 min read
+
+- StatsModel Library - Tutorial 2 min read
+
+- Learning Model Building in Scikit-learn 6 min read
+
+- TensorFlow Tutorial 2 min read
+
+- PyTorch Tutorial 5 min read
+
+Web Development with Python
+
+- Flask Tutorial 4 min read
+
+- Django Tutorial | Learn Django Framework 6 min read
+
+- Django ORM - Inserting, Updating & Deleting Data 4 min read
+
+- Templating With Jinja2 in Flask 6 min read
+
+- Django Templates 5 min read
+
+- Build a REST API using Flask - Python 3 min read
+
+- Building a Simple API with Django REST Framework 3 min read
+
+Python Practice
+
+- Python Quiz 1 min read
+
+- Python Coding Practice 1 min read
+
+- Python Interview Questions and Answers 15+ min read

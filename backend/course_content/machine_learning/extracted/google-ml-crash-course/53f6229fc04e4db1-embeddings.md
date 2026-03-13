@@ -7,90 +7,89 @@ Course: Machine Learning
 
 Embeddings
 
-Mantenha tudo organizado com as coleções
+Organiza tus páginas con colecciones
 
-Salve e categorize o conteúdo com base nas suas preferências.
+Guarda y categoriza el contenido según tus preferencias.
 
-Imagine que você está desenvolvendo um aplicativo de recomendação de alimentos,
-que sugere opções parecidas com os
-pratos favoritos dos usuários. Para recomendações de alta qualidade (por exemplo,
-"já que você gosta de panquecas, recomendamos crepes"), você precisa
-desenvolver um modelo de machine learning (ML) que consiga prever a semelhança entre os alimentos.
+Imagina que estás desarrollando una aplicación que recomienda comidas.
+Un usuario ingresa sus comidas favoritas y la app le sugiere opciones similares
+que podrían gustarle. Quieres desarrollar un modelo de aprendizaje automático (AA)
+que pueda predecir comidas similares, de modo que tu app pueda brindar recomendaciones
+de alta calidad ("Como te gustan los panqueques, te recomendamos los crepes").
 
-Para treinar esse modelo, você seleciona um conjunto de dados com 5.000 pratos
-conhecidos, incluindo borscht ,
-cachorro-quente ,
-salada ,
+Para entrenar tu modelo, seleccionas un conjunto de datos de 5,000 comidas
+populares, incluidas borscht ,
+perro caliente ,
+ensalada ,
 pizza
-e shawarma .
+y shawarma .
 
-Figura 1. Amostragem dos alimentos incluídos no conjunto de dados de pratos.
+Figura 1. Ejemplo de comidas incluidas en el conjunto de datos correspondiente.
 
-Você cria um recurso
+Crea una función
 meal
-que tem uma representação com
-codificação one-hot
-para cada um dos alimentos no conjunto de dados.
-Codificação se refere ao processo
-de escolher uma representação numérica inicial dos dados para treinar o modelo.
+que contenga una representación de
+codificación one-hot
+de cada una de las comidas del conjunto de datos.
+La codificación hace referencia al proceso de
+elegir una representación numérica inicial de datos para entrenar el modelo.
 
-Figura 2. Codificações one-hot de borscht, cachorro-quente e shawarma.
-Cada vetor de codificação one-hot tem 5.000 entradas (uma para cada
-item no conjunto de dados). As reticências no diagrama representam
-as 4.995 entradas não exibidas.
+Figura 2. Codificaciones one-hot de borscht, perro caliente y shawarma.
+Cada vector de codificación one-hot tiene una longitud de 5,000 (una entrada por cada
+elemento del menú del conjunto de datos). La elipsis del diagrama representa
+las 4,995 entradas que no se muestran.
 
-Armadilhas das representações de dados esparsos
+Dificultades de las representaciones de datos dispersas
 
-Ao analisar as codificações one-hot, é possível notar diversos problemas com essa
-representação de dados.
+Si revisas estas codificaciones one-hot, observarás que la
+representación de los datos presenta varios problemas.
 
-- Número de pesos. Vetores de entrada grandes resultam em muitos
+- Cantidad de pesos. Los vectores de entradas grandes representan una gran cantidad de
 pesos
-para uma rede neural .
-Com M entradas na sua codificação one-hot e N
-nós na primeira camada da rede após a entrada, o modelo precisa treinar
-MxN pesos para essa camada.
+para una red neuronal .
+Con M entradas en tu codificación one-hot y N
+nodos en la primera capa de la red después de la entrada, el modelo tiene que entrenar
+MxN pesos para esa capa.
 
-- Número de pontos de dados. Quanto mais pesos seu modelo tiver, mais dados você
-precisará treinar com eficácia.
+- Cantidad de datos. Cuantos más pesos tenga tu modelo, más datos
+se necesitarán para entrenarlo de manera eficaz.
 
-- Quantidade de computação. Quanto mais pesos, mais computação será necessária
-para treinar e usar o modelo. É fácil ultrapassar a capacidade do seu
+- Cantidad de procesamiento. Cuantos más pesos, más procesamiento se necesita
+para entrenar y usar el modelo. Esto puede hacer que se supere fácilmente la capacidad del
 hardware.
 
-- Quantidade de memória. Quanto mais pesos no seu modelo, mais memória
-será necessária nos aceleradores que o treinam e disponibilizam. É muito difícil
-escalonar isso de maneira eficiente.
+- Cantidad de memoria. Cuantos más pesos tenga tu modelo, más memoria
+se necesitará en los aceleradores para entrenarlo y ponerlo en producción. Escalar esto
+de manera eficiente es muy difícil.
 
-- Dificuldade da compatibilidade com o
-machine learning no dispositivo (ODML, na sigla em inglês) .
-Caso pretenda executar seu modelo de ML em dispositivos locais, e não o
-disponibilizar, você precisará se concentrar em diminuir o tamanho do modelo e
-o número de pesos.
+- Dificultad para admitir
+aprendizaje automático en el dispositivo (ODML) .
+Si esperas ejecutar tu modelo de AA en dispositivos locales (en lugar de
+publicarlo), deberás reducir la cantidad de pesos del modelo.
 
-Neste módulo, você vai aprender a criar embeddings , representações
-de baixa dimensão de dados esparsos, que resolvem esses problemas.
+En este módulo, aprenderás a crear embeddings , es decir, representaciones
+de menos dimensiones de datos dispersos que resuelven esos problemas.
 
-Central de Ajuda
+Centro de ayuda
 
 Anterior
 
 arrow_back
 
-Teste seus conhecimentos (10 minutos)
+Pon a prueba tus conocimientos (10 min)
 
-Avançar
+Siguiente
 
-Espaço de embedding e embeddings estáticos (10 min)
+Espacio de embedding y embeddings estáticos (10 min)
 
 arrow_forward
 
-Envie comentários
+Enviar comentarios
 
-Exceto em caso de indicação contrária, o conteúdo desta página é licenciado de acordo com a Licença de atribuição 4.0 do Creative Commons , e as amostras de código são licenciadas de acordo com a Licença Apache 2.0 . Para mais detalhes, consulte as políticas do site do Google Developers . Java é uma marca registrada da Oracle e/ou afiliadas.
+Salvo que se indique lo contrario, el contenido de esta página está sujeto a la licencia Atribución 4.0 de Creative Commons , y los ejemplos de código están sujetos a la licencia Apache 2.0 . Para obtener más información, consulta las políticas del sitio de Google Developers . Java es una marca registrada de Oracle o sus afiliados.
 
-Última atualização 2025-05-20 UTC.
+Última actualización: 2025-05-23 (UTC)
 
-Quer enviar seu feedback?
+¿Quieres brindar más información?
 
-[[["Fácil de entender","easyToUnderstand","thumb-up"],["Meu problema foi resolvido","solvedMyProblem","thumb-up"],["Outro","otherUp","thumb-up"]],[["Não contém as informações de que eu preciso","missingTheInformationINeed","thumb-down"],["Muito complicado / etapas demais","tooComplicatedTooManySteps","thumb-down"],["Desatualizado","outOfDate","thumb-down"],["Problema na tradução","translationIssue","thumb-down"],["Problema com as amostras / o código","samplesCodeIssue","thumb-down"],["Outro","otherDown","thumb-down"]],["Última atualização 2025-05-20 UTC."],[],[]]
+[[["Fácil de comprender","easyToUnderstand","thumb-up"],["Resolvió mi problema","solvedMyProblem","thumb-up"],["Otro","otherUp","thumb-up"]],[["Falta la información que necesito","missingTheInformationINeed","thumb-down"],["Muy complicado o demasiados pasos","tooComplicatedTooManySteps","thumb-down"],["Desactualizado","outOfDate","thumb-down"],["Problema de traducción","translationIssue","thumb-down"],["Problema con las muestras o los códigos","samplesCodeIssue","thumb-down"],["Otro","otherDown","thumb-down"]],["Última actualización: 2025-05-23 (UTC)"],[],[]]

@@ -1,0 +1,42 @@
+# Classification: Programming exercise
+
+Source: Google Machine Learning Crash Course
+Original URL: https://developers.google.com/machine-learning/crash-course/classification/programming-exercise
+Original Path: https://developers.google.com/machine-learning/crash-course/classification/programming-exercise
+Course: Machine Learning
+
+Classification: Programming exercise
+
+Stay organized with collections
+
+Save and categorize content based on your preferences.
+
+In the following exercise, you'll train a binary classifier to separate two
+similar-looking species of rice and calculate relevant metrics.
+
+Open classification exercise
+
+Programming exercises run directly in your browser (no setup
+required!) using the Colaboratory
+platform. Colaboratory is supported on most major browsers, and is most
+thoroughly tested on desktop versions of Chrome and Firefox.
+
+Help Center
+
+arrow_back
+
+Multi-class classification (2 min)
+
+Test your knowledge (10 min)
+
+arrow_forward
+
+Send feedback
+
+Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License , and code samples are licensed under the Apache 2.0 License . For details, see the Google Developers Site Policies . Java is a registered trademark of Oracle and/or its affiliates.
+
+Last updated 2025-08-25 UTC.
+
+Need to tell us more?
+
+[[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2025-08-25 UTC."],[],[]]

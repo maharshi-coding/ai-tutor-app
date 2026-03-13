@@ -1,0 +1,417 @@
+Original Path: jupyter_chinese/assignments_demo/assignment03-决策树和随机森林分析应用.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+<img src="../../img/ods_stickers.jpg" />
+
+## 决策树和随机森林分析应用
+
+本次挑战是关于决策树和随机森林方法的应用练习，首先导入必要的模块。
+
+```python
+!pip install pydotplus # 安装必要模块
+```
+
+```python
+import collections
+import warnings
+from io import StringIO
+
+import numpy as np
+import pandas as pd
+import pydotplus
+import seaborn as sns
+from IPython.display import SVG
+from matplotlib import pyplot as plt
+from sklearn import preprocessing
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import GridSearchCV, cross_val_score
+from sklearn.preprocessing import LabelEncoder
+from sklearn.tree import DecisionTreeClassifier, export_graphviz
+
+%matplotlib inline
+plt.rcParams["figure.figsize"] = (10, 8)
+warnings.filterwarnings("ignore")
+```
+
+### 简单示例练习
+
+此小节中，我们将通过解决一个简单的示例问题来弄清楚决策树是如何工作的。虽然单颗决策树不太会产生出色的结果，但其他基于相同的思想的高性能算法（如梯度增强和随机森林）往往就威力强大了。这就需要我们先了解简单决策树的工作机制。
+
+接下来，我们创建一个示例数据集，该数据集表示了 A 会不会和 B 进行第二次约会。而数据集中的特征包括：外貌，口才，酒精消费，以及第一次约会花了多少钱。
+
+#### 创建示例数据集
+
+```python
+# 创建示例数据集，并对数据类别进行独热编码
+def create_df(dic, feature_list):
+out = pd.DataFrame(dic)
+out = pd.concat([out, pd.get_dummies(out[feature_list])], axis=1)
+out.drop(feature_list, axis=1, inplace=True)
+return out
+
+# 保证独热编码后的特征在训练和测试数据中同时存在
+
+def intersect_features(train, test):
+common_feat = list(set(train.keys()) & set(test.keys()))
+return train[common_feat], test[common_feat]
+```
+
+```python
+features = ["Looks", "Alcoholic_beverage", "Eloquence", "Money_spent"]
+```
+
+接下来，我们指定一些训练和测试数据。
+
+#### 训练数据
+
+```python
+df_train = {}
+df_train["Looks"] = [
+"handsome",
+"repulsive",
+"handsome",
+]
+df_train["Alcoholic_beverage"] = ["yes", "yes", "no", "no", "yes", "yes", "yes"]
+df_train["Eloquence"] = ["high", "low", "average", "average", "low", "high", "average"]
+df_train["Money_spent"] = ["lots", "little", "lots", "little", "lots", "lots", "lots"]
+df_train["Will_go"] = LabelEncoder().fit_transform(["+", "-", "+", "-", "-", "+", "+"])
+
+df_train = create_df(df_train, features)
+df_train
+```
+
+#### 测试数据
+
+```python
+df_test = {}
+df_test["Looks"] = ["handsome", "handsome", "repulsive"]
+df_test["Alcoholic_beverage"] = ["no", "yes", "yes"]
+df_test["Eloquence"] = ["average", "high", "average"]
+df_test["Money_spent"] = ["lots", "little", "lots"]
+df_test = create_df(df_test, features)
+df_test
+```
+
+```python
+# 保证独热编码后的特征在训练和测试数据中同时存在
+y = df_train["Will_go"]
+df_train, df_test = intersect_features(train=df_train, test=df_test)
+df_train
+```
+
+```python
+df_test
+```
+
+<i class="fa fa-question-circle" aria-hidden="true"> 问题：</i>请根据上面的训练数据集在线下用纸和笔手绘一颗基于信息熵的决策树。
+
+不要跳过此题，一定要自己试一试！
+
+当然，我们也可以使用 scikit-learn 提供的方法来绘制决策树。
+
+```python
+dt = DecisionTreeClassifier(criterion="entropy", random_state=17)
+dt.fit(df_train, y)
+```
+
+```python
+tree_str = export_graphviz(
+dt, feature_names=df_train.columns, out_file=None, filled=True
+)
+graph = pydotplus.graph_from_dot_data(tree_str)
+SVG(graph.create_svg())
+```
+
+### 计算熵和信息增益
+
+接下来，我们换另外一个例子：假设有 9 个蓝色球和 11 个黄色球。如果球是蓝色，则让球的标签是 1，否则为 0。
+
+```python
+balls = [1 for i in range(9)] + [0 for i in range(11)] # 生成数据
+```
+
+<img src = 'https://doc.shiyanlou.com/courses/uid214893-20190505-1557034726255'>
+
+接下来将球分成如下两组：
+
+<img src = 'https://doc.shiyanlou.com/courses/uid214893-20190505-1557034743748'>
+
+```python
+# 数据分组
+# 8 蓝色 和 5 黄色
+balls_left = [1 for i in range(8)] + [0 for i in range(5)]
+# 1 蓝色 和 6 黄色
+balls_right = [1 for i in range(1)] + [0 for i in range(6)]
+```
+
+<i class="fa fa-question-circle" aria-hidden="true"> 问题：</i>请根据前面的实验内容实现香农熵计算函数 `entropy()`。
+
+实现函数时，请结合下一题给出的测试示例，保证测试用例可以执行成功。
+
+<i class="fa fa-question-circle" aria-hidden="true"> 问题：</i>列表 ball_left 给出状态的熵是多少？
+
+<font color='green'><i class="fa fa-check-circle-o" aria-hidden="true"> 期望结果：</i></font>0.961
+
+<i class="fa fa-question-circle" aria-hidden="true"> 问题：</i>如果有一个 6 面立方体等概率骰子，其熵是多少？
+
+<font color='green'><i class="fa fa-check-circle-o" aria-hidden="true"> 期望结果：</i></font>2.585
+
+接下来，请实现信息增益的计算函数 `information_gain(root, left, right)`。
+
+<i class="fa fa-question-circle" aria-hidden="true"> 问题：</i>将初始数据集拆分为 balls_left 和 balls_right 后的信息增益是多少？
+
+<font color='green'><i class="fa fa-check-circle-o" aria-hidden="true"> 期望结果：</i></font>0.161
+
+接下来，我们尝试实现基于信息增益划分函数 `best_feature_to_split`。
+
+```python
+def best_feature_to_split(X, y):
+"""信息增益用于特征分割"""
+out = []
+for i in X.columns:
+out.append(information_gain(y, y[X[i] == 0], y[X[i] == 1]))
+return out
+```
+
+然后，通过递归调用 `best_feature_to_split` 实现一个简单的树构建策略，并输出每一步的熵变化。
+
+```python
+def btree(X, y):
+clf = best_feature_to_split(X, y)
+param = clf.index(max(clf))
+ly = y[X.iloc[:, param] == 0]
+ry = y[X.iloc[:, param] == 1]
+print("Column_" + str(param) + " N/Y?")
+print("Entropy: ", entropy(ly), entropy(ry))
+print("N count:", ly.count(), "/", "Y count:", ry.count())
+if entropy(ly) != 0:
+left = X[X.iloc[:, param] == 0]
+btree(left, ly)
+if entropy(ry) != 0:
+right = X[X.iloc[:, param] == 1]
+btree(right, ry)
+```
+
+```python
+best_feature_to_split(df_train, y)
+```
+
+```python
+btree(df_train, y)
+```
+
+### 构建 Adult 数据集决策树
+
+[<i class="fa fa-external-link-square" aria-hidden="true"> UCI Adult</i>](https://archive.ics.uci.edu/dataset/2/adult) 人口收入普查数据集前面已经使用过了，其具有以下一些特征：
+
+- Age – 连续数值特征
+- Workclass – 连续数值特征
+- fnlwgt – 连续数值特征
+- Education – 类别特征
+- Education_Num – 连续数值特征
+- Martial_Status – 类别特征
+- Occupation – 类别特征
+- Relationship – 类别特征
+- Race – 类别特征
+- Sex – 类别特征
+- Capital_Gain – 连续数值特征
+- Capital_Loss – 连续数值特征
+- Hours_per_week – 连续数值特征
+- Country – 类别特征
+
+- Target – 收入水平，二元分类目标值
+
+接下来，我们加载并读取该数据集：
+
+```python
+data_train = pd.read_csv("../../data/adult_train.csv", sep=";")
+```
+
+```python
+data_train.tail()
+```
+
+```python
+data_test = pd.read_csv("../../data/adult_test.csv", sep=";")
+```
+
+```python
+data_test.tail()
+```
+
+然后，对数据集进行一些必要的清洗。同时，将目标值转换为 0，1 二元数值。
+
+```python
+# 移除测试集中的错误数据
+data_test = data_test[
+(data_test["Target"] == " >50K.") | (data_test["Target"] == " <=50K.")
+]
+
+# 将目标编码为 0 和 1
+data_train.loc[data_train["Target"] == " <=50K", "Target"] = 0
+data_train.loc[data_train["Target"] == " >50K", "Target"] = 1
+
+data_test.loc[data_test["Target"] == " <=50K.", "Target"] = 0
+data_test.loc[data_test["Target"] == " >50K.", "Target"] = 1
+```
+
+输出测试数据概览表，查看特征和目标值的各项统计指标。
+
+```python
+data_test.describe(include="all").T
+```
+
+接下来，查看训练数据集目标分布计数，同时绘制各项特征的关联分布图像。
+
+```python
+data_train["Target"].value_counts()
+```
+
+```python
+fig = plt.figure(figsize=(25, 15))
+cols = 5
+rows = np.ceil(float(data_train.shape[1]) / cols)
+for i, column in enumerate(data_train.columns):
+ax = fig.add_subplot(rows, cols, i + 1)
+ax.set_title(column)
+if data_train.dtypes[column] == np.object:
+data_train[column].value_counts().plot(kind="bar", axes=ax)
+else:
+data_train[column].hist(axes=ax)
+plt.xticks(rotation="vertical")
+plt.subplots_adjust(hspace=0.7, wspace=0.2)
+```
+
+进一步分析之前，需要检查数据的类型。
+
+```python
+data_train.dtypes
+```
+
+```python
+data_test.dtypes
+```
+
+可以看的测试数据中，年龄 Age 是 object 类型，我们需要修复其为整数类型。
+
+```python
+data_test["Age"] = data_test["Age"].astype(int)
+```
+
+与此同时，我们将测试数据中浮点类型特征全部处理成整数类型，以便与训练数据对应。
+
+```python
+data_test["fnlwgt"] = data_test["fnlwgt"].astype(int)
+data_test["Education_Num"] = data_test["Education_Num"].astype(int)
+data_test["Capital_Gain"] = data_test["Capital_Gain"].astype(int)
+data_test["Capital_Loss"] = data_test["Capital_Loss"].astype(int)
+data_test["Hours_per_week"] = data_test["Hours_per_week"].astype(int)
+```
+
+这里还需要继续对数据预处理，首先区分数据集中的类别和连续特征。
+
+```python
+# 从数据集中选择类别和连续特征变量
+categorical_columns = [
+c for c in data_train.columns if data_train[c].dtype.name == "object"
+]
+numerical_columns = [
+c for c in data_train.columns if data_train[c].dtype.name != "object"
+]
+
+print("categorical_columns:", categorical_columns)
+print("numerical_columns:", numerical_columns)
+```
+
+然后，对连续特征使用中位数对缺失数据进行填充，而类别特征则使用众数进行填充。
+
+```python
+# 填充缺失数据
+for c in categorical_columns:
+data_train[c].fillna(data_train[c].mode(), inplace=True)
+data_test[c].fillna(data_train[c].mode(), inplace=True)
+
+for c in numerical_columns:
+data_train[c].fillna(data_train[c].median(), inplace=True)
+data_test[c].fillna(data_train[c].median(), inplace=True)
+```
+
+接下来，我们需要对类别特征进行独热编码，以保证数据集特征全部为数值类型方便后续传入模型。
+
+```python
+data_train = pd.concat(
+[data_train[numerical_columns], pd.get_dummies(data_train[categorical_columns])],
+axis=1,
+)
+
+data_test = pd.concat(
+[data_test[numerical_columns], pd.get_dummies(data_test[categorical_columns])],
+axis=1,
+)
+```
+
+```python
+set(data_train.columns) - set(data_test.columns)
+```
+
+```python
+data_train.shape, data_test.shape
+```
+
+独热编码之后发现测试数据中没有 Holland，为了与训练数据对应，这里需要创建零值特征进行补齐。
+
+```python
+data_test["Country_ Holand-Netherlands"] = 0
+```
+
+```python
+set(data_train.columns) - set(data_test.columns)
+```
+
+```python
+data_train.head(2)
+```
+
+```python
+data_test.head(2)
+```
+
+```python
+X_train = data_train.drop(["Target"], axis=1)
+y_train = data_train["Target"]
+
+X_test = data_test.drop(["Target"], axis=1)
+y_test = data_test["Target"]
+```
+
+### 建立默认参数决策树模型
+
+接下来，使用训练数据创建一个决策树分类器。挑战规定 `max_depth=3`，`random_state=17`。
+
+<i class="fa fa-question-circle" aria-hidden="true"> 问题：</i>按挑战要求构建决策树，并输出其在测试集上的准确度？
+
+<font color='green'><i class="fa fa-check-circle-o" aria-hidden="true"> 期望结果：</i></font>0.845
+
+### 对决策树模型进行调参
+
+<i class="fa fa-question-circle" aria-hidden="true"> 问题：</i>使用 GridSearchCV 网格搜索对决策树进行调参并返回最佳参数。
+
+挑战规定，决策树参数 `random_state = 17`，GridSearchCV 参数 `cv=5`，并对 `max_depth` 参数在 $[8, 10]$ 范围进行网格搜索。
+
+<i class="fa fa-question-circle" aria-hidden="true"> 问题：</i>构建上面最佳参数决策树，并输出其在测试集上的准确度？
+
+<font color='green'><i class="fa fa-check-circle-o" aria-hidden="true"> 期望结果：</i></font>0.847
+
+### 建立随机森林分类模型
+
+和上面建立决策树相似，可以利用 scikit-learn 提供的随机森林算法建立相应的分类预测模型。
+
+<i class="fa fa-question-circle" aria-hidden="true"> 问题：</i>构建 RandomForestClassifier 随机森林分类器。挑战规定参数 `n_estimators=100` 且 `random_state=17`，其余默认。
+
+输出在测试集上的分类预测准确度。
+
+<font color='green'><i class="fa fa-check-circle-o" aria-hidden="true"> 期望结果：</i></font>0.858
+
+<div style="background-color: #e6e6e6; margin-bottom: 10px; padding: 1%; border: 1px solid #ccc; border-radius: 6px;text-align: center;"><a href="https://nbviewer.jupyter.org/github/shiyanlou/mlcourse-answers/tree/master/" title="挑战参考答案"><i class="fa fa-file-code-o" aria-hidden="true"> 查看挑战参考答案</i></a></div>

@@ -1,0 +1,32 @@
+Original Path: 07-building-chat-applications/python/oai-assigment-simple.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+```python
+import os
+from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
+
+API_KEY = os.getenv("OPENAI_API_KEY","").strip()
+assert API_KEY, "ERROR: OpenAI Key is missing"
+client = OpenAI(
+api_key=API_KEY
+)
+
+model = "gpt-3.5-turbo"
+```
+
+```python
+# Create your first prompt
+text_prompt = " My foot hurts, what can be wrong?"
+
+response = client.chat.completions.create(
+model=model,
+messages = [
+{"role":"system", "content":"I'm a doctor, specialist on surgery"},
+{"role":"user","content":text_prompt},])
+
+response.choices[0].message.content
+```

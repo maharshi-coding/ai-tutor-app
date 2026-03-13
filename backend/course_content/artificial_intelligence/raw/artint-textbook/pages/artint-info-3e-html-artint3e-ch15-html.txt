@@ -1,0 +1,56 @@
+Title: Artificial Intelligence 3E
+URL: https://artint.info/3e/html/ArtInt3e.Ch15.html
+Snapshot Type: sanitized text
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+Chapter 15 Individuals and Relations
+
+There is a real world with real structure. The program of mind has
+been trained on vast interaction with this world and so contains code
+that reflects the structure of the world and knows how to exploit
+it. This code contains representations of real objects in the world
+and represents the interactions of real objects. The code is mostly
+modular…, with modules for dealing with different kinds of objects
+and modules generalizing across many kinds of objects…. The modules
+interact in ways that mirror the real world and make accurate
+predictions of how the world evolves….
+
+You exploit the structure of the world to make decisions and take
+actions. Where you draw the line on categories, what constitutes a
+single object or a single class of objects for you, is determined by
+the program of your mind, which does the classification. This
+classification is not random but reflects a compact description of the
+world, and in particular a description useful for exploiting the
+structure of the world.
+
+– Eric B. Baum [ 2004 , pp. 169–170]
+
+This chapter is about how to represent individuals (things, entities, objects)
+and relationships among them. As Baum suggests in the quote above, the
+real world contains objects and compact representations of
+those objects and relationships can make reasoning about them tractable. Such representations can be much more
+compact than representations in terms of features alone. This chapter
+considers logical representations and gives detailed examples of how
+to use
+such representations for natural language interfaces to
+databases. Later chapters address knowledge graphs, ontologies and
+communicating meaning, and integrating relations into learning and
+reasoning under uncertainty.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

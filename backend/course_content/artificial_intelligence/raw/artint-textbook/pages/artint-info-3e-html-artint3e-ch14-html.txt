@@ -1,0 +1,46 @@
+Title: Artificial Intelligence 3E
+URL: https://artint.info/3e/html/ArtInt3e.Ch14.html
+Snapshot Type: sanitized text
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+Chapter 14 Multiagent Systems
+
+Imagine a personal software agent engaging in electronic commerce on
+your behalf. Say the task of this agent is to track goods available
+for sale in various online venues over time, and to purchase some of
+them on your behalf for an attractive price. In order to be
+successful, your agent will need to embody your preferences for
+products, your budget, and in general your knowledge about the
+environment in which it will operate. Moreover, the agent will need
+to embody your knowledge of other similar agents with which it will
+interact (e.g., agents who might compete with it in an auction, or
+agents representing store owners) – including their own preferences
+and knowledge. A collection of such agents forms a multiagent
+system.
+
+– Yoav Shoham and Kevin Leyton-Brown [ 2008 ]
+
+What should an agent do when there are other agents, with their own
+goals and preferences,
+who are also reasoning about what to do? An intelligent agent should not
+ignore other agents or treat them as noise in the environment. This chapter considers
+the problems of determining what an agent should do in an environment
+that includes other agents who have their own utilities.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

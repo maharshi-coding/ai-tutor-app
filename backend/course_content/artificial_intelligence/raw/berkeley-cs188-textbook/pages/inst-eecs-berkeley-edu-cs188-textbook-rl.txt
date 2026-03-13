@@ -1,0 +1,23 @@
+Title: 5. RL
+URL: https://inst.eecs.berkeley.edu/~cs188/textbook/rl/
+Snapshot Type: sanitized text
+
+5. RL
+
+Author: Nikhil Sharma
+
+Edited by: Wesley Zheng
+
+Credit: Some sections adapted from the textbook Artificial Intelligence: A Modern Approach .
+
+Last updated: September 2024
+
+- 5.1 Reinforcement Learning
+
+- 5.2 Model-Based Learning
+
+- 5.3. Model-Free Learning
+
+- 5.4 Exploration and Exploitation
+
+- 5.5 Summary

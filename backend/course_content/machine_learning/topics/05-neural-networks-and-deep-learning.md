@@ -4,7 +4,7 @@ This topic bundle groups the collected Machine Learning material most relevant t
 
 Keywords: neural network, deep learning, backpropagation, cnn, rnn, transformer, embedding
 
-Documents in bundle: 19
+Documents in bundle: 20
 
 ## Document Index
 
@@ -56,6 +56,9 @@ Documents in bundle: 19
 - Sentiment Analysis: Using Recurrent Neural Networks (Dive into Deep Learning)
   Extracted file: extracted/d2l-en/f8ad3a93a41a3c65-sentiment-analysis-using-recurrent-neural-networ.md
   Original URL: https://github.com/d2l-ai/d2l-en/blob/HEAD/chapter_natural-language-processing-applications/sentiment-analysis-rnn.md
+- Machine Learning (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/15d56aac8b4645e8-machine-learning.md
+  Original URL: https://developers.google.com/machine-learning/crash-course
 - Lab Overview (Full Stack Deep Learning 2022)
   Extracted file: extracted/fsdl-course-2022/bf396428ea4af1a7-lab-overview.md
   Original URL: https://fullstackdeeplearning.com/course/2022/lab-0-overview/

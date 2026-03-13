@@ -1,0 +1,48 @@
+Title: Artificial Intelligence 3E
+URL: https://artint.info/3e/html/ArtInt3e.Ch2.html
+Snapshot Type: sanitized text
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+Chapter 2 Agent Architectures and Hierarchical Control
+
+By a hierarchic system, or hierarchy, I mean a system that is
+composed of interrelated subsystems, each of the latter being in
+turn hierarchic in structure until we reach some lowest level of
+elementary subsystem. In most systems of nature it is somewhat
+arbitrary as to where we leave off the partitioning and what
+subsystems we take as elementary. Physics makes much use of the
+concept of “elementary particle,” although the particles have a
+disconcerting tendency not to remain elementary very long …
+
+Empirically a large proportion of the complex systems we observe in
+nature exhibit hierarchic structure. On theoretical grounds we would
+expect complex systems to be hierarchies in a world in which
+complexity had to evolve from simplicity.
+
+– Herbert A. Simon [ 1996 ]
+
+This chapter shows how an intelligent agent can perceive, reason, and
+act over time in an environment. In particular, it considers the internal
+structure of an agent. As Simon points out in the quote above,
+hierarchical decomposition is an important part of the design of complex
+systems such as intelligent agents. This chapter presents ways to design agents in terms
+of hierarchical decompositions and ways that agents can be built, taking into
+account the knowledge that an agent needs to act intelligently.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

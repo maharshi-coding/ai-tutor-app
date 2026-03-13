@@ -1,0 +1,36 @@
+# Basic Python Exercises
+
+Source: Google's Python Class
+Original URL: https://developers.google.com/edu/python/exercises/basic
+Original Path: https://developers.google.com/edu/python/exercises/basic
+Course: Python Programming
+
+Products
+
+Google for Education
+
+Python
+
+Basic Python Exercises
+
+Stay organized with collections
+
+Save and categorize content based on your preferences.
+
+There are 3 exercises that go with the first sections of Google's Python class. They are located in the "basic" directory within the google-python-exercises directory. Download the google-python-exercises.zip if you have not already (see the Set-Up page for details).
+
+These exercise files are located under the basic subdirectory under google-python-exercises .
+
+- string1.py -- complete the string functions in string1.py, based on the material in the Python Strings section (additional exercises available in string2.py)
+
+- list1.py -- complete the list functions in list1.py, based on the material in the Python Lists and Python Sorting sections (additional exercises available in list2.py)
+
+- wordcount.py -- this larger, summary exercise in wordcount.py combines all the basic Python material in the above sections plus Python Dicts and Files (a second exercise is available in mimic.py)
+
+With all the exercises, you can take a look at our solution code inside the solution subdirectory.
+
+Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License , and code samples are licensed under the Apache 2.0 License . For details, see the Google Developers Site Policies . Java is a registered trademark of Oracle and/or its affiliates.
+
+Last updated 2024-07-23 UTC.
+
+[[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2024-07-23 UTC."],[],[]]

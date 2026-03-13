@@ -1,0 +1,712 @@
+Original Path: jupyter_english/projects_indiv/cancer_benign_or_malignant_nikolai_timonin.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+```python
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from matplotlib import pyplot as plt
+
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split, GridSearchCV, StratifiedKFold, \
+learning_curve, validation_curve
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score
+from sklearn.decomposition import PCA
+
+from scipy.stats import mannwhitneyu
+
+sns.set(font_scale=1.5)
+pd.options.display.max_columns = 50
+```
+
+## Project plan
+* 1. Feature and data explanation
+* 2. Primary data analysis
+* 3. Primary visual data analysis
+* 4. Insights and found dependencies
+* 5. Metrics selection
+* 6. Model selection
+* 7. Data preprocessing
+* 8. Cross-validation and adjustment of model hyperparameters
+* 9. Creation of new features and description of this process
+* 10. Plotting training and validation curves
+* 11. Prediction for test or hold-out samples
+* 12. Conclusions
+
+## 1. Feature and data explanation
+
+```python
+df = pd.read_csv('data.csv')
+```
+
+```python
+df.head()
+```
+
+### 1.1 Process of collecting data
+
+Features are computed from a digitized image of a fine needle aspirate (FNA) of a breast mass. They describe characteristics of the cell nuclei present in the image. n the 3-dimensional space is that described in: [K. P. Bennett and O. L. Mangasarian: "Robust Linear Programming Discrimination of Two Linearly Inseparable Sets", Optimization Methods and Software 1, 1992, 23-34].
+
+The data used is available through https://www.kaggle.com/uciml/breast-cancer-wisconsin-data
+And can be found on UCI Machine Learning Repository: https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29
+This database is also available through the UW CS ftp server: ftp ftp.cs.wisc.edu cd math-prog/cpo-dataset/machine-learn/WDBC/
+
+### 1.2 Detailed explanation of the task
+
+The task here is to predict whether the cancer is benign or malignant based in 30 real-valued features.
+
+### 1.3 Target features
+
+Attribute Information:
+
+1) ID number
+2) Diagnosis (M = malignant, B = benign)
+3-32)
+
+Ten real-valued features are computed for each cell nucleus:
+a) radius (mean of distances from center to points on the perimeter)
+b) texture (standard deviation of gray-scale values)
+c) perimeter
+d) area
+e) smoothness (local variation in radius lengths)
+f) compactness (perimeter^2 / area - 1.0)
+g) concavity (severity of concave portions of the contour)
+h) concave points (number of concave portions of the contour)
+i) symmetry
+j) fractal dimension ("coastline approximation" - 1)
+
+The mean, standard error and "worst" or largest (mean of the three largest values) of these features were computed for each image, resulting in 30 features. For instance, field 3 is Mean Radius, field 13 is Radius SE, field 23 is Worst Radius.
+
+All feature values are recoded with four significant digits.
+Missing attribute values: none
+Class distribution: 357 benign, 212 malignant
+
+## 2. Primary data analysis
+
+### 2.0 Data preprocessing
+
+```python
+target = pd.DataFrame(df['diagnosis'])
+data = df.drop(['diagnosis'], axis=1)
+```
+
+### 2.1 Constant columns
+
+General data overview:
+
+```python
+data.info()
+```
+
+Drop constant column ** Unnamed: 32 ** and **id** column which is useless for analize:
+
+```python
+data.drop(['Unnamed: 32', 'id'], axis=1, inplace=True)
+```
+
+### 2.2 Missing values
+
+Check data for missing values:
+
+```python
+print("Are there missing values:", data.isnull().values.any())
+```
+
+### 2.3 Summary statistics
+
+General data statistics overview:
+
+```python
+data.describe()
+```
+
+**Conclusion:** here we can see vary different min/max values for features, for example *area_mean* and *smoothness_mean*. Thus we should check for outliers (box plot is good option for that).
+
+### 2.4 Statistics for different classes
+
+Check if difference of features mean values is statistically important. We will use Mann Whitney criteria, because of it unsesetive to outliers and different samples distribution.
+
+```python
+for column in data.columns:
+m = data[column][target['diagnosis']=='M']
+b = data[column][target['diagnosis']=='B']
+statistic, pvalue = mannwhitneyu(m, b)
+
+print('Column:', column, 'Important:', pvalue < 0.05 )
+```
+
+**Conclusion:** differences in almost all features are statistically important. So they will contribute more enough information to classification.
+
+### 2.5 Target feature
+
+Number of eamples for each class:
+
+```python
+target['diagnosis'].value_counts()
+```
+
+Let's check the ratio of examples belong to each class:
+
+```python
+target['diagnosis'].value_counts() / target['diagnosis'].size
+```
+
+**Conclusion:** there are a lot more examples for benign class, but not enough for skewed classes problem.
+
+## 3. Primary visual data analysis
+
+For the sake of informative data visualization we need to standardize and scale features, because of some features have very different max/min values.
+
+```python
+scaler = StandardScaler()
+scaled_data = scaler.fit_transform(data)
+data_scaled = pd.DataFrame(scaled_data, columns=data.columns)
+data_scaled['diagnosis'] = target['diagnosis']
+```
+
+### 3.1 Linear dependecies of the features (correlation matrix):
+
+Helper function for plotting feature correlations:
+
+```python
+def plot_corr(data):
+plt.figure(figsize=[40, 40])
+ax = sns.heatmap(data.corr(), annot=True, fmt= '.1f', linewidths=.5)
+ax.set_xticklabels(ax.get_xticklabels(), size='xx-large')
+ax.set_yticklabels(ax.get_yticklabels(), size='xx-large')
+plt.show();
+```
+
+Data correlations:
+
+```python
+plot_corr(data)
+```
+
+**Conclusion:** there are several groups of correlated features:
+- radius_mean, perimeter_mean, area_mean
+- compactness_mean, concavity_mean, concave points_mean
+- radius_se, perimeter_se, area_se
+- radius_worst, perimeter_worst and area_worst
+- compactness_worst, concavity_worst, concave points_worst
+- compactness_se, concavity_se, concave points_se
+- texture_mean, texture_worst
+- area_worst, area_mean
+
+### 3.2 Outliers
+
+```python
+data_z = pd.melt(data_scaled, id_vars="diagnosis", var_name="features", value_name='value')
+```
+
+```python
+plt.figure(figsize=(20, 10));
+ax = sns.boxplot(x='features', y='value', hue='diagnosis', data=data_z);
+ax.set_xticklabels(ax.get_xticklabels());
+plt.xticks(rotation=90);
+```
+
+**Conclusion:** there are a lot of variable with outliers. So before training we have to handle it.
+
+### 3.3 Distribution of classes
+
+```python
+plt.figure(figsize=(30, 20));
+ax = sns.violinplot(x="features", y="value", hue="diagnosis", data=data_z, split=True, inner="quartile");
+ax.set_xticklabels(ax.get_xticklabels(), size='large');
+plt.xticks(rotation=90);
+```
+
+**Conclusion:** in some features, like *radius_mean*, *texture_mean*, median of each class separated, so they can be useful for classification. Other features, like *smoothness_se*, are not so separated and my be less useful for classification. Most all the features have normal-like distribution with long tail.
+
+### 3.4 Dimensionality reduction
+
+Apply pca for dimensionality reduction:
+
+```python
+pca = PCA(random_state=24)
+pca.fit(scaled_data)
+
+plt.figure(figsize=(10, 10))
+plt.plot(pca.explained_variance_ratio_, linewidth=2)
+plt.xlabel('Number of components');
+plt.ylabel('Explained variance ratio');
+```
+
+**Conclusion:** according to elbow method 3 components may be choosen.
+
+Check the number of components for explaining data variance:
+
+```python
+components = range(1, pca.n_components_ + 1)
+plt.figure(figsize=(15, 5));
+plt.bar(components, np.cumsum(pca.explained_variance_ratio_));
+plt.hlines(y = .95, xmin=0, xmax=len(components), colors='green');
+```
+
+**Conclusion:** The two first components explains the 0.6324 of the variance. We need 10 principal components to explain more than 0.95 of the variance and 17 to explain more than 0.99.
+
+Reduce dimensions of data and plot it:
+
+```python
+pca_two_comp = PCA(n_components=2, random_state=24)
+two_comp_data = pca_two_comp.fit_transform(scaled_data)
+plt.scatter(x=two_comp_data[:, 0], y=two_comp_data[:, 1],
+c=target['diagnosis'].map({'M': 'red', 'B': 'green'}))
+plt.show()
+```
+
+**Conclusion:** data is good enough separable using only two components.
+
+## 4. Insights and found dependencies
+
+Data summary:
+- there are a lot of groups with correlated features. Next we have to get rid from multi-collinearity by selectig one feature for each group.
+- ration of examples in each class 0.67/0.27. No skewed classes here, which is important for metric selection;
+- differences in features stitistics (mean) for each class are statisticalli important. So this features will be important for classification.
+- there are outliers in data. It's important to get rid of them for outliers-sensetive models (logistic regression for example) before training;
+- PCA shows thad data is good enough separable using only 3-5 features.
+
+## 5. Metrics selection
+
+Predict whether the cancer is benign or malignant is a **binary classification** task. Here we don't face the probem of skewed classes. So **accuracy** metric will be a good choice for model evaluation. Also this metric is simple enough, thus highly interpretable.
+
+$$Accuracy=\frac{Number~of~corrected~predictions}{Total~number~of~predictions}$$
+
+Aslo for the test set we will calculate **precision** and **recall**.
+
+## 6. Model selection
+
+As model was selected **Logistic regression** because:
+- works well with non categorical features (in our data all features are continious);
+- robust to small noise in the data;
+- cases of multi-collinearity can be handled by implementing regularization;
+- works well if there are no missing data;
+- efficient implementation availavle;
+- feature space of current task is not large.
+
+## 7. Data preprocessing
+
+### 7.1 Drop useless columns
+
+Drop constant column **Unnamed: 32** and useless folumn **id** for classification.
+
+```python
+X = df.drop(['id', 'Unnamed: 32', 'diagnosis'], axis=1)
+y = df['diagnosis'].map(lambda x: 1 if x=='M' else 0)
+```
+
+### 7.3 Split data into train/test
+
+Split data into train/test with proportional 0.7/0.3 which is common split for such amount of data.
+
+```python
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=24)
+print('Train size:', X_train.size)
+print('Test size:', X_test.size)
+```
+
+### 7.2 Feature selection
+
+First of all we should handle multi-collinearity. From each group of correleted features we will select only by one feature. So here columns to drop:
+
+```python
+corr_columns = ['perimeter_mean','radius_mean','compactness_mean',
+'concave points_mean','radius_se','perimeter_se',
+'radius_worst','perimeter_worst','compactness_worst',
+'concave points_worst','compactness_se','concave points_se',
+'texture_worst','area_worst',
+'concavity_mean']
+```
+
+Drop correlated columns from train data:
+
+```python
+X_train = X_train.drop(corr_columns, axis=1)
+```
+
+Drop correlated columns from test data:
+
+```python
+X_test = X_test.drop(corr_columns, axis=1)
+```
+
+Check number of features left:
+
+```python
+print('Current number of features:', X_train.shape[1])
+```
+
+### 7.3 Feature scaling
+
+```python
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+```
+
+## 8. Cross-validation and adjustment of model hyperparameters
+
+Use 3 splits because of we don't have large amount of training data and shuffle samples in random order.
+
+```python
+cv = StratifiedKFold(n_splits=3, random_state=24)
+```
+
+Model:
+
+```python
+model = LogisticRegression(random_state=24)
+```
+
+Model parameters:
+
+```python
+model_parameters = {'penalty': ['l1', 'l2'],
+'C': np.linspace(.1, 1, 10)}
+```
+
+To find best hyperparameters we will use grid search as in is quite simple and efficient enough.
+
+```python
+grig_search = GridSearchCV(model, model_parameters, n_jobs=-1, cv=cv, scoring='accuracy')
+```
+
+```python
+%%time
+grig_search.fit(X_train_scaled, y_train);
+```
+
+Best model parameters:
+
+```python
+grig_search.best_params_
+```
+
+Best cv score:
+
+```python
+print('Accuracy:', grig_search.best_score_)
+```
+
+## 9. Creation of new features
+
+Helper function for applying map operation to data frame attributes:
+
+```python
+def apply_cat_op(data, attrs, operation, prefix):
+"""
+Apply one operation to data attributes.
+"""
+series = [data[attr].map(operation) for attr in attrs]
+
+_data = pd.concat(series, axis=1).add_prefix(prefix)
+new_attrs = _data.columns.values
+
+return _data, new_attrs
+```
+
+Creating new features based on medicine requires strong domain knowledge. So we will create them based on mathematics nature of current features. Basic approach for numerical features for regression model is to calculate squares of features in order to capture non-linear dependencies.
+
+Square function:
+
+```python
+sq_operation = lambda x: x**2
+```
+
+Create squared feature for each columns and test in with model:
+
+```python
+for column in X_train.columns:
+X_train_sq, sq_attr = apply_cat_op(X_train, [column], sq_operation, 'sq_')
+data = pd.concat([X_train, X_train_sq], axis=1)
+
+scaler = StandardScaler()
+data_scaled = scaler.fit_transform(data)
+
+grig_search = GridSearchCV(model, model_parameters, n_jobs=-1, cv=cv, scoring='accuracy')
+
+grig_search.fit(data_scaled, y_train);
+
+print('Column:', column, ' ',
+'Accuracy:', grig_search.best_score_, ' ',
+'Best params:', grig_search.best_params_)
+```
+
+As we ca see squaring feature *fractal_dimension_mean*, gives score improving with params {'C': 0.2, 'penalty': 'l2'}
+
+Add new feature to train data:
+
+```python
+X_train_sq, atr = apply_cat_op(X_train, ['fractal_dimension_mean'], sq_operation, 'sq_')
+X_train = pd.concat([X_train, X_train_sq], axis=1)
+```
+
+Add new feature to test data:
+
+```python
+X_test_sq, atr = apply_cat_op(X_test, ['fractal_dimension_mean'], sq_operation, 'sq_')
+X_test = pd.concat([X_test, X_test_sq], axis=1)
+```
+
+#### Scale the final data:
+
+```python
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+```
+
+#### Train model with best parameters on all train data:
+
+```python
+final_model = LogisticRegression(penalty='l2', C=0.2)
+final_model.fit(X_train_scaled, y_train)
+```
+
+## 10. Plotting training and validation curves
+
+### 10.1 Training curve
+
+Plotting [learning curve fuction](https://scikit-learn.org/stable/auto_examples/model_selection/plot_learning_curve.html#sphx-glr-auto-examples-model-selection-plot-learning-curve-py):
+
+```python
+def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None,
+n_jobs=None, train_sizes=np.linspace(.1, 1.0, 5)):
+"""
+Generate a simple plot of the test and training learning curve.
+
+Parameters
+estimator : object type that implements the "fit" and "predict" methods
+An object of that type which is cloned for each validation.
+
+title : string
+Title for the chart.
+
+X : array-like, shape (n_samples, n_features)
+Training vector, where n_samples is the number of samples and
+n_features is the number of features.
+
+y : array-like, shape (n_samples) or (n_samples, n_features), optional
+Target relative to X for classification or regression;
+None for unsupervised learning.
+
+ylim : tuple, shape (ymin, ymax), optional
+Defines minimum and maximum yvalues plotted.
+
+cv : int, cross-validation generator or an iterable, optional
+Determines the cross-validation splitting strategy.
+Possible inputs for cv are:
+- None, to use the default 3-fold cross-validation,
+- integer, to specify the number of folds.
+- :term:`CV splitter`,
+- An iterable yielding (train, test) splits as arrays of indices.
+
+For integer/None inputs, if ``y`` is binary or multiclass,
+:class:`StratifiedKFold` used. If the estimator is not a classifier
+or if ``y`` is neither binary nor multiclass, :class:`KFold` is used.
+
+Refer :ref:`User Guide <cross_validation>` for the various
+cross-validators that can be used here.
+
+n_jobs : int or None, optional (default=None)
+Number of jobs to run in parallel.
+``None`` means 1 unless in a :obj:`joblib.parallel_backend` context.
+``-1`` means using all processors. See :term:`Glossary <n_jobs>`
+for more details.
+
+train_sizes : array-like, shape (n_ticks,), dtype float or int
+Relative or absolute numbers of training examples that will be used to
+generate the learning curve. If the dtype is float, it is regarded as a
+fraction of the maximum size of the training set (that is determined
+by the selected validation method), i.e. it has to be within (0, 1].
+Otherwise it is interpreted as absolute sizes of the training sets.
+Note that for classification the number of samples usually have to
+be big enough to contain at least one sample from each class.
+(default: np.linspace(0.1, 1.0, 5))
+"""
+plt.figure()
+plt.title(title)
+if ylim is not None:
+plt.ylim(*ylim)
+plt.xlabel("Training examples")
+plt.ylabel("Score")
+train_sizes, train_scores, test_scores = learning_curve(
+estimator, X, y, cv=cv, n_jobs=n_jobs, train_sizes=train_sizes)
+train_scores_mean = np.mean(train_scores, axis=1)
+train_scores_std = np.std(train_scores, axis=1)
+test_scores_mean = np.mean(test_scores, axis=1)
+test_scores_std = np.std(test_scores, axis=1)
+plt.grid()
+
+plt.fill_between(train_sizes, train_scores_mean - train_scores_std,
+train_scores_mean + train_scores_std, alpha=0.1,
+color="r")
+plt.fill_between(train_sizes, test_scores_mean - test_scores_std,
+test_scores_mean + test_scores_std, alpha=0.1, color="g")
+plt.plot(train_sizes, train_scores_mean, 'o-', color="r",
+label="Training score")
+plt.plot(train_sizes, test_scores_mean, 'o-', color="g",
+label="Cross-validation score")
+
+plt.legend(loc="best")
+return plt
+```
+
+```python
+plot_learning_curve(final_model, 'Logistic regression',
+X_train_scaled, y_train, cv=cv);
+```
+
+**Conclusion:** such gap between training and validating curve indicates overfitting. But we can see that validation curve increasing with increasing amount of training examples, so more data is likely to help beat overfitting.
+
+### 10.2 Validation curve
+
+Plotting validation curve function:
+
+```python
+def plot_validation_curve(estimator, title, X, y, param_name, param_range,
+cv=None, scoring=None, ylim=None, n_jobs=None):
+"""
+Generates a simple plot of training and validation scores for different parameter values.
+
+Parameters
+estimator : object type that implements the "fit" and "predict" methods
+An object of that type which is cloned for each validation.
+
+title : string
+Title for the chart.
+
+X : array-like, shape (n_samples, n_features)
+Training vector, where n_samples is the number of samples and
+n_features is the number of features.
+
+y : array-like, shape (n_samples) or (n_samples, n_features), optional
+Target relative to X for classification or regression;
+None for unsupervised learning.
+
+param_name : string
+Name of the parameter that will be varied.
+
+param_range : array-like, shape (n_values,)
+The values of the parameter that will be evaluated.
+
+cv : int, cross-validation generator or an iterable, optional
+Determines the cross-validation splitting strategy.
+Possible inputs for cv are:
+- None, to use the default 3-fold cross-validation,
+- integer, to specify the number of folds.
+- :term:`CV splitter`,
+- An iterable yielding (train, test) splits as arrays of indices.
+
+For integer/None inputs, if ``y`` is binary or multiclass,
+:class:`StratifiedKFold` used. If the estimator is not a classifier
+or if ``y`` is neither binary nor multiclass, :class:`KFold` is used.
+
+Refer :ref:`User Guide <cross_validation>` for the various
+cross-validators that can be used here.
+
+scoring : string, callable or None, optional, default: None
+A string (see model evaluation documentation) or
+a scorer callable object / function with signature
+``scorer(estimator, X, y)``.
+
+ylim : tuple, shape (ymin, ymax), optional
+Defines minimum and maximum yvalues plotted.
+
+n_jobs : int or None, optional (default=None)
+Number of jobs to run in parallel.
+``None`` means 1 unless in a :obj:`joblib.parallel_backend` context.
+``-1`` means using all processors. See :term:`Glossary <n_jobs>`
+for more details.
+
+"""
+train_scores, test_scores = validation_curve(
+estimator, X, y, param_name, param_range,
+cv=cv, scoring=scoring, n_jobs=n_jobs)
+
+train_scores_mean = np.mean(train_scores, axis=1)
+train_scores_std = np.std(train_scores, axis=1)
+test_scores_mean = np.mean(test_scores, axis=1)
+test_scores_std = np.std(test_scores, axis=1)
+
+plt.figure()
+plt.grid()
+plt.title(title)
+plt.xlabel(param_name)
+plt.ylabel("Score")
+if ylim is not None:
+plt.ylim(*ylim)
+plt.semilogx(param_range, train_scores_mean, 'o-', label="Training score",
+color="darkorange")
+plt.fill_between(param_range, train_scores_mean - train_scores_std,
+train_scores_mean + train_scores_std, alpha=0.2,
+color="darkorange")
+plt.semilogx(param_range, test_scores_mean, 'o-', label="Cross-validation score",
+color="navy")
+plt.fill_between(param_range, test_scores_mean - test_scores_std,
+test_scores_mean + test_scores_std, alpha=0.2,
+color="navy")
+plt.legend(loc="best")
+return plt
+```
+
+Plot validation curve for model complexity parameter:
+
+```python
+plot_validation_curve(final_model, 'Logistic regression', X_train_scaled, y_train,
+'C', model_parameters['C'],
+cv=cv, scoring='accuracy');
+```
+
+**Conclusion:** gap between training and validating curve indicates overfitting. The best **C** parameter is 0.2
+
+## 11. Prediction for test samples
+
+Make predictions for test samples:
+
+```python
+test_predictions = final_model.predict(X_test_scaled)
+```
+
+#### Accuracy score:
+
+```python
+print('Accuracy test score:', accuracy_score(y_test, test_predictions))
+```
+
+**Conclusion:** result on the test samples are comparable to the results on cross-validation, even better. Thus our validation scheme is valid.
+
+#### Confusion matrix:
+
+```python
+test_confusion_matrix = confusion_matrix(test_predictions, y_test);
+sns.heatmap(test_confusion_matrix, annot=True, fmt='d');
+```
+
+From confusion matrix we can see that we have made a few wrong predicions.
+
+#### Precision:
+
+```python
+print('Precision:', precision_score(y_test, test_predictions))
+```
+
+#### Recall:
+
+```python
+print('Recall:', recall_score(y_test, test_predictions))
+```
+
+## 12. Conclusions
+
+Although we try simple model, it gives 98% accuracy, 98% precision and 97% recall on the test set. There are several (3-5) most important features for classification, which could indicates that our data is not representable or biased. So, it's a good option to try model on more data. Feature generation based on medicine knowledge for such data is quite challenging, so we build them based on math nature.
+
+#### Ways of improving:
+- collect more data and re-train model on it, as we can see validation score improvement with data amount increasing on learning curve;
+- dig into domain and generate more features based on medicine;
+- try another models, like neural network (for capturing complex non-linear dependences) or random forest (robust to overfitting);
+- apply PCA for data dimensionality reduction and train model on reduced data;
+- try stacking differet models.

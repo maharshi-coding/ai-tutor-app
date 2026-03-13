@@ -1,0 +1,283 @@
+# Classification: Accuracy, recall, precision, and related metrics
+
+Source: Google Machine Learning Crash Course
+Original URL: https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall
+Original Path: https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall
+Course: Machine Learning
+
+Classification: Accuracy, recall, precision, and related metrics
+
+Stay organized with collections
+
+Save and categorize content based on your preferences.
+
+True and false positives and negatives are used to calculate several useful
+metrics for evaluating models. Which evaluation metrics are most
+meaningful depends on the specific model and the specific task, the cost
+of different misclassifications, and whether the dataset is balanced or
+imbalanced.
+
+All of the metrics in this section are calculated at a single fixed threshold,
+and change when the threshold changes. Very often, the user tunes the
+threshold to optimize one of these metrics.
+
+Accuracy
+
+Accuracy is the proportion of all
+classifications that were correct, whether positive or negative. It is
+mathematically defined as:
+
+\[\text{Accuracy} =
+\frac{\text{correct classifications}}{\text{total classifications}}
+= \frac{TP+TN}{TP+TN+FP+FN}\]
+
+In the spam classification example, accuracy measures the fraction of all
+emails correctly classified.
+
+A perfect model would have zero false positives and zero false negatives, and
+therefore an accuracy of 1.0, or 100%.
+
+Because it incorporates all four outcomes from the
+confusion matrix
+(TP, FP, TN, FN), given a balanced
+dataset, with similar numbers of examples in both classes, accuracy can
+serve as a coarse-grained measure of model quality. For this reason, it is often
+the default evaluation metric used for generic or unspecified models
+carrying out generic or unspecified tasks.
+
+However, when the dataset is imbalanced,
+or where one kind of mistake (FN or FP) is more costly than the other, which is
+the case in most real-world applications, it's better to optimize for one of
+the other metrics instead.
+
+For heavily imbalanced datasets, where one class appears very rarely, say 1% of
+the time, a model that predicts negative 100% of the time would score 99% on
+accuracy, despite being useless.
+
+Recall, or true positive rate
+
+The true positive rate (TPR) , or the proportion of all actual positives that
+were classified correctly as positives, is also known as
+recall .
+
+Recall is mathematically defined as:
+
+\[\text{Recall (or TPR)} =
+\frac{\text{correctly classified actual positives}}{\text{all actual positives}}
+= \frac{TP}{TP+FN}\]
+
+False negatives are actual positives that were misclassified as negatives, which
+is why they appear in the denominator. In the spam classification example,
+recall measures the fraction of spam emails that were correctly classified as
+spam. This is why another name for recall is probability of detection : it
+answers the question "What fraction of spam emails are detected by this
+model?"
+
+A hypothetical perfect model would have zero false negatives and therefore a
+recall (TPR) of 1.0, which is to say, a 100% detection rate.
+
+In an imbalanced dataset where the number of actual positives is very
+low, recall is a more meaningful metric than accuracy because it
+measures the ability of the model to correctly identify all positive instances.
+For applications like disease prediction, correctly identifying the positive
+cases is crucial. A false negative typically has more serious consequences
+than a false positive. For a concrete example comparing recall and accuracy
+metrics, see the notes in the definition of
+recall .
+
+False positive rate
+
+The false positive rate (FPR)
+is the proportion of all actual negatives that were classified incorrectly
+as positives, also known as the probability of false alarm. It is
+mathematically defined as:
+
+\[\text{FPR} =
+\frac{\text{incorrectly classified actual negatives}}
+{\text{all actual negatives}}
+= \frac{FP}{FP+TN}\]
+
+False positives are actual negatives that were misclassified, which is why they
+appear in the denominator. In the spam classification example, FPR measures the
+fraction of legitimate emails that were incorrectly classified as spam, or the
+model's rate of false alarms.
+
+A perfect model would have zero false positives and therefore a FPR of 0.0,
+which is to say, a 0% false alarm rate.
+
+For an imbalanced dataset, FPR is generally a more informative metric than
+accuracy. However, if the number of actual negatives is very low, FPR may not be
+an ideal choice, due to its volatility. For example, if there are only four
+actual negatives in a dataset, one misclassification results in an FPR of 25%,
+while a second misclassification causes the FPR to jump to 50%. In cases like
+this, precision (described next) may be a more stable metric for
+evaluating the effects of false positives.
+
+Precision
+
+is the proportion of all the model's positive classifications
+that are actually positive. It is mathematically defined as:
+
+\[\text{Precision} =
+\frac{\text{correctly classified actual positives}}
+{\text{everything classified as positive}}
+= \frac{TP}{TP+FP}\]
+
+In the spam classification example, precision measures the fraction of emails
+classified as spam that were actually spam.
+
+A hypothetical perfect model would have zero false positives and therefore a
+precision of 1.0.
+
+In an imbalanced dataset where the number of actual positives is very, very
+low, say 1-2 examples in total, precision is less meaningful and less useful
+as a metric.
+
+Precision improves as false positives decrease, while recall improves when
+false negatives decrease. But as seen in the previous section, increasing the
+classification threshold tends to decrease the number of false positives and
+increase the number of false negatives, while decreasing the threshold has the
+opposite effects. As a result, precision and recall often show an inverse
+relationship, where improving one of them worsens the other.
+
+Try it yourself:
+
+What does NaN mean in the metrics?
+
+NaN, or "not a number," appears when dividing by 0, which can happen
+with any of these metrics. When TP and FP are both 0, for example, the
+formula for precision has 0 in the denominator, resulting in NaN. While
+in some cases NaN can indicate perfect performance and could be
+replaced by a score of 1.0, it can also come from a model that is practically
+useless. A model that never predicts positive, for example, would have 0 TPs
+and 0 FPs and thus a calculation of its precision would result in NaN.
+
+Choice of metric and tradeoffs
+
+The metric(s) you choose to prioritize when evaluating the model and
+choosing a threshold depend on the costs, benefits, and risks of the
+specific problem. In the spam classification example, it often makes
+sense to prioritize recall, nabbing all the spam emails, or precision,
+trying to ensure that spam-labeled emails are in fact spam, or some
+balance of the two, above some minimum accuracy level.
+
+Metric
+Guidance
+
+Accuracy
+
+Use as a rough indicator of model
+training progress/convergence for balanced datasets.
+
+For model performance, use only in combination with other metrics.
+
+Avoid for imbalanced datasets. Consider using another metric.
+
+Recall (True positive rate)
+Use when false negatives are more
+expensive than false positives.
+
+False positive rate
+Use when false positives are
+more expensive than false negatives.
+
+Precision
+Use when it's very important for
+positive predictions to be accurate.
+
+(Optional, advanced) F1 score
+
+The F1 score is the harmonic mean (a
+kind of average) of precision and recall.
+
+Mathematically, it is given by:
+
+\[\text{F1}=2*\frac{\text{precision * recall}}{\text{precision + recall}}
+= \frac{2\text{TP}}{2\text{TP + FP + FN}}\]
+
+This metric balances the importance of precision and recall, and is
+preferable to accuracy for class-imbalanced datasets. When precision
+and recall both have perfect scores of 1.0, F1 will also have a perfect score
+of 1.0. More broadly, when precision and recall are close in value, F1 will
+be close to their value. When precision and recall are far apart, F1 will
+be similar to whichever metric is worse.
+
+Exercise: Check your understanding
+
+A model outputs 5 TP, 6 TN, 3 FP, and 2 FN. Calculate the recall.
+
+0.714
+
+Recall is calculated as \(\frac{TP}{TP+FN}=\frac{5}{7}\).
+
+0.455
+
+Recall considers all actual positives, not all correct
+classifications. The formula for recall is \(\frac{TP}{TP+FN}\).
+
+0.625
+
+Recall considers all actual positives, not all positive
+classifications. The formula for recall is \(\frac{TP}{TP+FN}\)
+
+A model outputs 3 TP, 4 TN, 2 FP, and 1 FN. Calculate the precision.
+
+0.6
+
+Precision is calculated as \(\frac{TP}{TP+FP}=\frac{3}{5}\).
+
+0.75
+
+Precision considers all positive classifications, not all
+actual positives. The formula for precision is \(\frac{TP}{TP+FP}\).
+
+0.429
+
+Precision considers all positive classifications, not all
+correct classifications. The formula for precision is \(\frac{TP}{TP+FP}\)
+
+You're building a binary classifier that checks photos of insect traps
+for whether a dangerous invasive species is present. If the model detects
+the species, the entomologist (insect scientist) on duty is notified. Early
+detection of this insect is critical to preventing an infestation. A
+false alarm (false positive) is easy to handle: the entomologist sees that
+the photo was misclassified and marks it as such. Assuming an acceptable
+accuracy level, which metric should this model be optimized for?
+
+Recall
+
+In this scenario, false alarms (FP) are low-cost, and false
+negatives are highly costly, so it makes sense to maximize recall, or the probability of
+detection.
+
+False positive rate (FPR)
+
+In this scenario, false alarms (FP) are low-cost. Trying
+to minimize them at the risk of missing actual positives doesn't make
+sense.
+
+Precision
+
+In this scenario, false alarms (FP) aren't particularly
+harmful, so trying to improve the correctness of positive classifications
+doesn't make sense.
+
+Help Center
+
+arrow_back
+
+Thresholds and the confusion matrix (12 min)
+
+ROC and AUC (10 min)
+
+arrow_forward
+
+Send feedback
+
+Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License , and code samples are licensed under the Apache 2.0 License . For details, see the Google Developers Site Policies . Java is a registered trademark of Oracle and/or its affiliates.
+
+Last updated 2026-01-12 UTC.
+
+Need to tell us more?
+
+[[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2026-01-12 UTC."],[],[]]

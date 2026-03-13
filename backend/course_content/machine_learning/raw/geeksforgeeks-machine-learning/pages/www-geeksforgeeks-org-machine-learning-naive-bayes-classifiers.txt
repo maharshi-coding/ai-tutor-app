@@ -1,0 +1,399 @@
+Title: Naive Bayes Classifiers
+URL: https://www.geeksforgeeks.org/machine-learning/naive-bayes-classifiers/
+Snapshot Type: sanitized text
+
+Courses
+
+Tutorials
+
+Interview Prep
+
+- Python for Machine Learning
+
+- Machine Learning with R
+
+- Machine Learning Algorithms
+
+- EDA
+
+- Math for Machine Learning
+
+- Machine Learning Interview Questions
+
+- ML Projects
+
+- Deep Learning
+
+- NLP
+
+- Computer vision
+
+- Data Science
+
+- Artificial Intelligence
+
+Naive Bayes Classifiers
+
+Last Updated : 27 Feb, 2026
+
+Naive Bayes is a machine learning classification algorithm that predicts the category of a data point using probability. It assumes that all features are independent of each other. Naive Bayes performs well in many real-world applications such as spam filtering, document categorisation and sentiment analysis.
+
+Here:
+
+- Original data has two classes: green circles (y = 1) and red squares (y = 2).
+
+- Estimate probability distribution along the first dimension i.e P(x_1 \mid y=1), \; P(x_1 \mid y=2)
+
+- Estimate probability distribution along the second dimension i.e P(x_2 \mid y=1), \; P(x_2 \mid y=2)
+
+- Combine both dimensions using conditional independence i.e P(x \mid y) = \prod_{\alpha} P(x_{\alpha} \mid y)
+
+Key Features of Naive Bayes Classifiers
+
+The main idea behind the Naive Bayes classifier is to use  Bayes' Theorem  to classify data based on the probabilities of different classes given the features of the data. It is used mostly in high-dimensional text classification
+
+- The Naive Bayes Classifier is a simple probabilistic classifier and it has very few number of parameters which are used to build the ML models that can predict at a faster speed than other classification algorithms.
+
+- It is a probabilistic classifier because it assumes that one feature in the model is independent of existence of another feature. In other words, each feature contributes to the predictions with no relation between each other.
+
+- Naive Bayes Algorithm is used in spam filtration, Sentimental analysis, classifying articles and many more.
+
+Why it is Called Naive Bayes?
+
+It is named as "Naive" because it assumes the presence of one feature does not affect other features. The "Bayes" part of the name refers to its basis in Bayes’ Theorem.
+
+Consider a fictional dataset that describes the weather conditions for playing a game of golf. Given the weather conditions, each tuple classifies the conditions as fit(“Yes”) or unfit(“No”) for playing golf. Here is a tabular representation of our dataset.
+
+Outlook Temperature Humidity Windy Play Golf
+
+0 Rainy Hot High False Yes
+
+1 Rainy Hot High True No
+
+2 Overcast Hot High False Yes
+
+3 Sunny Mild High False No
+
+4 Sunny Cool Normal False Yes
+
+5 Sunny Cool Normal True No
+
+6 Overcast Cool Normal True Yes
+
+7 Rainy Mild High False No
+
+8 Rainy Cool Normal False Yes
+
+9 Sunny Mild Normal False Yes
+
+10 Rainy Mild Normal True Yes
+
+11 Overcast Mild High True Yes
+
+12 Overcast Hot Normal False Yes
+
+13 Sunny Mild High True No
+
+The dataset is divided into two parts i.e feature matrix and the response vector.
+
+- Feature matrix contains all the vectors(rows) of dataset in which each vector consists of the value of dependent features. In above dataset, features are ‘Outlook’, ‘Temperature’, ‘Humidity’ and ‘Windy’.
+
+- Response vector contains the value of class variable (prediction or output) for each row of feature matrix. In above dataset, the class variable name is ‘Play golf’.
+
+Assumption of Naive Bayes
+
+The fundamental Naive Bayes assumption is that each feature makes an:
+
+- Feature independence: This means that when we are trying to classify something, we assume that each feature (or piece of information) in the data does not affect any other feature.
+
+- Continuous features are normally distributed: If a feature is continuous, then it is assumed to be normally distributed within each class.
+
+- Discrete features have multinomial distributions: If a feature is discrete, then it is assumed to have a multinomial distribution within each class.
+
+- Features are equally important: All features are assumed to contribute equally to the prediction of the class label.
+
+- No missing data: The data should not contain any missing values.
+
+Introduction to Bayes' Theorem
+
+Bayes’ Theorem provides a principled way to reverse conditional probabilities. It is defined as:
+
+P(y|X) = \frac{P(X|y) \cdot P(y)}{P(X)}
+
+Where:
+
+- P(y|X) : Posterior probability, probability of class y given features X
+
+- P(X|y) : Likelihood, probability of features X given class y
+
+- P(y) : Prior probability of class y
+
+- P(X) : Marginal likelihood or evidence
+
+Naive Bayes Working
+
+1. Terminology
+
+Consider a classification problem (like predicting if someone plays golf based on weather). Then:
+
+- y is the class label (e.g. "Yes" or "No" for playing golf)
+
+- X = (x_1, x_2, ..., x_n) is the feature vector (e.g. Outlook, Temperature, Humidity, Wind)
+
+A sample row from the dataset:
+
+X = \text{(Rainy, Hot, High, False)}, \quad y = \text{No}
+
+This represents:
+
+What is the probability that someone will not play golf given that the weather is Rainy, Hot, High humidity and No wind?
+
+2. The Naive Assumption
+
+The "naive" in Naive Bayes comes from the assumption that all features are independent given the class. That is:
+
+P(x_1, x_2, ..., x_n | y) = P(x_1 | y) \cdot P(x_2 | y) \cdots P(x_n | y)
+
+Thus, Bayes' theorem becomes:
+
+P(y|x_1, ..., x_n) = \frac{P(y) \cdot \prod_{i=1}^{n} P(x_i | y)}{P(X)}
+
+Since the denominator is constant for a given input, we can write:
+
+P(y|x_1, ..., x_n) \propto P(y) \cdot \prod_{i=1}^{n} P(x_i | y)
+
+3. Constructing the Naive Bayes Classifier
+
+We compute the posterior for each class y and choose the class with the highest probability:
+
+\hat{y} = \arg\max_{y} P(y) \cdot \prod_{i=1}^{n} P(x_i | y)
+
+This becomes our Naive Bayes classifier.
+
+4. Example: Weather Dataset
+
+Let’s take a dataset used for predicting if golf is played based on:
+
+- Outlook : Sunny, Rainy, Overcast
+
+- Temperature : Hot, Mild, Cool
+
+- Humidity : High, Normal
+
+- Wind : True, False
+
+Example Input: X = (Sunny, Hot, Normal, False)
+
+Goal: Predict if golf will be played (
+Yes
+or
+No
+).
+
+5. Pre-computation from Dataset
+
+Class Probabilities:
+
+From dataset of 14 rows:
+
+- P(\text{Yes}) = \frac{9}{14}
+
+- P(\text{No}) = \frac{5}{14}
+
+Conditional Probabilities (Tables 1–4):
+Table
+6. Calculate Posterior Probabilities
+
+For Class = Yes:
+
+P(\text{Yes | today}) \propto \frac{2}{9} \cdot \frac{2}{9} \cdot \frac{6}{9} \cdot \frac{6}{9} \cdot \frac{9}{14}
+
+P(\text{Yes | today}) \approx 0.02116
+
+For Class = No:
+
+P(\text{No | today}) \propto \frac{3}{5} \cdot \frac{2}{5} \cdot \frac{1}{5} \cdot \frac{2}{5} \cdot \frac{5}{14}
+
+P(\text{No | today}) \approx 0.0068
+
+7. Normalize Probabilities
+
+To compare:
+
+P(\text{Yes | today}) = \frac{0.02116}{0.02116 + 0.0068} \approx 0.756
+
+P(\text{No | today}) = \frac{0.0068}{0.02116 + 0.0068} \approx 0.244
+
+8. Final Prediction
+
+Since:
+
+P(\text{Yes | today}) > P(\text{No | today})
+
+The model predicts: Yes (Play Golf)
+
+Naive Bayes for Continuous Features
+
+For continuous features, we assume a Gaussian distribution:
+
+P(x_i | y) = \frac{1}{\sqrt{2\pi\sigma^2_y}} \exp\left( -\frac{(x_i - \mu_y)^2}{2\sigma^2_y} \right)
+
+Where:
+
+- \mu_y is the mean of feature x_i for class y
+
+- \sigma^2_y is the variance of feature x_i for class y
+
+This leads to what is called Gaussian Naive Bayes.
+
+Types of Naive Bayes Model
+
+There are three types of Naive Bayes Model :
+
+1. Gaussian Naive Bayes
+
+In Gaussian Naive Bayes , continuous values associated with each feature are assumed to be distributed according to a Gaussian distribution. A Gaussian distribution is also called Normal distribution When plotted, it gives a bell shaped curve which is symmetric about the mean of the feature values as shown below:
+
+2. Multinomial Naive Bayes
+
+Multinomial Naive Bayes is used when features represent the frequency of terms (such as word counts) in a document. It is commonly applied in text classification, where term frequencies are important.
+
+3. Bernoulli Naive Bayes
+
+Bernoulli Naive Bayes deals with binary features, where each feature indicates whether a word appears or not in a document. It is suited for scenarios where the presence or absence of terms is more relevant than their frequency. Both models are widely used in document classification tasks
+
+Advantages
+
+- Easy to implement and computationally efficient.
+
+- Effective in cases with a large number of features.
+
+- Performs well even with limited training data.
+
+- It performs well in the presence of categorical features.
+
+- For numerical features data is assumed to come from normal distributions
+
+Disadvantages
+
+- Assumes that features are independent, which may not always hold in real-world data.
+
+- Can be influenced by irrelevant attributes.
+
+- May assign zero probability to unseen events, leading to poor generalization.
+
+Applications
+
+- Spam Email Filtering : Classifies emails as spam or non-spam based on features.
+
+- Text Classification : Used in sentiment analysis, document categorization and topic classification.
+
+- Medical Diagnosis: Helps in predicting the likelihood of a disease based on symptoms.
+
+- Credit Scoring: Evaluates creditworthiness of individuals for loan approval.
+
+- Weather Prediction : Classifies weather conditions based on various factors.
+
+Machine Learning
+
+AI-ML-DS
+
+Machine Learning
+
+AI-ML-DS With Python
+
+Machine Learning Basics
+
+- Introduction to Machine Learning 8 min read
+
+- Types of Machine Learning 7 min read
+
+- What is Machine Learning Pipeline? 6 min read
+
+- Applications of Machine Learning 3 min read
+
+Python for Machine Learning
+
+- Machine Learning with Python Tutorial 3 min read
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Data Preprocessing in Python 4 min read
+
+- EDA - Exploratory Data Analysis in Python 6 min read
+
+Feature Engineering
+
+- What is Feature Engineering? 5 min read
+
+- Introduction to Dimensionality Reduction 4 min read
+
+- Feature Selection Techniques in Machine Learning 4 min read
+
+Supervised Learning
+
+- Supervised Machine Learning 7 min read
+
+- Linear Regression in Machine learning 14 min read
+
+- Logistic Regression in Machine Learning 10 min read
+
+- Decision Tree in Machine Learning 8 min read
+
+- Random Forest Algorithm in Machine Learning 5 min read
+
+- K-Nearest Neighbor(KNN) Algorithm 8 min read
+
+- Support Vector Machine (SVM) Algorithm 9 min read
+
+- Naive Bayes Classifiers 6 min read
+
+Unsupervised Learning
+
+- What is Unsupervised Learning 5 min read
+
+- K means Clustering – Introduction 6 min read
+
+- Hierarchical Clustering in Machine Learning 6 min read
+
+- DBSCAN Clustering in ML - Density based clustering 6 min read
+
+- Apriori Algorithm 6 min read
+
+- Frequent Pattern Growth Algorithm 4 min read
+
+- ECLAT Algorithm - ML 5 min read
+
+- Principal Component Analysis (PCA) 7 min read
+
+Model Evaluation and Tuning
+
+- Evaluation Metrics in Machine Learning 9 min read
+
+- Regularization in Machine Learning 5 min read
+
+- Cross Validation in Machine Learning 5 min read
+
+- Hyperparameter Tuning 5 min read
+
+- Underfitting and Overfitting in ML 3 min read
+
+- Bias and Variance in Machine Learning 6 min read
+
+Advanced Techniques
+
+- Reinforcement Learning 9 min read
+
+- Semi-Supervised Learning in ML 5 min read
+
+- Self-Supervised Learning (SSL) 6 min read
+
+- Ensemble Learning 7 min read
+
+Machine Learning Practice
+
+- Machine Learning Interview Questions and Answers 15+ min read
+
+- 100+ Machine Learning Projects with Source Code 5 min read

@@ -1,0 +1,396 @@
+Original Path: 7-TimeSeries/2-ARIMA/solution/notebook.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+# Time series forecasting with ARIMA
+
+In this notebook, we demonstrate how to:
+- prepare time series data for training an ARIMA time series forecasting model
+- implement a simple ARIMA model to forecast the next HORIZON steps ahead (time *t+1* through *t+HORIZON*) in the time series
+- evaluate the model
+
+The data in this example is taken from the GEFCom2014 forecasting competition<sup>1</sup>. It consists of 3 years of hourly electricity load and temperature values between 2012 and 2014. The task is to forecast future values of electricity load. In this example, we show how to forecast one time step ahead, using historical load data only.
+
+<sup>1</sup>Tao Hong, Pierre Pinson, Shu Fan, Hamidreza Zareipour, Alberto Troccoli and Rob J. Hyndman, "Probabilistic energy forecasting: Global Energy Forecasting Competition 2014 and beyond", International Journal of Forecasting, vol.32, no.3, pp 896-913, July-September, 2016.
+
+## Install Dependencies
+Get started by installing some of the required dependencies. These libraries with their corresponding versions are known to work for the solution:
+
+* `statsmodels == 0.12.2`
+* `matplotlib == 3.4.2`
+* `scikit-learn == 0.24.2`
+
+```python
+!pip install statsmodels
+```
+
+Output:
+```text
+/bin/sh: pip: command not found
+```
+
+```python
+import os
+import warnings
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import datetime as dt
+import math
+
+from pandas.plotting import autocorrelation_plot
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+from sklearn.preprocessing import MinMaxScaler
+from common.utils import load_data, mape
+from IPython.display import Image
+
+%matplotlib inline
+pd.options.display.float_format = '{:,.2f}'.format
+np.set_printoptions(precision=2)
+warnings.filterwarnings("ignore") # specify to ignore warning messages
+```
+
+```python
+energy = load_data('./data')[['load']]
+energy.head(10)
+```
+
+Output:
+```text
+load
+2012-01-01 00:00:00 2,698.00
+2012-01-01 01:00:00 2,558.00
+2012-01-01 02:00:00 2,444.00
+2012-01-01 03:00:00 2,402.00
+2012-01-01 04:00:00 2,403.00
+2012-01-01 05:00:00 2,453.00
+2012-01-01 06:00:00 2,560.00
+2012-01-01 07:00:00 2,719.00
+2012-01-01 08:00:00 2,916.00
+2012-01-01 09:00:00 3,105.00
+```
+
+Plot all available load data (January 2012 to Dec 2014)
+
+```python
+energy.plot(y='load', subplots=True, figsize=(15, 8), fontsize=12)
+plt.xlabel('timestamp', fontsize=12)
+plt.ylabel('load', fontsize=12)
+plt.show()
+```
+
+Output:
+```text
+<Figure size 1080x576 with 1 Axes>
+```
+
+## Create training and testing data sets
+
+```python
+train_start_dt = '2014-11-01 00:00:00'
+test_start_dt = '2014-12-30 00:00:00'
+```
+
+```python
+energy[(energy.index < test_start_dt) & (energy.index >= train_start_dt)][['load']].rename(columns={'load':'train'}) \
+.join(energy[test_start_dt:][['load']].rename(columns={'load':'test'}), how='outer') \
+.plot(y=['train', 'test'], figsize=(15, 8), fontsize=12)
+plt.xlabel('timestamp', fontsize=12)
+plt.ylabel('load', fontsize=12)
+plt.show()
+```
+
+Output:
+```text
+<Figure size 1080x576 with 1 Axes>
+```
+
+```python
+train = energy.copy()[(energy.index >= train_start_dt) & (energy.index < test_start_dt)][['load']]
+test = energy.copy()[energy.index >= test_start_dt][['load']]
+
+print('Training data shape: ', train.shape)
+print('Test data shape: ', test.shape)
+```
+
+Output:
+```text
+Training data shape: (1416, 1)
+Test data shape: (48, 1)
+```
+
+```python
+scaler = MinMaxScaler()
+train['load'] = scaler.fit_transform(train)
+train.head(10)
+```
+
+Output:
+```text
+load
+2014-11-01 00:00:00 0.10
+2014-11-01 01:00:00 0.07
+2014-11-01 02:00:00 0.05
+2014-11-01 03:00:00 0.04
+2014-11-01 04:00:00 0.06
+2014-11-01 05:00:00 0.10
+2014-11-01 06:00:00 0.19
+2014-11-01 07:00:00 0.31
+2014-11-01 08:00:00 0.40
+2014-11-01 09:00:00 0.48
+```
+
+Original vs scaled data:
+
+```python
+energy[(energy.index >= train_start_dt) & (energy.index < test_start_dt)][['load']].rename(columns={'load':'original load'}).plot.hist(bins=100, fontsize=12)
+train.rename(columns={'load':'scaled load'}).plot.hist(bins=100, fontsize=12)
+plt.show()
+```
+
+Output:
+```text
+<Figure size 432x288 with 1 Axes>
+
+```
+
+Let's also scale the test data
+
+```python
+test['load'] = scaler.transform(test)
+test.head()
+```
+
+Output:
+```text
+load
+2014-12-30 00:00:00 0.33
+2014-12-30 01:00:00 0.29
+2014-12-30 02:00:00 0.27
+2014-12-30 03:00:00 0.27
+2014-12-30 04:00:00 0.30
+```
+
+## Implement ARIMA method
+
+```python
+# Specify the number of steps to forecast ahead
+HORIZON = 3
+print('Forecasting horizon:', HORIZON, 'hours')
+```
+
+Output:
+```text
+Forecasting horizon: 3 hours
+```
+
+```python
+order = (4, 1, 0)
+seasonal_order = (1, 1, 0, 24)
+
+model = SARIMAX(endog=train, order=order, seasonal_order=seasonal_order)
+results = model.fit()
+
+print(results.summary())
+```
+
+Output:
+```text
+SARIMAX Results
+==========================================================================================
+Dep. Variable: load No. Observations: 1416
+Model: SARIMAX(4, 1, 0)x(1, 1, 0, 24) Log Likelihood 3477.239
+Date: Thu, 30 Sep 2021 AIC -6942.477
+Time: 14:36:28 BIC -6911.050
+Sample: 11-01-2014 HQIC -6930.725
+- 12-29-2014
+Covariance Type: opg
+==============================================================================
+coef std err z P>|z| [0.025 0.975]
+ar.L1 0.8403 0.016 52.226 0.000 0.809 0.872
+ar.L2 -0.5220 0.034 -15.388 0.000 -0.588 -0.456
+ar.L3 0.1536 0.044 3.470 0.001 0.067 0.240
+ar.L4 -0.0778 0.036 -2.158 0.031 -0.148 -0.007
+ar.S.L24 -0.2327 0.024 -9.718 0.000 -0.280 -0.186
+sigma2 0.0004 8.32e-06 47.358 0.000 0.000 0.000
+===================================================================================
+Ljung-Box (L1) (Q):
+```
+
+## Evaluate the model
+
+Create a test data point for each HORIZON step.
+
+```python
+test_shifted = test.copy()
+
+for t in range(1, HORIZON):
+test_shifted['load+'+str(t)] = test_shifted['load'].shift(-t, freq='H')
+
+test_shifted = test_shifted.dropna(how='any')
+test_shifted.head(5)
+```
+
+Output:
+```text
+load load+1 load+2
+2014-12-30 00:00:00 0.33 0.29 0.27
+2014-12-30 01:00:00 0.29 0.27 0.27
+2014-12-30 02:00:00 0.27 0.27 0.30
+2014-12-30 03:00:00 0.27 0.30 0.41
+2014-12-30 04:00:00 0.30 0.41 0.57
+```
+
+Make predictions on the test data
+
+```python
+%%time
+training_window = 720 # dedicate 30 days (720 hours) for training
+
+train_ts = train['load']
+test_ts = test_shifted
+
+history = [x for x in train_ts]
+history = history[(-training_window):]
+
+predictions = list()
+
+# let's user simpler model for demonstration
+order = (2, 1, 0)
+seasonal_order = (1, 1, 0, 24)
+
+for t in range(test_ts.shape[0]):
+model = SARIMAX(endog=history, order=order, seasonal_order=seasonal_order)
+model_fit = model.fit()
+yhat = model_fit.forecast(steps = HORIZON)
+predictions.append(yhat)
+obs = list(test_ts.iloc[t])
+# move the training window
+history.append(obs[0])
+history.pop(0)
+print(test_ts.index[t])
+print(t+1, ': predicted =', yhat, 'expected =', obs)
+```
+
+Output:
+```text
+2014-12-30 00:00:00
+1 : predicted = [0.32 0.29 0.28] expected = [0.32945389435989236, 0.2900626678603402, 0.2739480752014323]
+2014-12-30 01:00:00
+2 : predicted = [0.3 0.29 0.3 ] expected = [0.2900626678603402, 0.2739480752014323, 0.26812891674127126]
+2014-12-30 02:00:00
+3 : predicted = [0.27 0.28 0.32] expected = [0.2739480752014323, 0.26812891674127126, 0.3025962399283795]
+2014-12-30 03:00:00
+4 : predicted = [0.28 0.32 0.42] expected = [0.26812891674127126, 0.3025962399283795, 0.40823634735899716]
+2014-12-30 04:00:00
+5 : predicted = [0.3 0.39 0.54] expected = [0.3025962399283795, 0.40823634735899716, 0.5689346463742166]
+2014-12-30 05:00:00
+6 : predicted = [0.4 0.55 0.66] expected = [0.40823634735899716, 0.5689346463742166, 0.6799462846911368]
+2014-12-30 06:00:00
+7 : predicted = [0.57 0.68 0.75] expected = [0.5689346463742166, 0.6799462846911368, 0.7309758281110115]
+2014-12-30 07:00:00
+8 : predicted = [0.68 0.75 0.8 ] expected = [0.6799462846911368, 0.7309758281110115, 0.7511190689346463]
+2014-12-30 08:00:00
+9 : predicted = [0.75 0.8 0.82] expected = [0.7309758281110115, 0.7511190689346463, 0.7636526410026856]
+2014-12-30 09:00:00
+10 : predicted = [0.77 0.78 0.78] expected = [0.7511190689346463, 0.7636526410026856, 0.7381378692927483]
+2014-12-30 10:00:00
+11 : predicted = [0.76 0.75 0.74] expected = [0.7636526410026856, 0.7381378692927483, 0.7188898836168307]
+2014-12-30 11:00:00
+12 : predicted = [0.77 0.76 0.75] expected = [0.7381378692927483, 0.7188898836168307, 0.7090420769919425]
+2014-12-30 12:00:00
+13 : predicted = [0.7 0.68 0.69] expected = [0.7188898836168307, 0.70
+```
+
+Compare predictions to actual load
+
+```python
+eval_df = pd.DataFrame(predictions, columns=['t+'+str(t) for t in range(1, HORIZON+1)])
+eval_df['timestamp'] = test.index[0:len(test.index)-HORIZON+1]
+eval_df = pd.melt(eval_df, id_vars='timestamp', value_name='prediction', var_name='h')
+eval_df['actual'] = np.array(np.transpose(test_ts)).ravel()
+eval_df[['prediction', 'actual']] = scaler.inverse_transform(eval_df[['prediction', 'actual']])
+eval_df.head()
+```
+
+Output:
+```text
+timestamp h prediction actual
+0 2014-12-30 00:00:00 t+1 3,008.74 3,023.00
+1 2014-12-30 01:00:00 t+1 2,955.53 2,935.00
+2 2014-12-30 02:00:00 t+1 2,900.17 2,899.00
+3 2014-12-30 03:00:00 t+1 2,917.69 2,886.00
+4 2014-12-30 04:00:00 t+1 2,946.99 2,963.00
+```
+
+Compute the **mean absolute percentage error (MAPE)** over all predictions
+
+$$MAPE = \frac{1}{n} \sum_{t=1}^{n}|\frac{actual_t - predicted_t}{actual_t}|$$
+
+```python
+if(HORIZON > 1):
+eval_df['APE'] = (eval_df['prediction'] - eval_df['actual']).abs() / eval_df['actual']
+print(eval_df.groupby('h')['APE'].mean())
+```
+
+Output:
+```text
+h
+t+1 0.01
+t+2 0.01
+t+3 0.02
+Name: APE, dtype: float64
+```
+
+```python
+print('One step forecast MAPE: ', (mape(eval_df[eval_df['h'] == 't+1']['prediction'], eval_df[eval_df['h'] == 't+1']['actual']))*100, '%')
+```
+
+Output:
+```text
+One step forecast MAPE: 0.5570581332313952 %
+```
+
+```python
+print('Multi-step forecast MAPE: ', mape(eval_df['prediction'], eval_df['actual'])*100, '%')
+```
+
+Output:
+```text
+Multi-step forecast MAPE: 1.1460048657704118 %
+```
+
+Plot the predictions vs the actuals for the first week of the test set
+
+```python
+if(HORIZON == 1):
+## Plotting single step forecast
+eval_df.plot(x='timestamp', y=['actual', 'prediction'], style=['r', 'b'], figsize=(15, 8))
+
+else:
+## Plotting multi step forecast
+plot_df = eval_df[(eval_df.h=='t+1')][['timestamp', 'actual']]
+for t in range(1, HORIZON+1):
+plot_df['t+'+str(t)] = eval_df[(eval_df.h=='t+'+str(t))]['prediction'].values
+
+fig = plt.figure(figsize=(15, 8))
+ax = plt.plot(plot_df['timestamp'], plot_df['actual'], color='red', linewidth=4.0)
+ax = fig.add_subplot(111)
+for t in range(1, HORIZON+1):
+x = plot_df['timestamp'][(t-1):]
+y = plot_df['t+'+str(t)][0:len(x)]
+ax.plot(x, y, color='blue', linewidth=4*math.pow(.9,t), alpha=math.pow(0.8,t))
+
+ax.legend(loc='best')
+
+plt.xlabel('timestamp', fontsize=12)
+plt.ylabel('load', fontsize=12)
+plt.show()
+```
+
+Output:
+```text
+No handles with labels found to put in legend.
+
+<Figure size 1080x576 with 1 Axes>
+```

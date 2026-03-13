@@ -1,0 +1,253 @@
+Title: Artificial Intelligence 3E
+URL: https://artint.info/3e/html/ArtInt3e.Chx1.html
+Snapshot Type: sanitized text
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+Preface
+
+Artificial Intelligence: Foundations of Computational Agents is a book
+about the science of artificial intelligence (AI). AI is
+the study of intelligent computational agents. Our book is structured
+as a textbook but it is designed to be accessible to a wide audience.
+
+We wrote this book because we are excited about the emergence of
+AI as an integrated science. As with any
+science being developed, AI has a coherent,
+formal theory and a rambunctious experimental wing. Here we balance theory
+and experiment and show how to link them together intimately. We
+develop the science of AI together with its engineering applications.
+We believe the adage, “There is nothing so practical as a good
+theory.” The spirit of our approach is captured by the
+dictum, “Everything should be made as simple as possible, but not
+simpler.” We must build the science on solid foundations; we present
+the foundations, but only sketch, and give some examples of, the
+complexity required to build useful intelligent systems. Although the
+resulting systems will be complex, the foundations and the
+building blocks should be simple.
+
+New to This Edition
+
+This third edition results from extensive revision throughout the
+text. We have added three new chapters:
+
+•
+
+Neural Networks and Deep Learning
+
+•
+
+Causality
+
+•
+
+The Social Impact of Artificial Intelligence
+
+There is also a social impact section
+for each chapter, covering either beneficial applications or harmful
+impacts of AI, and often both. With the rise in the use of AI in
+society, it is imperative that all AI researchers and practitioners understand the
+possible social impact of their work.
+
+We have restructured the material based on feedback from
+instructors who have used the book in classes.
+We have brought it
+up to date to reflect the current state of the art,
+made parts that were difficult for students more straightforward,
+added more intuitive explanations, and coordinated the pseudocode
+algorithms with open-source Python implementations
+at AIPython ( aipython.org ).
+We have resisted the temptation to cover every recent advance.
+
+AI research is expanding so rapidly now that the volume of potential new text material is vast.
+However, research teaches us not only what works but also what does not work so well, allowing us to be highly selective.
+We have included more material on techniques that have
+proven successful. However, research also has trends and fashions. We
+have removed techniques that have been shown to be less promising,
+but we distinguish them from the techniques for problems that are merely out of fashion.
+We include some currently unfashionable material if the problems attacked
+still remain and the techniques have the potential to form the basis for future
+research and development.
+We have further developed the concept of a single design space for intelligent agents,
+showing how many bewilderingly diverse techniques can be seen in a simple, uniform framework.
+This allows us to emphasize the
+principles underlying the foundations of computational agents,
+making those ideas more accessible to students.
+
+Who This Book is For
+
+The book can be used as an introductory text on artificial intelligence for
+advanced undergraduate or graduate students in computer science or
+related disciplines such as computer engineering, philosophy,
+cognitive science, or psychology. It will appeal more to the
+technically minded; parts are technically challenging, focusing
+on learning by doing: designing, building, and implementing systems.
+Any curious scientifically oriented reader will benefit from
+studying the book. Previous experience with computational systems is
+desirable, but prior study of the foundations upon which we build,
+including logic, probability, calculus, and control theory, is not necessary, because we develop
+the concepts as required.
+
+The serious student will gain valuable skills at several levels
+ranging from expertise in the specification and design of intelligent
+agents to skills for implementing, testing, and improving real software
+systems for several challenging application domains. The thrill of
+participating in the emergence of a new science of intelligent agents
+is one of the attractions of this approach. The practical skills of
+dealing with a world of ubiquitous, intelligent, embedded agents are
+now in great demand in the marketplace.
+
+Our Approach
+
+The focus is on an intelligent agent acting in an
+environment. We start with simple agents acting in simple, static
+environments and gradually increase the power of the agents to cope
+with more challenging worlds. We explore ten dimensions of complexity that
+allow us to introduce, gradually and with modularity, what makes building
+intelligent agents challenging. We have tried to structure the book so
+that the reader can understand each of the dimensions separately and we make this concrete by repeatedly
+illustrating the ideas with four different agent tasks: a delivery
+robot, a diagnostic assistant, a tutoring agent, and a trading agent.
+
+The agent we want the student to envision is a hierarchically
+designed agent that acts intelligently in a stochastic environment
+that it can only partially observe – one that reasons online about individuals and
+relationships among them, has complex preferences, learns while
+acting, takes into account other agents, and acts appropriately given its own computational
+limitations. Of course, we cannot start with such an agent; it is still
+a research question to build such agents. So we introduce the simplest
+agents and then show how to add each of these complexities in a
+modular way.
+
+We have made a number of design choices which distinguish
+this book from competing books, including our earlier book.
+
+•
+
+We have tried to give a coherent framework in which to
+understand AI. We have chosen not to present disconnected
+topics that do not fit together. For example, we do not present disconnected
+logical and probabilistic views of AI,
+but we have presented a multidimensional design space in which
+students can understand the big picture, in which
+probabilistic and logical reasoning coexist.
+
+•
+
+We decided that it is better to clearly explain the foundations upon
+which more sophisticated techniques can be built, rather than
+present all these more sophisticated techniques. This means that a
+larger gap may exist between what is covered in this book and the
+frontier of science. But it also means that the student will have a
+better foundation to understand current and future research.
+
+•
+
+One of the more difficult decisions we made was how to linearize
+the design space. We have chosen a relations-late approach. This
+approach probably reflects better the research over the past few decades where
+there has been much progress in reasoning and learning for
+feature-based representations. The problems of relational learning
+and reasoning have not gone away, only become more urgent.
+
+This should help students and instructors avoid being overwhelmed by
+the amount of technical details to be mastered before having a
+comprehensive view of AI.
+
+Online Resources
+
+We provide open-source Python implementations of most of the
+algorithms at http://www.aipython.org . These are as close to
+pseudo-code as we can make them while they still run. We have chosen
+clarity over efficiency, with good asymptotic complexity. They are not
+a replacement for a well-engineered library, because they are sometimes a
+few orders of magnitude slower. However, by keeping everything as simple as
+possible, the student can see how the algorithms work. The code
+provides the basic algorithms, and variants can be used as exercises.
+One choice we have made that might not match every instructor’s
+preference is to minimize the number of external Python libraries. We only use
+matplotlib, as we cannot get away without a plotting library if we
+want to present information.
+
+How to Use This Book in Your Course
+
+We have chosen not to present an encyclopedic view of AI. Not every
+major idea that has been investigated is presented here. We have
+chosen some basic ideas upon which other, more sophisticated, techniques
+are based and have tried to explain the basic ideas in detail,
+sketching how these can be expanded. Once a student has understood the
+principles here they can go into more specialized topics such as
+vision, natural language understanding, or robotics.
+
+Figure 1: Overview of chapters and dependencies
+
+Figure 1 shows the topics covered in the book. The
+solid lines depict prerequisites.
+Often the prerequisite structure does not include all
+sub-topics. Given the medium of a book, we have had to linearize
+the topics. However, the book is designed so the topics are teachable
+in any order satisfying the prerequisite structure.
+
+The references given at the end of each chapter are not meant to be
+comprehensive; we have referenced works that we have directly used and
+works that we think provide good overviews of the literature, by referencing both classic works and more recent surveys. We hope
+that no researchers feel slighted by their omission, and we are happy
+to have feedback where someone feels that an idea has been
+misattributed. Remember that this book is not a survey of AI research.
+
+Acknowledgments
+
+Thanks to
+Saleema Amershi,
+Yoshua Bengio,
+Giuseppe Carenini,
+Jeff Clune,
+Mel Comisarow,
+Cristina Conati,
+Nando de Freitas,
+Rina Dechter,
+Bahare Fatemi,
+Randy Goebel,
+Robert Goldman,
+Jesse Hoey,
+Robert Holte,
+Christopher Mole,
+Kevin Murphy,
+Sriraam Natarajan,
+Alex Poole,
+Francesca Rossi,
+Justice Sefas,
+Ben Shneiderman,
+Peter van Beek,
+Geoffrey Woollard,
+and the anonymous reviewers
+for valuable feedback on this third edition.
+
+Thanks to
+our editors,
+Lauren Cowles, Maggie Jeffers, Julie Lancashire, and Stefanie Seaton,
+our content manager, Rachel Norridge,
+and the staff at Cambridge University Press for all
+their support, encouragement, and help.
+
+All remaining mistakes are ours.
+
+We invite you to join us in an intellectual adventure: building a
+science of intelligent agents.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

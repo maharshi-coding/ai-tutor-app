@@ -1,0 +1,783 @@
+Original Path: jupyter_english/projects_indiv/Indiv_project_Sergei_Bulaev-2.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+```python
+import pandas as pd
+pd.set_option('display.max_columns', 500)
+from tqdm import tqdm
+import numpy as np
+from matplotlib import pyplot as plt
+#import lightgbm as lgb
+from scipy.stats import mode
+from sklearn.preprocessing import LabelEncoder
+from datetime import timedelta
+from pandas import pivot_table
+
+import seaborn as sns
+sns.set()
+%config InlineBackend.figure_format = 'svg'
+```
+
+### Author Sergei Bulaev , Slack name: @ser-serege , Fall 2018
+
+## Part 1. Dataset and features description
+
+###### This dataset contains the history of customer transactions for 3 months of preferential use of the banking product.
+
+In the test file.the csv contains lines of c 518375 transactions made by the clients of the Bank. The cl_id column contains the internal client id. For each unique cl_id, you should predict whether the client will continue to use the product (target_flag). A value of 0 indicates failure and a value of 1 indicates continued use.
+
+| Column | Transcription |
+|PERIOD |transaction month |
+|cl_id |client id |
+|MCC |seller category code |
+|channel_type |customer engagement channel |
+|currency |currency |
+|TRDATETIME |transaction date/time |
+|amount |transaction amount |
+|trx_category |type of transaction POS payment through
+| |the POS terminal, C2C_OUT – transfer
+| |(outgoing payment), C2C_IN – card |
+| |transaction (incoming payment), DEPOSIT|
+| |card in the ATM, WD_ATM_PARTNER – cash |
+| | withdrawals at ATMs partners
+|target_flag |will the customer continue to use the product after the grace period (1/0) (target)
+|target_sum | the amount of the transaction kind of POS for the three future months (target)
+
+```python
+#raw_df = pd.read_csv('Rosbankk.csv',error_bad_lines=False)
+#
+#raw_df.to_csv('rosbank_train.csv')
+#test = pd.read_csv('rosbank_test.csv',error_bad_lines=False)
+raw_df = pd.read_csv('Rosbankk.csv',error_bad_lines=False)
+```
+
+```python
+#raw_df = pd.read_csv('rosbank_train.csv',error_bad_lines=False)
+#del raw_df['Unnamed: 0']
+```
+
+```python
+raw_df.head()
+```
+
+```python
+raw_df['cl_id'].nunique()
+```
+
+```python
+plt.hist(raw_df[raw_df['target_flag'] == 1]['target_flag'].dropna(), color='red', alpha=0.3, bins=30);
+plt.hist(raw_df[raw_df['target_flag'] == 0]['target_flag'].dropna(), color='green', alpha=0.5, bins=30);
+print(round((raw_df[raw_df['target_flag'] == 1]['cl_id'].nunique() / raw_df['cl_id'].nunique())*100,1), '% of taget = 1')
+```
+
+```python
+raw_df.info()
+raw_df.describe()
+```
+
+```python
+print( 'Number of unique clients =',raw_df['cl_id'].nunique())
+print ('At channel_type column there are ', round(100*(len(raw_df[raw_df['channel_type'].isna()]) / len(raw_df)),1), '% of empty cells')
+```
+
+##### Let's plot where in dimention distribution of target
+
+```python
+X = raw_df[['cl_id','target_flag']].groupby('cl_id').agg('max').reset_index()
+ind = X['target_flag']==0
+plt.plot(X['cl_id'][ind], np.random.rand(np.sum(ind)), 'g.', label='negative case')
+ind = X['target_flag']==1
+plt.plot(X['cl_id'][ind], np.random.rand(np.sum(ind)), 'b.', label='positive case')
+plt.legend()
+```
+
+# From dataset we see, that:
+MCC is not int number, it have to be categorial data(we will find descriptions in the Internet); Currency should be also categorial data
+
+In total there are 490513 transactions for 3 month, by made 5000 clients. In general it's about
+98 transactions by 1 client for 3 month of using card.
+
+Time period is from 01/01/2017' to '01/12/2017'
+
+From description we see that there are empty cells in channel_type feature. Let's fill them into 'type6'
+
+```python
+raw_df.channel_type.unique()
+```
+
+```python
+#From description we see that there are empty cells in channel_type feature. Let's fill them into 'type6'
+
+raw_df.channel_type.fillna('type6', inplace = True)
+```
+
+From description we see that PERIOD and TRDATETIME have Object type. and strange format. let's parse it and convert to datetime format
+
+```python
+from datetime import datetime, date, time
+
+raw_df['PERIOD'] = raw_df['PERIOD'].apply(pd.to_datetime)
+
+# Creating separate cols for yr, month,...
+raw_df['Year'] = raw_df.TRDATETIME.str[5:7]
+raw_df['Month'] = raw_df.TRDATETIME.str[2:5]
+raw_df['Date'] = raw_df.TRDATETIME.str[0:2]
+raw_df['Hour'] = raw_df.TRDATETIME.str[8:10]
+
+# Replace month with ints
+raw_df.Month = raw_df.Month.replace(to_replace=['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN','JUL','AUG',\
+'SEP','OCT','NOV','DEC' ], value=[1,2,3,4,5,6,7,8,9,10,11,12])
+
+raw_df.Year = raw_df.Year.apply(pd.to_numeric)
+raw_df.Date = raw_df.Date.apply(pd.to_numeric)
+raw_df.Month= raw_df.Month.apply(pd.to_numeric)
+raw_df.Hour = raw_df.Hour.apply(pd.to_numeric)
+raw_df.Year = raw_df.Year + 2000
+
+# making date format
+def to_date(row):
+return date(row[10], row[11], row[12])
+raw_df['DateFormat'] = raw_df.apply(to_date, axis=1)
+
+# making Quater of the Year feature
+def Quater(row):
+if row['Month']in [1, 2, 3]:
+return 1
+if row['Month']in [4, 5, 6]:
+return 2
+if row['Month']in [7, 8, 9]:
+return 3
+if row['Month']in [10, 11, 12]:
+return 4
+
+# Applying features is the day is weekend and quater
+raw_df['quater_of_year'] = raw_df.apply(Quater, axis = 1)
+raw_df['weekend'] = raw_df['DateFormat'].astype('datetime64[ns]')
+raw_df['weekend'] = ((raw_df.weekend.dt.dayofweek) // 5 ==1).astype(float)
+```
+
+```python
+raw_df.currency.unique()
+```
+
+```python
+raw_df.trx_category.unique()
+```
+
+##### In python there is a library which can convert currancy. Let's convert all amounts to rubles
+
+```python
+from currency_converter import CurrencyConverter
+
+converter = CurrencyConverter(fallback_on_missing_rate=True, fallback_on_wrong_date=True)
+converter_currencies = converter.currencies
+
+def convert_to_rub(amount, currency, day):
+if currency == 'RUB':
+return amount
+else:
+if currency in converter_currencies:
+return converter.convert(amount, currency, 'RUB', date = day)
+else: amount
+return amount
+
+# also from task descripttion we know that there are cash in and cash out .
+# It that logic make the functions which convert in (+) or (-)
+
+def cash_in_out(raw):
+if raw['trx_category'] == 'POS':
+return raw['amount']*(-1)
+if raw['trx_category'] == 'C2C_OUT':
+return raw['amount']*(-1)
+if raw['trx_category'] == 'WD_ATM_PARTNER':
+return raw['amount']*(-1)
+if raw['trx_category'] == 'WD_ATM_ROS':
+return raw['amount']*(-1)
+else:
+return raw['amount']
+
+raw_df['amount'] = raw_df.apply(lambda x: convert_to_rub(x['amount'], x['currency'], x['DateFormat']), axis = 1)
+raw_df['cash_in_out'] = raw_df.apply(cash_in_out, axis=1)
+```
+
+#### Let's create a feature that discribe currnecy Rub, Dollar ,Euro other
+
+```python
+def Is_rub(raw):
+if raw['currency'] == 810:
+return 'Rub'
+if raw['currency'] == 643:
+return 'Rub'
+if raw['currency'] ==840:
+return '$'
+if raw['currency'] == 978:
+return 'Euro'
+else:
+return 'other'
+raw_df['cur']= raw_df.apply(Is_rub, axis=1)
+```
+
+###### Let create a feature of start and end of perion of using the card
+
+```python
+max_date = raw_df[['cl_id', 'DateFormat']].groupby('cl_id').max().reset_index()
+max_date.columns = ['cl_id', 'last_action']
+
+raw_df = pd.merge(raw_df, max_date, how='left', on='cl_id')
+```
+
+##### I have a hypothesis that if client continue to usethe card actively in the end of period of preferential use period he will continue to use card after . So let's create features for last 14 days and last 30 days before the end of period
+
+```python
+raw_df['last_action'] = pd.to_datetime(raw_df['last_action'])
+
+raw_df['last_14_days'] = raw_df['last_action'] - timedelta(days=14)
+raw_df['last_30_days'] = raw_df['last_action'] - timedelta(days=30)
+
+raw_df['DateFormat'] = pd.to_datetime(raw_df['DateFormat'])
+raw_df['last_14_days']= pd.to_datetime(raw_df['last_14_days'])
+raw_df['last_30_days'] = pd.to_datetime(raw_df['last_30_days'])
+
+def last_14_days1(row):
+if row['DateFormat']>=row['last_14_days']:
+return 1
+
+def last_30_days1(row):
+if row['DateFormat']>=row['last_30_days']:
+return 1
+
+raw_df['last_14_days'] = raw_df.apply(last_14_days1, axis=1)
+raw_df['last_30_days'] = raw_df.apply(last_30_days1, axis=1)
+```
+
+##### The next one quation to solve is MCC (Merchnt Category Code) codes. This are codes identifies the kind of operation of client. For
+
+```python
+mcc_codes = pd.read_excel('mcc_codes1.xlsx')
+mcc_codes.columns = ['MCC', 'Name' , 'Group']
+
+raw_df = pd.merge(raw_df, mcc_codes, 'left', on=['MCC'])
+```
+
+```python
+mcc_codes.head()
+```
+
+##### MCC codes have current name and grouped name. We will use it for groupby functions
+##### One of MCC codes means cashback from POS operations
+
+```python
+def cashback(raw):
+if raw['trx_category'] == 'POS':
+return raw['amount']*0.02
+raw_df['cashback'] = raw_df.apply(cashback, axis=1)
+```
+
+#### Finaly we have
+
+```python
+raw_df.head()
+```
+
+##### All NaN's mean that they are equal to 0
+
+```python
+raw_df = raw_df.fillna(0)
+```
+
+```python
+# Save it fo file
+#raw_df.to_csv('rosbank_train1.csv')
+#raw_df = pd.read_csv('rosbank_train1.csv')
+```
+
+### Okay it seems that we prepare dataset for further groupby functtions.
+
+```python
+raw_df.info()
+```
+
+```python
+raw_df.head(2)
+```
+
+##### Doing some aggregations to generate sample of unique clients. General approach is to count for categorial features and aggregate by for numerical ['max', 'min', 'mean', 'count' , 'sum']
+
+```python
+def days_in_use(x):
+return (np.max(x) - np.min(x)).days
+
+days_usage = raw_df[['cl_id','DateFormat']].groupby('cl_id').agg(days_in_use)
+
+days_usage['target_flag'] = raw_df['target_flag']
+
+max_date = raw_df[['cl_id', 'DateFormat']].groupby('cl_id').max()
+days_usage['days_from_end_period']= (max(raw_df['DateFormat']) - max_date['DateFormat']).dt.days
+
+num_trans_total = raw_df[['cl_id','DateFormat']].groupby('cl_id').agg('count').reset_index()
+num_trans_total.columns = ['cl_id', 'num_trans_total']
+num_trans_total.index=num_trans_total.cl_id
+days_usage['Num_trans_total'] = num_trans_total.num_trans_total
+
+num_trans_month = raw_df[['cl_id','Month']].groupby('cl_id').agg(['max', 'min', 'mean', 'count', 'sum']).reset_index()
+#num_trans_month.columns = ['cl_id', 'num_trans_month']
+num_trans_month.index=num_trans_month.cl_id
+days_usage[num_trans_month.columns] = num_trans_month
+
+balance_on_end_of_period = raw_df[['cl_id', 'cash_in_out']].groupby('cl_id').agg(['max', 'min', 'mean', 'count','sum']).reset_index()
+#balance_on_end_of_period.columns=['cl_id', 'balance_on_end_of_period']
+balance_on_end_of_period.index=balance_on_end_of_period.cl_id
+days_usage[balance_on_end_of_period.columns] = balance_on_end_of_period
+
+cashback = raw_df[['cl_id', 'cashback']].groupby('cl_id').sum().reset_index()
+cashback.columns=['cl_id', 'cashback']
+cashback.index=cashback.cl_id
+days_usage['cashback'] = cashback.cashback
+
+spent_trx_category = raw_df[['cl_id', 'trx_category' ,'amount']].groupby(['cl_id', 'trx_category']).sum().\
+unstack().reset_index()
+spent_trx_category=spent_trx_category.fillna(0)
+spent_trx_category.columns = ['cl_id', 'BACK_TRX', 'C2C_IN', 'C2C_OUT', 'CASH_ADV', 'CAT', 'DEPOSIT',
+'POS', 'WD_ATM_OTHER', 'WD_ATM_PARTNER', 'WD_ATM_ROS']
+spent_trx_category.index= spent_trx_category.cl_id
+
+days_usage[['BACK_TRX', 'C2C_IN', 'C2C_OUT', 'CASH_ADV', 'CAT', 'DEPOSIT',
+'POS', 'WD_ATM_OTHER', 'WD_ATM_PARTNER', 'WD_ATM_ROS']] = spent_trx_category[['BACK_TRX', 'C2C_IN', 'C2C_OUT',\
+'CASH_ADV', 'CAT', 'DEPOSIT','POS', 'WD_ATM_OTHER', 'WD_ATM_PARTNER', 'WD_ATM_ROS']]
+
+quntity_of_mcc = raw_df[['cl_id','MCC']].groupby(['cl_id','MCC']).apply(lambda x: x.count()).unstack().\
+max(axis=1).reset_index()
+quntity_of_mcc.columns=['cl_id', 'quntity_of_mcc']
+quntity_of_mcc.index= quntity_of_mcc.cl_id
+days_usage['quntity_of_mcc']=quntity_of_mcc.quntity_of_mcc
+
+multy_currency = raw_df[['cl_id', 'currency']].groupby(['cl_id', 'currency']).first().reset_index()
+multy_currency = multy_currency.groupby(['cl_id']).count()
+#multy_currency.index= multy_currency.cl_id
+
+days_usage['multy_currency']=multy_currency.currency
+
+last_14_days=raw_df[['cl_id', 'last_14_days']].groupby(['cl_id']).agg('sum')
+last_30_days=raw_df[['cl_id', 'last_30_days']].groupby(['cl_id']).agg('sum')
+
+days_usage[last_14_days.columns]=last_14_days
+days_usage[last_30_days.columns]=last_30_days
+
+group_mcc = pivot_table(raw_df, values='cash_in_out',
+index=['cl_id'], columns=['Group'], aggfunc=lambda cash_in_out: len(cash_in_out.unique())).fillna(0)
+group_mcc2 = pivot_table(raw_df, values='cash_in_out',
+index=['cl_id'], columns=['Group'], aggfunc=np.sum).fillna(0)
+
+mcc = pd.merge(group_mcc, group_mcc2, 'left', on=days_usage.index)
+
+mcc.index=mcc.key_0
+days_usage[mcc.columns]= mcc
+del days_usage['key_0']
+
+trx_category = raw_df[['cl_id','trx_category', 'cash_in_out']].groupby(['cl_id','trx_category']).agg(['max', \
+'min', 'mean', 'count', 'sum']).unstack()
+days_usage[trx_category.columns]=trx_category
+
+quater_of_year = raw_df[['cl_id', 'quater_of_year']].groupby('cl_id').agg('sum').reset_index()
+#quater_of_year.columns=['cl_id', 'quater_of_year']
+quater_of_year.index=quater_of_year.cl_id
+days_usage[quater_of_year.columns] = quater_of_year
+
+last_action = raw_df[['cl_id', 'last_action']].groupby('cl_id').count().reset_index()
+last_action.columns=['cl_id', 'last_action']
+last_action.index=last_action.cl_id
+days_usage['last_action'] = last_action.last_action
+
+cur = raw_df[['cl_id','cur', 'cash_in_out']].groupby(['cl_id','cur']).agg(['max', 'min', 'mean', 'count', 'sum'\
+]).unstack()
+#cur.index=cur.cl_id
+days_usage[cur.columns]=cur
+```
+
+last_14_days = raw_df[['cl_id', 'last_14_days']].groupby('cl_id').agg(['max', 'min', 'mean', 'count', 'sum'\
+]).reset_index()
+#last_14_days.columns=['cl_id', 'last_14_days']
+last_14_days.index=last_14_days.cl_id
+days_usage[last_14_days.columns] = last_14_days
+
+last_30_days = raw_df[['cl_id', 'last_30_days']].groupby('cl_id').agg(['max', 'min', 'mean', 'count', 'sum'\
+]).reset_index()
+#last_30_days.columns=['cl_id', 'last_30_days']
+last_30_days.index=last_14_days.cl_id
+days_usage[last_30_days.columns] = last_30_days
+
+##### Another one feature could be relation between (all count of transactions) / to (count of transactions by 14 last days and 30 last days)
+
+```python
+days_usage['all_to_last14'] = days_usage['last_14_days'] / days_usage['Num_trans_total']
+days_usage['all_to_last30'] = days_usage['last_30_days'] / days_usage['Num_trans_total']
+```
+
+#### We've got a dataset with 139 aggregated features
+
+```python
+days_usage.head()
+```
+
+```python
+days_usage.describe()
+```
+
+##### For sure there are a lot of NaN because of aggregations. So, if Nan, fill it by 0
+
+```python
+days_usage=days_usage.fillna(0)
+```
+
+```python
+days_usage.
+```
+
+```python
+days_usage.head()
+```
+
+```python
+days_usage.to_csv('days_us.csv')
+```
+
+```python
+Plotting visual info.
+```
+
+```python
+sns.heatmap(days_usage.corr())
+```
+
+#### From the graph we see that there are a lot of correletad features. Let's find them and drop
+
+```python
+# чтобы убрать все кореллирующие признакие
+def drop_corr_col(df_corr):
+upper = df_corr.where(np.triu(np.ones(df_corr.shape),
+k=1).astype(np.bool))
+to_drop = [column for column in upper.columns if any(upper[column] > 0.9)]
+return(to_drop)
+```
+
+```python
+corr=days_usage.corr().abs()
+drop_col=drop_corr_col(corr)
+print('We found and drop',len(drop_col), 'correlated features with the coefficient more then 0.9')
+```
+
+```python
+#Let's make PCA with 2 components from all of them and then add this two components into dataset , others drop
+from sklearn.decomposition import PCA
+pca = PCA(n_components=2).fit_transform(days_usage[drop_col])
+
+pca_df = pd.DataFrame(pca, columns=['pca1', 'pca2'])
+pca_df.index=days_usage.index
+
+days=days_usage.drop(drop_col, axis=1)
+days[pca_df.columns]= pca_df
+```
+
+```python
+days.head()
+```
+
+```python
+days.to_csv('days.csv')
+```
+
+```python
+plt.hist(days[days['target_flag'] == 1]['target_flag'].dropna(), color='red', alpha=0.3, bins=30);
+plt.hist(days[days['target_flag'] == 0]['target_flag'].dropna(), color='green', alpha=0.5, bins=30);
+```
+
+```python
+plt.plot(days['last_14_days'])
+```
+
+```python
+sns.boxplot(x='DateFormat', data=days);
+```
+
+```python
+sns.boxplot(x='Num_trans_total', data=days);
+```
+
+```python
+sns.pairplot(days_usage[['DateFormat','days_from_end_period',
+'multy_currency', 'quntity_of_mcc' ] ])
+```
+
+### Okay, we prepared Dataset , saw on the distribution of some features. Let's choose metrics to evaluate quality of future models.
+##### We have task of binary classification, so we will see on metrics ROCAUC. Also, we have disbalance of target classes, but difference is not too big. So Accuracy and precision are good too.
+
+```python
+from sklearn.metrics import roc_auc_score, roc_curve
+```
+
+```python
+from sklearn.metrics import roc_auc_score, roc_curve, accuracy_score, confusion_matrix, auc
+from sklearn.model_selection import KFold, StratifiedKFold
+
+def calc_auc(y_test2, y_pred, plot_label='', prin=True):
+fpr, tpr, _ = roc_curve(y_test2, y_pred)
+auc_val = auc(fpr, tpr)
+if prin:
+print('ROC AUC: {0:.4f}'.format(auc_val))
+if plot_label:
+plt.plot(fpr, tpr, label=plot_label)
+plt.xlabel('FPR')
+plt.ylabel('TPR')
+return auc_val
+```
+
+### Also make a funcion to plot confusion matrix
+
+```python
+def plot_confusion_matrix(cm, classes,
+normalize=False,
+title='Confusion matrix',
+cmap=plt.cm.Blues):
+
+plt.imshow(cm, interpolation='nearest', cmap=cmap)
+plt.title(title)
+plt.colorbar()
+tick_marks = np.arange(len(classes))
+plt.xticks(tick_marks, classes, rotation=45)
+plt.yticks(tick_marks, classes)
+
+if normalize:
+cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+print("Normalized confusion matrix")
+else:
+print('Confusion matrix, without normalization')
+
+print(cm)
+
+thresh = cm.max() / 2.
+for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+plt.text(j, i, cm[i, j],
+horizontalalignment="center",
+color="white" if cm[i, j] > thresh else "black")
+
+plt.tight_layout()
+plt.ylabel('True label')
+plt.xlabel('Predicted label')
+
+font = {'size' : 15}
+
+plt.rc('font', **font)
+```
+
+#### We are ready to build models.
+
+To do it we will make Train_test_split. Because we have disbalanced classes and less number of user is oldest one, we will shake them by stratified shaffle split.
+
+```python
+X = days.copy()
+y = days.target_flag
+X = X.reset_index()
+X.drop([('cl_id', '')], axis=1)
+del X['target_flag']
+del X[('cl_id', '')]
+```
+
+```python
+X.head()
+```
+
+```python
+from sklearn.model_selection import StratifiedShuffleSplit
+
+splitter = StratifiedShuffleSplit(n_splits=2, test_size=0.3, random_state=17)
+
+for train_index, test_index in splitter.split(X, y):
+X_train = X.iloc[train_index]
+X_test = X.iloc[test_index]
+
+y_train = y.iloc[train_index]
+y_test = y.iloc[test_index]
+```
+
+```python
+import xgboost
+from sklearn.metrics import roc_auc_score, roc_curve
+xgb = xgboost.XGBClassifier(learning_rate=0.1, max_depth=5, n_jobs=-1)
+xgb.fit(X_train, y_train)
+y_train_predict = xgb.predict_proba(X_train)[:, 1]
+y_test_predict = xgb.predict_proba(X_test)[:, 1]
+roc_auc_train = np.round(roc_auc_score(y_train, y_train_predict), 2)
+roc_auc_test = np.round(roc_auc_score(y_test, y_test_predict), 2)
+print("Train: ", roc_auc_train)
+print("Test: ", roc_auc_test)
+```
+
+```python
+from xgboost import plot_importance
+plot_importance(xgb, max_num_features = 15)
+```
+
+## We see that cl_id is data leak. Drop it.
+
+```python
+del X_train['cl_id']
+del X_test['cl_id']
+```
+
+```python
+import xgboost
+from sklearn.metrics import roc_auc_score, roc_curve
+xgb = xgboost.XGBClassifier( n_jobs=-1)
+xgb.fit(X_train, y_train)
+y_train_predict = xgb.predict_proba(X_train)[:, 1]
+y_test_predict = xgb.predict_proba(X_test)[:, 1]
+roc_auc_train = np.round(roc_auc_score(y_train, y_train_predict), 2)
+roc_auc_test = np.round(roc_auc_score(y_test, y_test_predict), 2)
+print("Train: ", roc_auc_train)
+print("Test: ", roc_auc_test)
+```
+
+```python
+from xgboost import plot_importance
+plot_importance(xgb, max_num_features = 15)
+```
+
+Bad results. Lets buid simple Logistic regression
+
+```python
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LinearRegression, LogisticRegression
+
+scaler= StandardScaler()
+X_scaled_train = scaler.fit_transform(X_train)
+X_scaled_test = scaler.transform(X_test)
+
+lr=LogisticRegression()
+lr.fit(X_scaled_train,y_train)
+y_pred_train= lr.predict_proba(X_scaled_train)
+y_pred_test= lr.predict_proba(X_scaled_test)
+
+#.fit(x_train1_l1,y_train).score(x_train1_l1,y_train)
+#print(score)
+print(np.round(roc_auc_score(y_train, y_pred_train[:,1]), 2))
+print(np.round(roc_auc_score(y_test, y_pred_test[:,1]), 2))
+
+y_pred_rf_test1 = lr.predict_proba(X_scaled_test)[:, 1]
+y_pred_rf_train1 = lr.predict_proba(X_scaled_train)[:, 1]
+
+print('Train:')
+calc_auc(y_train, y_pred_rf_train1, 'train')
+print('Test:')
+calc_auc(y_test, y_pred_rf_test1, 'test')
+plt.legend();
+```
+
+## A little bit better then random
+
+```python
+from catboost import CatBoost, CatBoostClassifier
+
+model = CatBoostClassifier( )
+
+model.fit(
+X_train, y_train,
+#cat_features=categorical_features_indices,
+eval_set=(X_test, y_test),
+logging_level='Silent',
+plot=True
+);
+```
+
+## Over fitting and the best result so far
+
+```python
+y_pred_rf_test1 = model.predict_proba(X_test)[:, 1]
+y_pred_rf_train1 = model.predict_proba(X_train)[:, 1]
+
+print('Train:')
+calc_auc(y_train, y_pred_rf_train1, 'train')
+print('Test:')
+calc_auc(y_test, y_pred_rf_test1, 'test')
+plt.legend();
+```
+
+Lets try GridserchCV with XGGClassifier.
+With Cross Validation
+numbor of fold = 5
+scoring = roc auc
+shuffle true
+and different paramenters
+
+```python
+from sklearn.cross_validation import *
+from sklearn.grid_search import GridSearchCV
+import xgboost as xgb
+
+parameters = {'nthread':[4], #when use hyperthread, xgboost may become slower
+'objective':['binary:logistic'],
+'learning_rate': [0.01,0.1,1 ], #so called `eta` value
+'max_depth': [4,10],
+'silent': [1],
+'subsample': [0.8],
+'colsample_bytree': [0.7],
+'n_estimators': [500, 1000],
+'missing':[-999],
+'seed': [1337]}
+
+xgb_model = xgb.XGBClassifier()
+clf = GridSearchCV(xgb_model, parameters, n_jobs=5,
+cv=StratifiedKFold(y_train, n_folds=5, shuffle=True),
+scoring='roc_auc',
+verbose=2, refit=True)
+```
+
+```python
+del X_train['target_flag']
+```
+
+```python
+clf.fit(X_train, y_train)
+```
+
+```python
+y_pred_clf_test1 = clf.predict_proba(X_test)[:, 1]
+y_pred_clf_train1 = clf.predict_proba(X_train)[:, 1]
+
+print('Train:')
+calc_auc(y_train, y_pred_clf_train1, 'train')
+print('Test:')
+calc_auc(y_test, y_pred_clf_test1, 'test')
+plt.legend();
+```
+
+```python
+from sklearn.metrics import precision_recall_curve, classification_report
+report = classification_report(y_test, clf.predict(X_test))
+print(report)
+```
+
+### So, about the half of samples we predict incorrect.
+
+```python
+import itertools
+cnf_matrix = confusion_matrix(y_test, clf.predict(X_test))
+plt.figure(figsize=(10, 6))
+plot_confusion_matrix(cnf_matrix, classes=['Not_continue', 'Continue to use'],
+title='Confusion matrix')
+plt.savefig("conf_matrix.png")
+plt.show()
+```
+
+## Conclusion
+
+Best model was Catboost
+
+We made lots of feature engeneering and data preprocessing, but we can't predict thouse client who will not use our card.
+For further we have to create more features:
+1. To combine numbers into groups
+2. Cout WOE (Weight of Evidence on this groups
+3. Make Time series of transactions for each client
+4. Also 5000 of clients is not representive sample

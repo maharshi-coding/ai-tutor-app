@@ -1,0 +1,31 @@
+Title: 9. ML
+URL: https://inst.eecs.berkeley.edu/~cs188/textbook/ml/
+Snapshot Type: sanitized text
+
+9. ML
+
+Author: Nikhil Sharma
+
+Edited by: Samantha Huang and Wesley Zheng
+
+Credit: Some sections adapted from the textbook Artificial Intelligence: A Modern Approach .
+
+Last updated: September 2024
+
+- 9.1 Machine Learning
+
+- 9.2 Naives Bayes
+
+- 9.3 Perceptron
+
+- 9.4 Binary Perceptron
+
+- 9.5 Linear Regression
+
+- 9.6 Optimization
+
+- 9.7 Logistic Regression
+
+- 9.8 Multi-Class Logistic Regression
+
+- 9.9 Neural Networks: Motivation

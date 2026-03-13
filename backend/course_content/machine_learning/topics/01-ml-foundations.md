@@ -884,17 +884,20 @@ Documents in bundle: 400
 - Pretraining word2vec (Dive into Deep Learning)
   Extracted file: extracted/d2l-en/babde2e0bee05b11-pretraining-word2vec.md
   Original URL: https://github.com/d2l-ai/d2l-en/blob/HEAD/chapter_natural-language-processing-pretraining/word2vec-pretraining.md
-- Machine Learning (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/15d56aac8b4645e8-machine-learning.md
-  Original URL: https://developers.google.com/machine-learning/crash-course
+- 前提条件と事前作業 (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/c21512e3c2acf0ca-document.md
+  Original URL: https://developers.google.com/machine-learning/crash-course/prereqs-and-prework
 - Linear regression (Google Machine Learning Crash Course)
   Extracted file: extracted/google-ml-crash-course/45a52aac3cdd4953-linear-regression.md
   Original URL: https://developers.google.com/machine-learning/crash-course/linear-regression
-- סיווג (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/ab14a96feff85769-document.md
+- Classificação (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/ab14a96feff85769-classifica-o.md
   Original URL: https://developers.google.com/machine-learning/crash-course/classification
-- Travailler avec des données catégorielles (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/874ed60235a97fd2-travailler-avec-des-donn-es-cat-gorielles.md
+- Menangani data numerik (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/8e261a07bf1311d7-menangani-data-numerik.md
+  Original URL: https://developers.google.com/machine-learning/crash-course/numerical-data
+- Working with categorical data (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/874ed60235a97fd2-working-with-categorical-data.md
   Original URL: https://developers.google.com/machine-learning/crash-course/categorical-data
 - Datasets, generalization, and overfitting (Google Machine Learning Crash Course)
   Extracted file: extracted/google-ml-crash-course/2a6da1306afb3b26-datasets-generalization-and-overfitting.md
@@ -905,51 +908,48 @@ Documents in bundle: 400
 - Embeddings (Google Machine Learning Crash Course)
   Extracted file: extracted/google-ml-crash-course/53f6229fc04e4db1-embeddings.md
   Original URL: https://developers.google.com/machine-learning/crash-course/embeddings
-- مقدمة عن النماذج اللغوية الكبيرة (Google Machine Learning Crash Course)
+- 大型语言模型简介 (Google Machine Learning Crash Course)
   Extracted file: extracted/google-ml-crash-course/d2fa782ced956cf3-document.md
   Original URL: https://developers.google.com/machine-learning/crash-course/llm
-- Sistemas de AA de producción (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/0e728cd5d1f06026-sistemas-de-aa-de-producci-n.md
+- Sistemas de ML de produção (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/0e728cd5d1f06026-sistemas-de-ml-de-produ-o.md
   Original URL: https://developers.google.com/machine-learning/crash-course/production-ml-systems
 - Automated Machine Learning (AutoML) (Google Machine Learning Crash Course)
   Extracted file: extracted/google-ml-crash-course/ae8eb4c69f66dd65-automated-machine-learning-automl.md
   Original URL: https://developers.google.com/machine-learning/crash-course/automl
-- Prerequisites and prework (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/c21512e3c2acf0ca-prerequisites-and-prework.md
-  Original URL: https://developers.google.com/machine-learning/crash-course/prereqs-and-prework
+- Fairness (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/36526ca6941d339d-fairness.md
+  Original URL: https://developers.google.com/machine-learning/crash-course/fairness
 - Exercises (Google Machine Learning Crash Course)
   Extracted file: extracted/google-ml-crash-course/7f4d5aea3da9509a-exercises.md
   Original URL: https://developers.google.com/machine-learning/crash-course/exercises
 - Linear regression: Loss (Google Machine Learning Crash Course)
   Extracted file: extracted/google-ml-crash-course/9a7a97863e71c7fb-linear-regression-loss.md
   Original URL: https://developers.google.com/machine-learning/crash-course/linear-regression/loss
+- Linear regression: Gradient descent (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/c6b38a29b8b03969-linear-regression-gradient-descent.md
+  Original URL: https://developers.google.com/machine-learning/crash-course/linear-regression/gradient-descent
 - Linear regression: Hyperparameters (Google Machine Learning Crash Course)
   Extracted file: extracted/google-ml-crash-course/19174f7436e17145-linear-regression-hyperparameters.md
   Original URL: https://developers.google.com/machine-learning/crash-course/linear-regression/hyperparameters
+- Linear regression: Gradient descent exercise (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/f1b683cc7acaeeba-linear-regression-gradient-descent-exercise.md
+  Original URL: https://developers.google.com/machine-learning/crash-course/linear-regression/gradient-descent-exercise
 - Thresholds and the confusion matrix (Google Machine Learning Crash Course)
   Extracted file: extracted/google-ml-crash-course/856a39333ada7cb8-thresholds-and-the-confusion-matrix.md
   Original URL: https://developers.google.com/machine-learning/crash-course/classification/thresholding
-- طبقه بندی: ROC و AUC (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/087dca4f62ba0d38-roc-auc.md
-  Original URL: https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc
-- Clasificación: Sesgo de predicción (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/92dd4e73cc9eae1b-clasificaci-n-sesgo-de-predicci-n.md
+- Classification: Prediction bias (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/92dd4e73cc9eae1b-classification-prediction-bias.md
   Original URL: https://developers.google.com/machine-learning/crash-course/classification/prediction-bias
-- Classification: Multi-class classification (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/2f7c31daed98f4c2-classification-multi-class-classification.md
+- Sınıflandırma: Çok sınıflı sınıflandırma (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/2f7c31daed98f4c2-s-n-fland-rma-ok-s-n-fl-s-n-fland-rma.md
   Original URL: https://developers.google.com/machine-learning/crash-course/classification/multiclass
-- Классификация: Упражнения по программированию. (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/bbbf0cc79f5ed809-document.md
+- Classification: Programming exercise (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/bbbf0cc79f5ed809-classification-programming-exercise.md
   Original URL: https://developers.google.com/machine-learning/crash-course/classification/programming-exercise
-- Classification: Test your knowledge (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/4aa84188bf9b3bb3-classification-test-your-knowledge.md
+- Classificação: teste seus conhecimentos (Google Machine Learning Crash Course)
+  Extracted file: extracted/google-ml-crash-course/4aa84188bf9b3bb3-classifica-o-teste-seus-conhecimentos.md
   Original URL: https://developers.google.com/machine-learning/crash-course/classification/test-your-knowledge
-- Data numerik: Cara model menyerap data menggunakan vektor fitur (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/d2bff7a2df172c72-data-numerik-cara-model-menyerap-data-menggunaka.md
-  Original URL: https://developers.google.com/machine-learning/crash-course/numerical-data/feature-vectors
-- Numerical data: First steps (Google Machine Learning Crash Course)
-  Extracted file: extracted/google-ml-crash-course/48c4d0df56dd8d36-numerical-data-first-steps.md
-  Original URL: https://developers.google.com/machine-learning/crash-course/numerical-data/first-steps
 - Machine Learning Tutorial (GeeksforGeeks Machine Learning Tutorial)
   Extracted file: extracted/geeksforgeeks-machine-learning/c2458b9ba6ab53de-machine-learning-tutorial.md
   Original URL: https://www.geeksforgeeks.org/machine-learning/machine-learning/

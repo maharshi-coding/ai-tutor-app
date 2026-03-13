@@ -1,0 +1,421 @@
+Title: Local Search Algorithm in Artificial Intelligence
+URL: https://www.geeksforgeeks.org/artificial-intelligence/local-search-algorithm-in-artificial-intelligence/
+Snapshot Type: sanitized text
+
+Courses
+
+Tutorials
+
+Interview Prep
+
+- Artificial Intelligence
+
+- Interview Questions
+
+- Project Ideas
+
+- Search Algorithms
+
+- Local Search Algorithm
+
+- Generative AI
+
+- Data Science
+
+- Machine Learning
+
+- Deep Learning
+
+- ML-Projects
+
+- Robotics
+
+Local Search Algorithm in Artificial Intelligence
+
+Last Updated : 31 Jul, 2025
+
+Local search algorithms are important in artificial intelligence as they can quickly find good answers, especially when finding the perfect solution would take too long or too much effort. They are useful for big or complex problems where checking every possible option isn't practical.
+
+- It focus only on the current solution and the ones directly related to it rather than looking everywhere.
+
+- Ideal for real-world tasks like puzzles, timetables or route finding.
+
+Working of Local Search Algorithms
+
+Step 1: Pick a starting point: Start with a possible solution which is often random but sometimes based on rule.
+
+Step 2: Find the neighbors:
+
+- Neighbors are similar solutions we can get by making small, simple changes to the current one.
+
+- For example, in a puzzle, swapping two pieces creates a neighbor.
+
+Step 3: Compare: Look around at all neighbors to see if any are better.
+
+Step 4: Move: If a better neighbor exists, move to it, making it our new “current” solution.
+
+Step 5: Repeat: Keep searching from the new point, following the same steps.
+
+Step 6: Stop: When none of the neighbors are better or after enough tries.
+
+Types of Local Search Algorithms
+
+Let's see few types of Local Search Algorithms:
+
+1. Hill-Climbing Search Algorithm
+
+Hill-Climbing search algorithm is a straightforward local search algorithm that iteratively moves towards better solutions. It is often used for optimization problems where the goal is to find the peak of a landscape, represented by an objective function.
+
+Process :
+
+- Start : Begin with an initial solution.
+
+- Evaluate : Assess the neighboring solutions.
+
+- Move : Transition to the neighbor with the highest objective function value if it improves the current solution.
+
+- Repeat : Continue this process until no better neighboring solution exists.
+
+Pros :
+
+- Easy to implement.
+
+- Works well in small or smooth search spaces.
+
+Cons :
+
+- May get stuck in local optima.
+
+- Limited exploration of the search space.
+
+Python
+
+import random
+
+def f ( x ):
+return - ( x - 3 ) ** 2 + 5
+
+def hill_climb ():
+current_x = random . uniform ( 0 , 6 )
+step_size = 0.1
+max_iterations = 100
+for i in range ( max_iterations ):
+neighbors = [ current_x + step_size , current_x - step_size ]
+neighbors = [ x for x in neighbors if 0 <= x <= 6 ]
+neighbor_scores = [ f ( x ) for x in neighbors ]
+best_neighbor_idx = neighbor_scores . index ( max ( neighbor_scores ))
+best_neighbor = neighbors [ best_neighbor_idx ]
+if f ( best_neighbor ) > f ( current_x ):
+current_x = best_neighbor
+else :
+break
+return current_x , f ( current_x )
+
+result_x , result_value = hill_climb ()
+print ( f "Found maximum at x = { result_x : .2f } , value = { result_value : .2f } " )
+
+Output: Found maximum at x = 3.02, value = 5.00
+
+2. Simulated Annealing
+
+Simulated Annealing is inspired by the annealing process in metallurgy, where materials are heated and then gradually cooled to remove defects. It allows for occasional moves to worse solutions to escape local optima, with the probability of such moves decreasing over time.
+
+Process :
+
+- Start : Begin with an initial solution and an initial temperature.
+
+- Move : Transition to a neighboring solution with a certain probability.
+
+- Cooling Schedule : Gradually reduce the temperature according to a predefined schedule.
+
+- Probability Function : Accept worse solutions with a probability that decreases as the temperature decreases.
+
+Pros :
+
+- Can escape local optima due to probabilistic acceptance of worse solutions.
+
+- Flexible in exploring the solution space.
+
+Cons :
+
+- Requires careful tuning of parameters like temperature and cooling schedule.
+
+- Computationally expensive due to repeated evaluations.
+
+Python
+
+import math
+import random
+
+def f ( x ):
+return - ( x - 3 ) ** 2 + 5
+
+def get_neighbor ( x , step_size = 0.1 ):
+return x + random . uniform ( - step_size , step_size )
+
+def simulated_annealing ():
+current_x = random . uniform ( 0 , 6 )
+best_x = current_x
+best_eval = f ( current_x )
+temp = 10
+max_iterations = 1000
+for i in range ( max_iterations ):
+t = temp / float ( i + 1 )
+candidate = get_neighbor ( current_x )
+candidate = max ( 0 , min ( 6 , candidate ))
+candidate_eval = f ( candidate )
+if candidate_eval > best_eval or random . random () < math . exp (( candidate_eval - best_eval ) / t ):
+current_x = candidate
+best_eval = candidate_eval
+best_x = current_x
+return best_x , f ( best_x )
+
+result_x , result_value = simulated_annealing ()
+print ( f "Best found x = { result_x : .2f } , value = { result_value : .2f } " )
+
+Output: Best found x = 3.02, value = 5.00
+
+3. Genetic Algorithms
+
+Genetic Algorithms (GAs) are inspired by the process of natural selection and evolution. They work with a population of solutions and evolve them over time using genetic operators like selection, crossover and mutation.
+
+Process :
+
+- Initialize : Start with a population of random solutions.
+
+- Evaluate : Assess the fitness of each solution.
+
+- Select : Choose the best solutions for reproduction based on their fitness.
+
+- Crossover : Combine pairs of solutions to produce new offspring.
+
+- Mutate : Apply random changes to offspring to maintain diversity.
+
+- Replace : Form a new population by selecting which solutions to keep.
+
+Pros :
+
+- Can explore a broad solution space and find high-quality solutions.
+
+- Suitable for complex problems with large search spaces.
+
+Cons :
+
+- Computationally expensive due to the need for evaluating many solutions.
+
+- Requires tuning of various parameters like population size and mutation rate.
+
+Python
+
+import random
+
+def f ( x ):
+return - ( x - 3 ) ** 2 + 5
+
+def genetic_algorithm ():
+population = [ random . uniform ( 0 , 6 ) for _ in range ( 20 )]
+max_generations = 50
+for _ in range ( max_generations ):
+scores = [ f ( x ) for x in population ]
+best = population [ scores . index ( max ( scores ))]
+new_population = [ best ] # keep best
+while len ( new_population ) < len ( population ):
+parents = random . sample ( population , 2 )
+child = ( parents [ 0 ] + parents [ 1 ]) / 2
+# mutation: small random step
+if random . random () < 0.3 :
+child += random . uniform ( - 0.2 , 0.2 )
+child = max ( 0 , min ( 6 , child ))
+new_population . append ( child )
+population = new_population
+scores = [ f ( x ) for x in population ]
+best = population [ scores . index ( max ( scores ))]
+return best , f ( best )
+
+result_x , result_value = genetic_algorithm ()
+print ( f "Best found x = { result_x : .2f } , value = { result_value : .2f } " )
+
+Output: Best found x = 3.00, value = 5.00
+
+4. Tabu Search
+
+Tabu Search enhances local search by using a memory structure called the tabu list to avoid revisiting previously explored solutions. This helps to prevent cycling back to local optima and encourages exploration of new areas.
+
+Process :
+
+- Start : Begin with an initial solution and initialize the tabu list.
+
+- Move : Transition to a neighboring solution while considering the tabu list.
+
+- Update : Add the current solution to the tabu list and potentially remove older entries.
+
+- Aspiration Criteria : Allow moves that lead to better solutions even if they are in the tabu list.
+
+Pros :
+
+- Reduces the chance of getting stuck in local optima.
+
+- Effective in exploring large and complex search spaces.
+
+Cons :
+
+- Requires careful management of the tabu list and aspiration criteria.
+
+- Computational complexity can be high.
+
+Python
+
+import random
+
+def f ( x ):
+return - ( x - 3 ) ** 2 + 5
+
+def tabu_search ():
+current_x = random . uniform ( 0 , 6 )
+tabu_list = []
+tabu_size = 5
+step_size = 0.1
+max_iterations = 100
+best_x = current_x
+best_eval = f ( current_x )
+for _ in range ( max_iterations ):
+neighbors = [ current_x + step_size , current_x - step_size ]
+neighbors = [ x for x in neighbors if 0 <=
+x <= 6 and x not in tabu_list ]
+if not neighbors :
+break
+neighbor_scores = [ f ( x ) for x in neighbors ]
+best_neighbor_idx = neighbor_scores . index ( max ( neighbor_scores ))
+best_neighbor = neighbors [ best_neighbor_idx ]
+if f ( best_neighbor ) > best_eval :
+best_x , best_eval = best_neighbor , f ( best_neighbor )
+tabu_list . append ( current_x )
+if len ( tabu_list ) > tabu_size :
+tabu_list . pop ( 0 )
+current_x = best_neighbor
+return best_x , f ( best_x )
+
+result_x , result_value = tabu_search ()
+print ( f "Best found x = { result_x : .2f } , value = { result_value : .2f } " )
+
+Output: Best found x = 3.02, value = 5.00
+
+Comparison of Local Search Algorithms
+
+Feature/Aspect Hill-Climbing Simulated Annealing Genetic Algorithm Tabu Search
+
+Inspiration Climbing a hill Annealing in metallurgy Natural selection and evolution Memory-based search
+
+Search Space Local Broad (with controlled randomness) Very broad (population-based) Broad with memory
+
+Moves to Worse Solutions No Yes (probabilistic) Yes (via mutation/crossover) Rare (with aspiration)
+
+Avoids Local Optima No Yes Yes Yes
+
+Memory Usage Low Medium High Medium to High
+
+Parameter Tuning Needed Minimal High (temperature, cooling) High (population, mutation rate) Medium (tabu size, rules)
+
+Speed Fast Moderate Slower (population evolution) Moderate
+
+Complexity Simple Moderate High Moderate
+
+Best Use Case Small/simple problems Problems with many local optima Complex optimization problems Problems prone to cycling
+
+Applications of Local Search
+
+Let's see some applications of local search algorithms,
+
+- Scheduling: Creating timetables for schools, jobs or exams to avoid conflicts and balance workloads.
+
+- Routing: Finding efficient paths for deliveries or travel, like in the Traveling Salesperson Problem.
+
+- Resource allocation: Assigning limited resources (like machines, rooms or staff) without clashes.
+
+- Games and AI: Making fast decisions or moves in complex games.
+
+- Tuning models: Adjusting settings in machine learning to get better results.
+
+Local search algorithms are a simple and practical way to solve hard problems where we just need a good answer quickly. They do not always find the very best answer but they are fast, use little memory and can be adapted to many real-life tasks. They are a good choice when getting any workable solution is more important than getting the perfect one.
+
+Artificial Intelligence
+
+AI-ML-DS
+
+Introduction to AI
+
+- What is Artificial Intelligence (AI) 10 min read
+
+- Types of Artificial Intelligence (AI) 6 min read
+
+- Types of AI Based on Functionalities 4 min read
+
+- Agents in AI 7 min read
+
+- Artificial intelligence vs Machine Learning vs Deep Learning 3 min read
+
+- Problem Solving in Artificial Intelligence 6 min read
+
+- Top 20 Applications of Artificial Intelligence (AI) in 2025 13 min read
+
+AI Concepts
+
+- Search Algorithms in AI 6 min read
+
+- Local Search Algorithm in Artificial Intelligence 7 min read
+
+- Adversarial Search Algorithms in Artificial Intelligence (AI) 15+ min read
+
+- Constraint Satisfaction Problems (CSP) in Artificial Intelligence 10 min read
+
+- Knowledge Representation in AI 9 min read
+
+- First-Order Logic in Artificial Intelligence 4 min read
+
+- Reasoning Mechanisms in AI 9 min read
+
+Machine Learning in AI
+
+- Machine Learning Tutorial 5 min read
+
+- Deep Learning Tutorial 2 min read
+
+- Natural Language Processing (NLP) Tutorial 2 min read
+
+- Computer Vision Tutorial 3 min read
+
+Robotics and AI
+
+- Artificial Intelligence in Robotics 5 min read
+
+- What is Robotics Process Automation 8 min read
+
+- Automated Planning in AI 8 min read
+
+- AI in Transportation 8 min read
+
+- AI in Manufacturing : Revolutionizing the Industry 6 min read
+
+Generative AI
+
+- What is Generative AI? 7 min read
+
+- Generative Adversarial Network (GAN) 11 min read
+
+- Cycle Generative Adversarial Network (CycleGAN) 7 min read
+
+- StyleGAN - Style Generative Adversarial Networks 5 min read
+
+- Introduction to Generative Pre-trained Transformer (GPT) 4 min read
+
+- BERT Model - NLP 12 min read
+
+- Generative AI Applications 7 min read
+
+AI Practice
+
+- Top Artificial Intelligence(AI) Interview Questions and Answers 15+ min read
+
+- Top Generative AI and LLM Interview Question with Answer 15+ min read
+
+- 30+ Best Artificial Intelligence Project Ideas with Source Code [2026 Updated] 15+ min read

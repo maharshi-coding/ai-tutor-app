@@ -1,0 +1,1213 @@
+Original Path: jupyter_english/projects_indiv/html_markup_product_card_detection_Danila.ipynb
+Original Type: .ipynb
+Snapshot Type: sanitized text
+
+```python
+import sys
+import copy
+import random
+import hashlib
+import itertools
+from PIL import Image
+import matplotlib.pyplot as plt
+%matplotlib inline
+import operator
+import json
+import pandas as pd
+import numpy as np
+from sklearn.utils import shuffle
+from sklearn.metrics import confusion_matrix
+from sklearn.linear_model import SGDClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import roc_auc_score, f1_score, confusion_matrix, average_precision_score
+from sklearn.model_selection import validation_curve, learning_curve
+from IPython.display import Image
+import seaborn as sns
+import warnings
+warnings.filterwarnings('ignore')
+```
+
+Data can be downloaded at
+
+https://drive.google.com/open?id=1H7N3Y7PEm0_442koQeffVfodlOiR0W_o
+
+https://drive.google.com/open?id=1YbI2DFpuR_689OcqTwvRvEgcpu6BXSVt
+
+```python
+df = pd.read_csv('sites_markup.csv')
+```
+
+```python
+df.head(3)
+```
+
+## Part 1. Dataset and features description
+
+Dataset was gathered from grocery retail sites.<br>
+They all have a similar structure, so it's supposed to be possible to parse this sites not by manual rules, but by crawler which can distinguish between elements in site.<br>
+Let's have a look at the sites
+
+```python
+Image(url='https://habrastorage.org/webt/xe/ek/vu/xeekvu2aogn6mljs-obb4y7nns0.png', width=700)
+```
+
+```python
+Image(url='https://habrastorage.org/webt/vz/vz/u8/vzvzu80khqbtlr3cow9xmj8kgwq.png', width=700)
+```
+
+```python
+Image(url='https://habrastorage.org/webt/ng/s3/8w/ngs38wzj4gtl4bnhikmamyjtory.png', width=700)
+```
+
+So they indeed similar.<br>
+Let's look at the dataset and features
+
+```python
+df.info()
+```
+
+```python
+df.head(2)
+```
+
+Features were constructed from common sense and couple papers with similar goal (https://medium.com/contentsquare-engineering-blog/automatic-zone-recognition-in-webpages-68fb2efab822 , https://arxiv.org/pdf/1210.6113.pdf).
+
+<i>childs_tags</i> - tags that nested elements have<br>
+<i>depth</i> - depth in HTML markup tree<br>
+<i>element_classes_count</i> - how many classes have an element<br>
+<i>element_classes_words</i> - element's classes names<br>
+<i>href_seen</i> - is href somewhere inside child elements<br>
+<i>img_seen</i> - is img somewhere inside child elements<br>
+<i>inner_elements</i> - how many nested elements<br>
+<i>is_displayed</i> - is_displayed flag from selenium<br>
+<i>is_href</i> - is current element href<br>
+<i>location</i> - loacation of upper-left corner on page<br>
+<i>parent_tag</i> - which tag have element's ancestor<br>
+<i>screenshot</i> - path to element's screenshot<br>
+<i>shop</i> - shop's name<br>
+<i>siblings_count</i> - how many other elements lay on the same layer<br>
+<i>size</i> - width and height of element<br>
+<i>tag</i> - element's tag<br>
+<i>text</i> - text inside the element<br>
+<i>y</i> - is it a "product card" our target<br>
+
+Our goal to find "product card" object
+
+```python
+Image(url='https://habrastorage.org/webt/if/yo/r2/ifyor2xutwypu-eyqfufqnh2g5o.png', width=900)
+```
+
+As we can see there are many products on the same page. Each product card has many descending elements and specific structure like picture, price, product name, rating, to_cart, etc.
+
+Data was gathered not just by downloading pages to obtain raw html, but with page execution to get element sizes and locations.
+
+When we'll get auto product card recognition, our crawlers will be able to get products from a wide range of sites without explicit rules. It is possible to crawl all sites by hands, but boring and after 20+ sites, it's harder to maintain, because site's structure changes over time.
+
+### Part 1.5 Raw data processing
+
+'childs_tags', 'location', 'parent_tag', 'size' - needs to be corrected. All array elements will be strings with " " separator, and all ints will be separate fields.
+
+```python
+df[['loc_x', 'loc_y']] = df['location'].str.replace("'", '"').apply(json.loads).apply(pd.Series)
+df[['size_h', 'size_w']] = df['size'].str.replace("'", '"').apply(json.loads).apply(pd.Series)
+df.size_h = df.size_h.astype(int)
+df.size_w = df.size_w.astype(int)
+```
+
+```python
+df['parent_tag'] = df.parent_tag.str.split('_')
+df['childs_tags'] = df.childs_tags.apply(lambda x: x.replace('[', '').replace(']','').strip())
+```
+
+Drop some columns
+
+```python
+df_clean = df.copy()
+df_clean.drop(['location', 'size', 'Unnamed: 0'], axis=1, inplace=True)
+```
+
+## Part 2-3-4. Exploratory data analysis and visual analysis of the features. Patterns, insights, pecularities of data
+
+#### target distribution
+First things first. Let's find your target feature distribution.
+
+```python
+df_clean['y'].value_counts()
+```
+
+Only 3k true values, which is 42:1 distribution. No surprise though, we got each element of DOM tree as row start from body.
+
+I've made a screenshot for every element, not for deep learning and image recognition but to ease understanding how an element looks like. (Screenshot for every element it's too many images, so I'll make screenshot over the graph with screenshots =))
+
+How looks target elements:
+
+```python
+Image(url='https://habrastorage.org/webt/bz/xy/ds/bzxydsgez9atzsqavsatzgibrlm.png', width=900)
+```
+
+Indeed very simular
+
+#### Overall stats
+
+```python
+df_clean.head(1)
+```
+
+```python
+continuous_vars = ['depth', 'element_classes_count', 'inner_elements', 'siblings_count', 'loc_x', 'loc_y', 'size_h', 'size_w']
+```
+
+```python
+df_clean[continuous_vars].mean()
+```
+
+```python
+df_clean[df_clean.y == 1][continuous_vars].mean()
+```
+
+#### depth
+At what depth sitting target elements
+
+```python
+df_clean[df_clean.y == 1].groupby('shop')['depth'].mean()
+```
+
+Strange behavior for 'Окей'. Let's investigate.
+
+```python
+df_clean[(df_clean.shop == 'Окей') & (df_clean.y == 1) & (df_clean.depth == 13)].shape
+```
+
+```python
+df_clean[(df_clean.shop == 'Окей') & (df_clean.y == 1) & (df_clean.depth != 13)].shape
+```
+
+Almost all product cards from 'Окей' depth == 13, let's look at them
+
+images for df_clean[(df_clean.shop == 'Окей') & (df_clean.y == 1) & (df_clean.depth == 13)]
+
+```python
+Image(url='https://habrastorage.org/webt/vf/uz/rd/vfuzrdfzhrzihvarhglnfk4zdje.png', width=900)
+```
+
+images for df_clean[(df_clean.shop == 'Окей') & (df_clean.y == 1) & (df_clean.depth != 13)]
+
+```python
+Image(url='https://habrastorage.org/webt/32/ee/ah/32eeahfoleo-ijciyzz1dvbv8hs.png', width=900)
+```
+
+Looks the same
+
+```python
+df_clean[(df_clean.shop == 'Окей') & (df_clean.y == 1) & (df_clean.depth == 13)].head(1)
+```
+
+```python
+df_clean[(df_clean.shop == 'Окей') & (df_clean.y == 1) & (df_clean.depth != 13)].head(1)
+```
+
+Same tags and class names, inner_elements vary a little. Everything correct, just depth varies
+
+```python
+sns.barplot(df_clean.depth, df_clean.y)
+```
+
+Outlayer depth==16
+
+```python
+df_clean[(df_clean.y == 1) & (df_clean.depth == 16)].head(1)
+```
+
+```python
+Image(url='https://habrastorage.org/webt/gm/fz/hi/gmfzhiial3a_fxgj5lfq2oaa-ac.png', width=900)
+```
+
+Most cards in 'Перекрёсток' is 9 depth
+
+```python
+df_clean[(df_clean.y == 1) & (df_clean.shop == 'Перекрёсток')].head(1)
+```
+
+```python
+Image(url='https://habrastorage.org/webt/na/us/e4/nause4he1lpfur_l-hvvjug12tk.png', width=900)
+```
+
+Different product cards in one store are in crawler a bag or just store has different cards. In one type there isn't any rating or to_cart
+
+#### Element sizes
+
+```python
+df_clean[df_clean.y == 1].groupby('shop')[['size_w', 'size_h']].mean()
+```
+
+'Комус' differs a lot
+
+Let's plot all product card's sizes
+
+```python
+tmp_df = df_clean[(df_clean.y == 1)]
+sns.scatterplot(x=tmp_df.size_w, y=tmp_df.size_h)
+```
+
+```python
+tmp_df = df_clean[(df_clean.y == 1)]
+g = sns.FacetGrid(tmp_df, col='shop', hue='y')
+g.map(sns.scatterplot, 'size_w', 'size_h')
+```
+
+Firstly we've expected one size for one shop but it is not true. For 'Перекрёсток' and 'Комус' size varies a lot. When we plot all cards size we see they mostly allocated in upper-left corner of plot, with sizes arount 400x220. But what's wrong with 'Комус'? Let's visit the site.
+
+```python
+Image(url='https://habrastorage.org/webt/ua/pg/l6/uapgl6ei_c1knebnz9ls8rvlbdq.png', width=900)
+```
+
+The structure is different. In most shops, we see tile-layout, but here list-layout. For the sake of simplicity, I'll exclude 'Комус' from out dataframe.
+
+```python
+print(f'unique shops - {df_clean.shop.unique()}')
+df_clean = df_clean[df_clean.shop != 'Комус']
+print(f'unique shops after drop - {df_clean.shop.unique()}')
+```
+
+Now let's see how target sizes corresponds with all others
+
+```python
+tmp_df = df_clean
+g = sns.FacetGrid(tmp_df, col='shop', hue='y')
+g.map(sns.scatterplot, 'size_w', 'size_h')
+```
+
+Outliers disturb the picture
+
+```python
+tmp_df = df_clean[(df_clean.size_w < 1000) & (df_clean.size_h < 4000)]
+g = sns.FacetGrid(tmp_df, col='shop', hue='y')
+g.map(sns.scatterplot, 'size_w', 'size_h')
+```
+
+Zoom closer
+
+```python
+tmp_df = df_clean[(df_clean.size_w > 200) &(df_clean.size_w < 300) & (df_clean.size_h < 600)]
+g = sns.FacetGrid(tmp_df, col='shop', hue='y')
+g.map(sns.scatterplot, 'size_w', 'size_h')
+```
+
+Looks like a great feature with a strong correlation between shops and refinement from other DOM elements
+
+#### location
+
+```python
+tmp_df = df_clean
+g = sns.FacetGrid(tmp_df, col='shop', hue='y')
+g.map(sns.scatterplot, 'loc_x', 'loc_y' )
+```
+
+Location at negative positions?!
+
+```python
+tmp_df = df_clean[(df_clean.loc_x > 0) & (df_clean.loc_y > 0)]
+g = sns.FacetGrid(tmp_df, col='shop', hue='y')
+g.map(sns.scatterplot, 'loc_x', 'loc_y' )
+```
+
+Positions as we expected. Strong tabular structure, maybe we can make a new feature from this fact.
+
+Outliers in 'Перекрёсток', lets see
+
+```python
+df_clean[(df_clean.loc_x > 900) & (df_clean.y == 1) & (df_clean.shop == 'Перекрёсток')].head(2)
+```
+
+```python
+Image(url='https://habrastorage.org/webt/hz/oe/e5/hzoee5akuroyw3hedikww33qg1k.png', width=900)
+```
+
+?????
+
+Don't know what it is. Better drop.
+
+```python
+print(f'rows in - {df_clean.shape[0]}')
+df_clean = df_clean.drop(df_clean[(df_clean.loc_x > 900) & (df_clean.y == 1) & (df_clean.shop == 'Перекрёсток')].index)
+print(f'rows after drop - {df_clean.shape[0]}')
+```
+
+#### is_displayed
+
+```python
+df_clean.groupby('is_displayed')['y'].sum()
+```
+
+All rows is_displayed = true - redundant feature
+
+```python
+df_clean.drop(labels='is_displayed', axis=1, inplace=True)
+```
+
+#### inner_elements
+
+```python
+df_clean['inner_elements'].mean()
+```
+
+```python
+df_clean[df_clean.y == 1]['inner_elements'].mean()
+```
+
+```python
+sns.distplot(df_clean.inner_elements);
+```
+
+```python
+sns.distplot(df_clean[(df_clean.inner_elements > 2) & (df_clean.inner_elements < 100) ].inner_elements);
+```
+
+Maybe the feature was poorly designed. For each element, we count inner_element till the leaves, so in "body" it will be all other element treated as inner.
+
+#### tag
+
+```python
+df_clean['tag'].unique()
+```
+
+```python
+df_clean[df_clean.y == 1]['tag'].unique()
+```
+
+Our cards only 'div' elements. How many other div's ?
+
+```python
+df_clean[df_clean.tag == 'div'].groupby('y').size()
+```
+
+```python
+df_clean.groupby('tag').size()
+```
+
+Still, there are a lot div's that isn't our target, but feature is good.
+
+#### siblings_count
+
+```python
+df_clean[df_clean.y == 1]['siblings_count'].unique()
+```
+
+```python
+df_clean[df_clean.y == 1].groupby('shop')['siblings_count'].agg(['unique'])
+```
+
+The feature was designed to show how many "siblings" around an element. Product cards supposed to lay in lists so they are at the same level. If it is 30 products per page siblings_count supposed to be 29. But something is wrong. Let's check out original sites. 'Перекрёсток' for example.
+
+```python
+Image(url='https://habrastorage.org/webt/it/gk/7t/itgk7tfxsnyzsnda-zmiejtnu5o.png', width=900)
+```
+
+```python
+Image(url='https://habrastorage.org/webt/em/i-/v9/emi-v9grsih0_i5rhbpnmhuloec.png', width=900)
+```
+
+```python
+Image(url='https://habrastorage.org/webt/vr/in/0y/vrin0yedugz7xudlg7bpmhm8oi0.png', width=900)
+```
+
+We see there is a list 'ul' that contains 'li' that contains 'div'. So element 'li' would behave as we would expect - right siblings_count, but 'div' inside 'li' siblings_count == 1. It's supposed to be reframed or possibly fruitful feature is dead.
+
+#### is_href
+
+```python
+df_clean[df_clean.y == 1]['is_href'].mean()
+```
+
+```python
+df_clean[df_clean.y == 0]['is_href'].mean()
+```
+
+Our product cards not clickable
+
+#### element_classes_words
+
+```python
+for shop, tmp_df in df_clean[df_clean.y == 1].groupby('shop'):
+print(shop)
+print(tmp_df['element_classes_words'].unique())
+```
+
+It's css class naming that totally depends on developers. But in some cases, we see names like "product", "item", that could be helpful. There isn't enough data to say for sure.
+
+#### parent_tag
+
+```python
+for shop, tmp_df in df_clean[df_clean.y == 1].groupby('shop'):
+print(shop)
+print(tmp_df['parent_tag'].head(1))
+```
+
+#### childs_tags
+
+```python
+for shop, tmp_df in df_clean[df_clean.y == 1].groupby('shop'):
+print(shop)
+print(tmp_df['childs_tags'].head(1))
+```
+
+It's simple and simular parent-child markup for all shops except 'Перекрёсток'. But we should be ready for this. In this state we couldn't use this features.
+
+#### text
+
+```python
+df_clean[df_clean.text.notna()]
+```
+
+Feature 'text' is empty. Obviously due to a bag in the crawler. Feature possibly very important. If we know that near inside words like "cheese", "milk", "meat" - definitely it's a grocery. The model will be not just single-language but singe-domain-specific. When we'll crawl construction materials shop there won't be any "cheese". I like to try build a model robust to domain and language variations. I want to parse shops that's all.
+
+#### img_seen
+
+```python
+df_clean[df_clean.y == 1]['img_seen'].mean()
+```
+
+```python
+df_clean[df_clean.y == 0]['img_seen'].mean()
+```
+
+Yes, there is an image inside each product card
+
+#### href_seen
+
+```python
+df_clean[df_clean.y == 1]['href_seen'].mean()
+```
+
+```python
+df_clean[df_clean.y == 0]['href_seen'].mean()
+```
+
+And a href inside each product card
+
+## Part 5. Feature engineering and description
+
+Some feature processing was done above we obtain size and loc
+
+```python
+df_clean.head(3)
+```
+
+Some parts of FE was done on crawler's phase. Features like href_seen and img_seen mean that some of the child elements have img or href inside, but it's out of bounds. Maybe 2-3-4 descending elements should mean that image near, but not all way down.
+
+Main limitation now that in dataset not saved relations between elements. Firstly I got row's id, but no reference that this id is a parent somewhere. Fixing this on next iteration will allow me to create more dependent features.
+
+But even now we can recreate parent's tag order.
+
+```python
+df_clean['parent_1'] = df_clean.parent_tag.apply(lambda x: x[-1])
+df_clean['parent_2'] = df_clean.parent_tag.apply(lambda x: x[-2] if len(x) > 1 else '')
+df_clean['parent_3'] = df_clean.parent_tag.apply(lambda x: x[-3] if len(x) > 2 else '')
+```
+
+```python
+df_clean[df_clean.y == 1].sample(2)
+```
+
+With parent and id reference I'll be able to add features like <b>ankle_count</b> (parent's siblings =)), <b>parent_size</b>, <b>parent_location</b>, <b>parent_class</b> etc. But now it's not feasible.
+
+Another good possible feature might be a number of "similar" objects on the page. Similar in terms of css class names or in terms of size and location. But I don't have any possibility to do it now since there is no "url" feature so I can't implement it now.
+
+You might wonder, why I haven't fixed these properties of the crawler. A quick pipeline is a crucial property of ML system building. While I don't have metric's results I won't be stuck to infinite improve of the previous steps.
+
+We can ues element_classes_words, but since it close to work with vocabulary, we should do it only after validation split.
+
+## Part 6. Metrics selection
+
+```python
+df_clean.y.value_counts()
+```
+
+Firstly I want point out that loss function and metric score may be different.
+
+#### metric
+
+We have a classification problem and unbalanced class, so usage of the simplest possible metrics accuracy is not good. False positive and False negative cases don't have any priority. When new crawler will miss correct product cards some information will be lost. When crawler will wrongly identify product card in a database will be stored garbage information. Actually on top of this product card identifier will be build product name, product price, product image, product category identifiers. So garbage info will cause problems along the line. Now I think FP and FN have the same weight.
+
+So we probably want to check few metrics to understand our model's behavior. It'll be ROC AUC, PR AUC, F1 score and confusion matrix. It's impossible to get better at all metrics so will pick exactly one later.
+
+I like PR AUC the most. PR is short for <b>Precision Recall</b>. They somehow similar to ROC AUC.
+
+A ROC curve is plotting True Positive Rate (TPR) against False Positive Rate (FPR).
+
+A PR curve is plotting Precision against Recall.
+
+PR does not account for true negatives (as TN is not a component of either Precision or Recall). So if there are many more negatives than positives (a characteristic of class imbalance problem), we should use PR.
+
+http://www.chioka.in/differences-between-roc-auc-and-pr-auc/
+
+#### loss
+
+Logarithmic loss default option but it may be wrong. I'll remind you.
+
+```python
+Image(url='https://habrastorage.org/webt/p7/u6/cp/p7u6cppqgqauzlsenfrsfdymygw.png', width=900)
+```
+
+This is a <b>different</b> elements, one of them marked as True another as False. It's "div" inside "li", almost exact shape, almost exact position. Would it be fair to penalize our model guessing it both product cards?
+
+## Part 7. Model selection
+
+We don't have tons of features and tons of data so it is firm NO to neural nets and boosting. Data is rather simple so the model should match. From previous analyze we saw that parent tag with combination to siblings_count can mean a lot (if our target "div" inside "li" siblings mean nothing if div inside div siblings - correlate to target), this complicated feature interactions can't be captured by the linear model. Random forests supposed to work like a charm (I'll give a try to linear model either).
+
+## Part 8. Data preprocessing
+
+```python
+df_clean.head(1)
+```
+
+```python
+df_clean.info()
+```
+
+"childs_tags" can't be used. "text" always NaN. "screenshot" used only for visual validation. "shop" can't be used as metric as we are targeting to new shops (but I need it for a while). "element_classes_words" will use a little bit later. All other fields were dropped earlier. I'm holding y in X for a while bear with me.
+
+```python
+features_to_train = ['depth', 'element_classes_count', 'href_seen', 'img_seen',
+'inner_elements', 'is_href', 'siblings_count', 'tag', 'loc_x',
+'loc_y', 'size_h', 'size_w', 'parent_1','parent_2', 'parent_3', 'shop', 'y']
+categorical_columns = ['tag', 'parent_1','parent_2','parent_3']
+continuous_columns = ['depth', 'element_classes_count','inner_elements','siblings_count',
+'loc_x','loc_y', 'size_h', 'size_w']
+```
+
+```python
+X = df_clean[features_to_train]
+y = df_clean.y
+```
+
+For RF we don't have to make OHE, so I'll just convert str to int.
+
+```python
+possible_tags_categories = X['tag'].astype('category')
+possible_parent_categories = X['parent_1'].astype('category')
+all_tags = list(possible_tags_categories.cat.categories) + list(possible_parent_categories.cat.categories)
+num_to_category = {i:cat for i, cat in enumerate(all_tags)}
+category_to_num = {cat:i for i, cat in num_to_category.items()}
+```
+
+```python
+X['tag'] = X['tag'].apply(lambda x: category_to_num[x])
+X['parent_1'] = X['parent_1'].apply(lambda x: category_to_num[x] if x else -1)
+X['parent_2'] = X['parent_2'].apply(lambda x: category_to_num[x] if x else -1)
+X['parent_3'] = X['parent_3'].apply(lambda x: category_to_num[x] if x else -1)
+```
+
+```python
+X.head(1)
+```
+
+#### Preprocessing for linear model
+
+```python
+X_linear = df_clean[['depth', 'element_classes_count', 'href_seen', 'img_seen',
+'inner_elements', 'is_href', 'siblings_count', 'tag', 'loc_x',
+'loc_y', 'size_h', 'size_w', 'parent_1','parent_2', 'parent_3', 'shop', 'y']]
+y = df_clean.y
+```
+
+For linear models, we need scaled numeric features and OHE for categorical
+
+```python
+X_linear = pd.get_dummies(X_linear, columns=categorical_columns, drop_first=True,
+prefix=categorical_columns, sparse=False)
+```
+
+```python
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+X_linear[continuous_columns] = scaler.fit_transform(X_linear[continuous_columns])
+```
+
+```python
+X_linear.head(2)
+```
+
+Now we have data for linear and rf models
+
+## Part 9. Cross-validation and adjustment of model hyperparameters
+
+```python
+def print_scores(y_true, preds, verbose=True):
+f1 = f1_score(y_true, preds)
+roc_auc = roc_auc_score(y_true, preds)
+pr_auc = average_precision_score(y_true, preds)
+if verbose:
+print(f'F1 score is {f1}')
+print(f'ROC_AUC score is {roc_auc}')
+print(f'PR_AUC is {pr_auc}')
+print(f'confusion_matrix \n {confusion_matrix(y_true, preds)}')
+return f1, roc_auc, pr_auc
+```
+
+Usual approach for data split supposed to look like this. We won't forget to drop target variable
+
+```python
+X_train,X_val,y_train,y_val = train_test_split(X.drop(['shop', 'y'],axis=1),y, random_state=42)
+X_train.shape,X_val.shape,y_train.shape,y_val.shape
+```
+
+#### Random forest
+
+```python
+rf = RandomForestClassifier()
+rf.fit(X_train,y_train)
+preds = rf.predict(X_val)
+print_scores(y_val, preds);
+```
+
+OMG we are perfect! Actually not. The only way to make reasonable test - separate all examples for one shop. It doesn't matter how many examples we leave out 5% or 50%. We should learn on shops we have and use it in the wild on other shops we haven't crawled before.
+
+So better to do it.
+
+I'll implement cross-val score by hands
+
+```python
+diff_shops_df = [ (shop_name, shop_df) for shop_name, shop_df in X.groupby('shop')]
+for shop_name, shop_df in diff_shops_df:
+y_cross_val = shop_df.y
+X_cross_val = shop_df.drop(['y', 'shop'],axis=1) # validation only 1 shop
+X_cross_train = X.drop(X_cross_val.index) # train all X without 1 shop
+y_cross_train = X_cross_train.y
+X_cross_train = X_cross_train.drop(['shop', 'y'],axis=1)
+
+rf = RandomForestClassifier(n_estimators=100,max_features='sqrt', criterion='entropy', min_samples_leaf=5,n_jobs=-1,)
+rf.fit(X_cross_train,y_cross_train)
+preds = rf.predict(X_cross_val)
+print(f'**********shop - {shop_name}*************')
+print(f'Train shape {X_cross_train.shape}')
+print(f'Val shape {X_cross_val.shape}')
+print_scores(y_cross_val, preds);
+```
+
+Results are disaster.
+
+Almost every time we got 100% false predictions, couple time FP, let's watch them
+
+```python
+X_train_analize = X.drop(X[X.shop == 'Европа'].index)
+X_val_analize = X[X.shop == 'Европа']
+y_train_analize = X_train_analize.y
+y_val_analize = X_val_analize.y
+X_train_analize.drop(['shop','y'],axis=1, inplace=True)
+X_val_analize.drop(['shop','y'],axis=1, inplace=True)
+
+rf = RandomForestClassifier(n_estimators=100,max_features='sqrt', criterion='entropy', min_samples_leaf=5,n_jobs=-1,)
+rf.fit(X_train_analize,y_train_analize)
+preds = rf.predict(X_val_analize)
+print_scores(y_val_analize, preds);
+```
+
+```python
+X_val_analize[y_val_analize == True].head(5)
+```
+
+```python
+X_val_analize[preds == True].head(5)
+```
+
+Check indexes for validation and true_y. Suspiciously, they differ at 1.
+
+```python
+df_clean[df_clean.index.isin(X_val_analize[preds == True].index)].head(3)
+```
+
+```python
+# screen for df_clean[df_clean.index.isin(X_val_analize[preds == True].index)].screenshot
+Image(url='https://habrastorage.org/webt/x1/no/c5/x1noc54flobtv8lyf3ip66te05k.png', width=900)
+```
+
+Yep, correct elements, but some confusions with nested div-div-li-article arose. As humans, we see classification correct, but machine thinks differently.
+
+And by confusion matrix we can see number of FN == 360 and FP == 369. So maybe 9 elements were really misclassified. I think because we treating as correct product card only those in the main catalog, but it's always some promos on the sides.
+
+Let's check 'Метро' either.
+
+```python
+X_train_analize = X.drop(X[X.shop == 'Метро'].index)
+X_val_analize = X[X.shop == 'Метро']
+y_train_analize = X_train_analize.y
+y_val_analize = X_val_analize.y
+X_train_analize.drop(['shop','y'],axis=1, inplace=True)
+X_val_analize.drop(['shop','y'],axis=1, inplace=True)
+
+rf = RandomForestClassifier(n_estimators=100,max_features='sqrt', criterion='entropy', min_samples_leaf=5,n_jobs=-1,)
+rf.fit(X_train_analize,y_train_analize)
+preds = rf.predict(X_val_analize)
+print_scores(y_val_analize, preds);
+```
+
+```python
+X_val_analize[y_val_analize == True].head(5)
+```
+
+```python
+X_val_analize[preds == True].head(5)
+```
+
+```python
+df_clean[df_clean.index.isin(X_val_analize[preds == True].index)].head(3)
+```
+
+```python
+# screen for df_clean[df_clean.index.isin(X_val_analize[preds == True].index)].screenshot
+Image(url='https://habrastorage.org/webt/to/4g/uw/to4guwglcb6epg6pf12bjehd69k.png', width=900)
+```
+
+Same story with 'Метро' correct cards, but wrong elements.
+
+However confusion matrix is worser FN == 520 FP == 209, We are missing a lot.
+
+All other shops doing much worse. All predictions for them - False. It's harder to analyze.
+
+```python
+X_train_analize = X.drop(X[X.shop == 'Окей'].index)
+X_val_analize = X[X.shop == 'Окей']
+y_train_analize = X_train_analize.y
+y_val_analize = X_val_analize.y
+X_train_analize.drop(['shop','y'],axis=1, inplace=True)
+X_val_analize.drop(['shop','y'],axis=1, inplace=True)
+
+rf = RandomForestClassifier(n_estimators=100,max_features='sqrt', criterion='entropy', min_samples_leaf=5,n_jobs=-1,)
+rf.fit(X_train_analize,y_train_analize)
+preds = rf.predict(X_val_analize)
+print_scores(y_val_analize, preds);
+```
+
+```python
+# Extra module pip install treeinterpreter
+from treeinterpreter import treeinterpreter as ti
+```
+
+```python
+test_example = X_val_analize[y_val_analize == False].sample(1)
+print(rf.predict_proba(test_example))
+```
+
+```python
+test_example = X_val_analize[y_val_analize == True].sample(1)
+print(rf.predict_proba(test_example))
+```
+
+In probabilities, we see the difference between the correct class and incorrect. Tree picks a most probable class, but maybe we can leverage another approach
+
+```python
+prediction, bias, contributions = ti.predict(rf, test_example)
+prediction, bias
+```
+
+Forest is highly biased onto False assumptions, let's pick elements with the probability being true not > 0.5, but >bias.
+
+```python
+preds_proba = rf.predict_proba(X_val_analize)
+true_class_probs = preds_proba[:,1]
+(true_class_probs > 0.023).sum()
+```
+
+1890 elements. Too many for our shop, but who cares. Let's analyze further.
+
+```python
+# screen for df_clean[df_clean.index.isin((true_class_probs > 0.023).index)].screenshot
+Image(url='https://habrastorage.org/webt/yk/sk/t5/ykskt5lziqsgazssbkkk8vgm3w8.png', width=900)
+```
+
+```python
+# screen for df_clean[df_clean.index.isin((true_class_probs > 0.023).index)].screenshot
+Image(url='https://habrastorage.org/webt/yd/aj/kz/ydajkzlfdllxmdmus-v5vunfwcm.png', width=900)
+```
+
+It's 778 true elements for 'Окей' while we predicting 1890 above the bias. Look closer to the pics of correct elements some of them have ~330 pix height, some ~300. It's our favorite problem div in div. I assume there are 2 predictions for every correct element. So we have 778*2 = 1556 "correct" predictions and 1890-1556=334 FP. Of course, I can tweak confidence level as I want to, but the bias term gives me a clear sign of shop's distribution.
+
+Let's adopt predictions above the bias level.
+
+```python
+diff_shops_df = [ (shop_name, shop_df) for shop_name, shop_df in X.groupby('shop')]
+f1s = list()
+rocs = list()
+prs = list()
+for shop_name, shop_df in diff_shops_df:
+y_cross_val = shop_df.y
+X_cross_val = shop_df.drop(['y', 'shop'],axis=1) # validation only 1 shop
+X_cross_train = X.drop(X_cross_val.index) # train all X without 1 shop
+y_cross_train = X_cross_train.y
+X_cross_train = X_cross_train.drop(['shop', 'y'],axis=1)
+
+rf = RandomForestClassifier(n_estimators=100,max_features='sqrt', criterion='entropy', min_samples_leaf=5,n_jobs=-1,)
+rf.fit(X_cross_train,y_cross_train)
+_, bias, _ = ti.predict(rf,test_example)
+bias_treshold = bias[0][1]
+preds_proba = rf.predict_proba(X_cross_val)
+preds = (preds_proba[:,1] > bias_treshold)
+print(f'**********shop - {shop_name}*************')
+f1, roc_auc, pr_auc = print_scores(y_cross_val, preds);
+f1s.append(f1)
+rocs.append(roc_auc)
+prs.append(pr_auc)
+print(f'Mean f1 - {np.array(f1s).mean()}')
+print(f'Mean ROC AUC - {np.array(rocs).mean()}')
+print(f'Mean PR AUC - {np.array(prs).mean()}')
+```
+
+#### Linear Classification
+
+```python
+diff_shops_df = [ (shop_name, shop_df) for shop_name, shop_df in X_linear.groupby('shop')]
+f1s = list()
+rocs = list()
+prs = list()
+for shop_name, shop_df in diff_shops_df:
+y_cross_val = shop_df.y
+X_cross_val = shop_df.drop(['y', 'shop'],axis=1) # validation only 1 shop
+X_cross_train = X_linear.drop(X_cross_val.index) # train all X without 1 shop
+y_cross_train = X_cross_train.y
+X_cross_train = X_cross_train.drop(['shop', 'y'],axis=1)
+
+sgd_l1 = SGDClassifier(loss="hinge", penalty="l2", max_iter=5)
+sgd_l1.fit(X_cross_train,y_cross_train)
+preds = sgd_l1.predict(X_cross_val)
+print(f'**********shop - {shop_name}*************')
+f1, roc_auc, pr_auc = print_scores(y_cross_val, preds);
+f1s.append(f1)
+rocs.append(roc_auc)
+prs.append(pr_auc)
+print(f'Mean f1 - {np.array(f1s).mean()}')
+print(f'Mean ROC AUC - {np.array(rocs).mean()}')
+print(f'Mean PR AUC - {np.array(prs).mean()}')
+```
+
+Seems more promising out of the box. Lets tune hyperparameters.
+
+I need a special way to implement CV, in train and test data supposed to be different shops. GroupShuffleSplit offers the required functionality. Let's see how it works.
+
+```python
+from sklearn.model_selection import GroupShuffleSplit
+```
+
+```python
+y_tmp = X.y
+X_tmp = X.drop(['y', 'shop'], axis=1)
+g = GroupShuffleSplit(n_splits=5,random_state=56)
+itr = g.split(X, y=X.y, groups=X.shop.values,)
+for tr, tst in itr:
+print(tr.shape, tst.shape)
+```
+
+There are repeated splits, not all 5 shops were evaluated as validation data. I can't sacrifice even 1 shop on validation, there is too few of them.
+
+So quick and dirty implementation of GridSearch with GroupShuffleSplit.
+
+```python
+diff_shops_df = [ (shop_name, shop_df) for shop_name, shop_df in X_linear.groupby('shop')]
+f1s = list()
+rocs = list()
+prs = list()
+best_scores = dict()
+losses = ['hinge', 'log', 'perceptron']
+penalties = ['l2', 'l1', 'elasticnet']
+max_iter = [5,10,20,40]
+for l in losses:
+for p in penalties:
+for it in max_iter:
+for shop_name, shop_df in diff_shops_df:
+y_cross_val = shop_df.y
+X_cross_val = shop_df.drop(['y', 'shop'],axis=1) # validation only 1 shop
+X_cross_train = X_linear.drop(X_cross_val.index) # train all X without 1 shop
+y_cross_train = X_cross_train.y
+X_cross_train = X_cross_train.drop(['shop', 'y'],axis=1)
+
+sgd_l1 = SGDClassifier(loss=l, penalty=p, max_iter=it)
+sgd_l1.fit(X_cross_train,y_cross_train)
+preds = sgd_l1.predict(X_cross_val)
+f1, roc_auc, pr_auc = print_scores(y_cross_val, preds, verbose=False);
+f1s.append(f1)
+rocs.append(roc_auc)
+prs.append(pr_auc)
+f1_mean = np.array(f1s).mean()
+roc_mean = np.array(rocs).mean()
+pr_mean = np.array(prs).mean()
+best_scores[l+p+str(it)] = [f1_mean, roc_mean, pr_mean]
+```
+
+```python
+print(f'best by f1 {max(best_scores.items(), key=(lambda key: key[1][0]))}')
+print(f'best by roc {max(best_scores.items(), key=(lambda key: key[1][1]))}')
+print(f'best by pr {max(best_scores.items(), key=(lambda key: key[1][2]))}')
+```
+
+Our best hyperparameters are logloss, elastic regularization, 40 iterations. 40 was max number in our grid search, so probably we can increase it.
+
+```python
+X_train_analize = X_linear.drop(X_linear[X_linear.shop == 'Окей'].index)
+X_val_analize = X_linear[X_linear.shop == 'Окей']
+y_train_analize = X_train_analize.y
+y_val_analize = X_val_analize.y
+X_train_analize.drop(['shop','y'],axis=1, inplace=True)
+X_val_analize.drop(['shop','y'],axis=1, inplace=True)
+
+sgd_l1 = SGDClassifier(loss='log', penalty='elasticnet', max_iter=40)
+sgd_l1.fit(X_train_analize,y_train_analize)
+preds = sgd_l1.predict(X_val_analize)
+print_scores(y_val_analize, preds);
+```
+
+```python
+X_train_analize = X_linear.drop(X_linear[X_linear.shop == 'Метро'].index)
+X_val_analize = X_linear[X_linear.shop == 'Метро']
+y_train_analize = X_train_analize.y
+y_val_analize = X_val_analize.y
+X_train_analize.drop(['shop','y'],axis=1, inplace=True)
+X_val_analize.drop(['shop','y'],axis=1, inplace=True)
+
+sgd_l1 = SGDClassifier(loss='log', penalty='elasticnet', max_iter=40)
+sgd_l1.fit(X_train_analize,y_train_analize)
+preds = sgd_l1.predict(X_val_analize)
+print_scores(y_val_analize, preds);
+```
+
+Still 'Метро' fails hard, but as a habit let's check what it predicts.
+
+```python
+X_val_analize[preds == True].head(5)
+```
+
+```python
+X_val_analize[y_val_analize == True].head(5)
+```
+
+After all transformations, it's obscure to deduce the pattern of the wrong prediction. Luckily we have our screenshots.
+
+```python
+# screen for df_clean[df_clean.index.isin((preds == True).index)].screenshot
+Image(url='https://habrastorage.org/webt/5j/jb/hg/5jjbhgbqzophvn8pdl_2wxicpky.png', width=900)
+```
+
+We got 2 model RF and LR with scores:
+
+| - | RF | LR |
+| f1 | 0.449|0.255|
+|ROC AUC| 0.907|0.632|
+| PR AUC| 0.280|0.240|
+
+The good thing is our models works pretty nice, the bad thing we can't understand it by metric scores.
+
+### Part 10. Plotting training and validation curves
+
+For now I'll pick PR AUC as metric.
+
+#### RF parametr n_estimators
+
+```python
+X_train_analize = X.drop(X[X.shop == 'Метро'].index)
+X_val_analize = X[X.shop == 'Метро']
+y_train_analize = X_train_analize.y
+y_val_analize = X_val_analize.y
+X_train_analize.drop(['shop','y'],axis=1, inplace=True)
+X_val_analize.drop(['shop','y'],axis=1, inplace=True)
+
+trees_num = np.linspace(1,500, dtype=int)
+pr_score_val = list()
+pr_score_train = list()
+for tr_num in trees_num:
+rf = RandomForestClassifier(n_estimators=tr_num,max_features='sqrt', criterion='entropy', min_samples_leaf=5,n_jobs=-1,)
+rf.fit(X_train_analize,y_train_analize)
+_, bias, _ = ti.predict(rf,test_example)
+bias_treshold = bias[0][1]
+preds_proba_val = rf.predict_proba(X_val_analize)
+preds_val = (preds_proba_val[:,1] > bias_treshold)
+_,_, pr_auc_val = print_scores(preds_val, y_val_analize, verbose=False);
+
+preds_proba_train = rf.predict_proba(X_train_analize)
+preds_train = (preds_proba_train[:,1] > bias_treshold)
+_,_, pr_auc_train = print_scores(preds_train, y_train_analize, verbose=False);
+
+pr_score_train.append(pr_auc_train)
+pr_score_val.append(pr_auc_val)
+```
+
+```python
+fig, ax = plt.subplots()
+ax.plot(trees_num,pr_score_train, label='train')
+ax.plot(trees_num,pr_score_val, label='valid')
+ax.legend()
+ax.set(xlabel='N_estimators', ylabel='PR AUC', );
+```
+
+We see that forest heavily overfitted. We can reduce overfitting by min_samples_leaf.
+
+#### RF parametr min_samples_leaf
+
+```python
+X_train_analize = X.drop(X[X.shop == 'Метро'].index)
+X_val_analize = X[X.shop == 'Метро']
+y_train_analize = X_train_analize.y
+y_val_analize = X_val_analize.y
+X_train_analize.drop(['shop','y'],axis=1, inplace=True)
+X_val_analize.drop(['shop','y'],axis=1, inplace=True)
+
+min_leaf_list = np.linspace(1,100, dtype=int)
+pr_score_val = list()
+pr_score_train = list()
+for leaf_num in min_leaf_list:
+rf = RandomForestClassifier(n_estimators=500,max_features='sqrt', criterion='entropy', min_samples_leaf=leaf_num,n_jobs=-1,)
+rf.fit(X_train_analize,y_train_analize)
+_, bias, _ = ti.predict(rf,test_example)
+bias_treshold = bias[0][1]
+preds_proba_val = rf.predict_proba(X_val_analize)
+preds_val = (preds_proba_val[:,1] > bias_treshold)
+_,_, pr_auc_val = print_scores(preds_val, y_val_analize, verbose=False);
+
+preds_proba_train = rf.predict_proba(X_train_analize)
+preds_train = (preds_proba_train[:,1] > bias_treshold)
+_,_, pr_auc_train = print_scores(preds_train, y_train_analize, verbose=False);
+
+pr_score_train.append(pr_auc_train)
+pr_score_val.append(pr_auc_val)
+```
+
+```python
+fig, ax = plt.subplots()
+ax.plot(min_leaf_list,pr_score_train, label='train')
+ax.plot(min_leaf_list,pr_score_val, label='valid')
+ax.legend()
+ax.set(xlabel='min_samples_leaf', ylabel='PR AUC', );
+```
+
+So min_samples_leaf doesn't help much.
+
+Maybe we need more data?
+
+```python
+y_tmp = X.y
+X_tmp = X.drop(['y', 'shop'], axis=1)
+groups = X.shop.values
+
+def plot_with_err(x, data, **kwargs):
+mu, std = data.mean(1), data.std(1)
+lines = plt.plot(x, mu, '-', **kwargs)
+plt.fill_between(x, mu - std, mu + std, edgecolor='none',
+facecolor=lines[0].get_color(), alpha=0.2)
+
+def plot_learning_curve(classifier = 'rf'):
+if classifier == 'rf':
+classif = RandomForestClassifier(n_estimators=100,max_features='sqrt', criterion='entropy', min_samples_leaf=25,n_jobs=-1,)
+else:
+classif = SGDClassifier(loss='log', penalty='elasticnet', max_iter=40)
+N_train, val_train, val_test = learning_curve(classif, X_tmp, y_tmp,
+cv=5, groups=groups,
+shuffle=True, scoring='average_precision'
+)
+plot_with_err(N_train, val_train, label='training scores')
+plot_with_err(N_train, val_test, label='validation scores')
+plt.xlabel('Training Set Size'); plt.ylabel('PR AUC')
+plt.legend()
+plt.grid(True);
+```
+
+```python
+plot_learning_curve(classifier='rf')
+```
+
+```python
+plot_learning_curve(classifier='lr')
+```
+
+This graphs may be misleading. I can't really interpret them, the variance is too high.
+
+There are ~100к training examples but actually, we have only 5 shops. Each of them has only 1 type of product cart. So It's <b>not</b> 100k examples it's somewhat about 5 examples. Additional data would be very very helpful.
+
+## Part 11. Prediction for test or hold-out samples
+
+As a test, we are going to crawl one more site - Auchan. There won't be any feature checking. We'll just check pics of product card to be sure crawler worked correctly.
+
+```python
+df_test = pd.read_csv('test_sites_markup.csv')
+```
+
+```python
+# screen for df_test[(df_test.y == 1)].screenshot
+Image(url='https://habrastorage.org/webt/sv/-m/ac/sv-macheei3wqmgkpdojbuky734.png', width=900)
+```
+
+#### Data preparation
+
+```python
+df_test[['loc_x', 'loc_y']] = df_test['location'].str.replace("'", '"').apply(json.loads).apply(pd.Series)
+df_test[['size_h', 'size_w']] = df_test['size'].str.replace("'", '"').apply(json.loads).apply(pd.Series)
+df_test.size_h = df_test.size_h.astype(int)
+df_test.size_w = df_test.size_w.astype(int)
+```
+
+```python
+df_test['parent_tag'] = df_test.parent_tag.str.split('_')
+df_test['childs_tags'] = df_test.childs_tags.apply(lambda x: x.replace('[', '').replace(']','').strip())
+```
+
+```python
+df_clean_test = df_test.copy()
+df_clean_test.drop(['location', 'size', 'Unnamed: 0'], axis=1, inplace=True)
+```
+
+```python
+df_clean_test['parent_1'] = df_clean_test.parent_tag.apply(lambda x: x[-1])
+df_clean_test['parent_2'] = df_clean_test.parent_tag.apply(lambda x: x[-2] if len(x) > 1 else '')
+df_clean_test['parent_3'] = df_clean_test.parent_tag.apply(lambda x: x[-3] if len(x) > 2 else '')
+```
+
+```python
+X_test = df_clean_test[features_to_train]
+```
+
+```python
+X_test['tag'] = X_test['tag'].apply(lambda x: category_to_num[x] if x in category_to_num else -1)
+X_test['parent_1'] = X_test['parent_1'].apply(lambda x: category_to_num[x] if (x) and (x in category_to_num) else -1)
+X_test['parent_2'] = X_test['parent_2'].apply(lambda x: category_to_num[x] if (x) and (x in category_to_num) else -1)
+X_test['parent_3'] = X_test['parent_3'].apply(lambda x: category_to_num[x] if (x) and (x in category_to_num) else -1)
+```
+
+#### Prediction
+
+```python
+X_train = X
+y_train = X_train.y
+X_train = X_train.drop(['shop', 'y'],axis=1)
+
+y_test = X_test.y
+X_test = X_test.drop(['shop', 'y'],axis=1)
+
+test_example = X_test.head(1)
+rf = RandomForestClassifier(n_estimators=400,max_features='sqrt', criterion='entropy', min_samples_leaf=25,n_jobs=-1,)
+rf.fit(X_train,y_train)
+_, bias, _ = ti.predict(rf,test_example)
+bias_treshold = bias[0][1]
+preds_proba = rf.predict_proba(X_test)
+preds = (preds_proba[:,1] > bias_treshold)
+f1, roc_auc, pr_auc = print_scores(y_test, preds);
+```
+
+```python
+# screen for df_test[df_test.index.isin((preds == True).index)].screenshot
+Image(url='https://habrastorage.org/webt/_5/_n/uk/_5_nuk1iphmid6sfplw7hmcph1c.png', width=900)
+```
+
+Sweet
+
+# Part 11. Conclusions
+
+We tried ML on HTML markup guessing and it worked out.
+
+On the path with our analysis, we understood ways to improve data collection. Which data features we are lacking. Which features were wrongly constructed.
+
+At the start, we couldn't say what's more important false positive or false negative errors. After our journey, we understood that FN more critical and that we have to deal with FP. That means we'll build our data pipeline with this requirement - be stable to FP.
+
+100k training set turned out to be only ~5-examples train set. Because of correct card almost identical in a shop and it doesn't matter if we have 10k card for a shop, it's better to have 1 card for 10k shops (but impossible).
+
+Our metrics haven't worked out (except the confusion matrix), because our train data has examples that labeled as wrong, but in fact they identical to correct ones (div-div-ul issue). It's a good opportunity to elaborate custom loss function that penalizes softly when we are closer to our target element. Maybe it's worth to reformat problem to regression, so we would find 'distance' to the correct element.
+
+In model selection, RF won, but it's too early to say about it because we have problems with our metrics and dataset.

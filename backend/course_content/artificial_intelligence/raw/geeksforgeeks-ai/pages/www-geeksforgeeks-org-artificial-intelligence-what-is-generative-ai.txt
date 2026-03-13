@@ -1,0 +1,277 @@
+Title: What is Generative AI?
+URL: https://www.geeksforgeeks.org/artificial-intelligence/what-is-generative-ai/
+Snapshot Type: sanitized text
+
+Courses
+
+Tutorials
+
+Interview Prep
+
+- Artificial Intelligence
+
+- Interview Questions
+
+- Project Ideas
+
+- Search Algorithms
+
+- Local Search Algorithm
+
+- Generative AI
+
+- Data Science
+
+- Machine Learning
+
+- Deep Learning
+
+- ML-Projects
+
+- Robotics
+
+What is Generative AI?
+
+Last Updated : 9 Dec, 2025
+
+Generative AI is a type of artificial intelligence designed to create new content such as text, images, music or even code by learning patterns from existing data. These models generate original outputs that are often indistinguishable from human-created content. These models use techniques like deep learning and neural networks to generate output.
+
+Unlike discriminative AI which focuses on classifying data into categories like spam vs. not spam, generative AI creates new data such as text, images, audio or video that resembles real-world examples.
+
+How Generative AI Works
+
+1. Core Mechanism (Training & Inference)
+
+Generative AI is trained on large datasets like text, images, audio or video using deep learning networks. During training, the model learns parameters (millions or billions of them) that help them predict or generate content. Here models generate output based on learned patterns and prompts provided
+
+2. By Media Type
+
+- Text: Uses large language models (LLMs) to predict the next token in a sequence, enabling coherent paragraph or essay generation.
+
+- Images: Diffusion models like DALL·E or Stable Diffusion start with noise and iteratively denoise to create realistic visuals
+
+- Speech: Text-to-speech models synthesize human-like voice by modeling acoustic features based on prompt.
+
+- Video: Multimodal systems like Sora by OpenAI or Runway generate short, temporally coherent video clips from text or other prompts
+
+3. Agents in Generative AI
+
+Modern systems often uses agents which are autonomous components that interact with the environment, obtain information and execute chains of tasks. These agents uses LLMs to reason, plan and act enabling workflows like querying databases, performing retrieval or controlling external APIs.
+
+4. Training and Fine-Tuning
+
+LLMs are trained on massive general corpora (e.g., web text) using self-supervised methods. These models become pre-trained models which can be further trained on domain-specific labeled data to adapt to specialized tasks or stylistic needs. This technique is called fine tuning and it can be done using:
+
+- LoRA
+
+- QLoRA
+
+- Peft
+
+- Reinforcement Learning from Human Feedback (RLHF)
+
+- LLM Distilation
+
+5. Retrieval-Augmented Generation (RAG)
+
+Modern systems also uses RAG which enhances outputs by retrieving relevant documents at query time to ground the generation in accurate, up-to-date information, reducing hallucinations and improving factuality. The process typically involves:
+
+- Indexing documents into embeddings stored in vector databases
+
+- Retrieval of relevant passages
+
+- Augmentation of the prompt with retrieved content
+
+- Generation of grounded, informed responses
+
+This approach preserves the base model while enabling dynamic knowledge updates
+
+Types of Generative AI Models
+
+1. Transformers or Autoregressive Models
+
+- Autoregressive Transformers Models generate sequences by predicting the next token based on all previous ones moving step by step through the text.
+
+- The architecture relies on the transformer ’s self attention mechanism to capture context from the entire input so far making it highly effective for natural language and code generation.
+
+- Popular examples include GPT models which can produce coherent, context aware paragraphs, solve coding tasks or answer complex queries.
+
+- The autoregressive approach gives fine grained control over each output step but can be slower for long generations since tokens are generated one at a time.
+
+2. Diffusion Models
+
+- Diffusion models generate data such as images or audio by starting with pure random noise and gradually refining it into a coherent output through a series of denoising steps.
+
+- Each step reverses a simulated diffusion process that added noise to real data during training.
+
+- This iterative approach can produce highly detailed and realistic results specially in image synthesis where models like Stable Diffusion and DALL·E 3 have set benchmarks.
+
+- Diffusion models are also versatile they can be adapted for inpainting, style transfer and conditional generation from text prompts.
+
+3. Variational Autoencoders (VAEs) and Generative Adversarial Networks (GANs)
+
+- VAEs and GANs were among the first deep learning architectures for generative tasks.
+
+- A VAE encodes data into a compressed latent space and then decodes it back with a probabilistic twist that encourages smooth, continuous representations. This makes them good for controllable generation and interpolation between styles.
+
+- GANs in contrast use two networks against each other a generator that tries to produce realistic outputs and a discriminator that tries to detect fakes.
+
+- This adversarial setup leads to sharp, lifelike images though training can be unstable and prone to mode collapse.
+
+4. Encoder Decoder Models
+
+- Encoder decoder architectures consist of two stages: the encoder processes the input into a dense representation and the decoder generates the desired output from that representation.
+
+- They are widely used for sequence to sequence tasks like language translation, summarization and image captioning.
+
+- The encoder captures the full context of the input before the decoder starts producing tokens, allowing for strong performance on tasks that require global understanding rather than token by token prediction.
+
+- Modern encoder decoder models often use transformers for both stages as in T5, BART and many multimodal system.
+
+Evaluation of Generative AI
+
+Evaluating generative AI involves multiple dimensions because outputs can vary in accuracy, style and usefulness depending on the task. Key aspects include:
+
+- Fact Accuracy and Hallucination Avoidance : Benchmarks like BEIR, Natural Questions assess factual correctness. Techniques like RAG and fine-tuning reduce hallucinations and ground responses in reliable data.
+
+- Quality Metrics : Outputs are judged on fluency, coherence, logical consistency and contextual relevance. Commonly used metrics are BLEU, ROUGE, METEOR, FID and IS.
+
+- Efficiency and Accuracy Trade-Offs : LoRA and QLoRA helps in balancing performance with computational cost making models faster and lighter without losing quality.
+
+- Resilience to Retrieval Noise : Advanced approaches like “Finetune-RAG” improve model accuracy by training the model to handle imperfect retrieval inputs hence increasing factual reliability.
+
+- Creativity and Diversity: Models should generate varied and original outputs rather than repetitive or biased ones.
+
+- Bias and Fairness: Evaluation includes checking whether outputs reflect harmful stereotypes or unfair treatment of groups. Tools like Bias Benchmark for QA (BBQ) and StereoSet measure bias levels.
+
+- User Experience and Usefulness: Beyond technical metrics, effectiveness is judged by how well the system supports users in real scenarios like chatbots providing relevant, actionable responses.
+
+Relationship Between Humans and Generative AI
+
+- The relationship between humans and generative AI is collaborative and evolving.
+
+- Generative AI serves as a powerful tool that enhances human creativity, productivity and decision making by assisting in tasks like writing, designing, coding and problem solving.
+
+- Rather than replacing humans it augments their abilities allowing people to work faster, explore new ideas and automate repetitive tasks.
+
+- At the same time this relationship raises important questions around ethics, authorship and dependency emphasizing the need for thoughtful use and responsible development of AI technologies.
+
+- Ultimately the synergy between human intuition and generative AI’s capabilities has the potential to transform how we create, communicate and innovate.
+
+Applications of Generative AI
+
+Generative AI is applied in multiple domains like:
+
+- Text : Powers chatbots, virtual assistants, content creation, document summarization and even code generation tools like GitHub Copilot.
+
+- Images : Used in digital art, product design, fashion, advertising and medical imaging to create visuals that are close to real-world examples.
+
+- Audio & Speech : Enables natural-sounding voice assistants, multilingual dubbing, music composition, personalized voice cloning and accessibility tools.
+
+- Video : Supports animation, movie special effects, gaming, marketing videos and realistic training simulations.
+
+- Business Use Cases : Enhances customer support with AI agents, boosts knowledge discovery using RAG systems, accelerates drug discovery, assists in financial forecasting and improves data-driven decision-making.
+
+Advantages
+
+- Accelerates Research and Development : In fields like science and technology, Generative AI reduces the time needed for research by generating multiple outcomes and predictions such as molecular structures in drug development. This speeds up innovation and helps solve complex problems efficiently.
+
+- Improves Personalization : Generative AI creates tailored content based on user preferences. From personalized product designs to customized marketing campaigns it enhances user engagement and satisfaction by delivering exactly what users need or want.
+
+- Empowers Non Experts : Even users without expertise can create high quality content using Generative AI. This helps individuals learn new skills access creative tools and open doors to personal and professional growth.
+
+- Drives Economic Growth : Generative AI introduces new roles and opportunities by fostering innovation, automating tasks and enhancing productivity. This leads to economic expansion and the creation of jobs in emerging fields.
+
+Disadvantages
+
+- Data Dependence : The accuracy and quality of Generative AI outputs depend entirely on the data it is trained on. If the training data is biased, incomplete or inaccurate the generated content will reflect these flaws.
+
+- Limited Control Over Outputs : It can produce unexpected or irrelevant results making it challenging to control the content and ensure it aligns with specific user requirements.
+
+- High Computational Requirements : Training and running Generative AI models demand significant computing power which can be costly and resource intensive. This limits accessibility for smaller organizations or individuals.
+
+- Ethical and Legal Concerns : It can be misused to create harmful content like deepfakes or fake news which can spread misinformation or violate privacy. These ethical and legal challenges require careful regulation and oversight to prevent abuse.
+
+Artificial Intelligence
+
+AI-ML-DS
+
+Generative AI
+
+Introduction to AI
+
+- What is Artificial Intelligence (AI) 10 min read
+
+- Types of Artificial Intelligence (AI) 6 min read
+
+- Types of AI Based on Functionalities 4 min read
+
+- Agents in AI 7 min read
+
+- Artificial intelligence vs Machine Learning vs Deep Learning 3 min read
+
+- Problem Solving in Artificial Intelligence 6 min read
+
+- Top 20 Applications of Artificial Intelligence (AI) in 2025 13 min read
+
+AI Concepts
+
+- Search Algorithms in AI 6 min read
+
+- Local Search Algorithm in Artificial Intelligence 7 min read
+
+- Adversarial Search Algorithms in Artificial Intelligence (AI) 15+ min read
+
+- Constraint Satisfaction Problems (CSP) in Artificial Intelligence 10 min read
+
+- Knowledge Representation in AI 9 min read
+
+- First-Order Logic in Artificial Intelligence 4 min read
+
+- Reasoning Mechanisms in AI 9 min read
+
+Machine Learning in AI
+
+- Machine Learning Tutorial 5 min read
+
+- Deep Learning Tutorial 2 min read
+
+- Natural Language Processing (NLP) Tutorial 2 min read
+
+- Computer Vision Tutorial 3 min read
+
+Robotics and AI
+
+- Artificial Intelligence in Robotics 5 min read
+
+- What is Robotics Process Automation 8 min read
+
+- Automated Planning in AI 8 min read
+
+- AI in Transportation 8 min read
+
+- AI in Manufacturing : Revolutionizing the Industry 6 min read
+
+Generative AI
+
+- What is Generative AI? 7 min read
+
+- Generative Adversarial Network (GAN) 11 min read
+
+- Cycle Generative Adversarial Network (CycleGAN) 7 min read
+
+- StyleGAN - Style Generative Adversarial Networks 5 min read
+
+- Introduction to Generative Pre-trained Transformer (GPT) 4 min read
+
+- BERT Model - NLP 12 min read
+
+- Generative AI Applications 7 min read
+
+AI Practice
+
+- Top Artificial Intelligence(AI) Interview Questions and Answers 15+ min read
+
+- Top Generative AI and LLM Interview Question with Answer 15+ min read
+
+- 30+ Best Artificial Intelligence Project Ideas with Source Code [2026 Updated] 15+ min read

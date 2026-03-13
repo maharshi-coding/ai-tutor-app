@@ -34,6 +34,40 @@ const NOISE_LINE_PATTERNS = [
   /^the python tutorial.*$/i,
   /^(comment|article tags:?|explore)$/i,
 ];
+const SECRET_PATTERNS = [
+  {
+    pattern: /\bAIza[0-9A-Za-z_-]{20,}\b/g,
+    replacement: "[REDACTED_GOOGLE_API_KEY]",
+  },
+  {
+    pattern: /\bpk_(?:live|test)_[0-9A-Za-z]{16,}\b/g,
+    replacement: "[REDACTED_STRIPE_PUBLISHABLE_KEY]",
+  },
+  {
+    pattern: /\bsk_(?:live|test)_[0-9A-Za-z]{16,}\b/g,
+    replacement: "[REDACTED_STRIPE_SECRET_KEY]",
+  },
+  {
+    pattern: /\bsk-[A-Za-z0-9_-]{20,}\b/g,
+    replacement: "[REDACTED_API_TOKEN]",
+  },
+  {
+    pattern: /\bhf_[A-Za-z0-9]{20,}\b/g,
+    replacement: "[REDACTED_HUGGINGFACE_TOKEN]",
+  },
+  {
+    pattern: /\bgh[pousr]_[A-Za-z0-9]{20,}\b/g,
+    replacement: "[REDACTED_GITHUB_TOKEN]",
+  },
+  {
+    pattern: /\b(?:xox[abprs]-[A-Za-z0-9-]{20,})\b/g,
+    replacement: "[REDACTED_SLACK_TOKEN]",
+  },
+  {
+    pattern: /\b(?:AKIA|ASIA)[0-9A-Z]{16}\b/g,
+    replacement: "[REDACTED_AWS_ACCESS_KEY]",
+  },
+];
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
@@ -166,7 +200,7 @@ async function snapshotGitSource(course, source, sourceRawDir, sourceExtractedDi
         }
         const urlBase = source.repoUrl.replace(/\.git$/i, "");
         const sourceUrl = `${urlBase}/blob/HEAD/${relativePath}`;
-        await copySelectedRawFile(selectedRawDir, filePath, relativePath);
+        await copySelectedRawFile(selectedRawDir, relativePath, cleaned, path.extname(filePath).toLowerCase());
         const document = await writeExtractedDocument({
           course,
           source,
@@ -226,12 +260,11 @@ async function crawlWebSource(course, source, sourceRawDir, sourceExtractedDir) 
     const rawHtml = await response.text();
     const cleaned = cleanText(htmlToText(rawHtml));
     const pageSlug = slugFromUrl(nextUrl);
-    await fs.writeFile(path.join(rawPagesDir, `${pageSlug}.html`), rawHtml, "utf-8");
-
     const title = extractHtmlTitle(rawHtml) || extractTitle(cleaned, pageSlug);
     if (!isUsefulDocument(cleaned, title, nextUrl)) {
       continue;
     }
+    await writeWebPageSnapshot(rawPagesDir, pageSlug, title, nextUrl, cleaned);
     const document = await writeExtractedDocument({
       course,
       source,
@@ -282,12 +315,20 @@ function runGitClone(repoUrl, targetDir) {
   }
 }
 
-async function copySelectedRawFile(selectedRawDir, filePath, relativePath) {
-  const extension = path.extname(filePath).toLowerCase();
-  const baseName = path.basename(filePath, extension);
+async function copySelectedRawFile(selectedRawDir, relativePath, cleanedText, sourceExtension) {
+  const extension = sourceExtension || path.extname(relativePath).toLowerCase();
+  const baseName = path.basename(relativePath, extension);
   const digest = createHash("sha256").update(relativePath).digest("hex").slice(0, 12);
-  const snapshotName = `${digest}-${slugify(baseName).slice(0, 48) || "source"}${extension}`;
-  await fs.copyFile(filePath, path.join(selectedRawDir, snapshotName));
+  const snapshotName = `${digest}-${slugify(baseName).slice(0, 48) || "source"}.txt`;
+  const snapshot = [
+    `Original Path: ${relativePath}`,
+    `Original Type: ${extension || "unknown"}`,
+    "Snapshot Type: sanitized text",
+    "",
+    cleanedText,
+    "",
+  ].join("\n");
+  await fs.writeFile(path.join(selectedRawDir, snapshotName), redactSecrets(snapshot), "utf-8");
 }
 
 async function collectRepoFiles(repoDir, source) {
@@ -488,7 +529,7 @@ function cleanText(text) {
     previous = value;
   }
 
-  return cleanedLines.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+  return redactSecrets(cleanedLines.join("\n").replace(/\n{3,}/g, "\n\n").trim());
 }
 
 function extractHtmlTitle(rawHtml) {
@@ -566,8 +607,9 @@ async function writeExtractedDocument({
     refinedBody,
     "",
   ].join("\n");
+  const sanitizedFileContent = redactSecrets(fileContent);
 
-  await fs.writeFile(absolutePath, fileContent, "utf-8");
+  await fs.writeFile(absolutePath, sanitizedFileContent, "utf-8");
 
   return {
     id: digest,
@@ -577,8 +619,21 @@ async function writeExtractedDocument({
     sourceUrl,
     extractPath: path.join("extracted", relativePath).split(path.sep).join("/"),
     relativePath,
-    text: fileContent.trim(),
+    text: sanitizedFileContent.trim(),
   };
+}
+
+async function writeWebPageSnapshot(rawPagesDir, pageSlug, title, sourceUrl, cleanedText) {
+  const snapshot = [
+    `Title: ${title}`,
+    `URL: ${sourceUrl}`,
+    "Snapshot Type: sanitized text",
+    "",
+    cleanedText,
+    "",
+  ].join("\n");
+
+  await fs.writeFile(path.join(rawPagesDir, `${pageSlug}.txt`), redactSecrets(snapshot), "utf-8");
 }
 
 function assignDocumentsToTopics(course, documents) {
@@ -776,6 +831,14 @@ function slugify(value) {
 
 function trimExcerpt(text, maxChars) {
   return text.length <= maxChars ? text : `${text.slice(0, maxChars).trim()}...`;
+}
+
+function redactSecrets(text) {
+  let sanitized = String(text || "");
+  for (const { pattern, replacement } of SECRET_PATTERNS) {
+    sanitized = sanitized.replace(pattern, replacement);
+  }
+  return sanitized;
 }
 
 function normalizeTitle(value) {

@@ -1,0 +1,78 @@
+Title: Artificial Intelligence 3E
+URL: https://artint.info/3e/html/ArtInt3e.Ch1.S9.html
+Snapshot Type: sanitized text
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+1.9 Review
+
+The following are the main points you should have learned from this chapter:
+
+•
+
+Artificial intelligence is the study of computational agents
+that act intelligently.
+
+•
+
+An agent acts in an environment and only has access to its
+abilities, its
+prior knowledge, its history of stimuli, and its goals and
+preferences.
+
+•
+
+A physical symbol system manipulates symbols to determine what to do.
+
+•
+
+A designer of an intelligent agent should be concerned about
+modularity, how to describe the world, how far ahead to plan,
+uncertainty in both perception and the effects of actions, the
+structure of goals or preferences, other agents, how to learn from
+experience, how the agent can reason while interacting with the environment, and the fact that all real agents have limited computational
+resources.
+
+•
+
+To solve a task by computer, the computer must have an effective
+representation with which to reason.
+
+•
+
+To know when it has solved a task, an agent must have a
+definition of what
+constitutes an adequate solution, such as whether it has to be
+optimal, approximately optimal, or almost always optimal, or whether
+a satisficing solution is adequate.
+
+•
+
+In choosing a representation, an agent designer should find a representation
+that is as close as possible to the task, so that it is easy to
+determine what is represented and so it can be checked for
+correctness and be able to be maintained. Often, users want an
+explanation of why they should believe the answer.
+
+•
+
+The social impacts, both beneficial and harmful, of pervasive AI
+applications are significant, leading to calls for ethical and
+human-centered AI, certification and regulation.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

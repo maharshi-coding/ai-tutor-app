@@ -29,8 +29,8 @@ Generated from 7 curated sources.
 ## Topics
 
 - ML Foundations - 400 documents
-- Preprocessing and Evaluation - 41 documents
-- Regression and Classification - 49 documents
+- Preprocessing and Evaluation - 42 documents
+- Regression and Classification - 47 documents
 - Unsupervised Learning - 6 documents
-- Neural Networks and Deep Learning - 19 documents
+- Neural Networks and Deep Learning - 20 documents
 - Applied ML and MLOps - 2 documents
