@@ -41,14 +41,20 @@ class Settings(BaseSettings):
     # Optional avatar video generation service (image + text/audio -> video)
     AVATAR_VIDEO_API_URL: Optional[AnyHttpUrl] = None
     AVATAR_VIDEO_API_KEY: Optional[str] = None
+    DID_API_KEY: Optional[str] = None
+    DID_API_BASE_URL: str = "https://api.d-id.com"
+    DID_DEFAULT_VOICE: str = "en-US-JennyNeural"
+    DID_VOICE_PROVIDER: str = "microsoft"
+    DID_REQUEST_TIMEOUT_SECONDS: int = 120
 
     # Ollama (local LLM – free, open-source)
     OLLAMA_BASE_URL: str = "http://localhost:11434"
     OLLAMA_MODEL: str = "llama3"
 
     # TTS provider selection: auto | piper | coqui | kokoro
-    TTS_PROVIDER: str = "auto"
+    TTS_PROVIDER: str = "piper"
     TTS_REQUEST_TIMEOUT_SECONDS: int = 120
+    PIPER_MODEL_PATH: str = "./models/en_US-lessac-medium.onnx"
     PIPER_TTS_URL: Optional[str] = None  # e.g. http://localhost:5001/synthesize
     PIPER_DEFAULT_VOICE: str = "en_US-lessac-medium"
     COQUI_TTS_URL: Optional[str] = None  # e.g. http://localhost:5002/api/tts

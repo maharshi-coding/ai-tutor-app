@@ -9,16 +9,19 @@ import {
   View,
 } from 'react-native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {useNavigation} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import NoticeBanner from '../components/NoticeBanner';
 import {coursesAPI, extractErrorMessage} from '../services/api';
 import {Course, TutorStackParamList} from '../types';
 
 type Nav = NativeStackNavigationProp<TutorStackParamList, 'CourseSelection'>;
+type SelectionRoute = RouteProp<TutorStackParamList, 'CourseSelection'>;
 
 export default function CourseSelectionScreen() {
   const navigation = useNavigation<Nav>();
+  const route = useRoute<SelectionRoute>();
+  const mode = route.params?.mode ?? 'chat';
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [screenMessage, setScreenMessage] = useState<string | null>(null);
@@ -47,6 +50,7 @@ export default function CourseSelectionScreen() {
     navigation.navigate('TutorChat', {
       courseId: course.id,
       courseName: course.title,
+      mode,
     });
 
   return (
@@ -57,7 +61,9 @@ export default function CourseSelectionScreen() {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Text style={styles.backLink}>Back</Text>
           </TouchableOpacity>
-          <Text style={styles.title}>Choose a course</Text>
+          <Text style={styles.title}>
+            {mode === 'liveTutor' ? 'Choose a live tutor course' : 'Choose a chat course'}
+          </Text>
           <TouchableOpacity onPress={loadCourses} disabled={loading}>
             <Text style={styles.refreshLink}>Refresh</Text>
           </TouchableOpacity>
@@ -89,7 +95,8 @@ export default function CourseSelectionScreen() {
                   {item.description}
                 </Text>
                 <Text style={styles.courseFoot}>
-                  {item.difficulty_level} level · Open tutor
+                  {item.difficulty_level} level ·{' '}
+                  {mode === 'liveTutor' ? 'Open live tutor' : 'Open AI chat'}
                 </Text>
               </TouchableOpacity>
             )}
@@ -109,9 +116,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 18,
     marginBottom: 16,
+    gap: 12,
   },
   backLink: {color: '#94A3B8', fontWeight: '700', fontSize: 13},
-  title: {color: '#FFFFFF', fontSize: 22, fontWeight: '800'},
+  title: {color: '#FFFFFF', fontSize: 22, fontWeight: '800', flex: 1, textAlign: 'center'},
   refreshLink: {color: '#6C63FF', fontWeight: '700', fontSize: 13},
   banner: {marginBottom: 12},
   loadingState: {

@@ -22,7 +22,11 @@ react {
 
     /* Hermes Commands */
     // The path to the Hermes compiler. By default it is in node_modules.
-    hermesCommand = "../../node_modules/react-native/sdks/hermesc/%OS-BIN%/hermesc"
+    hermesCommand = "node_modules/react-native/sdks/hermesc/%OS-BIN%/hermesc"
+
+    // Bundle JS for debug installs as well so the physical device can launch even if
+    // the Metro connection drops or adb reverse is temporarily unavailable.
+    debuggableVariants = []
 
     autolinkLibrariesWithApp()
 }
@@ -90,4 +94,64 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+}
+
+def resolveAdbExecutable() {
+    def adbName = System.getProperty("os.name").toLowerCase().contains("windows")
+        ? "adb.exe"
+        : "adb"
+    return new File(android.sdkDirectory, "platform-tools/${adbName}")
+}
+
+tasks.register("reverseDevPorts") {
+    group = "react"
+    description = "Expose Metro and backend ports to a USB-connected Android device."
+
+    doLast {
+        def adbExecutable = resolveAdbExecutable()
+        if (!adbExecutable.exists()) {
+            logger.lifecycle("Skipping adb reverse because adb was not found at ${adbExecutable}.")
+            return
+        }
+
+        def devicesOutput = new ByteArrayOutputStream()
+        exec {
+            commandLine adbExecutable.absolutePath, "devices"
+            standardOutput = devicesOutput
+            errorOutput = devicesOutput
+            ignoreExitValue true
+        }
+
+        def hasConnectedDevice = devicesOutput
+            .toString()
+            .readLines()
+            .any { line -> line ==~ /.+\s+device$/ }
+
+        if (!hasConnectedDevice) {
+            logger.lifecycle("Skipping adb reverse because no connected Android device was detected.")
+            return
+        }
+
+        ["8081", "8000"].each { port ->
+            exec {
+                commandLine adbExecutable.absolutePath, "reverse", "tcp:${port}", "tcp:${port}"
+                ignoreExitValue true
+            }
+        }
+    }
+}
+
+tasks.matching { task ->
+    task.name == "createBundleDebugJsAndAssets"
+}.configureEach {
+    // Keep the packaged debug fallback in dev mode so __DEV__ stays true and
+    // the app continues using local mobile dev configuration when Metro is unavailable.
+    devEnabled.set(true)
+    minifyEnabled.set(false)
+}
+
+tasks.matching { task ->
+    task.name.toLowerCase().startsWith("install") && task.name.endsWith("Debug")
+}.configureEach {
+    dependsOn("reverseDevPorts")
 }

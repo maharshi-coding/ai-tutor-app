@@ -41,14 +41,14 @@ const SUBJECT_LABELS: Record<string, string> = {
 const QUICK_ACTIONS: QuickAction[] = [
   {
     tab: 'Chat',
-    label: 'Ask AI',
-    caption: 'Start a live tutor chat',
+    label: 'AI Chat',
+    caption: 'Fast text answers and coding help',
     bg: '#1B1B34',
   },
   {
     tab: 'Avatar',
-    label: 'Avatar',
-    caption: 'Set up your tutor video',
+    label: 'Live Tutor',
+    caption: 'Talking avatar lessons with video',
     bg: '#131B2E',
   },
   {
@@ -121,7 +121,7 @@ export default function HomeScreen() {
       onPress={() =>
         nav.navigate('Chat', {
           screen: 'TutorChat',
-          params: {courseId: item.id, courseName: item.title},
+          params: {courseId: item.id, courseName: item.title, mode: 'chat'},
         })
       }>
       <View style={styles.courseBadge}>
@@ -148,7 +148,9 @@ export default function HomeScreen() {
             <Text style={styles.greeting}>
               Hello, {user?.full_name?.split(' ')[0] ?? user?.username ?? 'there'}
             </Text>
-            <Text style={styles.sub}>Choose a course or jump straight into tutoring.</Text>
+            <Text style={styles.sub}>
+              Choose a course, get a quick text answer, or start a live tutor session.
+            </Text>
           </View>
           <TouchableOpacity onPress={handleLogout}>
             <Text style={styles.logoutBtn}>Sign out</Text>
@@ -163,7 +165,10 @@ export default function HomeScreen() {
               style={[styles.actionCard, {backgroundColor: action.bg}]}
               onPress={() =>
                 action.tab === 'Chat'
-                  ? nav.navigate('Chat', {screen: 'AvatarTutor'})
+                  ? nav.navigate('Chat', {
+                      screen: 'TutorChat',
+                      params: {mode: 'chat'},
+                    })
                   : nav.navigate(action.tab)
               }>
               <Text style={styles.actionHeading}>{action.label}</Text>

@@ -1,115 +1,135 @@
-"""Talking avatar endpoints backed by SadTalker."""
+"""Talking avatar endpoints backed by D-ID."""
 
 from typing import Optional
 
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
 
+from app.database import get_db
 from app.models import User
 from app.routers.auth import get_current_user
-from app.services.avatar_pipeline import (
-    AvatarJobRequest,
-    create_avatar_job,
-    get_job_status,
-    render_avatar_video,
-    run_avatar_job,
+from app.routers.uploads import _save_uploaded_photo
+from app.schemas import AvatarCreateResponse, AvatarJobResponse, AvatarSpeakRequest
+from app.services.did_avatar import (
+    DIdAvatarError,
+    create_avatar_speech_job,
+    ensure_avatar_for_user,
+    get_avatar_job_status,
 )
 
 
 router = APIRouter()
 
 
-class AvatarRequest(BaseModel):
-    audio_url: Optional[str] = None
-    text: Optional[str] = None
-    image_url: Optional[str] = None
-
-
-class AvatarResponse(BaseModel):
-    video_url: str
-
-
-class AvatarJobCreate(BaseModel):
+class LegacyAvatarSpeakRequest(BaseModel):
     text: Optional[str] = None
     audio_url: Optional[str] = None
     image_url: Optional[str] = None
-    wait_for_completion: bool = False
 
 
-class AvatarJobStatus(BaseModel):
-    job_id: Optional[str] = None
-    status: str  # pending | processing | done | failed
-    video_url: Optional[str] = None
-    error: Optional[str] = None
+def _avatar_service_error(exc: DIdAvatarError) -> HTTPException:
+    message = str(exc)
+    if "Upload a photo" in message or "Create an avatar" in message:
+        return HTTPException(status_code=400, detail=message)
+    return HTTPException(status_code=503, detail=message)
 
 
-def _build_job_request(req: AvatarJobCreate | AvatarRequest, user: User) -> AvatarJobRequest:
-    return AvatarJobRequest(
-        user_id=user.id,
-        avatar_photo_path=user.avatar_photo_path,
-        avatar_config=user.avatar_config or {},
-        text=req.text,
-        audio_url=req.audio_url,
-        image_url=req.image_url,
+@router.post("/avatar/create", response_model=AvatarCreateResponse)
+async def create_avatar(
+    file: UploadFile = File(...),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    await _save_uploaded_photo(file, current_user, db)
+
+    try:
+        avatar_result = await ensure_avatar_for_user(current_user, db)
+    except DIdAvatarError as exc:
+        raise _avatar_service_error(exc)
+
+    return AvatarCreateResponse(
+        avatar_id=avatar_result["avatar_id"],
+        avatar_provider=avatar_result["avatar_provider"],
+        avatar_image_url=avatar_result.get("avatar_image_url"),
+        cached=avatar_result.get("cached", False),
+        message="Avatar ready for Live Tutor mode.",
     )
 
 
-@router.post("/avatar", response_model=AvatarResponse)
-async def generate_avatar_video(
-    req: AvatarRequest,
+@router.post("/avatar/speak", response_model=AvatarJobResponse)
+async def speak_with_avatar(
+    req: AvatarSpeakRequest,
     current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
 ):
-    """Legacy synchronous avatar route kept for compatibility."""
     try:
-        video_url = await render_avatar_video(_build_job_request(req, current_user))
-    except ValueError as exc:
-        raise HTTPException(status_code=400, detail=str(exc))
-    except Exception as exc:
-        raise HTTPException(status_code=502, detail=f"SadTalker error: {exc!r}")
+        result = await create_avatar_speech_job(
+            user=current_user,
+            db=db,
+            avatar_id=req.avatar_id,
+            text=req.text,
+        )
+    except DIdAvatarError as exc:
+        raise _avatar_service_error(exc)
 
-    return AvatarResponse(video_url=video_url)
+    return AvatarJobResponse(
+        job_id=result["job_id"],
+        avatar_id=result.get("avatar_id"),
+        status=result["status"],
+        video_url=result.get("video_url"),
+        error=result.get("error"),
+    )
 
 
-@router.post("/avatar/generate", response_model=AvatarJobStatus)
-@router.post("/generate-avatar-video", response_model=AvatarJobStatus)
-async def generate_avatar_async(
-    req: AvatarJobCreate,
-    background_tasks: BackgroundTasks,
+@router.post("/avatar/generate", response_model=AvatarJobResponse)
+@router.post("/generate-avatar-video", response_model=AvatarJobResponse)
+async def generate_avatar_video_legacy(
+    req: LegacyAvatarSpeakRequest,
     current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
 ):
-    """
-    Start avatar generation and return a job id for mobile polling.
+    if req.audio_url:
+        raise HTTPException(
+            status_code=400,
+            detail="audio_url is no longer supported. Send text to /avatar/speak instead.",
+        )
+    if not req.text or not req.text.strip():
+        raise HTTPException(status_code=400, detail="text is required for avatar speech.")
 
-    When wait_for_completion=true, this route returns the finished video directly.
-    """
-    job_request = _build_job_request(req, current_user)
+    config = current_user.avatar_config or {}
+    avatar_id = config.get("avatar_id")
+    if not isinstance(avatar_id, str) or not avatar_id.strip():
+        raise HTTPException(
+            status_code=400,
+            detail="Create an avatar before requesting live tutor video.",
+        )
 
-    if req.wait_for_completion:
-        try:
-            video_url = await render_avatar_video(job_request)
-        except ValueError as exc:
-            raise HTTPException(status_code=400, detail=str(exc))
-        except Exception as exc:
-            raise HTTPException(status_code=502, detail=f"SadTalker error: {exc!r}")
-        return AvatarJobStatus(status="done", video_url=video_url)
-
-    job_id = create_avatar_job(job_request)
-    background_tasks.add_task(run_avatar_job, job_id, job_request)
-    return AvatarJobStatus(job_id=job_id, status="pending")
+    return await speak_with_avatar(
+        req=AvatarSpeakRequest(avatar_id=avatar_id, text=req.text),
+        current_user=current_user,
+        db=db,
+    )
 
 
-@router.get("/avatar/job/{job_id}", response_model=AvatarJobStatus)
+@router.get("/avatar/job/{job_id}", response_model=AvatarJobResponse)
 async def get_avatar_job(
     job_id: str,
     current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
 ):
-    """Poll the status of an async avatar generation job."""
-    job = get_job_status(job_id)
+    try:
+        job = await get_avatar_job_status(job_id=job_id, user=current_user, db=db)
+    except DIdAvatarError as exc:
+        raise _avatar_service_error(exc)
+
     if job is None:
         raise HTTPException(status_code=404, detail="Job not found")
-    return AvatarJobStatus(
-        job_id=job_id,
-        status=job["status"] or "pending",
+
+    return AvatarJobResponse(
+        job_id=job["job_id"],
+        avatar_id=job.get("avatar_id"),
+        status=job["status"],
         video_url=job.get("video_url"),
         error=job.get("error"),
     )

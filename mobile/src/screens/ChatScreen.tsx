@@ -4,6 +4,7 @@ import {
   Alert,
   Animated,
   FlatList,
+  Image,
   KeyboardAvoidingView,
   Platform,
   StatusBar,
@@ -18,9 +19,15 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Video from 'react-native-video';
 import NoticeBanner from '../components/NoticeBanner';
-import {extractErrorMessage, getApiBaseUrl, tutorAPI} from '../services/api';
+import {
+  avatarAPI,
+  extractErrorMessage,
+  getApiBaseUrl,
+  tutorAPI,
+  uploadAPI,
+} from '../services/api';
 import {pollAvatarJob} from '../services/avatarService';
-import {Message, TutorStackParamList} from '../types';
+import {AvatarConfig, Message, TutorMode, TutorStackParamList} from '../types';
 
 type ChatRoute = RouteProp<TutorStackParamList, 'TutorChat'>;
 type ChatNav = NativeStackNavigationProp<TutorStackParamList, 'TutorChat'>;
@@ -42,13 +49,19 @@ export default function ChatScreen() {
   const route = useRoute<ChatRoute>();
   const courseId = route.params?.courseId;
   const courseName = route.params?.courseName ?? 'General AI Tutor';
+  const mode: TutorMode = route.params?.mode ?? 'chat';
+  const isLiveTutor = mode === 'liveTutor';
   const [messages, setMessages] = useState<Message[]>([
     {
       id: nextId(),
       role: 'assistant',
-      content: courseId
-        ? `Hi, I am your AI tutor for ${courseName}. Ask me a question and I will explain it step by step.`
-        : 'Hi, I am your AI tutor. Pick a course or ask a question to get started.',
+      content: isLiveTutor
+        ? courseId
+          ? `Welcome to Live Tutor for ${courseName}. Ask a question and I will teach it step by step, then generate a talking video response.`
+          : 'Welcome to Live Tutor. Ask a question and I will explain it, then generate a talking tutor video.'
+        : courseId
+          ? `Hi, I am your AI chat tutor for ${courseName}. Ask anything and I will keep the answer fast and clear.`
+          : 'Hi, I am your AI chat tutor. Ask anything for a fast text explanation.',
       timestamp: new Date(),
     },
   ]);
@@ -57,6 +70,8 @@ export default function ChatScreen() {
   const [isGeneratingAvatar, setIsGeneratingAvatar] = useState(false);
   const [avatarStatus, setAvatarStatus] = useState('');
   const [heroVideoUrl, setHeroVideoUrl] = useState<string | null>(null);
+  const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
+  const [avatarConfig, setAvatarConfig] = useState<AvatarConfig | null>(null);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [chatError, setChatError] = useState<string | null>(null);
 
@@ -65,6 +80,40 @@ export default function ChatScreen() {
   const pulseLoop = useRef<Animated.CompositeAnimation | null>(null);
   const isMountedRef = useRef(true);
   const latestAvatarTokenRef = useRef<string | null>(null);
+
+  const loadAvatarState = useCallback(async () => {
+    if (!isLiveTutor) {
+      setAvatarConfig(null);
+      setAvatarPreviewUrl(null);
+      setHeroVideoUrl(null);
+      return;
+    }
+
+    try {
+      const response = await uploadAPI.getAvatarConfig();
+      const config = response.data as AvatarConfig;
+      setAvatarConfig(config);
+
+      const preview =
+        config.avatar_image_url || config.character_image_url || config.photo_path;
+      if (preview) {
+        setAvatarPreviewUrl(await toAbsUrl(preview));
+      } else {
+        setAvatarPreviewUrl(null);
+      }
+
+      if (config.last_generated_clip_url) {
+        setHeroVideoUrl(await toAbsUrl(config.last_generated_clip_url));
+      }
+    } catch (error) {
+      setChatError(
+        extractErrorMessage(
+          error,
+          'Could not load the current avatar tutor state.',
+        ),
+      );
+    }
+  }, [isLiveTutor]);
 
   useEffect(() => {
     return () => {
@@ -98,20 +147,30 @@ export default function ChatScreen() {
     }
   }, [isGeneratingAvatar, isSending, pulseAnim]);
 
+  useEffect(() => {
+    loadAvatarState().catch(() => {});
+  }, [loadAvatarState]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      loadAvatarState().catch(() => {});
+    });
+    return unsubscribe;
+  }, [loadAvatarState, navigation]);
+
   const scrollToBottom = useCallback(() => {
     setTimeout(() => listRef.current?.scrollToEnd({animated: true}), 120);
   }, []);
 
-  const openFullVideo = useCallback(() => {
-    if (!heroVideoUrl) {
-      return;
-    }
-
-    navigation.navigate('AvatarVideoPlayer', {
-      videoUrl: heroVideoUrl,
-      title: courseName,
-    });
-  }, [courseName, heroVideoUrl, navigation]);
+  const openFullVideo = useCallback(
+    (videoUrl: string) => {
+      navigation.navigate('AvatarVideoPlayer', {
+        videoUrl,
+        title: courseName,
+      });
+    },
+    [courseName, navigation],
+  );
 
   const startAvatarPolling = useCallback(
     async (jobId: string, messageId: string) => {
@@ -122,10 +181,7 @@ export default function ChatScreen() {
 
       try {
         const videoUrl = await pollAvatarJob(jobId, status => {
-          if (
-            !isMountedRef.current ||
-            latestAvatarTokenRef.current !== token
-          ) {
+          if (!isMountedRef.current || latestAvatarTokenRef.current !== token) {
             return;
           }
 
@@ -154,23 +210,17 @@ export default function ChatScreen() {
           ),
         );
       } catch (error) {
-        if (
-          isMountedRef.current &&
-          latestAvatarTokenRef.current === token
-        ) {
+        if (isMountedRef.current && latestAvatarTokenRef.current === token) {
           setChatError(
             extractErrorMessage(
               error,
-              'The tutor reply was generated, but the avatar video could not be finished.',
+              'The tutor reply was generated, but the video response could not be finished.',
             ),
           );
           setAvatarStatus('');
         }
       } finally {
-        if (
-          isMountedRef.current &&
-          latestAvatarTokenRef.current === token
-        ) {
+        if (isMountedRef.current && latestAvatarTokenRef.current === token) {
           setIsGeneratingAvatar(false);
           setAvatarStatus('');
         }
@@ -205,8 +255,6 @@ export default function ChatScreen() {
         const response = await tutorAPI.askTutor({
           message: trimmed,
           courseId,
-          generateVoice: true,
-          generateAvatarVideo: true,
         });
 
         if (!isMountedRef.current) {
@@ -239,17 +287,39 @@ export default function ChatScreen() {
             : [],
         );
 
-        if (
-          Array.isArray(response.data?.media_errors) &&
-          response.data.media_errors.length > 0
-        ) {
-          setChatError(response.data.media_errors.join(' '));
-        }
-
         scrollToBottom();
 
-        if (response.data?.avatar_video_url) {
-          const fullUrl = await toAbsUrl(response.data.avatar_video_url);
+        if (!isLiveTutor) {
+          return;
+        }
+
+        const currentAvatarId =
+          avatarConfig?.avatar_ready && avatarConfig.avatar_id
+            ? avatarConfig.avatar_id
+            : null;
+
+        if (!currentAvatarId) {
+          setChatError(
+            'Live Tutor needs a D-ID avatar first. Open Avatar Setup, upload a photo, and try again.',
+          );
+          return;
+        }
+
+        setIsGeneratingAvatar(true);
+        setAvatarStatus('Sending explanation to D-ID...');
+
+        const speakResponse = await avatarAPI.speak({
+          avatarId: currentAvatarId,
+          text: assistantResponse,
+        });
+
+        if (!isMountedRef.current) {
+          return;
+        }
+
+        const videoUrl = speakResponse.data?.video_url;
+        if (videoUrl) {
+          const fullUrl = await toAbsUrl(videoUrl);
           setHeroVideoUrl(fullUrl);
           setMessages(current =>
             current.map(message =>
@@ -261,16 +331,24 @@ export default function ChatScreen() {
                 : message,
             ),
           );
-        } else if (response.data?.avatar_job_id) {
-          startAvatarPolling(response.data.avatar_job_id, assistantMessageId).catch(
+          setIsGeneratingAvatar(false);
+          setAvatarStatus('');
+        } else if (speakResponse.data?.job_id) {
+          startAvatarPolling(speakResponse.data.job_id, assistantMessageId).catch(
             () => {},
           );
+        } else {
+          setIsGeneratingAvatar(false);
+          setAvatarStatus('');
+          setChatError('Live Tutor did not return a video job id.');
         }
       } catch (error) {
         if (!isMountedRef.current) {
           return;
         }
 
+        setIsGeneratingAvatar(false);
+        setAvatarStatus('');
         setChatError(
           extractErrorMessage(
             error,
@@ -283,7 +361,7 @@ export default function ChatScreen() {
         }
       }
     },
-    [courseId, isSending, scrollToBottom, startAvatarPolling],
+    [avatarConfig, courseId, isLiveTutor, isSending, scrollToBottom, startAvatarPolling],
   );
 
   const renderMessage = ({item}: {item: Message}) => {
@@ -297,8 +375,8 @@ export default function ChatScreen() {
             {item.content}
           </Text>
           {item.videoUrl ? (
-            <TouchableOpacity onPress={openFullVideo}>
-              <Text style={styles.videoTag}>Avatar preview ready</Text>
+            <TouchableOpacity onPress={() => openFullVideo(item.videoUrl!)}>
+              <Text style={styles.videoTag}>Tutor video ready</Text>
             </TouchableOpacity>
           ) : null}
           <Text style={styles.timestamp}>
@@ -314,11 +392,15 @@ export default function ChatScreen() {
 
   const statusLine = isSending
     ? 'Thinking through your question...'
-    : isGeneratingAvatar
-      ? avatarStatus || 'Rendering avatar video...'
+    : isLiveTutor
+      ? isGeneratingAvatar
+        ? avatarStatus || 'Generating tutor video...'
+        : avatarConfig?.avatar_ready
+          ? 'Live Tutor ready'
+          : 'Avatar setup required'
       : courseId
-        ? 'Course-aware tutor online'
-        : 'Choose a course or ask freely';
+        ? 'AI Chat ready for your course'
+        : 'Fast text-only tutor mode';
 
   return (
     <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
@@ -331,7 +413,7 @@ export default function ChatScreen() {
           <Animated.View style={[styles.headerIcon, {transform: [{scale: pulseAnim}]}]} />
           <View style={styles.headerText}>
             <Text style={styles.headerTitle} numberOfLines={1}>
-              {courseName}
+              {isLiveTutor ? `Live Tutor • ${courseName}` : `AI Chat • ${courseName}`}
             </Text>
             <Text
               style={[
@@ -343,56 +425,79 @@ export default function ChatScreen() {
           </View>
           <TouchableOpacity
             style={styles.courseSwitch}
-            onPress={() => navigation.navigate('CourseSelection')}>
+            onPress={() =>
+              navigation.navigate('CourseSelection', {
+                mode,
+              })
+            }>
             <Text style={styles.courseSwitchText}>Courses</Text>
           </TouchableOpacity>
         </View>
 
         {courseId ? (
           <View style={styles.courseBadgeRow}>
-            <Text style={styles.courseBadgeText}>Course mode: {courseName}</Text>
+            <Text style={styles.courseBadgeText}>
+              {isLiveTutor ? 'Live Tutor' : 'AI Chat'} course: {courseName}
+            </Text>
           </View>
         ) : null}
 
-        {heroVideoUrl ? (
-          <TouchableOpacity
-            activeOpacity={0.94}
-            style={styles.heroPanel}
-            onPress={openFullVideo}>
-            <Video
-              source={{uri: heroVideoUrl}}
-              style={styles.heroVideo}
-              resizeMode="cover"
-              paused={false}
-              repeat={false}
-              controls={false}
-              onError={() => {
-                setHeroVideoUrl(null);
-                Alert.alert(
-                  'Avatar preview unavailable',
-                  'The latest avatar clip could not be loaded.',
-                );
-              }}
-            />
-            <View style={styles.heroOverlay}>
-              <Text style={styles.heroLabel}>
-                {isGeneratingAvatar ? 'Generating a fresh preview' : 'Tap to open tutor video'}
+        {isLiveTutor ? (
+          heroVideoUrl ? (
+            <TouchableOpacity
+              activeOpacity={0.94}
+              style={styles.heroPanel}
+              onPress={() => openFullVideo(heroVideoUrl)}>
+              <Video
+                source={{uri: heroVideoUrl}}
+                style={styles.heroVideo}
+                resizeMode="cover"
+                paused={false}
+                repeat={false}
+                controls={false}
+                onError={() => {
+                  setHeroVideoUrl(null);
+                  Alert.alert(
+                    'Tutor preview unavailable',
+                    'The latest tutor clip could not be loaded.',
+                  );
+                }}
+              />
+              <View style={styles.heroOverlay}>
+                <Text style={styles.heroLabel}>
+                  {isGeneratingAvatar
+                    ? 'Generating a fresh tutor video'
+                    : 'Tap to open tutor video'}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ) : (
+            <View style={styles.heroPanelPlaceholder}>
+              {avatarPreviewUrl ? (
+                <Image source={{uri: avatarPreviewUrl}} style={styles.previewImage} />
+              ) : (
+                <Animated.View
+                  style={[
+                    styles.placeholderOrb,
+                    {transform: [{scale: pulseAnim}]},
+                  ]}
+                />
+              )}
+              <Text style={styles.placeholderTitle}>Live Tutor preview</Text>
+              <Text style={styles.placeholderText}>
+                {avatarConfig?.avatar_ready
+                  ? isGeneratingAvatar
+                    ? avatarStatus || 'Generating tutor video...'
+                    : 'Your D-ID tutor video will appear here after each answer.'
+                  : 'Open Avatar Setup and upload a photo before using Live Tutor video.'}
               </Text>
             </View>
-          </TouchableOpacity>
+          )
         ) : (
-          <View style={styles.heroPanelPlaceholder}>
-            <Animated.View
-              style={[
-                styles.placeholderOrb,
-                {transform: [{scale: pulseAnim}]},
-              ]}
-            />
-            <Text style={styles.placeholderTitle}>Avatar preview</Text>
-            <Text style={styles.placeholderText}>
-              {isGeneratingAvatar
-                ? avatarStatus || 'Rendering avatar...'
-                : 'Your tutor video will appear here after each response.'}
+          <View style={styles.modeBanner}>
+            <Text style={styles.modeBannerLabel}>AI Chat mode</Text>
+            <Text style={styles.modeBannerText}>
+              This view is text only for faster answers. Switch to Live Tutor when you want video responses.
             </Text>
           </View>
         )}
@@ -445,7 +550,11 @@ export default function ChatScreen() {
         <View style={styles.inputRow}>
           <TextInput
             style={styles.textInput}
-            placeholder="Ask your tutor anything..."
+            placeholder={
+              isLiveTutor
+                ? 'Ask your live tutor anything...'
+                : 'Ask AI anything...'
+            }
             placeholderTextColor="#4B5563"
             value={input}
             onChangeText={setInput}
@@ -527,7 +636,7 @@ const styles = StyleSheet.create({
   },
   heroLabel: {color: '#E5E7EB', fontSize: 12, fontWeight: '600'},
   heroPanelPlaceholder: {
-    minHeight: 148,
+    minHeight: 188,
     backgroundColor: '#0D0D24',
     borderBottomWidth: 1,
     borderColor: '#1C1C3A',
@@ -535,6 +644,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 20,
     gap: 8,
+  },
+  previewImage: {
+    width: 96,
+    height: 96,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: '#3730A3',
   },
   placeholderOrb: {
     width: 52,
@@ -553,6 +669,25 @@ const styles = StyleSheet.create({
     color: '#6B7280',
     fontSize: 13,
     textAlign: 'center',
+    lineHeight: 19,
+  },
+  modeBanner: {
+    backgroundColor: '#101225',
+    borderBottomWidth: 1,
+    borderColor: '#1C1C3A',
+    paddingHorizontal: 18,
+    paddingVertical: 14,
+  },
+  modeBannerLabel: {
+    color: '#A5B4FC',
+    fontSize: 12,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    marginBottom: 4,
+  },
+  modeBannerText: {
+    color: '#CBD5E1',
+    fontSize: 13,
     lineHeight: 19,
   },
   banner: {

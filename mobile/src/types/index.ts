@@ -36,16 +36,19 @@ export interface TutorResponse {
 export interface AskTutorResponse extends TutorResponse {
   course_id?: number;
   course_title?: string;
-  audio_url?: string;
-  audio_duration_ms?: number;
-  avatar_job_id?: string;
-  avatar_status?: 'pending' | 'processing' | 'done' | 'failed';
-  avatar_video_url?: string;
-  media_errors?: string[];
+}
+
+export interface AvatarCreateResponse {
+  avatar_id: string;
+  avatar_provider: string;
+  avatar_image_url?: string;
+  cached: boolean;
+  message: string;
 }
 
 export interface AvatarJob {
   job_id: string;
+  avatar_id?: string;
   status: 'pending' | 'processing' | 'done' | 'failed';
   video_url?: string;
   error?: string;
@@ -56,10 +59,16 @@ export interface AvatarConfig {
   has_voice: boolean;
   photo_path?: string;
   voice_path?: string;
+  avatar_id?: string;
+  avatar_ready?: boolean;
+  avatar_provider?: string;
+  avatar_image_url?: string;
   character_image_url?: string;
   last_generated_clip_url?: string;
   last_script?: string;
 }
+
+export type TutorMode = 'chat' | 'liveTutor';
 
 export type RootStackParamList = {
   Splash: undefined;
@@ -70,8 +79,11 @@ export type RootStackParamList = {
 
 export type TutorStackParamList = {
   AvatarTutor: {courseId?: number; courseName?: string} | undefined;
-  CourseSelection: {autoStart?: boolean} | undefined;
-  TutorChat: {courseId?: number; courseName?: string} | undefined;
+  AvatarSetup: undefined;
+  CourseSelection: {autoStart?: boolean; mode?: TutorMode} | undefined;
+  TutorChat:
+    | {courseId?: number; courseName?: string; mode?: TutorMode}
+    | undefined;
   AvatarVideoPlayer: {videoUrl: string; title?: string};
 };
 

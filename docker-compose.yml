@@ -36,11 +36,14 @@ services:
       OPENROUTER_APP_TITLE: ${OPENROUTER_APP_TITLE:-AI Tutor App}
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       GEMINI_MODEL: gemini-1.5-flash
+      DID_API_KEY: ${DID_API_KEY:-}
+      DID_API_BASE_URL: ${DID_API_BASE_URL:-https://api.d-id.com}
+      DID_DEFAULT_VOICE: ${DID_DEFAULT_VOICE:-en-US-JennyNeural}
+      DID_VOICE_PROVIDER: ${DID_VOICE_PROVIDER:-microsoft}
       UPLOAD_DIR: /app/uploads
       MAX_FILE_SIZE: 10485760
       HOST: 0.0.0.0
       PORT: 8000
-      SD_API_URL: http://host.docker.internal:7860
       # CORS is set to allow all origins so the React Native app can connect
       # without an Origin header. JWT guards all protected routes.
       CORS_ORIGINS: "*"

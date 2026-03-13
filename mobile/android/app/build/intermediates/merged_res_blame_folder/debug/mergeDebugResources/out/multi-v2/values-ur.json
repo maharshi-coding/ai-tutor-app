@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.aitutormobile.app-mergeDebugResources-46:/values-ur/values-ur.xml",
+            "outputFile": "com.aitutormobile.app-mergeDebugResources-47:/values-ur/values-ur.xml",
             "map": [
                 {
-                    "source": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\.gradle-user-home\\caches\\transforms-4\\962efe94dd3d8e292fbb9833374ca93a\\transformed\\material-1.6.1\\res\\values-ur\\values-ur.xml",
+                    "source": "C:\\Users\\barot\\.gradle\\caches\\transforms-4\\962efe94dd3d8e292fbb9833374ca93a\\transformed\\material-1.6.1\\res\\values-ur\\values-ur.xml",
                     "from": {
                         "startLines": "2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -23,41 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\.gradle-user-home\\caches\\transforms-4\\9163beb8e3b4ed94da5e6ee1efa5e824\\transformed\\core-1.16.0\\res\\values-ur\\values-ur.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,153,255,357,461,564,662,776",
-                        "endColumns": "97,101,101,103,102,97,113,100",
-                        "endOffsets": "148,250,352,456,559,657,771,872"
-                    },
-                    "to": {
-                        "startLines": "52,53,54,55,56,57,58,207",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "3757,3855,3957,4059,4163,4266,4364,16002",
-                        "endColumns": "97,101,101,103,102,97,113,100",
-                        "endOffsets": "3850,3952,4054,4158,4261,4359,4473,16098"
-                    }
-                },
-                {
-                    "source": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\.gradle-user-home\\caches\\transforms-4\\3e32a387c2410ba51bea9d50914398e4\\transformed\\appcompat-1.6.1\\res\\values-ur\\values-ur.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,219,325,434,520,624,744,821,896,988,1082,1177,1271,1372,1466,1562,1656,1748,1840,1925,2033,2139,2241,2352,2453,2569,2734,2832",
-                        "endColumns": "113,105,108,85,103,119,76,74,91,93,94,93,100,93,95,93,91,91,84,107,105,101,110,100,115,164,97,85",
-                        "endOffsets": "214,320,429,515,619,739,816,891,983,1077,1172,1266,1367,1461,1557,1651,1743,1835,1920,2028,2134,2236,2347,2448,2564,2729,2827,2913"
-                    },
-                    "to": {
-                        "startLines": "23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,198",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "884,998,1104,1213,1299,1403,1523,1600,1675,1767,1861,1956,2050,2151,2245,2341,2435,2527,2619,2704,2812,2918,3020,3131,3232,3348,3513,15281",
-                        "endColumns": "113,105,108,85,103,119,76,74,91,93,94,93,100,93,95,93,91,91,84,107,105,101,110,100,115,164,97,85",
-                        "endOffsets": "993,1099,1208,1294,1398,1518,1595,1670,1762,1856,1951,2045,2146,2240,2336,2430,2522,2614,2699,2807,2913,3015,3126,3227,3343,3508,3606,15362"
-                    }
-                },
-                {
-                    "source": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\.gradle-user-home\\caches\\transforms-4\\f7e9e1e699ae3e3921c481cc8a7453bb\\transformed\\jetified-media3-session-1.8.0\\res\\values-ur\\values-ur.xml",
+                    "source": "C:\\Users\\barot\\.gradle\\caches\\transforms-4\\f7e9e1e699ae3e3921c481cc8a7453bb\\transformed\\jetified-media3-session-1.8.0\\res\\values-ur\\values-ur.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -74,7 +40,41 @@
                     }
                 },
                 {
-                    "source": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\.gradle-user-home\\caches\\transforms-4\\6f7bb6bac263cd294354adad6eb9c569\\transformed\\jetified-react-android-0.76.5-debug\\res\\values-ur\\values-ur.xml",
+                    "source": "C:\\Users\\barot\\.gradle\\caches\\transforms-4\\f0573c7b8ed9c9174c7b2294abd38107\\transformed\\jetified-media3-exoplayer-1.8.0\\res\\values-ur\\values-ur.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,127,194,266,336,413,484,575,660",
+                        "endColumns": "71,66,71,69,76,70,90,84,78",
+                        "endOffsets": "122,189,261,331,408,479,570,655,734"
+                    },
+                    "to": {
+                        "startLines": "106,107,108,109,110,111,112,113,114",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "8438,8510,8577,8649,8719,8796,8867,8958,9043",
+                        "endColumns": "71,66,71,69,76,70,90,84,78",
+                        "endOffsets": "8505,8572,8644,8714,8791,8862,8953,9038,9117"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\barot\\.gradle\\caches\\transforms-4\\3e32a387c2410ba51bea9d50914398e4\\transformed\\appcompat-1.6.1\\res\\values-ur\\values-ur.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,219,325,434,520,624,744,821,896,988,1082,1177,1271,1372,1466,1562,1656,1748,1840,1925,2033,2139,2241,2352,2453,2569,2734,2832",
+                        "endColumns": "113,105,108,85,103,119,76,74,91,93,94,93,100,93,95,93,91,91,84,107,105,101,110,100,115,164,97,85",
+                        "endOffsets": "214,320,429,515,619,739,816,891,983,1077,1172,1266,1367,1461,1557,1651,1743,1835,1920,2028,2134,2236,2347,2448,2564,2729,2827,2913"
+                    },
+                    "to": {
+                        "startLines": "23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,198",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "884,998,1104,1213,1299,1403,1523,1600,1675,1767,1861,1956,2050,2151,2245,2341,2435,2527,2619,2704,2812,2918,3020,3131,3232,3348,3513,15281",
+                        "endColumns": "113,105,108,85,103,119,76,74,91,93,94,93,100,93,95,93,91,91,84,107,105,101,110,100,115,164,97,85",
+                        "endOffsets": "993,1099,1208,1294,1398,1518,1595,1670,1762,1856,1951,2045,2146,2240,2336,2430,2522,2614,2699,2807,2913,3015,3126,3227,3343,3508,3606,15362"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\barot\\.gradle\\caches\\transforms-4\\6f7bb6bac263cd294354adad6eb9c569\\transformed\\jetified-react-android-0.76.5-debug\\res\\values-ur\\values-ur.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -91,7 +91,24 @@
                     }
                 },
                 {
-                    "source": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\.gradle-user-home\\caches\\transforms-4\\2ac293feb269c8ab5d421945abe7dffb\\transformed\\jetified-media3-ui-1.8.0\\res\\values-ur\\values-ur.xml",
+                    "source": "C:\\Users\\barot\\.gradle\\caches\\transforms-4\\9163beb8e3b4ed94da5e6ee1efa5e824\\transformed\\core-1.16.0\\res\\values-ur\\values-ur.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,153,255,357,461,564,662,776",
+                        "endColumns": "97,101,101,103,102,97,113,100",
+                        "endOffsets": "148,250,352,456,559,657,771,872"
+                    },
+                    "to": {
+                        "startLines": "52,53,54,55,56,57,58,207",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "3757,3855,3957,4059,4163,4266,4364,16002",
+                        "endColumns": "97,101,101,103,102,97,113,100",
+                        "endOffsets": "3850,3952,4054,4158,4261,4359,4473,16098"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\barot\\.gradle\\caches\\transforms-4\\2ac293feb269c8ab5d421945abe7dffb\\transformed\\jetified-media3-ui-1.8.0\\res\\values-ur\\values-ur.xml",
                     "from": {
                         "startLines": "2,11,15,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -107,23 +124,6 @@
                         "endLines": "10,14,18,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131",
                         "endColumns": "17,12,12,87,90,84,94,94,67,61,88,88,69,64,61,67,109,111,108,73,80,69,67,85,88,63,62,52,57,47,60,59,68,59,62,59,62,64,52,56,70,70,53,65",
                         "endOffsets": "327,533,720,6568,6659,6744,6839,6934,7002,7064,7153,7242,7312,7377,7439,7507,7617,7729,7838,7912,7993,8063,8131,8217,8306,8370,8433,9170,9228,9276,9337,9397,9466,9526,9589,9649,9712,9777,9830,9887,9958,10029,10083,10149"
-                    }
-                },
-                {
-                    "source": "C:\\projects outside one-drive\\ai-tutor-app\\mobile\\.gradle-user-home\\caches\\transforms-4\\f0573c7b8ed9c9174c7b2294abd38107\\transformed\\jetified-media3-exoplayer-1.8.0\\res\\values-ur\\values-ur.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10",
-                        "startColumns": "4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,127,194,266,336,413,484,575,660",
-                        "endColumns": "71,66,71,69,76,70,90,84,78",
-                        "endOffsets": "122,189,261,331,408,479,570,655,734"
-                    },
-                    "to": {
-                        "startLines": "106,107,108,109,110,111,112,113,114",
-                        "startColumns": "4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "8438,8510,8577,8649,8719,8796,8867,8958,9043",
-                        "endColumns": "71,66,71,69,76,70,90,84,78",
-                        "endOffsets": "8505,8572,8644,8714,8791,8862,8953,9038,9117"
                     }
                 }
             ]

@@ -1,13 +1,12 @@
-"""Voice generation endpoints for tutor narration."""
+"""Deprecated local voice endpoints kept only to return a clear migration message."""
 
 from typing import Optional
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
 from app.models import User
 from app.routers.auth import get_current_user
-from app.services.tts import ensure_voice_audio
 
 
 router = APIRouter()
@@ -25,29 +24,21 @@ class VoiceResponse(BaseModel):
     provider: Optional[str] = None
 
 
+def _voice_disabled() -> None:
+    raise HTTPException(
+        status_code=410,
+        detail=(
+            "Local voice generation has been removed. "
+            "Use the D-ID avatar endpoints for Live Tutor mode."
+        ),
+    )
+
+
 @router.post("/voice", response_model=VoiceResponse)
 @router.post("/generate-voice", response_model=VoiceResponse)
 async def generate_voice(
     req: VoiceRequest,
     current_user: User = Depends(get_current_user),
 ):
-    """
-    Generate tutor speech audio using Piper, Coqui, or Kokoro.
-
-    Provider order is controlled by TTS_PROVIDER:
-      - auto  -> Piper, then Coqui, then Kokoro fallback
-      - piper -> Piper only
-      - coqui -> Coqui only
-      - kokoro -> Kokoro only
-    """
-    artifact = await ensure_voice_audio(
-        user_id=current_user.id,
-        text=req.text,
-        voice=req.voice,
-        speed=req.speed or 1.0,
-    )
-    return VoiceResponse(
-        audio_url=artifact.audio_url,
-        duration_ms=artifact.duration_ms,
-        provider=artifact.provider,
-    )
+    _ = (req, current_user)
+    _voice_disabled()

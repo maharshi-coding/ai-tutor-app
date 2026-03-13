@@ -9,9 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  NativeStackNavigationProp,
-} from '@react-navigation/native-stack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import NoticeBanner from '../components/NoticeBanner';
@@ -50,7 +48,11 @@ export default function AvatarTutorScreen() {
       setCourses(nextCourses);
       setAvatarConfig(nextConfig);
 
-      const imageUrl = nextConfig.character_image_url || nextConfig.photo_path;
+      const imageUrl =
+        nextConfig.avatar_image_url ||
+        nextConfig.character_image_url ||
+        nextConfig.photo_path;
+
       if (imageUrl) {
         const baseUrl = await getApiBaseUrl();
         setAvatarImageUrl(
@@ -63,7 +65,7 @@ export default function AvatarTutorScreen() {
       setScreenMessage(
         extractErrorMessage(
           error,
-          'Could not load your avatar tutor workspace right now.',
+          'Could not load your live tutor workspace right now.',
         ),
       );
     } finally {
@@ -79,7 +81,14 @@ export default function AvatarTutorScreen() {
     navigation.navigate('TutorChat', {
       courseId: course?.id,
       courseName: course?.title,
+      mode: 'liveTutor',
     });
+
+  const avatarStatus = avatarConfig?.avatar_ready
+    ? 'Avatar ready for Live Tutor'
+    : avatarConfig?.has_photo
+      ? 'Photo saved, finish D-ID setup in Avatar Setup'
+      : 'Upload a photo to unlock Live Tutor';
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -88,9 +97,9 @@ export default function AvatarTutorScreen() {
         style={styles.container}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>Avatar tutor</Text>
+        <Text style={styles.title}>Live tutor</Text>
         <Text style={styles.sub}>
-          Learn with a course-aware AI tutor that can talk back using your avatar.
+          Learn with a talking D-ID tutor that answers with video, voice, and step-by-step teaching.
         </Text>
 
         <NoticeBanner message={screenMessage} style={styles.banner} />
@@ -98,16 +107,10 @@ export default function AvatarTutorScreen() {
         <View style={styles.heroCard}>
           <View style={styles.heroCopy}>
             <Text style={styles.heroLabel}>Tutor status</Text>
-            <Text style={styles.heroTitle}>
-              {avatarConfig?.character_image_url
-                ? 'Avatar ready for tutoring'
-                : avatarConfig?.has_photo
-                  ? 'Photo saved, avatar can be generated'
-                  : 'Upload a photo to unlock the full tutor'}
-            </Text>
+            <Text style={styles.heroTitle}>{avatarStatus}</Text>
             <Text style={styles.heroText}>
-              Ask questions about Python, machine learning, AI, or data science and
-              get text, voice, and animated video responses.
+              Your Live Tutor uses the photo you uploaded, a text explanation from the AI tutor,
+              and D-ID video generation for the final response.
             </Text>
           </View>
 
@@ -124,14 +127,16 @@ export default function AvatarTutorScreen() {
           <TouchableOpacity
             activeOpacity={0.88}
             style={[styles.actionBtn, styles.primaryBtn]}
-            onPress={() => navigation.navigate('CourseSelection')}>
+            onPress={() =>
+              navigation.navigate('CourseSelection', {mode: 'liveTutor'})
+            }>
             <Text style={styles.primaryBtnText}>Choose course</Text>
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.88}
             style={[styles.actionBtn, styles.secondaryBtn]}
             onPress={() => openChat()}>
-            <Text style={styles.secondaryBtnText}>Open chat</Text>
+            <Text style={styles.secondaryBtnText}>Start live tutor</Text>
           </TouchableOpacity>
         </View>
 
@@ -168,11 +173,17 @@ export default function AvatarTutorScreen() {
         </View>
 
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Need to update your avatar?</Text>
+          <Text style={styles.cardTitle}>Need to update your tutor face?</Text>
           <Text style={styles.cardText}>
-            Use the Avatar tab to upload a new photo, regenerate the cartoon tutor,
-            and preview a talking intro clip.
+            Use the Avatar Setup screen to upload a new photo, refresh your cached D-ID avatar,
+            and preview an intro video before you start teaching sessions.
           </Text>
+          <TouchableOpacity
+            activeOpacity={0.88}
+            style={[styles.actionBtn, styles.secondaryBtn, styles.setupBtn]}
+            onPress={() => navigation.navigate('AvatarSetup')}>
+            <Text style={styles.secondaryBtnText}>Open avatar setup</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -256,6 +267,9 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingVertical: 14,
     alignItems: 'center',
+  },
+  setupBtn: {
+    marginTop: 16,
   },
   primaryBtn: {backgroundColor: '#6C63FF'},
   secondaryBtn: {

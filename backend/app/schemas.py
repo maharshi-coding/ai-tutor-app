@@ -90,22 +90,32 @@ class AskTutorRequest(BaseModel):
     message: str
     course_id: Optional[int] = None
     course_slug: Optional[str] = None
-    generate_voice: bool = False
-    generate_avatar_video: bool = False
-    voice: Optional[str] = None
-    speed: float = 1.0
-    image_url: Optional[str] = None
 
 
 class AskTutorResponse(TutorResponse):
     course_id: Optional[int] = None
     course_title: Optional[str] = None
-    audio_url: Optional[str] = None
-    audio_duration_ms: Optional[int] = None
-    avatar_job_id: Optional[str] = None
-    avatar_status: Optional[str] = None
-    avatar_video_url: Optional[str] = None
-    media_errors: Optional[List[str]] = None
+
+
+class AvatarCreateResponse(BaseModel):
+    avatar_id: str
+    avatar_provider: str
+    avatar_image_url: Optional[str] = None
+    cached: bool = False
+    message: str
+
+
+class AvatarSpeakRequest(BaseModel):
+    avatar_id: str
+    text: str
+
+
+class AvatarJobResponse(BaseModel):
+    job_id: str
+    avatar_id: Optional[str] = None
+    status: str  # pending | processing | done | failed
+    video_url: Optional[str] = None
+    error: Optional[str] = None
 
 
 # Quiz Schemas

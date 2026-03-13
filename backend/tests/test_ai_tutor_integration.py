@@ -4,8 +4,10 @@ Run with:  cd backend && pytest tests/test_ai_tutor_integration.py -v
 """
 
 import json
+import io
 from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
+import wave
 
 import pytest
 import pytest_asyncio
@@ -26,6 +28,16 @@ from app.database import Base, engine  # noqa: E402
 Base.metadata.create_all(bind=engine)
 
 _test_counter = 0
+
+
+def _minimal_wav_bytes() -> bytes:
+    buffer = io.BytesIO()
+    with wave.open(buffer, "wb") as wav_file:
+        wav_file.setnchannels(1)
+        wav_file.setsampwidth(2)
+        wav_file.setframerate(22050)
+        wav_file.writeframes(b"\x00\x00" * 2205)
+    return buffer.getvalue()
 
 
 async def _get_auth_token(client: httpx.AsyncClient) -> str:
@@ -116,8 +128,6 @@ async def test_ask_tutor_alias(ac):
         "/ask-tutor",
         json={
             "message": "Explain what a Python function does.",
-            "generate_voice": False,
-            "generate_avatar_video": False,
         },
         headers=headers,
     )
@@ -180,19 +190,19 @@ async def test_voice_empty_text(ac):
         json={"text": "   "},
         headers=headers,
     )
-    assert resp.status_code == 400
+    assert resp.status_code == 410
 
 
 @pytest.mark.asyncio
-async def test_voice_service_unavailable(ac):
-    """When Kokoro TTS is not running, we get a 502 or 503."""
+async def test_voice_route_is_disabled(ac):
     headers = await _auth_header(ac)
     resp = await ac.post(
         "/api/voice",
         json={"text": "Hello world"},
         headers=headers,
     )
-    assert resp.status_code in (502, 503)
+    assert resp.status_code == 410, resp.text
+    assert "D-ID" in resp.json()["detail"]
 
 
 # ---------------------------------------------------------------------------
@@ -202,7 +212,19 @@ async def test_voice_service_unavailable(ac):
 
 @pytest.mark.asyncio
 async def test_avatar_requires_auth(ac):
-    resp = await ac.post("/api/avatar", json={"text": "Hello"})
+    resp = await ac.post(
+        "/avatar/speak",
+        json={"avatar_id": "avatar-123", "text": "Hello"},
+    )
+    assert resp.status_code in (401, 403)
+
+
+@pytest.mark.asyncio
+async def test_avatar_create_requires_auth(ac):
+    resp = await ac.post(
+        "/avatar/create",
+        files={"file": ("avatar.png", b"fake-image", "image/png")},
+    )
     assert resp.status_code in (401, 403)
 
 
@@ -213,14 +235,42 @@ async def test_generate_avatar_video_alias_requires_auth(ac):
 
 
 @pytest.mark.asyncio
-async def test_avatar_no_image_or_audio(ac):
+async def test_avatar_speak_requires_existing_avatar(ac):
     headers = await _auth_header(ac)
     resp = await ac.post(
-        "/api/avatar",
-        json={},
+        "/avatar/speak",
+        json={"avatar_id": "avatar-123", "text": "Hello"},
         headers=headers,
     )
     assert resp.status_code == 400
+
+
+@pytest.mark.asyncio
+async def test_avatar_speak_returns_job(ac):
+    headers = await _auth_header(ac)
+
+    with patch(
+        "app.routers.avatar.create_avatar_speech_job",
+        new=AsyncMock(
+            return_value={
+                "job_id": "talk-123",
+                "avatar_id": "avatar-123",
+                "status": "pending",
+                "video_url": None,
+                "error": None,
+            }
+        ),
+    ):
+        resp = await ac.post(
+            "/avatar/speak",
+            json={"avatar_id": "avatar-123", "text": "Teach me recursion"},
+            headers=headers,
+        )
+
+    assert resp.status_code == 200, resp.text
+    data = resp.json()
+    assert data["job_id"] == "talk-123"
+    assert data["status"] == "pending"
 
 
 # ---------------------------------------------------------------------------
@@ -356,3 +406,10 @@ def test_config_has_sadtalker_settings():
     from app.config import settings
 
     assert hasattr(settings, "SADTALKER_API_URL")
+
+
+def test_config_has_did_settings():
+    from app.config import settings
+
+    assert hasattr(settings, "DID_API_KEY")
+    assert hasattr(settings, "DID_DEFAULT_VOICE")

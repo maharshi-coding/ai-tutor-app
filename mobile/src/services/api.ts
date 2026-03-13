@@ -5,8 +5,8 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {NativeModules, Platform} from 'react-native';
-import {AskTutorResponse} from '../types';
+import {NativeModules} from 'react-native';
+import {AskTutorResponse, AvatarCreateResponse, AvatarJob} from '../types';
 
 declare module 'axios' {
   export interface AxiosRequestConfig {
@@ -30,7 +30,10 @@ function resolveDevApiHost(): string {
     return metroHost;
   }
 
-  return Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
+  // Use your PC's local network IP when running on a physical device
+  // Replace with your actual IP if needed
+  // Example: '192.168.0.18' (from ipconfig)
+  return '192.168.0.18';
 }
 
 function normalizeBaseUrl(value: string): string {
@@ -238,33 +241,27 @@ export const coursesAPI = {
 };
 
 export const tutorAPI = {
-  chat: (message: string, courseId?: number) =>
-    apiClient.post('/api/tutor/chat', {message, course_id: courseId}),
+  chat: (data: {message: string; courseId?: number; courseSlug?: string}) =>
+    apiClient.post<AskTutorResponse>('/ask-tutor', {
+      message: data.message,
+      course_id: data.courseId,
+      course_slug: data.courseSlug,
+    }),
   askTutor: (data: {
     message: string;
     courseId?: number;
     courseSlug?: string;
-    generateVoice?: boolean;
-    generateAvatarVideo?: boolean;
-    voice?: string;
-    speed?: number;
-    imageUrl?: string;
   }) =>
     apiClient.post<AskTutorResponse>('/ask-tutor', {
       message: data.message,
       course_id: data.courseId,
       course_slug: data.courseSlug,
-      generate_voice: data.generateVoice ?? false,
-      generate_avatar_video: data.generateAvatarVideo ?? false,
-      voice: data.voice,
-      speed: data.speed ?? 1.0,
-      image_url: data.imageUrl,
     }),
 };
 
 export const uploadAPI = {
   uploadPhoto: (formData: FormData) =>
-    apiClient.post('/upload-photo', formData, {
+    apiClient.post<AvatarCreateResponse>('/avatar/create', formData, {
       headers: {'Content-Type': 'multipart/form-data'},
       timeout: 120000,
     }),
@@ -279,8 +276,16 @@ export const uploadAPI = {
 };
 
 export const avatarAPI = {
-  generate: (data: {text?: string; audio_url?: string; image_url?: string}) =>
-    apiClient.post('/generate-avatar-video', data),
+  create: (formData: FormData) =>
+    apiClient.post<AvatarCreateResponse>('/avatar/create', formData, {
+      headers: {'Content-Type': 'multipart/form-data'},
+      timeout: 120000,
+    }),
+  speak: (data: {avatarId: string; text: string}) =>
+    apiClient.post<AvatarJob>('/avatar/speak', {
+      avatar_id: data.avatarId,
+      text: data.text,
+    }),
   getJobStatus: (jobId: string) =>
-    apiClient.get(`/api/avatar/job/${jobId}`, {retryable: true}),
+    apiClient.get<AvatarJob>(`/avatar/job/${jobId}`, {retryable: true}),
 };

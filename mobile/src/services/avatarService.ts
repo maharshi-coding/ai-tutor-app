@@ -10,15 +10,15 @@ const MAX_POLLS = 72; // ~3 minutes
  * Throws on timeout or failure.
  */
 export async function generateAndPollAvatar(
+  avatarId: string,
   text: string,
   onStatusUpdate?: (status: string) => void,
 ): Promise<string> {
-  onStatusUpdate?.('Starting avatar generation...');
+  onStatusUpdate?.('Starting live tutor video...');
 
-  const genResp = await avatarAPI.generate({text});
+  const genResp = await avatarAPI.speak({avatarId, text});
   const {job_id, video_url} = genResp.data;
 
-  // Backend may return video_url immediately (synchronous fallback)
   if (!job_id && video_url) {
     onStatusUpdate?.('Avatar ready!');
     return video_url as string;

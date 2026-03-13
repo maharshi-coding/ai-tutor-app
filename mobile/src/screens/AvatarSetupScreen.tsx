@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -10,19 +10,21 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Video from 'react-native-video';
 import NoticeBanner from '../components/NoticeBanner';
-import {extractErrorMessage, getApiBaseUrl, uploadAPI} from '../services/api';
+import {avatarAPI, extractErrorMessage, getApiBaseUrl, uploadAPI} from '../services/api';
 import {generateAndPollAvatar} from '../services/avatarService';
 import {useAuthStore} from '../store/authStore';
+import {AvatarConfig} from '../types';
 
 type StepStatus = 'idle' | 'uploading' | 'polling' | 'done' | 'error';
 
 export default function AvatarSetupScreen() {
   const [photoUri, setPhotoUri] = useState<string | null>(null);
   const [photoUploaded, setPhotoUploaded] = useState(false);
+  const [avatarId, setAvatarId] = useState<string | null>(null);
   const [stepStatus, setStepStatus] = useState<StepStatus>('idle');
   const [statusMessage, setStatusMessage] = useState('');
   const [screenMessage, setScreenMessage] = useState<string | null>(null);
@@ -33,66 +35,47 @@ export default function AvatarSetupScreen() {
 
   const isWorking = stepStatus === 'uploading' || stepStatus === 'polling';
 
-  useEffect(() => {
-    let isMounted = true;
+  const hydrateFromConfig = useCallback(async (config: AvatarConfig) => {
+    setPhotoUploaded(Boolean(config.has_photo));
+    setAvatarId(config.avatar_ready ? config.avatar_id ?? null : null);
 
-    const loadAvatarConfig = async () => {
-      try {
-        const response = await uploadAPI.getAvatarConfig();
+    const avatarImage =
+      config.avatar_image_url || config.character_image_url || config.photo_path;
+    if (avatarImage) {
+      const baseUrl = await getApiBaseUrl();
+      setAvatarImageUrl(
+        avatarImage.startsWith('http') ? avatarImage : `${baseUrl}${avatarImage}`,
+      );
+    } else {
+      setAvatarImageUrl(null);
+    }
 
-        if (!isMounted) {
-          return;
-        }
-
-        if (response.data.has_photo) {
-          setPhotoUploaded(true);
-          setScreenMessage('A photo is already saved for this account.');
-        }
-
-        const avatarImage =
-          (response.data.character_image_url as string | undefined) ||
-          (response.data.photo_path as string | undefined);
-        if (avatarImage) {
-          const baseUrl = await getApiBaseUrl();
-
-          if (!isMounted) {
-            return;
-          }
-
-          setAvatarImageUrl(
-            avatarImage.startsWith('http') ? avatarImage : `${baseUrl}${avatarImage}`,
-          );
-        }
-
-        const clip = response.data.last_generated_clip_url as string | undefined;
-
-        if (clip) {
-          const baseUrl = await getApiBaseUrl();
-
-          if (!isMounted) {
-            return;
-          }
-
-          setVideoUrl(clip.startsWith('http') ? clip : `${baseUrl}${clip}`);
-          setStepStatus('done');
-        }
-      } catch {
-        if (isMounted) {
-          setScreenMessage('Could not load your saved avatar configuration.');
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoadingConfig(false);
-        }
-      }
-    };
-
-    loadAvatarConfig().catch(() => {});
-
-    return () => {
-      isMounted = false;
-    };
+    const clip = config.last_generated_clip_url;
+    if (clip) {
+      const baseUrl = await getApiBaseUrl();
+      setVideoUrl(clip.startsWith('http') ? clip : `${baseUrl}${clip}`);
+    } else {
+      setVideoUrl(null);
+    }
   }, []);
+
+  const loadAvatarConfig = useCallback(async () => {
+    setIsLoadingConfig(true);
+
+    try {
+      const response = await uploadAPI.getAvatarConfig();
+      await hydrateFromConfig(response.data as AvatarConfig);
+      setScreenMessage(null);
+    } catch {
+      setScreenMessage('Could not load your saved avatar settings.');
+    } finally {
+      setIsLoadingConfig(false);
+    }
+  }, [hydrateFromConfig]);
+
+  useEffect(() => {
+    loadAvatarConfig().catch(() => {});
+  }, [loadAvatarConfig]);
 
   const pickPhoto = async () => {
     const result = await launchImageLibrary({
@@ -115,9 +98,11 @@ export default function AvatarSetupScreen() {
     if (asset?.uri) {
       setPhotoUri(asset.uri);
       setPhotoUploaded(false);
+      setAvatarId(null);
       setVideoUrl(null);
-      setAvatarImageUrl(null);
+      setAvatarImageUrl(asset.uri);
       setStepStatus('idle');
+      setStatusMessage('');
       setScreenMessage(null);
     }
   };
@@ -128,7 +113,7 @@ export default function AvatarSetupScreen() {
     }
 
     setStepStatus('uploading');
-    setStatusMessage('Uploading photo...');
+    setStatusMessage('Uploading photo and creating D-ID avatar...');
     setScreenMessage(null);
 
     try {
@@ -139,66 +124,62 @@ export default function AvatarSetupScreen() {
         name: 'avatar_photo.jpg',
       } as unknown as Blob);
 
-      await uploadAPI.uploadPhoto(formData);
+      const response = await avatarAPI.create(formData);
       await refreshCurrentUser();
       setPhotoUploaded(true);
+      setAvatarId(response.data.avatar_id);
       setStepStatus('idle');
       setStatusMessage('');
-      try {
-        const refreshedConfig = await uploadAPI.getAvatarConfig();
-        const avatarImage =
-          (refreshedConfig.data.character_image_url as string | undefined) ||
-          (refreshedConfig.data.photo_path as string | undefined);
-        if (avatarImage) {
-          const baseUrl = await getApiBaseUrl();
-          setAvatarImageUrl(
-            avatarImage.startsWith('http') ? avatarImage : `${baseUrl}${avatarImage}`,
-          );
-        }
-      } catch {}
-      setScreenMessage(
-        'Photo uploaded and your tutor avatar preview is ready below.',
-      );
+      setScreenMessage(response.data.message);
+      await loadAvatarConfig();
     } catch (error) {
       setStepStatus('error');
       setStatusMessage('Upload failed');
       setScreenMessage(
-        extractErrorMessage(error, 'Could not upload the selected photo.'),
+        extractErrorMessage(
+          error,
+          'Could not create the D-ID avatar from the selected photo.',
+        ),
       );
+      await loadAvatarConfig();
     }
   };
 
-  const generateAvatar = async () => {
-    if (!photoUploaded) {
+  const generateAvatarPreview = async () => {
+    if (!avatarId) {
       Alert.alert(
-        'Upload a photo first',
-        'Please upload your photo before generating the avatar.',
+        'Create an avatar first',
+        'Please upload your photo and finish D-ID avatar setup before generating a preview.',
       );
       return;
     }
 
     setStepStatus('polling');
-    setStatusMessage('Preparing avatar...');
+    setStatusMessage('Preparing tutor intro video...');
     setScreenMessage(null);
 
     try {
-      const url = await generateAndPollAvatar(
-        'Hello. I am your AI tutor and I am ready to help you learn.',
+      const relativeUrl = await generateAndPollAvatar(
+        avatarId,
+        'Hello. I am your live AI tutor, and I am ready to teach step by step.',
         message => setStatusMessage(message),
       );
       const baseUrl = await getApiBaseUrl();
-      const fullUrl = url.startsWith('http') ? url : `${baseUrl}${url}`;
+      const fullUrl = relativeUrl.startsWith('http')
+        ? relativeUrl
+        : `${baseUrl}${relativeUrl}`;
       setVideoUrl(fullUrl);
       setStepStatus('done');
       setStatusMessage('');
-      setScreenMessage('Avatar generated successfully.');
+      setScreenMessage('Live Tutor preview generated successfully.');
+      await loadAvatarConfig();
     } catch (error) {
       setStepStatus('error');
       setStatusMessage('');
       setScreenMessage(
         extractErrorMessage(
           error,
-          'Could not generate the avatar. Make sure the avatar backend is running.',
+          'Could not generate the Live Tutor preview video.',
         ),
       );
     }
@@ -208,140 +189,135 @@ export default function AvatarSetupScreen() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar barStyle="light-content" backgroundColor="#0A0A1B" />
       <ScrollView
-        style={styles.container}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.content}>
-        <Text style={styles.pageTitle}>Avatar setup</Text>
-        <Text style={styles.pageSub}>Create your personal talking AI tutor.</Text>
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}>
 
-        {isLoadingConfig ? (
-          <View style={styles.loadingCard}>
-            <ActivityIndicator color="#6C63FF" />
-            <Text style={styles.loadingText}>Loading saved avatar settings...</Text>
-          </View>
-        ) : null}
+      <Text style={styles.pageTitle}>Avatar setup</Text>
+      <Text style={styles.pageSub}>
+        Upload a photo once, cache the D-ID avatar for your account, and preview the live tutor video pipeline.
+      </Text>
 
-        <NoticeBanner
-          message={screenMessage}
-          tone={stepStatus === 'error' ? 'error' : 'info'}
-          style={styles.banner}
-        />
-
-        <View style={styles.card}>
-          <View style={styles.stepRow}>
-            <View style={[styles.stepBadge, photoUploaded && styles.stepDone]}>
-              <Text style={styles.stepNum}>{photoUploaded ? 'OK' : '1'}</Text>
-            </View>
-            <Text style={styles.stepTitle}>Upload your photo</Text>
-          </View>
-          <Text style={styles.stepDesc}>
-            Use a clear, front-facing image. It will be used to animate your tutor avatar.
-          </Text>
-
-          <TouchableOpacity
-            activeOpacity={0.9}
-            style={styles.photoBox}
-            onPress={pickPhoto}
-            disabled={isWorking}>
-            {photoUri ? (
-              <Image source={{uri: photoUri}} style={styles.photoImg} />
-            ) : (
-              <View style={styles.photoPlaceholder}>
-                <Text style={styles.photoPlaceholderTitle}>Select a photo</Text>
-                <Text style={styles.photoPlaceholderText}>
-                  Tap here to choose the image you want to animate.
-                </Text>
-              </View>
-            )}
-          </TouchableOpacity>
-
-          {photoUri && !photoUploaded ? (
-            <TouchableOpacity
-              activeOpacity={0.85}
-              style={[styles.btn, isWorking && styles.btnOff]}
-              onPress={uploadPhoto}
-              disabled={isWorking}>
-              {stepStatus === 'uploading' ? (
-                <View style={styles.btnRow}>
-                  <ActivityIndicator size="small" color="#FFFFFF" />
-                  <Text style={styles.btnText}>Uploading...</Text>
-                </View>
-              ) : (
-                <Text style={styles.btnText}>Upload photo</Text>
-              )}
-            </TouchableOpacity>
-          ) : null}
-
-          {photoUploaded ? (
-            <View style={styles.successRow}>
-              <Text style={styles.successText}>Photo ready for avatar generation</Text>
-            </View>
-          ) : null}
+      {isLoadingConfig ? (
+        <View style={styles.loadingCard}>
+          <ActivityIndicator color="#6C63FF" />
+          <Text style={styles.loadingText}>Loading saved avatar settings...</Text>
         </View>
+      ) : null}
 
-        <View style={styles.card}>
-          <View style={styles.stepRow}>
-            <View
-              style={[
-                styles.stepBadge,
-                avatarImageUrl && styles.stepDone,
-              ]}>
-              <Text style={styles.stepNum}>{avatarImageUrl ? 'OK' : '1B'}</Text>
-            </View>
-            <Text style={styles.stepTitle}>Cartoon avatar preview</Text>
+      <NoticeBanner
+        message={screenMessage}
+        tone={stepStatus === 'error' ? 'error' : 'info'}
+        style={styles.banner}
+      />
+
+      <View style={styles.card}>
+        <View style={styles.stepRow}>
+          <View style={[styles.stepBadge, photoUploaded && styles.stepDone]}>
+            <Text style={styles.stepNum}>{photoUploaded ? 'OK' : '1'}</Text>
           </View>
-          <Text style={styles.stepDesc}>
-            This image becomes the tutor face used for voice-driven animation.
-          </Text>
+          <Text style={styles.stepTitle}>Upload your tutor photo</Text>
+        </View>
+        <Text style={styles.stepDesc}>
+          Use a clear, front-facing image. The same uploaded photo is cached and reused for D-ID avatar generation.
+        </Text>
 
+        <TouchableOpacity
+          activeOpacity={0.9}
+          style={styles.photoBox}
+          onPress={pickPhoto}
+          disabled={isWorking}>
           {avatarImageUrl ? (
-            <Image source={{uri: avatarImageUrl}} style={styles.generatedAvatarImg} />
+            <Image source={{uri: avatarImageUrl}} style={styles.photoImg} />
           ) : (
-            <View style={styles.generatedAvatarPlaceholder}>
-              <Text style={styles.photoPlaceholderTitle}>No avatar yet</Text>
+            <View style={styles.photoPlaceholder}>
+              <Text style={styles.photoPlaceholderTitle}>Select a photo</Text>
               <Text style={styles.photoPlaceholderText}>
-                Upload a photo to generate the tutor portrait automatically.
+                Tap here to choose the image you want to use for your Live Tutor.
               </Text>
             </View>
           )}
-        </View>
+        </TouchableOpacity>
 
-        <View style={styles.card}>
-          <View style={styles.stepRow}>
-            <View style={[styles.stepBadge, stepStatus === 'done' && styles.stepDone]}>
-              <Text style={styles.stepNum}>{stepStatus === 'done' ? 'OK' : '2'}</Text>
+        <TouchableOpacity
+          activeOpacity={0.85}
+          style={[
+            styles.btn,
+            styles.btnPrimary,
+            (!photoUri || isWorking) && styles.btnOff,
+          ]}
+          onPress={uploadPhoto}
+          disabled={!photoUri || isWorking}>
+          {stepStatus === 'uploading' ? (
+            <View style={styles.btnRow}>
+              <ActivityIndicator size="small" color="#FFFFFF" />
+              <Text style={styles.btnText}>Creating avatar...</Text>
             </View>
-            <Text style={styles.stepTitle}>Generate talking avatar</Text>
-          </View>
-          <Text style={styles.stepDesc}>
-            Rendering usually takes one to three minutes. The preview will update when it is ready.
-          </Text>
+          ) : (
+            <Text style={styles.btnText}>
+              {avatarId ? 'Refresh D-ID avatar' : 'Create D-ID avatar'}
+            </Text>
+          )}
+        </TouchableOpacity>
+      </View>
 
-          <TouchableOpacity
-            activeOpacity={0.85}
-            style={[
-              styles.btn,
-              styles.btnPrimary,
-              (!photoUploaded || isWorking) && styles.btnOff,
-            ]}
-            onPress={generateAvatar}
-            disabled={!photoUploaded || isWorking}>
-            {isWorking ? (
-              <View style={styles.btnRow}>
-                <ActivityIndicator size="small" color="#FFFFFF" />
-                <Text style={styles.btnText}>{statusMessage || 'Processing...'}</Text>
-              </View>
-            ) : (
-              <Text style={styles.btnText}>Generate avatar</Text>
-            )}
-          </TouchableOpacity>
+      <View style={styles.card}>
+        <View style={styles.stepRow}>
+          <View style={[styles.stepBadge, avatarId && styles.stepDone]}>
+            <Text style={styles.stepNum}>{avatarId ? 'OK' : '2'}</Text>
+          </View>
+          <Text style={styles.stepTitle}>Live Tutor status</Text>
         </View>
+        <Text style={styles.stepDesc}>
+          {avatarId
+            ? 'Your D-ID avatar is cached and ready. You only need to regenerate it when you upload a new photo.'
+            : 'After the photo upload completes, the backend stores the D-ID avatar id for reuse.'}
+        </Text>
+
+        <View style={styles.statusPanel}>
+          <Text style={styles.statusLabel}>Avatar provider</Text>
+          <Text style={styles.statusValue}>{avatarId ? 'D-ID ready' : 'Waiting for setup'}</Text>
+          {avatarId ? (
+            <Text style={styles.statusMeta}>Avatar ID: {avatarId}</Text>
+          ) : null}
+        </View>
+      </View>
+
+      <View style={styles.card}>
+        <View style={styles.stepRow}>
+          <View style={[styles.stepBadge, stepStatus === 'done' && styles.stepDone]}>
+            <Text style={styles.stepNum}>{stepStatus === 'done' ? 'OK' : '3'}</Text>
+          </View>
+          <Text style={styles.stepTitle}>Generate intro preview</Text>
+        </View>
+        <Text style={styles.stepDesc}>
+          This creates a short talking tutor video using the same D-ID avatar flow that Live Tutor mode uses after each lesson response.
+        </Text>
+
+        <TouchableOpacity
+          activeOpacity={0.85}
+          style={[
+            styles.btn,
+            styles.btnPrimary,
+            (!avatarId || isWorking) && styles.btnOff,
+          ]}
+          onPress={generateAvatarPreview}
+          disabled={!avatarId || isWorking}>
+          {isWorking ? (
+            <View style={styles.btnRow}>
+              <ActivityIndicator size="small" color="#FFFFFF" />
+              <Text style={styles.btnText}>{statusMessage || 'Processing...'}</Text>
+            </View>
+          ) : (
+            <Text style={styles.btnText}>Generate preview video</Text>
+          )}
+        </TouchableOpacity>
+      </View>
 
         {videoUrl ? (
           <View style={styles.card}>
-            <Text style={styles.stepTitle}>Avatar preview</Text>
+            <Text style={styles.stepTitle}>Preview video</Text>
             <Text style={styles.stepDesc}>
-              This video will also be reused on the chat screen for tutor responses.
+              This is the same kind of talking response users will see in Live Tutor mode after the AI generates an explanation.
             </Text>
             <View style={styles.videoWrapper}>
               <Video
@@ -361,8 +337,7 @@ export default function AvatarSetupScreen() {
 
 const styles = StyleSheet.create({
   safe: {flex: 1, backgroundColor: '#0A0A1B'},
-  container: {flex: 1, paddingHorizontal: 20},
-  content: {paddingBottom: 40},
+  content: {paddingHorizontal: 20, paddingBottom: 40},
   pageTitle: {
     fontSize: 26,
     fontWeight: '800',
@@ -370,7 +345,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 4,
   },
-  pageSub: {color: '#6B7280', marginBottom: 18, fontSize: 14},
+  pageSub: {color: '#6B7280', marginBottom: 18, fontSize: 14, lineHeight: 20},
   loadingCard: {
     backgroundColor: '#12122A',
     borderRadius: 18,
@@ -432,24 +407,6 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   photoImg: {width: '100%', height: '100%', resizeMode: 'cover'},
-  generatedAvatarImg: {
-    width: '100%',
-    height: 250,
-    borderRadius: 16,
-    resizeMode: 'cover',
-    backgroundColor: '#1C1C3A',
-  },
-  generatedAvatarPlaceholder: {
-    height: 220,
-    backgroundColor: '#1C1C3A',
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-    borderWidth: 1,
-    borderStyle: 'dashed',
-    borderColor: '#2A2A4A',
-  },
   photoPlaceholder: {
     flex: 1,
     alignItems: 'center',
@@ -468,6 +425,30 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     textAlign: 'center',
   },
+  statusPanel: {
+    backgroundColor: '#1B1B34',
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#25254A',
+  },
+  statusLabel: {
+    color: '#94A3B8',
+    fontSize: 12,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+  },
+  statusValue: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '800',
+    marginTop: 8,
+  },
+  statusMeta: {
+    color: '#A5B4FC',
+    fontSize: 12,
+    marginTop: 6,
+  },
   btn: {
     backgroundColor: '#2A2A4A',
     borderRadius: 16,
@@ -478,8 +459,6 @@ const styles = StyleSheet.create({
   btnOff: {opacity: 0.5},
   btnRow: {flexDirection: 'row', alignItems: 'center', gap: 8},
   btnText: {color: '#FFFFFF', fontWeight: '700', fontSize: 15},
-  successRow: {alignItems: 'flex-start', marginTop: 4},
-  successText: {color: '#10B981', fontWeight: '600', fontSize: 14},
   videoWrapper: {
     borderRadius: 16,
     overflow: 'hidden',

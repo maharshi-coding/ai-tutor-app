@@ -56,6 +56,7 @@ uploads/
 
 # RAG data
 rag_data/
+backend/models/
 
 # Test / cache
 .pytest_cache/

@@ -1,40 +1,25 @@
-import base64
 import hashlib
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
-from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException, Query
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile
 from sqlalchemy.orm import Session
-import httpx
-from PIL import Image
 
-from app.database import get_db
-from app.models import User, Course
-from app.routers.auth import get_current_user
 from app.config import settings
+from app.database import get_db
+from app.models import Course, User
 from app.rag import ingest_course_chunks, split_text_for_rag
+from app.routers.auth import get_current_user
+from app.services.did_avatar import DIdAvatarError, ensure_avatar_for_user
+
 
 router = APIRouter()
 
-# Ensure upload directory exists
 UPLOAD_DIR = Path(settings.UPLOAD_DIR)
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 (UPLOAD_DIR / "photos").mkdir(exist_ok=True)
 (UPLOAD_DIR / "voices").mkdir(exist_ok=True)
-(UPLOAD_DIR / "avatars").mkdir(exist_ok=True)
 (UPLOAD_DIR / "course_docs").mkdir(exist_ok=True)
-
-
-def _image_size_sd_friendly(image_path: Path, max_side: int = 768) -> Tuple[int, int]:
-    """Return (width, height) for SD img2img: preserve aspect ratio, max side = max_side, multiples of 8."""
-    with Image.open(image_path) as img:
-        w, h = img.size
-    if w <= 0 or h <= 0:
-        return (512, 768)
-    scale = min(max_side / w, max_side / h, 1.0)
-    w_out = max(64, int(w * scale) // 8 * 8)
-    h_out = max(64, int(h * scale) // 8 * 8)
-    return (w_out, h_out)
 
 
 def _to_public_upload_url(path_value: str | Path | None) -> Optional[str]:
@@ -85,9 +70,8 @@ async def _save_uploaded_photo(
 async def upload_photo(
     file: UploadFile = File(...),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
-    """Upload user photo for avatar generation"""
     return await _save_uploaded_photo(file, current_user, db)
 
 
@@ -95,157 +79,57 @@ async def upload_photo(
 async def upload_voice(
     file: UploadFile = File(...),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
-    """Upload voice sample for TTS"""
-    # Validate file type
     allowed_types = ["audio/wav", "audio/mpeg", "audio/mp3", "audio/webm"]
     if file.content_type not in allowed_types:
-        raise HTTPException(status_code=400, detail="File must be an audio file (wav, mp3, webm)")
-    
-    # Save file with streaming to avoid loading entire file into memory
-    file_extension = Path(file.filename).suffix
+        raise HTTPException(
+            status_code=400,
+            detail="File must be an audio file (wav, mp3, webm)",
+        )
+
+    file_extension = Path(file.filename or "voice.webm").suffix or ".webm"
     filename = f"{current_user.id}_voice{file_extension}"
     file_path = UPLOAD_DIR / "voices" / filename
-    
-    # Stream file to disk in chunks
+
     current_size = 0
     with open(file_path, "wb") as buffer:
-        while chunk := await file.read(1024 * 1024):  # 1MB chunks
+        while chunk := await file.read(1024 * 1024):
             current_size += len(chunk)
             if current_size > settings.MAX_FILE_SIZE:
-                # Remove partial file if size limit exceeded
                 file_path.unlink(missing_ok=True)
                 raise HTTPException(status_code=400, detail="File too large")
             buffer.write(chunk)
-    
-    # Update user record
+
     current_user.voice_sample_path = str(file_path)
     db.commit()
-    
+    db.refresh(current_user)
+
     return {
         "message": "Voice sample uploaded successfully",
         "file_path": f"/uploads/voices/{filename}",
-        "user_id": current_user.id
+        "user_id": current_user.id,
     }
 
 
 @router.get("/avatar-config")
 async def get_avatar_config(current_user: User = Depends(get_current_user)):
-    """Get avatar configuration for the current user"""
     config: Dict[str, Any] = current_user.avatar_config or {}
+    photo_url = _to_public_upload_url(current_user.avatar_photo_path)
+    avatar_image_url = config.get("avatar_image_url") or photo_url
     return {
         "has_photo": current_user.avatar_photo_path is not None,
         "has_voice": current_user.voice_sample_path is not None,
-        "photo_path": _to_public_upload_url(current_user.avatar_photo_path),
+        "photo_path": photo_url,
         "voice_path": _to_public_upload_url(current_user.voice_sample_path),
-        "character_image_url": config.get("character_image_url"),
+        "avatar_id": config.get("avatar_id"),
+        "avatar_ready": bool(config.get("avatar_ready") and config.get("avatar_id")),
+        "avatar_provider": config.get("avatar_provider"),
+        "avatar_image_url": avatar_image_url,
+        "character_image_url": avatar_image_url,
         "last_generated_clip_url": config.get("last_generated_clip_url"),
         "last_script": config.get("last_script"),
     }
-
-
-async def _generate_with_replicate(
-    photo_path: Path, prompt: str, negative_prompt: str, out_width: int, out_height: int
-) -> Optional[bytes]:
-    """Generate avatar using Replicate API (cloud, high quality)."""
-    if not settings.REPLICATE_API_TOKEN:
-        return None
-    
-    try:
-        import replicate
-        import os
-        
-        # Set API token
-        os.environ["REPLICATE_API_TOKEN"] = settings.REPLICATE_API_TOKEN
-        
-        # Open image file (Replicate accepts file objects)
-        with open(photo_path, "rb") as image_file:
-            model = settings.REPLICATE_MODEL
-            
-            # Run the img2img model
-            output = replicate.run(
-                model,
-                input={
-                    "image": image_file,
-                    "prompt": prompt,
-                    "negative_prompt": negative_prompt,
-                    "num_outputs": 1,
-                    "guidance_scale": 6.0,
-                    "num_inference_steps": 30,
-                    "strength": 0.48,  # Denoising strength (lower = more like original)
-                    "seed": -1,  # Random seed
-                }
-            )
-            
-            # Replicate returns a list of URLs (or file-like objects)
-            if isinstance(output, list) and len(output) > 0:
-                result_url = output[0]
-                # Download the image from URL
-                async with httpx.AsyncClient(timeout=120) as client:
-                    resp = await client.get(result_url)
-                    resp.raise_for_status()
-                    return resp.content
-            elif isinstance(output, str):
-                # Sometimes it returns a single URL string
-                async with httpx.AsyncClient(timeout=120) as client:
-                    resp = await client.get(output)
-                    resp.raise_for_status()
-                    return resp.content
-        return None
-    except Exception as e:
-        print(f"REPLICATE_API_ERROR: {repr(e)}")
-        import traceback
-        traceback.print_exc()
-        return None
-
-
-async def _generate_with_sd_webui(
-    b64_image: str, prompt: str, negative_prompt: str, out_width: int, out_height: int
-) -> Optional[bytes]:
-    """Generate avatar using local Stable Diffusion WebUI."""
-    if not settings.SD_API_URL:
-        return None
-    
-    payload: Dict[str, Any] = {
-        "init_images": [b64_image],
-        "prompt": prompt,
-        "negative_prompt": negative_prompt,
-        "sampler_name": "DPM++ 2M Karras",
-        "steps": 30,
-        "cfg_scale": 6,
-        "denoising_strength": 0.48,
-        "width": out_width,
-        "height": out_height,
-        "restore_faces": True,
-        "seed": -1,
-    }
-    if getattr(settings, "SD_MODEL_CHECKPOINT", None):
-        payload["override_settings"] = {"sd_model_checkpoint": settings.SD_MODEL_CHECKPOINT}
-
-    headers: Dict[str, str] = {}
-    if settings.SD_API_AUTH_HEADER:
-        headers["Authorization"] = settings.SD_API_AUTH_HEADER
-
-    try:
-        async with httpx.AsyncClient(timeout=120) as client:
-            resp = await client.post(
-                str(settings.SD_API_URL).rstrip("/") + "/sdapi/v1/img2img",
-                json=payload,
-                headers=headers,
-            )
-        resp.raise_for_status()
-        data = resp.json()
-        images = data.get("images") or []
-        if not images:
-            return None
-
-        image_b64 = images[0]
-        image_bytes = base64.b64decode(image_b64.split(",", 1)[-1])
-        return image_bytes
-    except Exception as e:
-        print(f"SD_WEBUI_API_ERROR: {repr(e)}")
-        return None
 
 
 @router.post("/avatar/generate-character")
@@ -253,84 +137,17 @@ async def generate_character_avatar(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ) -> Dict[str, Any]:
-    """
-    Generate a cartoon tutor avatar from the user's uploaded photo.
-    
-    Tries multiple backends in order:
-    1. Replicate API (cloud, recommended - set REPLICATE_API_TOKEN)
-    2. Local SD WebUI (set SD_API_URL)
-    
-    Returns a stylized, face-preserving portrait.
-    """
-    if not current_user.avatar_photo_path:
-        raise HTTPException(status_code=400, detail="Please upload a profile photo first.")
-
-    photo_path = Path(current_user.avatar_photo_path)
-    if not photo_path.exists():
-        raise HTTPException(status_code=400, detail="Stored photo file not found on server.")
-
-    # Read and prepare image
-    with open(photo_path, "rb") as f:
-        img_bytes = f.read()
-    b64_image = base64.b64encode(img_bytes).decode("utf-8")
-
-    # Preserve aspect ratio and use SD-friendly dimensions
-    out_width, out_height = _image_size_sd_friendly(photo_path, max_side=768)
-
-    # Cartoon-style, likeness-preserving prompt
-    prompt = (
-        "cartoon portrait of this person, same face, same identity, friendly educational tutor, "
-        "clean illustrated shading, polished mascot design, vibrant but professional colors, "
-        "expressive eyes, warm smile, high quality digital illustration"
-    )
-    negative_prompt = (
-        "photorealistic, blurry, deformed, ugly, bad anatomy, extra limbs, disfigured, "
-        "low quality, oversaturated, duplicate face, warped eyes, cropped forehead"
-    )
-
-    # Try Replicate first (best quality), then fall back to local SD WebUI
-    image_bytes = None
-    
-    if settings.REPLICATE_API_TOKEN:
-        image_bytes = await _generate_with_replicate(
-            photo_path, prompt, negative_prompt, out_width, out_height
-        )
-    
-    if not image_bytes and settings.SD_API_URL:
-        image_bytes = await _generate_with_sd_webui(
-            b64_image, prompt, negative_prompt, out_width, out_height
-        )
-    
-    if not image_bytes:
-        raise HTTPException(
-            status_code=500,
-            detail=(
-                "No image generation service configured. "
-                "Set REPLICATE_API_TOKEN (recommended) or SD_API_URL in .env"
-            ),
-        )
-
-    # Save the generated avatar
-    avatar_filename = f"{current_user.id}_avatar.png"
-    avatar_path = UPLOAD_DIR / "avatars" / avatar_filename
-    
-    print(f"[Avatar Generation] Saving avatar to: {avatar_path}")
-    with open(avatar_path, "wb") as out:
-        out.write(image_bytes)
-    print(f"[Avatar Generation] Avatar saved successfully: {len(image_bytes)} bytes")
-
-    # Store in user's avatar_config JSON
-    config: Dict[str, Any] = current_user.avatar_config or {}
-    config["character_image_url"] = f"/uploads/avatars/{avatar_filename}"
-    current_user.avatar_config = config
-    db.commit()
-    db.refresh(current_user)
-    
-    print(f"[Avatar Generation] Config updated: {config.get('character_image_url')}")
+    try:
+        avatar_result = await ensure_avatar_for_user(current_user, db)
+    except DIdAvatarError as exc:
+        raise HTTPException(status_code=503, detail=str(exc))
 
     return {
-        "message": "Character avatar generated",
-        "character_image_url": current_user.avatar_config.get("character_image_url"),
+        "message": "Avatar registered with D-ID",
+        "avatar_id": avatar_result["avatar_id"],
+        "avatar_provider": avatar_result["avatar_provider"],
+        "character_image_url": avatar_result.get("avatar_image_url"),
+        "cached": avatar_result.get("cached", False),
     }
 
 
@@ -340,81 +157,77 @@ async def upload_photo_and_generate_avatar(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ) -> Dict[str, Any]:
-    """
-    Upload a profile photo and immediately try to generate a cartoon avatar.
-
-    The photo upload succeeds even if image generation is unavailable, so the
-    client can show a partial-success message instead of discarding the photo.
-    """
     upload_result = await _save_uploaded_photo(file, current_user, db)
     photo_url = upload_result["file_path"]
 
     try:
-        avatar_result = await generate_character_avatar(current_user=current_user, db=db)
+        avatar_result = await ensure_avatar_for_user(current_user, db)
         return {
-            "message": "Photo uploaded and avatar generated successfully",
+            "message": "Photo uploaded and D-ID avatar is ready",
             "photo_url": photo_url,
-            "avatar_url": avatar_result.get("character_image_url"),
-            "avatar_generation_status": "ready",
+            "avatar_url": avatar_result.get("avatar_image_url"),
+            "avatar_id": avatar_result["avatar_id"],
+            "avatar_provider": avatar_result["avatar_provider"],
+            "avatar_generation_status": "cached"
+            if avatar_result.get("cached")
+            else "ready",
+            "cached": avatar_result.get("cached", False),
         }
-    except HTTPException as exc:
+    except DIdAvatarError as exc:
         return {
-            "message": "Photo uploaded, but avatar generation is not ready yet",
+            "message": "Photo uploaded, but D-ID avatar setup is not ready yet",
             "photo_url": photo_url,
-            "avatar_url": None,
+            "avatar_url": photo_url,
+            "avatar_id": None,
+            "avatar_provider": "d-id",
             "avatar_generation_status": "failed",
-            "avatar_error": str(exc.detail),
+            "avatar_error": str(exc),
         }
     except Exception as exc:
         return {
-            "message": "Photo uploaded, but avatar generation hit an unexpected error",
+            "message": "Photo uploaded, but avatar setup hit an unexpected error",
             "photo_url": photo_url,
-            "avatar_url": None,
+            "avatar_url": photo_url,
+            "avatar_id": None,
+            "avatar_provider": "d-id",
             "avatar_generation_status": "failed",
             "avatar_error": repr(exc),
         }
 
 
-# ---------------------------------------------------------------------------
-# Course document upload & RAG ingestion
-# ---------------------------------------------------------------------------
-
 ALLOWED_DOC_EXTENSIONS = {".pdf", ".docx", ".txt", ".md"}
 
 
 def _extract_text_from_file(file_path: Path) -> str:
-    """Extract plain text from supported document formats."""
     ext = file_path.suffix.lower()
 
-    if ext == ".txt" or ext == ".md":
+    if ext in {".txt", ".md"}:
         return file_path.read_text(encoding="utf-8", errors="replace")
 
     if ext == ".pdf":
         try:
-            import fitz  # PyMuPDF
+            import fitz
 
-            doc = fitz.open(str(file_path))
-            pages = [page.get_text() for page in doc]
-            doc.close()
+            document = fitz.open(str(file_path))
+            pages = [page.get_text() for page in document]
+            document.close()
             return "\n\n".join(pages)
         except ImportError:
             raise HTTPException(
                 status_code=500,
-                detail="PyMuPDF (fitz) is required for PDF parsing. "
-                "Install with: pip install PyMuPDF",
+                detail="PyMuPDF (fitz) is required for PDF parsing. Install with: pip install PyMuPDF",
             )
 
     if ext == ".docx":
         try:
-            import docx  # python-docx
+            import docx
 
             document = docx.Document(str(file_path))
             return "\n\n".join(p.text for p in document.paragraphs if p.text.strip())
         except ImportError:
             raise HTTPException(
                 status_code=500,
-                detail="python-docx is required for DOCX parsing. "
-                "Install with: pip install python-docx",
+                detail="python-docx is required for DOCX parsing. Install with: pip install python-docx",
             )
 
     raise HTTPException(status_code=400, detail=f"Unsupported file type: {ext}")
@@ -425,7 +238,6 @@ def _chunk_text(
     chunk_size: int = 500,
     overlap: int = 50,
 ) -> List[str]:
-    """Split text using the shared RAG chunking strategy."""
     chunks = split_text_for_rag(text)
     if chunks:
         return chunks
@@ -450,15 +262,10 @@ async def upload_course_document(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    """
-    Upload a course document (PDF, DOCX, TXT, MD), extract text,
-    chunk it, and ingest into the RAG vector store for the given course.
-    """
     resolved_course_id = course_id or course_id_query
     if resolved_course_id is None:
         raise HTTPException(status_code=400, detail="course_id is required")
 
-    # Validate extension first (cheap check)
     ext = Path(file.filename or "").suffix.lower()
     if ext not in ALLOWED_DOC_EXTENSIONS:
         raise HTTPException(
@@ -466,39 +273,38 @@ async def upload_course_document(
             detail=f"Unsupported file type. Allowed: {', '.join(sorted(ALLOWED_DOC_EXTENSIONS))}",
         )
 
-    # Validate course exists
     course = db.query(Course).filter(Course.id == resolved_course_id).first()
     if not course:
         raise HTTPException(status_code=404, detail="Course not found")
 
-    # Save file (sanitize filename to prevent path traversal)
-    base_name = Path(file.filename or "upload").name  # strip directory components
+    base_name = Path(file.filename or "upload").name
     safe_name = f"{resolved_course_id}_{current_user.id}_{base_name}"
     file_path = UPLOAD_DIR / "course_docs" / safe_name
 
     current_size = 0
-    with open(file_path, "wb") as buf:
+    with open(file_path, "wb") as buffer:
         while chunk := await file.read(1024 * 1024):
             current_size += len(chunk)
             if current_size > settings.MAX_COURSE_FILE_SIZE:
                 file_path.unlink(missing_ok=True)
                 raise HTTPException(status_code=400, detail="File too large (max 50 MB)")
-            buf.write(chunk)
+            buffer.write(chunk)
 
-    # Extract text
     raw_text = _extract_text_from_file(file_path)
     if not raw_text.strip():
         file_path.unlink(missing_ok=True)
-        raise HTTPException(status_code=400, detail="Could not extract any text from the document")
+        raise HTTPException(
+            status_code=400,
+            detail="Could not extract any text from the document",
+        )
 
-    # Chunk and ingest into vector DB
     text_chunks = _chunk_text(raw_text)
     chunk_tuples = [
         (
-            hashlib.sha256(f"{resolved_course_id}:{safe_name}:{i}".encode()).hexdigest()[:20],
+            hashlib.sha256(f"{resolved_course_id}:{safe_name}:{index}".encode()).hexdigest()[:20],
             chunk,
         )
-        for i, chunk in enumerate(text_chunks)
+        for index, chunk in enumerate(text_chunks)
     ]
 
     ingest_course_chunks(resolved_course_id, chunk_tuples)

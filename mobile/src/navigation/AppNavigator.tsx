@@ -23,11 +23,12 @@ import AvatarVideoPlayerScreen from '../screens/AvatarVideoPlayerScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<MainTabParamList>();
-const TutorStack = createNativeStackNavigator<TutorStackParamList>();
+const ChatStack = createNativeStackNavigator<TutorStackParamList>();
+const LiveTutorStack = createNativeStackNavigator<TutorStackParamList>();
 const TAB_LABELS: Record<keyof MainTabParamList, string> = {
   Home: 'HM',
   Chat: 'AI',
-  Avatar: 'AV',
+  Avatar: 'LT',
   Profile: 'ME',
 };
 
@@ -88,13 +89,13 @@ function MainTabs() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen
         name="Chat"
-        component={TutorNavigator}
-        options={{tabBarLabel: 'Ask AI'}}
+        component={AIChatNavigator}
+        options={{tabBarLabel: 'AI Chat'}}
       />
       <Tab.Screen
         name="Avatar"
-        component={AvatarSetupScreen}
-        options={{tabBarLabel: 'Avatar'}}
+        component={LiveTutorNavigator}
+        options={{tabBarLabel: 'Live Tutor'}}
       />
       <Tab.Screen
         name="Profile"
@@ -105,25 +106,53 @@ function MainTabs() {
   );
 }
 
-function TutorNavigator() {
+function AIChatNavigator() {
   return (
-    <TutorStack.Navigator
+    <ChatStack.Navigator
       screenOptions={{
         headerShown: false,
         animation: 'slide_from_right',
         contentStyle: styles.stackContent,
       }}>
-      <TutorStack.Screen name="AvatarTutor" component={AvatarTutorScreen} />
-      <TutorStack.Screen
+      <ChatStack.Screen
+        name="TutorChat"
+        component={ChatScreen}
+        initialParams={{mode: 'chat'}}
+      />
+      <ChatStack.Screen
         name="CourseSelection"
         component={CourseSelectionScreen}
+        initialParams={{mode: 'chat'}}
       />
-      <TutorStack.Screen name="TutorChat" component={ChatScreen} />
-      <TutorStack.Screen
+    </ChatStack.Navigator>
+  );
+}
+
+function LiveTutorNavigator() {
+  return (
+    <LiveTutorStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        animation: 'slide_from_right',
+        contentStyle: styles.stackContent,
+      }}>
+      <LiveTutorStack.Screen name="AvatarTutor" component={AvatarTutorScreen} />
+      <LiveTutorStack.Screen name="AvatarSetup" component={AvatarSetupScreen} />
+      <LiveTutorStack.Screen
+        name="CourseSelection"
+        component={CourseSelectionScreen}
+        initialParams={{mode: 'liveTutor'}}
+      />
+      <LiveTutorStack.Screen
+        name="TutorChat"
+        component={ChatScreen}
+        initialParams={{mode: 'liveTutor'}}
+      />
+      <LiveTutorStack.Screen
         name="AvatarVideoPlayer"
         component={AvatarVideoPlayerScreen}
       />
-    </TutorStack.Navigator>
+    </LiveTutorStack.Navigator>
   );
 }
 

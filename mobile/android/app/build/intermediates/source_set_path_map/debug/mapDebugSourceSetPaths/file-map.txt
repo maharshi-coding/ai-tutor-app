@@ -1,58 +1,59 @@
-com.aitutormobile.app-jetified-emoji2-views-helper-1.2.0-0 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\02baff297f07747c52c198a7919c2e50\transformed\jetified-emoji2-views-helper-1.2.0\res
-com.aitutormobile.app-coordinatorlayout-1.2.0-1 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\0933d85b78c3ea6355438ab79cfe8247\transformed\coordinatorlayout-1.2.0\res
-com.aitutormobile.app-jetified-emoji2-1.2.0-2 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\0effb511eebd6a2803781c706017e70a\transformed\jetified-emoji2-1.2.0\res
-com.aitutormobile.app-lifecycle-livedata-core-2.6.2-3 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\10d3e0aed8d2b5c5d563da6816ddb505\transformed\lifecycle-livedata-core-2.6.2\res
-com.aitutormobile.app-jetified-lifecycle-viewmodel-savedstate-2.6.2-4 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\1789abe3f51550ff7274b070344e47aa\transformed\jetified-lifecycle-viewmodel-savedstate-2.6.2\res
-com.aitutormobile.app-jetified-appcompat-resources-1.6.1-5 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\1e20b8935e64aeb3eb69d75c9f8c8a54\transformed\jetified-appcompat-resources-1.6.1\res
-com.aitutormobile.app-jetified-core-ktx-1.16.0-6 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\1f33d0f214187f5010f638a41d126f23\transformed\jetified-core-ktx-1.16.0\res
-com.aitutormobile.app-jetified-activity-ktx-1.9.3-7 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\21c7ae662ffc6377f280d344dda1e5f9\transformed\jetified-activity-ktx-1.9.3\res
-com.aitutormobile.app-jetified-media3-ui-1.8.0-8 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\2ac293feb269c8ab5d421945abe7dffb\transformed\jetified-media3-ui-1.8.0\res
-com.aitutormobile.app-jetified-core-viewtree-1.0.0-9 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\30a26d05d316c435040569b13caf0ea3\transformed\jetified-core-viewtree-1.0.0\res
-com.aitutormobile.app-jetified-annotation-experimental-1.4.1-10 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\3145b6199e1fe5c2b5b0ca5a25d4d103\transformed\jetified-annotation-experimental-1.4.1\res
-com.aitutormobile.app-jetified-activity-1.9.3-11 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\3391ec218b5d8ab745d0edd2555275d2\transformed\jetified-activity-1.9.3\res
-com.aitutormobile.app-lifecycle-livedata-2.6.2-12 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\34114013e0fa90dab2bfab3873506161\transformed\lifecycle-livedata-2.6.2\res
-com.aitutormobile.app-jetified-profileinstaller-1.3.1-13 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\3e02d82948e37089e8b271689962a591\transformed\jetified-profileinstaller-1.3.1\res
-com.aitutormobile.app-jetified-savedstate-1.2.1-14 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\3e2e21aaaebaf3b26859db9af7587857\transformed\jetified-savedstate-1.2.1\res
-com.aitutormobile.app-appcompat-1.6.1-15 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\3e32a387c2410ba51bea9d50914398e4\transformed\appcompat-1.6.1\res
-com.aitutormobile.app-jetified-tracing-1.2.0-16 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\43f41ed5072fc5262156361075016c61\transformed\jetified-tracing-1.2.0\res
-com.aitutormobile.app-lifecycle-viewmodel-2.6.2-17 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\46700facb7d00ca55114dbad128687e3\transformed\lifecycle-viewmodel-2.6.2\res
-com.aitutormobile.app-recyclerview-1.3.0-18 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\46997ecf86e141e79f2be7b992e29cff\transformed\recyclerview-1.3.0\res
-com.aitutormobile.app-fragment-1.6.1-19 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\46db219b5d087648685add4850bf66fb\transformed\fragment-1.6.1\res
-com.aitutormobile.app-lifecycle-runtime-2.6.2-20 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\4bf1bddb86a3ed2b694b340d07851ce1\transformed\lifecycle-runtime-2.6.2\res
-com.aitutormobile.app-cardview-1.0.0-21 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\51b43a2eeccc51a831115f7a2dfffa72\transformed\cardview-1.0.0\res
-com.aitutormobile.app-constraintlayout-2.0.1-22 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\5331a52bc336da517120efb63265660d\transformed\constraintlayout-2.0.1\res
-com.aitutormobile.app-jetified-savedstate-ktx-1.2.1-23 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\55ac0dcfa63f0e9d9eeb8d34a43fc900\transformed\jetified-savedstate-ktx-1.2.1\res
-com.aitutormobile.app-jetified-lifecycle-process-2.6.2-24 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\6327c90df8754513d8ea39ec44219024\transformed\jetified-lifecycle-process-2.6.2\res
-com.aitutormobile.app-jetified-autofill-1.1.0-25 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\6c1459adcedd44a2d2b284ab044a6c00\transformed\jetified-autofill-1.1.0\res
-com.aitutormobile.app-core-runtime-2.2.0-26 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\6defcaee02fdb8690c4a2a2bbd3cc04e\transformed\core-runtime-2.2.0\res
-com.aitutormobile.app-jetified-react-android-0.76.5-debug-27 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\6f7bb6bac263cd294354adad6eb9c569\transformed\jetified-react-android-0.76.5-debug\res
-com.aitutormobile.app-jetified-lifecycle-livedata-core-ktx-2.6.2-28 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\84cf988fe94584366c9e12082f3153e5\transformed\jetified-lifecycle-livedata-core-ktx-2.6.2\res
-com.aitutormobile.app-core-1.16.0-29 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\9163beb8e3b4ed94da5e6ee1efa5e824\transformed\core-1.16.0\res
-com.aitutormobile.app-drawerlayout-1.1.1-30 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\960073b90cd56a6823d51cdc16c7b9f7\transformed\drawerlayout-1.1.1\res
-com.aitutormobile.app-material-1.6.1-31 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\962efe94dd3d8e292fbb9833374ca93a\transformed\material-1.6.1\res
-com.aitutormobile.app-jetified-drawee-3.2.0-32 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\981c31501947fae6e456d6fccef97e78\transformed\jetified-drawee-3.2.0\res
-com.aitutormobile.app-jetified-customview-poolingcontainer-1.0.0-33 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\9b0edce8e432fb775a0af37df7a8cea4\transformed\jetified-customview-poolingcontainer-1.0.0\res
-com.aitutormobile.app-transition-1.2.0-34 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\a59e483c9cde6b095c03bb6cbfe82ea2\transformed\transition-1.2.0\res
-com.aitutormobile.app-jetified-startup-runtime-1.1.1-35 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\bfb3fc3b4c1de2904e683b8741fcc02c\transformed\jetified-startup-runtime-1.1.1\res
-com.aitutormobile.app-swiperefreshlayout-1.1.0-36 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\d8a9d67825abb3ca96c97e84063f7bef\transformed\swiperefreshlayout-1.1.0\res
-com.aitutormobile.app-jetified-viewpager2-1.0.0-37 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\df5c567be177739ef5ff6ebce6de345d\transformed\jetified-viewpager2-1.0.0\res
-com.aitutormobile.app-jetified-fragment-ktx-1.6.1-38 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\e612a938e1fda789f109ac235d48cc10\transformed\jetified-fragment-ktx-1.6.1\res
-com.aitutormobile.app-jetified-media3-exoplayer-1.8.0-39 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\f0573c7b8ed9c9174c7b2294abd38107\transformed\jetified-media3-exoplayer-1.8.0\res
-com.aitutormobile.app-jetified-lifecycle-runtime-ktx-2.6.2-40 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\f74b12568db69f01080e7516094279e0\transformed\jetified-lifecycle-runtime-ktx-2.6.2\res
-com.aitutormobile.app-jetified-media3-session-1.8.0-41 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\f7e9e1e699ae3e3921c481cc8a7453bb\transformed\jetified-media3-session-1.8.0\res
-com.aitutormobile.app-media-1.7.0-42 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\fc30c9f5527f24bcbf45485182867016\transformed\media-1.7.0\res
-com.aitutormobile.app-jetified-lifecycle-viewmodel-ktx-2.6.2-43 C:\projects outside one-drive\ai-tutor-app\mobile\.gradle-user-home\caches\transforms-4\fedbb2f612b7431f1aa415536bc931ba\transformed\jetified-lifecycle-viewmodel-ktx-2.6.2\res
-com.aitutormobile.app-pngs-44 C:\projects outside one-drive\ai-tutor-app\mobile\android\app\build\generated\res\pngs\debug
-com.aitutormobile.app-resValues-45 C:\projects outside one-drive\ai-tutor-app\mobile\android\app\build\generated\res\resValues\debug
-com.aitutormobile.app-packageDebugResources-46 C:\projects outside one-drive\ai-tutor-app\mobile\android\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
-com.aitutormobile.app-packageDebugResources-47 C:\projects outside one-drive\ai-tutor-app\mobile\android\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
-com.aitutormobile.app-debug-48 C:\projects outside one-drive\ai-tutor-app\mobile\android\app\build\intermediates\merged_res\debug\mergeDebugResources
-com.aitutormobile.app-debug-49 C:\projects outside one-drive\ai-tutor-app\mobile\android\app\src\debug\res
-com.aitutormobile.app-main-50 C:\projects outside one-drive\ai-tutor-app\mobile\android\app\src\main\res
-com.aitutormobile.app-debug-51 C:\projects outside one-drive\ai-tutor-app\mobile\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\packaged_res\debug\packageDebugResources
-com.aitutormobile.app-debug-52 C:\projects outside one-drive\ai-tutor-app\mobile\node_modules\react-native-document-picker\android\build\intermediates\packaged_res\debug\packageDebugResources
-com.aitutormobile.app-debug-53 C:\projects outside one-drive\ai-tutor-app\mobile\node_modules\react-native-gesture-handler\android\build\intermediates\packaged_res\debug\packageDebugResources
-com.aitutormobile.app-debug-54 C:\projects outside one-drive\ai-tutor-app\mobile\node_modules\react-native-image-picker\android\build\intermediates\packaged_res\debug\packageDebugResources
-com.aitutormobile.app-debug-55 C:\projects outside one-drive\ai-tutor-app\mobile\node_modules\react-native-safe-area-context\android\build\intermediates\packaged_res\debug\packageDebugResources
-com.aitutormobile.app-debug-56 C:\projects outside one-drive\ai-tutor-app\mobile\node_modules\react-native-screens\android\build\intermediates\packaged_res\debug\packageDebugResources
-com.aitutormobile.app-debug-57 C:\projects outside one-drive\ai-tutor-app\mobile\node_modules\react-native-video\android\buildOutput_a15d4dee7fc4eda61b91308cbb6a2e72\intermediates\packaged_res\debug\packageDebugResources
+com.aitutormobile.app-jetified-emoji2-views-helper-1.2.0-0 C:\Users\barot\.gradle\caches\transforms-4\02baff297f07747c52c198a7919c2e50\transformed\jetified-emoji2-views-helper-1.2.0\res
+com.aitutormobile.app-coordinatorlayout-1.2.0-1 C:\Users\barot\.gradle\caches\transforms-4\0933d85b78c3ea6355438ab79cfe8247\transformed\coordinatorlayout-1.2.0\res
+com.aitutormobile.app-jetified-emoji2-1.2.0-2 C:\Users\barot\.gradle\caches\transforms-4\0effb511eebd6a2803781c706017e70a\transformed\jetified-emoji2-1.2.0\res
+com.aitutormobile.app-lifecycle-livedata-core-2.6.2-3 C:\Users\barot\.gradle\caches\transforms-4\10d3e0aed8d2b5c5d563da6816ddb505\transformed\lifecycle-livedata-core-2.6.2\res
+com.aitutormobile.app-jetified-lifecycle-viewmodel-savedstate-2.6.2-4 C:\Users\barot\.gradle\caches\transforms-4\1789abe3f51550ff7274b070344e47aa\transformed\jetified-lifecycle-viewmodel-savedstate-2.6.2\res
+com.aitutormobile.app-jetified-appcompat-resources-1.6.1-5 C:\Users\barot\.gradle\caches\transforms-4\1e20b8935e64aeb3eb69d75c9f8c8a54\transformed\jetified-appcompat-resources-1.6.1\res
+com.aitutormobile.app-jetified-core-ktx-1.16.0-6 C:\Users\barot\.gradle\caches\transforms-4\1f33d0f214187f5010f638a41d126f23\transformed\jetified-core-ktx-1.16.0\res
+com.aitutormobile.app-jetified-activity-ktx-1.9.3-7 C:\Users\barot\.gradle\caches\transforms-4\21c7ae662ffc6377f280d344dda1e5f9\transformed\jetified-activity-ktx-1.9.3\res
+com.aitutormobile.app-jetified-media3-ui-1.8.0-8 C:\Users\barot\.gradle\caches\transforms-4\2ac293feb269c8ab5d421945abe7dffb\transformed\jetified-media3-ui-1.8.0\res
+com.aitutormobile.app-jetified-core-viewtree-1.0.0-9 C:\Users\barot\.gradle\caches\transforms-4\30a26d05d316c435040569b13caf0ea3\transformed\jetified-core-viewtree-1.0.0\res
+com.aitutormobile.app-jetified-annotation-experimental-1.4.1-10 C:\Users\barot\.gradle\caches\transforms-4\3145b6199e1fe5c2b5b0ca5a25d4d103\transformed\jetified-annotation-experimental-1.4.1\res
+com.aitutormobile.app-jetified-activity-1.9.3-11 C:\Users\barot\.gradle\caches\transforms-4\3391ec218b5d8ab745d0edd2555275d2\transformed\jetified-activity-1.9.3\res
+com.aitutormobile.app-lifecycle-livedata-2.6.2-12 C:\Users\barot\.gradle\caches\transforms-4\34114013e0fa90dab2bfab3873506161\transformed\lifecycle-livedata-2.6.2\res
+com.aitutormobile.app-jetified-profileinstaller-1.3.1-13 C:\Users\barot\.gradle\caches\transforms-4\3e02d82948e37089e8b271689962a591\transformed\jetified-profileinstaller-1.3.1\res
+com.aitutormobile.app-jetified-savedstate-1.2.1-14 C:\Users\barot\.gradle\caches\transforms-4\3e2e21aaaebaf3b26859db9af7587857\transformed\jetified-savedstate-1.2.1\res
+com.aitutormobile.app-appcompat-1.6.1-15 C:\Users\barot\.gradle\caches\transforms-4\3e32a387c2410ba51bea9d50914398e4\transformed\appcompat-1.6.1\res
+com.aitutormobile.app-jetified-tracing-1.2.0-16 C:\Users\barot\.gradle\caches\transforms-4\43f41ed5072fc5262156361075016c61\transformed\jetified-tracing-1.2.0\res
+com.aitutormobile.app-lifecycle-viewmodel-2.6.2-17 C:\Users\barot\.gradle\caches\transforms-4\46700facb7d00ca55114dbad128687e3\transformed\lifecycle-viewmodel-2.6.2\res
+com.aitutormobile.app-recyclerview-1.3.0-18 C:\Users\barot\.gradle\caches\transforms-4\46997ecf86e141e79f2be7b992e29cff\transformed\recyclerview-1.3.0\res
+com.aitutormobile.app-fragment-1.6.1-19 C:\Users\barot\.gradle\caches\transforms-4\46db219b5d087648685add4850bf66fb\transformed\fragment-1.6.1\res
+com.aitutormobile.app-lifecycle-runtime-2.6.2-20 C:\Users\barot\.gradle\caches\transforms-4\4bf1bddb86a3ed2b694b340d07851ce1\transformed\lifecycle-runtime-2.6.2\res
+com.aitutormobile.app-cardview-1.0.0-21 C:\Users\barot\.gradle\caches\transforms-4\51b43a2eeccc51a831115f7a2dfffa72\transformed\cardview-1.0.0\res
+com.aitutormobile.app-constraintlayout-2.0.1-22 C:\Users\barot\.gradle\caches\transforms-4\5331a52bc336da517120efb63265660d\transformed\constraintlayout-2.0.1\res
+com.aitutormobile.app-jetified-savedstate-ktx-1.2.1-23 C:\Users\barot\.gradle\caches\transforms-4\55ac0dcfa63f0e9d9eeb8d34a43fc900\transformed\jetified-savedstate-ktx-1.2.1\res
+com.aitutormobile.app-jetified-lifecycle-process-2.6.2-24 C:\Users\barot\.gradle\caches\transforms-4\6327c90df8754513d8ea39ec44219024\transformed\jetified-lifecycle-process-2.6.2\res
+com.aitutormobile.app-jetified-autofill-1.1.0-25 C:\Users\barot\.gradle\caches\transforms-4\6c1459adcedd44a2d2b284ab044a6c00\transformed\jetified-autofill-1.1.0\res
+com.aitutormobile.app-core-runtime-2.2.0-26 C:\Users\barot\.gradle\caches\transforms-4\6defcaee02fdb8690c4a2a2bbd3cc04e\transformed\core-runtime-2.2.0\res
+com.aitutormobile.app-jetified-react-android-0.76.5-debug-27 C:\Users\barot\.gradle\caches\transforms-4\6f7bb6bac263cd294354adad6eb9c569\transformed\jetified-react-android-0.76.5-debug\res
+com.aitutormobile.app-jetified-lifecycle-livedata-core-ktx-2.6.2-28 C:\Users\barot\.gradle\caches\transforms-4\84cf988fe94584366c9e12082f3153e5\transformed\jetified-lifecycle-livedata-core-ktx-2.6.2\res
+com.aitutormobile.app-core-1.16.0-29 C:\Users\barot\.gradle\caches\transforms-4\9163beb8e3b4ed94da5e6ee1efa5e824\transformed\core-1.16.0\res
+com.aitutormobile.app-drawerlayout-1.1.1-30 C:\Users\barot\.gradle\caches\transforms-4\960073b90cd56a6823d51cdc16c7b9f7\transformed\drawerlayout-1.1.1\res
+com.aitutormobile.app-material-1.6.1-31 C:\Users\barot\.gradle\caches\transforms-4\962efe94dd3d8e292fbb9833374ca93a\transformed\material-1.6.1\res
+com.aitutormobile.app-jetified-drawee-3.2.0-32 C:\Users\barot\.gradle\caches\transforms-4\981c31501947fae6e456d6fccef97e78\transformed\jetified-drawee-3.2.0\res
+com.aitutormobile.app-jetified-customview-poolingcontainer-1.0.0-33 C:\Users\barot\.gradle\caches\transforms-4\9b0edce8e432fb775a0af37df7a8cea4\transformed\jetified-customview-poolingcontainer-1.0.0\res
+com.aitutormobile.app-transition-1.2.0-34 C:\Users\barot\.gradle\caches\transforms-4\a59e483c9cde6b095c03bb6cbfe82ea2\transformed\transition-1.2.0\res
+com.aitutormobile.app-jetified-startup-runtime-1.1.1-35 C:\Users\barot\.gradle\caches\transforms-4\bfb3fc3b4c1de2904e683b8741fcc02c\transformed\jetified-startup-runtime-1.1.1\res
+com.aitutormobile.app-swiperefreshlayout-1.1.0-36 C:\Users\barot\.gradle\caches\transforms-4\d8a9d67825abb3ca96c97e84063f7bef\transformed\swiperefreshlayout-1.1.0\res
+com.aitutormobile.app-jetified-viewpager2-1.0.0-37 C:\Users\barot\.gradle\caches\transforms-4\df5c567be177739ef5ff6ebce6de345d\transformed\jetified-viewpager2-1.0.0\res
+com.aitutormobile.app-jetified-fragment-ktx-1.6.1-38 C:\Users\barot\.gradle\caches\transforms-4\e612a938e1fda789f109ac235d48cc10\transformed\jetified-fragment-ktx-1.6.1\res
+com.aitutormobile.app-jetified-media3-exoplayer-1.8.0-39 C:\Users\barot\.gradle\caches\transforms-4\f0573c7b8ed9c9174c7b2294abd38107\transformed\jetified-media3-exoplayer-1.8.0\res
+com.aitutormobile.app-jetified-lifecycle-runtime-ktx-2.6.2-40 C:\Users\barot\.gradle\caches\transforms-4\f74b12568db69f01080e7516094279e0\transformed\jetified-lifecycle-runtime-ktx-2.6.2\res
+com.aitutormobile.app-jetified-media3-session-1.8.0-41 C:\Users\barot\.gradle\caches\transforms-4\f7e9e1e699ae3e3921c481cc8a7453bb\transformed\jetified-media3-session-1.8.0\res
+com.aitutormobile.app-media-1.7.0-42 C:\Users\barot\.gradle\caches\transforms-4\fc30c9f5527f24bcbf45485182867016\transformed\media-1.7.0\res
+com.aitutormobile.app-jetified-lifecycle-viewmodel-ktx-2.6.2-43 C:\Users\barot\.gradle\caches\transforms-4\fedbb2f612b7431f1aa415536bc931ba\transformed\jetified-lifecycle-viewmodel-ktx-2.6.2\res
+com.aitutormobile.app-res-44 C:\projects outside one-drive\ai-tutor-app\mobile\android\app\build\generated\res\createBundleDebugJsAndAssets
+com.aitutormobile.app-pngs-45 C:\projects outside one-drive\ai-tutor-app\mobile\android\app\build\generated\res\pngs\debug
+com.aitutormobile.app-resValues-46 C:\projects outside one-drive\ai-tutor-app\mobile\android\app\build\generated\res\resValues\debug
+com.aitutormobile.app-packageDebugResources-47 C:\projects outside one-drive\ai-tutor-app\mobile\android\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.aitutormobile.app-packageDebugResources-48 C:\projects outside one-drive\ai-tutor-app\mobile\android\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.aitutormobile.app-debug-49 C:\projects outside one-drive\ai-tutor-app\mobile\android\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.aitutormobile.app-debug-50 C:\projects outside one-drive\ai-tutor-app\mobile\android\app\src\debug\res
+com.aitutormobile.app-main-51 C:\projects outside one-drive\ai-tutor-app\mobile\android\app\src\main\res
+com.aitutormobile.app-debug-52 C:\projects outside one-drive\ai-tutor-app\mobile\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.aitutormobile.app-debug-53 C:\projects outside one-drive\ai-tutor-app\mobile\node_modules\react-native-document-picker\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.aitutormobile.app-debug-54 C:\projects outside one-drive\ai-tutor-app\mobile\node_modules\react-native-gesture-handler\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.aitutormobile.app-debug-55 C:\projects outside one-drive\ai-tutor-app\mobile\node_modules\react-native-image-picker\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.aitutormobile.app-debug-56 C:\projects outside one-drive\ai-tutor-app\mobile\node_modules\react-native-safe-area-context\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.aitutormobile.app-debug-57 C:\projects outside one-drive\ai-tutor-app\mobile\node_modules\react-native-screens\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.aitutormobile.app-debug-58 C:\projects outside one-drive\ai-tutor-app\mobile\node_modules\react-native-video\android\buildOutput_a15d4dee7fc4eda61b91308cbb6a2e72\intermediates\packaged_res\debug\packageDebugResources

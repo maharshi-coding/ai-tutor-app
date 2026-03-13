@@ -131,11 +131,6 @@ export default function ProfileScreen() {
                 <Text style={styles.badgeText}>Photo uploaded</Text>
               </View>
             ) : null}
-            {user?.voice_sample_path ? (
-              <View style={styles.badge}>
-                <Text style={styles.badgeText}>Voice uploaded</Text>
-              </View>
-            ) : null}
           </View>
         </View>
 
