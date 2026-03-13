@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, constr
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Literal
 from datetime import datetime
 
 
@@ -74,11 +74,17 @@ class ProgressResponse(ProgressBase):
         from_attributes = True
 
 
+class TutorHistoryMessage(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str
+
+
 # Tutor Schemas
 class TutorMessage(BaseModel):
     message: str
     course_id: Optional[int] = None
     lesson_id: Optional[int] = None
+    history: Optional[List[TutorHistoryMessage]] = None
 
 
 class TutorResponse(BaseModel):
@@ -90,6 +96,7 @@ class AskTutorRequest(BaseModel):
     message: str
     course_id: Optional[int] = None
     course_slug: Optional[str] = None
+    history: Optional[List[TutorHistoryMessage]] = None
 
 
 class AskTutorResponse(TutorResponse):

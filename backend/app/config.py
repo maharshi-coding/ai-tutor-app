@@ -1,6 +1,18 @@
+from pathlib import Path
+from typing import Optional, List
+
 from pydantic import AnyHttpUrl
 from pydantic_settings import BaseSettings
-from typing import Optional, List
+
+
+def _default_ollama_base_url() -> str:
+    """
+    When the API runs inside Docker, localhost points at the container itself.
+    Use Docker's host gateway name so a host-run Ollama instance is reachable.
+    """
+    if Path("/.dockerenv").exists():
+        return "http://host.docker.internal:11434"
+    return "http://localhost:11434"
 
 
 class Settings(BaseSettings):
@@ -48,7 +60,7 @@ class Settings(BaseSettings):
     DID_REQUEST_TIMEOUT_SECONDS: int = 120
 
     # Ollama (local LLM – free, open-source)
-    OLLAMA_BASE_URL: str = "http://localhost:11434"
+    OLLAMA_BASE_URL: str = _default_ollama_base_url()
     OLLAMA_MODEL: str = "llama3"
 
     # TTS provider selection: auto | piper | coqui | kokoro

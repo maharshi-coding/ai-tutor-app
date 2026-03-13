@@ -26,11 +26,17 @@ export interface Message {
   content: string;
   timestamp: Date;
   videoUrl?: string;
+  isStreaming?: boolean;
 }
 
 export interface TutorResponse {
   response: string;
   suggestions?: string[];
+}
+
+export interface TutorHistoryMessage {
+  role: 'user' | 'assistant';
+  content: string;
 }
 
 export interface AskTutorResponse extends TutorResponse {

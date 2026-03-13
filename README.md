@@ -122,6 +122,8 @@ DATABASE_URL=sqlite:///./ai_tutor.db
 SECRET_KEY=change-me-in-production
 
 OLLAMA_BASE_URL=http://localhost:11434
+# If the backend runs in Docker and Ollama runs on your machine:
+# OLLAMA_BASE_URL=http://host.docker.internal:11434
 OLLAMA_MODEL=llama3
 
 TTS_PROVIDER=auto
@@ -158,6 +160,10 @@ Start the API:
 ```bash
 uvicorn app.main:app --reload
 ```
+
+If you run the backend with Docker Compose, the backend service defaults to
+`http://host.docker.internal:11434` for Ollama. Make sure Ollama is running on
+your host machine before starting the app.
 
 On startup the backend:
 

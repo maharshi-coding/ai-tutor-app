@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -6,6 +6,8 @@ import {
   FlatList,
   Image,
   KeyboardAvoidingView,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
   Platform,
   StatusBar,
   StyleSheet,
@@ -18,6 +20,7 @@ import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Video from 'react-native-video';
+import MarkdownMessage from '../components/MarkdownMessage';
 import NoticeBanner from '../components/NoticeBanner';
 import {
   avatarAPI,
@@ -26,11 +29,27 @@ import {
   tutorAPI,
   uploadAPI,
 } from '../services/api';
+import {
+  buildChatSessionStorageKey,
+  loadChatSession,
+  saveChatSession,
+} from '../services/chatSessionStorage';
 import {pollAvatarJob} from '../services/avatarService';
-import {AvatarConfig, Message, TutorMode, TutorStackParamList} from '../types';
+import {useAuthStore} from '../store/authStore';
+import {
+  AvatarConfig,
+  Message,
+  TutorHistoryMessage,
+  TutorMode,
+  TutorStackParamList,
+} from '../types';
 
 type ChatRoute = RouteProp<TutorStackParamList, 'TutorChat'>;
 type ChatNav = NativeStackNavigationProp<TutorStackParamList, 'TutorChat'>;
+
+const MAX_HISTORY_MESSAGES = 12;
+const STREAM_DELAY_MS = 20;
+const AUTO_SCROLL_THRESHOLD = 180;
 
 let messageCounter = 0;
 const nextId = () => `msg-${++messageCounter}`;
@@ -44,42 +63,113 @@ async function toAbsUrl(url: string): Promise<string> {
   return `${baseUrl}${url}`;
 }
 
+function starterSuggestions(courseName: string, hasCourse: boolean): string[] {
+  return hasCourse
+    ? [
+        `Give me a beginner-friendly overview of ${courseName}.`,
+        `Show me one practical ${courseName} example.`,
+        `Create a short practice exercise for ${courseName}.`,
+      ]
+    : [
+        'Teach me a topic step by step.',
+        'Show me one practical example.',
+        'Quiz me with one practice question.',
+      ];
+}
+
+function buildHistory(messages: Message[]): TutorHistoryMessage[] {
+  return messages
+    .filter(message => message.content.trim().length > 0)
+    .map(message => ({role: message.role, content: message.content.trim()}))
+    .slice(-MAX_HISTORY_MESSAGES);
+}
+
+function cleanSuggestions(raw: unknown): string[] {
+  if (!Array.isArray(raw)) {
+    return [];
+  }
+
+  return raw
+    .filter(
+      (item: unknown): item is string =>
+        typeof item === 'string' && item.trim().length > 0,
+    )
+    .slice(0, 3);
+}
+
+function nextStreamIndex(currentIndex: number, fullText: string): number {
+  const chunkSize =
+    fullText.length > 1600 ? 70 : fullText.length > 900 ? 48 : 28;
+  return Math.min(currentIndex + chunkSize, fullText.length);
+}
+
 export default function ChatScreen() {
   const navigation = useNavigation<ChatNav>();
   const route = useRoute<ChatRoute>();
+  const userId = useAuthStore(state => state.user?.id);
   const courseId = route.params?.courseId;
   const courseName = route.params?.courseName ?? 'General AI Tutor';
   const mode: TutorMode = route.params?.mode ?? 'chat';
   const isLiveTutor = mode === 'liveTutor';
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: nextId(),
-      role: 'assistant',
-      content: isLiveTutor
-        ? courseId
-          ? `Welcome to Live Tutor for ${courseName}. Ask a question and I will teach it step by step, then generate a talking video response.`
-          : 'Welcome to Live Tutor. Ask a question and I will explain it, then generate a talking tutor video.'
-        : courseId
-          ? `Hi, I am your AI chat tutor for ${courseName}. Ask anything and I will keep the answer fast and clear.`
-          : 'Hi, I am your AI chat tutor. Ask anything for a fast text explanation.',
-      timestamp: new Date(),
-    },
-  ]);
+  const sessionKey = useMemo(
+    () => buildChatSessionStorageKey(userId, courseId),
+    [courseId, userId],
+  );
+
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
-  const [isSending, setIsSending] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [chatError, setChatError] = useState<string | null>(null);
+  const [isSessionLoading, setIsSessionLoading] = useState(false);
+  const [sessionReady, setSessionReady] = useState(false);
+  const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
+  const [streamingMessageId, setStreamingMessageId] = useState<string | null>(
+    null,
+  );
   const [isGeneratingAvatar, setIsGeneratingAvatar] = useState(false);
   const [avatarStatus, setAvatarStatus] = useState('');
   const [heroVideoUrl, setHeroVideoUrl] = useState<string | null>(null);
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
   const [avatarConfig, setAvatarConfig] = useState<AvatarConfig | null>(null);
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [chatError, setChatError] = useState<string | null>(null);
 
   const listRef = useRef<FlatList<Message>>(null);
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const pulseLoop = useRef<Animated.CompositeAnimation | null>(null);
+  const streamTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isMountedRef = useRef(true);
+  const isNearBottomRef = useRef(true);
+  const sessionKeyRef = useRef(sessionKey);
   const latestAvatarTokenRef = useRef<string | null>(null);
+
+  const isBusy = isWaitingForResponse || !!streamingMessageId;
+  const visibleSuggestions =
+    suggestions.length > 0
+      ? suggestions
+      : messages.length === 0
+        ? starterSuggestions(courseName, !!courseId)
+        : [];
+
+  const clearStreamTimer = useCallback(() => {
+    if (streamTimerRef.current) {
+      clearTimeout(streamTimerRef.current);
+      streamTimerRef.current = null;
+    }
+  }, []);
+
+  const maybeScrollToBottom = useCallback(
+    (animated = true, force = false) => {
+      setTimeout(() => {
+        if (!isMountedRef.current) {
+          return;
+        }
+
+        if (force || isNearBottomRef.current) {
+          listRef.current?.scrollToEnd({animated});
+        }
+      }, 70);
+    },
+    [],
+  );
 
   const loadAvatarState = useCallback(async () => {
     if (!isLiveTutor) {
@@ -93,17 +183,13 @@ export default function ChatScreen() {
       const response = await uploadAPI.getAvatarConfig();
       const config = response.data as AvatarConfig;
       setAvatarConfig(config);
-
       const preview =
         config.avatar_image_url || config.character_image_url || config.photo_path;
-      if (preview) {
-        setAvatarPreviewUrl(await toAbsUrl(preview));
-      } else {
-        setAvatarPreviewUrl(null);
-      }
-
+      setAvatarPreviewUrl(preview ? await toAbsUrl(preview) : null);
       if (config.last_generated_clip_url) {
         setHeroVideoUrl(await toAbsUrl(config.last_generated_clip_url));
+      } else {
+        setHeroVideoUrl(null);
       }
     } catch (error) {
       setChatError(
@@ -116,14 +202,19 @@ export default function ChatScreen() {
   }, [isLiveTutor]);
 
   useEffect(() => {
+    sessionKeyRef.current = sessionKey;
+  }, [sessionKey]);
+
+  useEffect(() => {
     return () => {
       isMountedRef.current = false;
       pulseLoop.current?.stop();
+      clearStreamTimer();
     };
-  }, []);
+  }, [clearStreamTimer]);
 
   useEffect(() => {
-    const shouldPulse = isSending || isGeneratingAvatar;
+    const shouldPulse = isBusy || isGeneratingAvatar || isSessionLoading;
 
     if (shouldPulse) {
       pulseLoop.current = Animated.loop(
@@ -145,7 +236,7 @@ export default function ChatScreen() {
       pulseLoop.current?.stop();
       pulseAnim.setValue(1);
     }
-  }, [isGeneratingAvatar, isSending, pulseAnim]);
+  }, [isBusy, isGeneratingAvatar, isSessionLoading, pulseAnim]);
 
   useEffect(() => {
     loadAvatarState().catch(() => {});
@@ -158,9 +249,59 @@ export default function ChatScreen() {
     return unsubscribe;
   }, [loadAvatarState, navigation]);
 
-  const scrollToBottom = useCallback(() => {
-    setTimeout(() => listRef.current?.scrollToEnd({animated: true}), 120);
-  }, []);
+  useEffect(() => {
+    let cancelled = false;
+
+    setSessionReady(false);
+    setIsSessionLoading(true);
+    setMessages([]);
+    setSuggestions([]);
+    setInput('');
+    setChatError(null);
+    setIsWaitingForResponse(false);
+    setStreamingMessageId(null);
+    setIsGeneratingAvatar(false);
+    setAvatarStatus('');
+    latestAvatarTokenRef.current = null;
+    clearStreamTimer();
+
+    loadChatSession(userId, courseId)
+      .then(storedMessages => {
+        if (!cancelled && isMountedRef.current) {
+          setMessages(storedMessages);
+        }
+      })
+      .catch(() => {
+        if (!cancelled && isMountedRef.current) {
+          setChatError(
+            'Could not restore the saved chat for this course. A fresh session is ready.',
+          );
+        }
+      })
+      .finally(() => {
+        if (!cancelled && isMountedRef.current) {
+          setIsSessionLoading(false);
+          setSessionReady(true);
+          maybeScrollToBottom(false, true);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [clearStreamTimer, courseId, maybeScrollToBottom, userId]);
+
+  useEffect(() => {
+    if (!sessionReady) {
+      return;
+    }
+
+    const persistTimer = setTimeout(() => {
+      saveChatSession(userId, courseId, messages).catch(() => {});
+    }, 250);
+
+    return () => clearTimeout(persistTimer);
+  }, [courseId, messages, sessionReady, userId]);
 
   const openFullVideo = useCallback(
     (videoUrl: string) => {
@@ -173,7 +314,7 @@ export default function ChatScreen() {
   );
 
   const startAvatarPolling = useCallback(
-    async (jobId: string, messageId: string) => {
+    async (jobId: string, messageId: string, expectedSessionKey: string) => {
       const token = `${messageId}-${Date.now()}`;
       latestAvatarTokenRef.current = token;
       setIsGeneratingAvatar(true);
@@ -181,46 +322,51 @@ export default function ChatScreen() {
 
       try {
         const videoUrl = await pollAvatarJob(jobId, status => {
-          if (!isMountedRef.current || latestAvatarTokenRef.current !== token) {
+          if (
+            !isMountedRef.current ||
+            latestAvatarTokenRef.current !== token ||
+            sessionKeyRef.current !== expectedSessionKey
+          ) {
             return;
           }
 
           setAvatarStatus(status);
         });
 
-        if (!isMountedRef.current || latestAvatarTokenRef.current !== token) {
+        if (
+          !isMountedRef.current ||
+          latestAvatarTokenRef.current !== token ||
+          sessionKeyRef.current !== expectedSessionKey
+        ) {
           return;
         }
 
         const fullUrl = await toAbsUrl(videoUrl);
-
-        if (!isMountedRef.current || latestAvatarTokenRef.current !== token) {
-          return;
-        }
-
         setHeroVideoUrl(fullUrl);
         setMessages(current =>
           current.map(message =>
-            message.id === messageId
-              ? {
-                  ...message,
-                  videoUrl: fullUrl,
-                }
-              : message,
+            message.id === messageId ? {...message, videoUrl: fullUrl} : message,
           ),
         );
       } catch (error) {
-        if (isMountedRef.current && latestAvatarTokenRef.current === token) {
+        if (
+          isMountedRef.current &&
+          latestAvatarTokenRef.current === token &&
+          sessionKeyRef.current === expectedSessionKey
+        ) {
           setChatError(
             extractErrorMessage(
               error,
               'The tutor reply was generated, but the video response could not be finished.',
             ),
           );
-          setAvatarStatus('');
         }
       } finally {
-        if (isMountedRef.current && latestAvatarTokenRef.current === token) {
+        if (
+          isMountedRef.current &&
+          latestAvatarTokenRef.current === token &&
+          sessionKeyRef.current === expectedSessionKey
+        ) {
           setIsGeneratingAvatar(false);
           setAvatarStatus('');
         }
@@ -229,91 +375,93 @@ export default function ChatScreen() {
     [],
   );
 
-  const sendMessage = useCallback(
-    async (text: string) => {
-      const trimmed = text.trim();
+  const streamAssistantMessage = useCallback(
+    async (
+      messageId: string,
+      fullText: string,
+      expectedSessionKey: string,
+    ): Promise<void> => {
+      clearStreamTimer();
+      let currentIndex = 0;
 
-      if (!trimmed || isSending) {
+      return new Promise(resolve => {
+        const pushNextChunk = () => {
+          if (
+            !isMountedRef.current ||
+            sessionKeyRef.current !== expectedSessionKey
+          ) {
+            resolve();
+            return;
+          }
+
+          currentIndex = nextStreamIndex(currentIndex, fullText);
+          const nextContent = fullText.slice(0, currentIndex);
+
+          setMessages(current =>
+            current.map(message =>
+              message.id === messageId
+                ? {
+                    ...message,
+                    content: nextContent,
+                    isStreaming: currentIndex < fullText.length,
+                  }
+                : message,
+            ),
+          );
+          maybeScrollToBottom(true);
+
+          if (currentIndex >= fullText.length) {
+            setStreamingMessageId(current => (current === messageId ? null : current));
+            resolve();
+            return;
+          }
+
+          streamTimerRef.current = setTimeout(pushNextChunk, STREAM_DELAY_MS);
+        };
+
+        pushNextChunk();
+      });
+    },
+    [clearStreamTimer, maybeScrollToBottom],
+  );
+
+  const generateAvatarReply = useCallback(
+    async (
+      assistantResponse: string,
+      assistantMessageId: string,
+      expectedSessionKey: string,
+    ) => {
+      if (!isLiveTutor) {
         return;
       }
 
-      const userMessage: Message = {
-        id: nextId(),
-        role: 'user',
-        content: trimmed,
-        timestamp: new Date(),
-      };
+      const currentAvatarId =
+        avatarConfig?.avatar_ready && avatarConfig.avatar_id
+          ? avatarConfig.avatar_id
+          : null;
 
-      setMessages(current => [...current, userMessage]);
-      setInput('');
-      setSuggestions([]);
-      setChatError(null);
-      scrollToBottom();
-      setIsSending(true);
-
-      try {
-        const response = await tutorAPI.askTutor({
-          message: trimmed,
-          courseId,
-        });
-
-        if (!isMountedRef.current) {
-          return;
-        }
-
-        const assistantResponse =
-          typeof response.data?.response === 'string' &&
-          response.data.response.trim()
-            ? response.data.response.trim()
-            : 'I could not generate a response just now.';
-
-        const assistantMessageId = nextId();
-        const assistantMessage: Message = {
-          id: assistantMessageId,
-          role: 'assistant',
-          content: assistantResponse,
-          timestamp: new Date(),
-        };
-
-        setMessages(current => [...current, assistantMessage]);
-        setSuggestions(
-          Array.isArray(response.data?.suggestions)
-            ? response.data.suggestions
-                .filter(
-                  (item: unknown): item is string =>
-                    typeof item === 'string' && item.trim().length > 0,
-                )
-                .slice(0, 3)
-            : [],
-        );
-
-        scrollToBottom();
-
-        if (!isLiveTutor) {
-          return;
-        }
-
-        const currentAvatarId =
-          avatarConfig?.avatar_ready && avatarConfig.avatar_id
-            ? avatarConfig.avatar_id
-            : null;
-
-        if (!currentAvatarId) {
+      if (!currentAvatarId) {
+        if (sessionKeyRef.current === expectedSessionKey) {
           setChatError(
             'Live Tutor needs a D-ID avatar first. Open Avatar Setup, upload a photo, and try again.',
           );
-          return;
         }
+        return;
+      }
 
-        setIsGeneratingAvatar(true);
-        setAvatarStatus('Sending explanation to D-ID...');
+      setIsGeneratingAvatar(true);
+      setAvatarStatus('Sending explanation to D-ID...');
 
+      try {
         const speakResponse = await avatarAPI.speak({
           avatarId: currentAvatarId,
           text: assistantResponse,
         });
 
-        if (!isMountedRef.current) {
+        if (
+          !isMountedRef.current ||
+          sessionKeyRef.current !== expectedSessionKey
+        ) {
           return;
         }
 
@@ -324,18 +472,17 @@ export default function ChatScreen() {
           setMessages(current =>
             current.map(message =>
               message.id === assistantMessageId
-                ? {
-                    ...message,
-                    videoUrl: fullUrl,
-                  }
+                ? {...message, videoUrl: fullUrl}
                 : message,
             ),
           );
           setIsGeneratingAvatar(false);
           setAvatarStatus('');
         } else if (speakResponse.data?.job_id) {
-          startAvatarPolling(speakResponse.data.job_id, assistantMessageId).catch(
-            () => {},
+          await startAvatarPolling(
+            speakResponse.data.job_id,
+            assistantMessageId,
+            expectedSessionKey,
           );
         } else {
           setIsGeneratingAvatar(false);
@@ -343,7 +490,10 @@ export default function ChatScreen() {
           setChatError('Live Tutor did not return a video job id.');
         }
       } catch (error) {
-        if (!isMountedRef.current) {
+        if (
+          !isMountedRef.current ||
+          sessionKeyRef.current !== expectedSessionKey
+        ) {
           return;
         }
 
@@ -352,55 +502,231 @@ export default function ChatScreen() {
         setChatError(
           extractErrorMessage(
             error,
+            'The text answer is ready, but the tutor video could not be created.',
+          ),
+        );
+      }
+    },
+    [avatarConfig, isLiveTutor, startAvatarPolling],
+  );
+
+  const sendMessage = useCallback(
+    async (text: string) => {
+      const trimmed = text.trim();
+
+      if (!trimmed || isBusy || isSessionLoading) {
+        return;
+      }
+
+      const requestHistory = buildHistory(messages);
+      const activeSessionKey = sessionKey;
+      const userMessage: Message = {
+        id: nextId(),
+        role: 'user',
+        content: trimmed,
+        timestamp: new Date(),
+      };
+      const assistantMessageId = nextId();
+      const placeholder: Message = {
+        id: assistantMessageId,
+        role: 'assistant',
+        content: '',
+        timestamp: new Date(),
+        isStreaming: true,
+      };
+
+      setMessages(current => [...current, userMessage, placeholder]);
+      setInput('');
+      setSuggestions([]);
+      setChatError(null);
+      setIsWaitingForResponse(true);
+      maybeScrollToBottom(true, true);
+
+      try {
+        const response = await tutorAPI.askTutor({
+          message: trimmed,
+          courseId,
+          history: requestHistory,
+        });
+
+        if (
+          !isMountedRef.current ||
+          sessionKeyRef.current !== activeSessionKey
+        ) {
+          return;
+        }
+
+        const assistantResponse =
+          typeof response.data?.response === 'string' &&
+          response.data.response.trim()
+            ? response.data.response.trim()
+            : 'I could not generate a response just now.';
+
+        setSuggestions(cleanSuggestions(response.data?.suggestions));
+        setIsWaitingForResponse(false);
+        setStreamingMessageId(assistantMessageId);
+
+        const streamPromise = streamAssistantMessage(
+          assistantMessageId,
+          assistantResponse,
+          activeSessionKey,
+        );
+
+        if (isLiveTutor) {
+          generateAvatarReply(
+            assistantResponse,
+            assistantMessageId,
+            activeSessionKey,
+          ).catch(() => {});
+        }
+
+        await streamPromise;
+      } catch (error) {
+        if (
+          !isMountedRef.current ||
+          sessionKeyRef.current !== activeSessionKey
+        ) {
+          return;
+        }
+
+        setMessages(current =>
+          current.filter(message => message.id !== assistantMessageId),
+        );
+        setIsWaitingForResponse(false);
+        setStreamingMessageId(null);
+        setIsGeneratingAvatar(false);
+        setAvatarStatus('');
+        setChatError(
+          extractErrorMessage(
+            error,
             'Failed to get a response. Check your connection.',
           ),
         );
-      } finally {
-        if (isMountedRef.current) {
-          setIsSending(false);
-        }
       }
     },
-    [avatarConfig, courseId, isLiveTutor, isSending, scrollToBottom, startAvatarPolling],
+    [
+      courseId,
+      generateAvatarReply,
+      isBusy,
+      isLiveTutor,
+      isSessionLoading,
+      maybeScrollToBottom,
+      messages,
+      sessionKey,
+      streamAssistantMessage,
+    ],
   );
 
-  const renderMessage = ({item}: {item: Message}) => {
-    const isUser = item.role === 'user';
+  const renderMessage = useCallback(
+    ({item}: {item: Message}) => {
+      const isUser = item.role === 'user';
+      const hasBody = item.content.trim().length > 0;
 
-    return (
-      <View style={[styles.msgRow, isUser ? styles.msgRowUser : styles.msgRowAI]}>
-        {!isUser && <View style={styles.botDot} />}
-        <View style={[styles.bubble, isUser ? styles.bubbleUser : styles.bubbleAI]}>
-          <Text style={[styles.msgText, isUser ? styles.msgTextUser : styles.msgTextAI]}>
-            {item.content}
-          </Text>
-          {item.videoUrl ? (
-            <TouchableOpacity onPress={() => openFullVideo(item.videoUrl!)}>
-              <Text style={styles.videoTag}>Tutor video ready</Text>
-            </TouchableOpacity>
-          ) : null}
-          <Text style={styles.timestamp}>
-            {item.timestamp.toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit',
-            })}
+      return (
+        <View style={[styles.msgRow, isUser ? styles.msgRowUser : styles.msgRowAI]}>
+          {!isUser && <View style={styles.botDot} />}
+          <View style={[styles.bubble, isUser ? styles.bubbleUser : styles.bubbleAI]}>
+            {isUser ? (
+              <Text style={[styles.msgText, styles.msgTextUser]}>{item.content}</Text>
+            ) : hasBody ? (
+              <MarkdownMessage content={item.content} />
+            ) : (
+              <View style={styles.inlineTypingRow}>
+                <ActivityIndicator size="small" color="#8B5CF6" />
+                <Text style={styles.inlineTypingText}>
+                  {isWaitingForResponse
+                    ? 'Thinking through your question...'
+                    : 'Streaming the explanation...'}
+                </Text>
+              </View>
+            )}
+
+            {item.isStreaming && hasBody ? (
+              <Text style={styles.streamLabel}>Streaming...</Text>
+            ) : null}
+
+            {item.videoUrl && isLiveTutor ? (
+              <TouchableOpacity onPress={() => openFullVideo(item.videoUrl!)}>
+                <Text style={styles.videoTag}>Tutor video ready</Text>
+              </TouchableOpacity>
+            ) : null}
+
+            {hasBody ? (
+              <Text style={styles.timestamp}>
+                {item.timestamp.toLocaleTimeString([], {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </Text>
+            ) : null}
+          </View>
+        </View>
+      );
+    },
+    [isLiveTutor, isWaitingForResponse, openFullVideo],
+  );
+
+  const renderEmptyState = useCallback(() => {
+    if (isSessionLoading) {
+      return (
+        <View style={styles.emptyStateCard}>
+          <ActivityIndicator color="#8B5CF6" />
+          <Text style={styles.emptyTitle}>Loading course conversation</Text>
+          <Text style={styles.emptyText}>
+            Restoring the saved chat history for this course.
           </Text>
         </View>
+      );
+    }
+
+    return (
+      <View style={styles.emptyStateCard}>
+        <Text style={styles.emptyEyebrow}>
+          {courseId ? 'Course session ready' : 'Start a new tutor session'}
+        </Text>
+        <Text style={styles.emptyTitle}>
+          {courseId ? courseName : isLiveTutor ? 'Live Tutor' : 'AI Chat'}
+        </Text>
+        <Text style={styles.emptyText}>
+          {courseId
+            ? 'This conversation is scoped to the selected course, so follow-up questions stay tied to the same lesson context.'
+            : 'Ask any technical question and the tutor will respond with structured explanations, examples, and clear next steps.'}
+        </Text>
       </View>
     );
-  };
+  }, [courseId, courseName, isLiveTutor, isSessionLoading]);
 
-  const statusLine = isSending
-    ? 'Thinking through your question...'
-    : isLiveTutor
-      ? isGeneratingAvatar
-        ? avatarStatus || 'Generating tutor video...'
-        : avatarConfig?.avatar_ready
-          ? 'Live Tutor ready'
-          : 'Avatar setup required'
-      : courseId
-        ? 'AI Chat ready for your course'
-        : 'Fast text-only tutor mode';
+  const handleScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const {contentOffset, contentSize, layoutMeasurement} = event.nativeEvent;
+      isNearBottomRef.current =
+        contentOffset.y + layoutMeasurement.height >=
+        contentSize.height - AUTO_SCROLL_THRESHOLD;
+    },
+    [],
+  );
+
+  const handleContentSizeChange = useCallback(() => {
+    if (isBusy || isGeneratingAvatar || messages.length <= 2) {
+      maybeScrollToBottom(true);
+    }
+  }, [isBusy, isGeneratingAvatar, messages.length, maybeScrollToBottom]);
+
+  const statusLine = isSessionLoading
+    ? 'Loading the current course session...'
+    : isWaitingForResponse
+      ? 'Thinking through your question...'
+      : streamingMessageId
+        ? 'Streaming the explanation...'
+        : isLiveTutor
+          ? isGeneratingAvatar
+            ? avatarStatus || 'Generating tutor video...'
+            : avatarConfig?.avatar_ready
+              ? 'Live Tutor ready'
+              : 'Avatar setup required'
+          : courseId
+            ? 'Course-specific AI chat ready'
+            : 'General AI tutor ready';
 
   return (
     <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
@@ -413,23 +739,20 @@ export default function ChatScreen() {
           <Animated.View style={[styles.headerIcon, {transform: [{scale: pulseAnim}]}]} />
           <View style={styles.headerText}>
             <Text style={styles.headerTitle} numberOfLines={1}>
-              {isLiveTutor ? `Live Tutor • ${courseName}` : `AI Chat • ${courseName}`}
+              {isLiveTutor ? `Live Tutor - ${courseName}` : `AI Chat - ${courseName}`}
             </Text>
             <Text
               style={[
                 styles.headerSub,
-                (isSending || isGeneratingAvatar) && styles.headerSubActive,
+                (isBusy || isGeneratingAvatar || isSessionLoading) &&
+                  styles.headerSubActive,
               ]}>
               {statusLine}
             </Text>
           </View>
           <TouchableOpacity
             style={styles.courseSwitch}
-            onPress={() =>
-              navigation.navigate('CourseSelection', {
-                mode,
-              })
-            }>
+            onPress={() => navigation.navigate('CourseSelection', {mode})}>
             <Text style={styles.courseSwitchText}>Courses</Text>
           </TouchableOpacity>
         </View>
@@ -437,7 +760,7 @@ export default function ChatScreen() {
         {courseId ? (
           <View style={styles.courseBadgeRow}>
             <Text style={styles.courseBadgeText}>
-              {isLiveTutor ? 'Live Tutor' : 'AI Chat'} course: {courseName}
+              {isLiveTutor ? 'Live Tutor' : 'AI Chat'} session: {courseName}
             </Text>
           </View>
         ) : null}
@@ -497,7 +820,7 @@ export default function ChatScreen() {
           <View style={styles.modeBanner}>
             <Text style={styles.modeBannerLabel}>AI Chat mode</Text>
             <Text style={styles.modeBannerText}>
-              This view is text only for faster answers. Switch to Live Tutor when you want video responses.
+              Responses now render as markdown with headings, bullet lists, numbered steps, and code blocks for easier reading on mobile.
             </Text>
           </View>
         )}
@@ -513,39 +836,37 @@ export default function ChatScreen() {
           data={messages}
           keyExtractor={item => item.id}
           style={styles.messageList}
-          contentContainerStyle={styles.msgContent}
-          showsVerticalScrollIndicator={false}
+          contentContainerStyle={[
+            styles.msgContent,
+            messages.length === 0 && styles.msgContentEmpty,
+          ]}
           renderItem={renderMessage}
+          showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           initialNumToRender={10}
           maxToRenderPerBatch={8}
           windowSize={7}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+          onContentSizeChange={handleContentSizeChange}
+          ListEmptyComponent={renderEmptyState}
           ListFooterComponent={<View style={styles.listFooter} />}
         />
 
-        {isSending && (
-          <View style={styles.typingRow}>
-            <View style={styles.typingBubble}>
-              <ActivityIndicator size="small" color="#6C63FF" />
-              <Text style={styles.typingText}>Thinking through your question...</Text>
-            </View>
-          </View>
-        )}
-
-        {suggestions.length > 0 && !isSending && (
+        {visibleSuggestions.length > 0 && !isBusy && !isSessionLoading ? (
           <View style={styles.suggestionsRow}>
-            {suggestions.map((suggestion, index) => (
+            {visibleSuggestions.map((suggestion, index) => (
               <TouchableOpacity
                 key={`${suggestion}-${index}`}
                 style={styles.chip}
                 onPress={() => sendMessage(suggestion)}>
-                <Text style={styles.chipText} numberOfLines={1}>
+                <Text style={styles.chipText} numberOfLines={2}>
                   {suggestion}
                 </Text>
               </TouchableOpacity>
             ))}
           </View>
-        )}
+        ) : null}
 
         <View style={styles.inputRow}>
           <TextInput
@@ -553,23 +874,29 @@ export default function ChatScreen() {
             placeholder={
               isLiveTutor
                 ? 'Ask your live tutor anything...'
-                : 'Ask AI anything...'
+                : courseId
+                  ? `Ask about ${courseName}...`
+                  : 'Ask AI anything...'
             }
             placeholderTextColor="#4B5563"
             value={input}
             onChangeText={setInput}
             multiline
-            maxLength={500}
+            maxLength={800}
             returnKeyType="send"
             blurOnSubmit
+            editable={!isBusy && !isSessionLoading}
             onSubmitEditing={() => sendMessage(input)}
           />
           <TouchableOpacity
             activeOpacity={0.85}
-            style={[styles.sendBtn, (!input.trim() || isSending) && styles.sendBtnOff]}
+            style={[
+              styles.sendBtn,
+              (!input.trim() || isBusy || isSessionLoading) && styles.sendBtnOff,
+            ]}
             onPress={() => sendMessage(input)}
-            disabled={!input.trim() || isSending}>
-            <Text style={styles.sendIcon}>Send</Text>
+            disabled={!input.trim() || isBusy || isSessionLoading}>
+            <Text style={styles.sendIcon}>{isBusy ? 'Wait' : 'Send'}</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -596,12 +923,12 @@ const styles = StyleSheet.create({
     borderRadius: 21,
     backgroundColor: '#1E1B4B',
     borderWidth: 1.5,
-    borderColor: '#6C63FF',
+    borderColor: '#8B5CF6',
   },
   headerText: {flex: 1},
   headerTitle: {color: '#FFFFFF', fontWeight: '700', fontSize: 15},
   headerSub: {color: '#4B5563', fontSize: 12, marginTop: 1},
-  headerSubActive: {color: '#6C63FF'},
+  headerSubActive: {color: '#A78BFA'},
   courseSwitch: {
     borderRadius: 14,
     paddingHorizontal: 12,
@@ -610,7 +937,7 @@ const styles = StyleSheet.create({
     borderColor: '#2A2A4A',
     backgroundColor: '#12122A',
   },
-  courseSwitchText: {color: '#C7D2FE', fontWeight: '700', fontSize: 12},
+  courseSwitchText: {color: '#DDD6FE', fontWeight: '700', fontSize: 12},
   courseBadgeRow: {
     paddingHorizontal: 16,
     paddingVertical: 8,
@@ -618,12 +945,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#1C1C3A',
   },
-  courseBadgeText: {color: '#A5B4FC', fontSize: 12, fontWeight: '700'},
-  heroPanel: {
-    height: 208,
-    backgroundColor: '#000000',
-    position: 'relative',
-  },
+  courseBadgeText: {color: '#C4B5FD', fontSize: 12, fontWeight: '700'},
+  heroPanel: {height: 208, backgroundColor: '#000000', position: 'relative'},
   heroVideo: {width: '100%', height: '100%'},
   heroOverlay: {
     position: 'absolute',
@@ -658,15 +981,11 @@ const styles = StyleSheet.create({
     borderRadius: 26,
     backgroundColor: '#1E1B4B',
     borderWidth: 1.5,
-    borderColor: '#6C63FF',
+    borderColor: '#8B5CF6',
   },
-  placeholderTitle: {
-    color: '#FFFFFF',
-    fontSize: 15,
-    fontWeight: '700',
-  },
+  placeholderTitle: {color: '#FFFFFF', fontSize: 15, fontWeight: '700'},
   placeholderText: {
-    color: '#6B7280',
+    color: '#94A3B8',
     fontSize: 13,
     textAlign: 'center',
     lineHeight: 19,
@@ -679,32 +998,50 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
   modeBannerLabel: {
-    color: '#A5B4FC',
+    color: '#C4B5FD',
     fontSize: 12,
     fontWeight: '700',
     textTransform: 'uppercase',
     marginBottom: 4,
   },
-  modeBannerText: {
-    color: '#CBD5E1',
-    fontSize: 13,
-    lineHeight: 19,
-  },
-  banner: {
-    marginHorizontal: 14,
-    marginTop: 12,
-  },
-  bannerText: {
-    fontSize: 12,
-  },
+  modeBannerText: {color: '#CBD5E1', fontSize: 13, lineHeight: 19},
+  banner: {marginHorizontal: 14, marginTop: 12},
+  bannerText: {fontSize: 12},
   messageList: {flex: 1},
   msgContent: {padding: 14, paddingBottom: 6},
+  msgContentEmpty: {flexGrow: 1},
   listFooter: {height: 12},
-  msgRow: {
-    flexDirection: 'row',
-    marginBottom: 10,
-    alignItems: 'flex-end',
+  emptyStateCard: {
+    marginTop: 18,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: '#232348',
+    backgroundColor: '#101225',
+    paddingHorizontal: 20,
+    paddingVertical: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
   },
+  emptyEyebrow: {
+    color: '#A78BFA',
+    fontSize: 12,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+  },
+  emptyTitle: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  emptyText: {
+    color: '#94A3B8',
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: 'center',
+  },
+  msgRow: {flexDirection: 'row', marginBottom: 12, alignItems: 'flex-end'},
   msgRowUser: {justifyContent: 'flex-end'},
   msgRowAI: {justifyContent: 'flex-start'},
   botDot: {
@@ -715,58 +1052,56 @@ const styles = StyleSheet.create({
     marginRight: 8,
     marginBottom: 4,
   },
-  bubble: {maxWidth: '82%', borderRadius: 18, paddingHorizontal: 14, paddingVertical: 10},
+  bubble: {
+    maxWidth: '86%',
+    borderRadius: 20,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+  },
   bubbleUser: {
-    backgroundColor: '#6C63FF',
-    borderBottomRightRadius: 4,
+    backgroundColor: '#7C3AED',
+    borderBottomRightRadius: 6,
   },
   bubbleAI: {
     backgroundColor: '#12122A',
-    borderBottomLeftRadius: 4,
+    borderBottomLeftRadius: 6,
     borderWidth: 1,
-    borderColor: '#1E1E40',
+    borderColor: '#232348',
   },
   msgText: {fontSize: 15, lineHeight: 22},
   msgTextUser: {color: '#FFFFFF'},
-  msgTextAI: {color: '#E5E7EB'},
-  videoTag: {
-    color: '#A5B4FC',
+  inlineTypingRow: {flexDirection: 'row', alignItems: 'center', gap: 10},
+  inlineTypingText: {color: '#C4B5FD', fontSize: 13},
+  streamLabel: {
+    color: '#A78BFA',
     fontSize: 11,
     fontWeight: '700',
     marginTop: 8,
   },
-  timestamp: {fontSize: 10, color: '#6B7280', marginTop: 4, alignSelf: 'flex-end'},
-  typingRow: {paddingHorizontal: 14, paddingBottom: 6},
-  typingBubble: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    backgroundColor: '#12122A',
-    borderRadius: 18,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    alignSelf: 'flex-start',
-    borderWidth: 1,
-    borderColor: '#1E1E40',
+  videoTag: {
+    color: '#C4B5FD',
+    fontSize: 11,
+    fontWeight: '700',
+    marginTop: 8,
   },
-  typingText: {color: '#9CA3AF', fontSize: 13},
+  timestamp: {fontSize: 10, color: '#6B7280', marginTop: 6, alignSelf: 'flex-end'},
   suggestionsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 7,
+    gap: 8,
     paddingHorizontal: 14,
     paddingBottom: 8,
   },
   chip: {
     backgroundColor: '#1E1B4B',
-    borderRadius: 20,
+    borderRadius: 18,
     paddingHorizontal: 13,
-    paddingVertical: 7,
+    paddingVertical: 8,
     borderWidth: 1,
     borderColor: '#3730A3',
-    maxWidth: 220,
+    maxWidth: '100%',
   },
-  chipText: {color: '#A5B4FC', fontSize: 13},
+  chipText: {color: '#DDD6FE', fontSize: 13, lineHeight: 18},
   inputRow: {
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -785,15 +1120,15 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     color: '#FFFFFF',
     fontSize: 15,
-    maxHeight: 100,
+    maxHeight: 120,
     borderWidth: 1,
     borderColor: '#2A2A4A',
   },
   sendBtn: {
-    minWidth: 56,
+    minWidth: 58,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#6C63FF',
+    backgroundColor: '#7C3AED',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 14,

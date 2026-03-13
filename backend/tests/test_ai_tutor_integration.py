@@ -137,6 +137,38 @@ async def test_ask_tutor_alias(ac):
     assert data.get("course_id") is None
 
 
+@pytest.mark.asyncio
+async def test_ask_tutor_passes_current_session_history(ac):
+    headers = await _auth_header(ac)
+
+    with patch(
+        "app.routers.tutor.get_tutor_response",
+        new=AsyncMock(return_value="## Explanation\n\nStructured answer."),
+    ) as mocked_get_tutor_response:
+        resp = await ac.post(
+            "/ask-tutor",
+            json={
+                "message": "What about decorators in that example?",
+                "history": [
+                    {"role": "user", "content": "Show me a Python decorator."},
+                    {
+                        "role": "assistant",
+                        "content": "## Explanation\n\nA decorator wraps another function.",
+                    },
+                ],
+            },
+            headers=headers,
+        )
+
+    assert resp.status_code == 200, resp.text
+    mocked_get_tutor_response.assert_awaited_once()
+    history = mocked_get_tutor_response.await_args.kwargs["history"]
+    assert [(item.role, item.content) for item in history] == [
+        ("user", "Show me a Python decorator."),
+        ("assistant", "## Explanation\n\nA decorator wraps another function."),
+    ]
+
+
 # ---------------------------------------------------------------------------
 # Ollama provider unit test
 # ---------------------------------------------------------------------------
@@ -431,6 +463,14 @@ def test_config_has_ollama_settings():
     assert hasattr(settings, "OLLAMA_BASE_URL")
     assert hasattr(settings, "OLLAMA_MODEL")
     assert settings.OLLAMA_BASE_URL == "http://localhost:11434"
+
+
+def test_default_ollama_base_url_uses_host_gateway_in_docker(monkeypatch):
+    from app import config
+
+    monkeypatch.setattr(config.Path, "exists", lambda self: str(self) == "/.dockerenv")
+
+    assert config._default_ollama_base_url() == "http://host.docker.internal:11434"
 
 
 def test_config_has_kokoro_settings():

@@ -11,25 +11,51 @@ from app.database import get_db
 from app.models import Course, User
 from app.rag import retrieve_relevant_passages
 from app.routers.auth import get_current_user
-from app.schemas import AskTutorRequest, AskTutorResponse, TutorMessage, TutorResponse
+from app.schemas import (
+    AskTutorRequest,
+    AskTutorResponse,
+    TutorHistoryMessage,
+    TutorMessage,
+    TutorResponse,
+)
 from app.services.course_bootstrap import ensure_seed_courses, get_blueprint_by_slug
 
 
 router = APIRouter()
+MAX_HISTORY_MESSAGES = 12
+
+PROFESSIONAL_INSTRUCTOR_INSTRUCTION = (
+    "You are an expert instructor teaching a technical course. Explain concepts clearly and step-by-step. "
+    "Use simple language first, then add deeper technical detail. Give examples, analogies, and code snippets "
+    "when they help the student learn."
+)
 
 TUTOR_SCOPE_INSTRUCTION = (
     "Stay focused on the student's question, but go deep enough that they can build real understanding. "
-    "Prefer a clear structure, explain why things work, and avoid rushing past important intuition."
-)
-
-TEACHING_STYLE_INSTRUCTION = (
-    "You are an expert instructor teaching a course. Explain concepts step-by-step using clear language. "
-    "Provide examples when possible and aim to help the student truly understand the topic."
+    "Prefer clear intuition, explain why things work, and do not rush past important steps."
 )
 
 COURSE_MATERIAL_INSTRUCTION = (
     "When course material is provided, ground your answer in it first, synthesize across the passages, "
     "and clearly separate supported facts from any extra background knowledge."
+)
+
+CONVERSATION_MEMORY_INSTRUCTION = (
+    "Use the conversation history from the current course session to resolve follow-up references such as "
+    "'that example' or 'that step'. If the reference is still ambiguous, ask a short clarifying question."
+)
+
+RESPONSE_FORMAT_INSTRUCTION = (
+    "Respond in Markdown so the answer renders cleanly in the mobile chat UI. Use short paragraphs, bullet lists "
+    "for collections, and numbered steps for processes. When the topic is substantial, organize the answer with "
+    "sections such as '## Explanation', '## Example', '## Code Sample', and '## Key Takeaways'. "
+    "For programming topics, include a fenced code block with a practical example. If a section is not relevant, "
+    "skip it instead of forcing it."
+)
+
+DEPTH_INSTRUCTION = (
+    "Favor enough detail for genuine learning over overly short answers. End with a concise takeaway or next step "
+    "when it helps the student continue."
 )
 
 
@@ -75,27 +101,104 @@ def _build_rag_enhanced_prompt(
     return rag_block, joined
 
 
+def _normalize_history_item(
+    item: TutorHistoryMessage | Dict[str, Any],
+) -> Optional[Dict[str, str]]:
+    role = item.get("role") if isinstance(item, dict) else item.role
+    content = item.get("content") if isinstance(item, dict) else item.content
+
+    if role not in {"user", "assistant"}:
+        return None
+
+    if not isinstance(content, str) or not content.strip():
+        return None
+
+    return {
+        "role": role,
+        "content": content.strip(),
+    }
+
+
+def _prepare_conversation_history(
+    history: Optional[list[TutorHistoryMessage]],
+) -> list[Dict[str, str]]:
+    normalized = [
+        item
+        for item in (
+            _normalize_history_item(history_item)
+            for history_item in (history or [])
+        )
+        if item is not None
+    ]
+    return normalized[-MAX_HISTORY_MESSAGES:]
+
+
 def _system_prompt(course_context: Optional[str]) -> str:
     prompt = (
-        f"{TEACHING_STYLE_INSTRUCTION} {TUTOR_SCOPE_INSTRUCTION} {COURSE_MATERIAL_INSTRUCTION}"
+        f"{PROFESSIONAL_INSTRUCTOR_INSTRUCTION} {TUTOR_SCOPE_INSTRUCTION} "
+        f"{COURSE_MATERIAL_INSTRUCTION} {CONVERSATION_MEMORY_INSTRUCTION} "
+        f"{RESPONSE_FORMAT_INSTRUCTION} {DEPTH_INSTRUCTION}"
     )
     if course_context:
         prompt += f"\nCurrent course context: {course_context}"
     return prompt
 
 
-async def _get_gemini_tutor_response(
+def _build_llm_messages(
     message: str,
     course_context: Optional[str] = None,
+    course_id: Optional[int] = None,
+    history: Optional[list[TutorHistoryMessage]] = None,
+) -> list[Dict[str, str]]:
+    enriched_message, _ = _build_rag_enhanced_prompt(message, course_id)
+    provider_messages: list[Dict[str, str]] = [
+        {"role": "system", "content": _system_prompt(course_context)}
+    ]
+    provider_messages.extend(_prepare_conversation_history(history))
+    provider_messages.append({"role": "user", "content": enriched_message})
+    return provider_messages
+
+
+def _to_gemini_contents(messages: list[Dict[str, str]]) -> list[Dict[str, Any]]:
+    contents: list[Dict[str, Any]] = []
+    system_prompt = "\n\n".join(
+        item["content"] for item in messages if item["role"] == "system"
+    ).strip()
+
+    if system_prompt:
+        contents.append(
+            {
+                "role": "user",
+                "parts": [{"text": f"SYSTEM INSTRUCTIONS:\n{system_prompt}"}],
+            }
+        )
+
+    for item in messages:
+        if item["role"] == "system":
+            continue
+
+        contents.append(
+            {
+                "role": "model" if item["role"] == "assistant" else "user",
+                "parts": [{"text": item["content"]}],
+            }
+        )
+
+    return contents
+
+
+async def _get_gemini_tutor_response(
+    messages: list[Dict[str, str]],
 ) -> Optional[str]:
     if not settings.GEMINI_API_KEY:
         return None
 
     payload: Dict[str, Any] = {
-        "contents": [
-            {"role": "user", "parts": [{"text": _system_prompt(course_context)}]},
-            {"role": "user", "parts": [{"text": message}]},
-        ]
+        "contents": _to_gemini_contents(messages),
+        "generationConfig": {
+            "temperature": 0.4,
+            "maxOutputTokens": 900,
+        },
     }
 
     url = (
@@ -131,8 +234,7 @@ async def _get_gemini_tutor_response(
 
 
 async def _get_openai_tutor_response(
-    message: str,
-    course_context: Optional[str] = None,
+    messages: list[Dict[str, str]],
     api_key: Optional[str] = None,
 ) -> Optional[str]:
     api_key = api_key or settings.OPENAI_API_KEY
@@ -145,12 +247,9 @@ async def _get_openai_tutor_response(
         client = openai.OpenAI(api_key=api_key)
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": _system_prompt(course_context)},
-                {"role": "user", "content": message},
-            ],
-            max_tokens=500,
-            temperature=0.7,
+            messages=messages,
+            max_tokens=900,
+            temperature=0.4,
         )
         return response.choices[0].message.content
     except Exception:
@@ -158,8 +257,7 @@ async def _get_openai_tutor_response(
 
 
 async def _get_openrouter_tutor_response(
-    message: str,
-    course_context: Optional[str] = None,
+    messages: list[Dict[str, str]],
 ) -> Optional[str]:
     api_key = settings.OPENROUTER_API_KEY
     model = settings.OPENROUTER_MODEL
@@ -168,12 +266,9 @@ async def _get_openrouter_tutor_response(
 
     payload: Dict[str, Any] = {
         "model": model,
-        "messages": [
-            {"role": "system", "content": _system_prompt(course_context)},
-            {"role": "user", "content": message},
-        ],
-        "max_tokens": 500,
-        "temperature": 0.7,
+        "messages": messages,
+        "max_tokens": 900,
+        "temperature": 0.4,
     }
 
     headers = {
@@ -213,15 +308,11 @@ async def _get_openrouter_tutor_response(
 
 
 async def _get_ollama_tutor_response(
-    message: str,
-    course_context: Optional[str] = None,
+    messages: list[Dict[str, str]],
 ) -> Optional[str]:
     payload: Dict[str, Any] = {
         "model": settings.OLLAMA_MODEL,
-        "messages": [
-            {"role": "system", "content": _system_prompt(course_context)},
-            {"role": "user", "content": message},
-        ],
+        "messages": messages,
         "stream": False,
     }
 
@@ -245,33 +336,43 @@ async def get_tutor_response(
     course_context: str | None = None,
     api_key: str | None = None,
     course_id: int | None = None,
+    history: Optional[list[TutorHistoryMessage]] = None,
 ) -> str:
-    enriched_message, _ = _build_rag_enhanced_prompt(message, course_id)
+    messages = _build_llm_messages(
+        message,
+        course_context=course_context,
+        course_id=course_id,
+        history=history,
+    )
 
-    ollama_resp = await _get_ollama_tutor_response(enriched_message, course_context)
+    ollama_resp = await _get_ollama_tutor_response(messages)
     if ollama_resp:
         return ollama_resp
 
-    openrouter_resp = await _get_openrouter_tutor_response(enriched_message, course_context)
+    openrouter_resp = await _get_openrouter_tutor_response(messages)
     if openrouter_resp:
         return openrouter_resp
 
-    gemini_resp = await _get_gemini_tutor_response(enriched_message, course_context)
+    gemini_resp = await _get_gemini_tutor_response(messages)
     if gemini_resp:
         return gemini_resp
 
     openai_resp = await _get_openai_tutor_response(
-        enriched_message,
-        course_context,
+        messages,
         api_key=api_key,
     )
     if openai_resp:
         return openai_resp
 
     return (
-        "Here is a clear explanation: "
-        f"{message}. I will walk through it step by step, use simple language, "
-        "and give an example where helpful."
+        "## Tutor Unavailable\n\n"
+        "I could not reach a live AI provider, so I cannot generate a real tutoring answer right now.\n\n"
+        "## What To Check\n"
+        f"- Start Ollama and make sure the backend can reach it at `{settings.OLLAMA_BASE_URL}`.\n"
+        "- Or configure another provider such as OpenRouter, Gemini, or OpenAI.\n\n"
+        "## Key Takeaways\n"
+        "- Your app is running, but the language model provider is unavailable.\n"
+        "- Once a provider is reachable, the tutor will resume structured course answers."
     )
 
 
@@ -315,6 +416,7 @@ async def chat_with_tutor(
         tutor_message.message,
         course_context=course_context,
         course_id=course.id if course else tutor_message.course_id,
+        history=tutor_message.history,
     )
 
     return TutorResponse(
@@ -341,6 +443,7 @@ async def ask_tutor(
         request.message,
         course_context=course_context,
         course_id=course.id if course else request.course_id,
+        history=request.history,
     )
 
     return AskTutorResponse(
@@ -394,15 +497,16 @@ async def stream_tutor_response(
         if course:
             course_context = f"{course.title} - {course.subject}"
 
-    enriched_message, _ = _build_rag_enhanced_prompt(message, course_id)
+    stream_messages = _build_llm_messages(
+        message,
+        course_context=course_context,
+        course_id=course_id,
+    )
 
     async def _ollama_stream():
         payload: Dict[str, Any] = {
             "model": settings.OLLAMA_MODEL,
-            "messages": [
-                {"role": "system", "content": _system_prompt(course_context)},
-                {"role": "user", "content": enriched_message},
-            ],
+            "messages": stream_messages,
             "stream": True,
         }
         url = f"{settings.OLLAMA_BASE_URL}/api/chat"
@@ -422,7 +526,7 @@ async def stream_tutor_response(
             yield "data: [DONE]\n\n"
         except Exception:
             full = await get_tutor_response(
-                enriched_message,
+                message,
                 course_context=course_context,
                 course_id=course_id,
             )

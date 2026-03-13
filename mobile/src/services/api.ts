@@ -6,7 +6,12 @@ import axios, {
 } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NativeModules} from 'react-native';
-import {AskTutorResponse, AvatarCreateResponse, AvatarJob} from '../types';
+import {
+  AskTutorResponse,
+  AvatarCreateResponse,
+  AvatarJob,
+  TutorHistoryMessage,
+} from '../types';
 
 declare module 'axios' {
   export interface AxiosRequestConfig {
@@ -241,21 +246,29 @@ export const coursesAPI = {
 };
 
 export const tutorAPI = {
-  chat: (data: {message: string; courseId?: number; courseSlug?: string}) =>
-    apiClient.post<AskTutorResponse>('/ask-tutor', {
-      message: data.message,
-      course_id: data.courseId,
-      course_slug: data.courseSlug,
-    }),
-  askTutor: (data: {
+  chat: (data: {
     message: string;
     courseId?: number;
     courseSlug?: string;
+    history?: TutorHistoryMessage[];
   }) =>
     apiClient.post<AskTutorResponse>('/ask-tutor', {
       message: data.message,
       course_id: data.courseId,
       course_slug: data.courseSlug,
+      history: data.history,
+    }),
+  askTutor: (data: {
+    message: string;
+    courseId?: number;
+    courseSlug?: string;
+    history?: TutorHistoryMessage[];
+  }) =>
+    apiClient.post<AskTutorResponse>('/ask-tutor', {
+      message: data.message,
+      course_id: data.courseId,
+      course_slug: data.courseSlug,
+      history: data.history,
     }),
 };
 
