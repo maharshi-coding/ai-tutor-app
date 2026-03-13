@@ -1,0 +1,154 @@
+# Types of AI Based on Capabilities
+
+Source: GeeksforGeeks Artificial Intelligence Tutorial
+Original URL: https://www.geeksforgeeks.org/artificial-intelligence/types-of-ai-based-on-capabilities/
+Original Path: https://www.geeksforgeeks.org/artificial-intelligence/types-of-ai-based-on-capabilities/
+Course: Artificial Intelligence
+
+Types of AI Based on Capabilities
+
+Last Updated : 4 Jul, 2025
+
+Artificial Intelligence (AI) is transforming industries and understanding its different types is important. AI can be classified into three categories and each type represents a different level of cognitive ability. In this article, we will explore these types to highlight their unique features and applications.
+
+1. Narrow AI
+
+Narrow AI is also known as Weak AI which refers to AI systems that are designed to perform a specific task or a narrow range of tasks. These AI systems are highly specialized and operate within a limited context and excels at the specific functions for which they are programmed.
+
+Key Characteristics of Narrow AI
+
+- Task-Specific: Narrow AI is built to perform particular tasks such as facial recognition, language translation or playing chess.
+
+- No Generalization: These systems cannot generalize their knowledge or apply it to tasks outside their designated function.
+
+- Human-Like Performance: In their specialized domains, Narrow AI can perform at or even surpass human levels but they do not possess understanding or consciousness.
+
+Examples of Narrow AI
+
+- Voice Assistants: These AI-powered assistants like Siri or Alexa can perform a wide range of tasks such as setting reminders, answering queries and controlling smart home devices but they are limited to their programmed capabilities.
+
+- Recommendation Systems: AI-driven recommendation engines used by platforms like Netflix and Amazon suggest products or content based on user behavior and preferences but their functionality is confined to this specific domain.
+
+2. General AI
+
+General AI is also known as Strong AI which refers to AI systems that possess the ability to understand, learn and apply knowledge across a wide range of tasks—similar to human cognitive abilities. Unlike Narrow AI, General AI can perform any intellectual task that a human can do with the ability to generalize knowledge and apply it to different contexts.
+
+Key Characteristics of General AI
+
+- Broad Intelligence: General AI would be able to perform a variety of tasks, not just one, making it versatile and adaptable.
+
+- Human-Like Reasoning: It would have the ability to reason, solve problems and make decisions just like a human being.
+
+- Self-Learning: General AI would be capable of learning and improving over time, adapting to new situations and acquiring new skills without human intervention.
+
+As of now, General AI remains theoretical and has not yet been achieved. Researchers are working on creating AI systems that could one day reach this level of capability but it is considered a long-term goal in AI development.
+
+3. Super Intelligent AI
+
+Super Intelligent AI represents the most advanced form of AI, surpassing human intelligence in all aspects including creativity, problem-solving and emotional intelligence. This type of AI would be capable of outperforming the brightest human minds in any field, from science to art to social skills.
+
+Key Characteristics of Superintelligent AI
+
+- Surpasses Human Intelligence: Superintelligent AI would exceed human cognitive abilities, potentially making it the most powerful tool or threat in existence.
+
+- Autonomous Decision-Making: This AI would be able to make decisions without human input and its reasoning and actions could be beyond human comprehension.
+
+- Ethical and Existential Concerns: The development of Superintelligent AI raises significant ethical questions including the potential risks it could pose to humanity if not properly controlled.
+
+Like General AI, Superintelligent AI is still a concept explored in theory and science fiction. Its potential development is a subject of intense debate among AI researchers, ethicists and futurists.
+
+Comparision Table Based on AI Capabilities
+
+Feature Narrow AI General AI Superintelligent AI
+
+Learning Ability Learns only for specific tasks Learns and applies across domains Self-learning and self-improving
+
+Generalization No generalization High generalization Near-perfect transfer across fields
+
+Self-Awareness None Theoretical Hypothetical and full self-awareness
+
+Existence Real and widely used Not yet achieved Theoretical/fictional
+
+Scope Narrow and limited Broad and flexible Unlimited and autonomous
+
+Artificial Intelligence
+
+AI-ML-DS
+
+Introduction to AI
+
+- What is Artificial Intelligence (AI) 10 min read
+
+- Types of Artificial Intelligence (AI) 6 min read
+
+- Types of AI Based on Functionalities 4 min read
+
+- Agents in AI 7 min read
+
+- Artificial intelligence vs Machine Learning vs Deep Learning 3 min read
+
+- Problem Solving in Artificial Intelligence 6 min read
+
+- Top 20 Applications of Artificial Intelligence (AI) in 2025 13 min read
+
+AI Concepts
+
+- Search Algorithms in AI 6 min read
+
+- Local Search Algorithm in Artificial Intelligence 7 min read
+
+- Adversarial Search Algorithms in Artificial Intelligence (AI) 15+ min read
+
+- Constraint Satisfaction Problems (CSP) in Artificial Intelligence 10 min read
+
+- Knowledge Representation in AI 9 min read
+
+- First-Order Logic in Artificial Intelligence 4 min read
+
+- Reasoning Mechanisms in AI 9 min read
+
+Machine Learning in AI
+
+- Machine Learning Tutorial 5 min read
+
+- Deep Learning Tutorial 2 min read
+
+- Natural Language Processing (NLP) Tutorial 2 min read
+
+- Computer Vision Tutorial 3 min read
+
+Robotics and AI
+
+- Artificial Intelligence in Robotics 5 min read
+
+- What is Robotics Process Automation 8 min read
+
+- Automated Planning in AI 8 min read
+
+- AI in Transportation 8 min read
+
+- AI in Manufacturing : Revolutionizing the Industry 6 min read
+
+Generative AI
+
+- What is Generative AI? 7 min read
+
+- Generative Adversarial Network (GAN) 11 min read
+
+- Cycle Generative Adversarial Network (CycleGAN) 7 min read
+
+- StyleGAN - Style Generative Adversarial Networks 5 min read
+
+- Introduction to Generative Pre-trained Transformer (GPT) 4 min read
+
+- BERT Model - NLP 12 min read
+
+- Generative AI Applications 7 min read
+
+AI Practice
+
+- Top Artificial Intelligence(AI) Interview Questions and Answers 15+ min read
+
+- Top Generative AI and LLM Interview Question with Answer 15+ min read
+
+- 30+ Best Artificial Intelligence Project Ideas with Source Code [2026 Updated] 15+ min read

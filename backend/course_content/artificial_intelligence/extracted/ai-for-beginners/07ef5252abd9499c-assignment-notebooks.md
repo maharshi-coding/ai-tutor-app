@@ -1,0 +1,10 @@
+# Assignment: Notebooks
+
+Source: AI for Beginners
+Original URL: https://github.com/microsoft/AI-For-Beginners/blob/HEAD/lessons/5-NLP/13-TextRep/assignment.md
+Original Path: lessons/5-NLP/13-TextRep/assignment.md
+Course: Artificial Intelligence
+
+# Assignment: Notebooks
+
+Using the notebooks associated to this lesson (either the PyTorch or the TensorFlow version), rerun them using your own dataset, perhaps one from Kaggle, used with attribution. Rewrite the notebook to underline your own findings. Try some innovative datasets that might prove surprising, such as [this one about UFO sightings](https://www.kaggle.com/datasets/NUFORC/ufo-sightings) from NUFORC.

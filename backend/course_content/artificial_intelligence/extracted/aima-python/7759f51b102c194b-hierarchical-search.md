@@ -1,0 +1,121 @@
+# Hierarchical Search
+
+Source: AIMA Python
+Original URL: https://github.com/aimacode/aima-python/blob/HEAD/planning_hierarchical_search.ipynb
+Original Path: planning_hierarchical_search.ipynb
+Course: Artificial Intelligence
+
+## Hierarchical search
+
+Hierarchical search is a breadth-first implementation of hierarchical forward planning search in the space of refinements. (i.e. repeatedly choose an HLA in the current plan and replace it with one of its refinements, until the plan achieves the goal.)
+
+<br>
+The algorithms input is: problem and hierarchy
+- __problem__: is of type Problem
+- __hierarchy__: is a dictionary consisting of all the actions and the order in which they are performed.
+<br>
+
+In top level call, initialPlan contains [act] (i.e. is the action to be performed)
+
+```python
+psource(Problem.hierarchical_search)
+```
+
+Output:
+```text
+<IPython.core.display.HTML object>
+```
+
+## Example
+
+Suppose that somebody wants to get to the airport.
+The possible ways to do so is either get a taxi, or drive to the airport. <br>
+Those two actions have some preconditions and some effects.
+If you get the taxi, you need to have cash, whereas if you drive you need to have a car. <br>
+Thus we define the following hierarchy of possible actions.
+
+##### hierarchy
+
+```python
+library = {
+'HLA': ['Go(Home,SFO)', 'Go(Home,SFO)', 'Drive(Home, SFOLongTermParking)', 'Shuttle(SFOLongTermParking, SFO)', 'Taxi(Home, SFO)'],
+'steps': [['Drive(Home, SFOLongTermParking)', 'Shuttle(SFOLongTermParking, SFO)'], ['Taxi(Home, SFO)'], [], [], []],
+'precond': [['At(Home) & Have(Car)'], ['At(Home)'], ['At(Home) & Have(Car)'], ['At(SFOLongTermParking)'], ['At(Home)']],
+'effect': [['At(SFO) & ~At(Home)'], ['At(SFO) & ~At(Home) & ~Have(Cash)'], ['At(SFOLongTermParking) & ~At(Home)'], ['At(SFO) & ~At(LongTermParking)'], ['At(SFO) & ~At(Home) & ~Have(Cash)']] }
+```
+
+the possible actions are the following:
+
+```python
+go_SFO = HLA('Go(Home,SFO)', precond='At(Home)', effect='At(SFO) & ~At(Home)')
+taxi_SFO = HLA('Taxi(Home,SFO)', precond='At(Home)', effect='At(SFO) & ~At(Home) & ~Have(Cash)')
+drive_SFOLongTermParking = HLA('Drive(Home, SFOLongTermParking)', 'At(Home) & Have(Car)','At(SFOLongTermParking) & ~At(Home)' )
+shuttle_SFO = HLA('Shuttle(SFOLongTermParking, SFO)', 'At(SFOLongTermParking)', 'At(SFO) & ~At(LongTermParking)')
+```
+
+Suppose that (our preconditionds are that) we are Home and we have cash and car and our goal is to get to SFO and maintain our cash, and our possible actions are the above. <br>
+##### Then our problem is:
+
+```python
+prob = Problem('At(Home) & Have(Cash) & Have(Car)', 'At(SFO) & Have(Cash)', [go_SFO])
+```
+
+##### Refinements
+
+The refinements of the action Go(Home, SFO), are defined as: <br>
+['Drive(Home,SFOLongTermParking)', 'Shuttle(SFOLongTermParking, SFO)'], ['Taxi(Home, SFO)']
+
+```python
+for sequence in Problem.refinements(go_SFO, prob, library):
+print (sequence)
+print([x.__dict__ for x in sequence ], '\n')
+```
+
+Output:
+```text
+[HLA(Drive(Home, SFOLongTermParking)), HLA(Shuttle(SFOLongTermParking, SFO))]
+[{'completed': False, 'args': (Home, SFOLongTermParking), 'name': 'Drive', 'uses': {}, 'duration': 0, 'effect': [At(SFOLongTermParking), NotAt(Home)], 'consumes': {}, 'precond': [At(Home), Have(Car)]}, {'completed': False, 'args': (SFOLongTermParking, SFO), 'name': 'Shuttle', 'uses': {}, 'duration': 0, 'effect': [At(SFO), NotAt(LongTermParking)], 'consumes': {}, 'precond': [At(SFOLongTermParking)]}]
+
+[HLA(Taxi(Home, SFO))]
+[{'completed': False, 'args': (Home, SFO), 'name': 'Taxi', 'uses': {}, 'duration': 0, 'effect': [At(SFO), NotAt(Home), NotHave(Cash)], 'consumes': {}, 'precond': [At(Home)]}]
+```
+
+Run the hierarchical search
+##### Top level call
+
+```python
+plan= Problem.hierarchical_search(prob, library)
+print (plan, '\n')
+print ([x.__dict__ for x in plan])
+```
+
+Output:
+```text
+[HLA(Drive(Home, SFOLongTermParking)), HLA(Shuttle(SFOLongTermParking, SFO))]
+
+[{'completed': False, 'args': (Home, SFOLongTermParking), 'name': 'Drive', 'uses': {}, 'duration': 0, 'effect': [At(SFOLongTermParking), NotAt(Home)], 'consumes': {}, 'precond': [At(Home), Have(Car)]}, {'completed': False, 'args': (SFOLongTermParking, SFO), 'name': 'Shuttle', 'uses': {}, 'duration': 0, 'effect': [At(SFO), NotAt(LongTermParking)], 'consumes': {}, 'precond': [At(SFOLongTermParking)]}]
+```
+
+## Example 2
+
+```python
+library_2 = {
+'HLA': ['Go(Home,SFO)', 'Go(Home,SFO)', 'Bus(Home, MetroStop)', 'Metro(MetroStop, SFO)' , 'Metro(MetroStop, SFO)', 'Metro1(MetroStop, SFO)', 'Metro2(MetroStop, SFO)' ,'Taxi(Home, SFO)'],
+'steps': [['Bus(Home, MetroStop)', 'Metro(MetroStop, SFO)'], ['Taxi(Home, SFO)'], [], ['Metro1(MetroStop, SFO)'], ['Metro2(MetroStop, SFO)'],[],[],[]],
+'precond': [['At(Home)'], ['At(Home)'], ['At(Home)'], ['At(MetroStop)'], ['At(MetroStop)'],['At(MetroStop)'], ['At(MetroStop)'] ,['At(Home) & Have(Cash)']],
+'effect': [['At(SFO) & ~At(Home)'], ['At(SFO) & ~At(Home) & ~Have(Cash)'], ['At(MetroStop) & ~At(Home)'], ['At(SFO) & ~At(MetroStop)'], ['At(SFO) & ~At(MetroStop)'], ['At(SFO) & ~At(MetroStop)'] , ['At(SFO) & ~At(MetroStop)'] ,['At(SFO) & ~At(Home) & ~Have(Cash)']]
+}
+```
+
+```python
+plan_2 = Problem.hierarchical_search(prob, library_2)
+print(plan_2, '\n')
+print([x.__dict__ for x in plan_2])
+```
+
+Output:
+```text
+[HLA(Bus(Home, MetroStop)), HLA(Metro1(MetroStop, SFO))]
+
+[{'completed': False, 'args': (Home, MetroStop), 'name': 'Bus', 'uses': {}, 'duration': 0, 'effect': [At(MetroStop), NotAt(Home)], 'consumes': {}, 'precond': [At(Home)]}, {'completed': False, 'args': (MetroStop, SFO), 'name': 'Metro1', 'uses': {}, 'duration': 0, 'effect': [At(SFO), NotAt(MetroStop)], 'consumes': {}, 'precond': [At(MetroStop)]}]
+```

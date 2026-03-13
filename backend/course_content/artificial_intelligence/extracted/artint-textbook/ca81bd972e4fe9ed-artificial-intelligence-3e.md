@@ -1,0 +1,43 @@
+# Artificial Intelligence 3E
+
+Source: Artificial Intelligence: Foundations of Computational Agents
+Original URL: https://artint.info/3e/html/ArtInt3e.Ch5.html
+Original Path: https://artint.info/3e/html/ArtInt3e.Ch5.html
+Course: Artificial Intelligence
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+Chapter 5 Propositions and Inference
+
+For when I am presented with a false theorem, I do not need to examine
+or even to know the demonstration, since I shall discover its falsity
+a posteriori by means of an easy experiment, that is, by a
+calculation, costing no more than paper and ink, which will show the
+error no matter how small it is …
+
+And if someone would doubt my results, I should say to him: “Let us calculate, Sir,” and thus by taking to pen and ink, we should soon settle the question.
+
+– Gottfried Wilhelm Leibniz [ 1677 ]
+
+This chapter considers simple forms of reasoning in terms of
+propositions – statements that can be true or
+false. Some reasoning includes model finding, finding logical
+consequences, and various forms of hypothetical reasoning. Semantics
+forms the foundations of specification of facts, reasoning, and debugging.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

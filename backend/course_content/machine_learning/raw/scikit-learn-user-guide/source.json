@@ -1,0 +1,16 @@
+{
+  "id": "scikit-learn-user-guide",
+  "type": "web",
+  "title": "scikit-learn User Guide",
+  "description": "Official reference-style explanations for core machine learning methods.",
+  "license": "BSD documentation",
+  "seedUrls": [
+    "https://scikit-learn.org/stable/user_guide.html"
+  ],
+  "allowPrefixes": [
+    "https://scikit-learn.org/stable/user_guide.html",
+    "https://scikit-learn.org/stable/modules/"
+  ],
+  "maxPages": 44,
+  "documentCount": 44
+}

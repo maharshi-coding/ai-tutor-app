@@ -1,0 +1,73 @@
+# Neural networks
+
+Source: Google Machine Learning Crash Course
+Original URL: https://developers.google.com/machine-learning/crash-course/neural-networks
+Original Path: https://developers.google.com/machine-learning/crash-course/neural-networks
+Course: Machine Learning
+
+Neural networks
+
+Stay organized with collections
+
+Save and categorize content based on your preferences.
+
+You may recall from the
+Feature cross exercises
+in the Categorical data module ,
+that the following classification problem is nonlinear:
+
+Figure 1. Nonlinear classification problem. A linear function cannot
+cleanly separate all the blue dots from the orange dots.
+
+"Nonlinear" means that you can't accurately predict a label with a
+model of the form \(b + w_1x_1 + w_2x_2\). In other words, the
+"decision surface" is not a line.
+
+However, if we perform a feature cross on our features $x_1$ and $x_2$, we can
+then represent the nonlinear relationship between the two features using a
+linear model :
+$b + w_1x_1 + w_2x_2 + w_3x_3$ where $x_3$ is the feature cross between
+$x_1$ and $x_2$:
+
+Figure 2. By adding the feature cross
+x 1 x 2 , the linear model can learn
+a hyperbolic shape that separates the blue dots from the orange dots.
+
+Now consider the following dataset:
+
+Figure 3. A more difficult nonlinear classification problem.
+
+You may also recall from the Feature cross exercises
+that determining the correct feature crosses to fit a linear model to this data
+took a bit more effort and experimentation.
+
+But what if you didn't have to do all that experimentation yourself?
+Neural networks are a family
+of model architectures designed to find
+nonlinear
+patterns in data. During training of a neural network, the
+model automatically
+learns the optimal feature crosses to perform on the input data to minimize
+loss.
+
+In the following sections, we'll take a closer look at how neural networks work.
+
+Help Center
+
+arrow_back
+
+Test your knowledge (10 min)
+
+Nodes and hidden layers (15 min)
+
+arrow_forward
+
+Send feedback
+
+Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License , and code samples are licensed under the Apache 2.0 License . For details, see the Google Developers Site Policies . Java is a registered trademark of Oracle and/or its affiliates.
+
+Last updated 2025-08-25 UTC.
+
+Need to tell us more?
+
+[[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2025-08-25 UTC."],[],[]]

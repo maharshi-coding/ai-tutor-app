@@ -1,0 +1,3269 @@
+<!Doctype html>
+<html class="no-js" lang="en-US">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff" />
+
+  <title>Python Built-in Functions | Programiz</title>
+  <link rel="shortcut icon" href="/sites/tutorial2program/files/favicon.png" />
+  <link type="text/css" rel="stylesheet" href="/sites/tutorial2program/files/advagg_css/css__mysPObnlf7sDBgeQjlrXf1yv3fC954UZOzn958PC54k__fS7C9ll6mNiJFwhOSFLSJcJvmwE0iGoU2QeYnMqoBr4__bCS_vRPSPhWjQrSwUudaIT6Apl9ThEOgdjF4W3y9VhA.css" media="all" />
+
+  <!--[if IE]><![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Drupal 7 (http://drupal.org)" />
+<link rel="canonical" href="https://www.programiz.com/python-programming/methods/built-in" />
+<link rel="shortlink" href="https://www.programiz.com/python-programming/methods/built-in" />
+<script>
+  var url = window.location.href;
+  window.googletag = window.googletag || {cmd: []};
+  window.googletag.cmd.push(function() {
+      switch (true) {
+          case url.includes("/python-programming/numpy"):
+              window.googletag.pubads().setTargeting('prog_lang', 'numpy');
+              break;
+          case url.includes("/sql"):
+              window.googletag.pubads().setTargeting('prog_lang', 'sql');
+              break;
+          case url.includes("/c-programming"):
+              window.googletag.pubads().setTargeting('prog_lang', 'c_programming');
+              break;
+          case url.includes("/cpp-programming"):
+              window.googletag.pubads().setTargeting('prog_lang', 'c_plus_plus');
+              break;
+          case url.includes("/csharp-programming"):
+              window.googletag.pubads().setTargeting('prog_lang', 'c_sharp_lang');
+              break;
+          case url.includes("/dsa"):
+              window.googletag.pubads().setTargeting('prog_lang', 'dsa');
+              break;
+          case url.includes("/java-programming"):
+              window.googletag.pubads().setTargeting('prog_lang', 'java');
+              break;
+          case url.includes("/javascript"):
+              window.googletag.pubads().setTargeting('prog_lang', 'javascript');
+              break;
+          case url.includes("/kotlin-programming"):
+              window.googletag.pubads().setTargeting('prog_lang', 'kotlin');
+              break;
+          case url.includes("/python-programming"):
+              window.googletag.pubads().setTargeting('prog_lang', 'python');
+              break;
+          case url.includes("/swift-programming"):
+              window.googletag.pubads().setTargeting('prog_lang', 'swift');
+              break;
+      }
+  });
+</script>
+
+<script src="https://cmp.uniconsent.com/v2/stub.min.js"></script>
+<script async src='https://cmp.uniconsent.com/v2/a8d3ae4937/cmp.js'></script>
+<script type="text/javascript">
+    window.googletag = window.googletag || {};
+    window.googletag.cmd = window.googletag.cmd || [];
+    window.googletag.cmd.push(function () {
+        window.googletag.pubads().enableAsyncRendering();
+        window.googletag.pubads().disableInitialLoad();
+    });
+    (adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;
+</script>
+<script>
+    __tcfapi("addEventListener", 2, function (tcData, success) {
+        if (success && tcData.unicLoad === true) {
+            if (!window._initAds) {
+                window._initAds = true;
+                var script = document.createElement('script');
+                script.async = true;
+                script.src = '//dsh7ky7308k4b.cloudfront.net/publishers/Programizcomnew.min.js';
+                document.head.appendChild(script);
+
+                script = document.createElement('script');
+                script.async = true;
+                script.src = '//btloader.com/tag?o=5184339635601408&upapi=true';
+                document.head.appendChild(script);
+            }
+        }
+    });
+</script>
+
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKXT7MH');</script>
+<style>.pub-ad{z-index:0;clear:both;position:relative;text-align:center}.pub-ad::before{content:'ADVERTISEMENTS';display:block;position:absolute;top:-20px;left:0;right:0;height:20px;font-size:9px;line-height:20px;letter-spacing:1px;color:#bcbfc5}</style>
+<!-- Facebook Pixel Code -->
+<script async>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '123000288571689');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=123000288571689&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+<style>.adSpinner {display: none;}</style>
+  
+<!--[if lte IE 9]>
+<script type="text/javascript" src="/sites/tutorial2program/files/advagg_js/js__2nu-f_-MK33dRIQaWIdLP84wUiGzIZwBgGaMto4f2kY__2pkqXjBO9pMF06nUvX11DkMECNCM7M-5Qm_bWm0bC9k__bCS_vRPSPhWjQrSwUudaIT6Apl9ThEOgdjF4W3y9VhA.js#ie9-" onload="if(jQuery.isFunction(jQuery.holdReady)){jQuery.holdReady(true);}"></script>
+<![endif]-->
+
+<!--[if gt IE 9]>
+<script type="text/javascript" src="/sites/tutorial2program/files/advagg_js/js__2nu-f_-MK33dRIQaWIdLP84wUiGzIZwBgGaMto4f2kY__2pkqXjBO9pMF06nUvX11DkMECNCM7M-5Qm_bWm0bC9k__bCS_vRPSPhWjQrSwUudaIT6Apl9ThEOgdjF4W3y9VhA.js#ie10+" defer="defer" onload="if(jQuery.isFunction(jQuery.holdReady)){jQuery.holdReady(true);}"></script>
+<![endif]-->
+
+<!--[if !IE]><!-->
+<script type="text/javascript" src="/sites/tutorial2program/files/advagg_js/js__2nu-f_-MK33dRIQaWIdLP84wUiGzIZwBgGaMto4f2kY__2pkqXjBO9pMF06nUvX11DkMECNCM7M-5Qm_bWm0bC9k__bCS_vRPSPhWjQrSwUudaIT6Apl9ThEOgdjF4W3y9VhA.js" defer="defer" onload="if(jQuery.isFunction(jQuery.holdReady)){jQuery.holdReady(true);}"></script>
+<!--<![endif]-->
+<script type="text/javascript" src="/sites/tutorial2program/files/advagg_js/js__ZyeOaiFuDejQQbhUV7yg7atYZnj4WLfH77o0scv4068__jeShjS1-sEwOx4dbB-NSBsCnxWfNslS1Nkgx4CZngGA__bCS_vRPSPhWjQrSwUudaIT6Apl9ThEOgdjF4W3y9VhA.js" defer="defer" onload="
+function advagg_mod_4() {
+  // Count how many times this function is called.
+  advagg_mod_4.count = ++advagg_mod_4.count || 1;
+  try {
+    if (advagg_mod_4.count <= 40) {
+      init_drupal_core_settings();
+
+      // Set this to 100 so that this function only runs once.
+      advagg_mod_4.count = 100;
+    }
+  }
+  catch(e) {
+    if (advagg_mod_4.count >= 40) {
+      // Throw the exception if this still fails after running 40 times.
+      throw e;
+    }
+    else {
+      // Try again in 1 ms.
+      window.setTimeout(advagg_mod_4, 1);
+    }
+  }
+}
+function advagg_mod_4_check() {
+  if (window.init_drupal_core_settings && window.jQuery && window.Drupal) {
+    advagg_mod_4();
+  }
+  else {
+    window.setTimeout(advagg_mod_4_check, 1);
+  }
+}
+advagg_mod_4_check();"></script>
+<script type="text/javascript" src="/sites/tutorial2program/files/advagg_js/js__UW4URQsON5h-xjwepC-HoW32RCC10thhh4f0DQ1P8z4__V2RYL4VZntPWB_PMJnR7_8tZaKLRfCHmVvwTgS8C0iM__bCS_vRPSPhWjQrSwUudaIT6Apl9ThEOgdjF4W3y9VhA.js" defer="defer"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+function init_drupal_core_settings() {jQuery.extend(Drupal.settings,{"basePath":"\/","pathPrefix":"","setHasJsCookie":0,"ajaxPageState":{"theme":"programiz","theme_token":"7hzNK_yQ2Y3J0wpbkwiHPdRE2nVd_QFHIkijJn5CO4Y","jquery_version":"1.10","css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"sites\/all\/modules\/programiz_pro_challenges\/css\/programiz_pro_challenges.css":1,"sites\/all\/modules\/programiz_pro_cornerstone_banner\/css\/programiz_pro_cornerstone_banner.css":1,"sites\/all\/modules\/programiz_rate_share\/rate_share.css":1,"modules\/user\/user.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/themes\/programiz\/lib\/highlightjs\/highlight.min.css":1,"sites\/all\/themes\/programiz\/lib\/mautic\/mautic.css":1,"sites\/all\/themes\/programiz\/dist\/main.css":1},"js":{"sites\/all\/modules\/programiz_pro_challenges\/js\/init_monaco.js":1,"sites\/all\/modules\/programiz_rate_share\/programiz_rate_share.js":1,"sites\/all\/modules\/ctools\/js\/auto-submit.js":1,"sites\/all\/modules\/views\/js\/base.js":1,"misc\/progress.js":1,"sites\/all\/modules\/views\/js\/ajax_view.js":1,"sites\/all\/themes\/programiz\/dist\/main.min.js":1,"sites\/all\/themes\/programiz\/lib\/highlightjs\/highlight.min.js":1,"sites\/all\/themes\/programiz\/lib\/mautic\/mautic.js":1,"sites\/all\/modules\/jquery_update\/replace\/jquery\/1.10\/jquery.min.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery-html-prefilter-3.5.0-backport.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/modules\/jquery_update\/replace\/ui\/external\/jquery.cookie.js":1,"sites\/all\/modules\/jquery_update\/replace\/misc\/jquery.form.min.js":1,"misc\/ajax.js":1,"sites\/all\/modules\/jquery_update\/js\/jquery_update.js":1}},"urlIsAjaxTrusted":{"\/python-programming\/methods\/built-in":true,"\/views\/ajax":true},"views":{"ajax_path":"\/views\/ajax","ajaxViews":{"views_dom_id:caa78beeea7fbfaec94a602d9d953822":{"view_name":"python_list_library_methods_list","view_display_id":"page_5","view_args":"","view_path":"python-programming\/methods\/built-in","view_base_path":"python-programming\/methods\/built-in","view_dom_id":"caa78beeea7fbfaec94a602d9d953822","pager_element":0}}},"better_exposed_filters":{"views":{"python_list_library_methods_list":{"displays":{"page_5":{"filters":{"search":{"required":false}}}}}}}}); 
+if(jQuery.isFunction(jQuery.holdReady)){jQuery.holdReady(false);}} if(window.jQuery && window.Drupal){init_drupal_core_settings();}
+//--><!]]>
+</script>
+</head>
+
+<body>
+    <div class="main--backdrop"></div>
+
+<main class="has-notice-bar-top">
+
+  <header class="main-nav d-flex flex-column justify-content-center">
+            
+    
+    
+    
+    
+<link href="https://fonts.googleapis.com/css2?family=Allura&amp;family=Chakra+Petch:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+.notice-bar-top {
+height: unset !important;
+}
+
+.notice-bar-top--desktop {
+display: none;
+}
+
+/* Banner Base Styles */
+.notice-bar-top__link {
+display: block;
+text-decoration: none;
+background:                  linear-gradient(89.97deg, #090340 4.06%, #0F0345 29.55%, #150349 58.01%, #1B054D 74.52%, #2D134E 91.07%, #32194E 99.97%);
+padding: 16px;
+transition: opacity 0.3s ease;
+z-index: 1;
+}
+
+.notice-bar-top__link:hover {
+text-decoration: none;
+}
+
+.notice-bar-top__wrapper {
+z-index: 1;
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+justify-content: space-between;
+gap: 12px;
+margin: 0 auto;
+padding: 0;
+}
+
+/* Left Section - Badges */
+.notice-bar-top__wrapper__left {
+display: flex;
+align-items: center;
+width: 100%;
+}
+
+.notice-bar-top__badge--primary {
+background:                  linear-gradient(90deg, #667EEA 0%, #764BA2 100%);
+color: #FFFFFF;
+box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.notice-bar-top__badge--secondary {
+background:                  linear-gradient(89.97deg, #090340 4.06%, #0F0345 29.55%, #150349 58.01%, #1B054D 74.52%, #2D134E 91.07%, #32194E 99.97%);
+color:             #FFFFFF;
+outline: 2px solid #fff;
+}
+
+/* Badges and Discount Column */
+.notice-bar-top__badges-discount-col {
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+
+.notice-bar-top__badges {
+display: flex;
+align-items: center;
+}
+
+.notice-bar-top__badges-row {
+display: flex;
+justify-content: flex-start;
+align-items: center;
+gap: 8px;
+}
+
+.notice-bar-top__discount {
+font-size: 32px;
+font-weight: 600;
+color:             #FFFFFF;
+white-space: nowrap;
+flex-shrink: 0;
+}
+
+/* Center Section - Content & Timer */
+.notice-bar-top__wrapper__center {
+display: flex;
+align-items: flex-start;
+gap: 8px;
+padding-left: 0;
+width: 100%;
+overflow: unset !important;
+}
+
+.notice-bar-top__message {
+color: #FFFFFFAB;
+font-size: 16px;
+font-weight: 500;
+line-height: 1.4;
+text-align: left;
+}
+
+.notice-bar-top__message.is-mobile {
+display: none;
+}
+
+/* Hide both timers by default */
+.notice-bar-top__timer--mobile {
+display: none;
+}
+
+.notice-bar-top__timer--tablet {
+display: none;
+}
+
+.notice-bar-top__timer {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 4px;
+padding: 8px 12px;
+color: #ffffff;
+background: #ffffff33;
+border-radius: 4px;
+border: 1px solid #ffffff33;
+height: 100%;
+width: 160px;
+font-size: 14px;
+text-wrap: nowrap;
+}
+
+
+.notice-bar-top__timer-value {
+font-size: 16px;
+font-weight: 600;
+}
+
+/* Content Wrapper */
+.notice-bar-top__content-wrapper {
+display: flex;
+justify-content: space-between;
+gap: 8px;
+width: 100%;
+}
+
+.notice-bar-top--mobile .notice-bar-top__link,
+.notice-bar-top--mobile .notice-bar-top__wrapper {
+position: unset;
+}
+
+/* Right Section - CTA */
+.notice-bar-top__wrapper__right {
+display: flex;
+align-items: center;
+gap: 16px;
+flex-shrink: 0;
+}
+
+.notice-bar-top__cta {
+background:                  #0556F3;
+color:             #FFFFFF;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 12px 20px;
+border-radius: 4px;
+font-size: 16px;
+font-weight: 500;
+line-height: 1.5;
+transition: all 0.3s ease;
+white-space: nowrap;
+box-shadow:                  0 4px 12px rgba(5, 86, 243, 0.3);
+}
+
+/* CTA desktop/mobile variants – show by parent wrapper */
+.notice-bar-top--desktop .notice-bar-top__cta--mobile {
+  display: none;
+}
+
+.notice-bar-top--mobile .notice-bar-top__cta--desktop {
+  display: none;
+}
+
+/* Mobile/Tablet: Hide main right CTA, show CTA inside center wrapper */
+.notice-bar-top__wrapper > .notice-bar-top__wrapper__right {
+display: none;
+}
+
+.notice-bar-top__wrapper__center .notice-bar-top__wrapper__right {
+display: block;
+margin: 0;
+}
+
+.notice-bar-top__bg-image {
+display: none;
+position: absolute;
+right: 32px;
+z-index: -1;
+}
+.notice-bar-top__bg-image--mobile {
+display: block;
+position: absolute;
+right: -44px;
+top: 0;
+z-index: -1;
+height: 100%;
+}
+
+.notice-bar-top__bg-image--mobile svg {
+height: 100%;
+width: 100%;
+}
+
+
+.notice-bar-top__message .cut-price::after {
+content: '';
+position: absolute;
+top: 50%;
+left: 0;
+width: 100%;
+height: 3px;
+background: linear-gradient(90deg, #ec008c 0%, #fc6767 100%);
+transform: rotate(-12deg);
+}
+
+.notice-bar-top__message--title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.notice-bar-top__message .cut-price {
+position: relative;
+}
+
+.notice-bar-top__message--desc {
+  display: none;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #ffffffde;
+}
+
+/* Desktop styles */
+@media (min-width: 1400px) {
+.notice-bar-top__message--title {
+  font-size: 22px !important;
+}
+}
+
+@media (min-width: 1200px) {
+.notice-bar-top {
+  height: 96px !important;
+}
+
+.notice-bar-top--desktop {
+  display: flex;
+}
+
+.notice-bar-top--mobile {
+  display: none;
+}
+
+.notice-bar-top__link {
+  padding: 18px 40px;
+}
+
+.notice-bar-top__wrapper {
+  flex-direction: row;
+  align-items: center;
+  max-width: unset;
+  justify-content: space-between;
+}
+
+.notice-bar-top__wrapper__center {
+  flex-grow: unset !important;
+  width: auto;
+  height: 100%;
+  justify-content: center;
+}
+
+.notice-bar-top__wrapper__left {
+  width: auto;
+  height: 100%;
+}
+
+.notice-bar-top__badges-discount-col {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.notice-bar-top__badge {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 4px 16px;
+}
+
+.notice-bar-top__badges-row {
+  gap: 12px;
+  width: 100%;
+}
+
+.notice-bar-top__badges-discount-col .notice-bar-top__badges-row .notice-bar-top__timer {
+  display: none !important;
+}
+
+.notice-bar-top__wrapper__center .notice-bar-top__content-wrapper {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.notice-bar-top__wrapper__center .notice-bar-top__timer {
+  display: flex;
+  justify-content: center;
+  padding: 4px 8px;
+  width: 170px;
+}
+
+.notice-bar-top__wrapper__right {
+  height: 100%;
+  justify-content: center;
+}
+
+.notice-bar-top__timer {
+  width: 216px;
+  display: flex;
+}
+
+.notice-bar-top__timer .notice-bar-top__timer-value {
+  font-size: 20px;
+}
+
+.notice-bar-top__message--title {
+  font-size: 22px;
+}
+
+.notice-bar-top__cta {
+  min-width: 260px;
+  padding: 0 8px;
+  height: 100%;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.notice-bar-top__cta:hover {
+  background: #0047d1;
+}
+
+/* Hide CTA inside center wrapper on desktop */
+.notice-bar-top__wrapper__center .notice-bar-top__wrapper__right {
+  display: none !important;
+}
+
+/* Show main right CTA on desktop */
+.notice-bar-top__wrapper > .notice-bar-top__wrapper__right {
+  display: block !important;
+}
+
+.notice-bar-top__bg-image {
+  display: block;
+}
+
+.notice-bar-top__bg-image--mobile {
+  display: none;
+}
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+.has-notice-bar-top.fixed-nav {
+  padding-top: 128px;
+  /* padding-top: 190px; */ /* christmas banner fix */
+}
+
+.fixed-nav.has-notice-bar-top .sub-menu.sub-menu--pc, .fixed-nav.has-notice-bar-top .sub-menu--backdrop {
+  top: 128px !important;
+  /*top: 200px;*/
+}
+
+.notice-bar-top__wrapper {
+  max-width: unset;
+}
+
+.notice-bar-top__content-wrapper {
+  align-items: center;
+}
+
+.notice-bar-top__message {
+  font-size: 16px;
+}
+
+.notice-bar-top__badges-discount-col {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.notice-bar-top__badges-row {
+  order: 1;
+}
+
+.notice-bar-top__discount {
+  font-size: 32px;
+  order: 2;
+  flex: 1;
+  text-align: center;
+}
+
+/* Show tablet timer, hide mobile timer */
+.notice-bar-top__timer--mobile {
+  display: none !important;
+}
+
+.notice-bar-top__timer--tablet {
+  order: 3;
+  display: flex;
+  margin-left: auto;
+}
+
+/* Space between content and CTA on tablet */
+.notice-bar-top__wrapper__center {
+  justify-content: space-between;
+  width: 100%;
+  padding-right: 0;
+}
+
+/* Ensure CTA button displays properly on tablet */
+.notice-bar-top__wrapper__center .notice-bar-top__wrapper__right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notice-bar-top__cta {
+  width: 100%;
+}
+}
+
+/* Mobile Styles */
+@media (max-width: 767px) {
+.has-notice-bar-top.fixed-nav {
+  padding-top: 108px;
+  /* padding-top: 170px; */ /* christmas banner fix */
+}
+
+.fixed-nav.has-notice-bar-top .sub-menu.sub-menu--pc, .fixed-nav.has-notice-bar-top .sub-menu--backdrop {
+  top: 108px !important;
+  /*top: 200px;*/
+}
+
+.notice-bar-top--mobile .notice-bar-top__link {
+  padding: 10px 12px;
+}
+
+.notice-bar-top--mobile .notice-bar-top__wrapper {
+  justify-content: center;
+  gap: 4px;
+}
+
+.notice-bar-top--mobile .notice-bar-top__wrapper__center {
+  padding-right: 0;
+}
+
+.notice-bar-top__message.is-desktop {
+  display: none;
+}
+
+.notice-bar-top__message.is-mobile {
+  font-size: 18px;
+  display: block;
+  font-weight: 600;
+}
+
+.notice-bar-top--mobile .notice-bar-top__badges-discount-col {
+  width: 100%;
+}
+
+.notice-bar-top--mobile .notice-bar-top__badges-row {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.notice-bar-top--mobile .notice-bar-top__badges {
+  flex-shrink: 0;
+}
+
+/* Show mobile timer inside badges row, hide tablet timer */
+.notice-bar-top--mobile .notice-bar-top__timer--mobile {
+  display: flex;
+  padding: 4px 8px;
+  width: auto;
+  min-width: 150px;
+}
+
+.notice-bar-top--mobile .notice-bar-top__timer--tablet {
+  display: none !important;
+}
+
+.notice-bar-top--mobile .notice-bar-top__discount {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.notice-bar-top--mobile .notice-bar-top__content-wrapper {
+  flex-direction: column;
+  gap: 8px;
+}
+
+.notice-bar-top--mobile .notice-bar-top__message {
+  font-size: 18px;
+}
+
+.notice-bar-top--mobile .notice-bar-top__cta {
+  padding: 8px 12px;
+  font-size: 16px;
+  font-weight: 500;
+}
+}
+
+/* Timer inline styles for max-width 768px */
+@media (max-width: 1200px) {
+.notice-bar-top__timer-value {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.notice-bar-top__wrapper__center {
+  flex-direction: row;
+  align-items: center;
+}
+}
+
+/* sale badge */
+.notice-bar-top__badge {
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: center;
+white-space: nowrap;
+scale: 0.7;
+margin-left: -24px;
+}
+
+.notice-bar-top .notice-bar-top__badge-row {
+display: inline-flex;
+align-items: center;
+position: relative;
+}
+
+.notice-bar-top .notice-bar-top__capsules {
+position: relative;
+z-index: 1;
+display: flex;
+flex-direction: column;
+}
+
+.notice-bar-top .notice-bar-top__capsule {
+width: fit-content;
+white-space: nowrap;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+font-size: 12px;
+font-weight: 700;
+line-height: 1;
+color: #fff;
+z-index: 1;
+}
+
+
+.notice-bar-top .notice-bar-top__ny {
+max-height: 60px;
+}
+
+@media (min-width: 1200px) {
+.notice-bar-top .notice-bar-top__ny {
+  max-height: 80px;
+}
+}
+
+.notice-bar-top .notice-bar-top__capsule--offer {
+font-size: 22.4px;
+}
+
+.notice-bar-top .notice-bar-top__capsule--bg {
+inset: 0;
+z-index: -1;
+width: 84px;
+}
+
+.notice-bar-top .notice-bar-top__capsule--bg svg {
+position: absolute;
+top: 0;
+left: 0;
+}
+
+.notice-bar-top .notice-bar-top__burst {
+position: relative;
+display: flex;
+align-items: center;
+justify-content: center;
+filter: drop-shadow(0 18px 32px rgba(255, 70, 102, 0.45));
+width: 54px;
+height: 54px;
+margin-left: -4px;
+z-index: 1;
+}
+
+.notice-bar-top .notice-bar-top__burst-shape {
+position: absolute;
+inset: 0;
+width: 100%;
+height: 100%;
+transform-origin: center;
+transform: rotate(var(--sale-burst-shape-rotation, 0deg));
+}
+
+.notice-bar-top .notice-bar-top__christmas--xmas {
+position: absolute;
+width: 14px;
+top: 4px;
+left: 0;
+}
+
+.notice-bar-top .notice-bar-top__christmas-hat {
+position: absolute;
+width: 46px;
+top: -36px;
+right: -12px;
+}
+
+.notice-bar-top .notice-bar-top__burst-content {
+position: relative;
+display: flex;
+align-items: center;
+justify-content: center;
+transform: rotate(var(--sale-burst-content-rotation, 0deg));
+color: #fff;
+}
+
+.notice-bar-top .notice-bar-top__burst-value {
+font-size: 25.41px;
+line-height: 1;
+font-weight: 700;
+letter-spacing: -0.71px;
+}
+
+.notice-bar-top .notice-bar-top__burst-meta {
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 2px;
+}
+
+.notice-bar-top .notice-bar-top__burst-percent {
+font-size: 11.29px;
+line-height: 1;
+font-weight: 500;
+}
+
+.notice-bar-top .notice-bar-top__burst-off {
+font-size: 6.35px;
+line-height: 1;
+font-weight: 500;
+}
+
+@media (min-width: 768px) {
+.notice-bar-top__badge {
+  scale: 1 !important;
+  margin-left: 0 !important;
+}
+
+.notice-bar-top__wrapper__left {
+  gap: 16px;
+}
+
+.notice-bar-top__message--desc {
+  display: unset;
+}
+
+.notice-bar-top__message--title {
+  font-size: 18px;
+}
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+.fixed-nav.has-notice-bar-top .sub-menu.sub-menu--pc, .fixed-nav.has-notice-bar-top .sub-menu--backdrop {
+  top: 200px;
+}
+}
+
+/* light theme */
+.notice-bar-top.notice-bar-top--theme-light .notice-bar-top__link {
+background: #ffe8d6;
+}
+
+.notice-bar-top.notice-bar-top--theme-light .notice-bar-top__message--title,
+.notice-bar-top.notice-bar-top--theme-light .notice-bar-top__message--desc,
+.notice-bar-top.notice-bar-top--theme-light .notice-bar-top__timer {
+color: #25265e;
+}
+
+.notice-bar-top.notice-bar-top--theme-light .notice-bar-top__timer {
+border: 1px solid #D3DCE6;
+background-color: #fff;
+}
+
+/* Course banner: centered layout (default banner unchanged) */
+.notice-bar-top--course-banner .notice-bar-top__wrapper {
+  justify-content: center;
+  align-items: center;
+}
+
+.notice-bar-top--course-banner .notice-bar-top__wrapper__center {
+  flex-grow: 0;
+  width: auto;
+  max-width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.notice-bar-top--course-banner .notice-bar-top__wrapper__center .notice-bar-top__content-wrapper {
+  flex-direction: column;
+  align-items: center;
+}
+
+.notice-bar-top--course-banner .notice-bar-top__message,
+.notice-bar-top--course-banner .notice-bar-top__message--title,
+.notice-bar-top--course-banner .notice-bar-top__message--desc {
+  text-align: center;
+}
+
+.notice-bar-top--course-banner .notice-bar-top__cta {
+    background: white;
+    color: #25265E;
+    border: 1px solid #D3DCE6;
+    box-shadow: none;
+}
+
+/* Desktop: one centered block (message + CTA) */
+@media (min-width: 1200px) {
+  .notice-bar-top--course-banner .notice-bar-top__wrapper > .notice-bar-top__wrapper__right {
+    display: none !important;
+  }
+
+  .notice-bar-top--course-banner .notice-bar-top__wrapper__center .notice-bar-top__wrapper__right {
+    display: flex !important;
+  }
+
+  .notice-bar-top--course-banner .notice-bar-top__wrapper__center {
+    justify-content: center;
+  }
+}
+
+/* Tablet: same idea – center group */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .notice-bar-top--course-banner .notice-bar-top__wrapper__center {
+    justify-content: center;
+  }
+}
+
+/* Mobile: center content */
+@media (max-width: 767px) {
+  .notice-bar-top--course-banner.notice-bar-top--mobile .notice-bar-top__wrapper {
+    align-items: center;
+  }
+
+  .notice-bar-top--course-banner .notice-bar-top__wrapper__center {
+    align-items: center;
+  }
+
+  .notice-bar-top--course-banner .notice-bar-top__wrapper__center .notice-bar-top__content-wrapper {
+    align-items: center;
+  }
+}
+</style>
+
+
+<!-- For mobile -->
+<div class="notice-bar-top notice-bar-top--mobile notice-bar-top--theme-light ">
+
+<a class="notice-bar-top__link" href="https://programiz.pro?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=programiz&amp;utm_content=default_banner&amp;utm_term=sticky_banner_launch" title="Start FREE Trial" target="_blank" rel="nofollow">
+
+<div class="notice-bar-top__wrapper container">
+
+<!-- Left: Badges and Discount in Column -->
+<div class="notice-bar-top__wrapper__left d-none">
+  
+
+  <div class="notice-bar-top__badge">
+  </div>
+
+  <div class="notice-bar-top__timer" style="display:none;">
+    <span class="notice-bar-top__timer-value" data-sale-end="2026-01-20T06:00:00Z"></span>
+  </div>
+  <div class="notice-bar-top__badges-discount-col d-none">
+    <div class="notice-bar-top__badges-row">
+      <div class="notice-bar-top__badges">
+        <span class="notice-bar-top__badge notice-bar-top__badge--primary"></span>
+        <span class="notice-bar-top__badge notice-bar-top__badge--secondary"></span>
+      </div>
+
+    </div>
+    <div class="notice-bar-top__discount"></div>
+
+  </div>
+</div>
+
+<!-- Center: Content and Actions -->
+<div class="notice-bar-top__wrapper__center">
+  <div class="notice-bar-top__content-wrapper">
+    <div class="notice-bar-top__message is-desktop"><div class="notice-bar-top__message--title">Stop copy pasting code you don't actually understand</div><div class="notice-bar-top__message--desc">Build the coding confidence you need to become a developer companies will fight for</div></div>
+    <div class="notice-bar-top__message is-mobile"><div class="notice-bar-top__message--title">Stop copy pasting code you don't actually understand</div></div>
+    <div class="notice-bar-top__timer d-none" style="display:none;">
+      <span class="notice-bar-top__timer-label">Ends in</span>
+      <span class="notice-bar-top__timer-value" data-sale-end="2026-01-20T06:00:00Z"></span>
+    </div>
+  </div>
+
+  <div class="notice-bar-top__wrapper__right">
+    <span class="notice-bar-top__cta notice-bar-top__cta--desktop">Start FREE Trial</span>
+    <span class="notice-bar-top__cta notice-bar-top__cta--mobile">Start FREE Trial</span>
+  </div>
+</div>
+
+<!-- Right: CTA -->
+<div class="notice-bar-top__wrapper__right">
+  <span class="notice-bar-top__cta notice-bar-top__cta--desktop">Start FREE Trial</span>
+  <span class="notice-bar-top__cta notice-bar-top__cta--mobile">Start FREE Trial</span>
+</div>
+
+<div class="notice-bar-top__bg-image">
+<svg width="188" height="96" viewbox="0 0 188 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_6015_17150)">
+    <path d="M149.016 -17.5312C-19.2698 -12.2221 64.1774 327.089 -98.6797 327.089" stroke="white" stroke-width="1.0018"></path>
+    <path d="M160.539 -9.76758C-1.50266 -4.75857 67.1208 335.854 -99.9297 335.854" stroke="white" stroke-width="1.0018"></path>
+    <path d="M181.828 -8.26562C8.76658 9.26591 70.7692 335.603 -85.1523 335.603" stroke="white" stroke-width="1.0018"></path>
+    <path d="M200.864 -2.75391C11.7738 20.0371 79.3954 338.61 -79.6406 339.862" stroke="white" stroke-width="1.0018"></path>
+    </g>
+    <defs>
+    <clippath id="clip0_6015_17150">
+    <rect width="187.337" height="278" fill="white"></rect>
+    </clippath>
+    </defs>
+  </svg>
+</div>
+
+<div class="notice-bar-top__bg-image--mobile">
+  <svg width="122" height="100" viewbox="0 0 122 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_6111_17125)">
+    <path d="M97.0233 -11.4141C-12.5439 -7.95738 41.7867 212.961 -64.2461 212.961" stroke="white" stroke-width="0.652252"></path>
+    <path d="M104.523 -6.35938C-0.978716 -3.09811 43.7006 218.668 -65.0625 218.668" stroke="white" stroke-width="0.652252"></path>
+    <path d="M118.384 -5.38086C5.70725 6.03356 46.0758 218.505 -55.4414 218.505" stroke="white" stroke-width="0.652252"></path>
+    <path d="M130.775 -1.79297C7.66256 13.0458 51.6896 220.462 -51.8555 221.277" stroke="white" stroke-width="0.652252"></path>
+    </g>
+    <defs>
+    <clippath id="clip0_6111_17125">
+    <rect width="121.971" height="181" fill="white"></rect>
+    </clippath>
+    </defs>
+  </svg>
+</div>
+
+</div>
+</a>
+
+<script>
+function advagg_mod_1() {
+  // Count how many times this function is called.
+  advagg_mod_1.count = ++advagg_mod_1.count || 1;
+  try {
+    if (advagg_mod_1.count <= 40) {
+      
+(function() {
+// Remove default-hidden class from all notice-bar-top elements
+document.querySelectorAll('.notice-bar-top').forEach(function(el) {
+el.classList.remove('default-hidden');
+});
+
+// Add class to body when banner is present
+// document.body.classList.add('has-sale-banner');
+
+function isIndiaTimeZone() {
+try {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const indiaTimeZones = [
+    'Asia/Kolkata',
+    'Asia/Calcutta',
+    'Asia/Delhi',
+    'Asia/Mumbai',
+    'Asia/Chennai',
+    'Asia/Bangalore'
+  ];
+
+  return indiaTimeZones.includes(timezone);
+} catch (e) {
+  return false;
+}
+}
+
+function applyIndiaContent() {
+document.querySelectorAll('.notice-bar-top__burst-value').forEach(function(el) {
+  el.textContent = '90';
+});
+
+const indiaUrl = 'https://programiz.pro?utm_source=programiz.com&utm_medium=referral&utm_audience=ORGANIC-FREEMIUM&utm_campaign=newyear-26&utm_content=interests_1_year&utm_term=sticky_banner_launch';
+
+document.querySelectorAll('.notice-bar-top__link').forEach(function(el) {
+  el.setAttribute('href', indiaUrl);
+});
+
+// Set CTA text
+document.querySelectorAll('.notice-bar-top__cta').forEach(function(el) {
+  el.textContent = 'Become a PRO';
+});
+
+// Hide row ny badge
+document.querySelectorAll('.notice-bar-top__ny--row').forEach(el => el.classList.add('d-none'));
+
+// Unhide in ny badge
+document.querySelectorAll('.notice-bar-top__ny--in').forEach(el => el.classList.remove('d-none'));
+
+// Unhide left content
+document.querySelectorAll('.notice-bar-top__wrapper__left').forEach(el => el.classList.remove('d-none'));
+}
+
+const isIndia = isIndiaTimeZone();
+
+if (isIndia) {
+// applyIndiaContent();
+} else {
+// Unhide left content for non-India users
+// document.querySelectorAll('.notice-bar-top__wrapper__left').forEach(el => el.classList.remove('d-none'));
+}
+
+let timerVisible = false;
+
+function showTimer() {
+// Show all timers
+document.querySelectorAll('.notice-bar-top__timer').forEach(function(timer) {
+  timer.style.removeProperty('display');
+});
+timerVisible = true;
+}
+
+function updateTimer() {
+const timerElements = document.querySelectorAll('.notice-bar-top__timer-value');
+
+timerElements.forEach(function(timer) {
+  const saleEndDate = timer.getAttribute('data-sale-end');
+  if (!saleEndDate) return;
+
+  const endTime = new Date(saleEndDate).getTime();
+  const now = new Date();
+
+  // Calculate time remaining until sale end
+  let totalDistance = endTime - now.getTime();
+
+  // If sale ended, hide timer
+  if (totalDistance < 0) {
+    timer.closest('.notice-bar-top__timer').style.display = 'none';
+    return;
+  }
+
+  // Show countdown for current 24-hour window
+  // let distance = totalDistance % (24 * 60 * 60 * 1000);
+  let distance = totalDistance;
+
+  // If less than 24 hours remain, show actual time left
+  // if (totalDistance < 24 * 60 * 60 * 1000) {
+  //   distance = totalDistance;
+  // }
+
+  if (distance < 0) {
+    timer.closest('.notice-bar-top__timer').style.display = 'none';
+    return;
+  }
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  // const hours = Math.floor(distance / (1000 * 60 * 60)); // total hours
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  timer.textContent = (days > 0 ? days + 'd: ' : '') + hours + 'h: ' +
+                      (minutes < 10 ? '0' : '') + minutes + 'm: ' +
+                      (seconds < 10 ? '0' : '') + seconds + 's';
+
+  // Show timer if not already visible
+  if (!timerVisible) {
+    showTimer();
+  }
+});
+}
+
+// Show timer for non-India users
+if (!isIndia) {
+    // Update immediately and then every second
+    // updateTimer();
+    // setInterval(updateTimer, 1000);
+}
+})();
+
+
+      // Set this to 100 so that this function only runs once.
+      advagg_mod_1.count = 100;
+    }
+  }
+  catch(e) {
+    if (advagg_mod_1.count >= 40) {
+      // Throw the exception if this still fails after running 40 times.
+      throw e;
+    }
+    else {
+      // Try again in 250 ms.
+      window.setTimeout(advagg_mod_1, 250);
+    }
+  }
+}
+function advagg_mod_1_check() {
+  if (window.jQuery && window.Drupal && window.Drupal.settings) {
+    advagg_mod_1();
+  }
+  else {
+    window.setTimeout(advagg_mod_1_check, 250);
+  }
+}
+advagg_mod_1_check();</script>
+</div>
+
+<!-- For Desktop -->
+<div class="notice-bar-top notice-bar-top--desktop notice-bar-top--theme-light " style="text-align: center;">
+
+<a class="notice-bar-top__link" href="https://programiz.pro?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=programiz&amp;utm_content=default_banner&amp;utm_term=sticky_banner_launch" title="Start FREE Trial" target="_blank" rel="nofollow">
+
+<div class="notice-bar-top__wrapper container">
+
+<!-- Left: Badges and Discount in Column -->
+<div class="notice-bar-top__wrapper__left d-none">
+  
+
+  <div class="notice-bar-top__badge">
+  </div>
+
+  <div class="notice-bar-top__timer" style="display:none;">
+    <span class="notice-bar-top__timer-value" data-sale-end="2026-01-20T06:00:00Z"></span>
+  </div>
+  <div class="notice-bar-top__badges-discount-col d-none">
+    <div class="notice-bar-top__badges-row">
+      <div class="notice-bar-top__badges">
+        <span class="notice-bar-top__badge notice-bar-top__badge--primary"></span>
+        <span class="notice-bar-top__badge notice-bar-top__badge--secondary"></span>
+      </div>
+
+    </div>
+    <div class="notice-bar-top__discount"></div>
+
+  </div>
+</div>
+
+<!-- Center: Content and Actions -->
+<div class="notice-bar-top__wrapper__center">
+  <div class="notice-bar-top__content-wrapper">
+    <div class="notice-bar-top__message is-desktop"><div class="notice-bar-top__message--title">Stop copy pasting code you don't actually understand</div><div class="notice-bar-top__message--desc">Build the coding confidence you need to become a developer companies will fight for</div></div>
+    <div class="notice-bar-top__message is-mobile"><div class="notice-bar-top__message--title">Stop copy pasting code you don't actually understand</div></div>
+    <div class="notice-bar-top__timer d-none" style="display:none;">
+      <span class="notice-bar-top__timer-label">Ends in</span>
+      <span class="notice-bar-top__timer-value" data-sale-end="2026-01-20T06:00:00Z"></span>
+    </div>
+  </div>
+
+  <div class="notice-bar-top__wrapper__right">
+    <span class="notice-bar-top__cta notice-bar-top__cta--desktop">Start FREE Trial</span>
+    <span class="notice-bar-top__cta notice-bar-top__cta--mobile">Start FREE Trial</span>
+  </div>
+</div>
+
+<!-- Right: CTA -->
+<div class="notice-bar-top__wrapper__right">
+  <span class="notice-bar-top__cta notice-bar-top__cta--desktop">Start FREE Trial</span>
+  <span class="notice-bar-top__cta notice-bar-top__cta--mobile">Start FREE Trial</span>
+</div>
+
+<div class="notice-bar-top__bg-image">
+<svg width="188" height="96" viewbox="0 0 188 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_6015_17150)">
+    <path d="M149.016 -17.5312C-19.2698 -12.2221 64.1774 327.089 -98.6797 327.089" stroke="white" stroke-width="1.0018"></path>
+    <path d="M160.539 -9.76758C-1.50266 -4.75857 67.1208 335.854 -99.9297 335.854" stroke="white" stroke-width="1.0018"></path>
+    <path d="M181.828 -8.26562C8.76658 9.26591 70.7692 335.603 -85.1523 335.603" stroke="white" stroke-width="1.0018"></path>
+    <path d="M200.864 -2.75391C11.7738 20.0371 79.3954 338.61 -79.6406 339.862" stroke="white" stroke-width="1.0018"></path>
+    </g>
+    <defs>
+    <clippath id="clip0_6015_17150">
+    <rect width="187.337" height="278" fill="white"></rect>
+    </clippath>
+    </defs>
+  </svg>
+</div>
+
+<div class="notice-bar-top__bg-image--mobile">
+  <svg width="122" height="100" viewbox="0 0 122 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_6111_17125)">
+    <path d="M97.0233 -11.4141C-12.5439 -7.95738 41.7867 212.961 -64.2461 212.961" stroke="white" stroke-width="0.652252"></path>
+    <path d="M104.523 -6.35938C-0.978716 -3.09811 43.7006 218.668 -65.0625 218.668" stroke="white" stroke-width="0.652252"></path>
+    <path d="M118.384 -5.38086C5.70725 6.03356 46.0758 218.505 -55.4414 218.505" stroke="white" stroke-width="0.652252"></path>
+    <path d="M130.775 -1.79297C7.66256 13.0458 51.6896 220.462 -51.8555 221.277" stroke="white" stroke-width="0.652252"></path>
+    </g>
+    <defs>
+    <clippath id="clip0_6111_17125">
+    <rect width="121.971" height="181" fill="white"></rect>
+    </clippath>
+    </defs>
+  </svg>
+</div>
+
+</div>
+</a>
+
+<script>
+function advagg_mod_2() {
+  // Count how many times this function is called.
+  advagg_mod_2.count = ++advagg_mod_2.count || 1;
+  try {
+    if (advagg_mod_2.count <= 40) {
+      
+(function() {
+// Remove default-hidden class from all notice-bar-top elements
+document.querySelectorAll('.notice-bar-top').forEach(function(el) {
+el.classList.remove('default-hidden');
+});
+
+// Add class to body when banner is present
+// document.body.classList.add('has-sale-banner');
+
+function isIndiaTimeZone() {
+try {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const indiaTimeZones = [
+    'Asia/Kolkata',
+    'Asia/Calcutta',
+    'Asia/Delhi',
+    'Asia/Mumbai',
+    'Asia/Chennai',
+    'Asia/Bangalore'
+  ];
+
+  return indiaTimeZones.includes(timezone);
+} catch (e) {
+  return false;
+}
+}
+
+function applyIndiaContent() {
+document.querySelectorAll('.notice-bar-top__burst-value').forEach(function(el) {
+  el.textContent = '90';
+});
+
+const indiaUrl = 'https://programiz.pro?utm_source=programiz.com&utm_medium=referral&utm_audience=ORGANIC-FREEMIUM&utm_campaign=newyear-26&utm_content=interests_1_year&utm_term=sticky_banner_launch';
+
+document.querySelectorAll('.notice-bar-top__link').forEach(function(el) {
+  el.setAttribute('href', indiaUrl);
+});
+
+// Set CTA text
+document.querySelectorAll('.notice-bar-top__cta').forEach(function(el) {
+  el.textContent = 'Become a PRO';
+});
+
+// Hide row ny badge
+document.querySelectorAll('.notice-bar-top__ny--row').forEach(el => el.classList.add('d-none'));
+
+// Unhide in ny badge
+document.querySelectorAll('.notice-bar-top__ny--in').forEach(el => el.classList.remove('d-none'));
+
+// Unhide left content
+document.querySelectorAll('.notice-bar-top__wrapper__left').forEach(el => el.classList.remove('d-none'));
+}
+
+const isIndia = isIndiaTimeZone();
+
+if (isIndia) {
+// applyIndiaContent();
+} else {
+// Unhide left content for non-India users
+// document.querySelectorAll('.notice-bar-top__wrapper__left').forEach(el => el.classList.remove('d-none'));
+}
+
+let timerVisible = false;
+
+function showTimer() {
+// Show all timers
+document.querySelectorAll('.notice-bar-top__timer').forEach(function(timer) {
+  timer.style.removeProperty('display');
+});
+timerVisible = true;
+}
+
+function updateTimer() {
+const timerElements = document.querySelectorAll('.notice-bar-top__timer-value');
+
+timerElements.forEach(function(timer) {
+  const saleEndDate = timer.getAttribute('data-sale-end');
+  if (!saleEndDate) return;
+
+  const endTime = new Date(saleEndDate).getTime();
+  const now = new Date();
+
+  // Calculate time remaining until sale end
+  let totalDistance = endTime - now.getTime();
+
+  // If sale ended, hide timer
+  if (totalDistance < 0) {
+    timer.closest('.notice-bar-top__timer').style.display = 'none';
+    return;
+  }
+
+  // Show countdown for current 24-hour window
+  // let distance = totalDistance % (24 * 60 * 60 * 1000);
+  let distance = totalDistance;
+
+  // If less than 24 hours remain, show actual time left
+  // if (totalDistance < 24 * 60 * 60 * 1000) {
+  //   distance = totalDistance;
+  // }
+
+  if (distance < 0) {
+    timer.closest('.notice-bar-top__timer').style.display = 'none';
+    return;
+  }
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  // const hours = Math.floor(distance / (1000 * 60 * 60)); // total hours
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  timer.textContent = (days > 0 ? days + 'd: ' : '') + hours + 'h: ' +
+                      (minutes < 10 ? '0' : '') + minutes + 'm: ' +
+                      (seconds < 10 ? '0' : '') + seconds + 's';
+
+  // Show timer if not already visible
+  if (!timerVisible) {
+    showTimer();
+  }
+});
+}
+
+// Show timer for non-India users
+if (!isIndia) {
+    // Update immediately and then every second
+    // updateTimer();
+    // setInterval(updateTimer, 1000);
+}
+})();
+
+
+      // Set this to 100 so that this function only runs once.
+      advagg_mod_2.count = 100;
+    }
+  }
+  catch(e) {
+    if (advagg_mod_2.count >= 40) {
+      // Throw the exception if this still fails after running 40 times.
+      throw e;
+    }
+    else {
+      // Try again in 250 ms.
+      window.setTimeout(advagg_mod_2, 250);
+    }
+  }
+}
+function advagg_mod_2_check() {
+  if (window.jQuery && window.Drupal && window.Drupal.settings) {
+    advagg_mod_2();
+  }
+  else {
+    window.setTimeout(advagg_mod_2_check, 250);
+  }
+}
+advagg_mod_2_check();</script>
+</div>
+
+        
+    <nav>
+      <div class="container flex-1">
+        <div class="d-flex align-items-center p-relative">
+          <button class="main-nav__menu-btn d-lg-none d-flex">
+            <svg class="programiz-icon">
+              <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#menu"></use>
+            </svg>
+          </button>
+
+          <div class="brand">
+            <a href="/" title="Programiz">
+              <img class="d-lg-none" src="//cdn.programiz.com/sites/tutorial2program/files/sp_logo.svg" width="28" height="28" alt="Programiz">
+              <img class="d-none d-lg-block" src="//cdn.programiz.com/sites/tutorial2program/files/pc_logo.svg" width="84" height="28" alt="Programiz">
+            </a>
+          </div>
+
+                      <div class="navigation d-none d-lg-flex align-items-center">
+                
+    
+    
+    
+    <a class="navigation__node" href="#" title="Programming Tutorials" id="navigation-tutorials"><span class="navigation__node__label">Tutorials </span>
+  <svg class="programiz-icon programiz-icon--smallest navigation__node__icon">
+    <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#chevron-down"></use>
+  </svg>
+</a>
+<a class="navigation__node" href="javascript:void(0);" title="Programming Examples" id="navigation-examples">
+  <span class="navigation__node__label"> Examples </span>
+  <svg class="programiz-icon programiz-icon--smallest navigation__node__icon">
+    <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#chevron-down"></use>
+  </svg>
+</a>
+<a class="navigation__node navigation__node--pro" href="#" title="Learn to Code Interactively" rel="nofollow" id="navigation-pro"><span class="navigation__node__label d-flex align-items-center">
+    <img src="/sites/all/themes/programiz/assets/programiz-pro-mini-logo.svg" alt="Programiz Pro Logo" class="mr-2x" style="width: 32px;">
+    Courses
+  </span>
+  <svg class="programiz-icon programiz-icon--smallest navigation__node__icon">
+    <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#chevron-down"></use>
+  </svg>
+</a>
+
+                </div>
+          
+                        
+    
+    
+    
+    <form action="/python-programming/methods/built-in" method="post" id="search-api-page-search-form-simplest-programming-tutorials-f" accept-charset="UTF-8"><div><div class="search-input search-api-page-search-form-simplest-programming-tutorials-f"><button type="submit" class="search-input__form-submit" hidden></button><button type='\"button\"' class="search-input__clear btn"><svg class="programiz-icon"><use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#x"></use></svg></button><button type='\"button\"' class="btn btn--clear c-default"><svg class="programiz-icon programiz-icon--small search-input__icon"><use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#search"></use></svg></button><input type="text" value="" placeholder="Search tutorials &amp; examples" id="edit-keys-2" name="keys_2" class="search-input__control" autocomplete="off"><input type="hidden" name="id" value="2"><input type="hidden" name="form_build_id" value="form-ywZPC8l71jMv-vCYVs3vx8s9ZfaukQnplr2f6RiVUZA"><input type="hidden" name="form_id" value="search_api_page_search_form_simplest_programming_tutorials_f"></div></div></form>
+    
+    
+    
+    
+    
+<div class="get-app-link-wrapper animated get-app-link-wrapper--closed-state" style="display: flex;">
+  <a class="get-app-link" href="https://programiz.pro/learn/master-python?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_floating_button" target="_blank" rel="nofollow" title="Try Programiz PRO">
+    <p class="app-link-items app-text app-link-items--closed-state"><span>Try </span>Programiz PRO</p>
+  </a>
+</div>
+              
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Tutorials and Examples contents -->
+  <div class="sub-menu--backdrop"></div>
+        
+    
+    
+    
+    
+<!-- Mobile view -->
+<div class="sub-menu sub-menu--sp sub-menu--sp--tutorial-examples sub-menu__mobile-head-wrap">
+  <div class="sub-menu__wrap">
+    <div class="sub-menu__head">
+      <div class="sub-menu__tab">
+        <div class="sub-menu__tab__head">
+                    <button class="sub-menu__tab__node sub-menu__tab__node--explore">
+            Tutorials
+          </button>
+          <button class="sub-menu__tab__node sub-menu__tab__node--courses">
+            Courses
+          </button>
+        </div>
+                <div class="sub-menu__tab__body sub-menu__tab__body--explore">
+                      <a href="javascript:void(0);" title="Python" class="sub-menu__tab__list-node sub-menu__tab__list-node--active" data-language="python">Python</a>
+                      <a href="javascript:void(0);" title="JavaScript" class="sub-menu__tab__list-node " data-language="javascript">JavaScript</a>
+                      <a href="javascript:void(0);" title="TypeScript" class="sub-menu__tab__list-node " data-language="typescript">TypeScript</a>
+                      <a href="javascript:void(0);" title="SQL" class="sub-menu__tab__list-node " data-language="sql">SQL</a>
+                      <a href="javascript:void(0);" title="HTML" class="sub-menu__tab__list-node " data-language="html">HTML</a>
+                      <a href="javascript:void(0);" title="CSS" class="sub-menu__tab__list-node " data-language="css">CSS</a>
+                      <a href="javascript:void(0);" title="C" class="sub-menu__tab__list-node " data-language="c">C</a>
+                      <a href="javascript:void(0);" title="C++" class="sub-menu__tab__list-node " data-language="cpp">C++</a>
+                      <a href="javascript:void(0);" title="Java" class="sub-menu__tab__list-node " data-language="java">Java</a>
+                      <a href="javascript:void(0);" title="R" class="sub-menu__tab__list-node " data-language="r">R</a>
+                      <a href="javascript:void(0);" title="Ruby" class="sub-menu__tab__list-node " data-language="ruby">Ruby</a>
+                      <a href="javascript:void(0);" title="RUST" class="sub-menu__tab__list-node " data-language="rust">RUST</a>
+                      <a href="javascript:void(0);" title="Golang" class="sub-menu__tab__list-node " data-language="golang">Golang</a>
+                      <a href="javascript:void(0);" title="Kotlin" class="sub-menu__tab__list-node " data-language="kotlin">Kotlin</a>
+                      <a href="javascript:void(0);" title="Swift" class="sub-menu__tab__list-node " data-language="swift">Swift</a>
+                      <a href="javascript:void(0);" title="C#" class="sub-menu__tab__list-node " data-language="csharp">C#</a>
+                      <a href="javascript:void(0);" title="DSA" class="sub-menu__tab__list-node " data-language="dsa">DSA</a>
+                  </div>
+        <div class="sub-menu__tab__body sub-menu__tab__body--courses d-none"></div>
+      </div>
+
+      <button class="btn btn--skeleton menu-hide-trigger">
+        <svg class="programiz-icon">
+          <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#x"></use>
+        </svg>
+      </button>
+    </div>
+
+    <div class="tabbed-content tabbed-content--no-border">
+      
+      <div class="tabbed-content__right tabbed-content__right--explore">
+        <!-- PRO - Banner -->
+                  <div class="sub-menu__cta sub-menu__mobile-banner">
+            <div class="d-flex sub-menu--mobile-banner">
+              <p class="body16-font-size font-weight-600">Become a certified Python <br>programmer.</p>
+              <a class="pro-link pro-link--mobile-pro-link body14-font-size" href="https://programiz.pro/learn/master-python?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" target="_blank">ENROLL</a>
+            </div>
+          </div>
+                <div class="sub-menu__contents sub-menu--mobile sub-menu__contents--python" id="m-python">
+          <div class="sub-menu__links">
+            <!-- Popular tutorials -->
+                          <div class="sub-menu__links__column sub-menu__links__column--left">
+                <h4 class="sub-menu__links__column__title">Popular Tutorials</h4>
+                <div class="sub-menu__link">
+                                      <div class="sub-menu__link__row">
+                      <div class="sub-menu__link__column">
+                        <a title="Getting Started With Python" href="/python-programming/getting-started?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="sub-menu__link__column">Getting Started With Python</a>
+                      </div>
+                    </div>
+                                      <div class="sub-menu__link__row">
+                      <div class="sub-menu__link__column">
+                        <a title="Python if Statement" href="/python-programming/if-elif-else?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="sub-menu__link__column">Python if Statement</a>
+                      </div>
+                    </div>
+                                      <div class="sub-menu__link__row">
+                      <div class="sub-menu__link__column">
+                        <a title="while Loop in Python" href="/python-programming/while-loop?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="sub-menu__link__column">while Loop in Python</a>
+                      </div>
+                    </div>
+                                      <div class="sub-menu__link__row">
+                      <div class="sub-menu__link__column">
+                        <a title="Python Lists" href="/python-programming/list?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="sub-menu__link__column">Python Lists</a>
+                      </div>
+                    </div>
+                                      <div class="sub-menu__link__row">
+                      <div class="sub-menu__link__column">
+                        <a title="Dictionaries in Python" href="/python-programming/dictionary?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="sub-menu__link__column">Dictionaries in Python</a>
+                      </div>
+                    </div>
+                                  </div>
+                <a title="Python Tutorials" href="/python-programming?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="d-flex align-items-center font-weight-500">
+                  Start Learning Python                  <svg class="programiz-icon programiz-icon--small ml-2x">
+                    <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                    </use>
+                  </svg>
+                </a>
+              </div>
+            
+            <!-- Popular examples -->
+                          <div class="sub-menu__links__column sub-menu__links__column--left">
+                <h4 class="sub-menu__links__column__title">Popular Examples</h4>
+                <div class="sub-menu__link">
+                                      <div class="sub-menu__link__row">
+                      <div class="sub-menu__link__column">
+                        <a title="Add two numbers" href="/python-programming/examples/add-number?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="sub-menu__link__column">Add two numbers</a>
+                      </div>
+                    </div>
+                                      <div class="sub-menu__link__row">
+                      <div class="sub-menu__link__column">
+                        <a title="Check prime number" href="/python-programming/examples/prime-number?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="sub-menu__link__column">Check prime number</a>
+                      </div>
+                    </div>
+                                      <div class="sub-menu__link__row">
+                      <div class="sub-menu__link__column">
+                        <a title="Find the factorial of a number" href="/python-programming/examples/factorial?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="sub-menu__link__column">Find the factorial of a number</a>
+                      </div>
+                    </div>
+                                      <div class="sub-menu__link__row">
+                      <div class="sub-menu__link__column">
+                        <a title="Print the Fibonacci sequence" href="/python-programming/examples/fibonacci-sequence?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="sub-menu__link__column">Print the Fibonacci sequence</a>
+                      </div>
+                    </div>
+                                      <div class="sub-menu__link__row">
+                      <div class="sub-menu__link__column">
+                        <a title="Check leap year" href="/python-programming/examples/leap-year?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="sub-menu__link__column">Check leap year</a>
+                      </div>
+                    </div>
+                                  </div>
+                <a title="Python Examples" href="/python-programming/examples?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="d-flex align-items-center font-weight-500">
+                  Explore Python Examples
+                  <svg class="programiz-icon programiz-icon--small ml-2x">
+                    <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                    </use>
+                  </svg>
+                </a>
+              </div>
+            
+            <!-- Reference materials -->
+                          <div class="sub-menu__links__column sub-menu__links__column--right">
+                <h4 class="sub-menu__links__column__title">Reference Materials</h4>
+                <div class="sub-menu__link">
+                                      <div class="sub-menu__link__row">
+                      <a href="/python-programming/methods/built-in?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" title="Built-in Functions" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                        Built-in Functions                        <svg class="programiz-icon programiz-icon--small ml-auto">
+                          <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                          </use>
+                        </svg>
+                      </a>
+                    </div>
+                                      <div class="sub-menu__link__row">
+                      <a href="/python-programming/methods/list?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" title="List Methods" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                        List Methods                        <svg class="programiz-icon programiz-icon--small ml-auto">
+                          <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                          </use>
+                        </svg>
+                      </a>
+                    </div>
+                                      <div class="sub-menu__link__row">
+                      <a href="/python-programming/methods/dictionary?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" title="Dictionary Methods" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                        Dictionary Methods                        <svg class="programiz-icon programiz-icon--small ml-auto">
+                          <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                          </use>
+                        </svg>
+                      </a>
+                    </div>
+                                      <div class="sub-menu__link__row">
+                      <a href="/python-programming/methods/string?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" title="String Methods" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                        String Methods                        <svg class="programiz-icon programiz-icon--small ml-auto">
+                          <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                          </use>
+                        </svg>
+                      </a>
+                    </div>
+                  
+                  <a title="Python References" href="/python-programming/methods?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="d-flex align-items-center font-weight-500">
+                    View all
+                    <svg class="programiz-icon programiz-icon--small ml-2x">
+                      <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                      </use>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+                      </div>
+        </div>
+      </div>
+
+      <div class="tabbed-content__right tabbed-content__right--courses">
+        <div class="sub-menu__contents sub-menu--mobile sub-menu__contents--courses px-6x" id="m-courses">
+          <!-- Logo -->
+          <div class="d-flex flex-column mb-2x" style="gap: 4px">
+            <img src="/sites/all/themes/programiz/assets/pro-images/programiz-pro-logo.svg" alt="Programiz Pro Logo" style="width: 112px;">
+            <p class="mb-2x" style="font-size: 14px;font-weight: 500;line-height: 20px;">Created with over a decade of experience.</p>
+          </div>
+
+          <!-- Tab Headers -->
+          <div class="tabs">
+            <ul class="tabs-list">
+                              <li>
+                  <a href="javascript:void(0);" title="Learn" class="tab-header tab-header--active" data-type="courses" data-tab="#pro-courses">Learn</a>
+                </li>
+                              <li>
+                  <a href="javascript:void(0);" title="Practice" class="tab-header " data-type="practices" data-tab="#pro-practices">Practice</a>
+                </li>
+                              <li>
+                  <a href="javascript:void(0);" title="Compete" class="tab-header " data-type="challenges" data-tab="#pro-challenges">Compete</a>
+                </li>
+                          </ul>
+
+            <!-- Tab contents -->
+            <div>
+                              <div id="pro-courses" class="sub-menu__contents sub-menu__contents--courses tab-content">
+                  <div class="sub-menu__links">
+                    <!-- Left Panel -->
+                    <div class="sub-menu__links__column sub-menu__links__column--left">
+                      <div class="sub-menu__link">
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Learn Python" href="https://programiz.pro/learn/master-python?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_programiz-pro_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                Learn Python                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Learn HTML" href="https://programiz.pro/course/learn-html?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_html&amp;utm_term=nav_programiz-pro_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                Learn HTML                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Learn JavaScript" href="https://programiz.pro/learn/master-javascript?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_javascript&amp;utm_term=nav_programiz-pro_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                Learn JavaScript                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Learn SQL" href="https://programiz.pro/course/learn-sql-basics?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_sql&amp;utm_term=nav_programiz-pro_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                Learn SQL                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Learn DSA" href="https://programiz.pro/course/dsa-with-python?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_dsa&amp;utm_term=nav_programiz-pro_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                Learn DSA                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Learn C" href="https://programiz.pro/learn/master-c-programming?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_c&amp;utm_term=nav_programiz-pro_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                Learn C                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Learn C++" href="https://programiz.pro/learn/master-cpp?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_cpp&amp;utm_term=nav_programiz-pro_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                Learn C++                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Learn Java" href="https://programiz.pro/learn/master-java?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_java&amp;utm_term=nav_programiz-pro_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                Learn Java                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                              </div>
+
+                      <a title="View all Courses on PRO" href="https://programiz.pro/courses?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="d-flex align-items-center" style="font-size: 14px;font-weight: 500;line-height: 20px;">
+                        View all Courses on
+                        <img src="/sites/all/themes/programiz/assets/programiz-pro-mini-logo.svg" alt="Programiz Pro Logo" class="ml-1x" style="width: 32px;">
+                        <svg class="programiz-icon programiz-icon--small ml-2x">
+                          <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                          </use>
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                              <div id="pro-practices" class="sub-menu__contents sub-menu__contents--practices tab-content">
+                  <div class="sub-menu__links">
+                    <!-- Left Panel -->
+                    <div class="sub-menu__links__column sub-menu__links__column--left">
+                      <div class="sub-menu__link">
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Python Basics" href="https://programiz.pro/course/practice-python-basics?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=practice_course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_programiz-pro_practice_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                Python Basics                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Python Intermediate" href="https://programiz.pro/course/practice-python-intermediate?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=practice_course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_programiz-pro_practice_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                Python Intermediate                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="C++ Basics" href="https://programiz.pro/course/practice-cpp-basics?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=practice_course_promotion&amp;utm_content=interests_learn_cpp&amp;utm_term=nav_programiz-pro_practice_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                C++ Basics                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="C++ Intermediate" href="https://programiz.pro/course/practice-cpp-intermediate?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=practice_course_promotion&amp;utm_content=interests_learn_cpp&amp;utm_term=nav_programiz-pro_practice_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                C++ Intermediate                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="C++ OOP" href="https://programiz.pro/course/practice-cpp-oop?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=practice_course_promotion&amp;utm_content=interests_learn_cpp&amp;utm_term=nav_programiz-pro_practice_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                C++ OOP                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="C Programming" href="https://programiz.pro/course/practice-c-programming?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=practice_course_promotion&amp;utm_content=interests_learn_c&amp;utm_term=nav_programiz-pro_practice_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                C Programming                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Java Basics" href="https://programiz.pro/course/practice-java-basics?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=practice_course_promotion&amp;utm_content=interests_learn_java&amp;utm_term=nav_programiz-pro_practice_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                Java Basics                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Java Intermediate" href="https://programiz.pro/course/practice-java-intermediate?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=practice_course_promotion&amp;utm_content=interests_learn_java&amp;utm_term=nav_programiz-pro_practice_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                Java Intermediate                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Java OOP" href="https://programiz.pro/course/practice-java-oop?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=practice_course_promotion&amp;utm_content=interests_learn_java&amp;utm_term=nav_programiz-pro_practice_courses" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                Java OOP                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                              </div>
+
+                      <a title="View all Courses on PRO" href="https://programiz.pro/courses?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="d-flex align-items-center" style="font-size: 14px;font-weight: 500;line-height: 20px;">
+                        View all Courses on
+                        <img src="/sites/all/themes/programiz/assets/programiz-pro-mini-logo.svg" alt="Programiz Pro Logo" class="ml-1x" style="width: 32px;">
+                        <svg class="programiz-icon programiz-icon--small ml-2x">
+                          <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                          </use>
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                              <div id="pro-challenges" class="sub-menu__contents sub-menu__contents--challenges tab-content">
+                  <div class="sub-menu__links">
+                    <!-- Left Panel -->
+                    <div class="sub-menu__links__column sub-menu__links__column--left">
+                      <div class="sub-menu__link">
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Python Challenges" href="https://programiz.pro/community-challenges/python?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=challenge_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_programiz-pro_challenges" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                Python Challenges                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="JavaScript Challenges" href="https://programiz.pro/community-challenges/javascript?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=challenge_promotion&amp;utm_content=interests_learn_javascript&amp;utm_term=nav_programiz-pro_challenges" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                JavaScript Challenges                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Java Challenges" href="https://programiz.pro/community-challenges/java?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=challenge_promotion&amp;utm_content=interests_learn_java&amp;utm_term=nav_programiz-pro_challenges" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                Java Challenges                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="C++ Challenges" href="https://programiz.pro/community-challenges/cpp?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=challenge_promotion&amp;utm_content=interests_learn_cpp&amp;utm_term=nav_programiz-pro_challenges" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                C++ Challenges                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="C Challenges" href="https://programiz.pro/community-challenges/c?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=challenge_promotion&amp;utm_content=interests_learn_c&amp;utm_term=nav_programiz-pro_challenges" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                                C Challenges                                <svg class="programiz-icon programiz-icon--small ml-auto">
+                                  <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                  </use>
+                                </svg>
+                              </a>
+                            </div>
+                          </div>
+                                              </div>
+
+                      <a title="View all Challenges on PRO" href="https://programiz.pro/community-challenges?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="d-flex align-items-center" style="font-size: 14px;font-weight: 500;line-height: 20px;">
+                        View all Challenges on
+                        <img src="/sites/all/themes/programiz/assets/programiz-pro-mini-logo.svg" alt="Programiz Pro Logo" class="ml-1x" style="width: 32px;">
+                        <svg class="programiz-icon programiz-icon--small ml-2x">
+                          <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                          </use>
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRO for Desktop -->
+<div class="sub-menu sub-menu--pc sub-menu--pc--pro">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-10">
+        <div class="sub-menu__wrap">
+          <div class="tabbed-content tabbed-content--no-border">
+            <div class="tabbed-content__left tabbed-content__left--small">
+              <div class="tabbed-link-container">
+                                  <div class="tabbed-link">
+                    <a href="javascript:void(0);" class="d-flex tabbed-link__node tabbed-link__node--active" data-type="courses">
+                      <span>
+                        Learn                      </span>
+                    </a>
+                  </div>
+                                  <div class="tabbed-link">
+                    <a href="javascript:void(0);" class="d-flex tabbed-link__node " data-type="practices">
+                      <span>
+                        Practice                      </span>
+                    </a>
+                  </div>
+                                  <div class="tabbed-link">
+                    <a href="javascript:void(0);" class="d-flex tabbed-link__node " data-type="challenges">
+                      <span>
+                        Compete                      </span>
+                    </a>
+                  </div>
+                              </div>
+            </div>
+
+            <div class="tabbed-content__right">
+                            <div class="sub-menu__contents sub-menu__contents--courses" id="t-courses">
+                <div class="sub-menu__cta mb-0x" style="flex-wrap: nowrap;">
+                  <div style="flex-grow: 1;">
+                    <h4>Certification Courses</h4>
+                    <p class="mb-4x">Created with over a decade of experience and thousands of feedback.</p>
+                  </div>
+                  <button class="btn btn--skeleton">
+                    <svg class="programiz-icon">
+                      <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#x"></use>
+                    </svg>
+                  </button>
+                </div>
+                <div class="sub-menu__links">
+                  <!-- Left Panel -->
+                  <div class="sub-menu__links__column sub-menu__links__column--left">
+                    <div class="sub-menu__link">
+                                              <div class="sub-menu__link__row">
+                          <div class="sub-menu__link__column">
+                            <a title="Learn Python" href="https://programiz.pro/learn/master-python?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=challenge_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_programiz-pro_challenges" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                              Learn Python                              <svg class="programiz-icon programiz-icon--small ml-auto">
+                                <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                </use>
+                              </svg>
+                            </a>
+                          </div>
+                        </div>
+                                              <div class="sub-menu__link__row">
+                          <div class="sub-menu__link__column">
+                            <a title="Learn HTML" href="https://programiz.pro/course/learn-html?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=challenge_promotion&amp;utm_content=interests_learn_html&amp;utm_term=nav_programiz-pro_challenges" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                              Learn HTML                              <svg class="programiz-icon programiz-icon--small ml-auto">
+                                <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                </use>
+                              </svg>
+                            </a>
+                          </div>
+                        </div>
+                                              <div class="sub-menu__link__row">
+                          <div class="sub-menu__link__column">
+                            <a title="Learn JavaScript" href="https://programiz.pro/learn/master-javascript?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=challenge_promotion&amp;utm_content=interests_learn_javascript&amp;utm_term=nav_programiz-pro_challenges" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                              Learn JavaScript                              <svg class="programiz-icon programiz-icon--small ml-auto">
+                                <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                </use>
+                              </svg>
+                            </a>
+                          </div>
+                        </div>
+                                              <div class="sub-menu__link__row">
+                          <div class="sub-menu__link__column">
+                            <a title="Learn SQL" href="https://programiz.pro/course/learn-sql-basics?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=challenge_promotion&amp;utm_content=interests_learn_sql&amp;utm_term=nav_programiz-pro_challenges" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                              Learn SQL                              <svg class="programiz-icon programiz-icon--small ml-auto">
+                                <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                </use>
+                              </svg>
+                            </a>
+                          </div>
+                        </div>
+                                              <div class="sub-menu__link__row">
+                          <div class="sub-menu__link__column">
+                            <a title="Learn DSA" href="https://programiz.pro/course/dsa-with-python?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=challenge_promotion&amp;utm_content=interests_learn_dsa&amp;utm_term=nav_programiz-pro_challenges" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                              Learn DSA                              <svg class="programiz-icon programiz-icon--small ml-auto">
+                                <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                </use>
+                              </svg>
+                            </a>
+                          </div>
+                        </div>
+                                          </div>
+
+                    <a title="View all Courses on PRO" href="https://programiz.pro/courses?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="d-flex align-items-center font-weight-500">
+                      View all Courses on
+                      <img src="/sites/all/themes/programiz/assets/programiz-pro-mini-logo.svg" alt="Programiz Pro Logo" class="ml-1x" style="width: 32px;">
+                      <svg class="programiz-icon programiz-icon--small ml-2x">
+                        <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                        </use>
+                      </svg>
+                    </a>
+                  </div>
+
+                  <!-- Right Panel -->
+                  <div class="sub-menu__links__column sub-menu__links__column--right">
+                    <div class="sub-menu__link">
+                                              <div class="sub-menu__link__row">
+                          <a title="Learn C" href="https://programiz.pro/learn/master-c-programming?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=challenge_promotion&amp;utm_content=interests_learn_c&amp;utm_term=nav_programiz-pro_challenges" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                            Learn C                            <svg class="programiz-icon programiz-icon--small ml-auto">
+                              <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                              </use>
+                            </svg>
+                          </a>
+                        </div>
+                                              <div class="sub-menu__link__row">
+                          <a title="Learn C++" href="https://programiz.pro/learn/master-cpp?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=challenge_promotion&amp;utm_content=interests_learn_cpp&amp;utm_term=nav_programiz-pro_challenges" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                            Learn C++                            <svg class="programiz-icon programiz-icon--small ml-auto">
+                              <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                              </use>
+                            </svg>
+                          </a>
+                        </div>
+                                              <div class="sub-menu__link__row">
+                          <a title="Learn Java" href="https://programiz.pro/learn/master-java?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=challenge_promotion&amp;utm_content=interests_learn_java&amp;utm_term=nav_programiz-pro_challenges" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                            Learn Java                            <svg class="programiz-icon programiz-icon--small ml-auto">
+                              <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                              </use>
+                            </svg>
+                          </a>
+                        </div>
+                                          </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Desktop view -->
+<div class="sub-menu sub-menu--pc sub-menu--pc--tutorial">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-10">
+        <div class="sub-menu__wrap">
+          <div class="tabbed-content tabbed-content--no-border">
+            <div class="tabbed-content__left tabbed-content__left--small">
+              <div class="tabbed-link-container">
+                
+                                      <div class="tabbed-link">
+                      <a title="Python" href="javascript:void(0);" class="d-flex tabbed-link__node tabbed-link__node--active" data-language="python">
+                        <span>
+                          Python                        </span>
+                      </a>
+                    </div>
+
+                                  
+                                      <div class="tabbed-link">
+                      <a title="JavaScript" href="javascript:void(0);" class="d-flex tabbed-link__node " data-language="javascript">
+                        <span>
+                          JavaScript                        </span>
+                      </a>
+                    </div>
+
+                                  
+                                      <div class="tabbed-link">
+                      <a title="TypeScript" href="javascript:void(0);" class="d-flex tabbed-link__node " data-language="typescript">
+                        <span>
+                          TypeScript                        </span>
+                      </a>
+                    </div>
+
+                                  
+                                      <div class="tabbed-link">
+                      <a title="SQL" href="javascript:void(0);" class="d-flex tabbed-link__node " data-language="sql">
+                        <span>
+                          SQL                        </span>
+                      </a>
+                    </div>
+
+                                  
+                                      <div class="tabbed-link">
+                      <a title="HTML" href="javascript:void(0);" class="d-flex tabbed-link__node " data-language="html">
+                        <span>
+                          HTML                        </span>
+                      </a>
+                    </div>
+
+                                  
+                                      <div class="tabbed-link">
+                      <a title="CSS" href="javascript:void(0);" class="d-flex tabbed-link__node " data-language="css">
+                        <span>
+                          CSS                        </span>
+                      </a>
+                    </div>
+
+                                  
+                                      <div class="tabbed-link">
+                      <a title="C" href="javascript:void(0);" class="d-flex tabbed-link__node " data-language="c">
+                        <span>
+                          C                        </span>
+                      </a>
+                    </div>
+
+                                  
+                                      <div class="tabbed-link">
+                      <a title="C++" href="javascript:void(0);" class="d-flex tabbed-link__node " data-language="cpp">
+                        <span>
+                          C++                        </span>
+                      </a>
+                    </div>
+
+                                  
+                                      <div class="tabbed-link">
+                      <a title="Java" href="javascript:void(0);" class="d-flex tabbed-link__node " data-language="java">
+                        <span>
+                          Java                        </span>
+                      </a>
+                    </div>
+
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                                  <div class="tabbed-link">
+                  <a title="More languages" href="javascript:void(0);" class="d-flex tabbed-link__node" data-language="more-language">
+                    <span>
+                      More languages
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="tabbed-content__right">
+              <div class="sub-menu__contents sub-menu__contents--python" id="t-python">
+                <!-- PRO - Banner -->
+                                  <div class="sub-menu__cta">
+                    <div class="d-flex sub-menu--desktop-banner">
+                      <h3 class="h3-font">Become a certified Python <br>programmer.</h3>
+                      <a class="pro-link body14-font-size font-weight-700" href="https://programiz.pro/learn/master-python?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" target="_blank">Try Programiz PRO!</a>
+                    </div>
+                    <button class="btn btn--skeleton">
+                      <svg class="programiz-icon">
+                        <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#x"></use>
+                      </svg>
+                    </button>
+                  </div>
+
+                
+                <div class="sub-menu__links">
+                  <!-- Popular tutorials -->
+                                      <div class="sub-menu__links__column sub-menu__links__column--left">
+                      <h4 class="sub-menu__links__column__title">Popular Tutorials</h4>
+                      <div class="sub-menu__link">
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Getting Started With Python" href="/python-programming/getting-started?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="sub-menu__link__column">Getting Started With Python</a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Python if Statement" href="/python-programming/if-elif-else?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="sub-menu__link__column">Python if Statement</a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="while Loop in Python" href="/python-programming/while-loop?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="sub-menu__link__column">while Loop in Python</a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Python Lists" href="/python-programming/list?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="sub-menu__link__column">Python Lists</a>
+                            </div>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <div class="sub-menu__link__column">
+                              <a title="Dictionaries in Python" href="/python-programming/dictionary?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="sub-menu__link__column">Dictionaries in Python</a>
+                            </div>
+                          </div>
+                                              </div>
+                      <a title="Python tutorials" href="/python-programming?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="d-flex align-items-center font-weight-500 d-lg-none">
+                        Start Learning Python                        <svg class="programiz-icon programiz-icon--small ml-2x">
+                          <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right"></use>
+                        </svg>
+                      </a>
+                      <a title="All Python tutorials" href="/python-programming?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="d-flex align-items-center font-weight-600 article-font-size sub-menu-all-tutorials-link">
+                        <span>
+                          All Python Tutorials
+                        </span>
+                        <svg class="programiz-icon programiz-icon--medium">
+                          <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right"></use>
+                        </svg>
+
+                      </a>
+                      <!-- <a title="Python tutorials" href="/python-programming" class="d-flex align-items-center font-weight-500">
+                        View all tutorials
+                        <svg class="programiz-icon programiz-icon--small ml-2x">
+                          <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                          </use>
+                        </svg>
+                      </a> -->
+                    </div>
+                  
+                  <!-- Reference materials -->
+                                      <div class="sub-menu__links__column sub-menu__links__column--right">
+                      <h4 class="sub-menu__links__column__title">Reference Materials</h4>
+                      <div class="sub-menu__link">
+                        
+                                                  <div class="sub-menu__link__row">
+                            <a title="Built-in Functions" href="/python-programming/methods/built-in?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                              Built-in Functions                              <svg class="programiz-icon programiz-icon--small ml-auto">
+                                <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                </use>
+                              </svg>
+                            </a>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <a title="List Methods" href="/python-programming/methods/list?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                              List Methods                              <svg class="programiz-icon programiz-icon--small ml-auto">
+                                <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                </use>
+                              </svg>
+                            </a>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <a title="Dictionary Methods" href="/python-programming/methods/dictionary?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                              Dictionary Methods                              <svg class="programiz-icon programiz-icon--small ml-auto">
+                                <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                </use>
+                              </svg>
+                            </a>
+                          </div>
+                                                  <div class="sub-menu__link__row">
+                            <a title="String Methods" href="/python-programming/methods/string?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="btn btn--gray btn--small btn--block d-flex align-items-center">
+                              String Methods                              <svg class="programiz-icon programiz-icon--small ml-auto">
+                                <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right">
+                                </use>
+                              </svg>
+                            </a>
+                          </div>
+                                              </div>
+                      <a title="Python References" href="/python-programming/methods?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_tutorials_banner" class="d-flex align-items-center font-weight-500">
+                        View all
+                        <svg class="programiz-icon programiz-icon--small ml-2x">
+                          <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right"></use>
+                        </svg>
+                      </a>
+                    </div>
+                                                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+        
+    
+    
+    
+    
+<!-- Desktop view only -->
+<div class="sub-menu sub-menu--pc sub-menu--pc--examples">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-10">
+        <div class="sub-menu__wrap">
+          <div class="tabbed-content tabbed-content--no-border">
+            <div class="tabbed-content__left tabbed-content__left--small">
+
+              <div class="tabbed-link-container">
+                                  <div class="tabbed-link">
+                    <a title="Python" href="javascript:void(0);" class="tabbed-link__node tabbed-link__node--active" data-language="python">Python</a>
+                  </div>
+                                  <div class="tabbed-link">
+                    <a title="JavaScript" href="javascript:void(0);" class="tabbed-link__node " data-language="javascript">JavaScript</a>
+                  </div>
+                                  <div class="tabbed-link">
+                    <a title="C" href="javascript:void(0);" class="tabbed-link__node " data-language="c">C</a>
+                  </div>
+                                  <div class="tabbed-link">
+                    <a title="C++" href="javascript:void(0);" class="tabbed-link__node " data-language="cpp">C++</a>
+                  </div>
+                                  <div class="tabbed-link">
+                    <a title="Java" href="javascript:void(0);" class="tabbed-link__node " data-language="java">Java</a>
+                  </div>
+                                  <div class="tabbed-link">
+                    <a title="R" href="javascript:void(0);" class="tabbed-link__node " data-language="r">R</a>
+                  </div>
+                                  <div class="tabbed-link">
+                    <a title="Kotlin" href="javascript:void(0);" class="tabbed-link__node " data-language="kotlin">Kotlin</a>
+                  </div>
+                              </div>
+
+            </div>
+            <div class="tabbed-content__right">
+              <div class="sub-menu__contents sub-menu__contents--python" id="examples-python">
+                                  <div class="sub-menu__cta">
+                    <div class="d-flex sub-menu--desktop-banner">
+                      <p class="h3-font">Become a certified Python <br>programmer.</p>
+                      <a class="pro-link body14-font-size font-weight-700" href="https://programiz.pro/learn/master-python?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_examples_banner" target="_blank">Try Programiz PRO!</a>
+                    </div>
+                    <button class="btn btn--skeleton">
+                      <svg class="programiz-icon">
+                        <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#x"></use>
+                      </svg>
+                    </button>
+                  </div>
+                
+
+                <div class="sub-menu__links">
+                  <div class="sub-menu__links__column sub-menu__links__column--left">
+                    <h4 class="sub-menu__links__column__title">Popular Examples</h4>
+                    <div class="sub-menu__link">
+                                              <div class="sub-menu__link__row">
+                          <div class="sub-menu__link__column">
+                            <a title="Add two numbers" href="/python-programming/examples/add-number?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_examples_banner" class="sub-menu__link__column">Add two numbers</a>
+                          </div>
+                        </div>
+                                              <div class="sub-menu__link__row">
+                          <div class="sub-menu__link__column">
+                            <a title="Check prime number" href="/python-programming/examples/prime-number?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_examples_banner" class="sub-menu__link__column">Check prime number</a>
+                          </div>
+                        </div>
+                                              <div class="sub-menu__link__row">
+                          <div class="sub-menu__link__column">
+                            <a title="Find the factorial of a number" href="/python-programming/examples/factorial?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_examples_banner" class="sub-menu__link__column">Find the factorial of a number</a>
+                          </div>
+                        </div>
+                                              <div class="sub-menu__link__row">
+                          <div class="sub-menu__link__column">
+                            <a title="Print the Fibonacci sequence" href="/python-programming/examples/fibonacci-sequence?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_examples_banner" class="sub-menu__link__column">Print the Fibonacci sequence</a>
+                          </div>
+                        </div>
+                                              <div class="sub-menu__link__row">
+                          <div class="sub-menu__link__column">
+                            <a title="Check leap year" href="/python-programming/examples/leap-year?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_examples_banner" class="sub-menu__link__column">Check leap year</a>
+                          </div>
+                        </div>
+                                          </div>
+                    <a title="Python Examples" href="/python-programming/examples?utm_source=programiz.com&amp;utm_medium=referral&amp;utm_audience=ORGANIC-FREEMIUM&amp;utm_campaign=course_promotion&amp;utm_content=interests_learn_python&amp;utm_term=nav_examples_banner" class="align-items-center font-weight-600 article-font-size sub-menu-all-tutorials-link d-none d-lg-flex">
+                      <span>
+                        All Python Examples
+                      </span>
+                      <svg class="programiz-icon programiz-icon--small ml-2x">
+                        <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#arrow-right"></use>
+                      </svg>
+                    </a>
+                  </div>
+                                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+  <!-- Get app link -->
+        
+  
+        
+    
+    
+    
+    <div class="view view-python-list-library-methods-list view-id-python_list_library_methods_list view-display-id-page_5 library-page-views view-dom-id-caa78beeea7fbfaec94a602d9d953822">
+
+            <div class="top-banner top-banner--reference">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="mt-10x">
+                                                    </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="title-section pt-0x">
+  <div class="title-section__detail-container">
+    <h1 class="title-section__title">Python Built-in Functions</h1>
+  </div>
+</div>
+
+<div class="program-description mt-4x">
+  <p class="mt-4x">
+    Python has several functions that are readily available for use. These
+    functions are called built-in functions. On this reference page, you will
+    find all the built-in functions in Python.
+  </p>
+</div>                    </div>
+                </div>
+            </div>
+                            <div class="row">
+                    <div class="col-sm-12  top-banner__form">
+                        <div class="container">
+                            <form class="ctools-auto-submit-full-form" action="/python-programming/methods/built-in" method="get" id="views-exposed-form-python-list-library-methods-list-page-5" accept-charset="UTF-8"><div><form action="/python-programming/methods/built-in" method="get" id="views_exposed_form" accept-charset="UTF-8" class="jquery-once-2-processed">
+    <div class="grouped-form">
+
+        <div class="grouped-form__select">
+            <label>Built-in Methods</label>
+        </div>
+        <div class="grouped-form__input">
+            <input placeholder="Search ..." type="text" class="grouped-form__input__control" id="edit-title" name="search" value="">
+            <button type="submit" id="edit-submit-python-list-library-methods-list" class="grouped-form__input__btn">
+                <svg class="programiz-icon programiz-icon--large">
+                    <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#search"></use>
+                </svg>
+            </button>
+        </div>
+    </div>
+</form>
+</div></form>                        </div>
+                    </div>
+                </div>
+                    </div>
+    
+    
+
+            <div class="contents contents--reference">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card card--reference">
+                              <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/abs">Python abs()</a></h3>    
+          <p class="reference-data__row__data">returns absolute value of a number</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/all">Python all()</a></h3>    
+          <p class="reference-data__row__data">returns true when all elements in iterable is true</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/any">Python any()</a></h3>    
+          <p class="reference-data__row__data">Checks if any Element of an Iterable is True</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/ascii">Python ascii()</a></h3>    
+          <p class="reference-data__row__data">Returns String Containing Printable Representation</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/bin">Python bin()</a></h3>    
+          <p class="reference-data__row__data">converts integer to binary string</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/bool">Python bool()</a></h3>    
+          <p class="reference-data__row__data">Converts a Value to Boolean </p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/bytearray">Python bytearray()</a></h3>    
+          <p class="reference-data__row__data">returns array of given byte size</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/bytes">Python bytes()</a></h3>    
+          <p class="reference-data__row__data">returns immutable bytes object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/callable">Python callable()</a></h3>    
+          <p class="reference-data__row__data">Checks if the Object is Callable</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/chr">Python chr()</a></h3>    
+          <p class="reference-data__row__data">Returns a Character (a string) from an Integer</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/classmethod">Python classmethod()</a></h3>    
+          <p class="reference-data__row__data">returns class method for given function</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/compile">Python compile()</a></h3>    
+          <p class="reference-data__row__data">Returns a Python code object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/complex">Python complex()</a></h3>    
+          <p class="reference-data__row__data">Creates a Complex Number</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/delattr">Python delattr()</a></h3>    
+          <p class="reference-data__row__data">Deletes Attribute From the Object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/dict">Python dict()</a></h3>    
+          <p class="reference-data__row__data">Creates a Dictionary</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/dir">Python dir()</a></h3>    
+          <p class="reference-data__row__data">Tries to Return Attributes of Object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/divmod">Python divmod()</a></h3>    
+          <p class="reference-data__row__data">Returns a Tuple of Quotient and Remainder</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/enumerate">Python enumerate()</a></h3>    
+          <p class="reference-data__row__data">returns an enumerated object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/eval">Python eval()</a></h3>    
+          <p class="reference-data__row__data">Runs Python Code Within Program</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/exec">Python exec()</a></h3>    
+          <p class="reference-data__row__data">Executes Dynamically Created Program</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/filter">Python filter()</a></h3>    
+          <p class="reference-data__row__data">constructs iterator from elements which are true</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/float">Python float()</a></h3>    
+          <p class="reference-data__row__data">returns floating point number from number, string</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/format">Python format()</a></h3>    
+          <p class="reference-data__row__data">returns formatted representation of a value</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/frozenset">Python frozenset()</a></h3>    
+          <p class="reference-data__row__data">returns immutable frozenset object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/getattr">Python getattr()</a></h3>    
+          <p class="reference-data__row__data">returns value of named attribute of an object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/globals">Python globals()</a></h3>    
+          <p class="reference-data__row__data">returns dictionary of current global symbol table</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/hasattr">Python hasattr()</a></h3>    
+          <p class="reference-data__row__data">returns whether object has named attribute</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/hash">Python hash()</a></h3>    
+          <p class="reference-data__row__data">returns hash value of an object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/help">Python help()</a></h3>    
+          <p class="reference-data__row__data">Invokes the built-in Help System</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/hex">Python hex()</a></h3>    
+          <p class="reference-data__row__data">Converts to Integer to Hexadecimal</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/id">Python id()</a></h3>    
+          <p class="reference-data__row__data">Returns Identify of an Object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/input">Python input()</a></h3>    
+          <p class="reference-data__row__data">reads and returns a line of string</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/int">Python int()</a></h3>    
+          <p class="reference-data__row__data">returns integer from a number or string</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/isinstance">Python isinstance()</a></h3>    
+          <p class="reference-data__row__data">Checks if a Object is an Instance of Class</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/issubclass">Python issubclass()</a></h3>    
+          <p class="reference-data__row__data">Checks if a Class is Subclass of another Class</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/iter">Python iter()</a></h3>    
+          <p class="reference-data__row__data">returns an iterator</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/len">Python len()</a></h3>    
+          <p class="reference-data__row__data">Returns Length of an Object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/list">Python list()</a></h3>    
+          <p class="reference-data__row__data">creates a list in Python</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/locals">Python locals()</a></h3>    
+          <p class="reference-data__row__data">Returns dictionary of a current local symbol table</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/map">Python map() Function</a></h3>    
+          <p class="reference-data__row__data">Applies Function and Returns a List</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/max">Python max()</a></h3>    
+          <p class="reference-data__row__data">returns the largest item</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/memoryview">Python memoryview()</a></h3>    
+          <p class="reference-data__row__data">returns memory view of an argument</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/min">Python min()</a></h3>    
+          <p class="reference-data__row__data">returns the smallest value</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/next">Python next()</a></h3>    
+          <p class="reference-data__row__data">Retrieves next item from the iterator</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/object">Python object()</a></h3>    
+          <p class="reference-data__row__data">creates a featureless object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/oct">Python oct()</a></h3>    
+          <p class="reference-data__row__data">returns the octal representation of an integer</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/open">Python open()</a></h3>    
+          <p class="reference-data__row__data">Returns a file object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/ord">Python ord()</a></h3>    
+          <p class="reference-data__row__data">returns an integer of the Unicode character</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/pow">Python pow()</a></h3>    
+          <p class="reference-data__row__data">returns the power of a number</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/print">Python print()</a></h3>    
+          <p class="reference-data__row__data">Prints the Given Object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/property">Python property()</a></h3>    
+          <p class="reference-data__row__data">returns the property attribute</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/range">Python range() Function</a></h3>    
+          <p class="reference-data__row__data">returns a sequence of numbers</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/repr">Python repr()</a></h3>    
+          <p class="reference-data__row__data">returns a printable representation of the object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/reversed">Python reversed()</a></h3>    
+          <p class="reference-data__row__data">returns the reversed iterator of a sequence</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/round">Python round()</a></h3>    
+          <p class="reference-data__row__data">rounds a number to specified decimals</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/set">Python set()</a></h3>    
+          <p class="reference-data__row__data">constructs and returns a set</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/setattr">Python setattr()</a></h3>    
+          <p class="reference-data__row__data">sets the value of an attribute of an object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/slice">Python slice()</a></h3>    
+          <p class="reference-data__row__data">returns a slice object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/sorted">Python sorted()</a></h3>    
+          <p class="reference-data__row__data">returns a sorted list from the given iterable</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/staticmethod">Python staticmethod()</a></h3>    
+          <p class="reference-data__row__data">transforms a method into a static method</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/str">Python str()</a></h3>    
+          <p class="reference-data__row__data">returns the string version of the object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/sum">Python sum()</a></h3>    
+          <p class="reference-data__row__data">Adds items of an Iterable</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/super">Python super()</a></h3>    
+          <p class="reference-data__row__data">Returns a proxy object of the base class</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/tuple">Python tuple()</a></h3>    
+          <p class="reference-data__row__data">Returns a tuple</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/type">Python type()</a></h3>    
+          <p class="reference-data__row__data">Returns the type of the object</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/vars">Python vars()</a></h3>    
+          <p class="reference-data__row__data">Returns the __dict__ attribute</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/zip">Python zip()</a></h3>    
+          <p class="reference-data__row__data">Returns an iterator of tuples</p>    </div>
+  <div class="reference-data--row">
+      
+          <h3 class="reference-data__row__title"><a href="/python-programming/methods/built-in/__import__">Python __import__()</a></h3>    
+          <p class="reference-data__row__data">Function called by the import statement</p>    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+      
+      <footer class="footer">
+        
+    
+    
+    
+    <style>
+  .footer__columns {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 12px 24px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .footer__columns__item {
+    flex-grow: 1;
+  }
+
+  .footer__link-area .footer__link-area__title {
+    font-size: 22px;
+    line-height: 30px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .footer__links__nodes .link-node {
+    font-weight: 500;
+  }
+
+  .footer__end {
+    margin-top: 24px;
+  }
+
+  .footer__end .copyright-text {
+    font-weight: 500;
+  }
+
+  /* Media query */
+  @media (min-width: 992px) {
+    .footer__end {
+      margin-top: 48px;
+    }
+  }
+</style>
+
+<div class="container">
+  <div class="footer__columns">
+    <div class="footer__column__item">
+      <div class="footer__link-area">
+        <h4 class="footer__link-area__title">Free Tutorials</h4>
+
+        <ul class="footer__links">
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/python-programming" title="Python 3 Tutorials">Python 3 Tutorials</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/sql" title="SQL Tutorials">SQL Tutorials</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/r" title="R Tutorials">R Tutorials</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/html" title="HTML Tutorials">HTML Tutorials</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/css" title="CSS Tutorials">CSS Tutorials</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/javascript" title="JavaScript Tutorials">JavaScript Tutorials</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/typescript" title="TypeScript Tutorials">TypeScript Tutorials</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/java-programming" title="Java Tutorials">Java Tutorials</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/c-programming" title="C Tutorials">C Tutorials</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/cpp-programming" title="C++ Tutorials">C++ Tutorials</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/dsa" title="Data Structures and Algorithms">DSA Tutorials</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/csharp-programming" title="C# Tutorials">C# Tutorials</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/golang" title="Golang Tutorials">Golang Tutorials</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/kotlin-programming" title="Kotlin Tutorials">Kotlin Tutorials</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/swift-programming" title="Swift Tutorials">Swift Tutorials</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/rust" title="Rust Tutorials">Rust Tutorials</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/ruby" title="Ruby Tutorials">Ruby Tutorials</a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__column__item">
+      <div class="footer__link-area">
+        <h4 class="footer__link-area__title">Paid Courses</h4>
+
+        <ul class="footer__links">
+          <li class="footer__links__nodes">
+            <a class="link-node" href="https://programiz.pro/learn/master-python" title="Master Python" target="_blank">Master Python</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="https://programiz.pro/course/learn-sql-basics" title="Learn SQL" target="_blank">Learn SQL</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="https://programiz.pro/course/learn-html" title="Learn HTML" target="_blank">
+              Learn HTML
+              <!-- <span class="badge ml-1x" style="background: #FFC33D;color: #25265EAB;padding: 2px 4px;border-radius: 2px;font-weight: 600;position: relative;bottom: 2px;">FREE</span> -->
+            </a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="https://programiz.pro/learn/master-javascript" title="Master JavaScript" target="_blank">Master JavaScript</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="https://programiz.pro/learn/master-c-programming" title="Master C" target="_blank">Master C</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="https://programiz.pro/learn/master-cpp" title="Master C++" target="_blank">Master C++</a>
+          </li>
+            
+          <li class="footer__links__nodes">
+            <a class="link-node" href="https://programiz.pro/learn/master-java" title="Master Java" target="_blank">Master Java</a>
+          </li>
+          
+          <li class="footer__links__nodes">
+            <a class="link-node" href="https://programiz.pro/learn/master-dsa-with-python" title="Master DSA with Python" target="_blank">Master DSA with Python</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__column__item">
+      <div class="footer__link-area">
+        <h4 class="footer__link-area__title">Online Compilers</h4>
+
+        <ul class="footer__links">
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/python-programming/online-compiler" title="Python Compiler">Python Compiler</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/r/online-compiler" title="R Compiler">R Compiler</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/sql/online-compiler" title="SQL Editor">SQL Editor</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/html/online-compiler" title="HTML/CSS Editor">HTML/CSS Editor</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/javascript/online-compiler" title="JavaScript Editor">JavaScript Editor</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/typescript/online-compiler" title="TypeScript Editor">TypeScript Editor</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/java-programming/online-compiler" title="Java Compiler">Java Compiler</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/c-programming/online-compiler" title="C Compiler">C Compiler</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/cpp-programming/online-compiler" title="C++ Compiler">C++ Compiler</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/csharp-programming/online-compiler" title="C# Compiler">C# Compiler</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/golang/online-compiler" title="Go Compiler">Go Compiler</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/php/online-compiler" title="PHP Compiler">PHP Compiler</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/swift/online-compiler" title="Swift Compiler">Swift Compiler</a>
+          </li>
+
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/rust/online-compiler" title="Rust Compiler">Rust Compiler</a>
+          </li>
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/ruby/online-compiler" title="Ruby Compiler">Ruby Compiler</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__column__item">
+      <div class="footer__link-area">
+        <h4 class="footer__link-area__title">Mobile Apps</h4>
+
+        <ul class="footer__links">
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/learn-python" title="Learn Python: Programiz" target="_blank">Learn Python App</a>
+          </li>
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/learn-c" title="Learn C Programming: Programiz" target="_blank">Learn C App</a>
+          </li>
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/learn-java" title="Learn Java: Programiz" target="_blank">Learn Java App</a>
+          </li>
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/learn-cpp" title="Learn C++: Programiz" target="_blank">Learn C++ App</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__column__item">
+      <div class="footer__link-area">
+        <h4 class="footer__link-area__title">Company</h4>
+
+        <ul class="footer__links">
+          <li class="footer__links__nodes">
+            <a class="link-node" id="unic-gdpr" onclick='__tcfapi("openunic");return false;' style="display:none;cursor:pointer;">Change Ad Consent</a>
+          </li>
+          <li class="footer__links__nodes">
+            <a class="link-node" id="unic-ccpa" onclick="window.__uspapi('openunic')" style="display:none;cursor:pointer;">Do not sell my data</a>
+          </li>
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/about-us" title="About us">About</a>
+          </li>
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/contact" title="Contact us">Contact</a>
+          </li>
+          <li class="footer__links__nodes">
+            <a title="Blog" href="/blog" class="link-node">Blog</a>
+          </li>
+          <li class="footer__links__nodes">
+            <a title="Programiz on Youtube" href="https://www.youtube.com/channel/UCREFp3D_n8JfcDonlm7Mpyw" class="link-node">Youtube</a>
+          </li>
+          <li class="footer__links__nodes">
+            <a title="Careers" href="/careers" class="link-node">Careers</a>
+          </li>
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/advertise" title="Advertise with us">Advertising</a>
+          </li>
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/privacy-policy" title="Privacy Policy">Privacy Policy</a>
+          </li>
+          <li class="footer__links__nodes">
+            <a class="link-node" href="/terms-of-use" title="Terms &amp; Conditions">Terms &amp; Conditions</a>
+          </li>
+
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="footer__end">
+    <p class="copyright-text">© Parewa Labs Pvt. Ltd. All rights reserved.</p>
+
+    <div class="social-icons">
+      <a class="social-icons__links" href="https://www.facebook.com/programiz.pro" title="Programiz on Facebook">
+        <svg class="programiz-icon programiz-icon--small">
+          <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#facebook"></use>
+        </svg>
+      </a>
+      <a class="social-icons__links" href="https://www.instagram.com/programiz.pro/" title="Programiz on Instagram">
+        <svg class="programiz-icon programiz-icon--small">
+          <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#instagram"></use>
+        </svg>
+      </a>
+      <a class="social-icons__links" href="https://www.linkedin.com/company/programiz" title="Programiz on Linkedin">
+        <svg class="programiz-icon programiz-icon--small">
+          <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#linkedin"></use>
+        </svg>
+      </a>
+      <a class="social-icons__links" href="https://twitter.com/programiz" title="Programiz on Twitter">
+        <svg class="programiz-icon programiz-icon--small">
+          <use xlink:href="/sites/all/themes/programiz/assets/feather-sprite.svg#twitter"></use>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+function advagg_mod_3() {
+  // Count how many times this function is called.
+  advagg_mod_3.count = ++advagg_mod_3.count || 1;
+  try {
+    if (advagg_mod_3.count <= 40) {
+      
+  (function waitGEO() {
+    var readyGEO;
+    if (window['UnicI'] && window['UnicI'].geo && window['UnicI'].geo !== '-') {
+      readyGEO = true;
+      console.log(window['UnicI'].geo);
+      if (window['UnicI'].geo === 'EU') {
+        if (document.getElementById("unic-gdpr")) {
+          document.getElementById("unic-gdpr").style.display = 'block';
+        }
+      }
+      if (window['UnicI'].geo === 'CA') {
+        if (document.getElementById("unic-ccpa")) {
+          document.getElementById("unic-ccpa").style.display = 'block';
+        }
+      }
+    }
+    if (!readyGEO) {
+      setTimeout(waitGEO, 200);
+    }
+  })();
+
+
+      // Set this to 100 so that this function only runs once.
+      advagg_mod_3.count = 100;
+    }
+  }
+  catch(e) {
+    if (advagg_mod_3.count >= 40) {
+      // Throw the exception if this still fails after running 40 times.
+      throw e;
+    }
+    else {
+      // Try again in 250 ms.
+      window.setTimeout(advagg_mod_3, 250);
+    }
+  }
+}
+function advagg_mod_3_check() {
+  if (window.jQuery && window.Drupal && window.Drupal.settings) {
+    advagg_mod_3();
+  }
+  else {
+    window.setTimeout(advagg_mod_3_check, 250);
+  }
+}
+advagg_mod_3_check();</script>
+    
+    
+    
+    
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKXT7MH" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        </footer>
+  </main>
+
+  <script type="text/javascript" src="/sites/tutorial2program/files/advagg_js/js__liz608UpAkXpWd7F-aVGOyFi5Qw4l9PooMFYtztElFM__TLch7GMTQ5cYTMlPNDafVjGg7L0J4-o75x0Kiou-ebo__bCS_vRPSPhWjQrSwUudaIT6Apl9ThEOgdjF4W3y9VhA.js" defer="defer"></script>
+<script type="text/javascript" src="/sites/tutorial2program/files/advagg_js/js__g_DZBKpGSfoxbz-zroEyNOvoqTerMqm1aGBfFksNe3A__fCv4S8dmaMIUpK4GycsVkDyzcQsqWtbYm2RFNUabJ7c__bCS_vRPSPhWjQrSwUudaIT6Apl9ThEOgdjF4W3y9VhA.js" defer="defer"></script>
+<script type="text/javascript" src="/sites/tutorial2program/files/advagg_js/js__--0Z8Ko2Ouantt4UUbDD1guuMHUWwLlSlrZ6GNz8h-g__QDNE9KlSUjsepN-pMNayrzeEHp9nITiE0tWKmC8s2Bg__bCS_vRPSPhWjQrSwUudaIT6Apl9ThEOgdjF4W3y9VhA.js" defer="defer"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+
+function advagg_mod_5() {
+  // Count how many times this function is called.
+  advagg_mod_5.count = ++advagg_mod_5.count || 1;
+  try {
+    if (advagg_mod_5.count <= 40) {
+      var base_path = '/'; var module_path = 'sites/all/modules/programiz_rate_share';
+
+      // Set this to 100 so that this function only runs once.
+      advagg_mod_5.count = 100;
+    }
+  }
+  catch(e) {
+    if (advagg_mod_5.count >= 40) {
+      // Throw the exception if this still fails after running 40 times.
+      throw e;
+    }
+    else {
+      // Try again in 250 ms.
+      window.setTimeout(advagg_mod_5, 250);
+    }
+  }
+}
+function advagg_mod_5_check() {
+  if (window.jQuery && window.Drupal && window.Drupal.settings) {
+    advagg_mod_5();
+  }
+  else {
+    window.setTimeout(advagg_mod_5_check, 250);
+  }
+}
+advagg_mod_5_check();
+//--><!]]>
+</script>
+</body>
+
+</html>

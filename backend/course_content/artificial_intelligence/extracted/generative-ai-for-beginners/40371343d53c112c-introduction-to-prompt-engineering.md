@@ -1,0 +1,194 @@
+# Introduction to Prompt Engineering
+
+Source: Generative AI for Beginners
+Original URL: https://github.com/microsoft/generative-ai-for-beginners/blob/HEAD/04-prompt-engineering-fundamentals/python/githubmodels-assignment.ipynb
+Original Path: 04-prompt-engineering-fundamentals/python/githubmodels-assignment.ipynb
+Course: Artificial Intelligence
+
+# Introduction to Prompt Engineering
+Prompt engineering is the process of designing and optimizing prompts for natural language processing tasks. It involves selecting the right prompts, tuning their parameters, and evaluating their performance. Prompt engineering is crucial for achieving high accuracy and efficiency in NLP models. In this section, we will explore the basics of prompt engineering using the OpenAI models for exploration.
+
+### Exercise 1: Tokenization
+Explore Tokenization using tiktoken, an open-source fast tokenizer from OpenAI
+See [OpenAI Cookbook](https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb?WT.mc_id=academic-105485-koreyst) for more examples.
+
+```python
+# EXERCISE:
+# 1. Run the exercise as is first
+# 2. Change the text to any prompt input you want to use & re-run to see tokens
+
+import tiktoken
+
+# Define the prompt you want tokenized
+text = f"""
+Jupiter is the fifth planet from the Sun and the \
+largest in the Solar System. It is a gas giant with \
+a mass one-thousandth that of the Sun, but two-and-a-half \
+times that of all the other planets in the Solar System combined. \
+Jupiter is one of the brightest objects visible to the naked eye \
+in the night sky, and has been known to ancient civilizations since \
+before recorded history. It is named after the Roman god Jupiter.[19] \
+When viewed from Earth, Jupiter can be bright enough for its reflected \
+light to cast visible shadows,[20] and is on average the third-brightest \
+natural object in the night sky after the Moon and Venus.
+"""
+
+# Set the model you want encoding for
+encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+
+# Encode the text - gives you the tokens in integer form
+tokens = encoding.encode(text)
+print(tokens);
+
+# Decode the integers to see what the text versions look like
+[encoding.decode_single_token_bytes(token) for token in tokens]
+```
+
+### Exercise 2: Validate Github Models Key Setup
+
+Run the code below to verify that your Github Models endpoint is set up correctly. The code just tries a simple basic prompt and validates the completion. Input `oh say can you see` should complete along the lines of `by the dawn's early light..`
+
+```python
+import os
+from azure.ai.inference import ChatCompletionsClient
+from azure.ai.inference.models import SystemMessage, UserMessage
+from azure.core.credentials import AzureKeyCredential
+
+token = os.environ["GITHUB_TOKEN"]
+endpoint = "https://models.inference.ai.azure.com"
+
+model_name = "gpt-4o"
+
+client = ChatCompletionsClient(
+endpoint=endpoint,
+credential=AzureKeyCredential(token),
+)
+
+def get_completion(prompt, client, model_name, temperature=1.0, max_tokens=1000, top_p=1.0):
+response = client.complete(
+messages=[
+{
+"role": "system",
+"content": "You are a helpful assistant.",
+},
+{
+"role": "user",
+"content": prompt,
+},
+],
+model=model_name,
+temperature=temperature,
+max_tokens=max_tokens,
+top_p=top_p
+)
+return response.choices[0].message.content
+
+## ---------- Call the helper method
+
+### 1. Set primary content or prompt text
+text = f"""
+oh say can you see
+"""
+
+### 2. Use that in the prompt template below
+prompt = f"""
+```{text}```
+"""
+
+## 3. Run the prompt
+response = get_completion(prompt, client, model_name)
+print(response)
+```
+
+Output:
+```text
+That line is the opening lyric of "The Star-Spangled Banner," the national anthem of the United States, written by Francis Scott Key. If you'd like more information or analysis, feel free to ask!
+```
+
+### Exercise 3: Fabrications
+Explore what happens when you ask the LLM to return completions for a prompt about a topic that may not exist, or about topics that it may not know about because it was outside it's pre-trained dataset (more recent). See how the response changes if you try a different prompt, or a different model.
+
+```python
+## Set the text for simple prompt or primary content
+## Prompt shows a template format with text in it - add cues, commands etc if needed
+## Run the completion
+text = f"""
+generate a lesson plan on the Martian War of 2076.
+"""
+
+prompt = f"""
+```{text}```
+"""
+
+response = get_completion(prompt, client, model_name)
+print(response)
+```
+
+### Exercise 4: Instruction Based
+Use the "text" variable to set the primary content
+and the "prompt" variable to provide an instruction related to that primary content.
+
+Here we ask the model to summarize the text for a second-grade student
+
+```python
+# Test Example
+# https://platform.openai.com/playground/p/default-summarize
+
+## Example text
+text = f"""
+Jupiter is the fifth planet from the Sun and the \
+largest in the Solar System. It is a gas giant with \
+a mass one-thousandth that of the Sun, but two-and-a-half \
+times that of all the other planets in the Solar System combined. \
+Jupiter is one of the brightest objects visible to the naked eye \
+in the night sky, and has been known to ancient civilizations since \
+before recorded history. It is named after the Roman god Jupiter.[19] \
+When viewed from Earth, Jupiter can be bright enough for its reflected \
+light to cast visible shadows,[20] and is on average the third-brightest \
+natural object in the night sky after the Moon and Venus.
+"""
+
+## Set the prompt
+prompt = f"""
+Summarize content you are provided with for a second-grade student.
+```{text}```
+"""
+
+## Run the prompt
+response = get_completion(prompt, client, model_name)
+print(response)
+```
+
+Output:
+```text
+Jupiter is the fifth planet from the Sun and the biggest one in our Solar System. It's made of gas and is much bigger than all the other planets put together! You can see Jupiter in the night sky because it's very bright. People have noticed it for a really long time and named it after a Roman god.
+```
+
+### Exercise 5: Complex Prompt
+Try a request that has system, user and assistant messages
+System sets assistant context
+User & Assistant messages provide multi-turn conversation context
+
+Note how the assistant personality is set to "sarcastic" in the system context.
+Try using a different personality context. Or try a different series of input/output messages
+
+```python
+response = client.complete(
+model=model_name,
+messages=[
+{"role": "system", "content": "You are a sarcastic assistant."},
+{"role": "user", "content": "Who won the world series in 2020?"},
+{"role": "assistant", "content": "Who do you think won? The Los Angeles Dodgers of course."},
+{"role": "user", "content": "Where was it played?"}
+]
+)
+print(response.choices[0].message.content)
+```
+
+Output:
+```text
+Oh, you mean the famous 2020 World Series that wasn’t in a regular location? That was the year they played in the glamorous Arlington, Texas, at Globe Life Field.
+```
+
+### Exercise: Explore Your Intuition
+The above examples give you patterns that you can use to create new prompts (simple, complex, instruction etc.) - try creating other exercises to explore some of the other ideas we've talked about like examples, cues and more.

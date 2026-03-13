@@ -1,0 +1,183 @@
+# <FrameworkSwitchCourse {fw} />
+
+Source: Hugging Face Course
+Original URL: https://github.com/huggingface/course/blob/HEAD/chapters/de/chapter3/3_tf.mdx
+Original Path: chapters/de/chapter3/3_tf.mdx
+Course: Artificial Intelligence
+
+<FrameworkSwitchCourse {fw} />
+
+# Modell mit Keras fein-tunen
+
+<CourseFloatingBanner chapter={3}
+classNames="absolute z-10 right-0 top-0"
+notebooks={[
+{label: "Google Colab", value: "https://colab.research.google.com/github/huggingface/notebooks/blob/master/course/de/chapter3/section3_tf.ipynb"},
+{label: "Aws Studio", value: "https://studiolab.sagemaker.aws/import/github/huggingface/notebooks/blob/master/course/de/chapter3/section3_tf.ipynb"},
+]} />
+
+Wenn du die Datenvorverarbeitung im letzten Abschnitt abgeschlossen hast, brauchst es nur noch wenige Schritte, um das Modell zu trainieren. Beachte jedoch, dass der Befehl `model.fit()` auf einer CPU sehr langsam läuft. Wenn du keinen GPU hast, kannst du auf [Google Colab] (https://colab.research.google.com/) kostenlos auf GPUs und TPUs zugreifen.
+
+Bei den folgenden Codebeispielen wird davon ausgegangen, dass du die Beispiele aus dem vorherigen Abschnitt bereits ausgeführt hast. Hier ist eine kurze Zusammenfassung, die aufzeigt was erwartet wird:
+
+```py
+from datasets import load_dataset
+from transformers import AutoTokenizer, DataCollatorWithPadding
+import numpy as np
+
+raw_datasets = load_dataset("glue", "mrpc")
+checkpoint = "bert-base-uncased"
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+
+def tokenize_function(example):
+return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
+
+tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
+
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer, return_tensors="tf")
+
+tf_train_dataset = tokenized_datasets["train"].to_tf_dataset(
+columns=["attention_mask", "input_ids", "token_type_ids"],
+label_cols=["labels"],
+shuffle=True,
+collate_fn=data_collator,
+batch_size=8,
+)
+
+tf_validation_dataset = tokenized_datasets["validation"].to_tf_dataset(
+columns=["attention_mask", "input_ids", "token_type_ids"],
+label_cols=["labels"],
+shuffle=False,
+collate_fn=data_collator,
+batch_size=8,
+)
+```
+
+### Training
+
+Tensorflow Modelle, die von 🤗 Transformers importiert werden, sind bereits Keras Modelle. Hier ist eine kurze Einführung in Keras.
+
+<Youtube id="rnTGBy2ax1c"/>
+
+Sobald wir die Daten haben, braucht es nur noch sehr wenig Arbeit, um mit dem Training zu beginnen.
+
+<Youtube id="AUozVp78dhk"/>
+
+Wie im [vorherigen Kapitel](/course/chapter2) verwenden wir die Klasse `TFAutoModelForSequenceClassification` mit zwei Labels:
+
+```py
+from transformers import TFAutoModelForSequenceClassification
+
+model = TFAutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=2)
+```
+
+Im Gegensatz zu [Kapitel 2](/course/chapter2) wird eine Warnung angezeigt, nachdem das Modell instanziiert wurde. Das liegt daran, dass BERT nicht auf die Klassifizierung von Satzpaaren vortrainiert wurde. Deshalb wurde der Kopf des vortrainierten Modells verworfen und stattdessen ein neuer Kopf eingefügt, der für die Klassifizierung von Sequenzen geeignet ist. Die Warnungen zeigen an, dass Teil der Gewichtung nicht verwendet wurden (die Gewichte für den verworfenen Kopf) und dass einige andere zufällig initialisiert wurden (die Gewichte für den neuen Kopf). Abschließend wirst du aufgefordert, das Modell zu trainieren, und genau das werden wir jetzt tun.
+
+Um das Modell mit unserem Datensatz fein-tunen zu können, müssen wir das Modell `kompilieren()` und unsere Daten an die `fit()`-Methode übergeben. Damit wird das Fein-tuning gestartet (dies sollte auf einer GPU ein paar Minuten dauern) und der Trainingsverlust sowie der Validierungsverlust am Ende jeder Epoche gemeldet.
+
+> [!TIP]
+> 🤗 Transformer Modelle haben eine besondere Fähigkeit, die die meisten Keras Modelle nicht haben - sie können automatisch einen geeigneten Verlust verwenden, der intern berechnet wird. Dieser Verlust wird standardmäßig verwendet, wenn in `compile()` kein Verlustargument angegeben wird. Um den internen Verlust zu verwenden, musst du deine Labels als Teil des Input übergeben und nicht als separates Label, wie es normalerweise bei Keras-Modellen der Fall ist. Beispiele dafür gibt es in Teil 2 des Kurses, wobei die Definition der richtigen Verlustfunktion schwierig sein kann. Für die Klassifizierung von Sequenzen eignet sich jedoch eine der Standardverlustfunktionen von Keras, die wir hier verwenden werden.
+
+```py
+from tensorflow.keras.losses import SparseCategoricalCrossentropy
+
+model.compile(
+optimizer="adam",
+loss=SparseCategoricalCrossentropy(from_logits=True),
+metrics=["accuracy"],
+)
+model.fit(
+tf_train_dataset,
+validation_data=tf_validation_dataset,
+)
+```
+
+> [!WARNING]
+> Hier gibt es einen sehr häufigen Stolperstein - du *kannst* Keras einfach den Namen des Verlusts als String übergeben, aber standardmäßig geht Keras davon aus, dass du bereits einen Softmax auf die Outputs angewendet hast. Viele Modelle geben jedoch die Werte direkt vor der Anwendung des Softmax als *Logits* aus. Hier ist es wichtig der Keras Verlustfunktion mitzuteilen, dass unser Modell genau diess tut, und das geht nur indem sie direkt aufgerufen wird, und nicht über den Namen mit einem String.
+
+### Verbesserung der Trainingsperformance
+
+<Youtube id="cpzq6ESSM5c"/>
+
+Wenn du den obigen Code ausprobierst, läuft er zwar, aber du wirst feststellen, dass der Verlust nur langsam oder sporadisch zurückgeht. Die Ursache hierfür ist die *Lernrate*. Wenn der Namen eines Optimierers als String an Keras übergeben wird, initialisiert Keras diesen Optimierer mit Standardwerten für alle Parameter, einschließlich der Lernrate. Aus langjähriger Erfahrung wissen wir, dass Transformer Modelle von einer wesentlich niedrigeren Lernrate profitieren als der Standardwert für Adam. Dieser Standardwert liegt bei 1e-3, auch geschrieben als 10 hoch -3 oder 0,001. Für Transformer ist 5e-5 (0,00005), was etwa zwanzigmal niedriger ist, ist ein viel besserer Ausgangspunkt.
+
+Zusätzlich zur Senkung der Lernrate haben wir noch einen zweiten Trick in petto: Wir können die Lernrate langsam im Laufe des Trainings verringern. In der Literatur wird dies manchmal als *Decay* oder *Annealing* der Lernrate bezeichnet. In Keras kannst das am besten mit dem *Lernraten-Scheduler* umgesetzt werden. Ein guter Scheduler ist `PolynomialDecay` - trotz des Namens lässt er die Lernrate in den Standardeinstellungen einfach linear vom Anfangswert bis zum Endwert abfallen. Dies ist genau was wir wollen. Um einen Scheduler richtig zu nutzen, müssen wir ihm allerdings sagen, wie lange das Training dauern soll. Das berechnen wir im Folgenden als `num_train_steps`.
+
+```py
+from tensorflow.keras.optimizers.schedules import PolynomialDecay
+
+batch_size = 8
+num_epochs = 3
+# The number of training steps is the number of samples in the dataset, divided by the batch size then multiplied
+# by the total number of epochs. Note that the tf_train_dataset here is a batched tf.data.Dataset,
+# not the original Hugging Face Dataset, so its len() is already num_samples // batch_size.
+num_train_steps = len(tf_train_dataset) * num_epochs
+lr_scheduler = PolynomialDecay(
+initial_learning_rate=5e-5, end_learning_rate=0.0, decay_steps=num_train_steps
+)
+from tensorflow.keras.optimizers import Adam
+
+opt = Adam(learning_rate=lr_scheduler)
+```
+
+> [!TIP]
+> Die 🤗 Transformer Bibliothek hat eine `create_optimizer()`-Funktion, die einen `AdamW`-Optimierer mit Lernratenabfall erzeugt. Das ist eine praktisches Tool, auf das wir in den nächsten Abschnitten des Kurses im Detail eingehen werden.
+
+Somit haben wir einen neuen Optimierer definiert und können ihn zum Training verwenden. Zuerst laden wir das Modell neu, um die Änderungen an der Gewichtung aus dem letzten Trainingslauf zurückzusetzen, und dann können wir es mit dem neuen Optimierer kompilieren:
+
+```py
+import tensorflow as tf
+
+model = TFAutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=2)
+loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+model.compile(optimizer=opt, loss=loss, metrics=["accuracy"])
+```
+
+Jetzt starten wir einen erneuten Trainingslauf mit `fit`:
+
+```py
+model.fit(tf_train_dataset, validation_data=tf_validation_dataset, epochs=3)
+```
+
+> [!TIP]
+> 💡 Wenn du dein Modell während des Trainings automatisch in den Hub hochladen möchtest, kannst du in der Methode `model.fit()` einen `PushToHubCallback` mitgeben. Mehr darüber erfahren wir in [Kapitel 4](/course/chapter4/3)
+
+### Modell-Vorhersagen
+
+<Youtube id="nx10eh4CoOs"/>
+
+Trainieren und zusehen, wie der Verlust sinkt, ist ja ganz nett, aber was ist, wenn wir tatsächlich die Ergebnisse des trainierten Modells erhalten wollen? Entweder um Metriken zu berechnen oder um das Modell in der Produktion einzusetzen. Dafür können wir einfach die Methode `predict()` verwenden. Sie liefert uns die *Logits* aus dem Ausgabekopf des Modells, und zwar eine pro Klasse.
+
+```py
+preds = model.predict(tf_validation_dataset)["logits"]
+```
+
+Wir können diese Logits in die Klassenvorhersagen des Modells umwandeln, indem wir `argmax` verwenden, um den höchsten Logit zu finden, der der wahrscheinlichsten Klasse entspricht:
+
+```py
+class_preds = np.argmax(preds, axis=1)
+print(preds.shape, class_preds.shape)
+```
+
+```python out
+(408, 2) (408,)
+```
+
+Nun können wir diese Vorhersagen in `preds` nutzen, um einige Metriken zu berechnen! Wir können die Metriken, die mit dem MRPC-Datensatz verbunden sind, genauso einfach laden, wie wir den Datensatz geladen haben, in diesem Fall mit der Funktion "evaluate.load()". Das zurückgegebene Objekt verfügt über eine Berechnungsmethode, mit der wir die Metrik berechnen können:
+
+```py
+import evaluate
+
+metric = evaluate.load("glue", "mrpc")
+metric.compute(predictions=class_preds, references=raw_datasets["validation"]["label"])
+```
+
+```python out
+{'accuracy': 0.8578431372549019, 'f1': 0.8996539792387542}
+```
+Die genauen Ergebnisse können variieren, da die zufällige Initialisierung des Modellkopfes die errechneten Metriken verändern kann. Das Modell erreicht über den Validierungsdaten eine Genauigkeit von 85,78 % und ein F1-Maß von 89,97. Dies sind die beiden Kennzahlen, die zur Bewertung der Ergebnisse des MRPC-Datensatzes für das GLUE-Benchmark verwendet werden. In der Tabelle im [BERT-Paper] (https://arxiv.org/pdf/1810.04805.pdf) wird für das Basismodell ein F1-Maß von 88,9 angegeben. Dort wurde das `uncased` Modell verwendet, während wir hier das `cased` Modell verwenden, was das bessere Ergebnis erklärt.
+
+Damit ist die Einführung in das Fein-tunen mit der Keras-API abgeschlossen. Beispiele für die gängigsten CL-Aufgaben findest du in Kapitel 7.
+
+> [!TIP]
+> ✏️ **Probier es aus!** Fein-tune ein Modell mit dem GLUE SST-2 Datensatz, indem du die Datenverarbeitung aus Abschnitt 2 verwendest.

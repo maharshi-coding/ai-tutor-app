@@ -1,0 +1,15 @@
+{
+  "id": "fsdl-llm-bootcamp",
+  "type": "web",
+  "title": "Full Stack LLM Bootcamp",
+  "description": "Practical notes on prompt engineering, retrieval, LLMOps, and shipping LLM-based systems.",
+  "license": "Site terms",
+  "seedUrls": [
+    "https://fullstackdeeplearning.com/llm-bootcamp/spring-2023/llm-foundations/"
+  ],
+  "allowPrefixes": [
+    "https://fullstackdeeplearning.com/llm-bootcamp/spring-2023/"
+  ],
+  "maxPages": 18,
+  "documentCount": 18
+}

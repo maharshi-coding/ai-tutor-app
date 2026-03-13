@@ -1,0 +1,239 @@
+# Training CBoW Model
+
+Source: AI for Beginners
+Original URL: https://github.com/microsoft/AI-For-Beginners/blob/HEAD/lessons/5-NLP/15-LanguageModeling/CBoW-TF.ipynb
+Original Path: lessons/5-NLP/15-LanguageModeling/CBoW-TF.ipynb
+Course: Artificial Intelligence
+
+## Training CBoW Model
+
+This notebooks is a part of [AI for Beginners Curriculum](http://aka.ms/ai-beginners)
+
+In this example, we will look at training CBoW language model to get our own Word2Vec embedding space. We will use AG News dataset as the source of text.
+
+```python
+from tensorflow import keras
+import tensorflow as tf
+import tensorflow_datasets as tfds
+import numpy as np
+```
+
+We will start by loading the dateset:
+
+```python
+ds_train, ds_test = tfds.load('ag_news_subset').values()
+```
+
+## CBoW Model
+
+CBoW learns to predict a word based on the $2N$ neighboring words. For example, when $N=1$, we will get the following pairs from the sentence *I like to train networks*: (like,I), (I, like), (to, like), (like,to), (train,to), (to, train), (networks, train), (train,networks). Here, first word is the neighboring word used as an input, and second word is the one we are predicting.
+
+To build a network to predict next word, we will need to supply neighboring word as input, and get word number as output. The architecture of CBoW network is the following:
+
+* Input word is passed through the embedding layer. This very embedding layer would be our Word2Vec embedding, thus we will define it separately as `embedder` variable. We will use embedding size = 30 in this example, even though you might want to experiment with higher dimensions (real word2vec has 300)
+* Embedding vector would then be passed to a dense layer that will predict output word. Thus it has the `vocab_size` neurons.
+
+Embedding layer in Keras automatically knows how to convert numeric input into one-hot encoding, so that we do not have to one-hot-encode input word separately. We specify `input_length=1` to indicate that we want just one word in the input sequence - normally embedding layer is designed to work with longer sequences.
+
+For the output, if we use `sparse_categorical_crossentropy` as loss function, we would also have to provide just word numbers as expected results, without one-hot encoding.
+
+We will set `vocab_size` to 5000 to limit computations a bit. We will also define a vectorizer which we will use later.
+
+```python
+vocab_size = 5000
+
+vectorizer = keras.layers.experimental.preprocessing.TextVectorization(max_tokens=vocab_size,input_shape=(1,))
+embedder = keras.layers.Embedding(vocab_size,30,input_length=1)
+
+model = keras.Sequential([
+embedder,
+keras.layers.Dense(vocab_size,activation='softmax')
+])
+
+model.summary()
+```
+
+Output:
+```text
+Model: "sequential_1"
+_________________________________________________________________
+Layer (type) Output Shape Param #
+=================================================================
+embedding_1 (Embedding) (None, 1, 30) 150000
+
+dense_1 (Dense) (None, 1, 5000) 155000
+
+=================================================================
+Total params: 305,000
+Trainable params: 305,000
+Non-trainable params: 0
+_________________________________________________________________
+```
+
+Let's initialize the vectorizer and get out the vocabulary:
+
+```python
+def extract_text(x):
+return x['title']+' '+x['description']
+
+vectorizer.adapt(ds_train.take(500).map(extract_text))
+vocab = vectorizer.get_vocabulary()
+```
+
+## Preparing Training Data
+
+Now let's program the main function that will compute CBoW word pairs from text. This function will allow us to specify window size, and will return a set of pairs - input and output word. Note that this function can be used on words, as well as on vectors/tensors - which will allow us to encode the text, before passing it to `to_cbow` function.
+
+```python
+def to_cbow(sent,window_size=2):
+res = []
+for i,x in enumerate(sent):
+for j in range(max(0,i-window_size),min(i+window_size+1,len(sent))):
+if i!=j:
+res.append([sent[j],x])
+return res
+
+print(to_cbow(['I','like','to','train','networks']))
+print(to_cbow(vectorizer('I like to train networks')))
+```
+
+Output:
+```text
+[['like', 'I'], ['to', 'I'], ['I', 'like'], ['to', 'like'], ['train', 'like'], ['I', 'to'], ['like', 'to'], ['train', 'to'], ['networks', 'to'], ['like', 'train'], ['to', 'train'], ['networks', 'train'], ['to', 'networks'], ['train', 'networks']]
+[[<tf.Tensor: shape=(), dtype=int64, numpy=376>, <tf.Tensor: shape=(), dtype=int64, numpy=771>], [<tf.Tensor: shape=(), dtype=int64, numpy=3>, <tf.Tensor: shape=(), dtype=int64, numpy=771>], [<tf.Tensor: shape=(), dtype=int64, numpy=771>, <tf.Tensor: shape=(), dtype=int64, numpy=376>], [<tf.Tensor: shape=(), dtype=int64, numpy=3>, <tf.Tensor: shape=(), dtype=int64, numpy=376>], [<tf.Tensor: shape=(), dtype=int64, numpy=1>, <tf.Tensor: shape=(), dtype=int64, numpy=376>], [<tf.Tensor: shape=(), dtype=int64, numpy=771>, <tf.Tensor: shape=(), dtype=int64, numpy=3>], [<tf.Tensor: shape=(), dtype=int64, numpy=376>, <tf.Tensor: shape=(), dtype=int64, numpy=3>], [<tf.Tensor: shape=(), dtype=int64, numpy=1>, <tf.Tensor: shape=(), dtype=int64, numpy=3>], [<tf.Tensor: shape=(), dtype=int64, numpy=1045>, <tf.Tensor: shape=(), dtype=int64, numpy=3>], [<tf.Tensor: shape=(), dtype=int64, numpy=376>, <tf.Tensor: shape=(), dtype=int64, numpy=1>], [<tf.Tensor: shape=(), dtype=int64, numpy=3>, <tf.Tensor: shape=(), dtype=int64, numpy=1>], [<tf.Tensor: shape=(), dtype=int64, numpy=1045>, <tf.Tensor: shape=(), dtype=int64, numpy=1>], [<tf.Tensor: shape=(), dtype=int64, numpy=3>, <tf.Tensor: shape=(), dtype=int64, numpy=1045>], [<tf.Tensor: shape=(), dtype=int64, numpy=1>, <tf.Tensor: shape=(), dtype=int64, numpy=1045>]]
+```
+
+Let's prepare the training dataset. We will go through all news, call `to_cbow` to get the list of word pairs, and add those pairs to `X` and `Y`. For the sake of time, we will only consider first 10k news items - you can easily remove the limitation in case you have more time to wait, and want to get better embeddings :)
+
+```python
+X = []
+Y = []
+for i,x in zip(range(10000),ds_train.map(extract_text).as_numpy_iterator()):
+for w1, w2 in to_cbow(vectorizer(x),window_size=1):
+X.append(tf.expand_dims(w1,0))
+Y.append(tf.expand_dims(w2,0))
+```
+
+We will also convert that data to one dataset, and batch it for training:
+
+```python
+ds = tf.data.Dataset.from_tensor_slices((X,Y)).batch(256)
+```
+
+Now let's do the actual training. We will use `SGD` optimizer with pretty high learning rate. You can also try playing around with other optimizers, such as `Adam`. We will train for 200 epochs to begin with - and you can re-run this cell if you want even lower loss.
+
+```python
+model.compile(optimizer=keras.optimizers.SGD(lr=0.1),loss='sparse_categorical_crossentropy')
+model.fit(ds,epochs=200)
+```
+
+Output:
+```text
+Epoch 1/200
+
+/usr/local/lib/python3.7/dist-packages/keras/optimizer_v2/gradient_descent.py:102: UserWarning: The `lr` argument is deprecated, use `learning_rate` instead.
+super(SGD, self).__init__(name, **kwargs)
+
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.6134
+Epoch 2/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.5431
+Epoch 3/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.5029
+Epoch 4/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.4754
+Epoch 5/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.4548
+Epoch 6/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.4382
+Epoch 7/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.4243
+Epoch 8/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.4123
+Epoch 9/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.4019
+Epoch 10/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.3926
+Epoch 11/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.3843
+Epoch 12/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.3767
+Epoch 13/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.3697
+Epoch 14/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.3632
+Epoch 15/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.3571
+Epoch 16/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.3513
+Epoch 17/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.3459
+Epoch 18/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.3408
+Epoch 19/200
+2156/2156 [==============================] - 7s 3ms/step - loss: 5.3359
+Epoch
+```
+
+## Trying out Word2Vec
+
+To use Word2Vec, let's extract vectors corresponding to all words in our vocabulary:
+
+```python
+vectors = embedder(vectorizer(vocab))
+vectors = tf.reshape(vectors,(-1,30)) # we need reshape to get rid of extra dimension
+```
+
+Let's see, for example, how the word **Paris** is encoded into a vector:
+
+```python
+paris_vec = embedder(vectorizer('paris'))[0]
+print(paris_vec)
+```
+
+Output:
+```text
+tf.Tensor(
+[-0.13308628 0.50972325 0.00344684 0.185389 -0.03176536 0.22262476
+-0.3856765 -0.6854793 0.5185803 -0.7215402 -0.16101503 0.15622072
+0.00653811 -0.14954254 0.03379822 -0.01243829 0.27907634 -0.32538188
+0.21718933 0.31112966 -0.24142407 0.15589055 0.2915561 0.19029242
+0.08425518 -0.0941902 -0.54313695 -0.24854654 0.26196313 0.18027727], shape=(30,), dtype=float32)
+```
+
+It is interesting to use Word2Vec to look for synonyms. The following function will return `n` closest words to a given input. To find them, we compute the norm of $|w_i - v|$, where $v$ is the vector corresponding to our input word, and $w_i$ is the encoding of $i$-th word in the vocabulary. We then sort the array and return corresponding indices using `argsort`, and take first `n` elements of the list, which encode positions of closest words in the vocabulary.
+
+```python
+def close_words(x,n=5):
+vec = embedder(vectorizer(x))[0]
+top5 = np.linalg.norm(vectors-vec,axis=1).argsort()[:n]
+return [ vocab[x] for x in top5 ]
+
+close_words('paris')
+```
+
+Output:
+```text
+['paris', 'philippines', 'seoul', 'jakarta', 'zoo']
+```
+
+```python
+close_words('china')
+```
+
+Output:
+```text
+['china', 'russia', 'pakistan', 'israel', 'turkey']
+```
+
+```python
+close_words('official')
+```
+
+Output:
+```text
+['official', 'military', 'office', 'police', 'sources']
+```
+
+## Takeaway
+
+Using clever techniques such as CBoW, we can train Word2Vec model. You may also try to train skip-gram model that is trained to predict the neighboring word given the central one, and see how well it performs.

@@ -1,0 +1,33 @@
+# Introducción
+
+Source: Hugging Face Agents Course
+Original URL: https://github.com/huggingface/agents-course/blob/HEAD/units/es/bonus-unit3/introduction.mdx
+Original Path: units/es/bonus-unit3/introduction.mdx
+Course: Artificial Intelligence
+
+# Introducción
+
+<img src="https://huggingface.co/datasets/agents-course/course-images/resolve/main/en/bonus-unit3/pokemon_thumbnail.png" alt="Unidad Bonus 3 IA en Juegos"/>
+
+🎶 ¡Quiero ser el mejor...! 🎶
+
+¡Bienvenido a esta **unidad bonus**, donde explorarás la emocionante intersección entre los **Agentes de IA y los juegos**! 🎮🤖
+
+Imagina un juego donde los personajes no jugables (PNJs) no solo siguen líneas de diálogo predefinidas, sino que mantienen conversaciones dinámicas, se adaptan a tus estrategias y evolucionan a medida que se desarrolla la historia. Este es el poder de combinar **LLMs y comportamiento agéntico en los juegos**: abre la puerta a **narrativas y jugabilidad emergentes como nunca antes**.
+
+En esta unidad bonus, tú:
+
+- Aprenderás a construir un Agente de IA que pueda participar en **batallas por turnos al estilo Pokémon**
+- Jugarás contra él, o incluso desafiarás a otros agentes en línea
+
+Ya hemos visto [algunos](https://www.anthropic.com/research/visible-extended-thinking) [ejemplos](https://www.twitch.tv/gemini_plays_pokemon) de la comunidad de IA para jugar Pokémon usando LLMs, y en esta unidad aprenderás cómo puedes replicar eso usando tu propio Agente con las ideas que has aprendido a lo largo del curso.
+
+<img src="https://huggingface.co/datasets/agents-course/course-images/resolve/main/en/bonus-unit3/claude-plays-pokemon.png" alt="Claude juega Pokémon"/>
+
+## ¿Quieres ir más allá?
+
+- 🎓 **Domina los LLMs en Juegos**: Sumérgete más en el desarrollo de juegos con nuestro curso completo [Curso de Aprendizaje Automático para Juegos](https://hf.co/learn/ml-games-course).
+
+- 📘 **Obtén el Manual de IA**: Descubre ideas, perspectivas y consejos prácticos en el [Manual de IA para Desarrolladores de Juegos](https://thomassimonini.substack.com/), donde se explora el futuro del diseño inteligente de juegos.
+
+Pero antes de construir, veamos cómo ya se están utilizando los LLMs en los juegos con **cuatro inspiradores ejemplos del mundo real**.

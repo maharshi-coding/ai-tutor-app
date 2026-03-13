@@ -1,0 +1,434 @@
+# Python Arrays
+
+Source: GeeksforGeeks Python Tutorial
+Original URL: https://www.geeksforgeeks.org/python/python-arrays/
+Original Path: https://www.geeksforgeeks.org/python/python-arrays/
+Course: Python Programming
+
+Python Arrays
+
+Last Updated : 23 Feb, 2026
+
+Lists in Python are the most flexible and commonly used data structure for sequential storage. They are similar to arrays in other languages but with several key differences:
+
+- Dynamic Typing: Python lists can hold elements of different types in the same list. We can have an integer, a string and even other lists all stored within a single list.
+
+- Dynamic Resizing: Lists are dynamically resized, meaning you can add or remove elements without declaring the size of the list upfront.
+
+- Built-in Methods: Python lists come with numerous built-in methods that allow for easy manipulation of the elements within them, including methods for appending, removing, sorting and reversing elements.
+
+Python
+
+a = [ 1 , "Hello" , [ 3.14 , "world" ]]
+a . append ( 2 ) # Add an integer to the end
+print ( a )
+
+Output
+[1, 'Hello', [3.14, 'world'], 2]
+
+Note: Python does not have built-in array support in the same way that languages like C and Java do, but it provides something similar through the array module for storing elements of a single type.
+
+NumPy Arrays
+
+NumPy arrays are a part of the NumPy library , which is a powerful tool for numerical computing in Python. These arrays are designed for high-performance operations on large volumes of data and support multi-dimensional arrays and matrices. This makes them ideal for complex mathematical computations and large-scale data processing.
+
+Features:
+
+- Multi-dimensional support: NumPy arrays can handle more than one dimension, making them suitable for matrix operations and more complex mathematical constructs.
+
+- Broad broadcasting capabilities: They can perform operations between arrays of different sizes and shapes, a feature known as broadcasting.
+
+- Efficient storage and processing: NumPy arrays are stored more efficiently than Python lists and provide optimized performance for numerical operations.
+
+Python
+
+import numpy as np
+a = np . array ([ 1 , 2 , 3 , 4 ])
+
+# Element-wise operations
+print ( a * 2 )
+
+# Multi-dimensional array
+res = np . array ([[ 1 , 2 ], [ 3 , 4 ]])
+print ( res * 2 )
+
+Output
+[2 4 6 8]
+[[2 4]
+[6 8]]
+
+Note: Choose NumPy arrays for scientific computing, where you need to handle complex operations or work with multi-dimensional data.
+Use Python's array module when you need a basic, memory-efficient container for large quantities of uniform data types, especially when your operations are simple and do not require the capabilities of NumPy.
+
+Python Arrays
+
+In Python, array is a collection of items stored at contiguous memory locations. The idea is to store multiple items of the same type together. Unlike Python lists (can store elements of mixed types), arrays must have all elements of same type. Having only homogeneous elements makes it memory-efficient. It requires a Typecode during initialization to define the C-type.
+
+Python
+
+import array as arr
+a = arr . array ( 'i' , [ 1 , 2 , 3 ])
+
+# accessing First Araay
+print ( a [ 0 ])
+
+# adding element to array
+a . append ( 5 )
+print ( a )
+
+Output
+1
+array('i', [1, 2, 3, 5])
+
+Explanation : parameter 'i' is the typecode, it tells Python to treat the elements as signed integers ([1, 2, 3]) of a specific byte size (usually 2 or 4 bytes).
+
+The following table outlines standard typecodes, their mapped C types, and minimum memory requirements:
+
+Typecode C Type Python Type Minimum Size (Bytes)
+
+'b'
+signed char int 1
+
+'i'
+signed int int 2
+
+'f'
+float float 4
+
+'d'
+double float 8
+
+Create an Array in Python
+
+Array in Python can be created by importing an array module. array( data_type , value_list ) is used to create array in Python with data type and value list specified in its arguments.
+
+Python
+
+import array as arr
+a = arr . array ( 'i' , [ 1 , 2 , 3 ])
+
+for i in range ( 0 , 3 ):
+print ( a [ i ], end = " " )
+
+Output
+1 2 3
+
+Python Array Index
+Adding Elements to an Array
+
+Elements can be added to the Python Array by using built-in insert() function. Insert is used to insert one or more data elements into an array. Based on the requirement, a new element can be added at the beginning, end, or any given index of array. append() is also used to add the value mentioned in its arguments at the end of the Python array.
+
+Python
+
+import array as arr
+a = arr . array ( 'i' , [ 1 , 2 , 3 ])
+print ( * a )
+
+a . insert ( 1 , 4 ) # Insert 4 at index 1
+print ( * a )
+
+Output
+1 2 3
+1 4 2 3
+
+Note: We have used *a and *b for unpacking the array elements .
+
+Accessing Array Items
+
+In order to access the array items refer to the index number. Use the index operator [ ] to access an item in a array in Python. The index must be an integer.
+
+Python
+
+import array as arr
+a = arr . array ( 'i' , [ 1 , 2 , 3 , 4 , 5 , 6 ])
+
+print ( a [ 0 ])
+print ( a [ 3 ])
+
+b = arr . array ( 'd' , [ 2.5 , 3.2 , 3.3 ])
+print ( b [ 1 ])
+print ( b [ 2 ])
+
+Output
+1
+4
+3.2
+3.3
+
+Removing Elements from the Array
+
+Elements can be removed from the Python array by using built-in remove() function. It will raise an Error if element doesn’t exist. Remove() method only removes the first occurrence of the searched element. To remove range of elements, we can use an iterator.
+
+pop() function can also be used to remove and return an element from the array. By default it removes only the last element of the array. To remove element from a specific position, index of that item is passed as an argument to pop() method.
+
+Python
+
+import array
+a = array . array ( 'i' , [ 1 , 2 , 3 , 1 , 5 ])
+
+# remove first occurance of 1
+a . remove ( 1 )
+print ( a )
+
+# remove item at index 2
+a . pop ( 2 )
+print ( a )
+
+Output
+array('i', [2, 3, 1, 5])
+array('i', [2, 3, 5])
+
+Slicing of an Array
+
+In Python array, there are multiple ways to print the whole array with all the elements, but to print a specific range of elements from the array, we use Slice operation .
+Python Index Slicing
+- Elements from beginning to a range use [:Index]
+
+- Elements from end use [:-Index]
+
+- Elements from specific Index till the end use [Index:]
+
+- Elements within a range, use [Start Index:End Index]
+
+- Print complete List, use [:].
+
+- For Reverse list, use [::-1].
+
+Python
+
+import array as arr
+a = [ 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10 ]
+b = arr . array ( 'i' , a )
+
+res = a [ 3 : 8 ]
+print ( res )
+
+res = a [ 5 :]
+print ( res )
+
+res = a [:]
+print ( res )
+
+Output
+[4, 5, 6, 7, 8]
+[6, 7, 8, 9, 10]
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+Searching Element in an Array
+
+In order to search an element in the array we use a python in-built index() method. This function returns the index of the first occurrence of value mentioned in arguments.
+
+Python
+
+import array
+a = array . array ( 'i' , [ 1 , 2 , 3 , 1 , 2 , 5 ])
+
+# index of 1st occurrence of 2
+print ( a . index ( 2 ))
+
+# index of 1st occurrence of 1
+print ( a . index ( 1 ))
+
+Output
+1
+0
+
+Updating Elements in an Array
+
+In order to update an element in the array we simply reassign a new value to the desired index we want to update.
+
+Python
+
+import array
+a = array . array ( 'i' , [ 1 , 2 , 3 , 1 , 2 , 5 ])
+
+# update item at index 2
+a [ 2 ] = 6
+print ( a )
+
+# update item at index 4
+a [ 4 ] = 8
+print ( a )
+
+Output
+array('i', [1, 2, 6, 1, 2, 5])
+array('i', [1, 2, 6, 1, 8, 5])
+
+Different Operations on Python Arrays
+
+Counting Elements in an Array
+
+We can use count() method to count given item in array.
+
+Python
+
+import array
+a = array . array ( 'i' , [ 1 , 2 , 3 , 4 , 2 , 5 , 2 ])
+
+count = a . count ( 2 )
+print ( count )
+
+Output
+3
+
+Reversing Elements in an Array
+
+In order to reverse elements of an array we need to simply use reverse method.
+
+Python
+
+import array
+a = array . array ( 'i' , [ 1 , 2 , 3 , 4 , 5 ])
+
+a . reverse ()
+print ( * a )
+
+Output
+5 4 3 2 1
+
+Extend Element from Array
+
+In Python, an array is used to store multiple values or elements of the same datatype in a single variable. The extend() function is simply used to attach an item from iterable to the end of the array. In simpler terms, this method is used to add an array of values to the end of a given or existing array.
+
+list.extend(iterable)
+
+Here, all the element of iterable are added to the end of a.
+
+Python
+
+import array as arr
+a = arr . array ( 'i' , [ 1 , 2 , 3 , 4 , 5 ])
+
+a . extend ([ 6 , 7 , 8 , 9 , 10 ])
+print ( a )
+
+Output
+array('i', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+
+Related Links:
+
+- Python Array Quiz
+
+- Difference between Array and List in Python
+
+- Find Common elements in two Arrays in Python
+
+- How to pass an Array to a Function in Python
+
+- How to create String Array in Python
+
+Recommended Problems:
+
+- Rotate Array
+
+- Missing and Repeating in Array
+
+- Missing Ranges of Numbers
+
+- Reverse Array in Groups
+
+- Rotate Array
+
+Misc
+
+Python
+
+Python-array
+
+Python Fundamentals
+
+- Python Introduction 2 min read
+
+- Input and Output in Python 4 min read
+
+- Python Variables 4 min read
+
+- Python Operators 4 min read
+
+- Python Keywords 2 min read
+
+- Python Data Types 8 min read
+
+- Conditional Statements in Python 3 min read
+
+- Loops in Python 5 min read
+
+- Python Functions 5 min read
+
+Python Data Structures
+
+- Python String 5 min read
+
+- Python Lists 4 min read
+
+- Python Tuples 4 min read
+
+- Python Dictionary 4 min read
+
+- Python Sets 6 min read
+
+- Python Arrays 7 min read
+
+Advanced Python
+
+- Python OOP Concepts 4 min read
+
+- Python Exception Handling 5 min read
+
+- File Handling in Python 4 min read
+
+- Python Database Tutorial 4 min read
+
+- Python MongoDB Tutorial 3 min read
+
+- Python MySQL 9 min read
+
+- Python Packages 10 min read
+
+- Python Modules 3 min read
+
+- Python DSA Libraries 5 min read
+
+- List of Python GUI Library and Packages 3 min read
+
+Data Science with Python
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Matplotlib Tutorial 3 min read
+
+- Python Seaborn Tutorial 3 min read
+
+- StatsModel Library - Tutorial 2 min read
+
+- Learning Model Building in Scikit-learn 6 min read
+
+- TensorFlow Tutorial 2 min read
+
+- PyTorch Tutorial 5 min read
+
+Web Development with Python
+
+- Flask Tutorial 4 min read
+
+- Django Tutorial | Learn Django Framework 6 min read
+
+- Django ORM - Inserting, Updating & Deleting Data 4 min read
+
+- Templating With Jinja2 in Flask 6 min read
+
+- Django Templates 5 min read
+
+- Build a REST API using Flask - Python 3 min read
+
+- Building a Simple API with Django REST Framework 3 min read
+
+Python Practice
+
+- Python Quiz 1 min read
+
+- Python Coding Practice 1 min read
+
+- Python Interview Questions and Answers 15+ min read

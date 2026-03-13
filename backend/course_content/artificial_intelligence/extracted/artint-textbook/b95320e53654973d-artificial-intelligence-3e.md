@@ -1,0 +1,27 @@
+# Artificial Intelligence 3E
+
+Source: Artificial Intelligence: Foundations of Computational Agents
+Original URL: https://artint.info/3e/html/ArtInt3e.A2.html
+Original Path: https://artint.info/3e/html/ArtInt3e.A2.html
+Course: Artificial Intelligence
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+Appendix B Mapping to Open-Source Packages
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

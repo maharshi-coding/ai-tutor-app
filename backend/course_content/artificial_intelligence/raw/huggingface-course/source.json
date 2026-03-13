@@ -1,0 +1,19 @@
+{
+  "id": "huggingface-course",
+  "type": "git",
+  "title": "Hugging Face Course",
+  "description": "Modern NLP and transformer course content from Hugging Face.",
+  "license": "Repository license",
+  "repoUrl": "https://github.com/huggingface/course.git",
+  "maxFiles": 140,
+  "rootPaths": [
+    "."
+  ],
+  "includeExtensions": [
+    ".md",
+    ".mdx",
+    ".ipynb",
+    ".txt"
+  ],
+  "documentCount": 140
+}

@@ -1,0 +1,49 @@
+# <center>
+
+Source: mlcourse.ai
+Original URL: https://github.com/Yorko/mlcourse.ai/blob/HEAD/jupyter_english/projects_indiv/project_template.ipynb
+Original Path: jupyter_english/projects_indiv/project_template.ipynb
+Course: Machine Learning
+
+<center>
+<img src="../../img/ods_stickers.jpg" />
+
+## [mlcourse.ai](mlcourse.ai) – Open Machine Learning Course
+### <center> Author: Name as in the rating, ODS Slack nickname
+
+## <center> Individual data analysis project
+
+**Research plan**
+- Dataset and features description
+- Exploratory data analysis
+- Visual analysis of the features
+- Patterns, insights, pecularities of data
+- Data preprocessing
+- Feature engineering and description
+- Cross-validation, hyperparameter tuning
+- Validation and learning curves
+- Prediction for hold-out and test samples
+- Model evaluation with metrics description
+- Conclusions
+
+### Part 1. Dataset and features description
+
+### Part 2. Exploratory data analysis
+
+### Part 3. Visual analysis of the features
+
+### Part 4. Patterns, insights, pecularities of data
+
+### Part 5. Data preprocessing
+
+### Part 6. Feature engineering and description
+
+### Part 7. Cross-validation, hyperparameter tuning
+
+### Part 8. Validation and learning curves
+
+### Part 9. Prediction for hold-out and test samples
+
+### Part 10. Model evaluation with metrics description
+
+### Part 11. Conclusions

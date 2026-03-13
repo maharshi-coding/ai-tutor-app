@@ -1,0 +1,267 @@
+# Python map() function
+
+Source: GeeksforGeeks Python Tutorial
+Original URL: https://www.geeksforgeeks.org/python/python-map-function/
+Original Path: https://www.geeksforgeeks.org/python/python-map-function/
+Course: Python Programming
+
+Python map() function
+
+Last Updated : 7 Sep, 2025
+
+map() function in Python applies a given function to each element of an iterable (list, tuple, set, etc.) and returns a map object (iterator). It is a higher-order function used for uniform element-wise transformations, enabling concise and efficient code.
+
+Let's start with a simple example of using map() to convert a list of strings into a list of integers.
+
+Python
+
+s = [ '1' , '2' , '3' , '4' ]
+res = map ( int , s )
+print ( list ( res ))
+
+Output
+[1, 2, 3, 4]
+
+Explanation: map() applies int() to each element in s which changes their datatype from string to int.
+
+Syntax
+
+map(function, iterable,..)
+
+Parameters:
+
+- function: The function to apply to every element of the iterable.
+
+- iterable: One or more iterable objects (list, tuple, etc.) whose elements will be processed.
+
+Note: You can pass multiple iterables if the function accepts multiple arguments.
+
+Converting map object to a list
+
+By default, map() function returns a map object , which is an iterator . In many cases, we will need to convert this iterator to a list to work with the results directly.
+
+Example: Let's see how to double each elements of the given list.
+
+Python
+
+# Custom function to be applied
+# in map
+def double ( val ):
+return val * 2
+
+# Let us apply double on every member
+a = [ 1 , 2 , 3 , 4 ]
+res = list ( map ( double , a ))
+print ( res )
+
+Output
+[2, 4, 6, 8]
+
+Explanation:
+
+- map(double, a) applies double() to each element in a .
+
+- list() converts the map object to a list.
+
+map() with lambda
+
+We can use a lambda function instead of a custom function with map() to make code shorter and easier. Let's see how to improve above code for better readability.
+
+Python
+
+a = [ 1 , 2 , 3 , 4 ]
+res = list ( map ( lambda x : x ** 2 , a ))
+print ( res )
+
+Output
+[1, 4, 9, 16]
+
+Explanation: lambda x: x ** 2 squares each number and the results are converted into a list .
+
+map() with multiple iterables
+
+We can use map() with multiple iterables if the function we are applying takes more than one argument.
+
+Example: In this example, map() takes two iterables ( a and b ) and applies lambda function to add corresponding elements from both lists.
+
+Python
+
+a = [ 1 , 2 , 3 ]
+b = [ 4 , 5 , 6 ]
+res = map ( lambda x , y : x + y , a , b )
+print ( list ( res ))
+
+Output
+[5, 7, 9]
+
+Explanation: map() takes x from a and y from b and adds them.
+
+Converting strings to Uppercase
+
+This example shows how we can use map() to convert a list of strings to uppercase.
+
+Python
+
+fruits = [ 'apple' , 'banana' , 'cherry' ]
+res = map ( str . upper , fruits )
+print ( list ( res ))
+
+Output
+['APPLE', 'BANANA', 'CHERRY']
+
+Explanation: str.upper method is applied to each element in the list fruits using map() . The result is a list of uppercase versions of each fruit name.
+
+Extracting first character from strings
+
+In this example, we use map() to extract the first character from each string in a list.
+
+Python
+
+words = [ 'apple' , 'banana' , 'cherry' ]
+res = map ( lambda s : s [ 0 ], words )
+print ( list ( res ))
+
+Output
+['a', 'b', 'c']
+
+Explanation: lambda s: s[0] extracts first character from each string in the list words. map() applies this lambda function to every element, resulting in a list of the first characters of each word.
+
+Removing whitespaces from strings
+
+In this example, We can use map() to remove leading and trailing whitespaces from each string in a list.
+
+Python
+
+s = [ ' hello ' , ' world ' , ' python ' ]
+res = map ( str . strip , s )
+print ( list ( res ))
+
+Output
+['hello', 'world', 'python']
+
+Explanation: str.strip method removes leading and trailing whitespaces from each string in list strings. map() function applies str.strip to each element and returning a list of trimmed strings.
+
+Calculate fahrenheit from celsius
+
+In this example, we use map() to convert a list of temperatures from Celsius to Fahrenheit.
+
+Python
+
+celsius = [ 0 , 20 , 37 , 100 ]
+fahrenheit = map ( lambda c : ( c * 9 / 5 ) + 32 , celsius )
+print ( list ( fahrenheit ))
+
+Output
+[32.0, 68.0, 98.6, 212.0]
+
+Explanation: lambda c: (c * 9/5) + 32 converts each Celsius temperature to Fahrenheit using standard formula. map() function applies this transformation to all items in the list celsius.
+
+Misc
+
+Python
+
+python-list
+
+python-map
+
+python-list-functions
+
++ 1 More
+
+Python Fundamentals
+
+- Python Introduction 2 min read
+
+- Input and Output in Python 4 min read
+
+- Python Variables 4 min read
+
+- Python Operators 4 min read
+
+- Python Keywords 2 min read
+
+- Python Data Types 8 min read
+
+- Conditional Statements in Python 3 min read
+
+- Loops in Python 5 min read
+
+- Python Functions 5 min read
+
+Python Data Structures
+
+- Python String 5 min read
+
+- Python Lists 4 min read
+
+- Python Tuples 4 min read
+
+- Python Dictionary 4 min read
+
+- Python Sets 6 min read
+
+- Python Arrays 7 min read
+
+Advanced Python
+
+- Python OOP Concepts 4 min read
+
+- Python Exception Handling 5 min read
+
+- File Handling in Python 4 min read
+
+- Python Database Tutorial 4 min read
+
+- Python MongoDB Tutorial 3 min read
+
+- Python MySQL 9 min read
+
+- Python Packages 10 min read
+
+- Python Modules 3 min read
+
+- Python DSA Libraries 5 min read
+
+- List of Python GUI Library and Packages 3 min read
+
+Data Science with Python
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Matplotlib Tutorial 3 min read
+
+- Python Seaborn Tutorial 3 min read
+
+- StatsModel Library - Tutorial 2 min read
+
+- Learning Model Building in Scikit-learn 6 min read
+
+- TensorFlow Tutorial 2 min read
+
+- PyTorch Tutorial 5 min read
+
+Web Development with Python
+
+- Flask Tutorial 4 min read
+
+- Django Tutorial | Learn Django Framework 6 min read
+
+- Django ORM - Inserting, Updating & Deleting Data 4 min read
+
+- Templating With Jinja2 in Flask 6 min read
+
+- Django Templates 5 min read
+
+- Build a REST API using Flask - Python 3 min read
+
+- Building a Simple API with Django REST Framework 3 min read
+
+Python Practice
+
+- Python Quiz 1 min read
+
+- Python Coding Practice 1 min read
+
+- Python Interview Questions and Answers 15+ min read

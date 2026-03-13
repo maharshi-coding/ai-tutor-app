@@ -1,0 +1,202 @@
+# Python pass Statement
+
+Source: GeeksforGeeks Python Tutorial
+Original URL: https://www.geeksforgeeks.org/python/python-pass-statement/
+Original Path: https://www.geeksforgeeks.org/python/python-pass-statement/
+Course: Python Programming
+
+Python pass Statement
+
+Last Updated : 4 Oct, 2025
+
+The pass statement in Python is a placeholder that does nothing when executed.
+
+- It is used to keep code blocks valid where a statement is required but no logic is needed yet.
+
+- Examples situations where pass is used are empty functions, classes, loops or conditional blocks.
+
+In Functions
+
+The pass keyword in a function is used when we define a function but don't want to implement its logic immediately. It allows the function to be syntactically valid, even though it doesn’t perform any actions yet.
+
+Python
+
+def fun ():
+pass
+
+fun () # Call the function
+
+Explanation: fun() is defined but contains pass statement, so it does nothing when called and program continues execution without any errors.
+
+In Conditional Statements
+
+Sometimes, when using conditional statements we may not want to perform any action for a condition but still need the block to exist. The pass statement ensures the code remains valid without adding logic.
+
+Python
+
+x = 10
+
+if x > 5 :
+pass # Placeholder for future logic
+else :
+print ( "x is 5 or less" )
+
+Explanation:
+
+- When x > 5, the pass statement runs, so nothing happens.
+
+- If x <= 5, else block executes and prints the message.
+
+In Loops
+
+In loops , pass can be used to skip writing any action during a specific iteration while still keeping the loop structure correct.
+
+Python
+
+for i in range ( 5 ):
+if i == 3 :
+pass # Do nothing when i is 3
+else :
+print ( i )
+
+Output
+0
+1
+2
+4
+
+Explanation:
+
+- For i == 3, the pass statement ensures nothing happens.
+
+- For other values, the loop prints the number.
+
+In Classes
+
+The pass statement allows defining empty classes or methods that act as placeholders until actual functionality is added later.
+
+Python
+
+class EmptyClass :
+pass # No methods or attributes yet
+
+class Person :
+def __init__ ( self , name , age ):
+self . name = name
+self . age = age
+
+def greet ( self ):
+pass # Placeholder for greet method
+
+# Creating an instance of the class
+p = Person ( "Emily" , 30 )
+
+Explanation:
+
+- EmptyClass is valid even without methods or attributes because of pass.
+
+- greet() method exists but does nothing yet, letting us build the structure first.
+
+Python
+
+python-basics
+
+python
+
+Python Fundamentals
+
+- Python Introduction 2 min read
+
+- Input and Output in Python 4 min read
+
+- Python Variables 4 min read
+
+- Python Operators 4 min read
+
+- Python Keywords 2 min read
+
+- Python Data Types 8 min read
+
+- Conditional Statements in Python 3 min read
+
+- Loops in Python 5 min read
+
+- Python Functions 5 min read
+
+Python Data Structures
+
+- Python String 5 min read
+
+- Python Lists 4 min read
+
+- Python Tuples 4 min read
+
+- Python Dictionary 4 min read
+
+- Python Sets 6 min read
+
+- Python Arrays 7 min read
+
+Advanced Python
+
+- Python OOP Concepts 4 min read
+
+- Python Exception Handling 5 min read
+
+- File Handling in Python 4 min read
+
+- Python Database Tutorial 4 min read
+
+- Python MongoDB Tutorial 3 min read
+
+- Python MySQL 9 min read
+
+- Python Packages 10 min read
+
+- Python Modules 3 min read
+
+- Python DSA Libraries 5 min read
+
+- List of Python GUI Library and Packages 3 min read
+
+Data Science with Python
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Matplotlib Tutorial 3 min read
+
+- Python Seaborn Tutorial 3 min read
+
+- StatsModel Library - Tutorial 2 min read
+
+- Learning Model Building in Scikit-learn 6 min read
+
+- TensorFlow Tutorial 2 min read
+
+- PyTorch Tutorial 5 min read
+
+Web Development with Python
+
+- Flask Tutorial 4 min read
+
+- Django Tutorial | Learn Django Framework 6 min read
+
+- Django ORM - Inserting, Updating & Deleting Data 4 min read
+
+- Templating With Jinja2 in Flask 6 min read
+
+- Django Templates 5 min read
+
+- Build a REST API using Flask - Python 3 min read
+
+- Building a Simple API with Django REST Framework 3 min read
+
+Python Practice
+
+- Python Quiz 1 min read
+
+- Python Coding Practice 1 min read
+
+- Python Interview Questions and Answers 15+ min read

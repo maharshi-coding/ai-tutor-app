@@ -1,0 +1,15 @@
+{
+  "id": "geeksforgeeks-ai",
+  "type": "web",
+  "title": "GeeksforGeeks Artificial Intelligence Tutorial",
+  "description": "Broad AI overview with search, agents, knowledge representation, learning, and generative AI topics.",
+  "license": "GeeksforGeeks site terms",
+  "seedUrls": [
+    "https://www.geeksforgeeks.org/artificial-intelligence/artificial-intelligence/"
+  ],
+  "allowPrefixes": [
+    "https://www.geeksforgeeks.org/artificial-intelligence/"
+  ],
+  "maxPages": 55,
+  "documentCount": 55
+}

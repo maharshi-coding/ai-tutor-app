@@ -1,0 +1,103 @@
+# ACTIVE REINFORCEMENT LEARNING
+
+Source: AIMA Python
+Original URL: https://github.com/aimacode/aima-python/blob/HEAD/notebooks/chapter21/Active Reinforcement Learning.ipynb
+Original Path: notebooks/chapter21/Active Reinforcement Learning.ipynb
+Course: Artificial Intelligence
+
+# ACTIVE REINFORCEMENT LEARNING
+
+This notebook mainly focuses on active reinforce learning algorithms. For a general introduction to reinforcement learning and passive algorithms, please refer to the notebook of **[Passive Reinforcement Learning](./Passive%20Reinforcement%20Learning.ipynb)**.
+
+Unlike Passive Reinforcement Learning in Active Reinforcement Learning, we are not bound by a policy pi and we need to select our actions. In other words, the agent needs to learn an optimal policy. The fundamental tradeoff the agent needs to face is that of exploration vs. exploitation.
+
+## QLearning Agent
+
+The QLearningAgent class in the rl module implements the Agent Program described in **Fig 21.8** of the AIMA Book. In Q-Learning the agent learns an action-value function Q which gives the utility of taking a given action in a particular state. Q-Learning does not require a transition model and hence is a model-free method. Let us look into the source before we see some usage examples.
+
+```python
+%psource QLearningAgent
+```
+
+The Agent Program can be obtained by creating the instance of the class by passing the appropriate parameters. Because of the __ call __ method the object that is created behaves like a callable and returns an appropriate action as most Agent Programs do. To instantiate the object we need a `mdp` object similar to the `PassiveTDAgent`.
+
+Let us use the same `GridMDP` object we used above. **Figure 17.1 (sequential_decision_environment)** is similar to **Figure 21.1** but has some discounting parameter as **gamma = 0.9**. The enviroment also implements an exploration function **f** which returns fixed **Rplus** until agent has visited state, action **Ne** number of times. The method **actions_in_state** returns actions possible in given state. It is useful when applying max and argmax operations.
+
+Let us create our object now. We also use the **same alpha** as given in the footnote of the book on **page 769**: $\alpha(n)=60/(59+n)$ We use **Rplus = 2** and **Ne = 5** as defined in the book. The pseudocode can be referred from **Fig 21.7** in the book.
+
+```python
+import os, sys
+sys.path = [os.path.abspath("../../")] + sys.path
+from rl4e import *
+from mdp import sequential_decision_environment, value_iteration
+```
+
+```python
+q_agent = QLearningAgent(sequential_decision_environment, Ne=5, Rplus=2,
+alpha=lambda n: 60./(59+n))
+```
+
+Now to try out the q_agent we make use of the **run_single_trial** function in rl.py (which was also used above). Let us use **200** iterations.
+
+```python
+for i in range(200):
+run_single_trial(q_agent,sequential_decision_environment)
+```
+
+Now let us see the Q Values. The keys are state-action pairs. Where different actions correspond according to:
+
+north = (0, 1)
+south = (0,-1)
+west = (-1, 0)
+east = (1, 0)
+
+```python
+q_agent.Q
+```
+
+The Utility U of each state is related to Q by the following equation.
+
+$$U (s) = max_a Q(s, a)$$
+
+Let us convert the Q Values above into U estimates.
+
+```python
+U = defaultdict(lambda: -1000.) # Very Large Negative Value for Comparison see below.
+for state_action, value in q_agent.Q.items():
+state, action = state_action
+if U[state] < value:
+U[state] = value
+```
+
+Now we can output the estimated utility values at each state:
+
+```python
+U
+```
+
+Output:
+```text
+defaultdict(<function __main__.<lambda>()>,
+{(0, 0): -0.0036556430391564178,
+(1, 0): -0.04862675963288682,
+(2, 0): 0.03384490363100474,
+(3, 0): -0.16618771401113092,
+(3, 1): -0.6015323978614368,
+(0, 1): 0.09161077177913537,
+(0, 2): 0.1834607974581678,
+(1, 2): 0.26393277962204903,
+(2, 2): 0.32369726495311274,
+(3, 2): 0.38898341569576245,
+(2, 1): -0.044858154562400485})
+```
+
+Let us finally compare these estimates to value_iteration results.
+
+```python
+print(value_iteration(sequential_decision_environment))
+```
+
+Output:
+```text
+{(0, 1): 0.3984432178350045, (1, 2): 0.649585681261095, (3, 2): 1.0, (0, 0): 0.2962883154554812, (3, 0): 0.12987274656746342, (3, 1): -1.0, (2, 1): 0.48644001739269643, (2, 0): 0.3447542300124158, (2, 2): 0.7953620878466678, (1, 0): 0.25386699846479516, (0, 2): 0.5093943765842497}
+```

@@ -1,0 +1,15 @@
+{
+  "id": "fsdl-course-2022",
+  "type": "web",
+  "title": "Full Stack Deep Learning 2022",
+  "description": "Applied notes on building, evaluating, deploying, and improving ML systems.",
+  "license": "Site terms",
+  "seedUrls": [
+    "https://fullstackdeeplearning.com/course/2022/lecture-1-course-vision-and-when-to-use-ml/"
+  ],
+  "allowPrefixes": [
+    "https://fullstackdeeplearning.com/course/2022/"
+  ],
+  "maxPages": 24,
+  "documentCount": 20
+}

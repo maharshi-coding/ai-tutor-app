@@ -1,0 +1,104 @@
+# Artificial Intelligence 3E
+
+Source: Artificial Intelligence: Foundations of Computational Agents
+Original URL: https://artint.info/3e/html/ArtInt3e.Ch17.html
+Original Path: https://artint.info/3e/html/ArtInt3e.Ch17.html
+Course: Artificial Intelligence
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+Chapter 17 Relational Learning and Probabilistic Reasoning
+
+The mind is a neural computer, fitted by natural selection with
+combinatorial algorithms for causal and probabilistic reasoning about
+plants, animals, objects, and people.
+
+In a universe with any regularities at all, decisions informed about
+the past are better than decisions made at random. That has always
+been true, and we would expect organisms, especially informavores such
+as humans, to have evolved acute intuitions about probability. The
+founders of probability, like the founders of logic, assumed they were
+just formalizing common sense.
+
+– Steven Pinker [ 1997 , pp. 524, 343]
+
+In the
+machine learning and probabilistic models presented in earlier
+chapters, the world is made up of features and random
+variables. As Pinker points out, we generally reason about
+things. Things are not features or random variables; it doesn’t make sense to talk
+about the probability of an individual animal, but you
+could reason about the probability that it is sick, based on its symptoms. This
+chapter is about how to learn and make probabilistic predictions about
+things or entities.
+
+The representation
+dimension has, as its top level,
+reasoning in terms of individuals ( entities ) and
+relations . Reasoning in terms of
+relations allows for compact representations that can be built
+independently of the particular entities, but can also be used to
+learn and reason about
+each entity. This
+chapter outlines how feature-based representations as used in learning and probabilistic reasoning can
+be expanded to deal also with entities
+and relations. A relational model can
+benefit from being able to be built before the entities are known
+and, therefore, before the features are known.
+
+Statistical relational AI or
+neuro-symbolic AI involves making predictions about
+relations based on relational data consisting of a relational database,
+and perhaps metadata . Statistical relational AI
+is a general term for relational predictions based on data, whereas neuro-symbolic AI involves using neural
+networks and other embedding-based techniques for predictions. This encompasses:
+
+•
+
+Predicting attributes of entities based on their other attributes and attributes of
+entities they are related to.
+
+•
+
+Predicting relations based on properties and
+relations of the entities involved. The simplest case is learning a single binary
+relation ( Section 17.2.1 ), which is useful for domains like movie recommendations.
+This is extended to learning triples in
+Section 17.2.2 , and learning more
+general relations in Section 17.3 .
+
+•
+
+Predicting identity , whether
+descriptions denote the same entity – the descriptions are
+equal – for example, which citations refer to the
+same papers, or whether two descriptions refer to the same person ( Section 17.4 ).
+
+•
+
+Predicting existence , whether an entity exists that fits a
+description, for example whether there is a person in a
+particular room ( Section 17.4 ).
+
+The set of all entities of a type is called the
+population . In this chapter, a property where the range is
+an entity (e.g., a person or a movie) is called a
+relation and the term property is used when the range is a fixed
+set, such as Boolean or the reals.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

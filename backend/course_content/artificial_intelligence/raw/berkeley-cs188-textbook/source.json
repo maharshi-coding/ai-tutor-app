@@ -1,0 +1,15 @@
+{
+  "id": "berkeley-cs188-textbook",
+  "type": "web",
+  "title": "Berkeley CS188 Textbook",
+  "description": "Official CS188 textbook covering core AI problem solving, reasoning, and learning topics.",
+  "license": "CC BY-SA 4.0",
+  "seedUrls": [
+    "https://inst.eecs.berkeley.edu/~cs188/textbook/"
+  ],
+  "allowPrefixes": [
+    "https://inst.eecs.berkeley.edu/~cs188/textbook/"
+  ],
+  "maxPages": 80,
+  "documentCount": 74
+}

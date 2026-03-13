@@ -1,0 +1,186 @@
+# Introduction to Dimensionality Reduction
+
+Source: GeeksforGeeks Machine Learning Tutorial
+Original URL: https://www.geeksforgeeks.org/machine-learning/dimensionality-reduction/
+Original Path: https://www.geeksforgeeks.org/machine-learning/dimensionality-reduction/
+Course: Machine Learning
+
+Introduction to Dimensionality Reduction
+
+Last Updated : 15 Sep, 2025
+
+When working with machine learning models, datasets with too many features can cause issues like slow computation and overfitting. Dimensionality reduction helps to reduce the number of features while retaining key information. It converts high-dimensional data into a lower-dimensional space while preserving important details.
+
+For example, when you are building a model to predict house prices with features like bedrooms, square footage and location. If you add too many features such as room condition or flooring type, the dataset becomes large and complex.
+
+How Dimensionality Reduction Works?
+
+Lets understand how dimensionality Reduction is used with the help of example. Imagine a dataset where each data point exists in a 3D space defined by axes X, Y and Z. If most of the data variance occurs along X and Y then the Z-dimension may contribute very little to understanding the structure of the data.
+Dimensionality Reduction
+- Before Reduction we can see that data exist in 3D (X,Y,Z). It has high redundancy and Z contributes little meaningful information
+
+- On the right after reducing the dimensionality the data is represented in lower-dimensional spaces. The top plot (X-Y) maintains the meaningful structure while the bottom plot (Z-Y) shows that the Z-dimension contributed little useful information.
+
+This process makes data analysis more efficient hence improving computation speed and visualization while minimizing redundancy
+
+Dimensionality Reduction Techniques
+
+Dimensionality reduction techniques can be broadly divided into two categories:
+
+1. Feature Selection
+
+Feature selection chooses the most relevant features from the dataset without altering them. It helps remove redundant or irrelevant features, improving model efficiency. Some common methods are:
+
+- Filter methods rank the features based on their relevance to the target variable.
+
+- Wrapper methods use the model performance as the criteria for selecting features.
+
+- Embedded methods combine feature selection with the model training process.
+
+2. Feature Extraction
+
+Feature extraction involves creating new features by combining or transforming the original features. These new features retain most of the dataset’s important information in fewer dimensions. Common feature extraction methods are:
+
+- Principal Component Analysis (PCA): Converts correlated variables into uncorrelated principal components hence reducing dimensionality while maintaining as much variance as possible enabling more efficient analysis.
+
+- Missing Value Ratio: Variables with missing data beyond a set threshold are removed, improving dataset reliability.
+
+- Backward Feature Elimination : Starts with all features and removes the least significant ones in each iteration. The process continues until only the most impactful features remain, optimizing model performance.
+
+- Forward Feature Selection: It begins with one feature, adds others incrementally and keeps those improving model performance.
+
+- Random Forest : Random forest uses decision trees to evaluate feature importance, automatically selecting the most relevant features without the need for manual coding, enhancing model accuracy.
+
+- Factor Analysis : Groups variables by correlation and keeps the most relevant ones for further analysis.
+
+- Independent Component Analysis (ICA) : Identifies statistically independent components, ideal for applications like ‘blind source separation’ where traditional correlation-based methods fall short.
+
+Real World Use Case
+
+Dimensionality reduction plays a important role in many real-world applications such as text categorization, image retrieval, gene expression analysis and more. Here are a few examples:
+
+- Text Categorization: With vast amounts of online data dimensionality reduction helps classify text documents into predefined categories by reducing the feature space like word or phrase features while maintaining accuracy.
+
+- Image Retrieval : As image data grows indexing based on visual content like color, texture, shape rather than just text descriptions has become essential. This allows for better retrieval of images from large databases.
+
+- Gene Expression Analysis : Dimensionality reduction accelerates gene expression analysis help to classify samples like leukemia by identifying key features, improve both speed and accuracy.
+
+- Intrusion Detection : In cybersecurity dimensionality reduction helps analyze user activity patterns to detect suspicious behaviors and intrusions by identifying optimal features for network monitoring.
+
+Advantages
+
+As seen earlier high dimensionality makes models inefficient. Let's now summarize the key advantages of reducing dimensionality.
+
+- Faster Computation : With fewer features machine learning algorithms can process data more quickly. This results in faster model training and testing which is particularly useful when working with large datasets.
+
+- Better Visualization : As we saw in the earlier figure reducing dimensions makes it easier to visualize data and reveal hidden patterns.
+
+- Prevent Overfitting : With few features models are less likely to memorize the training data and overfit. This helps the model generalize better to new, unseen data improve its ability to make accurate predictions.
+
+Disadvantages
+
+- Data Loss & Reduced Accuracy: Some important information may be lost during dimensionality reduction and affect model performance.
+
+- Choosing the Right Components: Deciding how many dimensions to keep is difficult as keeping too few may lose valuable information while keeping too many can led to overfitting.
+
+Machine Learning
+
+AI-ML-DS
+
+AI-ML-DS With Python
+
+Machine Learning Basics
+
+- Introduction to Machine Learning 8 min read
+
+- Types of Machine Learning 7 min read
+
+- What is Machine Learning Pipeline? 6 min read
+
+- Applications of Machine Learning 3 min read
+
+Python for Machine Learning
+
+- Machine Learning with Python Tutorial 3 min read
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Data Preprocessing in Python 4 min read
+
+- EDA - Exploratory Data Analysis in Python 6 min read
+
+Feature Engineering
+
+- What is Feature Engineering? 5 min read
+
+- Introduction to Dimensionality Reduction 4 min read
+
+- Feature Selection Techniques in Machine Learning 4 min read
+
+Supervised Learning
+
+- Supervised Machine Learning 7 min read
+
+- Linear Regression in Machine learning 14 min read
+
+- Logistic Regression in Machine Learning 10 min read
+
+- Decision Tree in Machine Learning 8 min read
+
+- Random Forest Algorithm in Machine Learning 5 min read
+
+- K-Nearest Neighbor(KNN) Algorithm 8 min read
+
+- Support Vector Machine (SVM) Algorithm 9 min read
+
+- Naive Bayes Classifiers 6 min read
+
+Unsupervised Learning
+
+- What is Unsupervised Learning 5 min read
+
+- K means Clustering – Introduction 6 min read
+
+- Hierarchical Clustering in Machine Learning 6 min read
+
+- DBSCAN Clustering in ML - Density based clustering 6 min read
+
+- Apriori Algorithm 6 min read
+
+- Frequent Pattern Growth Algorithm 4 min read
+
+- ECLAT Algorithm - ML 5 min read
+
+- Principal Component Analysis (PCA) 7 min read
+
+Model Evaluation and Tuning
+
+- Evaluation Metrics in Machine Learning 9 min read
+
+- Regularization in Machine Learning 5 min read
+
+- Cross Validation in Machine Learning 5 min read
+
+- Hyperparameter Tuning 5 min read
+
+- Underfitting and Overfitting in ML 3 min read
+
+- Bias and Variance in Machine Learning 6 min read
+
+Advanced Techniques
+
+- Reinforcement Learning 9 min read
+
+- Semi-Supervised Learning in ML 5 min read
+
+- Self-Supervised Learning (SSL) 6 min read
+
+- Ensemble Learning 7 min read
+
+Machine Learning Practice
+
+- Machine Learning Interview Questions and Answers 15+ min read
+
+- 100+ Machine Learning Projects with Source Code 5 min read

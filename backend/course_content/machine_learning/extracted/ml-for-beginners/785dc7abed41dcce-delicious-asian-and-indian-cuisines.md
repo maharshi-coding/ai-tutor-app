@@ -1,0 +1,352 @@
+# Delicious Asian and Indian Cuisines
+
+Source: ML for Beginners
+Original URL: https://github.com/microsoft/ML-For-Beginners/blob/HEAD/4-Classification/1-Introduction/solution/notebook.ipynb
+Original Path: 4-Classification/1-Introduction/solution/notebook.ipynb
+Course: Machine Learning
+
+# Delicious Asian and Indian Cuisines
+
+Install Imblearn which will enable SMOTE. This is a Scikit-learn package that helps handle imbalanced data when performing classification. (https://imbalanced-learn.org/stable/)
+
+```python
+pip install imblearn
+```
+
+Output:
+```text
+Requirement already satisfied: imblearn in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages (0.0)
+Requirement already satisfied: imbalanced-learn in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages (from imblearn) (0.8.0)
+Requirement already satisfied: numpy>=1.13.3 in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages (from imbalanced-learn->imblearn) (1.19.2)
+Requirement already satisfied: scipy>=0.19.1 in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages (from imbalanced-learn->imblearn) (1.4.1)
+Requirement already satisfied: scikit-learn>=0.24 in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages (from imbalanced-learn->imblearn) (0.24.2)
+Requirement already satisfied: joblib>=0.11 in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages (from imbalanced-learn->imblearn) (0.16.0)
+Requirement already satisfied: threadpoolctl>=2.0.0 in /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages (from scikit-learn>=0.24->imbalanced-learn->imblearn) (2.1.0)
+[33mWARNING: You are using pip version 20.2.3; however, version 21.1.2 is available.
+You should consider upgrading via the '/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7 -m pip install --upgrade pip' command.[0m
+Note: you may need to restart the kernel to use updated packages.
+```
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+import numpy as np
+from imblearn.over_sampling import SMOTE
+```
+
+```python
+df = pd.read_csv('../../data/cuisines.csv')
+```
+
+This dataset includes 385 columns indicating all kinds of ingredients in various cuisines from a given set of cuisines.
+
+```python
+df.head()
+```
+
+Output:
+```text
+Unnamed: 0 cuisine almond angelica anise anise_seed apple \
+0 65 indian 0 0 0 0 0
+1 66 indian 1 0 0 0 0
+2 67 indian 0 0 0 0 0
+3 68 indian 0 0 0 0 0
+4 69 indian 0 0 0 0 0
+
+apple_brandy apricot armagnac ... whiskey white_bread white_wine \
+0 0 0 0 ... 0 0 0
+1 0 0 0 ... 0 0 0
+2 0 0 0 ... 0 0 0
+3 0 0 0 ... 0 0 0
+4 0 0 0 ... 0 0 0
+
+whole_grain_wheat_flour wine wood yam yeast yogurt zucchini
+0 0 0 0 0 0 0 0
+1 0 0 0 0 0 0 0
+2 0 0 0 0 0 0 0
+3 0 0 0 0 0 0 0
+4 0 0 0 0 0 1 0
+
+[5 rows x 385 columns]
+```
+
+```python
+df.info()
+```
+
+Output:
+```text
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 2448 entries, 0 to 2447
+Columns: 385 entries, Unnamed: 0 to zucchini
+dtypes: int64(384), object(1)
+memory usage: 7.2+ MB
+```
+
+```python
+df.cuisine.value_counts()
+```
+
+Output:
+```text
+korean 799
+indian 598
+chinese 442
+japanese 320
+thai 289
+Name: cuisine, dtype: int64
+```
+
+Show the cuisines in a bar graph
+
+```python
+df.cuisine.value_counts().plot.barh()
+```
+
+Output:
+```text
+<matplotlib.axes._subplots.AxesSubplot at 0x7f9d18799710>
+
+<Figure size 432x288 with 1 Axes>
+```
+
+```python
+thai_df = df[(df.cuisine == "thai")]
+japanese_df = df[(df.cuisine == "japanese")]
+chinese_df = df[(df.cuisine == "chinese")]
+indian_df = df[(df.cuisine == "indian")]
+korean_df = df[(df.cuisine == "korean")]
+
+print(f'thai df: {thai_df.shape}')
+print(f'japanese df: {japanese_df.shape}')
+print(f'chinese df: {chinese_df.shape}')
+print(f'indian df: {indian_df.shape}')
+print(f'korean df: {korean_df.shape}')
+```
+
+Output:
+```text
+thai df: (289, 385)
+japanese df: (320, 385)
+chinese df: (442, 385)
+indian df: (598, 385)
+korean df: (799, 385)
+```
+
+## What are the top ingredients by class
+
+```python
+def create_ingredient_df(df):
+# transpose df, drop cuisine and unnamed rows, sum the row to get total for ingredient and add value header to new df
+ingredient_df = df.T.drop(['cuisine','Unnamed: 0']).sum(axis=1).to_frame('value')
+# drop ingredients that have a 0 sum
+ingredient_df = ingredient_df[(ingredient_df.T != 0).any()]
+# sort df
+ingredient_df = ingredient_df.sort_values(by='value', ascending=False, inplace=False)
+return ingredient_df
+```
+
+```python
+thai_ingredient_df = create_ingredient_df(thai_df)
+thai_ingredient_df.head(10).plot.barh()
+```
+
+Output:
+```text
+<matplotlib.axes._subplots.AxesSubplot at 0x7f9d5917db00>
+
+<Figure size 432x288 with 1 Axes>
+```
+
+```python
+japanese_ingredient_df = create_ingredient_df(japanese_df)
+japanese_ingredient_df.head(10).plot.barh()
+```
+
+Output:
+```text
+<matplotlib.axes._subplots.AxesSubplot at 0x7f9d389634a8>
+
+<Figure size 432x288 with 1 Axes>
+```
+
+```python
+chinese_ingredient_df = create_ingredient_df(chinese_df)
+chinese_ingredient_df.head(10).plot.barh()
+```
+
+Output:
+```text
+<matplotlib.axes._subplots.AxesSubplot at 0x7f9d18817f98>
+
+<Figure size 432x288 with 1 Axes>
+```
+
+```python
+indian_ingredient_df = create_ingredient_df(indian_df)
+indian_ingredient_df.head(10).plot.barh()
+```
+
+Output:
+```text
+<matplotlib.axes._subplots.AxesSubplot at 0x7f9d1880a550>
+
+<Figure size 432x288 with 1 Axes>
+```
+
+```python
+korean_ingredient_df = create_ingredient_df(korean_df)
+korean_ingredient_df.head(10).plot.barh()
+```
+
+Output:
+```text
+<matplotlib.axes._subplots.AxesSubplot at 0x7f9d1896ce80>
+
+<Figure size 432x288 with 1 Axes>
+```
+
+Drop very common ingredients (common to all cuisines)
+
+```python
+feature_df= df.drop(['cuisine','Unnamed: 0','rice','garlic','ginger'], axis=1)
+labels_df = df.cuisine #.unique()
+feature_df.head()
+```
+
+Output:
+```text
+almond angelica anise anise_seed apple apple_brandy apricot \
+0 0 0 0 0 0 0 0
+1 1 0 0 0 0 0 0
+2 0 0 0 0 0 0 0
+3 0 0 0 0 0 0 0
+4 0 0 0 0 0 0 0
+
+armagnac artemisia artichoke ... whiskey white_bread white_wine \
+0 0 0 0 ... 0 0 0
+1 0 0 0 ... 0 0 0
+2 0 0 0 ... 0 0 0
+3 0 0 0 ... 0 0 0
+4 0 0 0 ... 0 0 0
+
+whole_grain_wheat_flour wine wood yam yeast yogurt zucchini
+0 0 0 0 0 0 0 0
+1 0 0 0 0 0 0 0
+2 0 0 0 0 0 0 0
+3 0 0 0 0 0 0 0
+4 0 0 0 0 0 1 0
+
+[5 rows x 380 columns]
+```
+
+Balance data with SMOTE oversampling to the highest class. Read more here: https://imbalanced-learn.org/dev/references/generated/imblearn.over_sampling.SMOTE.html
+
+```python
+oversample = SMOTE()
+transformed_feature_df, transformed_label_df = oversample.fit_resample(feature_df, labels_df)
+```
+
+```python
+print(f'new label count: {transformed_label_df.value_counts()}')
+print(f'old label count: {df.cuisine.value_counts()}')
+```
+
+Output:
+```text
+new label count: korean 799
+chinese 799
+japanese 799
+indian 799
+thai 799
+Name: cuisine, dtype: int64
+old label count: korean 799
+indian 598
+chinese 442
+japanese 320
+thai 289
+Name: cuisine, dtype: int64
+```
+
+```python
+transformed_feature_df.head()
+```
+
+Output:
+```text
+almond angelica anise anise_seed apple apple_brandy apricot \
+0 0 0 0 0 0 0 0
+1 1 0 0 0 0 0 0
+2 0 0 0 0 0 0 0
+3 0 0 0 0 0 0 0
+4 0 0 0 0 0 0 0
+
+armagnac artemisia artichoke ... whiskey white_bread white_wine \
+0 0 0 0 ... 0 0 0
+1 0 0 0 ... 0 0 0
+2 0 0 0 ... 0 0 0
+3 0 0 0 ... 0 0 0
+4 0 0 0 ... 0 0 0
+
+whole_grain_wheat_flour wine wood yam yeast yogurt zucchini
+0 0 0 0 0 0 0 0
+1 0 0 0 0 0 0 0
+2 0 0 0 0 0 0 0
+3 0 0 0 0 0 0 0
+4 0 0 0 0 0 1 0
+
+[5 rows x 380 columns]
+```
+
+```python
+# export transformed data to new df for classification
+transformed_df = pd.concat([transformed_label_df,transformed_feature_df],axis=1, join='outer')
+transformed_df
+```
+
+Output:
+```text
+cuisine almond angelica anise anise_seed apple apple_brandy \
+0 indian 0 0 0 0 0 0
+1 indian 1 0 0 0 0 0
+2 indian 0 0 0 0 0 0
+3 indian 0 0 0 0 0 0
+4 indian 0 0 0 0 0 0
+... ... ... ... ... ... ... ...
+3990 thai 0 0 0 0 0 0
+3991 thai 0 0 0 0 0 0
+3992 thai 0 0 0 0 0 0
+3993 thai 0 0 0 0 0 0
+3994 thai 0 0 0 0 0 0
+
+apricot armagnac artemisia ... whiskey white_bread white_wine \
+0 0 0 0 ... 0 0 0
+1 0 0 0 ... 0 0 0
+2 0 0 0 ... 0 0 0
+3 0 0 0 ... 0 0 0
+4 0 0 0 ... 0 0 0
+... ... ... ... ... ... ... ...
+3990 0 0 0 ... 0 0 0
+3991 0 0 0 ... 0 0 0
+3992 0 0
+```
+
+```python
+transformed_df.info()
+```
+
+Output:
+```text
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 3995 entries, 0 to 3994
+Columns: 381 entries, cuisine to zucchini
+dtypes: int64(380), object(1)
+memory usage: 11.6+ MB
+```
+
+Save the file for future use
+
+```python
+transformed_df.to_csv("../../data/cleaned_cuisines.csv")
+```

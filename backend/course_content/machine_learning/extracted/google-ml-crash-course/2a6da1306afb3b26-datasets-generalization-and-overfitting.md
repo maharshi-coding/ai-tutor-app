@@ -1,0 +1,71 @@
+# Datasets, generalization, and overfitting
+
+Source: Google Machine Learning Crash Course
+Original URL: https://developers.google.com/machine-learning/crash-course/overfitting
+Original Path: https://developers.google.com/machine-learning/crash-course/overfitting
+Course: Machine Learning
+
+Datasets, generalization, and overfitting
+
+Stay organized with collections
+
+Save and categorize content based on your preferences.
+
+Introduction
+
+This module begins with a leading question.
+Choose one of the following answers:
+
+If you had to prioritize improving one of the following areas
+in your machine learning project, which would have the most
+impact?
+
+Improving the quality of your dataset
+
+Data trumps all.
+The quality and size of the dataset matters much more than which
+shiny algorithm you use to build your model.
+
+Applying a more clever loss function to training your model
+
+True, a better loss function can help a model train faster, but
+it's still a distant second to another item in this list.
+
+And here's an even more leading question:
+
+Take a guess: In your machine learning project, how much time
+do you typically spend on data preparation and transformation?
+
+More than half of the project time
+
+Yes, ML practitioners spend the majority of their time
+constructing datasets and doing feature engineering.
+
+Less than half of the project time
+
+Plan for more! Typically, 80% of the time on a machine learning
+project is spent constructing datasets and transforming data.
+
+In this module, you'll learn more about the characteristics of machine learning
+datasets, and how to prepare your data to ensure high-quality results when
+training and evaluating your model.
+
+Help Center
+
+arrow_back
+
+Test your knowledge (10 min)
+
+Data characteristics (10 min)
+
+arrow_forward
+
+Send feedback
+
+Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License , and code samples are licensed under the Apache 2.0 License . For details, see the Google Developers Site Policies . Java is a registered trademark of Oracle and/or its affiliates.
+
+Last updated 2025-12-03 UTC.
+
+Need to tell us more?
+
+[[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2025-12-03 UTC."],[],[]]

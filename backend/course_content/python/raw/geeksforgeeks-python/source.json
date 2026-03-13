@@ -1,0 +1,15 @@
+{
+  "id": "geeksforgeeks-python",
+  "type": "web",
+  "title": "GeeksforGeeks Python Tutorial",
+  "description": "Broad Python tutorial coverage with lots of beginner and intermediate worked explanations.",
+  "license": "GeeksforGeeks site terms",
+  "seedUrls": [
+    "https://www.geeksforgeeks.org/python/python-programming-language-tutorial/"
+  ],
+  "allowPrefixes": [
+    "https://www.geeksforgeeks.org/python/"
+  ],
+  "maxPages": 55,
+  "documentCount": 55
+}

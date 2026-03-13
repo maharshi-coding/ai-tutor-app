@@ -1,0 +1,171 @@
+# Build More Classification Models
+
+Source: ML for Beginners
+Original URL: https://github.com/microsoft/ML-For-Beginners/blob/HEAD/4-Classification/3-Classifiers-2/solution/notebook.ipynb
+Original Path: 4-Classification/3-Classifiers-2/solution/notebook.ipynb
+Course: Machine Learning
+
+# Build More Classification Models
+
+```python
+import pandas as pd
+cuisines_df = pd.read_csv("../../data/cleaned_cuisines.csv")
+cuisines_df.head()
+```
+
+Output:
+```text
+Unnamed: 0 cuisine almond angelica anise anise_seed apple \
+0 0 indian 0 0 0 0 0
+1 1 indian 1 0 0 0 0
+2 2 indian 0 0 0 0 0
+3 3 indian 0 0 0 0 0
+4 4 indian 0 0 0 0 0
+
+apple_brandy apricot armagnac ... whiskey white_bread white_wine \
+0 0 0 0 ... 0 0 0
+1 0 0 0 ... 0 0 0
+2 0 0 0 ... 0 0 0
+3 0 0 0 ... 0 0 0
+4 0 0 0 ... 0 0 0
+
+whole_grain_wheat_flour wine wood yam yeast yogurt zucchini
+0 0 0 0 0 0 0 0
+1 0 0 0 0 0 0 0
+2 0 0 0 0 0 0 0
+3 0 0 0 0 0 0 0
+4 0 0 0 0 0 1 0
+
+[5 rows x 382 columns]
+```
+
+```python
+cuisines_label_df = cuisines_df['cuisine']
+cuisines_label_df.head()
+```
+
+Output:
+```text
+0 indian
+1 indian
+2 indian
+3 indian
+4 indian
+Name: cuisine, dtype: object
+```
+
+```python
+cuisines_features_df = cuisines_df.drop(['Unnamed: 0', 'cuisine'], axis=1)
+cuisines_features_df.head()
+```
+
+Output:
+```text
+almond angelica anise anise_seed apple apple_brandy apricot \
+0 0 0 0 0 0 0 0
+1 1 0 0 0 0 0 0
+2 0 0 0 0 0 0 0
+3 0 0 0 0 0 0 0
+4 0 0 0 0 0 0 0
+
+armagnac artemisia artichoke ... whiskey white_bread white_wine \
+0 0 0 0 ... 0 0 0
+1 0 0 0 ... 0 0 0
+2 0 0 0 ... 0 0 0
+3 0 0 0 ... 0 0 0
+4 0 0 0 ... 0 0 0
+
+whole_grain_wheat_flour wine wood yam yeast yogurt zucchini
+0 0 0 0 0 0 0 0
+1 0 0 0 0 0 0 0
+2 0 0 0 0 0 0 0
+3 0 0 0 0 0 0 0
+4 0 0 0 0 0 1 0
+
+[5 rows x 380 columns]
+```
+
+# Try different classifiers
+
+```python
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.metrics import accuracy_score,precision_score,confusion_matrix,classification_report, precision_recall_curve
+import numpy as np
+```
+
+```python
+X_train, X_test, y_train, y_test = train_test_split(cuisines_features_df, cuisines_label_df, test_size=0.3)
+```
+
+```python
+C = 10
+# Create different classifiers.
+classifiers = {
+'Linear SVC': SVC(kernel='linear', C=C, probability=True,random_state=0),
+'KNN classifier': KNeighborsClassifier(C),
+'SVC': SVC(),
+'RFST': RandomForestClassifier(n_estimators=100),
+'ADA': AdaBoostClassifier(n_estimators=100)
+
+}
+```
+
+```python
+n_classifiers = len(classifiers)
+
+for index, (name, classifier) in enumerate(classifiers.items()):
+classifier.fit(X_train, np.ravel(y_train))
+
+y_pred = classifier.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy (train) for %s: %0.1f%% " % (name, accuracy * 100))
+print(classification_report(y_test,y_pred))
+```
+
+Output:
+```text
+Accuracy (train) for Linear SVC: 76.4%
+precision recall f1-score support
+
+chinese 0.64 0.66 0.65 242
+indian 0.91 0.86 0.89 236
+japanese 0.72 0.73 0.73 245
+korean 0.83 0.75 0.79 234
+thai 0.75 0.82 0.78 242
+
+accuracy 0.76 1199
+macro avg 0.77 0.76 0.77 1199
+weighted avg 0.77 0.76 0.77 1199
+
+Accuracy (train) for KNN classifier: 70.7%
+precision recall f1-score support
+
+chinese 0.65 0.63 0.64 242
+indian 0.84 0.81 0.82 236
+japanese 0.60 0.81 0.69 245
+korean 0.89 0.53 0.67 234
+thai 0.69 0.75 0.72 242
+
+accuracy 0.71 1199
+macro avg 0.73 0.71 0.71 1199
+weighted avg 0.73 0.71 0.71 1199
+
+Accuracy (train) for SVC: 80.1%
+precision recall f1-score support
+
+chinese 0.71 0.69 0.70 242
+indian 0.92 0.92 0.92 236
+japanese 0.77 0.78 0.77 245
+korean 0.87 0.77 0.82 234
+thai 0.75 0.86 0.80 242
+
+accuracy 0.80 1199
+macro avg 0.80 0.80 0.80 1199
+weighted avg 0.80 0.80 0.80 1199
+
+Accuracy (train)
+```

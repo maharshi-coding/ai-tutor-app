@@ -1,0 +1,379 @@
+# Alpha-Beta pruning in Adversarial Search Algorithms
+
+Source: GeeksforGeeks Artificial Intelligence Tutorial
+Original URL: https://www.geeksforgeeks.org/artificial-intelligence/alpha-beta-pruning-in-adversarial-search-algorithms/
+Original Path: https://www.geeksforgeeks.org/artificial-intelligence/alpha-beta-pruning-in-adversarial-search-algorithms/
+Course: Artificial Intelligence
+
+Alpha-Beta pruning in Adversarial Search Algorithms
+
+Last Updated : 6 Jan, 2026
+
+Adversarial search applies to two-player games where each player aims to maximize their own outcome while minimizing the opponent’s, assuming optimal play. The Minimax algorithm evaluates alternating MAX and MIN moves to choose the best guaranteed action but is slow for large game trees. Alpha–Beta Pruning improves efficiency by skipping branches that do not affect the final decision.
+
+Alpha-Beta Pruning
+
+Alpha-Beta Pruning is an optimisation technique that significantly improves the efficiency of Minimax. It removes (prunes) branches that cannot possibly affect the final decision, avoiding unnecessary computations.
+
+The image shows a Minimax game tree with Alpha–Beta pruning, where MAX and MIN levels evaluate child nodes to compute the optimal value. Branches that cannot affect the final outcome like the one under node E are pruned, reducing unnecessary exploration.
+
+Pruning is the process of cutting off branches in the search tree that cannot influence the final outcome, saving time and computation.
+
+During Minimax traversal, two values are maintained:
+
+- Alpha ( \alpha ): The best score the Maximizer can guarantee so far.
+
+- Beta ( \beta ): The best score the Minimizer can guarantee so far.
+
+- Pruning Condition: If \alpha \geq \beta the branch is cut off because it cannot affect the final decision.
+
+How Alpha-Beta Pruning Works
+
+Step 1: Initialization
+
+Set initial values:
+
+\alpha = -\infty \quad \beta = +\infty
+
+These represent the worst possible scores for Maximizer and Minimizer
+
+Step 2: Max Node Evaluation
+
+For each child of a Max node recursively evaluate using Minimax with Alpha-Beta pruning. Update alpha:
+
+\alpha=max(\alpha,value)
+
+If \alpha\geq\beta stop evaluating remaining children ( \beta - cutoff)
+
+Step 3: Min Node Evaluation
+
+For each child of a Min node Recursively evaluate using Minimax with Alpha-Beta pruning Update Beta:
+
+\beta=min(\beta,value)
+
+If \beta \leq \alpha stop evaluating remaining children ( \alpha -cutoff)
+
+Implementation of Alpha-Beta pruning in Adversarial Search Algorithms
+
+Here in this code we builds a game tree applies Alpha–Beta pruning to find the optimal minimax value and visualizes the traversal by marking visited edges in green and pruned edges in red.
+
+Step 1: Install and import required libraries
+
+- Importing essential libraries for graph visualization and manipulation.
+
+- networkx is used to create and manage graph structures.
+
+- matplotlib helps plot and display the generated graphs.
+
+- pydot enables converting graph data into DOT format for clearer visual representations.
+
+Python
+
+import matplotlib.pyplot as plt
+import networkx as nx
+import pydot
+import io
+
+Step 2: Define the Node class
+
+- Node class is created to represent each state or node in a game/search tree.
+
+- name stores the label or identifier of the node.
+
+- children holds the list of child nodes, defaulting to an empty list if none are provided.
+
+- value stores the evaluation score of the node, used in algorithms like Minimax.
+
+Python
+
+class Node :
+def __init__ ( self , name , children = None , value = None ):
+self . name = name
+self . children = children if children is not None else []
+self . value = value
+
+Step 3: Utility functions for evaluation and tree checks
+
+- evaluate(node) returns the numeric value of a node, used for scoring terminal states.
+
+- is_terminal(node) checks whether the node is a terminal state by verifying if it has an assigned value.
+
+- get_children(node) retrieves all child nodes connected to the current node.
+
+- These helper functions support tree traversal in algorithms like Minimax and Alpha-Beta pruning.
+
+Python
+
+def evaluate ( node ):
+return node . value
+
+def is_terminal ( node ):
+return node . value is not None
+
+def get_children ( node ):
+return node . children
+
+Step 4: Alpha–Beta pruning implementation with visit tracking
+
+- Implements the Alpha-Beta pruning algorithm, recursively evaluating nodes while tracking visited and pruned edges.
+
+- For Maximizing Player, it updates the best value found so far and raises alpha; pruning occurs when beta <= alpha.
+
+- For Minimizing Player, it updates the minimum value and lowers beta; similarly prunes unnecessary branches.
+
+- The visited_edges list stores both visited and cut edges, helping visualize the pruning process in a tree graph.
+
+Python
+
+visited_edges = []
+
+def alpha_beta_pruning ( node , depth , alpha , beta , maximizing_player ):
+global visited_edges
+
+if depth == 0 or is_terminal ( node ):
+return evaluate ( node )
+
+if maximizing_player :
+max_eval = float ( '-inf' )
+for child in get_children ( node ):
+visited_edges . append (( node . name , child . name , "visit" ))
+val = alpha_beta_pruning ( child , depth - 1 , alpha , beta , False )
+max_eval = max ( max_eval , val )
+alpha = max ( alpha , val )
+if beta <= alpha :
+visited_edges . append (( node . name , child . name , "cut" ))
+break
+return max_eval
+
+else :
+min_eval = float ( 'inf' )
+for child in get_children ( node ):
+visited_edges . append (( node . name , child . name , "visit" ))
+val = alpha_beta_pruning ( child , depth - 1 , alpha , beta , True )
+min_eval = min ( min_eval , val )
+beta = min ( beta , val )
+if beta <= alpha :
+visited_edges . append (( node . name , child . name , "cut" ))
+break
+return min_eval
+
+Step 5: Build an example game tree
+
+- Leaf nodes D, E, F, G, H, I are created with fixed evaluation values, representing terminal states in the game tree.
+
+- Nodes B and C group these leaves as their children and A becomes the root node, forming a complete multi-level game tree structure.
+
+Python
+
+D = Node ( 'D' , value = 3 )
+E = Node ( 'E' , value = 5 )
+F = Node ( 'F' , value = 6 )
+G = Node ( 'G' , value = 9 )
+H = Node ( 'H' , value = 1 )
+I = Node ( 'I' , value = 2 )
+
+B = Node ( 'B' , children = [ D , E , F ])
+C = Node ( 'C' , children = [ G , H , I ])
+
+A = Node ( 'A' , children = [ B , C ])
+
+Step 6: Visualizing the Game Tree with Alpha-Beta Output
+
+- Alpha-Beta pruning is executed to compute the optimal value from the root node.
+
+- A directed graph of the game tree is built by linking each node with its children.
+
+- The graph is converted to DOT format using pydot for clean visualization.
+
+- Matplotlib displays the final tree image, showing the full game structure.
+
+Python
+
+best = alpha_beta_pruning ( A , 3 , float ( '-inf' ), float ( 'inf' ), True )
+print ( "Optimal Value =" , best )
+
+def build_graph ( G , node ):
+for child in node . children :
+G . add_edge ( node . name , child . name )
+build_graph ( G , child )
+
+G = nx . DiGraph ()
+build_graph ( G , A )
+
+g = nx . drawing . nx_pydot . to_pydot ( G )
+g . set_rankdir ( "TB" )
+png_str = g . create_png ()
+
+plt . figure ( figsize = ( 8 , 6 ))
+
+plt . imshow ( plt . imread ( io . BytesIO ( png_str )))
+plt . axis ( "off" )
+plt . show ()
+
+Output:
+Output
+The image represents a game tree for Alpha–Beta Pruning with root node A. The algorithm computes the optimal value as 3 by pruning irrelevant branches.
+
+Step 7: Visited and Pruned Edges in the Game Tree
+
+- Each edge in the tree is checked against visited_edges to identify whether it was visited or pruned during Alpha-Beta pruning.
+
+- Edges are color-coded: green for visited paths, red for pruned branches, and black for untouched edges.
+
+- NetworkX and Graphviz are used to position and draw the tree with clear hierarchical layout.
+
+- Matplotlib displays the final tree, visually showing how pruning reduces unnecessary exploration.
+
+Python
+
+edge_colors = []
+for u , v in G . edges ():
+status = None
+for ( s , d , t ) in visited_edges :
+if s == u and d == v :
+status = t
+break
+if status == "visit" :
+edge_colors . append ( "green" )
+elif status == "cut" :
+edge_colors . append ( "red" )
+else :
+edge_colors . append ( "black" )
+
+plt . figure ( figsize = ( 10 , 7 ))
+pos = nx . nx_pydot . graphviz_layout ( G , prog = 'dot' )
+nx . draw ( G , pos , with_labels = True , arrows = False , node_size = 2000 ,
+node_color = "lightblue" , font_size = 12 , edge_color = edge_colors , width = 3 )
+plt . title ( "Alpha–Beta Pruning (Green = Visited, Red = Pruned)" )
+plt . axis ( "off" )
+plt . show ()
+
+Output:
+Output
+This image visualizes Alpha Beta Pruning where green edges show visited nodes and red edges show pruned branches.
+
+You can download full code from here
+
+Applications
+
+Alpha–Beta Pruning is widely used in adversarial game playing AI including:
+
+- Chess: Enables engines to explore more moves deeply and efficiently.
+
+- Checkers: Enhances search performance, making AI harder to defeat.
+
+- Othello/Reversi: Improves strategy evaluation during gameplay.
+
+- Tic-Tac-Toe: Ensures optimal play with minimal computation.
+
+Advantages
+
+- Improves Efficiency: Greatly reduces the number of nodes evaluated compared to plain Minimax, allowing deeper searches in the same time.
+
+- Maintains Optimality: Pruning does not change the final result; the chosen move is still the optimal one.
+
+- Faster Decision Making: Helps game agents respond quickly, especially in time-restricted games.
+
+- Better Resource Usage: Saves computation and memory by avoiding unnecessary branches.
+
+Limitations
+
+- Still Expensive for Large Trees: Although improved, the algorithm remains slow for extremely deep or high-branching games.
+
+- Depends on Move Ordering: Works best when good moves are evaluated first; poor ordering reduces pruning efficiency.
+
+- Requires Heuristics: Effectiveness often depends on strong evaluation functions or domain knowledge.
+
+- Hard to Optimize for Complex Games: Designing good heuristics and ordering strategies can be challenging.
+
+Blogathon
+
+Artificial Intelligence
+
+AI-ML-DS
+
+Interview-Questions
+
+AI-ML-DS With Python
+
+Data Science Blogathon 2024
+
++ 2 More
+
+Introduction to AI
+
+- What is Artificial Intelligence (AI) 10 min read
+
+- Types of Artificial Intelligence (AI) 6 min read
+
+- Types of AI Based on Functionalities 4 min read
+
+- Agents in AI 7 min read
+
+- Artificial intelligence vs Machine Learning vs Deep Learning 3 min read
+
+- Problem Solving in Artificial Intelligence 6 min read
+
+- Top 20 Applications of Artificial Intelligence (AI) in 2025 13 min read
+
+AI Concepts
+
+- Search Algorithms in AI 6 min read
+
+- Local Search Algorithm in Artificial Intelligence 7 min read
+
+- Adversarial Search Algorithms in Artificial Intelligence (AI) 15+ min read
+
+- Constraint Satisfaction Problems (CSP) in Artificial Intelligence 10 min read
+
+- Knowledge Representation in AI 9 min read
+
+- First-Order Logic in Artificial Intelligence 4 min read
+
+- Reasoning Mechanisms in AI 9 min read
+
+Machine Learning in AI
+
+- Machine Learning Tutorial 5 min read
+
+- Deep Learning Tutorial 2 min read
+
+- Natural Language Processing (NLP) Tutorial 2 min read
+
+- Computer Vision Tutorial 3 min read
+
+Robotics and AI
+
+- Artificial Intelligence in Robotics 5 min read
+
+- What is Robotics Process Automation 8 min read
+
+- Automated Planning in AI 8 min read
+
+- AI in Transportation 8 min read
+
+- AI in Manufacturing : Revolutionizing the Industry 6 min read
+
+Generative AI
+
+- What is Generative AI? 7 min read
+
+- Generative Adversarial Network (GAN) 11 min read
+
+- Cycle Generative Adversarial Network (CycleGAN) 7 min read
+
+- StyleGAN - Style Generative Adversarial Networks 5 min read
+
+- Introduction to Generative Pre-trained Transformer (GPT) 4 min read
+
+- BERT Model - NLP 12 min read
+
+- Generative AI Applications 7 min read
+
+AI Practice
+
+- Top Artificial Intelligence(AI) Interview Questions and Answers 15+ min read
+
+- Top Generative AI and LLM Interview Question with Answer 15+ min read
+
+- 30+ Best Artificial Intelligence Project Ideas with Source Code [2026 Updated] 15+ min read

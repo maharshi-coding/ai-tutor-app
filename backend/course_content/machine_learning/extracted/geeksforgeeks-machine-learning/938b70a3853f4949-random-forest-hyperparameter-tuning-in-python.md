@@ -1,0 +1,287 @@
+# Random Forest Hyperparameter Tuning in Python
+
+Source: GeeksforGeeks Machine Learning Tutorial
+Original URL: https://www.geeksforgeeks.org/machine-learning/random-forest-hyperparameter-tuning-in-python/
+Original Path: https://www.geeksforgeeks.org/machine-learning/random-forest-hyperparameter-tuning-in-python/
+Course: Machine Learning
+
+Random Forest Hyperparameter Tuning in Python
+
+Last Updated : 13 Nov, 2025
+
+Random Forest is one of the most popular machine learning algorithms used for both classification and regression tasks. It works by building multiple decision trees and combining their outputs to improve accuracy and control overfitting. While Random Forest is a robust model, fine-tuning its hyperparameters such as the number of trees, maximum depth and feature selection can improve its prediction and performance.
+
+Random Forest Hyperparameter
+
+Since we are talking about Random Forest Hyperparameters, let us see what different Hyperparameters can be tuned:
+
+1. n_estimators: It defines the number of trees in the forest. More trees typically improve model performance but increase computational cost. In the below example it takes 100 trees.
+
+By default: n_estimators=100
+
+2. max_features: Limits the number of features to consider when splitting a node. This helps control overfitting.
+
+By default: max_features="sqrt" [available: ("sqrt", "log2", None)
+
+- sqrt : Selects the square root of the total features. This is a common setting to reduce overfitting and speed up the model.
+
+- log2: This option selects the base-2 logarithm of the total number of features. It provide more randomness and reduce overfitting more than the square root option.
+
+- None: If None is chosen the model uses all available features for splitting each node. This increases the model's complexity and may cause overfitting, especially with many features.
+
+3. max_depth : Controls the maximum depth of each tree. A shallow tree may underfit while a deep tree may overfit. So choosing right value of it is important.
+
+By default: max_depth=None
+
+4. max_leaf_nodes: Limits the number of leaf nodes in the tree hence controlling its size and complexity. None means it takes an unlimited number of nodes.
+
+By default: max_leaf_nodes = None
+
+5. max_sample : Apart from the features, we have a large set of training datasets. max_sample determines how much of the dataset is given to each individual tree. None means data.shape[0] is taken.
+
+By default: max_samples = None
+
+6. min_sample s _split: Specifies the minimum number of samples required to split an internal node. In the below example every node has 2 subnodes.
+
+By default: min_samples_split = 2
+
+Random Forest Hyperparameter Tuning using Sklearn
+
+Scikit-learn offers tools for hyperparameter tuning which can help improve the performance of machine learning models. Hyperparameter tuning involves selecting the best set of parameters for a given model to maximize its efficiency and accuracy. We will explore two commonly used techniques for hyperparameter tuning: GridSearchCV and RandomizedSearchCV.
+
+Both methods are essential for automating the process of fine-tuning machine learning models and we will examine how each works and when to use them. Below is the code with random forest working on heart disease prediction.
+
+Download the dataset from here .
+
+Python
+
+from sklearn.metrics import classification_report
+from sklearn.model_selection import train_test_split
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV , RandomizedSearchCV
+
+data = pd . read_csv ( "heart.csv" )
+data . head ( 7 )
+
+X = data . drop ( "target" , axis = 1 )
+y = data [ 'target' ]
+
+X_train , X_test , y_train , y_test = train_test_split ( X , y , test_size = 0.25 , random_state = 42 )
+
+model = RandomForestClassifier (
+n_estimators = 100 ,
+max_features = "sqrt" ,
+max_depth = 6 ,
+max_leaf_nodes = 6
+)
+
+model . fit ( X_train , y_train )
+
+y_pred = model . predict ( X_test )
+
+print ( classification_report ( y_pred , y_test ))
+
+Output:
+Random Forest Hyperparameter Tuning
+The classification report shows that the model has an accuracy of 84% with good precision for class 1 (0.90) but slightly lower precision for class 0 (0.77) and a recall of 0.87 for class 0. This suggests that fine-tuning hyperparameters such as
+n_estimators
+and
+max_depth
+could help improve the performance especially for class 0.
+
+1. Hyperparameter Tuning using GridSearchCV
+
+First let's use GridSearchCV to obtain the best parameters for the model. It is a hyperparameter tuning method in Scikit-learn that exhaustively searches through all possible combinations of parameters provided in the param_grid. For that we will pass RandomForestClassifier() instance to the model and then fit the GridSearchCV using the training data to find the best parameters.
+
+- param_grid: A dictionary containing hyperparameters and their possible values. GridSearchCV will try every combination of these values to find the best-performing set of hyperparameters.
+
+- grid_search.fit(X_train, y_train): This trains the model on the training data (X_train, y_train) for every combination of hyperparameters defined in param_grid.
+
+- grid_search.best_estimator_: After completing the grid search, this will print the RandomForest model that has the best combination of hyperparameters from the search.
+
+Python
+
+from sklearn.model_selection import GridSearchCV
+from sklearn.ensemble import RandomForestClassifier
+
+param_grid = {
+'n_estimators' : [ 100 , 200 ],
+'max_depth' : [ None , 10 , 20 ],
+'min_samples_split' : [ 2 , 5 ],
+'min_samples_leaf' : [ 1 , 2 ],
+'bootstrap' : [ True , False ]
+}
+
+grid_search = GridSearchCV ( RandomForestClassifier (), param_grid = param_grid , cv = 5 )
+grid_search . fit ( X_train , y_train )
+
+print ( "Best Parameters:" , grid_search . best_params_ )
+print ( "Best Estimator:" , grid_search . best_estimator_ )
+
+Output:
+GridSearchCV
+Updating the Model
+
+Now we will update the parameters of the model by those which are obtained by using GridSearchCV.
+
+Python
+
+model_grid = RandomForestClassifier ( max_depth = 3 ,
+max_features = "log2" ,
+max_leaf_nodes = 3 ,
+n_estimators = 50 )
+model_grid . fit ( X_train , y_train )
+y_pred_grid = model . predict ( X_test )
+print ( classification_report ( y_pred_grid , y_test ))
+
+Output:
+Model Updation
+2. Hyperparameter Tuning using RandomizedSearchCV
+
+RandomizedSearchCV performs a random search over a specified parameter grid. It randomly selects combinations and evaluates the model often leading to faster results especially when there are many hyperparameters.
+
+Now let's use RandomizedSearchCV to obtain the best parameters for the model. For that we will pass RandomFoestClassifier() instance to the model and then fit the RandomizedSearchCV using the training data to find the best parameters.
+
+- param_grid specifies the hyperparameters that you want to tune similar to the grid in GridSearchCV.
+
+- fit(X_train, y_train) trains the model using the training data.
+
+- best_estimator_ shows the model with the best combination of hyperparameters found by the search process.
+
+Python
+
+random_search = RandomizedSearchCV ( RandomForestClassifier (),
+param_grid )
+random_search . fit ( X_train , y_train )
+print ( random_search . best_estimator_ )
+
+Output:
+
+RandomForestClassifier(max_depth=3, max_features='log2', max_leaf_nodes=6)
+
+Updating the model
+
+Now we will update the parameters of the model by those which are obtained by using RandomizedSearchCV.
+
+Python
+
+model_random = RandomForestClassifier ( max_depth = 3 ,
+max_features = 'log2' ,
+max_leaf_nodes = 6 ,
+n_estimators = 100 )
+model_random . fit ( X_train , y_train )
+y_pred_rand = model . predict ( X_test )
+print ( classification_report ( y_pred_rand , y_test ))
+
+Output:
+Model_Updation
+Both methods help identify the best combination of hyperparameters leading to improved model accuracy and more balanced precision, recall and F1-scores for both classes.
+
+Technical Scripter
+
+Machine Learning
+
+AI-ML-DS
+
+Technical Scripter 2022
+
+AI-ML-DS With Python
+
++ 1 More
+
+Machine Learning Basics
+
+- Introduction to Machine Learning 8 min read
+
+- Types of Machine Learning 7 min read
+
+- What is Machine Learning Pipeline? 6 min read
+
+- Applications of Machine Learning 3 min read
+
+Python for Machine Learning
+
+- Machine Learning with Python Tutorial 3 min read
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Data Preprocessing in Python 4 min read
+
+- EDA - Exploratory Data Analysis in Python 6 min read
+
+Feature Engineering
+
+- What is Feature Engineering? 5 min read
+
+- Introduction to Dimensionality Reduction 4 min read
+
+- Feature Selection Techniques in Machine Learning 4 min read
+
+Supervised Learning
+
+- Supervised Machine Learning 7 min read
+
+- Linear Regression in Machine learning 14 min read
+
+- Logistic Regression in Machine Learning 10 min read
+
+- Decision Tree in Machine Learning 8 min read
+
+- Random Forest Algorithm in Machine Learning 5 min read
+
+- K-Nearest Neighbor(KNN) Algorithm 8 min read
+
+- Support Vector Machine (SVM) Algorithm 9 min read
+
+- Naive Bayes Classifiers 6 min read
+
+Unsupervised Learning
+
+- What is Unsupervised Learning 5 min read
+
+- K means Clustering – Introduction 6 min read
+
+- Hierarchical Clustering in Machine Learning 6 min read
+
+- DBSCAN Clustering in ML - Density based clustering 6 min read
+
+- Apriori Algorithm 6 min read
+
+- Frequent Pattern Growth Algorithm 4 min read
+
+- ECLAT Algorithm - ML 5 min read
+
+- Principal Component Analysis (PCA) 7 min read
+
+Model Evaluation and Tuning
+
+- Evaluation Metrics in Machine Learning 9 min read
+
+- Regularization in Machine Learning 5 min read
+
+- Cross Validation in Machine Learning 5 min read
+
+- Hyperparameter Tuning 5 min read
+
+- Underfitting and Overfitting in ML 3 min read
+
+- Bias and Variance in Machine Learning 6 min read
+
+Advanced Techniques
+
+- Reinforcement Learning 9 min read
+
+- Semi-Supervised Learning in ML 5 min read
+
+- Self-Supervised Learning (SSL) 6 min read
+
+- Ensemble Learning 7 min read
+
+Machine Learning Practice
+
+- Machine Learning Interview Questions and Answers 15+ min read
+
+- 100+ Machine Learning Projects with Source Code 5 min read

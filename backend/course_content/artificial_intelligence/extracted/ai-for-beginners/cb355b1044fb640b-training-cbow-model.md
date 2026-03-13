@@ -1,0 +1,258 @@
+# Training CBoW Model
+
+Source: AI for Beginners
+Original URL: https://github.com/microsoft/AI-For-Beginners/blob/HEAD/lessons/5-NLP/15-LanguageModeling/CBoW-PyTorch.ipynb
+Original Path: lessons/5-NLP/15-LanguageModeling/CBoW-PyTorch.ipynb
+Course: Artificial Intelligence
+
+## Training CBoW Model
+
+This notebooks is a part of [AI for Beginners Curriculum](http://aka.ms/ai-beginners)
+
+In this example, we will look at training CBoW language model to get our own Word2Vec embedding space. We will use AG News dataset as the source of text.
+
+```python
+import torch
+import torchtext
+import os
+import collections
+import builtins
+import random
+import numpy as np
+```
+
+```python
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+```
+
+First let's load our dataset and define tokenizer and vocabulary. We will set `vocab_size` to 5000 to limit computations a bit.
+
+```python
+def load_dataset(ngrams = 1, min_freq = 1, vocab_size = 5000 , lines_cnt = 500):
+tokenizer = torchtext.data.utils.get_tokenizer('basic_english')
+print("Loading dataset...")
+test_dataset, train_dataset = torchtext.datasets.AG_NEWS(root='./data')
+train_dataset = list(train_dataset)
+test_dataset = list(test_dataset)
+classes = ['World', 'Sports', 'Business', 'Sci/Tech']
+print('Building vocab...')
+counter = collections.Counter()
+for i, (_, line) in enumerate(train_dataset):
+counter.update(torchtext.data.utils.ngrams_iterator(tokenizer(line),ngrams=ngrams))
+if i == lines_cnt:
+break
+vocab = torchtext.vocab.Vocab(collections.Counter(dict(counter.most_common(vocab_size))), min_freq=min_freq)
+return train_dataset, test_dataset, classes, vocab, tokenizer
+```
+
+```python
+train_dataset, test_dataset, _, vocab, tokenizer = load_dataset()
+```
+
+Output:
+```text
+Loading dataset...
+Building vocab...
+```
+
+```python
+def encode(x, vocabulary, tokenizer = tokenizer):
+return [vocabulary[s] for s in tokenizer(x)]
+```
+
+## CBoW Model
+
+CBoW learns to predict a word based on the $2N$ neighboring words. For example, when $N=1$, we will get the following pairs from the sentence *I like to train networks*: (like,I), (I, like), (to, like), (like,to), (train,to), (to, train), (networks, train), (train,networks). Here, first word is the neighboring word used as an input, and second word is the one we are predicting.
+
+To build a network to predict next word, we will need to supply neighboring word as input, and get word number as output. The architecture of CBoW network is the following:
+
+* Input word is passed through the embedding layer. This very embedding layer would be our Word2Vec embedding, thus we will define it separately as `embedder` variable. We will use embedding size = 30 in this example, even though you might want to experiment with higher dimensions (real word2vec has 300)
+* Embedding vector would then be passed to a linear layer that will predict output word. Thus it has the `vocab_size` neurons.
+
+For the output, if we use `CrossEntropyLoss` as loss function, we would also have to provide just word numbers as expected results, without one-hot encoding.
+
+```python
+vocab_size = len(vocab)
+
+embedder = torch.nn.Embedding(num_embeddings = vocab_size, embedding_dim = 30)
+model = torch.nn.Sequential(
+embedder,
+torch.nn.Linear(in_features = 30, out_features = vocab_size),
+)
+
+print(model)
+```
+
+Output:
+```text
+Sequential(
+(0): Embedding(5002, 30)
+(1): Linear(in_features=30, out_features=5002, bias=True)
+)
+```
+
+## Preparing Training Data
+
+Now let's program the main function that will compute CBoW word pairs from text. This function will allow us to specify window size, and will return a set of pairs - input and output word. Note that this function can be used on words, as well as on vectors/tensors - which will allow us to encode the text, before passing it to `to_cbow` function.
+
+```python
+def to_cbow(sent,window_size=2):
+res = []
+for i,x in enumerate(sent):
+for j in range(max(0,i-window_size),min(i+window_size+1,len(sent))):
+if i!=j:
+res.append([sent[j],x])
+return res
+
+print(to_cbow(['I','like','to','train','networks']))
+print(to_cbow(encode('I like to train networks', vocab)))
+```
+
+Output:
+```text
+[['like', 'I'], ['to', 'I'], ['I', 'like'], ['to', 'like'], ['train', 'like'], ['I', 'to'], ['like', 'to'], ['train', 'to'], ['networks', 'to'], ['like', 'train'], ['to', 'train'], ['networks', 'train'], ['to', 'networks'], ['train', 'networks']]
+[[232, 172], [5, 172], [172, 232], [5, 232], [0, 232], [172, 5], [232, 5], [0, 5], [1202, 5], [232, 0], [5, 0], [1202, 0], [5, 1202], [0, 1202]]
+```
+
+Let's prepare the training dataset. We will go through all news, call `to_cbow` to get the list of word pairs, and add those pairs to `X` and `Y`. For the sake of time, we will only consider first 10k news items - you can easily remove the limitation in case you have more time to wait, and want to get better embeddings :)
+
+```python
+X = []
+Y = []
+for i, x in zip(range(10000), train_dataset):
+for w1, w2 in to_cbow(encode(x[1], vocab), window_size = 5):
+X.append(w1)
+Y.append(w2)
+
+X = torch.tensor(X)
+Y = torch.tensor(Y)
+```
+
+We will also convert that data to one dataset, and create dataloader:
+
+```python
+class SimpleIterableDataset(torch.utils.data.IterableDataset):
+def __init__(self, X, Y):
+super(SimpleIterableDataset).__init__()
+self.data = []
+for i in range(len(X)):
+self.data.append( (Y[i], X[i]) )
+random.shuffle(self.data)
+
+def __iter__(self):
+return iter(self.data)
+```
+
+We will also convert that data to one dataset, and create dataloader:
+
+```python
+ds = SimpleIterableDataset(X, Y)
+dl = torch.utils.data.DataLoader(ds, batch_size = 256)
+```
+
+Now let's do the actual training. We will use `SGD` optimizer with pretty high learning rate. You can also try playing around with other optimizers, such as `Adam`. We will train for 10 epochs to begin with - and you can re-run this cell if you want even lower loss.
+
+```python
+def train_epoch(net, dataloader, lr = 0.01, optimizer = None, loss_fn = torch.nn.CrossEntropyLoss(), epochs = None, report_freq = 1):
+optimizer = optimizer or torch.optim.Adam(net.parameters(), lr = lr)
+loss_fn = loss_fn.to(device)
+net.train()
+
+for i in range(epochs):
+total_loss, j = 0, 0,
+for labels, features in dataloader:
+optimizer.zero_grad()
+features, labels = features.to(device), labels.to(device)
+out = net(features)
+loss = loss_fn(out, labels)
+loss.backward()
+optimizer.step()
+total_loss += loss
+j += 1
+if i % report_freq == 0:
+print(f"Epoch: {i+1}: loss={total_loss.item()/j}")
+
+return total_loss.item()/j
+```
+
+```python
+train_epoch(net = model, dataloader = dl, optimizer = torch.optim.SGD(model.parameters(), lr = 0.1), loss_fn = torch.nn.CrossEntropyLoss(), epochs = 10)
+```
+
+Output:
+```text
+Epoch: 1: loss=5.664632366860172
+Epoch: 2: loss=5.632101973960962
+Epoch: 3: loss=5.610399051405015
+Epoch: 4: loss=5.594621561080262
+Epoch: 5: loss=5.582538017415446
+Epoch: 6: loss=5.572900234519603
+Epoch: 7: loss=5.564951676341915
+Epoch: 8: loss=5.558288112064614
+Epoch: 9: loss=5.552576955031129
+Epoch: 10: loss=5.547634165194347
+
+5.547634165194347
+```
+
+## Trying out Word2Vec
+
+To use Word2Vec, let's extract vectors corresponding to all words in our vocabulary:
+
+```python
+vectors = torch.stack([embedder(torch.tensor(vocab[s])) for s in vocab.itos], 0)
+```
+
+Let's see, for example, how the word **Paris** is encoded into a vector:
+
+```python
+paris_vec = embedder(torch.tensor(vocab['paris']))
+print(paris_vec)
+```
+
+Output:
+```text
+tensor([-0.0915, 2.1224, -0.0281, -0.6819, 1.1219, 0.6458, -1.3704, -1.3314,
+-1.1437, 0.4496, 0.2301, -0.3515, -0.8485, 1.0481, 0.4386, -0.8949,
+0.5644, 1.0939, -2.5096, 3.2949, -0.2601, -0.8640, 0.1421, -0.0804,
+-0.5083, -1.0560, 0.9753, -0.5949, -1.6046, 0.5774],
+grad_fn=<EmbeddingBackward>)
+```
+
+It is interesting to use Word2Vec to look for synonyms. The following function will return `n` closest words to a given input. To find them, we compute the norm of $|w_i - v|$, where $v$ is the vector corresponding to our input word, and $w_i$ is the encoding of $i$-th word in the vocabulary. We then sort the array and return corresponding indices using `argsort`, and take first `n` elements of the list, which encode positions of closest words in the vocabulary.
+
+```python
+def close_words(x, n = 5):
+vec = embedder(torch.tensor(vocab[x]))
+top5 = np.linalg.norm(vectors.detach().numpy() - vec.detach().numpy(), axis = 1).argsort()[:n]
+return [ vocab.itos[x] for x in top5 ]
+
+close_words('microsoft')
+```
+
+Output:
+```text
+['microsoft', 'quoted', 'lp', 'rate', 'top']
+```
+
+```python
+close_words('basketball')
+```
+
+Output:
+```text
+['basketball', 'lot', 'sinai', 'states', 'healthdaynews']
+```
+
+```python
+close_words('funds')
+```
+
+Output:
+```text
+['funds', 'travel', 'sydney', 'japan', 'business']
+```
+
+## Takeaway
+
+Using clever techniques such as CBoW, we can train Word2Vec model. You may also try to train skip-gram model that is trained to predict the neighboring word given the central one, and see how well it performs.

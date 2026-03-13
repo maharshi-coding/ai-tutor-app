@@ -15,6 +15,8 @@ declare module 'axios' {
   }
 }
 
+// Set your PC's local IP address here for easy updates
+const DEV_PC_IP = '192.168.0.18';
 const API_PORT = 8000;
 const API_TIMEOUT_MS = 30000;
 const MAX_RETRIES = 2;
@@ -30,10 +32,8 @@ function resolveDevApiHost(): string {
     return metroHost;
   }
 
-  // Use your PC's local network IP when running on a physical device
-  // Replace with your actual IP if needed
-  // Example: '192.168.0.18' (from ipconfig)
-  return '192.168.0.18';
+  // Use the DEV_PC_IP constant for easy updates
+  return DEV_PC_IP;
 }
 
 function normalizeBaseUrl(value: string): string {

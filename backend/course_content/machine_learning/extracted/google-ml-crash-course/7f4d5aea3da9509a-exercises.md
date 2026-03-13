@@ -1,0 +1,685 @@
+# Exercises
+
+Source: Google Machine Learning Crash Course
+Original URL: https://developers.google.com/machine-learning/crash-course/exercises
+Original Path: https://developers.google.com/machine-learning/crash-course/exercises
+Course: Machine Learning
+
+Exercises
+
+Stay organized with collections
+
+Save and categorize content based on your preferences.
+
+This page lists the exercises in Machine Learning Crash Course.
+
+Programming exercises run directly in your browser (no setup
+required!) using the Colaboratory
+platform. Colaboratory is supported on most major browsers, and is most
+thoroughly tested on desktop versions of Chrome and Firefox.
+
+All
+
+Linear regression
+
+Check your understanding: Intro to linear regression
+
+Check your understanding: Loss
+
+Interactive: Linear regression parameters
+
+Check your understanding: Gradient descent
+
+Check your understanding: Learning rate
+
+Check your understanding: Batch size
+
+Interactive: Gradient descent
+
+Programming: Linear regression
+
+Final quiz: Test your knowledge
+
+Logistic regression
+
+Check your understanding: Calculating a probability
+
+Final quiz: Test your knowledge
+
+Classification
+
+Interactive: Thresholding
+
+Check your understanding: TP, TN, FP, FN
+
+Interactive: Precision and recall
+
+Check your understanding: Precision and recall
+
+Interactive: ROC curve
+
+Check your understanding: ROC and AUC
+
+Programming: Classification
+
+Final quiz: Test your knowledge
+
+Working with numerical data
+
+Programming: Statistics and bad values
+
+Check your understanding: Linear scaling
+
+Check your understanding: Z-score scaling
+
+Test your knowledge: Normalization techniques
+
+Check your understanding: Binning
+
+Final quiz: Test your knowledge
+
+Working with categorical data
+
+Check your intuition: Encoding
+
+Check your intuition: Index numbers
+
+Interactive: Feature crosses
+
+Final quiz: Test your knowledge
+
+Datasets, generalization, and overfitting
+
+Check your intuition: Introduction
+
+Check your understanding: Imputation
+
+Check your understanding: Proxy labels
+
+Check your understanding: Imbalanced datasets
+
+Check your intuition: Dividing datasets
+
+Check your intuition: Test sets
+
+Check your understanding: Dividing datasets
+
+Check your understanding: Overfitting
+
+Check your understanding: Model complexity
+
+Check your intuition: Complexity metrics
+
+Check your understanding: L 2 regularization
+
+Interpreting loss curves
+
+Final quiz: Test your knowledge
+
+Neural networks
+
+Interactive: Input layer and output layer
+
+Interactive: Adding a hidden layer
+
+Interactive: Activation functions
+
+Interactive: Modifying the neural network configuration
+
+Interactive: Training a neural network
+
+Final quiz: Test your knowledge
+
+Embeddings
+
+Interactive: Exploring a word2vec visualization
+
+Final quiz: Test your knowledge
+
+Large language models
+
+Check your understanding: n-grams
+
+Check your understanding: Transformers
+
+Check your understanding: Fine-tuning and distillation
+
+Final quiz: Test your knowledge
+
+Production ML systems
+
+Check your understanding: Static vs. dynamic training
+
+Check your understanding: Static vs. dynamic inference
+
+Check your understanding: Real-world metrics
+
+Check your understanding: Label leakage
+
+Check your understanding: Feedback loops
+
+Final quiz: Test your knowledge
+
+Fairness
+
+Check your understanding: Types of bias
+
+Check your understanding: Missing feature values
+
+Check your understanding: Unexpected feature values
+
+Check your understanding: Mitigating bias
+
+Check your intuition: Demographic parity
+
+Check your understanding: Equality of opportunity
+
+Check your understanding: Counterfactual fairness
+
+Programming: Addressing bias and fairness issues
+
+Final quiz: Test your knowledge
+
+Quizzes
+
+Linear regression
+
+Check your understanding: Intro to linear regression
+
+Check your understanding: Loss
+
+Interactive: Linear regression parameters
+
+Check your understanding: Gradient descent
+
+Check your understanding: Learning rate
+
+Check your understanding: Batch size
+
+Interactive: Gradient descent
+
+Programming: Linear regression
+
+Final quiz: Test your knowledge
+
+Logistic regression
+
+Check your understanding: Calculating a probability
+
+Final quiz: Test your knowledge
+
+Classification
+
+Interactive: Thresholding
+
+Check your understanding: TP, TN, FP, FN
+
+Interactive: Precision and recall
+
+Check your understanding: Precision and recall
+
+Interactive: ROC curve
+
+Check your understanding: ROC and AUC
+
+Programming: Classification
+
+Final quiz: Test your knowledge
+
+Working with numerical data
+
+Programming: Statistics and bad values
+
+Check your understanding: Linear scaling
+
+Check your understanding: Z-score scaling
+
+Test your knowledge: Normalization techniques
+
+Check your understanding: Binning
+
+Final quiz: Test your knowledge
+
+Working with categorical data
+
+Check your intuition: Encoding
+
+Check your intuition: Index numbers
+
+Interactive: Feature crosses
+
+Final quiz: Test your knowledge
+
+Datasets, generalization, and overfitting
+
+Check your intuition: Introduction
+
+Check your understanding: Imputation
+
+Check your understanding: Proxy labels
+
+Check your understanding: Imbalanced datasets
+
+Check your intuition: Dividing datasets
+
+Check your intuition: Test sets
+
+Check your understanding: Dividing datasets
+
+Check your understanding: Overfitting
+
+Check your understanding: Model complexity
+
+Check your intuition: Complexity metrics
+
+Check your understanding: L 2 regularization
+
+Interpreting loss curves
+
+Final quiz: Test your knowledge
+
+Neural networks
+
+Interactive: Input layer and output layer
+
+Interactive: Adding a hidden layer
+
+Interactive: Activation functions
+
+Interactive: Modifying the neural network configuration
+
+Interactive: Training a neural network
+
+Final quiz: Test your knowledge
+
+Embeddings
+
+Interactive: Exploring a word2vec visualization
+
+Final quiz: Test your knowledge
+
+Large language models
+
+Check your understanding: n-grams
+
+Check your understanding: Transformers
+
+Check your understanding: Fine-tuning and distillation
+
+Final quiz: Test your knowledge
+
+Production ML systems
+
+Check your understanding: Static vs. dynamic training
+
+Check your understanding: Static vs. dynamic inference
+
+Check your understanding: Real-world metrics
+
+Check your understanding: Label leakage
+
+Check your understanding: Feedback loops
+
+Final quiz: Test your knowledge
+
+Fairness
+
+Check your understanding: Types of bias
+
+Check your understanding: Missing feature values
+
+Check your understanding: Unexpected feature values
+
+Check your understanding: Mitigating bias
+
+Check your intuition: Demographic parity
+
+Check your understanding: Equality of opportunity
+
+Check your understanding: Counterfactual fairness
+
+Programming: Addressing bias and fairness issues
+
+Final quiz: Test your knowledge
+
+Interactive
+
+Linear regression
+
+Check your understanding: Intro to linear regression
+
+Check your understanding: Loss
+
+Interactive: Linear regression parameters
+
+Check your understanding: Gradient descent
+
+Check your understanding: Learning rate
+
+Check your understanding: Batch size
+
+Interactive: Gradient descent
+
+Programming: Linear regression
+
+Final quiz: Test your knowledge
+
+Logistic regression
+
+Check your understanding: Calculating a probability
+
+Final quiz: Test your knowledge
+
+Classification
+
+Interactive: Thresholding
+
+Check your understanding: TP, TN, FP, FN
+
+Interactive: Precision and recall
+
+Check your understanding: Precision and recall
+
+Interactive: ROC curve
+
+Check your understanding: ROC and AUC
+
+Programming: Classification
+
+Final quiz: Test your knowledge
+
+Working with numerical data
+
+Programming: Statistics and bad values
+
+Check your understanding: Linear scaling
+
+Check your understanding: Z-score scaling
+
+Test your knowledge: Normalization techniques
+
+Check your understanding: Binning
+
+Final quiz: Test your knowledge
+
+Working with categorical data
+
+Check your intuition: Encoding
+
+Check your intuition: Index numbers
+
+Interactive: Feature crosses
+
+Final quiz: Test your knowledge
+
+Datasets, generalization, and overfitting
+
+Check your intuition: Introduction
+
+Check your understanding: Imputation
+
+Check your understanding: Proxy labels
+
+Check your understanding: Imbalanced datasets
+
+Check your intuition: Dividing datasets
+
+Check your intuition: Test sets
+
+Check your understanding: Dividing datasets
+
+Check your understanding: Overfitting
+
+Check your understanding: Model complexity
+
+Check your intuition: Complexity metrics
+
+Check your understanding: L 2 regularization
+
+Interpreting loss curves
+
+Final quiz: Test your knowledge
+
+Neural networks
+
+Interactive: Input layer and output layer
+
+Interactive: Adding a hidden layer
+
+Interactive: Activation functions
+
+Interactive: Modifying the neural network configuration
+
+Interactive: Training a neural network
+
+Final quiz: Test your knowledge
+
+Embeddings
+
+Interactive: Exploring a word2vec visualization
+
+Final quiz: Test your knowledge
+
+Large language models
+
+Check your understanding: n-grams
+
+Check your understanding: Transformers
+
+Check your understanding: Fine-tuning and distillation
+
+Final quiz: Test your knowledge
+
+Production ML systems
+
+Check your understanding: Static vs. dynamic training
+
+Check your understanding: Static vs. dynamic inference
+
+Check your understanding: Real-world metrics
+
+Check your understanding: Label leakage
+
+Check your understanding: Feedback loops
+
+Final quiz: Test your knowledge
+
+Fairness
+
+Check your understanding: Types of bias
+
+Check your understanding: Missing feature values
+
+Check your understanding: Unexpected feature values
+
+Check your understanding: Mitigating bias
+
+Check your intuition: Demographic parity
+
+Check your understanding: Equality of opportunity
+
+Check your understanding: Counterfactual fairness
+
+Programming: Addressing bias and fairness issues
+
+Final quiz: Test your knowledge
+
+Programming
+
+Linear regression
+
+Check your understanding: Intro to linear regression
+
+Check your understanding: Loss
+
+Interactive: Linear regression parameters
+
+Check your understanding: Gradient descent
+
+Check your understanding: Learning rate
+
+Check your understanding: Batch size
+
+Interactive: Gradient descent
+
+Programming: Linear regression
+
+Final quiz: Test your knowledge
+
+Logistic regression
+
+Check your understanding: Calculating a probability
+
+Final quiz: Test your knowledge
+
+Classification
+
+Interactive: Thresholding
+
+Check your understanding: TP, TN, FP, FN
+
+Interactive: Precision and recall
+
+Check your understanding: Precision and recall
+
+Interactive: ROC curve
+
+Check your understanding: ROC and AUC
+
+Programming: Classification
+
+Final quiz: Test your knowledge
+
+Working with numerical data
+
+Programming: Statistics and bad values
+
+Check your understanding: Linear scaling
+
+Check your understanding: Z-score scaling
+
+Test your knowledge: Normalization techniques
+
+Check your understanding: Binning
+
+Final quiz: Test your knowledge
+
+Working with categorical data
+
+Check your intuition: Encoding
+
+Check your intuition: Index numbers
+
+Interactive: Feature crosses
+
+Final quiz: Test your knowledge
+
+Datasets, generalization, and overfitting
+
+Check your intuition: Introduction
+
+Check your understanding: Imputation
+
+Check your understanding: Proxy labels
+
+Check your understanding: Imbalanced datasets
+
+Check your intuition: Dividing datasets
+
+Check your intuition: Test sets
+
+Check your understanding: Dividing datasets
+
+Check your understanding: Overfitting
+
+Check your understanding: Model complexity
+
+Check your intuition: Complexity metrics
+
+Check your understanding: L 2 regularization
+
+Interpreting loss curves
+
+Final quiz: Test your knowledge
+
+Neural networks
+
+Interactive: Input layer and output layer
+
+Interactive: Adding a hidden layer
+
+Interactive: Activation functions
+
+Interactive: Modifying the neural network configuration
+
+Interactive: Training a neural network
+
+Final quiz: Test your knowledge
+
+Embeddings
+
+Interactive: Exploring a word2vec visualization
+
+Final quiz: Test your knowledge
+
+Large language models
+
+Check your understanding: n-grams
+
+Check your understanding: Transformers
+
+Check your understanding: Fine-tuning and distillation
+
+Final quiz: Test your knowledge
+
+Production ML systems
+
+Check your understanding: Static vs. dynamic training
+
+Check your understanding: Static vs. dynamic inference
+
+Check your understanding: Real-world metrics
+
+Check your understanding: Label leakage
+
+Check your understanding: Feedback loops
+
+Final quiz: Test your knowledge
+
+Fairness
+
+Check your understanding: Types of bias
+
+Check your understanding: Missing feature values
+
+Check your understanding: Unexpected feature values
+
+Check your understanding: Mitigating bias
+
+Check your intuition: Demographic parity
+
+Check your understanding: Equality of opportunity
+
+Check your understanding: Counterfactual fairness
+
+Programming: Addressing bias and fairness issues
+
+Final quiz: Test your knowledge
+
+arrow_back
+
+Prerequisites
+
+Linear regression (10 min)
+
+arrow_forward
+
+Send feedback
+
+Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License , and code samples are licensed under the Apache 2.0 License . For details, see the Google Developers Site Policies . Java is a registered trademark of Oracle and/or its affiliates.
+
+Last updated 2025-08-25 UTC.
+
+Need to tell us more?
+
+[[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2025-08-25 UTC."],[],[]]

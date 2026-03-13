@@ -1,0 +1,200 @@
+# Artificial intelligence vs Machine Learning vs Deep Learning
+
+Source: GeeksforGeeks Artificial Intelligence Tutorial
+Original URL: https://www.geeksforgeeks.org/artificial-intelligence/artificial-intelligence-vs-machine-learning-vs-deep-learning/
+Original Path: https://www.geeksforgeeks.org/artificial-intelligence/artificial-intelligence-vs-machine-learning-vs-deep-learning/
+Course: Artificial Intelligence
+
+Artificial intelligence vs Machine Learning vs Deep Learning
+
+Last Updated : 12 Sep, 2025
+
+We often confuse the terms Artificial Intelligence (AI), Machine Learning (ML) and Deep Learning (DL), assuming they all mean the same thing. But in reality, they represent different levels of intelligent computing. AI is the broadest field, ML is a subset of AI and DL is a further subset of ML. Let’s define each one, highlight its features and compare them.
+
+1. Artificial Intelligence (AI)
+
+Artificial intelligence is the field of computer science focused on creating systems that can perform tasks requiring human-like intelligence such as reasoning, problem-solving, planning and understanding natural language. It includes rule-based systems as well as data-driven approaches like ML and DL.
+
+- The broadest field covering ML, DL, robotics and NLP.
+
+- Mimics human cognitive abilities like learning and decision-making.
+
+- Divided into Narrow AI (task-specific) and General AI (human-level, not yet achieved).
+
+- Still evolving but already powerful in real-world use cases.
+
+- Examples : Sophia robot, AI chatbots, fraud detection, medical diagnosis.
+
+2. Machine Learning (ML)
+
+Machine Learning is a branch of AI that enables systems to learn from data and improve their performance without being explicitly programmed. Instead of following fixed rules, ML algorithms analyze past data, detect patterns and use them to make predictions or decisions in new situations.
+
+- Learns from structured and labeled datasets.
+
+- Requires human input for training and corrections.
+
+- Uses algorithms such as regression, clustering and decision trees.
+
+- Improves accuracy with more data.
+
+- Examples : Amazon recommendations, Netflix suggestions, spam detection.
+
+3. Deep Learning (DL)
+
+Deep Learning is a subset of machine learning that uses artificial neural networks with many layers to automatically learn complex patterns from large datasets. Unlike traditional ML, it can extract features on its own making it useful for handling unstructured data such as images, speech and text.
+
+- Built on neural networks inspired by the human brain.
+
+- Learns automatically with minimal human guidance.
+
+- Needs massive datasets and high computational power.
+
+- Excels in tasks like vision, speech and natural language.
+
+- Examples : Self-driving cars, facial recognition, voice assistants.
+
+AI vs. ML vs. DL
+
+Let's see the differences between them:
+
+Aspect
+
+AI
+
+ML
+
+DL
+
+Scope & Application
+
+Broad – includes ML, DL, expert systems, robotics, computer vision, NLP, symbolic AI, etc.
+
+Narrower – focuses on data-driven algorithms and statistical learning.
+
+Narrowest – focuses specifically on deep neural networks.
+
+Core Techniques
+
+Rule-based systems, search algorithms, expert systems, ML, DL, reinforcement learning, NLP.
+
+Supervised learning, unsupervised learning, reinforcement learning, regression, classification, clustering.
+
+CNNs (Convolutional Neural Networks), RNNs (Recurrent Neural Networks), LSTMs, Transformers, GANs.
+
+Data Type
+
+Can work with structured, semi-structured or unstructured data depending on the approach.
+
+Mainly structured and labeled data (though some algorithms handle unstructured data).
+
+Primarily unstructured data (images, audio, text, video).
+
+Learning Dependency
+
+May or may not involve learning (AI can be purely rule-based).
+
+Always involves learning from historical data.
+
+Fully dependent on large-scale learning with neural networks.
+
+Model Complexity
+
+Can range from simple decision trees to complex hybrid AI systems.
+
+Relatively simpler – linear models, trees, SVMs, ensemble methods.
+
+Very complex – multi-layer neural networks with millions to billions of parameters.
+
+Computation Power
+
+Low to high depending on the AI technique (expert systems vs DL).
+
+Moderate – runs well on CPUs for most algorithms.
+
+Very high – requires GPUs/TPUs for training large models.
+
+Computer Subject
+
+Artificial Intelligence
+
+AI-ML-DS
+
+difference
+
+Introduction to AI
+
+- What is Artificial Intelligence (AI) 10 min read
+
+- Types of Artificial Intelligence (AI) 6 min read
+
+- Types of AI Based on Functionalities 4 min read
+
+- Agents in AI 7 min read
+
+- Artificial intelligence vs Machine Learning vs Deep Learning 3 min read
+
+- Problem Solving in Artificial Intelligence 6 min read
+
+- Top 20 Applications of Artificial Intelligence (AI) in 2025 13 min read
+
+AI Concepts
+
+- Search Algorithms in AI 6 min read
+
+- Local Search Algorithm in Artificial Intelligence 7 min read
+
+- Adversarial Search Algorithms in Artificial Intelligence (AI) 15+ min read
+
+- Constraint Satisfaction Problems (CSP) in Artificial Intelligence 10 min read
+
+- Knowledge Representation in AI 9 min read
+
+- First-Order Logic in Artificial Intelligence 4 min read
+
+- Reasoning Mechanisms in AI 9 min read
+
+Machine Learning in AI
+
+- Machine Learning Tutorial 5 min read
+
+- Deep Learning Tutorial 2 min read
+
+- Natural Language Processing (NLP) Tutorial 2 min read
+
+- Computer Vision Tutorial 3 min read
+
+Robotics and AI
+
+- Artificial Intelligence in Robotics 5 min read
+
+- What is Robotics Process Automation 8 min read
+
+- Automated Planning in AI 8 min read
+
+- AI in Transportation 8 min read
+
+- AI in Manufacturing : Revolutionizing the Industry 6 min read
+
+Generative AI
+
+- What is Generative AI? 7 min read
+
+- Generative Adversarial Network (GAN) 11 min read
+
+- Cycle Generative Adversarial Network (CycleGAN) 7 min read
+
+- StyleGAN - Style Generative Adversarial Networks 5 min read
+
+- Introduction to Generative Pre-trained Transformer (GPT) 4 min read
+
+- BERT Model - NLP 12 min read
+
+- Generative AI Applications 7 min read
+
+AI Practice
+
+- Top Artificial Intelligence(AI) Interview Questions and Answers 15+ min read
+
+- Top Generative AI and LLM Interview Question with Answer 15+ min read
+
+- 30+ Best Artificial Intelligence Project Ideas with Source Code [2025 Updated] 15+ min read

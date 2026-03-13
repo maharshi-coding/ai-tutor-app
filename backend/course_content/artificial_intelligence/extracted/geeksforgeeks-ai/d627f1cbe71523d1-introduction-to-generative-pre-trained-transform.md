@@ -1,0 +1,214 @@
+# Introduction to Generative Pre-trained Transformer (GPT)
+
+Source: GeeksforGeeks Artificial Intelligence Tutorial
+Original URL: https://www.geeksforgeeks.org/artificial-intelligence/introduction-to-generative-pre-trained-transformer-gpt/
+Original Path: https://www.geeksforgeeks.org/artificial-intelligence/introduction-to-generative-pre-trained-transformer-gpt/
+Course: Artificial Intelligence
+
+Introduction to Generative Pre-trained Transformer (GPT)
+
+Last Updated : 12 Dec, 2025
+
+Generative Pre-trained Transformer (GPT) is a large language model that can understand and produce human-like text. It works by learning patterns, meanings and relationships between words from massive amounts of data. Once trained, GPT can perform various language-related tasks such as writing, summarizing, answering questions and even coding all from a single model.
+
+How GPT Works
+
+GPT models are built upon the transformer architecture, introduced in 2017, which uses self-attention mechanisms to process input data in parallel, allowing for efficient handling of long-range dependencies in text. The core process involves:
+
+- Pre-training: The model is trained on vast amounts of text data to learn language patterns, grammar, facts and some reasoning abilities.
+
+- Fine-tuning: The pre-trained model is further trained on specific datasets with human feedback to align its responses with desired outputs.
+
+This two-step approach enables GPTs to generate coherent and contextually relevant responses across a wide array of topics and tasks.
+
+Architecture
+
+Let's explore the architecture:
+Architecture
+1. Input Embedding
+
+- Input : The raw text input is tokenized into individual tokens (words or subwords).
+
+- Embedding : Each token is converted into a dense vector representation using an embedding layer.
+
+2. Positional Encoding: Since transformers do not inherently understand the order of tokens, positional encodings are added to the input embeddings to retain the sequence information.
+
+3. Dropout Layer: A dropout layer is applied to the embeddings to prevent overfitting during training.
+
+4. Transformer Blocks
+
+- LayerNorm : Each transformer block starts with a layer normalization.
+
+- Multi-Head Self-Attention : Multi-Head Self-Attention are core component where the input passes through multiple attention heads.
+
+- Add & Norm : The output of the attention mechanism is added back to the input (residual connection) and normalized again.
+
+- Feed-Forward Network : A position-wise Feed-Forward Network is applied, typically consisting of two linear transformations with a GeLU activation in between.
+
+- Dropout : Dropout is applied to the feed-forward network output.
+
+5. Layer Stack: The transformer blocks are stacked to form a deeper model, allowing the network to capture more complex patterns and dependencies in the input.
+
+6. Final Layers
+
+- LayerNorm : LayerNorm is final layer normalization is applied.
+
+- Linear : The output is passed through a linear layer to map it to the vocabulary size.
+
+- Softmax : A Softmax layer is applied to produce the final probabilities for each token in the vocabulary.
+
+Background and Evolution
+
+The progress of GPT (Generative Pre-trained Transformer) models by OpenAI has been marked by significant advancements in natural language processing. Here’s a overview:
+
+1. GPT (2018): The original model had 12 layers, 768 hidden units, 12 attention heads (≈ 117 million parameters). It introduced the idea of unsupervised pre-training followed by supervised fine-tuning on downstream tasks.
+
+2. GPT-2 (2019): Scaled up to as many as 1.5 billion parameters. It showed strong generative abilities (generating coherent passages), prompting initial concerns about misuse.
+
+3. GPT-3 (2020): Massive jump to ~175 billion parameters. Introduced stronger few-shot and zero-shot capabilities, reducing the need for task-specific training.
+
+4. GPT-4 (2023): Improved in reasoning, context retention, multimodal abilities (in some variants) and better alignment.
+
+5. GPT-4.5 (2025): Introduced as a bridge between GPT-4 and GPT-5, it included better steerability, nuance and conversational understanding.
+
+6. GPT-4.1 (2025): Released in April 2025, offering enhancements in coding performance, long-context comprehension (up to 1 million tokens) and instruction following.
+
+7. GPT-5 (2025): The newest major release. GPT-5 is a unified system that dynamically routes queries between a fast model and a “thinking” deeper model to optimize for both speed and depth.
+
+- It demonstrates improved performance across reasoning, coding, multimodality and safety benchmarks.
+
+- GPT-5 also better mitigates hallucinations, sees stronger instruction-following fidelity and shows more reliable domain reasoning.
+
+- In medical imaging tasks, GPT-5 achieves significant gains over GPT-4o, e.g. up to +20 % in some anatomical region reasoning benchmarks.
+
+Because the field is rapidly evolving, newer intermediate or specialized models (e.g. reasoning-only models or domain-tuned variants) are also emerging, but GPT-5 currently represents the headline advancement.
+
+Applications
+
+The versatility of GPT models allows for a wide range of applications, including but not limited to:
+
+- Content Creation : GPT can generate articles, stories and poetry, assisting writers with creative tasks.
+
+- Customer Support : Automated chatbots and virtual assistants powered by GPT provide efficient and human-like customer service interactions.
+
+- Education : GPT models can create personalized tutoring systems, generate educational content and assist with language learning.
+
+- Programming : GPT's ability to generate code from natural language descriptions aids developers in software development and debugging.
+
+- Healthcare : Applications include generating medical reports, assisting in research by summarizing scientific literature and providing conversational agents for patient support.
+
+Advantages
+
+- Versatility : Capable of handling diverse tasks with minimal adaptation.
+
+- Contextual Understanding : Deep learning enables comprehension of complex text..
+
+- Scalability : Performance improves with data size and model parameters.
+
+- Few-Shot Learning : Learns new tasks from limited examples.
+
+- Creativity : Generates novel and coherent content.
+
+Challenges and Ethical Considerations
+
+- Bias : Models inherit biases from training data.
+
+- Misinformation : Can generate convincing but false content.
+
+- Resource Intensive : Large models require substantial computational power.
+
+- Transparency : Hard to interpret reasoning behind outputs.
+
+- Job Displacement : Automation of language-based tasks may impact employment.
+
+OpenAI addresses these concerns by implementing safety measures, encouraging responsible use and actively researching ways to mitigate potential harms.
+
+Blogathon
+
+Artificial Intelligence
+
+AI-ML-DS
+
+Generative AI
+
+Data Science Blogathon 2024
+
++ 1 More
+
+Introduction to AI
+
+- What is Artificial Intelligence (AI) 10 min read
+
+- Types of Artificial Intelligence (AI) 6 min read
+
+- Types of AI Based on Functionalities 4 min read
+
+- Agents in AI 7 min read
+
+- Artificial intelligence vs Machine Learning vs Deep Learning 3 min read
+
+- Problem Solving in Artificial Intelligence 6 min read
+
+- Top 20 Applications of Artificial Intelligence (AI) in 2025 13 min read
+
+AI Concepts
+
+- Search Algorithms in AI 6 min read
+
+- Local Search Algorithm in Artificial Intelligence 7 min read
+
+- Adversarial Search Algorithms in Artificial Intelligence (AI) 15+ min read
+
+- Constraint Satisfaction Problems (CSP) in Artificial Intelligence 10 min read
+
+- Knowledge Representation in AI 9 min read
+
+- First-Order Logic in Artificial Intelligence 4 min read
+
+- Reasoning Mechanisms in AI 9 min read
+
+Machine Learning in AI
+
+- Machine Learning Tutorial 5 min read
+
+- Deep Learning Tutorial 2 min read
+
+- Natural Language Processing (NLP) Tutorial 2 min read
+
+- Computer Vision Tutorial 3 min read
+
+Robotics and AI
+
+- Artificial Intelligence in Robotics 5 min read
+
+- What is Robotics Process Automation 8 min read
+
+- Automated Planning in AI 8 min read
+
+- AI in Transportation 8 min read
+
+- AI in Manufacturing : Revolutionizing the Industry 6 min read
+
+Generative AI
+
+- What is Generative AI? 7 min read
+
+- Generative Adversarial Network (GAN) 11 min read
+
+- Cycle Generative Adversarial Network (CycleGAN) 7 min read
+
+- StyleGAN - Style Generative Adversarial Networks 5 min read
+
+- Introduction to Generative Pre-trained Transformer (GPT) 4 min read
+
+- BERT Model - NLP 12 min read
+
+- Generative AI Applications 7 min read
+
+AI Practice
+
+- Top Artificial Intelligence(AI) Interview Questions and Answers 15+ min read
+
+- Top Generative AI and LLM Interview Question with Answer 15+ min read
+
+- 30+ Best Artificial Intelligence Project Ideas with Source Code [2026 Updated] 15+ min read

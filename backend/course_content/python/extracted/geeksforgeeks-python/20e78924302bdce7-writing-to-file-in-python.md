@@ -1,0 +1,269 @@
+# Writing to file in Python
+
+Source: GeeksforGeeks Python Tutorial
+Original URL: https://www.geeksforgeeks.org/python/writing-to-file-in-python/
+Original Path: https://www.geeksforgeeks.org/python/writing-to-file-in-python/
+Course: Python Programming
+
+Writing to file in Python
+
+Last Updated : 27 Dec, 2025
+
+Before writing to a file, let’s first understand the different ways to create one. Creating a file is the first step before writing data. In Python you control creation behaviour with the mode passed to open() (or with pathlib helpers).
+
+Mode / Option Description
+
+"w" Write mode: creates file if missing, truncates (erases) if it exists
+
+"a" Append mode: creates file if missing, writes data always at the end
+
+"x" Exclusive create: creates new file, but fails with FileExistsError if it already exists
+
+"b" Binary flag: used with other modes (e.g., "wb", "ab") for binary files
+
+"+" Read/write flag: combine with other modes (e.g., "r+", "w+") for both reading and writing
+
+encoding= Specify text encoding (e.g., "utf-8") when working with text files
+
+newline= Control newline translation in text mode (e.g., "\n")
+
+Note: You can combine flags like "wb" (write + binary) or "a+" (append + read). Always pick a mode based on whether you want to overwrite, append, or strictly create a new file.
+
+Overwrite an existing file
+
+Opening a file in write mode ("w") clears any existing content before writing new data. This is useful when you want to start fresh and replace old information with new output.
+
+Example: This code writes two lines to file.txt, overwriting any previous content.
+
+Python
+
+with open ( "file.txt" , "w" , encoding = "utf-8" ) as f :
+f . write ( "Created using write mode. \n " )
+f . write ( "Second line. \n " )
+
+with open ( "file.txt" , "r" , encoding = "utf-8" ) as f :
+print ( f . read ())
+
+Output
+
+Created using write mode.
+Second line.
+
+Explanation: Here "w" truncates file.txt and writes fresh content. The with block ensures the file is properly saved and closed.
+
+Append to an existing file
+
+Using "a" mode (append), we can add new data at the end of a file without removing what’s already there.
+
+Example: This writes an extra line to file.txt without removing existing content.
+
+Python
+
+with open ( "file.txt" , "a" , encoding = "utf-8" ) as f :
+f . write ( "Appended line. \n " )
+
+with open ( "file.txt" , "r" , encoding = "utf-8" ) as f :
+print ( f . read ())
+
+Output
+
+Created using write mode.
+Second line.
+Appended line.
+
+Explanation: "a" always writes at the end. Useful for logs, reports, or when you want to keep history intact.
+
+Create only if it does not exist
+
+With "x" mode, Python creates a new file but raises FileExistsError if the file already exists. This prevents accidental overwrites.
+
+Example: This tries to create file.txt only if it doesn’t exist, otherwise prints an informative message.
+
+Python
+
+try :
+with open ( "file.txt" , "x" , encoding = "utf-8" ) as f :
+f . write ( "Created using exclusive mode. \n " )
+except FileExistsError :
+print ( "file.txt already exists, exclusive creation aborted." )
+
+Output
+
+file.txt already exists, exclusive creation aborted.
+
+Explanation: "x" mode is useful for safe file creation. It guarantees no overwriting if the file exists, Python raises a FileExistsError instead.
+
+Writing multiple lines
+
+Sometimes you need to write several lines at once instead of one by one. Python provides two common approaches: writelines() for lists of strings and join() for building a single text block.
+
+Example 1: This writes a list of lines; each element includes a \n.
+
+Python
+
+lines = [ "First line \n " , "Second line \n " , "Third line \n " ]
+with open ( "file1.txt" , "w" , encoding = "utf-8" ) as f :
+f . writelines ( lines )
+
+with open ( "file1.txt" , "r" , encoding = "utf-8" ) as f :
+print ( f . read ())
+
+Output
+
+First line
+Second line
+Third line
+
+Explanation: writelines() writes each string in the list directly. It does not add newlines automatically you must include \n in each string yourself.
+
+Example 2: join + single write (often cleaner)
+
+This creates the final text with '\n'.join(...) and writes once.
+
+Python
+
+lines = [ "Line A" , "Line B" , "Line C" ]
+text = " \n " . join ( lines ) + " \n "
+with open ( "file2.txt" , "w" , encoding = "utf-8" ) as f :
+f . write ( text )
+
+with open ( "file2.txt" , "r" , encoding = "utf-8" ) as f :
+print ( f . read ())
+
+Output
+
+Line A
+Line B
+Line C
+
+Explanation: Building a single string and calling write() once can be more efficient and less error-prone, especially when you must ensure consistent newlines.
+
+Writing to a Binary File
+
+For non-text data (like images, audio, or other binary content), use binary write mode ("wb"). This treats the file as raw bytes instead of text.
+
+Example: The following code writes a small sequence of bytes into a file called file.bin and then reads it back in binary mode.
+
+Python
+
+data = b ' \x00\x01\x02\x03\x04 '
+with open ( "file.bin" , "wb" ) as f :
+f . write ( data )
+
+Output
+
+b'\x00\x01\x02\x03\x04'
+
+Explanation:
+
+- data = b'\x00\x01\x02\x03\x04': Creates a bytes object (raw binary data).
+
+- open("file.bin", "wb"): Opens file in binary write mode (creates/overwrites).
+
+- f.write(data): Saves the bytes to the file.
+
+- open("file.bin", "rb"): Opens file in binary read mode.
+
+- print(f.read()): Reads and prints the stored bytes.
+
+Python
+
+python-file-handling
+
+Python Fundamentals
+
+- Python Introduction 2 min read
+
+- Input and Output in Python 4 min read
+
+- Python Variables 4 min read
+
+- Python Operators 4 min read
+
+- Python Keywords 2 min read
+
+- Python Data Types 8 min read
+
+- Conditional Statements in Python 3 min read
+
+- Loops in Python 5 min read
+
+- Python Functions 5 min read
+
+Python Data Structures
+
+- Python String 5 min read
+
+- Python Lists 4 min read
+
+- Python Tuples 4 min read
+
+- Python Dictionary 4 min read
+
+- Python Sets 6 min read
+
+- Python Arrays 7 min read
+
+Advanced Python
+
+- Python OOP Concepts 4 min read
+
+- Python Exception Handling 5 min read
+
+- File Handling in Python 4 min read
+
+- Python Database Tutorial 4 min read
+
+- Python MongoDB Tutorial 3 min read
+
+- Python MySQL 9 min read
+
+- Python Packages 10 min read
+
+- Python Modules 3 min read
+
+- Python DSA Libraries 5 min read
+
+- List of Python GUI Library and Packages 3 min read
+
+Data Science with Python
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Matplotlib Tutorial 3 min read
+
+- Python Seaborn Tutorial 3 min read
+
+- StatsModel Library - Tutorial 2 min read
+
+- Learning Model Building in Scikit-learn 6 min read
+
+- TensorFlow Tutorial 2 min read
+
+- PyTorch Tutorial 5 min read
+
+Web Development with Python
+
+- Flask Tutorial 4 min read
+
+- Django Tutorial | Learn Django Framework 6 min read
+
+- Django ORM - Inserting, Updating & Deleting Data 4 min read
+
+- Templating With Jinja2 in Flask 6 min read
+
+- Django Templates 5 min read
+
+- Build a REST API using Flask - Python 3 min read
+
+- Building a Simple API with Django REST Framework 3 min read
+
+Python Practice
+
+- Python Quiz 1 min read
+
+- Python Coding Practice 1 min read
+
+- Python Interview Questions and Answers 15+ min read

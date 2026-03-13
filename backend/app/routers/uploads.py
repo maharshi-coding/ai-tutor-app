@@ -10,6 +10,7 @@ from app.database import get_db
 from app.models import Course, User
 from app.rag import ingest_course_chunks, split_text_for_rag
 from app.routers.auth import get_current_user
+from app.services.course_content import TEXT_FILE_EXTENSIONS, extract_text_from_file
 from app.services.did_avatar import DIdAvatarError, ensure_avatar_for_user
 
 
@@ -195,42 +196,11 @@ async def upload_photo_and_generate_avatar(
         }
 
 
-ALLOWED_DOC_EXTENSIONS = {".pdf", ".docx", ".txt", ".md"}
+ALLOWED_DOC_EXTENSIONS = set(TEXT_FILE_EXTENSIONS)
 
 
 def _extract_text_from_file(file_path: Path) -> str:
-    ext = file_path.suffix.lower()
-
-    if ext in {".txt", ".md"}:
-        return file_path.read_text(encoding="utf-8", errors="replace")
-
-    if ext == ".pdf":
-        try:
-            import fitz
-
-            document = fitz.open(str(file_path))
-            pages = [page.get_text() for page in document]
-            document.close()
-            return "\n\n".join(pages)
-        except ImportError:
-            raise HTTPException(
-                status_code=500,
-                detail="PyMuPDF (fitz) is required for PDF parsing. Install with: pip install PyMuPDF",
-            )
-
-    if ext == ".docx":
-        try:
-            import docx
-
-            document = docx.Document(str(file_path))
-            return "\n\n".join(p.text for p in document.paragraphs if p.text.strip())
-        except ImportError:
-            raise HTTPException(
-                status_code=500,
-                detail="python-docx is required for DOCX parsing. Install with: pip install python-docx",
-            )
-
-    raise HTTPException(status_code=400, detail=f"Unsupported file type: {ext}")
+    return extract_text_from_file(file_path)
 
 
 def _chunk_text(
@@ -290,7 +260,14 @@ async def upload_course_document(
                 raise HTTPException(status_code=400, detail="File too large (max 50 MB)")
             buffer.write(chunk)
 
-    raw_text = _extract_text_from_file(file_path)
+    try:
+        raw_text = extract_text_from_file(file_path)
+    except ValueError as exc:
+        file_path.unlink(missing_ok=True)
+        raise HTTPException(status_code=400, detail=str(exc))
+    except RuntimeError as exc:
+        file_path.unlink(missing_ok=True)
+        raise HTTPException(status_code=500, detail=str(exc))
     if not raw_text.strip():
         file_path.unlink(missing_ok=True)
         raise HTTPException(

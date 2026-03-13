@@ -1,0 +1,401 @@
+# Bernoulli Naive Bayes
+
+Source: GeeksforGeeks Machine Learning Tutorial
+Original URL: https://www.geeksforgeeks.org/machine-learning/bernoulli-naive-bayes/
+Original Path: https://www.geeksforgeeks.org/machine-learning/bernoulli-naive-bayes/
+Course: Machine Learning
+
+Bernoulli Naive Bayes
+
+Last Updated : 28 Aug, 2025
+
+Bernoulli Naive Bayes is a subcategory of the Naive Bayes Algorithm. It is typically used when the data is binary and it models the occurrence of features using Bernoulli distribution. It is used for the classification of binary features such as 'Yes' or 'No', '1' or '0', 'True' or 'False' etc. Here it is to be noted that the features are independent of one another.
+
+Mathematics Behind Bernoulli Naive Bayes
+
+In Bernoulli Naive Bayes model we assume that each feature is conditionally independent given the class y . This means that we can calculate the likelihood of each feature occurring as:
+
+p(x_i|y)=p(i|y)x_i+(1-p(i|y))(1-x_i)
+
+- Here, p( x_i |y) is the conditional probability of xi occurring provided y has occurred.
+
+- i is the event
+
+- x_i holds binary value either 0 or 1
+
+Now we will learn Bernoulli distribution as Bernoulli Naive Bayes works on that.
+
+Bernoulli distribution
+
+Bernoulli distribution is used for discrete probability calculation. It either calculates success or failure. Here the random variable is either 1 or 0 whose chance of occurring is either denoted by p or (1-p) respectively.
+
+The mathematical formula is given
+
+f(x)=\begin{cases} p^x*(1-p)^{1-x} & \text{if x=0,1} \\ 0 \; otherwise\\ \end{cases}
+
+Now in the above function if we put x=1 then the value of f(x) is p and if we put x=0 then the value of f(x) is 1-p. Here p denotes the success of an event.
+
+Example:
+
+To understand how Bernoulli Naive Bayes works, here's a simple binary classification problem.
+
+Message ID
+
+Message Text
+
+Class
+
+M1
+
+"buy cheap now"
+
+Spam
+
+M2
+
+"limited offer buy"
+
+Spam
+
+M3
+
+"meet me now"
+
+Not Spam
+
+M4
+
+"let's catch up"
+
+Not Spam
+
+1. Vocabulary
+
+Extract all unique words from the training data:
+
+\text{Vocabulary} = \{\text{buy, cheap, now, limited, offer, meet, me, let's, catch, up}\}
+
+Vocabulary size V = 10
+
+2. Binary Feature Matrix (Presence = 1, Absence = 0)
+
+Each message is represented using binary features indicating the presence (1) or absence (0) of a word.
+
+ID
+
+buy
+
+cheap
+
+now
+
+limited
+
+offer
+
+meet
+
+me
+
+let's
+
+catch
+
+Class
+
+M1
+
+1
+
+0
+
+Spam
+
+M2
+
+1
+
+0
+
+1
+
+0
+
+Spam
+
+M3
+
+0
+
+1
+
+0
+
+1
+
+0
+
+Not Spam
+
+M4
+
+0
+
+1
+
+Not Spam
+
+3. Apply Laplace Smoothing
+
+P(w_i = 1 \mid C) = \frac{\text{count}(w_i, C) + 1}{N_C + 2}
+
+where N_C = 2 for both classes (2 documents per class), so the denominator becomes 4.
+
+4. Word Probabilities
+
+For Spam class:
+
+- P(\text{buy} \mid \text{Spam}) = \frac{2+1}{4} = 0.75
+
+- P(\text{cheap} \mid \text{Spam}) = \frac{1+1}{4} = 0.5
+
+- P(\text{now} \mid \text{Spam}) = \frac{1+1}{4} = 0.5
+
+- P(\text{limited} \mid \text{Spam}) = \frac{1+1}{4} = 0.5
+
+- P(\text{offer} \mid \text{Spam}) = \frac{1+1}{4} = 0.5
+
+- P(\text{others} \mid \text{Spam}) = \frac{0+1}{4} = 0.25
+
+For Not Spam class:
+
+- P(\text{now} \mid \text{Not Spam}) = \frac{1+1}{4} = 0.5
+
+- P(\text{meet} \mid \text{Not Spam}) = \frac{1+1}{4} = 0.5
+
+- P(\text{me} \mid \text{Not Spam}) = \frac{1+1}{4} = 0.5
+
+- P(\text{let's} \mid \text{Not Spam}) = \frac{1+1}{4} = 0.5
+
+- P(\text{catch} \mid \text{Not Spam}) = \frac{1+1}{4} = 0.5
+
+- P(\text{up} \mid \text{Not Spam}) = \frac{1+1}{4} = 0.5
+
+- P(\text{others} \mid \text{Not Spam}) = \frac{0+1}{4} = 0.25
+
+5. Classify Message "buy now"
+
+The message contains words "buy" and "now, so the feature vector is:
+
+\text{buy}=1, \quad \text{now}=1, \quad \text{others}=0
+
+5.1 For Spam:
+
+- P(\text{Spam} \mid d) \propto P(\text{Spam}) \cdot P(\text{buy}=1 \mid \text{Spam}) \cdot P(\text{now}=1 \mid \text{Spam}) = 0.5 \cdot 0.75 \cdot 0.5 = 0.1875
+
+5.2 For Not Spam:
+
+- P(\text{Not Spam} \mid d) \propto P(\text{Not Spam}) \cdot P(\text{buy}=1 \mid \text{Not Spam}) \cdot P(\text{now}=1 \mid \text{Not Spam}) = 0.5 \cdot 0.25 \cdot 0.5 = 0.0625
+
+6. Final Classification
+
+P(\text{Spam} \mid d) = 0.1875,\quad P(\text{Not Spam} \mid d) = 0.0625
+
+Since P(\text{Spam} \mid d) > P(\text{Not Spam} \mid d) , the message is classified as: \boxed{\text{Spam}}
+
+Implementing Bernoulli Naive Bayes
+
+For performing classification using Bernoulli Naive Bayes we have considered an email dataset.
+
+The email dataset comprises of four columns named Unnamed: 0, label, label_num and text. The category of label is either ham or spam. For ham the number assigned is 0 and for spam 1 is assigned. Text comprises the body of the mail. The length of the dataset is 5171.
+
+The dataset can be downloaded from here .
+
+1. Importing Libraries
+
+In the code we have imported necessary libraries like pandas , numpy and sklearn . Bernoulli Naive Bayes is a part of sklearn package.
+
+Python
+
+import numpy as np
+import pandas as pd
+from sklearn.naive_bayes import BernoulliNB
+from sklearn.feature_extraction.text import CountVectorizer
+
+2. Data Analysis
+
+In this code we have performed a quick data analysis that includes reading the data, dropping unnecessary columns, printing shape of data, information about dataset etc.
+
+Python
+
+df = pd . read_csv ( "spam_ham_dataset.csv" )
+print ( df . shape )
+print ( df . columns )
+df = df . drop ([ 'Unnamed: 0' ], axis = 1 )
+
+Output:
+
+(5171, 4) Index(['Unnamed: 0', 'label', 'text', 'label_num'], dtype='object')
+
+3. Count Vectorizer
+
+In the code since text data is used to train our classifier we convert the text into a matrix comprising numbers using Count Vectorizer so that the model can perform well.
+
+Python
+
+x = df [ "text" ] . values
+y = df [ "label_num" ] . values
+
+cv = CountVectorizer ()
+
+x = cv . fit_transform ( x )
+
+4. Data Splitting, Model Training and Prediction
+
+Python
+
+from sklearn.model_selection import train_test_split
+X_train , X_test , y_train , y_test = train_test_split ( x , y , test_size = 0.20 , random_state = 0 ) \
+
+bnb = BernoulliNB ( binarize = 0.0 )
+model = bnb . fit ( X_train , y_train )
+y_pred = bnb . predict ( X_test )
+
+from sklearn.metrics import classification_report
+print ( classification_report ( y_test , y_pred ))
+
+Output:
+classification_report
+The classification report shows that for class 0 (not spam) precision, recall and F1 score are 0.84, 0.98 and 0.91 respectively. For class 1 (spam) they are 0.92, 0.56 and 0.70. The recall for class 1 drops due to the 13% spam data. The overall accuracy of the model is 86%, which is good.
+
+Bernoulli Naive Bayes is used for spam detection, text classification, Sentiment Analysis and used to determine whether a certain word is present in a document or not.
+
+Difference Between Different Naive Bayes Model
+
+Aspect Gaussian Naive Bayes Multinomial Naive Bayes Bernoulli Naive Bayes
+
+Feature Type Continuous (real-valued features) Discrete (count data or frequency-based features) Binary (presence or absence of features)
+
+Assumption Assumes data follows a Gaussian (normal) distribution Assumes data follows a multinomial distribution Assumes data follows a Bernoulli (binary) distribution
+
+Common Use Case Suitable for continuous features like height, weight, etc. Suitable for text classification (word counts) Suitable for binary classification tasks (e.g., spam detection)
+
+Data Representation Features are treated as continuous variables Features are treated as discrete counts or frequencies Features are treated as binary (0 or 1) values
+
+Mathematical Model Uses Gaussian distribution (mean and variance) for each feature Uses the multinomial distribution for word counts in text classification Uses Bernoulli distribution (probability of a feature being present)
+
+Example Predicting whether an email is spam based on numeric features Predicting whether a document is spam based on word counts Classifying a document as spam or not based on word presence
+
+Here is the quick comparison between types of Naive Bayes that are Gaussian Naive Bayes , Multinomial Naive Bayes and Bernoulli Naive Bayes.
+
+Machine Learning
+
+Geeks Premier League
+
+AI-ML-DS
+
+Python scikit-module
+
+ML-Classification
+
+Geeks Premier League 2023
+
+AI-ML-DS With Python
+
++ 3 More
+
+Machine Learning Basics
+
+- Introduction to Machine Learning 8 min read
+
+- Types of Machine Learning 7 min read
+
+- What is Machine Learning Pipeline? 6 min read
+
+- Applications of Machine Learning 3 min read
+
+Python for Machine Learning
+
+- Machine Learning with Python Tutorial 3 min read
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Data Preprocessing in Python 4 min read
+
+- EDA - Exploratory Data Analysis in Python 6 min read
+
+Feature Engineering
+
+- What is Feature Engineering? 5 min read
+
+- Introduction to Dimensionality Reduction 4 min read
+
+- Feature Selection Techniques in Machine Learning 4 min read
+
+Supervised Learning
+
+- Supervised Machine Learning 7 min read
+
+- Linear Regression in Machine learning 14 min read
+
+- Logistic Regression in Machine Learning 10 min read
+
+- Decision Tree in Machine Learning 8 min read
+
+- Random Forest Algorithm in Machine Learning 5 min read
+
+- K-Nearest Neighbor(KNN) Algorithm 8 min read
+
+- Support Vector Machine (SVM) Algorithm 9 min read
+
+- Naive Bayes Classifiers 6 min read
+
+Unsupervised Learning
+
+- What is Unsupervised Learning 5 min read
+
+- K means Clustering – Introduction 6 min read
+
+- Hierarchical Clustering in Machine Learning 6 min read
+
+- DBSCAN Clustering in ML - Density based clustering 6 min read
+
+- Apriori Algorithm 6 min read
+
+- Frequent Pattern Growth Algorithm 4 min read
+
+- ECLAT Algorithm - ML 5 min read
+
+- Principal Component Analysis (PCA) 7 min read
+
+Model Evaluation and Tuning
+
+- Evaluation Metrics in Machine Learning 9 min read
+
+- Regularization in Machine Learning 5 min read
+
+- Cross Validation in Machine Learning 5 min read
+
+- Hyperparameter Tuning 5 min read
+
+- Underfitting and Overfitting in ML 3 min read
+
+- Bias and Variance in Machine Learning 6 min read
+
+Advanced Techniques
+
+- Reinforcement Learning 9 min read
+
+- Semi-Supervised Learning in ML 5 min read
+
+- Self-Supervised Learning (SSL) 6 min read
+
+- Ensemble Learning 7 min read
+
+Machine Learning Practice
+
+- Machine Learning Interview Questions and Answers 15+ min read
+
+- 100+ Machine Learning Projects with Source Code 5 min read

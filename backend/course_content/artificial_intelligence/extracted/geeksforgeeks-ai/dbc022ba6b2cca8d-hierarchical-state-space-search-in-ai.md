@@ -1,0 +1,180 @@
+# Hierarchical State Space Search in AI
+
+Source: GeeksforGeeks Artificial Intelligence Tutorial
+Original URL: https://www.geeksforgeeks.org/artificial-intelligence/hierarchical-state-space-search-in-ai/
+Original Path: https://www.geeksforgeeks.org/artificial-intelligence/hierarchical-state-space-search-in-ai/
+Course: Artificial Intelligence
+
+Hierarchical State Space Search in AI
+
+Last Updated : 5 Aug, 2025
+
+Hierarchical State Space Search (HSSS) is a way for AI to break down big, complicated problems into smaller, more manageable pieces. Instead of trying to solve a problem all at once, HSSS creates several layers with each layer focusing on a different level of detail. This step-by-step method allows computers and robots to find solutions faster and more efficiently especially when facing enormous or tricky challenges.
+
+Working of Hierarchical State Space Search
+
+- Step 1: Abstraction: Start with a simple, high-level version of the problem. This gives a “big-picture” overview where each part stands for lots of smaller details.
+
+- Step 2: Top-Level Search: The AI first looks for a rough solution at the top layer, working with broad details rather than fine points.
+
+- Step 3: Refinement: Once a promising path is found, the AI zooms in, moving to the next layer and adding more details. It keeps doing this as it goes deeper into the hierarchy.
+
+- Step 4: Solution: The process continues until the AI reaches the most detailed level and finds a complete, practical answer, which can then be traced back up the hierarchy to summarize the whole solution.
+
+Now lets see its implementation in Python.
+
+Implementing Hierarchical State Space Search
+
+We will use a simple robot vacuum cleaner example.
+
+Step 1: Set Up Hierarchy
+
+- We have a list of rooms.
+
+- In each room, there are 3 main areas.
+
+- Each area has 3 tiles to be cleaned.
+
+Python
+
+rooms = [ 'kitchen' , 'living room' , 'bedroom' ]
+areas_per_room = [ 'left' , 'center' , 'right' ]
+tiles_per_area = 3
+
+Step 2: High-Level Planning
+
+The robot focuses first on big decisions (going from room to room).
+
+Python
+
+for room in rooms :
+print ( f "Moving to { room } ..." )
+
+Step 3: Mid-Level Planning
+
+Now, the robot breaks down the room into smaller targets (areas).
+
+Python
+
+for area in areas_per_room :
+print ( f " Cleaning { area } of { room } ..." )
+
+Step 4: Low-Level Planning
+
+At this layer, the robot acts on the smallest tasks, cleaning one tile at a time.
+
+Python
+
+for tile in range ( 1 , tiles_per_area + 1 ):
+print ( f " Vacuuming tile { tile } in { area } of { room } " )
+
+Output:
+Output
+
+The complete code can be downloaded from here .
+
+Applications of Hierarchical State Space Search in AI
+
+- Robotics: It is widely used in robotics for tasks such as navigation, manipulation and multi-tasking. By decomposing complex robotic tasks into hierarchical levels, it allows robots to plan and execute actions more efficiently.
+
+- Automated Planning and Scheduling: In automated planning and scheduling, it helps to manage and optimize complex workflows and processes. By organizing tasks into a hierarchy, it enables efficient scheduling and resource allocation, improving overall performance and coordination.
+
+- Game AI: It is applied in game AI to create complex behaviors and strategies for non-player characters (NPCs). By structuring the state space hierarchically, game AI systems can manage intricate decision-making processes and enhance the realism of NPC actions.
+
+Advantages
+
+- Efficiency : By focusing the search on specific areas of the state space, HSS reduces the overall computational cost making it feasible to solve problems with large state spaces.
+
+- Scalability : HSS is well-suited for complex problems that would otherwise be too large to handle using traditional search methods.
+
+- Modularity : The hierarchical approach allows for modular problem-solving where different levels of the hierarchy can be designed and optimized independently.
+
+Limitations
+
+- Managing Complexity : Large hierarchies can themselves be tough to manage.
+
+- Good Knowledge Needed : The AI needs accurate “maps” at each layer to work well.
+
+- Needs Flexibility : If things change quickly, the hierarchy must be ready to adapt.
+
+Artificial Intelligence
+
+AI-ML-DS
+
+Introduction to AI
+
+- What is Artificial Intelligence (AI) 10 min read
+
+- Types of Artificial Intelligence (AI) 6 min read
+
+- Types of AI Based on Functionalities 4 min read
+
+- Agents in AI 7 min read
+
+- Artificial intelligence vs Machine Learning vs Deep Learning 3 min read
+
+- Problem Solving in Artificial Intelligence 6 min read
+
+- Top 20 Applications of Artificial Intelligence (AI) in 2025 13 min read
+
+AI Concepts
+
+- Search Algorithms in AI 6 min read
+
+- Local Search Algorithm in Artificial Intelligence 7 min read
+
+- Adversarial Search Algorithms in Artificial Intelligence (AI) 15+ min read
+
+- Constraint Satisfaction Problems (CSP) in Artificial Intelligence 10 min read
+
+- Knowledge Representation in AI 9 min read
+
+- First-Order Logic in Artificial Intelligence 4 min read
+
+- Reasoning Mechanisms in AI 9 min read
+
+Machine Learning in AI
+
+- Machine Learning Tutorial 5 min read
+
+- Deep Learning Tutorial 2 min read
+
+- Natural Language Processing (NLP) Tutorial 2 min read
+
+- Computer Vision Tutorial 3 min read
+
+Robotics and AI
+
+- Artificial Intelligence in Robotics 5 min read
+
+- What is Robotics Process Automation 8 min read
+
+- Automated Planning in AI 8 min read
+
+- AI in Transportation 8 min read
+
+- AI in Manufacturing : Revolutionizing the Industry 6 min read
+
+Generative AI
+
+- What is Generative AI? 7 min read
+
+- Generative Adversarial Network (GAN) 11 min read
+
+- Cycle Generative Adversarial Network (CycleGAN) 7 min read
+
+- StyleGAN - Style Generative Adversarial Networks 5 min read
+
+- Introduction to Generative Pre-trained Transformer (GPT) 4 min read
+
+- BERT Model - NLP 12 min read
+
+- Generative AI Applications 7 min read
+
+AI Practice
+
+- Top Artificial Intelligence(AI) Interview Questions and Answers 15+ min read
+
+- Top Generative AI and LLM Interview Question with Answer 15+ min read
+
+- 30+ Best Artificial Intelligence Project Ideas with Source Code [2026 Updated] 15+ min read

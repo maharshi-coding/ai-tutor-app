@@ -1,0 +1,86 @@
+# Build Classification Model
+
+Source: ML for Beginners
+Original URL: https://github.com/microsoft/ML-For-Beginners/blob/HEAD/4-Classification/3-Classifiers-2/notebook.ipynb
+Original Path: 4-Classification/3-Classifiers-2/notebook.ipynb
+Course: Machine Learning
+
+# Build Classification Model
+
+```python
+import pandas as pd
+cuisines_df = pd.read_csv("../data/cleaned_cuisines.csv")
+cuisines_df.head()
+```
+
+Output:
+```text
+Unnamed: 0 cuisine almond angelica anise anise_seed apple \
+0 0 indian 0 0 0 0 0
+1 1 indian 1 0 0 0 0
+2 2 indian 0 0 0 0 0
+3 3 indian 0 0 0 0 0
+4 4 indian 0 0 0 0 0
+
+apple_brandy apricot armagnac ... whiskey white_bread white_wine \
+0 0 0 0 ... 0 0 0
+1 0 0 0 ... 0 0 0
+2 0 0 0 ... 0 0 0
+3 0 0 0 ... 0 0 0
+4 0 0 0 ... 0 0 0
+
+whole_grain_wheat_flour wine wood yam yeast yogurt zucchini
+0 0 0 0 0 0 0 0
+1 0 0 0 0 0 0 0
+2 0 0 0 0 0 0 0
+3 0 0 0 0 0 0 0
+4 0 0 0 0 0 1 0
+
+[5 rows x 382 columns]
+```
+
+```python
+cuisines_label_df = cuisines_df['cuisine']
+cuisines_label_df.head()
+```
+
+Output:
+```text
+0 indian
+1 indian
+2 indian
+3 indian
+4 indian
+Name: cuisine, dtype: object
+```
+
+```python
+cuisines_features_df = cuisines_df.drop(['Unnamed: 0', 'cuisine'], axis=1)
+cuisines_features_df.head()
+```
+
+Output:
+```text
+almond angelica anise anise_seed apple apple_brandy apricot \
+0 0 0 0 0 0 0 0
+1 1 0 0 0 0 0 0
+2 0 0 0 0 0 0 0
+3 0 0 0 0 0 0 0
+4 0 0 0 0 0 0 0
+
+armagnac artemisia artichoke ... whiskey white_bread white_wine \
+0 0 0 0 ... 0 0 0
+1 0 0 0 ... 0 0 0
+2 0 0 0 ... 0 0 0
+3 0 0 0 ... 0 0 0
+4 0 0 0 ... 0 0 0
+
+whole_grain_wheat_flour wine wood yam yeast yogurt zucchini
+0 0 0 0 0 0 0 0
+1 0 0 0 0 0 0 0
+2 0 0 0 0 0 0 0
+3 0 0 0 0 0 0 0
+4 0 0 0 0 0 1 0
+
+[5 rows x 380 columns]
+```

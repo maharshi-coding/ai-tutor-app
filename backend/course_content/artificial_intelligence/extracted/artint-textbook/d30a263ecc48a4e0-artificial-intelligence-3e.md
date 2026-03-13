@@ -1,0 +1,326 @@
+# Artificial Intelligence 3E
+
+Source: Artificial Intelligence: Foundations of Computational Agents
+Original URL: https://artint.info/3e/html/ArtInt3e.Ch1.S4.html
+Original Path: https://artint.info/3e/html/ArtInt3e.Ch1.S4.html
+Course: Artificial Intelligence
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+1.4 Prototypical Applications
+
+AI applications are widespread and diverse and include medical diagnosis, scheduling
+factory processes, robots for hazardous environments, game playing,
+autonomous cars, natural language translation systems, choosing
+advertisements, personal assistants, and
+tutoring agents. Rather than treating each application
+separately, we abstract the essential features of such applications
+to better understand the
+principles behind intelligent reasoning and action.
+
+Five main application domains are developed
+in examples throughout the book. Although the particular
+examples presented are simple – otherwise they would not fit into
+the book – the application domains are representative of the range
+of domains in which AI techniques can be, and are being, used.
+
+1.4.1 An Autonomous Delivery and Helping Robot
+
+Imagine a robot with wheels and the ability to pick up, put
+down and manipulate objects. It has sensing capabilities allowing it to recognize objects and to avoid
+obstacles. It can be given orders in natural language and obey them,
+making reasonable choices about what to do when its goals
+conflict. Such a robot could
+deliver packages or coffee in an office environment, clean a
+home and put things in their appropriate place, or help caregivers in a
+hospital. Embedded in a
+wheelchair, it could help disabled people. It should be useful as well as
+safe.
+
+In terms of the black-box characterization of an agent in Figure 1.4 ,
+the autonomous delivery robot has as inputs:
+
+•
+
+prior knowledge, provided by the agent designer, about the agent’s capabilities, what objects it may encounter and
+have to differentiate,
+what requests mean, and perhaps about its
+environment, such as a map
+
+•
+
+past experience obtained while acting, for instance, about the
+effects of its actions (and – hopefully limited – experiences of breaking objects), what objects are common in the world, and what requests to expect at different times of
+the day
+
+•
+
+goals in terms of what it should deliver and when, as well as
+preferences specifying trade-offs, such as when it must forgo one goal to
+pursue another, or the trade-off between acting quickly and acting
+safely
+
+•
+
+stimuli about its environment from observations from input
+devices such as
+cameras, sonar, touch, sound, laser range finders, or keyboards as
+well as stimuli such as the agent being forcibly moved or crashing.
+
+The robot’s outputs are motor controls specifying how its
+wheels should turn, where its limbs should move, and what it should do
+with its grippers. Other outputs may include speech and a video display.
+
+Figure 1.5: A typical laboratory environment for the delivery robot. This shows the locations of the
+doors and which way they open.
+
+Example 1.3 .
+
+Figure 1.5 depicts a typical laboratory environment
+for a delivery robot. This environment consists of four laboratories
+and many offices. In our examples, the robot
+can only push doors, and the directions of the doors in the diagram
+reflect the directions in which the robot can travel. Rooms require keys and those keys can be obtained from various
+sources. The robot must deliver parcels, beverages, and dishes from room to
+room. The environment also contains a stairway that is potentially hazardous
+to the robot.
+
+1.4.2 A Diagnostic Assistant
+
+A diagnostic assistant is intended to
+advise a human about some particular system such as a medical
+patient, the electrical system in a home, or an automobile. The diagnostic assistant should advise about potential
+underlying faults or diseases, what tests to carry out, and what
+treatment to prescribe. To give such advice, the
+assistant requires a model of the system, including knowledge of
+potential causes,
+available tests, available treatments, and observations of the system (which are often called symptoms ).
+
+To be useful, the diagnostic
+assistant must provide added value, be easy for a human to use, and
+not be
+more trouble than it is worth. A
+diagnostic assistant connected to the Internet can draw on expertise from throughout the world,
+and its actions can be based on the most up-to-date research. However, it
+must be able to justify why the suggested diagnoses or actions are
+appropriate. Humans are, and should be, suspicious of computer systems
+that are opaque and impenetrable. When humans are responsible for what they
+do, even if their actions are based on a computer system’s advice, the
+system needs to convince the human that the suggested actions are defensible.
+
+Figure 1.6: An electrical environment for the diagnostic assistant
+
+Example 1.4 .
+
+Figure 1.6 shows an electrical distribution
+system in
+a home. In this home, power comes into the home through circuit
+breakers and then it goes to power outlets or to lights through light
+switches. For example, light l 1 is on if there is power coming into
+the home, if circuit breaker c ⁢ b 1 is o ⁢ n , and if switches s 1
+and s 2 are either both up or both down. This is the sort of model
+that someone may have of the electrical power in the
+home, which they could use to determine what is wrong given
+evidence about the position of the switches and which lights are on
+and which are off. The diagnostic assistant is there to help a
+resident or an electrician troubleshoot electrical problems.
+
+In terms of the black-box definition of an agent in Figure 1.4 ,
+the diagnostic assistant has as inputs:
+
+•
+
+prior knowledge, such as
+how switches and lights normally work, how diseases or malfunctions manifest
+themselves, what information tests provide, the effects of
+repairs or treatments, and how to find out information
+
+•
+
+past experience, in terms of data of previous cases that include
+the effects of repairs or treatments, the prevalence of faults or
+diseases, the prevalence
+of symptoms for these faults or diseases, and the accuracy of
+tests
+
+•
+
+goals of fixing the device or preferences
+between repairing or replacing components, or a patient’s
+preferences between living longer or reducing pain
+
+•
+
+stimuli that are observations of symptoms of a device or patient.
+
+The output of the diagnostic assistant is in terms of recommendations
+of treatments and tests, along with a rationale for its recommendations.
+
+1.4.3 A Tutoring Agent
+
+A tutoring agent
+tutors students in some domain of study. The environment of the agent
+includes students who interact through a computer or tablet interface,
+and perhaps the students’ parents and teachers.
+
+Example 1.5 .
+
+Consider a tutoring agent to teach elementary physics, such as
+mechanics, that interacts with a student. In order to successfully
+tutor a student, the agent needs to be able to solve problems in the physics
+domain, determine the student’s knowledge and misunderstanding
+based on interacting with them, and converse using natural
+language, mathematics, and diagrams.
+
+In terms of the black-box definition of an agent in Figure 1.4 ,
+a tutoring agent has the following as inputs:
+
+•
+
+prior knowledge, provided by the agent designer, about the
+subject matter being taught,
+teaching strategies, possible student errors and misconceptions.
+
+•
+
+past experience, which the tutoring agent has acquired
+by interacting with students, such as, what errors students make, how many
+examples and problems it takes various students to learn various
+topics, and what students forget; this
+can be information about students in general as well as about a particular student.
+
+•
+
+preferences about the importance of each topic, the level
+of achievement of the student that is desired, and the importance
+given to student motivation and engagement; there are often complex trade-offs among these.
+
+•
+
+stimuli include observations of a student’s test results and observations of the
+student’s interaction (or
+non-interaction) with
+the agent; students can also ask questions
+or request help on new examples and problems.
+
+The actions of the tutoring agent include presenting the theory and worked-out examples, proposing suitable problems, providing help and feedback on a student’s solution, asking
+the student questions, answering their questions, and producing
+reports for parents and teachers.
+
+1.4.4 A Trading Agent
+
+A trading agent is like a robot, but instead of
+interacting with a physical environment, it interacts with an
+information environment. Its task is to procure goods and services for
+a user. It must be able to be told the needs of a user, and it must interact with sellers (e.g., on the Web). The simplest trading
+agent involves proxy bidding for a user on an auction site, where the system will keep
+bidding until the user’s price limit is reached. A more complicated
+trading agent will buy multiple complementary items, like booking a flight, a
+hotel, and a
+rental car that fit together, in addition to trading off competing
+preferences of the user.
+Web services provide
+tools on the Web designed to be combined by trading agents.
+Another example of a trading agent is one that monitors
+how much food and groceries are in a household, monitors the prices,
+and orders goods before they are needed, while trying to keep costs to a minimum.
+
+In terms of the black-box definition of an agent in Figure 1.4 ,
+the trading agent has as inputs:
+
+•
+
+prior knowledge about types of goods and services, selling
+practices, and how auctions work
+
+•
+
+past experience about where is the best place
+to look for specials, how prices vary with time in an auction,
+and when specials tend to turn up
+
+•
+
+preferences in terms of what the user wants and how to trade off
+competing goals
+
+•
+
+stimuli including observations about what items are available, their price, and, perhaps, how long they are available.
+
+The output of the trading agent is either a recommendation the user
+can accept or reject, or an actual purchase.
+
+Because of the personalized nature of the trading agent, it should be
+able to do better than a generic purchaser that, for example, only offers
+packaged tours.
+
+1.4.5 Smart Home
+
+A smart home is a home that looks after itself and its
+inhabitants. It can be seen as a mix of the other applications.
+
+A
+smart home is an inside-out robot. It has physical sensors and
+actuators. It should be able to sense where people, pets, and objects
+are. It should be able to adjust lighting, sound, heat, etc., to suit
+the needs of its occupants, while reducing costs and minimizing
+environmental impacts. A smart home will not only have fixed sensors
+and actuators, but will be combined with mobile robots, and other
+actuators, such as arms on the kitchen walls to help with cooking, cleaning, and
+finding ingredients.
+
+A purchaser of a smart home may expect it to be able to clean floors,
+dishes, and
+clothes and to put things where
+they are kept. It is easy to clean a floor with the assumption that
+everything small on the floor is garbage. It is much more difficult to
+know which of the small items are precious toys and which are junk
+that should be discarded, and this depends on the individual
+inhabitants and their age. Each person may have their own
+categorization of objects and where they are expected to be kept,
+which forces a smart home to adapt to the inhabitants.
+
+A smart home also must act as a diagnostician. When something goes
+wrong, it should be able to determine what is the problem and fix
+it. It should also be able to observe the inhabitants and determine if
+there is something wrong, such as someone has been injured or
+there is a burglary.
+
+Sometimes a smart home needs to act as a tutoring agent. It may have
+to teach the occupants how the appliances work, and how to interact with the
+home (e.g., what should an person expect to happen when they put their coffee cup on the vacuum cleaner).
+In order to do this, it
+has to take into account the knowledge and level of understanding
+of the person.
+
+A smart home may also need to act as a purchasing agent. The home should notice when items, such as toilet paper,
+soap, or essential foodstuffs, are running low and order more of them. Given a
+decision about what food each inhabitant wants, it should make sure the
+ingredients are in stock. It might even need to decide when
+inessential items, such as junk food, should be kept in stock. It also
+might need to decide when to discard perishable items, without
+creating too much waste or putting people’s health at risk.
+
+A smart home would include energy management. For example, with solar energy
+providing power during daylight hours, it could determine whether
+to store the energy locally or buy and sell energy on the smart
+grid. It could manage appliances to minimize the cost of energy, such as
+washing clothes when water and electricity are cheaper.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

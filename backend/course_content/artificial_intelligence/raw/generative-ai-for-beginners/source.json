@@ -1,0 +1,22 @@
+{
+  "id": "generative-ai-for-beginners",
+  "type": "git",
+  "title": "Generative AI for Beginners",
+  "description": "Microsoft's open course on generative AI concepts and workflows.",
+  "license": "Repository license",
+  "repoUrl": "https://github.com/microsoft/generative-ai-for-beginners.git",
+  "maxFiles": 140,
+  "rootPaths": [
+    "."
+  ],
+  "excludePathPatterns": [
+    "translations/",
+    "translated_images/"
+  ],
+  "includeExtensions": [
+    ".md",
+    ".ipynb",
+    ".txt"
+  ],
+  "documentCount": 58
+}

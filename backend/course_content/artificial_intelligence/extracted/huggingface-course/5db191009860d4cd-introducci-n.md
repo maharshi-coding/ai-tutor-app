@@ -1,0 +1,117 @@
+# Introducción
+
+Source: Hugging Face Course
+Original URL: https://github.com/huggingface/course/blob/HEAD/chapters/es/chapter0/1.mdx
+Original Path: chapters/es/chapter0/1.mdx
+Course: Artificial Intelligence
+
+# Introducción
+
+Bienvenido al curso de Hugging Face. Esta introducción te guiará en la configuración de un entorno de trabajo. Si acabas de empezar el curso, te recomendamos que primero eches un vistazo al [Capítulo 1](/course/chapter1), y luego vuelvas y configures tu entorno para poder probar el código por ti mismo.
+
+Todas las librerías que usaremos en este curso están disponibles como paquetes de Python, así que aquí te mostraremos cómo configurar un entorno de Python e instalar las librerías específicas que necesitarás.
+
+Cubriremos dos formas de configurar tu entorno de trabajo, utilizando un cuaderno Colab o un entorno virtual Python. Siéntete libre de elegir la que más te convenga. Para los principiantes, recomendamos encarecidamente que comiencen utilizando un cuaderno Colab.
+
+Tenga en cuenta que no vamos a cubrir el sistema Windows. Si está utilizando Windows, le recomendamos que siga utilizando un cuaderno Colab. Si está utilizando una distribución de Linux o macOS, puede utilizar cualquiera de los enfoques descritos aquí.
+
+La mayor parte del curso depende de que tengas una cuenta de Hugging Face. Te recomendamos que crees una ahora: [crear una cuenta](https://huggingface.co/join).
+
+## Uso de un cuaderno Google Colab
+
+Utilizar un cuaderno Colab es la configuración más sencilla posible; ¡arranca un cuaderno en tu navegador y ponte a codificar directamente!
+
+Si no estás familiarizado con Colab, te recomendamos que empieces siguiendo la [introducción](https://colab.research.google.com/notebooks/intro.ipynb). Colab te permite utilizar algún hardware de aceleración, como GPUs o TPUs, y es gratuito para cargas de trabajo pequeñas.
+
+Una vez que te sientas cómodo moviéndote en Colab, crea un nuevo notebook y comienza con la configuración:
+
+<div class="flex justify-center">
+<img src="https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter0/new_colab.png" alt="An empty colab notebook" width="80%"/>
+</div>
+
+El siguiente paso es instalar las librerías que usaremos en este curso. Usaremos `pip` para la instalación, que es el gestor de paquetes para Python. En los cuadernos, puedes ejecutar comandos del sistema precediéndolos con el carácter `!`, así que puedes instalar la librería 🤗 Transformers de la siguiente manera:
+
+```
+!pip install transformers
+```
+
+Puede asegurarse de que el paquete se ha instalado correctamente importándolo en su tiempo de ejecución de Python:
+
+```
+import transformers
+```
+
+<div class="flex justify-center">
+<img src="https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter0/install.gif" alt="A gif showing the result of the two commands above: installation and import" width="80%"/>
+</div>
+
+Esto instala una versión muy ligera de 🤗 Transformers. En particular, no se instalan frameworks específicos de deep learning (como PyTorch o TensorFlow). Dado que vamos a utilizar un montón de características diferentes de la librería, se recomienda instalar la versión de desarrollo, que viene con todas las dependencias necesarias para casi cualquier caso de uso imaginable:
+
+```
+!pip install transformers[sentencepiece]
+```
+
+Esto te llevará un poco de tiempo, pero luego estarás listo para el resto del curso.
+
+## Usar un entorno virtual de Python
+
+Si prefieres utilizar un entorno virtual de Python, el primer paso es instalar Python en tu sistema. Recomendamos seguir [esta guía](https://realpython.com/installing-python/) para empezar.
+
+Una vez que tengas Python instalado, deberías poder ejecutar comandos de Python en tu terminal. Puedes empezar ejecutando el siguiente comando para asegurarte de que está correctamente instalado antes de proceder a los siguientes pasos: `python --version`. Esto debería imprimir la versión de Python disponible en tu sistema.
+
+Cuando ejecutes un comando de Python en tu terminal, como `python --version`, debes pensar en el programa que ejecuta tu comando como el Python "principal" de tu sistema. Recomendamos mantener esta instalación principal libre de paquetes, y usarla para crear entornos separados para cada aplicación en la que trabajes - de esta manera, cada aplicación puede tener sus propias dependencias y paquetes, y no tendrás que preocuparte por posibles problemas de compatibilidad con otras aplicaciones.
+
+En Python esto se hace con [*entornos virtuales*](https://docs.python.org/3/tutorial/venv.html), que son árboles de directorios autocontenidos que contienen cada uno una instalación de Python con una versión particular de Python junto con todos los paquetes que la aplicación necesita. La creación de un entorno virtual de este tipo puede hacerse con varias herramientas diferentes, pero nosotros utilizaremos el paquete oficial de Python para este fin, que se llama [`venv`](https://docs.python.org/3/library/venv.html#module-venv).
+
+En primer lugar, crea el directorio en el que te gustaría que viviera tu aplicación - por ejemplo, podrías crear un nuevo directorio llamado *transformers-course* en la raíz de tu directorio personal:
+
+```
+mkdir ~/transformers-course
+cd ~/transformers-course
+```
+
+Desde este directorio, crea un entorno virtual utilizando el módulo `venv` de Python:
+
+```
+python -m venv .env
+```
+
+Ahora debería tener un directorio llamado *.env* en su carpeta, por lo demás vacía:
+
+```
+ls -a
+```
+
+```out
+. .. .env
+```
+
+Puedes entrar y salir de tu entorno virtual con los scripts `activate` y `deactivate`:
+
+```
+# Activa el entorno virtual
+source .env/bin/activate
+
+# Desactiva el entorno virtual
+deactivate
+```
+
+Puedes asegurarte de que el entorno está activado ejecutando el comando `which python`: si apunta al entorno virtual, entonces lo has activado con éxito.
+
+```
+which python
+```
+
+```out
+/home/<user>/transformers-course/.env/bin/python
+```
+
+### Instalación de dependencias
+
+Al igual que en la sección anterior sobre el uso de las instancias de Google Colab, ahora necesitarás instalar los paquetes necesarios para continuar. De nuevo, puedes instalar la versión de desarrollo de 🤗 Transformers utilizando el gestor de paquetes `pip`:
+
+```
+pip install "transformers[sentencepiece]"
+```
+
+Ya está todo preparado y listo para funcionar.

@@ -1,0 +1,32 @@
+# <FrameworkSwitchCourse {fw} />
+
+Source: Hugging Face Course
+Original URL: https://github.com/huggingface/course/blob/HEAD/chapters/de/chapter3/5.mdx
+Original Path: chapters/de/chapter3/5.mdx
+Course: Artificial Intelligence
+
+<FrameworkSwitchCourse {fw} />
+
+# Fein-tunen, Check!
+
+<CourseFloatingBanner
+chapter={3}
+classNames="absolute z-10 right-0 top-0"
+/>
+
+Das hat Spaß gemacht! In den ersten beiden Kapiteln hast du etwas über Modelle und Tokenizer gelernt, und jetzt weißt du, wie du sie auf deine eigenen Daten fein-tunen kannst. Rekapitulieren wir, was du in diesem Kapitel gelernt hast:
+
+{#if fw === 'pt'}
+* Über Datensätze im [Hub](https://huggingface.co/datasets)
+* Wie du Datensätze lädst und vorverarbeitest, einschließlich der Verwendung von dynamischem Padding und Collators
+* Implementierung des eigenen Fein-tunings und der Evaluierung eines Modells
+* Eine Trainingsschleife auf niedriger Ebene implementiert
+* Mit 🤗 Accelerate die Trainingsschleife so anpassen, dass sie für mehrere GPUs oder TPUs funktioniert
+
+{:else}
+* Über Datensätze im [Hub](https://huggingface.co/datasets)
+* Wie man Datensätze lädt und vorverarbeitet
+* Wie man ein Modell mit Keras fein-tunet und auswertet
+* Eine eigene Metrik implementiert
+
+{/if}

@@ -1,0 +1,974 @@
+# <center>
+
+Source: mlcourse.ai
+Original URL: https://github.com/Yorko/mlcourse.ai/blob/HEAD/jupyter_english/projects_indiv/attrition_of_employees_Pisarev_Ivan.ipynb
+Original Path: jupyter_english/projects_indiv/attrition_of_employees_Pisarev_Ivan.ipynb
+Course: Machine Learning
+
+<center>
+<img src="../../img/attrition.jpg" />
+
+#### <div style="text-align: right">Author: Pisarev Ivan, ODS Slack: pisarev_i</div>
+## <center> Predict attrition of employees
+
+### 1. Feature and data explanation
+
+> *People are definitely a company's greatest asset.
+It doesn't make any difference whether the product is cars or cosmetics.
+A company is only as good as the people it keeps.*
+> ***Mary Kay Ash***
+
+There is no doubt about the fact that the human asset is the key intangible asset for any organization. In today’s dynamic and continuously changing business world, it is the human assets and not the fixed or tangible assets that differentiate an organization from its competitors. Today’s knowledge economy distinguishes one organization from another with the single most important and powerful factor that is the Human Resources (HR) or Human Assets.
+
+Employees leaving an organization might be replaced physically; however, their skill-sets and knowledge cannot be exactly replaced by the person replacing them, as each individual possesses a different skill-set and experience. Employee efficiency and talent determines the pace and growth of the organizations.
+
+There are two important business issues:
+- Uncover the factors that lead to employee attrition
+- Prediction valuable employees who are ready to attrition
+
+To get answers to these questions, we will analyze dataset <a href="https://www.kaggle.com/pavansubhasht/ibm-hr-analytics-attrition-dataset/home" target=__blank>IBM HR Analytics Employee Attrition & Performance</a>
+
+This is a fictional data set created by IBM data scientists.
+List of columns with their types:
+- **Age** - Numeric Discrete
+- **Attrition** - Caregorical
+- **BusinessTravel** - Caregorical
+- **DailyRate** - Numeric Discrete
+- **Department** - Caregorical
+- **DistanceFromHome** - Numeric Discrete
+- **Education** - Caregorical (1: 'Below College', 2: 'College', 3: 'Bachelor', 4: 'Master', 5: 'Doctor')
+- **EducationField** - Caregorical
+- **EmployeeCount** - Numeric Discrete
+- **EmployeeNumber** - Numeric Discrete
+- **EnvironmentSatisfaction** - Caregorical (1: 'Low', 2: 'Medium', 3: 'High', 4: 'Very High')
+- **Gender** - Caregorical
+- **HourlyRate** - Numeric Discrete
+- **JobInvolvement** - Caregorical (1: 'Low', 2: 'Medium', 3: 'High', 4: 'Very High')
+- **JobLevel** - Caregorical
+- **JobRole** - Caregorical
+- **JobSatisfaction** - Caregorical (1: 'Low', 2: 'Medium', 3: 'High', 4: 'Very High')
+- **MaritalStatus** - Caregorical
+- **MonthlyIncome** - Numeric Discrete
+- **MonthlyRate** - Numeric Discrete
+- **NumCompaniesWorked** - Numeric Discrete
+- **Over18** - Caregorical
+- **OverTime** - Caregorical
+- **PercentSalaryHike** - Numeric Discrete
+- **PerformanceRating** - Caregorical (1: 'Low', 2: 'Good', 3: 'Excellent', 4: 'Outstanding')
+- **RelationshipSatisfaction** - Caregorical (1: 'Low', 2: 'Medium', 3: 'High', 4: 'Very High')
+- **StandardHours** - Numeric Discrete
+- **StockOptionLevel** - Caregorical
+- **TotalWorkingYears** - Numeric Discrete
+- **TrainingTimesLastYear** - Numeric Discrete
+- **WorkLifeBalance** - Caregorical (1: 'Bad', 2: 'Good', 3: 'Better', 4: 'Best')
+- **YearsAtCompany** - Numeric Discrete
+- **YearsInCurrentRole** - Numeric Discrete
+- **YearsSinceLastPromotion** - Numeric Discrete
+- **YearsWithCurrManager** - Numeric Discrete
+
+The target feature **Attrition** has two possible values: 'Yes' and 'No', so our task is binary classification.
+It is also important to understand the significance of features.
+
+### 2. Primary data analysis
+
+```python
+import warnings
+warnings.filterwarnings('ignore')
+
+import numpy as np
+import pandas as pd
+
+%matplotlib inline
+import matplotlib.pyplot as plt
+import seaborn as sns
+```
+
+```python
+color = sns.color_palette('tab20')
+plt.style.use('seaborn-whitegrid')
+sns.set_style("whitegrid")
+plt.rcParams['figure.figsize'] = (10,8)
+sns.palplot(color)
+```
+
+Let's get the data, look at the first lines, check types and omissions
+
+```python
+dfIBM = pd.read_csv('./data/WA_Fn-UseC_-HR-Employee-Attrition.csv')
+```
+
+```python
+dfIBM.head().T
+```
+
+```python
+dfIBM.info()
+```
+
+There are **no missing items** in the data.
+Let's check the distribution of features values.
+
+```python
+dfIBM.describe(include=['int64']).T
+```
+
+```python
+dfIBM.describe(include=['object']).T
+```
+
+We can check count of unique values for all features
+
+```python
+pd.concat([pd.DataFrame({'Unique Values': dfIBM.nunique().sort_values()}),
+pd.DataFrame({'Type': dfIBM.dtypes})], axis=1, sort=False).sort_values(by='Unique Values')
+```
+
+There are three columns with **constant** values. These columns do not make sense, we can **remove them**.
+
+```python
+dfIBM.drop(columns=['EmployeeCount', 'StandardHours', 'Over18'], axis=1, inplace=True)
+```
+
+Let's check balance in values of target feature
+
+```python
+round(dfIBM['Attrition'].value_counts(normalize=True)*100, 2)
+```
+
+We can see **imbalance** in target class, there much more values 'No' than 'Yes'.
+Let's convert target feature to numeric.
+
+```python
+dfIBM.Attrition = dfIBM.Attrition.map({'Yes': 1, 'No': 0})
+```
+
+Column `EmployeeNumber` has all unique values (1470). We can suppose that it is like employee identificaton number. Let's check it is not affected to target feature.
+
+```python
+plt.rcParams['figure.figsize'] = (14,3)
+plt.plot(dfIBM.EmployeeNumber, dfIBM.Attrition, 'ro', alpha=0.2);
+```
+
+Ok, there is no leak in the data and `Attrition` not sorted by `EmployeeNumber`. We can **remove this column** from the dataset.
+
+```python
+dfIBM.drop(columns=['EmployeeNumber'], axis=1, inplace=True)
+```
+
+Now, looking at the variable names and their values, we can classify all variables into 3 types.
+
+<table align="left">
+<tr><th>Name</th><th>Unique Values</th><th>Type</th></tr>
+<tr><th colspan="3">Categorical, order has no sense</th></tr>
+<tr><td>BusinessTravel</td><td>3</td><td>object</td></tr>
+<tr><td>Department</td><td>3</td><td>object</td></tr>
+<tr><td>EducationField</td><td>6</td><td>object</td></tr>
+<tr><td>EmployeeNumber</td><td>1470</td><td>int64</td></tr>
+<tr><td>Gender</td><td>2</td><td>object</td></tr>
+<tr><td>JobRole</td><td>9</td><td>object</td></tr>
+<tr><td>MaritalStatus</td><td>3</td><td>object</td></tr>
+<tr><td>OverTime</td><td>2</td><td>object</td></tr>
+<tr><th colspan="3">Categorical, order has sense, but distance between values has no sense</th></tr>
+<tr><td>Education</td><td>5</td><td>int64</td></tr>
+<tr><td>EnvironmentSatisfaction</td><td>4</td><td>int64</td></tr>
+<tr><td>JobInvolvement</td><td>4</td><td>int64</td></tr>
+<tr><td>JobLevel</td><td>5</td><td>int64</td></tr>
+<tr><td>JobSatisfaction</td><td>4</td><td>int64</td></tr>
+<tr><td>PerformanceRating</td><td>2</td><td>int64</td></tr>
+<tr><td>RelationshipSatisfaction</td><td>4</td><td>int64</td></tr>
+<tr><td>StockOptionLevel</td><td>4</td><td>int64</td></tr>
+<tr><td>WorkLifeBalance</td><td>4</td><td>int64</td></tr>
+<tr><th colspan="3">Numeric, discrete</th></tr>
+<tr><td>Age</td><td>43</td><td>int64</td></tr>
+<tr><td>DailyRate</td><td>886</td><td>int64</td></tr>
+<tr><td>DistanceFromHome</td><td>29</td><td>int64</td></tr>
+<tr><td>HourlyRate</td><td>71</td><td>int64</td></tr>
+<tr><td>MonthlyIncome</td><td>1349</td><td>int64</td></tr>
+<tr><td>MonthlyRate</td><td>1427</td><td>int64</td></tr>
+<tr><td>NumCompaniesWorked</td><td>10</td><td>int64</td></tr>
+<tr><td>PercentSalaryHike</td><td>15</td><td>int64</td></tr>
+<tr><td>TotalWorkingYears</td><td>40</td><td>int64</td></tr>
+<tr><td>TrainingTimesLastYear</td><td>7</td><td>int64</td></tr>
+<tr><td>YearsAtCompany</td><td>37</td><td>int64</td></tr>
+<tr><td>YearsInCurrentRole</td><td>19</td><td>int64</td></tr>
+<tr><td>YearsSinceLastPromotion</td><td>16</td><td>int64</td></tr>
+<tr><td>YearsWithCurrManager</td><td>18</td><td>int64</td></tr>
+</table>
+
+```python
+Categorical_without_order = ['BusinessTravel', 'Department', 'EducationField',
+'Gender', 'JobRole', 'MaritalStatus', 'OverTime']
+
+Categorical_with_order = ['Education', 'EnvironmentSatisfaction', 'JobInvolvement',
+'JobLevel', 'JobSatisfaction', 'PerformanceRating',
+'RelationshipSatisfaction', 'StockOptionLevel', 'WorkLifeBalance']
+
+Numeric = ['Age', 'DailyRate', 'DistanceFromHome', 'HourlyRate',
+'MonthlyIncome', 'MonthlyRate', 'NumCompaniesWorked',
+'PercentSalaryHike', 'TotalWorkingYears', 'TrainingTimesLastYear',
+'YearsAtCompany', 'YearsInCurrentRole', 'YearsSinceLastPromotion',
+'YearsWithCurrManager']
+```
+
+### 3. Primary visual data analysis
+
+Let's see distribution of all features and the dependence of the target variable.
+
+```python
+dictCatNames = {'Education': ['Below College','College','Bachelor','Master','Doctor'],
+'EnvironmentSatisfaction': ['Low','Medium','High','Very High'],
+'JobInvolvement': ['Low','Medium','High','Very High'],
+'JobSatisfaction': ['Low','Medium','High','Very High'],
+'PerformanceRating': ['Low','Good','Excellent','Outstanding'],
+'RelationshipSatisfaction':['Low','Medium','High','Very High'],
+'WorkLifeBalance': ['Bad','Good','Better','Best']}
+```
+
+```python
+def cat_distribution_target_proportion(column):
+fig , axes = plt.subplots(1,2,figsize = (15,6))
+fig.suptitle(column,fontsize=16)
+
+sns.countplot(dfIBM[column],ax=axes[0])
+axes[0].set_title(column + ' distribution')
+
+sns.barplot(x=column,y='Attrition',data=dfIBM,ax=axes[1])
+axes[1].set_title('Attrition rate by '+column)
+
+for ax in axes:
+if column in dictCatNames:
+ax.xaxis.set_ticklabels(dictCatNames[column])
+plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right', rotation_mode='anchor')
+```
+
+```python
+for col in (Categorical_without_order + Categorical_with_order):
+cat_distribution_target_proportion(col)
+```
+
+What we can see:
+- `Attrition` higher if `BusinessTravel` is frequently
+- `Department`, `Gender`, `Education` and `PerformanceRating` have low effect to `Attrition`
+- `Attrition` higher if `MartialStatus` is Single
+- Some `JobRole` (Sales Representative, Human Resources, Laboratory Technician) have a high level of `Attrition`
+- `Attrition` is higher if an employee has `OverTime`
+- If `EnvironmentSatisfaction`, `JobInvolvement`, `JobLevel`, `JobSatisfaction`, `RelationshipSatisfaction`, `WorkLifeBalance` is lower, then `Attrition` is higher
+
+What about distribution and relationship with the target for numeric features?
+
+```python
+def num_distribution_target_impact(column):
+fig , axes = plt.subplots(2,2,figsize = (15,6))
+fig.suptitle(column,fontsize=16)
+
+sns.distplot(dfIBM[column],kde=False,ax=axes[0])
+axes[0].set_title(column + ' distribution')
+
+sns.boxplot(x='Attrition',y=column,data=dfIBM,ax=axes[1])
+axes[1].set_title('Relationship Attrition with '+column)
+```
+
+```python
+for n in Numeric:
+num_distribution_target_impact(n)
+```
+
+If the `Attrition` has occurred, we can see:
+- Lower `Age`
+- Lower `MonthlyIncome`
+- Lower `TotalWorkingYears`
+- Lower `YearsAtCompany`
+- Lower `YearsInCurrentRole`
+- Lower `YearsWithCurrManager`
+
+`DailyRate`, `DistanceFromHome`, `HourlyRate`, `MonthlyRate`, `NumCompaniesWorked`, `PercentSalaryHike`, `TrainigTimesLastYear`, `YearsSinceLastPromotion` have a low relationship with the `Attrition`.
+
+Let's see Pearson correlation matrix for all columns.
+
+```python
+plt.rcParams['figure.figsize'] = (15, 10)
+sns.heatmap(data=dfIBM[Categorical_with_order+Numeric].corr(),
+annot=True,fmt='.2f',linewidths=.5,cmap='RdGy_r');
+plt.title('Pearson correlation for numerical features', fontsize=16);
+```
+
+We can see:
+- High correlation between `JobLevel`, `MontlyIncome`, and `TotalWorkingYears`
+- High correlation between `YearsAtCompany`, `YearsInCurrentRole`, `YearsSinceLastPromotion`, `YearsWithCurrManager`
+- `PerfomanceRating` is correlate with `PercentSalaryHike`
+- `Age` is correlate with `TotalWorkingYears`
+
+For categorical features we want to check relationship between `MaritalStatus` and `BusinessTravel`, `OverTime`, `WorkLifeBalance` in relation to `Attrition`
+
+```python
+feat = ['BusinessTravel', 'OverTime', 'WorkLifeBalance']
+fig , axes = plt.subplots(3,1,figsize = (15,18))
+for i in range(len(feat)):
+sns.barplot(x=feat[i], y='Attrition', hue='MaritalStatus', data=dfIBM, ax=axes[i]);
+```
+
+Ok, our assumption about increasing influence of features `BusinessTravel`, `OverTime`, `WorkLifeBalance` to `Attrition` by `MartialStatus` is not confirmed
+
+### 4. Insights and found dependencies
+
+Here are all our observations about the influence of features to target.
+The Attrition has occured often, if:
+- `BusinessTravel` is Frequently
+- `MartialStatus` is Single
+- `JobRole` is Sales Representative, Human Resources, Laboratory Technician
+- `OverTime` is Yes
+- `EnvironmentSatisfaction`, `JobInvolvement`, `JobLevel`, `JobSatisfaction`, `RelationshipSatisfaction`, `WorkLifeBalance` is lower
+- `Age`, `MonthlyIncome`, `TotalWorkingYears`, `YearsAtCompany`, `YearsInCurrentRole`, `YearsWithCurrManager` is lower
+
+We will check this when create our model. Also we will verify that other features have a low impact to target.
+
+We have some features with a high correlation with other:
+- `JobLevel`, `MontlyIncome`, `TotalWorkingYears` and `Age`
+- `PerfomanceRating` and `PercentSalaryHike`
+- `YearsAtCompany`, `YearsInCurrentRole`, `YearsSinceLastPromotion`, `YearsWithCurrManager`
+
+We will either not include them in our train dataset for model (in case of LogisticRegression) or correct it by regularization.
+
+### 5. Metrics selection
+
+We have a task of a binary classification. There is an imbalance in the distribution of classes. So, we can't use an Accuracy.
+We can assume that in this task Recall is more important than Precision (we need to find all valuable employees want to get out), but a lot of false positive prediction is no good too (we need to uncover the factors that lead to employee attrition, with a lot of false positive prediction we make a mistake in choosing these factors).
+We will use a ROC-AUC since this metric is well in the case of class imbalance.
+
+### 6. Model selection
+
+We will try to use models:
+- LogisticRegression
+- RandomForestClassifier
+
+These models are solving our problems: **binary classification** and identifying the **significance of features**.
+We will use LogisticRegression as a baseline model.
+We expect to get better results with Random Forest, given the presence of correlated features in our data, and possible nonlinear dependence target from features.
+
+### 7. Data preprocessing
+
+For use Logistic Regression we need to convert our categorical features to dummies. But first, we need to convert our features, that have only 2 unique values. Let's do it.
+
+```python
+dfIBM.Gender = dfIBM.Gender.map({'Male': 1, 'Female': 0})
+dfIBM.OverTime = dfIBM.OverTime.map({'Yes': 1, 'No': 0})
+Categorical_binary = ['Gender', 'OverTime']
+Categorical_without_order = ['BusinessTravel', 'Department', 'EducationField',
+'JobRole', 'MaritalStatus']
+```
+
+```python
+dfOHE = pd.get_dummies(dfIBM[Categorical_without_order])
+Categorical_OHE = dfOHE.columns
+dfIBMFull = pd.concat([dfIBM, dfOHE], axis=1)
+# create target
+y = dfIBMFull['Attrition']
+dfIBMFull.drop(columns=['Attrition'], axis=1, inplace=True)
+dfIBMFull.shape
+```
+
+Now, let's divide the data into training and hold-out sets. We have imbalance target class, so we need to stratified our separation by the target. We will use 15% of the data for the hold-out set because we have a very small dataset.
+
+```python
+y.value_counts(normalize=True)
+```
+
+```python
+from sklearn.model_selection import train_test_split
+X_train, X_holdout, y_train, y_holdout = train_test_split(dfIBMFull, y,
+test_size=0.15,
+random_state=2018,
+shuffle=True,
+stratify=y)
+```
+
+```python
+y_train.value_counts(normalize=True)
+```
+
+Now we can to scale all numerical features for use Logistic Regression.
+
+```python
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+X_train_sc = pd.DataFrame(sc.fit_transform(X_train[Categorical_with_order+Numeric]),
+columns=Categorical_with_order+Numeric, index=X_train.index)
+X_holdout_sc = pd.DataFrame(sc.transform(X_holdout[Categorical_with_order+Numeric]),
+columns=Categorical_with_order+Numeric, index=X_holdout.index)
+```
+
+### 8. Cross-validation and adjustment of model hyperparameters
+
+Now we can split our train for Cross-validation. As in the case with the split to train and hold-out, we need to make a stratified split. We will use 5 Folds (still a very small data).
+
+```python
+from sklearn.model_selection import cross_val_score, StratifiedKFold, GridSearchCV
+```
+
+#### 8.1 Logistic Regression
+
+```python
+X_train_LR = pd.concat([X_train_sc, X_train[list(Categorical_OHE)+list(Categorical_binary)]], axis=1)
+X_train_LR.shape
+```
+
+```python
+X_holdout_LR = pd.concat([X_holdout_sc, X_holdout[list(Categorical_OHE)+list(Categorical_binary)]], axis=1)
+X_holdout_LR.shape
+```
+
+```python
+skf = StratifiedKFold(n_splits=5, random_state=2018, shuffle=True)
+```
+
+```python
+from sklearn.linear_model import LogisticRegression
+```
+
+Try to run Logistic Regression with defaults parameters.
+
+```python
+lr=LogisticRegression(random_state=2018)
+
+cv_scores = cross_val_score(lr, X_train_LR, y_train, cv=skf, scoring='roc_auc', n_jobs=-1)
+
+# Let's check variation in Folds
+plt.rcParams['figure.figsize'] = (10,5)
+plt.axhline(y=cv_scores.mean(), linewidth=2, color='b', linestyle='dashed');
+plt.text(x=0, y=cv_scores.mean()+0.01, s='mean score ='+str(round(cv_scores.mean(),6)));
+plt.scatter(range(5), cv_scores, s=100, c=(cv_scores>=cv_scores.mean()),
+edgecolor='k', cmap='autumn', linewidth=1.5);
+print('Mean score =', cv_scores.mean())
+```
+
+Let's try to find beter regularization (it can be useful, accounting a multicollinearity). We will search regularization for both L2 (squares) and L1 (absolute) penalty.
+
+```python
+penalty = ['l1', 'l2']
+C = np.logspace(-1, 1, 10)
+params = {'C': C, 'penalty': penalty}
+cv_lr = GridSearchCV(lr, param_grid=params, cv=skf, scoring='roc_auc', n_jobs=-1)
+cv_lr.fit(X_train_LR, y_train)
+```
+
+```python
+print('Best parameters:', cv_lr.best_params_)
+print('Best score:', cv_lr.best_score_)
+```
+
+We can see results at the heatmap.
+
+```python
+plt.rcParams['figure.figsize'] = (12,5)
+sns.heatmap(pd.DataFrame(cv_lr.cv_results_['mean_test_score'].reshape(len(C),
+len(penalty)),
+index=np.round(C, 4),
+columns=penalty).sort_index(ascending=False),
+annot=True, fmt='.4f', cmap='RdGy_r');
+plt.yticks(rotation=0);
+plt.xlabel('penalty', fontsize=18);
+plt.ylabel('C', fontsize=18);
+plt.title('Mean validation ROC-AUC score', fontsize=20);
+plt.tick_params(axis='both', length=6, width=0, labelsize=12);
+```
+
+Ok, let's try to find the best regularization more precisely for both l2 and l1.
+
+```python
+C = np.arange(0.1, 2.1, 0.1)
+cv_scores = []
+for c in C:
+lr=LogisticRegression(C=c, random_state=2018, penalty='l2')
+cv_scores.append(cross_val_score(lr, X_train_LR, y_train, cv=skf, scoring='roc_auc', n_jobs=-1))
+```
+
+```python
+plt.plot(C, np.mean(cv_scores, axis=1), 'o-', color=color[6]);
+plt.xticks(C);
+plt.title('Mean validation scores');
+plt.ylabel('ROC-AUC');
+plt.xlabel(r'$\alpha$');
+```
+
+```python
+print('Best C for l2 = 1.0, Best score =', np.max(np.mean(cv_scores, axis=1)))
+```
+
+```python
+C = np.arange(0.1, 2.1, 0.1)
+cv_scores = []
+for c in C:
+lr=LogisticRegression(C=c, random_state=2018, penalty='l1')
+cv_scores.append(cross_val_score(lr, X_train_LR, y_train, cv=skf, scoring='roc_auc', n_jobs=-1))
+
+plt.plot(C, np.mean(cv_scores, axis=1), 'o-', color=color[6]);
+plt.xticks(C);
+plt.title('Mean validation scores');
+plt.ylabel('ROC-AUC');
+plt.xlabel(r'$\alpha$');
+```
+
+```python
+print('Best C for l1 = 1.0, Best score =', np.max(np.mean(cv_scores, axis=1)))
+```
+
+Let's get result for the hold-out set.
+
+```python
+best_LR_validation = np.max(np.mean(cv_scores, axis=1))
+```
+
+```python
+from sklearn.metrics import roc_auc_score
+
+lr=LogisticRegression(C=1, random_state=2018, penalty='l1')
+lr.fit(X_train_LR, y_train)
+y_pred = lr.predict_proba(X_holdout_LR)[:, 1]
+LR_holdout_score = roc_auc_score(y_holdout, y_pred)
+print('Hold-out score = ', LR_holdout_score)
+```
+
+Ok, there is no overfitting.
+Now will see at the model coefficients to understand the importance of features.
+
+```python
+pd.DataFrame({'Name': X_train_LR.columns.values,
+'Coefficient': lr.coef_.flatten(),
+'Abs. Coefficient': np.abs(lr.coef_).
+flatten()}).sort_values(by='Abs. Coefficient', ascending=False)
+```
+
+Some features are expected significant (`OverTime`, `BusinessTravel`,`YearsAtCompany` etc.), but some features are have the significance less than expected (`MonthlyIncome`, `Age`, etc.). So, it is probably due to multicollinearity in the data (there are many fetures with zero coefficients).
+Well, continue with Random Forest.
+
+#### 8.2 Random Forest
+
+```python
+X_train_RF = pd.concat([X_train_sc, X_train[list(Categorical_OHE)+list(Categorical_binary)]], axis=1)
+X_train_RF.shape
+```
+
+```python
+X_holdout_RF = pd.concat([X_holdout_sc, X_holdout[list(Categorical_OHE)+list(Categorical_binary)]], axis=1)
+X_holdout_RF.shape
+```
+
+```python
+from sklearn.ensemble import RandomForestClassifier
+```
+
+Let's try Random Forest with default parameters.
+
+```python
+rf = RandomForestClassifier(random_state=2018)
+
+cv_scores = cross_val_score(rf, X_train_RF, y_train, cv=skf, scoring='roc_auc', n_jobs=-1)
+
+plt.rcParams['figure.figsize'] = (10,5)
+plt.axhline(y=cv_scores.mean(), linewidth=2, color='b', linestyle='dashed');
+plt.text(x=0, y=cv_scores.mean()+0.01, s='mean score ='+str(round(cv_scores.mean(),6)));
+plt.scatter(range(5), cv_scores, s=100, c=(cv_scores>=cv_scores.mean()),
+edgecolor='k', cmap='autumn', linewidth=1.5);
+print('Mean score =', cv_scores.mean())
+```
+
+Let's find beter parameters. We will check:
+- n_estimators = 50-500, The number of trees in the forest
+- max_depth = 2-20, The maximum depth of the tree
+- max_features = 5-49, The number of features
+
+```python
+%%time
+n_estimators = np.arange(100, 600, 100)
+max_depth = np.arange(2, 22, 4)
+max_features = np.arange(10, 50, 10)
+params = {'n_estimators': n_estimators,
+'max_depth': max_depth,
+'max_features': max_features}
+cv_rf = GridSearchCV(rf, param_grid=params, cv=skf, scoring='roc_auc', n_jobs=-1)
+cv_rf.fit(X_train_RF, y_train)
+```
+
+```python
+print('Best parameters:', cv_rf.best_params_)
+print('Best score:', cv_rf.best_score_)
+```
+
+Now we can find more precision parameters.
+
+```python
+%%time
+n_estimators = np.arange(250, 400, 50)
+max_depth = np.arange(15, 26, 3)
+max_features = np.arange(5, 21, 5)
+params = {'n_estimators': n_estimators,
+'max_depth': max_depth,
+'max_features': max_features}
+cv_rf = GridSearchCV(rf, param_grid=params, cv=skf, scoring='roc_auc', n_jobs=-1)
+cv_rf.fit(X_train_RF, y_train)
+```
+
+```python
+print('Best parameters:', cv_rf.best_params_)
+print('Best score:', cv_rf.best_score_)
+```
+
+```python
+%%time
+n_estimators = np.arange(280, 330, 10)
+max_depth = np.arange(16, 25, 2)
+max_features = np.arange(6, 14, 2)
+params = {'n_estimators': n_estimators,
+'max_depth': max_depth,
+'max_features': max_features}
+cv_rf = GridSearchCV(rf, param_grid=params, cv=skf, scoring='roc_auc', n_jobs=-1)
+cv_rf.fit(X_train_RF, y_train)
+```
+
+```python
+print('Best parameters:', cv_rf.best_params_)
+print('Best score:', cv_rf.best_score_)
+```
+
+```python
+best_RF_validation = cv_rf.best_score_
+```
+
+The low value of the parameter max_features indicates the presence redundant features.
+
+Let's get result for the hold-out set.
+
+```python
+rf=RandomForestClassifier(random_state=2018, max_depth=20, max_features=6, n_estimators=280)
+rf.fit(X_train_LR, y_train)
+y_pred = rf.predict_proba(X_holdout_RF)[:, 1]
+RF_holdout_score = roc_auc_score(y_holdout, y_pred)
+print('Hold-out score = ', RF_holdout_score)
+```
+
+Let's see features importances
+
+```python
+pd.DataFrame({'Name': X_train_RF.columns.values,
+'Coefficient': rf.feature_importances_}).sort_values(by='Coefficient',
+ascending=False)
+```
+
+Now we have `MonthlyIncome`, `Age` and `OverTime` in the top!
+But `BusinessTravel` is dropped unexpectedly low.
+
+### 9. Creation of new features and description of this process
+
+Initially, we need to select important features and **remove unusable** features. We have small dataset and can use a full search. Let's use `SequentialFeatureSelector`.
+
+```python
+from mlxtend.feature_selection import SequentialFeatureSelector as SFS
+```
+
+```python
+X_train_LR = pd.concat([X_train_sc, X_train[list(Categorical_OHE)+list(Categorical_binary)]], axis=1)
+X_train_LR.shape
+```
+
+```python
+X_holdout_LR = pd.concat([X_holdout_sc, X_holdout[list(Categorical_OHE)+list(Categorical_binary)]], axis=1)
+X_holdout_LR.shape
+```
+
+```python
+lrs = LogisticRegression(random_state=2018)
+```
+
+```python
+%%time
+sfs1 = SFS(lrs, k_features='best', forward=True, floating=False, verbose=2,
+scoring='roc_auc', cv=5, n_jobs=-1)
+
+sfs1 = sfs1.fit(X_train_LR, y_train)
+```
+
+```python
+print('Best score: ', sfs1.k_score_)
+print('Best features names: ', sfs1.k_feature_names_)
+```
+
+We can see all our "favorite" columns in the final scope! The search seems to have gone well.
+
+```python
+Best_features = list(sfs1.k_feature_names_)
+```
+
+```python
+X_train_B = X_train_LR[Best_features]
+X_holdout_B = X_holdout_LR[Best_features]
+```
+
+Let's check results for our models with these features.
+
+```python
+%%time
+lr=LogisticRegression(random_state=2018, penalty='l1')
+cv_scores = cross_val_score(lr, X_train_B, y_train, cv=skf, scoring='roc_auc', n_jobs=-1)
+print('Mean score LR =', cv_scores.mean())
+```
+
+```python
+%%time
+rf = RandomForestClassifier(random_state=2018, max_depth=20, max_features=6, n_estimators=280)
+cv_scores = cross_val_score(rf, X_train_B, y_train, cv=skf, scoring='roc_auc', n_jobs=-1)
+print('Mean score RF =', cv_scores.mean())
+```
+
+Scores are increased for both models.
+
+Let's try to create some features as the intersection of important features (All Satisfaction) and classes of numeric features, significant for target (we can see visualisations at p.3):
+- Age <= ~33
+- MonthlyInvome <= ~ 2600
+- YearsWithCurrManager <= ~2
+- YearsInCurrentRole <= ~2
+- YearsAtCompany <= ~2
+
+```python
+# All Level Satisfaction
+X_train_B['FullSatisfaction'] = (X_train_B['EnvironmentSatisfaction']+
+X_train_B['JobInvolvement']+
+X_train_B['JobSatisfaction']+
+X_train_B['RelationshipSatisfaction']+
+X_train_B['WorkLifeBalance'])
+
+X_holdout_B['FullSatisfaction'] = (X_holdout_B['EnvironmentSatisfaction']+
+X_holdout_B['JobInvolvement']+
+X_holdout_B['JobSatisfaction']+
+X_holdout_B['RelationshipSatisfaction']+
+X_holdout_B['WorkLifeBalance'])
+sc = StandardScaler()
+X_train_B['FullSatisfaction'] = sc.fit_transform(X_train_B[['FullSatisfaction']])
+X_holdout_B['FullSatisfaction'] = sc.transform(X_holdout_B[['FullSatisfaction']])
+```
+
+```python
+# Age: Young <= 33 (-0.431717 after scaling)
+X_train_B['Young'] = [1 if a<=-0.431717 else 0 for a in X_train_B['Age']]
+X_holdout_B['Young'] = [1 if a<=-0.431717 else 0 for a in X_holdout_B['Age']]
+```
+
+```python
+# Income: Low <= 2650 (~-0.185819 after scaling)
+X_train_B['LowIncome'] = [1 if a<=-0.185819 else 0 for a in X_train_B['MonthlyIncome']]
+X_holdout_B['LowIncome'] = [1 if a<=-0.185819 else 0 for a in X_holdout_B['MonthlyIncome']]
+```
+
+```python
+# YearsWithCurrManager <= 2 (~-0.599076 after scaling)
+X_train_B['LowYearsWithCurrManager'] = [1 if a<=-0.599076 else 0 for a in X_train_B['YearsWithCurrManager']]
+X_holdout_B['LowYearsWithCurrManager'] = [1 if a<=-0.599076 else 0 for a in X_holdout_B['YearsWithCurrManager']]
+```
+
+```python
+# YearsInCurrentRole <= 2 (~-0.616905 after scaling)
+X_train_B['LowYearsInCurrentRole'] = [1 if a<=-0.616905 else 0 for a in X_train_B['YearsInCurrentRole']]
+X_holdout_B['LowYearsInCurrentRole'] = [1 if a<=-0.616905 else 0 for a in X_holdout_B['YearsInCurrentRole']]
+```
+
+```python
+# YearsAtCompany <= 2 (~-0.818114 after scaling)
+X_train_B['LowYearsAtCompany'] = [1 if a<=-0.818114 else 0 for a in X_train_B['YearsAtCompany']]
+X_holdout_B['LowYearsAtCompany'] = [1 if a<=-0.818114 else 0 for a in X_holdout_B['YearsAtCompany']]
+```
+
+Let's try our model
+
+```python
+%%time
+lr=LogisticRegression(random_state=2018, penalty='l1')
+cv_scores = cross_val_score(lr, X_train_B, y_train, cv=skf, scoring='roc_auc', n_jobs=-1)
+print('Mean score LR =', cv_scores.mean())
+```
+
+The result is increased!
+
+### 10. Plotting training and validation curves
+
+```python
+from sklearn.model_selection import validation_curve
+from sklearn.model_selection import learning_curve
+```
+
+Let's create validation curve for Logistic Regression model. Repeat selection of the regularization coefficient.
+
+```python
+plt.rcParams['figure.figsize'] = (15,6)
+C = np.logspace(-5, 4, 10)
+train_sc, valid_sc = validation_curve(lr, X_train_B, y_train,
+'C', C, cv=skf, scoring='roc_auc')
+
+plt.plot(C, np.mean(train_sc, axis=1), 'o-', color=color[0], label='Training scores');
+plt.fill_between(C, np.max(train_sc, axis=1),
+np.min(train_sc, axis=1), alpha=0.3, color=color[1]);
+plt.plot(C, np.mean(valid_sc, axis=1), 'o-', color=color[4], label='Validation scores');
+plt.fill_between(C, np.max(valid_sc, axis=1),
+np.min(valid_sc, axis=1), alpha=0.3, color=color[5]);
+plt.xscale('log')
+plt.xlabel(r'$\alpha$')
+plt.ylabel('ROC-AUC')
+plt.title('Validation curve')
+plt.legend()
+plt.show()
+```
+
+```python
+print('Bect C = ', C[(np.mean(valid_sc, axis=1)).argmax()])
+print('Best score = ', np.max((np.mean(valid_sc, axis=1))))
+```
+
+We have training and validation curves close to each other, so our model is underfitting, it is not complex enough.
+Let's create learning curve using C=100.
+
+```python
+lr=LogisticRegression(C=100, random_state=2018, penalty='l1')
+
+train_sizes, train_sc, valid_sc = learning_curve(lr, X_train_B, y_train,
+train_sizes=np.arange(50, 998, 50),
+scoring='roc_auc', cv=skf)
+
+plt.plot(train_sizes, np.mean(train_sc, axis=1), 'o-', color=color[0], label='Training scores');
+plt.fill_between(train_sizes, np.max(train_sc, axis=1),
+np.min(train_sc, axis=1), alpha=0.3, color=color[1]);
+plt.plot(train_sizes, np.mean(valid_sc, axis=1), 'o-', color=color[4], label='Validation scores');
+plt.fill_between(train_sizes, np.max(valid_sc, axis=1),
+np.min(valid_sc, axis=1), alpha=0.3, color=color[1]);
+plt.xlabel('Train Size')
+plt.ylabel('ROC-AUC')
+plt.title('Learning curve')
+plt.legend()
+plt.show()
+```
+
+As we can see, an approximation of curves is stopped after 400 rows of the data. More data not make out model better, only change parameters and adding new features.
+
+Now we will create curves for Random Forest. We will search value fot parameter `max_features`.
+
+```python
+plt.rcParams['figure.figsize'] = (15,6)
+rf = RandomForestClassifier(random_state=2018, max_depth=20, n_estimators=300)
+max_features = np.arange(4, 26, 2)
+train_sc, valid_sc = validation_curve(rf, X_train_B, y_train,
+'max_features', max_features, cv=skf, scoring='roc_auc')
+
+plt.plot(max_features, np.mean(train_sc, axis=1), 'o-', color=color[0], label='Training scores');
+plt.fill_between(max_features, np.max(train_sc, axis=1),
+np.min(train_sc, axis=1), alpha=0.3, color=color[1]);
+plt.plot(max_features, np.mean(valid_sc, axis=1), 'o-', color=color[4], label='Validation scores');
+plt.fill_between(max_features, np.max(valid_sc, axis=1),
+np.min(valid_sc, axis=1), alpha=0.3, color=color[5]);
+plt.xlabel('max_features')
+plt.ylabel('ROC-AUC')
+plt.title('Validation curve')
+plt.legend()
+plt.show()
+```
+
+```python
+print('Best max_features = ', max_features[(np.mean(valid_sc, axis=1)).argmax()])
+print('Best score = ', np.max((np.mean(valid_sc, axis=1))))
+```
+
+The Validation score is almost identical for all values of max_features. We need to change other parameters for get a significant improvement. Due to new set of features, we can find parameters `max_depth` and `n_estimators` again.
+
+```python
+%%time
+rf = RandomForestClassifier(random_state=2018)
+n_estimators = np.arange(100, 600, 100)
+max_depth = np.arange(4, 25, 4)
+max_features = np.arange(8, 30, 4)
+params = {'n_estimators': n_estimators,
+'max_depth': max_depth,
+'max_features': max_features}
+cv_rf = GridSearchCV(rf, param_grid=params, cv=skf, scoring='roc_auc', n_jobs=-1)
+cv_rf.fit(X_train_RF, y_train)
+print('Best parameters:', cv_rf.best_params_)
+print('Best score:', cv_rf.best_score_)
+```
+
+We will use received values in creating learning curve.
+
+```python
+rf = RandomForestClassifier(random_state=2018, max_depth=8, max_features=8, n_estimators=200)
+
+train_sizes, train_sc, valid_sc = learning_curve(rf, X_train_B, y_train,
+train_sizes=np.arange(50, 998, 50),
+scoring='roc_auc', cv=skf)
+
+plt.plot(train_sizes, np.mean(train_sc, axis=1), 'o-', color=color[0], label='Training scores');
+plt.fill_between(train_sizes, np.max(train_sc, axis=1),
+np.min(train_sc, axis=1), alpha=0.3, color=color[1]);
+plt.plot(train_sizes, np.mean(valid_sc, axis=1), 'o-', color=color[4], label='Validation scores');
+plt.fill_between(train_sizes, np.max(valid_sc, axis=1),
+np.min(valid_sc, axis=1), alpha=0.3, color=color[1]);
+plt.xlabel('Train Size')
+plt.ylabel('ROC-AUC')
+plt.title('Learning curve')
+plt.legend()
+plt.show()
+```
+
+The convergence of these curves is not over, it may help to increase the dataset.
+
+### 11. Prediction for test or hold-out samples
+
+Let's make a prediction on the hold-out set for Logistic Regression model.
+
+```python
+lr=LogisticRegression(C=100, random_state=2018, penalty='l1')
+lr.fit(X_train_B, y_train)
+```
+
+```python
+y_pred_lr = lr.predict_proba(X_holdout_B)[:, 1]
+LR_holdout_score = roc_auc_score(y_holdout, y_pred_lr)
+print('Hold-out score = ', LR_holdout_score)
+```
+
+The result on cross-calidation is capmarable and is about *0.848*.
+
+Let's make a prediction on the hold-out set for Fandom Forest model.
+
+```python
+rf = RandomForestClassifier(random_state=2018, max_depth=8, max_features=8, n_estimators=200)
+rf.fit(X_train_B, y_train)
+```
+
+```python
+y_pred_rf = rf.predict_proba(X_holdout_B)[:, 1]
+RF_holdout_score = roc_auc_score(y_holdout, y_pred_rf)
+print('Hold-out score = ', RF_holdout_score)
+```
+
+Finally, the result of Random Forest model on hold-out set is slightly better than Logistic Regression result!
+Let's see at feature importance in both models.
+
+```python
+pd.DataFrame({'Name': X_train_B.columns.values,
+'Coefficient': lr.coef_.flatten(),
+'Abs. Coefficient': np.abs(lr.coef_).
+flatten()}).sort_values(by='Abs. Coefficient', ascending=False)
+```
+
+```python
+pd.DataFrame({'Name': X_train_B.columns.values,
+'Coefficient': rf.feature_importances_}).sort_values(by='Coefficient',
+ascending=False)
+```
+
+There are some features in top of both models (`Overtime`, `MartialStatus_Signed`) but for most features the estimate of importance is strongly different.
+
+### 12. Conclusions
+
+In Exploratory Data Analysis we examine a structure of the date: count and type of features, target feature and it's relationship with other variables. During a brief review of the relationship of variables, we find some insight and relationship with target description. Some of our suspicions were confirmed while working with prediction models.
+We get the result of the model: ROC AUC about 0.84.
+HR can use our model to prediction of a possible outflow of valuable employees. But at the moment it doesn't really matter.
+We get few features (as `OverTime`, `BusinessTravel`, `MonthlyIncoming`), which have a significant impact on employee attrition. If companies will pay attention to this, they will more reliably protect the safety of their most important asset - people.
+To improve the quality of the model:
+- We need more not fictional data
+- Review other models such as SVM and neural networks
+- Find other patterns in the data

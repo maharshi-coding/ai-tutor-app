@@ -1,0 +1,417 @@
+# Python break and continue
+
+Source: Programiz Python Tutorial
+Original URL: https://www.programiz.com/python-programming/break-continue
+Original Path: https://www.programiz.com/python-programming/break-continue
+Course: Python Programming
+
+- Python break and continue
+
+- Python pass Statement
+
+Python Data types
+
+- Python Numbers and Mathematics
+
+- Python List
+
+- Python Tuple
+
+- Python String
+
+- Python Set
+
+- Python Dictionary
+
+Python Functions
+
+- Python Functions
+
+- Python Function Arguments
+
+- Python Variable Scope
+
+- Python Global Keyword
+
+- Python Recursion
+
+- Python Modules
+
+- Python Package
+
+- Python Main function
+
+Python Files
+
+- Python Directory and Files Management
+
+- Python CSV: Read and Write CSV files
+
+- Reading CSV files in Python
+
+- Writing CSV files in Python
+
+Python Exception Handling
+
+- Python Exceptions
+
+- Python Exception Handling
+
+- Python Custom Exceptions
+
+Python Object & Class
+
+- Python Objects and Classes
+
+- Python Inheritance
+
+- Python Multiple Inheritance
+
+- Polymorphism in Python
+
+- Python Operator Overloading
+
+Python Advanced Topics
+
+- List comprehension
+
+- Python Lambda/Anonymous Function
+
+- Python Iterators
+
+- Python Generators
+
+- Python Namespace and Scope
+
+- Python Closures
+
+- Python Decorators
+
+- Python @property decorator
+
+- Python RegEx
+
+Python Date and Time
+
+- Python datetime
+
+- Python strftime()
+
+- Python strptime()
+
+- How to get current date
+and time in Python?
+
+- Python Get Current Time
+
+- Python timestamp to
+datetime and vice-versa
+
+- Python time Module
+
+- Python sleep()
+
+Additional Topic
+
+- Precedence and Associativity of Operators in Python
+
+- Python Keywords and Identifiers
+
+- Python Asserts
+
+- Python Json
+
+- Python pip
+
+- Python *args and **kwargs
+
+Python Tutorials
+
+Python for Loop
+
+Python pass Statement
+
+Python while Loop
+
+Python Looping Techniques
+
+Python if...else Statement
+
+List of Keywords in Python
+
+Python break and continue
+
+In programming, the
+break
+and
+continue
+statements are used to alter the flow of loops:
+
+break
+exits the loop entirely
+
+continue
+skips the current iteration and proceeds to the next one
+
+Python break Statement
+
+The
+break
+statement terminates the loop immediately when it's encountered.
+
+Syntax
+
+break
+
+Working of Python break Statement
+
+Working of break Statement in Python
+
+The above image shows the working of break statements in for and while loops.
+
+Note: The
+break
+statement is usually used inside decision-making statements such as if...else .
+
+Example: break Statement with for Loop
+
+We can use the
+break
+statement with the
+for
+loop to terminate the loop when a certain condition is met. For example,
+
+for i in range(5):
+if i == 3:
+break
+print(i)
+
+Output
+
+0
+1
+2
+
+In the above example,
+
+if i == 3:
+break
+
+terminates the loop when
+i
+is equal to 3. Hence, the output doesn't include values after 2 .
+
+Note: We can also terminate the
+while
+loop using a
+break
+statement.
+
+break Statement with while Loop
+
+We can also terminate the
+while
+loop using the
+break
+statement. For example,
+
+i = 0
+
+while i < 5:
+if i == 3:
+break
+print(i)
+i += 1
+
+Output
+
+0
+1
+2
+
+In the above example,
+
+if i == 3:
+break
+
+terminates the loop when
+i
+is equal to 3 .
+
+Python continue Statement
+
+The
+continue
+statement skips the current iteration of the loop and the control flow of the program goes to the next iteration.
+
+Syntax
+
+continue
+
+Working of continue Statement in Python
+
+Example: continue Statement with for Loop
+
+We can use the
+continue
+statement with the
+for
+loop to skip the current iteration of the loop and jump to the next iteration. For example,
+
+for i in range(5):
+if i == 3:
+continue
+print(i)
+
+Output
+
+0
+1
+2
+4
+
+In the above example,
+
+if i == 3:
+continue
+
+skips the current iteration when
+i
+is equal to 3 , and continues the next iteration. Hence, the output has all the values except 3 .
+
+Note: We can also use the
+continue
+statement with a
+while
+loop.
+
+continue Statement with while Loop
+
+We can skip the current iteration of the
+while
+loop using the
+continue
+statement. For example,
+
+# Program to print odd numbers from 1 to 10
+
+num = 0
+
+while num < 10:
+num += 1
+
+if (num % 2) == 0:
+continue
+
+print(num)
+
+Output
+
+1
+3
+5
+7
+9
+
+In the above example, we have used the
+while
+loop to print the odd numbers between 1 and 10 . Here,
+
+if (num % 2) == 0:
+continue
+
+skips the current iteration when the number is even and starts the next iteration.
+
+Also Read:
+
+- Python pass Statement
+
+- Python range()
+
+- Introduction
+
+- Python break Statement
+
+- Working of Python break Statement
+
+- Example: break Statement with for Loop
+
+- Python continue Statement
+
+- Working of continue Statement in Python
+
+- Example: continue Statement with for Loop
+
+Before we wrap up, let’s put your knowledge of Python break and continue to the test! Can you solve the following challenge?
+
+Challenge:
+
+Write a function to calculate the sum of elements in a list that are greater than a given number.
+
+- Return the sum of the numbers greater than the given number.
+
+- If
+numbers
+is
+[1, 2, 3, 4, 5]
+and
+n
+is 3 , the return value should be 9 because
+4 + 5
+is 9 .
+
+Check Code
+
+Video: Python break and continue Statement
+
+Previous Tutorial:
+
+Python while Loop
+
+Next Tutorial:
+
+Python pass Statement
+
+Share on:
+
+Did you find this article helpful?
+
+Sorry about that.
+
+How can we improve it?
+
+Feedback *
+
+Leave this field blank
+
+Your builder path starts here. Builders don't just know how to code, they create solutions that matter.
+
+Escape tutorial hell and ship real projects.
+
+Try Programiz PRO
+
+Real-World Projects
+
+On-Demand Learning
+
+- AI Mentor
+
+Builder Community
+
+Related Tutorials
+
+Python Tutorial
+
+Python for Loop
+
+Python Tutorial
+
+Python pass Statement
+
+Python Tutorial
+
+Python while Loop
+
+Python Tutorial
+
+Python Looping Techniques

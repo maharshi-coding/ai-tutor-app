@@ -1,0 +1,40 @@
+# Artificial Intelligence 3E
+
+Source: Artificial Intelligence: Foundations of Computational Agents
+Original URL: https://artint.info/3e/html/ArtInt3e.Ch3.html
+Original Path: https://artint.info/3e/html/ArtInt3e.Ch3.html
+Course: Artificial Intelligence
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+Chapter 3 Searching for Solutions
+
+Have you ever watched a crab on the shore crawling backward in search of the Atlantic Ocean, and missing? That’s the way the mind of man operates.
+
+– H. L. Mencken (1880–1956)
+
+The previous chapter discussed how an agent perceives and acts, but
+not how its goals affect its actions. An agent could be programmed to
+act in the world to achieve a fixed goal or set of goals, but then it would
+not adapt to changing goals, and so would not be intelligent.
+An intelligent agent needs to reason about its abilities and goals
+to determine what to do. This chapter abstracts the problem of an
+agent deciding how to achieve a goal as the problem of searching for a
+path in a graph.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

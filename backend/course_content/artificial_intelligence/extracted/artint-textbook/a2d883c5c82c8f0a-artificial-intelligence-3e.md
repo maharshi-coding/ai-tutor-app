@@ -1,0 +1,84 @@
+# Artificial Intelligence 3E
+
+Source: Artificial Intelligence: Foundations of Computational Agents
+Original URL: https://artint.info/3e/html/ArtInt3e.Ch6.html
+Original Path: https://artint.info/3e/html/ArtInt3e.Ch6.html
+Course: Artificial Intelligence
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+Chapter 6 Deterministic Planning
+
+…our Homo sapiens ancestors: their newly acquired causal
+imagination enabled them to do many things more efficiently through a
+tricky process we call “planning.” Imagine a tribe preparing for a
+mammoth hunt. What would it take for them to succeed? My
+mammoth-hunting skills are rusty, I must admit, but as a student of
+thinking machines, I have learned one thing: a thinking entity
+(computer, caveman, or professor) can only accomplish a task of such
+magnitude by planning in advance – by deciding how many hunters to
+recruit; by gauging, given wind conditions, the direction from which to
+approach the mammoth; in short, by imagining and comparing the
+consequences of several hunting strategies. To do this, the thinking
+entity must possess, consult, and manipulate a mental model of its reality.
+
+– Pearl and Mackenzie [ 2018 , p. 25]
+
+Deterministic planning is the process of finding a sequence of actions to
+achieve a goal.
+Because an agent does not
+usually achieve its goals in one step, what it should do at any time
+depends on what it will do in the future. What it will do in the
+future depends on the state it is in, which, in turn, depends
+on what it has done in the past. This chapter presents
+representations of actions and their effects, and
+some offline algorithms for an agent to find
+a plan to achieve its goals from a given state.
+
+This chapter makes the following simplifying assumptions:
+
+•
+
+There is a single agent.
+
+•
+
+The agent’s actions are deterministic and the agent can predict
+the consequences of its actions.
+
+•
+
+There are no exogenous events beyond the control of the
+agent that change the state of the environment.
+
+•
+
+The environment is fully observable; thus, the agent can observe the
+current state of the environment.
+
+•
+
+Time progresses discretely from one state to the next.
+
+•
+
+Goals are predicates of states that must be achieved.
+
+Some of these assumptions are relaxed in the following chapters.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

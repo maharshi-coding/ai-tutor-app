@@ -1,0 +1,170 @@
+# <center>
+
+Source: mlcourse.ai
+Original URL: https://github.com/Yorko/mlcourse.ai/blob/HEAD/jupyter_english/tutorials/nested_cross_validation_tatyana_kudasova.ipynb
+Original Path: jupyter_english/tutorials/nested_cross_validation_tatyana_kudasova.ipynb
+Course: Machine Learning
+
+<center>
+<img src="../../img/ods_stickers.jpg" />
+
+## [mlcourse.ai](https://mlcourse.ai) – Open Machine Learning Course
+### <center> Author: Tatyana Kudasova, ODS Slack @kudasova
+
+## <center> Tutorial
+## <center> Nested cross-validation
+
+### Why nested cross-validation?
+
+Often we want to tune the parameters of a model. That is, we want to find the value of a parameter that minimizes our loss function. The best way to do this, as we already know, is cross-validation.
+
+However, as Cawley and Talbot pointed out in their [2010 paper](http://jmlr.org/papers/volume11/cawley10a/cawley10a.pdf), since we used the test set to both select the values of the parameter and evaluate the model, we risk optimistically biasing our model evaluations. For this reason, if a test set is used to select model parameters, then we need a different test set to get an unbiased evaluation of that selected model. Mainly, we can think of model selection as another training procedure, and hence, we would need a decently-sized, independent test set that we have not seen before to get an unbiased estimate of the models’ performance. Often, this is not affordable. A good way to overcome this problem is to use nested cross-validation.
+
+### Nested cross-validation explained
+
+The nested cross-validation has an inner cross-validation nested in an outer cross-validation. First, an inner cross-validation is used to tune the parameters and select the best model. Second, an outer cross-validation is used to evaluate the model selected by the inner cross-validation.
+
+<img src="../../img/nestedCV.png" width="800"/>
+
+Imagine that we have _N_ models and we want to use _L_-fold inner cross-validation to tune hyperparameters and K-fold outer cross validation to evaluate the models. Then the algorithm is as follows:
+
+1. Divide the dataset into _K_ cross-validation folds at random.
+2. For each fold _k=1,2,…,K_: (outer loop for evaluation of the model with selected hyperparameter) <br>
+
+2.1. Let `test` be fold _k_ <br>
+2.2. Let `trainval` be all the data except those in fold _k_ <br>
+2.3. Randomly split `trainval` into _L_ folds <br>
+2.4. For each fold _l=1,2,…L_: (inner loop for hyperparameter tuning) <br>
+> 2.4.1 Let `val` be fold _l_ <br>
+> 2.4.2 Let `train` be all the data except those in `test` or `val` <br>
+> 2.4.3 Train each of _N_ models with each hyperparameter on `train`, and evaluate it on `val`. Keep track of the performance metrics <br>
+
+2.5. For each hyperparameter setting, calculate the average metrics score over the _L_ folds, and choose the best hyperparameter setting. <br>
+2.6. Train each of _N_ models with the best hyperparameter on `trainval`. Evaluate its performance on `test` and save the score for fold _k_ <br>
+
+3. For each of _N_ models calculate the mean score over all _K_ folds, and report as the generalization error.
+
+In the picture above and the code below we chose _L = 2_ and _K = 5_, but you can choose different numbers.
+
+### Implementation
+
+```python
+# Load required packages
+import numpy as np
+from sklearn import datasets
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import (GridSearchCV, StratifiedKFold,
+cross_val_score, train_test_split)
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
+```
+
+The data for this tutorial is [breast cancer data](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_breast_cancer.html) with 30 features and a binary target variable.
+
+```python
+# Load the data
+dataset = datasets.load_breast_cancer()
+
+# Create X from the features
+X = dataset.data
+
+# Create y from the target
+y = dataset.target
+```
+
+```python
+# Making train set for Nested CV and test set for final model evaluation
+X_train, X_test, y_train, y_test = train_test_split(
+X, y, train_size=0.8, test_size=0.2, random_state=1, stratify=y
+)
+
+# Initializing Classifiers
+clf1 = LogisticRegression(solver="liblinear", random_state=1)
+clf2 = KNeighborsClassifier()
+clf3 = DecisionTreeClassifier(random_state=1)
+clf4 = SVC(kernel="rbf", random_state=1)
+
+# Building the pipelines
+pipe1 = Pipeline([("std", StandardScaler()), ("clf1", clf1)])
+
+pipe2 = Pipeline([("std", StandardScaler()), ("clf2", clf2)])
+
+pipe4 = Pipeline([("std", StandardScaler()), ("clf4", clf4)])
+
+# Setting up the parameter grids
+param_grid1 = [
+{"clf1__penalty": ["l1", "l2"], "clf1__C": np.power(10.0, np.arange(-4, 4))}
+]
+
+param_grid2 = [{"clf2__n_neighbors": list(range(1, 10)), "clf2__p": [1, 2]}]
+
+param_grid3 = [
+{"max_depth": list(range(1, 10)) + [None], "criterion": ["gini", "entropy"]}
+]
+
+param_grid4 = [
+{
+"clf4__C": np.power(10.0, np.arange(-4, 4)),
+"clf4__gamma": np.power(10.0, np.arange(-5, 0)),
+}
+]
+
+# Setting up multiple GridSearchCV objects as inner CV, 1 for each algorithm
+gridcvs = {}
+inner_cv = StratifiedKFold(n_splits=2, shuffle=True, random_state=1)
+
+for pgrid, est, name in zip(
+(param_grid1, param_grid2, param_grid3, param_grid4),
+(pipe1, pipe2, clf3, pipe4),
+("Logit", "KNN", "DTree", "SVM"),
+):
+gcv = GridSearchCV(
+estimator=est,
+param_grid=pgrid,
+scoring="accuracy",
+n_jobs=1,
+cv=inner_cv,
+verbose=0,
+refit=True,
+)
+gridcvs[name] = gcv
+```
+
+```python
+# Making an outer CV
+outer_cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=1)
+
+for name, gs_est in sorted(gridcvs.items()):
+nested_score = cross_val_score(gs_est, X=X_train, y=y_train, cv=outer_cv, n_jobs=1)
+print(
+"%s | outer ACC %.2f%% +/- %.2f"
+% (name, nested_score.mean() * 100, nested_score.std() * 100)
+)
+```
+
+```python
+# Fitting a model to the whole training set using the "best" algorithm
+best_algo = gridcvs["SVM"]
+
+best_algo.fit(X_train, y_train)
+train_acc = accuracy_score(y_true=y_train, y_pred=best_algo.predict(X_train))
+test_acc = accuracy_score(y_true=y_test, y_pred=best_algo.predict(X_test))
+
+print("Accuracy %.2f%% (average over CV train folds)" % (100 * best_algo.best_score_))
+print("Best Parameters: %s" % gridcvs["SVM"].best_params_)
+print("Training Accuracy: %.2f%%" % (100 * train_acc))
+print("Test Accuracy: %.2f%%" % (100 * test_acc))
+```
+
+### Conclusion
+
+In this tutorial we learned how to use nested cross-validation for hyperparameter tuning and model evaluation. Hope it will help you in your Kaggle competitions or your ML projects.
+
+Writing this tutorial we used the following sources:
+1. [Sebastian Rashka's article](https://sebastianraschka.com/blog/2018/model-evaluation-selection-part4.html)
+2. [And also his code from GitHub](https://github.com/rasbt/model-eval-article-supplementary/blob/master/code/nested_cv_code.ipynb.)
+3. [Weina Jin's article](https://weina.me/nested-cross-validation/)

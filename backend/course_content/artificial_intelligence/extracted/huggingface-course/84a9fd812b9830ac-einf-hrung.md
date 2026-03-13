@@ -1,0 +1,106 @@
+# Einführung
+
+Source: Hugging Face Course
+Original URL: https://github.com/huggingface/course/blob/HEAD/chapters/de/chapter1/1.mdx
+Original Path: chapters/de/chapter1/1.mdx
+Course: Artificial Intelligence
+
+# Einführung
+
+<CourseFloatingBanner
+chapter={1}
+classNames="absolute z-10 right-0 top-0"
+/>
+
+## Willkommen zum 🤗 Kurs!
+
+<Youtube id="00GKzGyWFEs" />
+
+In diesem Kurs lernst du verschiedene Teilbereiche der maschinellen Verarbeitung natürlicher Sprache (engl. Natural Language Processing, NLP) - im Deutschen auch als Maschinelle Sprachverarbeitung oder Computerlinguistik (CL) bezeichnet - unter Verwendung der Bibliotheken des Ökosystems von [Hugging Face](https://huggingface.co/) kennen: die [🤗 Transformers-](https://github.com/huggingface/transformers), die [🤗 Datasets-](https://github.com/huggingface/datasets), die [🤗 Tokenizers-](https://github.com/huggingface/tokenizers) sowie die [🤗 Accelerate-Bibliotheken](https://github.com/huggingface/accelerate) als auch der [Hugging Face Hub](https://huggingface.co/models). Der Kurs ist komplett kostenlos und frei von Werbung.
+
+## Was erwartet dich?
+
+Hier ein kurzer Überblick über den Kurs:
+
+<div class="flex justify-center">
+<img class="block dark:hidden" src="https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter1/summary.svg" alt="Brief overview of the chapters of the course.">
+<img class="hidden dark:block" src="https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter1/summary-dark.svg" alt="Brief overview of the chapters of the course.">
+</div>
+
+- Die Kapitel 1 bis 4 geben eine Einführung in die wichtigsten Konzepte der 🤗 Transformers-Bibliothek. Am Ende dieses Teils des Kurses wirst du mit der Funktionsweise von Transformer-Modellen vertraut sein und wissen, wie du ein Modell aus dem [Hugging Face Hub](https://huggingface.co/models) verwendest, es auf einem Datensatz feintunst und deine Ergebnisse mit anderen auf dem Hub teilst!
+- In den Kapiteln 5 bis 8 lernst du die Grundlagen der 🤗 Datasets- und 🤗 Tokenizers-Bibliotheken kennen, bevor du in die typischen Problemstellungen des NLP eintauchst. Am Ende dieses Teils wirst du in der Lage sein, die gängisten Problemstellungen im NLP selbstständig zu lösen.
+- Die Kapitel 9 bis 12 gehen über den Bereich des NLP hinaus und zeigen, wie Transformer-Modelle für Aufgaben bei der Verarbeitung gesprochener Sprache (engl. Speech Processing) und im Bereich Computer Vision (im Deutschen ungefähr mit computerbasiertem Sehen zu übersetzen) eingesetzt werden können. Nebenbei lernst du, wie du eigene Versionen deiner Modelle zu Demonstrationszwecken erstellen und sie mit anderen teilen kannst, und wie du sie für Produktionsumgebungen optimierst. Am Ende dieses Teils wirst du in der Lage sein, die 🤗 Transformers-Bibliothek auf (fast) jede Problemstellung, die dir im Bereich des Maschinellen Lernens begegnen, anzuwenden!
+
+Dieser Kurs:
+
+* Erfordert gute Kenntnisse in Python
+* Sollte am besten nach einem Einführungskurs in Deep Learning gemacht werden, wie z. B. [fast.ai's Kurs](https://www.fast.ai/) [Practical Deep Learning for Coders](https://course.fast.ai/) oder eines der von [DeepLearning.AI](https://www.deeplearning.ai/) entwickelten Kursprogramme
+* Setzt keine Vorkenntnisse in [PyTorch](https://pytorch.org/) oder [TensorFlow](https://www.tensorflow.org/) voraus, obwohl es hilfreich ist, wenn du bereits mit ihnen vertraut sein solltest.
+
+Nachdem du diesen Kurs abgeschlossen hast, empfehlen wir dir den [Spezialisierungskurs Natural Language Processing von DeepLearning.AI](https://www.coursera.org/specializations/natural-language-processing?utm_source=deeplearning-ai&utm_medium=institutions&utm_campaign=20211011-nlp-2-hugging_face-page-nlp-refresh), der eine breite Palette traditioneller NLP-Modelle wie Naive Bayes und LSTMs abdeckt, bei denen es sich lohnt, sich mit ihnen vertraut zu machen!
+
+## Wer sind wir?
+
+Über die Autorinnen und Autoren:
+
+**Matthew Carrigan** ist Machine Learning Engineer bei Hugging Face. Er lebt in der irischen Hauptstadt Dublin und hat zuvor als Machine Learning Engineer bei Parse.ly und als Post-Doktorand am Trinity College Dublin gearbeitet. Er glaubt nicht, dass wir eine künstliche allgemeine Intelligenz (engl. Artificial General Intelligence, AGI) durch eine zunehmende Skalierung bestehender Architekturen erreichen werden, hat aber dennoch die Hoffnung, dass Roboter auf dem Weg zur Unsterblichkeit sind.
+
+**Lysandre Debut** ist Machine Learning Engineer bei Hugging Face und arbeitet bereits seit Entstehung an der 🤗 Transformers-Bibliothek mit. Sein Ziel ist es, NLP für alle zugänglich zu machen, indem er Tools entwickelt, die eine sehr einfache API bieten.
+
+**Sylvain Gugger** ist Research Engineer bei Hugging Face und einer der Hauptverantwortlichen für die Pflege der 🤗 Transformers-Bibliothek. Zuvor war er Research Scientist bei fast.ai und hat zusammen mit Jeremy Howard das Buch _[Deep Learning for Coders with fastai and PyTorch](https://learning.oreilly.com/library/view/deep-learning-for/9781492045519/)_ verfasst. Seine Forschung ist darauf ausgerichtet, Deep Learning zugänglicher zu machen. Hierfür entwickelt und verbessert er Techniken, mit denen Modelle auch bei begrenzter Ressourcenausstattung auf schnelle Weise trainiert werden können.
+
+**Merve Noyan** ist Developer Advocate bei Hugging Face und arbeitet daran, Tools zu entwickeln und Inhalte zu erstellen, die Maschinelles Lernen für jeden zugänglich machen.
+
+**Lucile Saulnier** ist Machine Learning Engineer bei Hugging Face und entwickelt und unterstützt die Nutzung von Open-Source-Tools. Außerdem ist sie aktiv an vielen Forschungsprojekten im Bereich des NLP beteiligt, z. B. an kollaborativem Training und BigScience.
+
+**Lewis Tunstall** ist Machine Learning Engineer bei Hugging Face, und konzentriert sich darauf, Open-Source-Tools zu entwickeln und sie der breiten Community zugänglich zu machen. Zudem ist er Mitverfasser des O'Reilly-Buches [Natural Language Processing with Transformers](https://www.oreilly.com/library/view/natural-language-processing/9781098136789/).
+
+**Leandro von Werra** ist Machine Learning Engineer im Open-Source-Team von Hugging Face und ebenfalls einer der Autoren des O'Reilly-Buches [Natural Language Processing with Transformers](https://www.oreilly.com/library/view/natural-language-processing/9781098136789/). Er hat mehrere Jahre praktische Erfahrung darin gesammelt, NLP-Projekte in die Produktion zu bringen, und dabei den gesamten ML-Stack beackert.
+
+## Häufig gestellte Fragen (FAQ)
+
+Hier findest du einige Antworten auf häufig gestellte Fragen:
+
+- **Erhalte ich für die Teilnahme an diesem Kurs ein Zertifikat?
+Derzeit gibt es für diesen Kurs noch kein Zertifikat. Wir arbeiten jedoch an einem Programm zur Erlangung eines Zertifikats für das Hugging-Face-Ökosystem - bleib' auf dem Laufenden!
+
+- **Wie viel Zeit sollte ich für diesen Kurs einplanen?
+Jedes Kapitel dieses Kurses ist so konzipiert, dass es innerhalb einer Woche abgeschlossen werden kann, wenn du circa 6 bis 8 Stunden Arbeit einplanst. Du kannst dir jedoch so viel Zeit nehmen wie nötig.
+
+- **Wo kann ich Fragen stellen, wenn ich welche habe?**
+Wenn du eine Frage zu einem Kursabschnitt hast, klicke einfach auf das sich oben auf der Seite befindende Banner "*Ask a question*" und du wirst automatisch zum entsprechenden Bereich des [Hugging-Face-Forums](https://discuss.huggingface.co/) weitergeleitet:
+
+<img src="https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter1/forum-button.png" alt="Link to the Hugging Face forums" width="75%">
+
+Wenn du nach dem Kurs noch weiter üben möchtest, steht dir in den Foren eine Liste mit [Projektideen](https://discuss.huggingface.co/c/course/course-event/25) zur Verfügung.
+
+- **Wo finde ich den Code für den Kurs?**
+In jedem Abschnitt kannst du auf das oben auf der Seite befindliche Banner klicken, um den Code entweder in Google Colab oder in Amazon SageMaker Studio Lab auszuführen:
+
+<img src="https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter1/notebook-buttons.png" alt="Link to the Hugging Face course notebooks" width="75%">
+
+Die Jupyter-Notebooks, die den gesamten Code des Kurses enthalten, befinden sich im [`huggingface/notebooks`-Repo](https://github.com/huggingface/notebooks). Wenn du sie lokal aufsetzen möchtest, schau dir die Anweisungen im [`course`-Repository](https://github.com/huggingface/course#-jupyter-notebooks) auf GitHub an.
+
+- **Wie kann ich etwas zum Kurs beitragen?**
+Es gibt mehrere Möglichkeiten, zum Kurs beizutragen! Wenn du einen Tippfehler oder einen Fehler entdeckst, eröffne bitte ein Issue in dem [`course`-Repository](https://github.com/huggingface/course). Wenn du uns dabei unterstützen möchtest, den Kurs in deine Muttersprache zu übersetzen, sieh dir bitte die [Anleitung](https://github.com/huggingface/course#translating-the-course-into-your-language) an.
+
+- **Welche Entscheidungen wurden bei den einzelnen Übersetzungen getroffen?**
+Für jede Übersetzung gibt es ein Glossar und die Datei `TRANSLATING.txt`, in der die gewählten Fachtermini usw. festgehalten sind. Ein Beispiel für die deutsche Fassung findest du [hier](https://github.com/huggingface/course/blob/main/chapters/de/TRANSLATING.txt).
+
+- **Kann ich diesen Kurs auch an anderer Stelle verwenden?**
+Ja, natürlich! Der Kurs ist unter der permissiven [Apache-2-Lizenz](https://www.apache.org/licenses/LICENSE-2.0.html) veröffentlicht. Das bedeutet, dass du den Kurs in angemessener Weise erwähnen, einen Verweis zur Lizenz angeben und darauf hinweisen musst, wenn du Änderungen vorgenommen hast. Du kannst dies in jeder angemessenen Weise tun, allerdings nicht in einer Weise, die den Eindruck erweckt, dass der Lizenzgeber dich oder deine Nutzung unterstützt. Wenn du den Kurs zitieren möchtest, verwende bitte den folgenden BibTeX-Eintrag:
+
+```
+@misc{huggingfacecourse,
+author = {Hugging Face},
+title = {The Hugging Face Course, 2022},
+howpublished = "\url{https://huggingface.co/course}",
+year = {2022},
+note = "[Online; accessed <today>]"
+}
+```
+
+Bist du bereit, loszulegen? In diesem Kapitel lernst du
+* wie man die Funktion `pipeline()` benutzt, um computerlinguistische Aufgaben wie Textgenerierung und Klassifizierung zu lösen,
+* mehr über die Transformer-Architektur und
+* wie zwischen Encoder-, Decoder- und Encoder-Decoder-basierten Architekturen und -Anwendungsfällen unterschieden werden kann.

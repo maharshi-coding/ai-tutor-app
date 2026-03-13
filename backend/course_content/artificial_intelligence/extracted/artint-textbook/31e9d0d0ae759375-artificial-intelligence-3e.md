@@ -1,0 +1,5825 @@
+# Artificial Intelligence 3E
+
+Source: Artificial Intelligence: Foundations of Computational Agents
+Original URL: https://artint.info/3e/html/ArtInt3e.bib.html
+Original Path: https://artint.info/3e/html/ArtInt3e.bib.html
+Course: Artificial Intelligence
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+References
+
+AAAI [2019]
+
+AAAI [2019].
+
+AAAI code of professional ethics and conduct.
+
+https://www.aaai.org/Conferences/code-of-ethics-and-conduct.php .
+
+Abelson and DiSessa [1981]
+
+Abelson, H. and DiSessa, A. [1981].
+
+Turtle Geometry: The Computer as a Medium for Exploring
+Mathematics .
+
+MIT Press.
+
+Acemoglu et al. [2021]
+
+Acemoglu, D., Ozdaglar, A., and Siderius, J. [2021].
+
+A model of online misinformation.
+
+Working Paper 28884, National Bureau of Economic Research.
+
+http://dx.doi.org/10.3386/w28884 .
+
+ACM Committee on Professional Ethics [2018]
+
+ACM Committee on Professional Ethics [2018].
+
+ACM code of ethics and professional conduct.
+
+https://ethics.acm.org .
+
+Agrawal et al. [2019]
+
+Agrawal, A., Gans, J., and Goldfarb, A. [2019].
+
+The Economics of Artificial Intelligence: An Agenda .
+
+National Bureau of Economic Research Conference Report. University of
+Chicago Press.
+
+Agrawal et al. [2022]
+
+Agrawal, A., Gans, J., and Goldfarb, A. [2022].
+
+Prediction Machines, Updated and Expanded: The Simple Economics
+of Artificial Intelligence .
+
+Harvard Business Review Press.
+
+Agre [1995]
+
+Agre, P. E. [1995].
+
+Computational research on interaction and agency.
+
+Artificial Intelligence , 72:1–52.
+
+Ajunwa [2020]
+
+Ajunwa, I. [2020].
+
+The paradox of automation as anti-bias intervention.
+
+Cardozo, L. Rev. , 167.
+
+Alammar [2018]
+
+Alammar, J. [2018].
+
+The illustrated transformer.
+
+https://jalammar.github.io/illustrated-transformer/ .
+
+Albus [1981]
+
+Albus, J. S. [1981].
+
+Brains, Behavior and Robotics .
+
+BYTE Publications.
+
+Algorithm Watch [2022]
+
+Algorithm Watch [2022].
+
+A guide to the AI act.
+
+https://algorithmwatch.org/en/ai-act-explained/ .
+
+Allais and Hagen [1979]
+
+Allais, M. and Hagen, O. (eds.) [1979].
+
+Expected Utility Hypothesis and the Allais Paradox .
+
+Reidel.
+
+Allemang et al. [2020]
+
+Allemang, D., Hendler, J., and Gandon, F. [2020].
+
+Semantic Web for the Working Ontologist: Effective Modeling for
+Linked Data, RDFS and OWL .
+
+ACM Books, 3rd edition.
+
+Amershi et al. [2019]
+
+Amershi, S., et al. [2019].
+
+Guidelines for human–AI interaction.
+
+In CHI 2019 . ACM.
+
+https://www.microsoft.com/en-us/research/publication/guidelines-for-human-ai-interaction/ .
+
+CHI 2019 Honorable Mention Award.
+
+Amodei et al. [2016]
+
+Amodei, D., et al. [2016].
+
+Concrete Problems in AI Safety.
+
+ArXiv e-prints , arXiv:1606.06565.
+
+Andreae [1963]
+
+Andreae, J. H. [1963].
+
+STELLA: A scheme for a learning machine.
+
+In 2nd IFAC Congress , pp. 497–502.
+
+Andrieu et al. [2003]
+
+Andrieu, C., de Freitas, N., Doucet, A., and Jordan, M. I. [2003].
+
+An introduction to MCMC for machine learning.
+
+Machine Learning , 50(1–2):5–43.
+
+Antoniou and van Harmelen [2008]
+
+Antoniou, G. and van Harmelen, F. [2008].
+
+A Semantic Web Primer .
+
+MIT Press, 2nd edition.
+
+Apt and Bol [1994]
+
+Apt, K. and Bol, R. [1994].
+
+Logic programming and negation: A survey.
+
+Journal of Logic Programming , 19/20:9–71.
+
+Archer [2022]
+
+Archer, S. [2022].
+
+Salience: A Philosophical Inquiry .
+
+Routledge.
+
+Aristotle [350 BCE]
+
+Aristotle [350 BCE].
+
+Categories .
+
+Translated by E. M. Edghill.
+
+http://classics.mit.edu/Aristotle/categories.html .
+
+Arp et al. [2015]
+
+Arp, R., Smith, B., and Spear, A. [2015].
+
+Building Ontologies with Basic Formal Ontology .
+
+MIT Press.
+
+Arrow [1963]
+
+Arrow, K. [1963].
+
+Social Choice and Individual Values .
+
+Wiley, 2nd edition.
+
+Asimov [1950]
+
+Asimov, I. [1950].
+
+I, Robot .
+
+Doubleday.
+
+Auer et al. [2002]
+
+Auer, P., Cesa-Bianchi, N., and Fischer, P. [2002].
+
+Finite-time analysis of the multiarmed bandit problem.
+
+Machine Learning , 47(2):235–256.
+
+http://dx.doi.org/10.1023/A:1013689704352 .
+
+Auer et al. [2007]
+
+Auer, S., et al. [2007].
+
+DBpedia: A nucleus for a web of open data.
+
+In 6th International Semantic Web Conference (ISWC) .
+
+Awad et al. [2018]
+
+Awad, E., et al. [2018].
+
+The moral machine experiment.
+
+Nature , 563(7729):59–64.
+
+http://dx.doi.org/10.1038/s41586-018-0637-6 .
+
+Awad et al. [2020]
+
+Awad, E., et al. [2020].
+
+Crowdsourcing moral machines.
+
+Communications of the ACM , 63(3):Pages 48–55.
+
+Baader
+et al. [2007]
+
+Baader, F., et al. (eds.) [2007].
+
+The Description Logic Handbook: Theory, Implementation and
+Applications .
+
+Cambridge University Press, 2nd edition.
+
+http://dx.doi.org/10.1017/CBO9780511711787 .
+
+Bacchus and Grove [1995]
+
+Bacchus, F. and Grove, A. [1995].
+
+Graphical models for preference and utility.
+
+In Uncertainty in Artificial Intelligence (UAI-95) , pp. 3–10.
+
+Bacchus and Kabanza [1996]
+
+Bacchus, F. and Kabanza, F. [1996].
+
+Using temporal logic to control search in a forward chaining planner.
+
+In Ghallab, M. and Milani, A. (eds.), New Directions in AI
+Planning , pp. 141–153. ISO Press.
+
+Bach et al. [2017]
+
+Bach, S. H., Broecheler, M., Huang, B., and Getoor, L. [2017].
+
+Hinge-loss Markov random fields and probabilistic soft logic.
+
+Journal of Machine Learning Research (JMLR) , 18:1–67.
+
+Bäck [1996]
+
+Bäck, T. [1996].
+
+Evolutionary Algorithms in Theory and Practice .
+
+Oxford University Press.
+
+Baek et al. [2021]
+
+Baek, M., et al. [2021].
+
+Accurate prediction of protein structures and interactions using a
+three-track neural network.
+
+Science , 373(6557):871–876.
+
+http://dx.doi.org/10.1126/science.abj8754 .
+
+Bahdanau et al. [2015]
+
+Bahdanau, D., Cho, K., and Bengio, Y. [2015].
+
+Neural machine translation by jointly learning to align and
+translate.
+
+In International Conference on Learning Represenations (ICLR) .
+
+http://dx.doi.org/10.48550/arXiv.1409.0473 .
+
+Bakhtin et al. [2022]
+
+Bakhtin, A., et al. [2022].
+
+Human-level play in the game of Diplomacy by combining language
+models with strategic reasoning.
+
+Science , 378(6624):1067–1074.
+
+http://dx.doi.org/10.1126/science.ade9097 .
+
+Bakker et al. [2020]
+
+Bakker, K., et al. [2020].
+
+Digital technologies and dynamic resource management.
+
+2020 IEEE International Conference on Smart Computing
+(SMARTCOMP) , pp. 368–373.
+
+Ballard [1983]
+
+Ballard, B. W. [1983].
+
+The ∗ -minimax search procedure for trees containing chance nodes.
+
+Artificial Intelligence , 21(3):327–350.
+
+Bansal et al. [2021]
+
+Bansal, G., et al. [2021].
+
+Does the whole exceed its parts? The effect of AI explanations on
+complementary team performance.
+
+In 2021 CHI Conference on Human Factors in Computing Systems .
+
+http://dx.doi.org/10.1145/3411764.3445717 .
+
+Bartlett [1932]
+
+Bartlett, F. C. [1932].
+
+Remembering: A Study in Experimental and Social Psychology .
+
+Cambridge University Press.
+
+http://dx.doi.org/10.1017/CBO9780511759185 .
+
+Baum [2004]
+
+Baum, E. B. [2004].
+
+What is Thought?
+
+MIT Press.
+
+Bayes [1763]
+
+Bayes, T. [1763].
+
+An essay towards solving a problem in the doctrine of chances.
+
+Philosophical Transactions of the Royal Society of London ,
+53:370–418.
+
+https://doi.org/10.1098/rstl.1763.0053 .
+
+Bell and Koren [2007]
+
+Bell, R. M. and Koren, Y. [2007].
+
+Lessons from the netflix prize challenge.
+
+SIGKDD Explor. Newsl. , 9(2):75–79.
+
+http://dx.doi.org/10.1145/1345448.1345465 .
+
+Bellman [1957]
+
+Bellman, R. [1957].
+
+Dynamic Programming .
+
+Princeton University Press.
+
+Bender et al. [2021]
+
+Bender, E. M., Gebru, T., McMillan-Major, A., and Shmitchell, S. [2021].
+
+On the dangers of stochastic parrots: Can language models be too big?
+
+In 2021 ACM Conference on Fairness, Accountability, and
+Transparency , pp. 610–623.
+
+http://dx.doi.org/10.1145/3442188.3445922 .
+
+Bender and Koller [2020]
+
+Bender, E. M. and Koller, A. [2020].
+
+Climbing towards NLU: On meaning, form, and understanding in the
+age of data.
+
+In 58th Annual Meeting of the Association for Computational
+Linguistics , pp. 5185–5198.
+
+http://dx.doi.org/10.18653/v1/2020.acl-main.463 .
+
+Bengio et al. [2003]
+
+Bengio, Y., Ducharme, R., Vincent, P., and Janvin, C. [2003].
+
+A neural probabilistic language model.
+
+J. Mach. Learn. Res. (JMLR) , 3:1137–1155.
+
+Benjamin [2019]
+
+Benjamin, R. [2019].
+
+Race After Technology : Abolitionist Tools for the New Jim
+Code .
+
+Polity.
+
+Bent and Van Hentenryck [2004]
+
+Bent, R. and Van Hentenryck, P. [2004].
+
+A two-stage hybrid local search for the vehicle routing problem with
+time windows.
+
+Transportation Science , 38(4):515–530.
+
+Berners-Lee et al. [2001]
+
+Berners-Lee, T., Hendler, J., and Lassila, O. [2001].
+
+The semantic web: A new form of web content that is meaningful to
+computers will unleash a revolution of new possibilities.
+
+Scientific American , May:28–37.
+
+Bertelè and Brioschi [1972]
+
+Bertelè, U. and Brioschi, F. [1972].
+
+Nonserial Dynamic Programming .
+
+Academic Press.
+
+Bertsekas [2017]
+
+Bertsekas, D. P. [2017].
+
+Dynamic Programming and Optimal Control .
+
+Athena Scientific, 4th edition.
+
+Besnard and Hunter [2008]
+
+Besnard, P. and Hunter, A. [2008].
+
+Elements of Argumentation .
+
+MIT Press.
+
+Bickel et al. [1975]
+
+Bickel, P. J., Hammel, E. A., and O’Connell, J. W. [1975].
+
+Sex bias in graduate admissions: Data from Berkeley.
+
+Science , 187(4175):398–404.
+
+Biere et al. [2021]
+
+Biere, A., Heule, M., van Maaren, H., and Walsh, T. (eds.) [2021].
+
+Handbook of Satisfiability .
+
+IOS Press, 2nd edition.
+
+Bishop [2008]
+
+Bishop, C. M. [2008].
+
+Pattern Recognition and Machine Learning .
+
+Springer-Verlag.
+
+Bisk et al. [2020]
+
+Bisk, Y., et al. [2020].
+
+Experience grounds language.
+
+CoRR , abs/2004.10151.
+
+https://arxiv.org/abs/2004.10151 .
+
+Blei et al. [2003]
+
+Blei, D. M., Ng, A. Y., and Jordan, M. I. [2003].
+
+Latent Dirichlet allocation.
+
+Journal of Machine Learning Research (JMLR) , 3:993–1022.
+
+Bleichrodt et al. [2008]
+
+Bleichrodt, H., Rohde, K. I., and Wakker, P. P. [2008].
+
+Koopmans’ constant discounting for intertemporal choice: A
+simplification and a generalization.
+
+Journal of Mathematical Psychology , 52(6):341–347.
+
+http://dx.doi.org/https://doi.org/10.1016/j.jmp.2008.05.003 .
+
+Blodgett et al. [2020]
+
+Blodgett, S. L., Barocas, S., Daumé III, H., and Wallach, H. [2020].
+
+Language (technology) is power: A critical survey of “bias” in
+NLP.
+
+In 58th Annual Meeting of the Association for Computational
+Linguistics .
+
+http://dx.doi.org/10.18653/v1/2020.acl-main.485 .
+
+Blum and Furst [1997]
+
+Blum, A. and Furst, M. [1997].
+
+Fast planning through planning graph analysis.
+
+Artificial Intelligence , 90:281–300.
+
+Bobrow [1967]
+
+Bobrow, D. G. [1967].
+
+Natural language input for a computer problem solving system.
+
+In Minsky, M. (ed.), Semantic Information Processing , pp.
+133–215. MIT Press.
+
+Bobrow [1993]
+
+Bobrow, D. G. [1993].
+
+Artificial intelligence in perspective: a retrospective on fifty
+volumes of Artificial Intelligence .
+
+Artificial Intelligence , 59:5–20.
+
+Boddy and Dean [1994]
+
+Boddy, M. and Dean, T. L. [1994].
+
+Deliberation scheduling for problem solving in time-constrained
+environments.
+
+Artificial Intelligence , 67(2):245–285.
+
+Bodlaender [1993]
+
+Bodlaender, H. L. [1993].
+
+A tourist guide through treewidth.
+
+Acta Cybernetica , 11(1–2):1–21.
+
+Bommasani et al. [2021]
+
+Bommasani, R. et al. [2021].
+
+On the opportunities and risks of foundation models.
+
+CoRR , abs/2108.07258.
+
+https://arxiv.org/abs/2108.07258 .
+
+Bonnefon [2021]
+
+Bonnefon, J.-F. [2021].
+
+The Car That Knew Too Much Can a Machine Be Moral?
+
+MIT Press.
+
+Bostrom [2014]
+
+Bostrom, N. [2014].
+
+Superintelligence: Paths, Dangers, Strategies .
+
+Oxford University Press.
+
+Boutilier et al. [1999]
+
+Boutilier, C., Dean, T., and Hanks, S. [1999].
+
+Decision-theoretic planning: Structual assumptions and computational
+leverage.
+
+Journal of Artificial Intelligence Research , 11:1–94.
+
+Boutilier et al. [2004]
+
+Boutilier, C., et al. [2004].
+
+CP-nets: A tool for representing and reasoning with conditional
+ceteris paribus preference statements.
+
+Journal of Artificial Intelligence Research , 21:135–191.
+
+Brachman and Levesque [1985]
+
+Brachman, R. J. and Levesque, H. J. (eds.) [1985].
+
+Readings in Knowledge Representation .
+
+Morgan Kaufmann.
+
+Brachman and Levesque [2004]
+
+Brachman, R. J. and Levesque, H. J. [2004].
+
+Knowledge Representation and Reasoning .
+
+Morgan Kaufmann.
+
+Brachman and Levesque [2022a]
+
+Brachman, R. J. and Levesque, H. J. [2022a].
+
+Machines like Us: Toward AI with Common Sense .
+
+MIT Press.
+
+Brachman and Levesque [2022b]
+
+Brachman, R. J. and Levesque, H. J. [2022b].
+
+Toward a new science of common sense.
+
+In Thirty-Sixth AAAI Conference on Artificial Intelligence
+(AAAI-22) .
+
+Breiman [2001]
+
+Breiman, L. [2001].
+
+Random forests.
+
+Machine Learning , 45(1):5–32.
+
+Breiman et al. [1984]
+
+Breiman, L., Friedman, J. H., Olshen, R. A., and Stone, C. J. [1984].
+
+Classification and Regression Trees .
+
+Wadsworth & Brooks.
+
+Brémaud [1999]
+
+Brémaud, P. [1999].
+
+Markov Chains: Gibbs Fields, Monte Carlo Simulation and
+Queues .
+
+Springer.
+
+Brin and Page [1998]
+
+Brin, S. and Page, L. [1998].
+
+The anatomy of a large-scale hypertextual web search engine.
+
+Computer Networks and ISDN Systems , 30(1–7):107–117.
+
+http://www.sciencedirect.com/science/article/pii/S016975529800110X .
+
+Brooks [1986]
+
+Brooks, R. A. [1986].
+
+A robust layered control system for a mobile robot.
+
+IEEE Journal of Robotics and Automation , 2(1):14–23.
+
+Brooks [1990]
+
+Brooks, R. A. [1990].
+
+Elephants don’t play chess.
+
+Robotics and Autonomous Systems , 6:3–15.
+
+Brooks [1991]
+
+Brooks, R. A. [1991].
+
+Intelligence without representation.
+
+Artificial Intelligence , 47:139–159.
+
+Brooks [2018]
+
+Brooks, R. A. [2018].
+
+My dated predictions.
+
+https://rodneybrooks.com/my-dated-predictions/ .
+
+Broussard [2018]
+
+Broussard, M. [2018].
+
+Artificial Unintelligence: How Computers Misunderstand the
+World .
+
+MIT Press.
+
+http://dx.doi.org/10.7551/mitpress/11022.001.0001 .
+
+Brown and Sandholm [2019]
+
+Brown, N. and Sandholm, T. [2019].
+
+Superhuman AI for multiplayer poker.
+
+Science , 365(6456):885–890.
+
+http://dx.doi.org/10.1126/science.aay2400 .
+
+Brown et al. [2020]
+
+Brown, T., et al. [2020].
+
+Language models are few-shot learners.
+
+In Advances in Neural Information Processing Systems ,
+volume 33, pp. 1877–1901.
+
+https://arxiv.org/abs/2005.14165 .
+
+Brundtland et al. [1987]
+
+Brundtland, G. H. et al. [1987].
+
+Our Common Future .
+
+United Nations, Report of the World Commission on Environment and
+Development.
+
+https://sustainabledevelopment.un.org/content/documents/5987our-common-future.pdf .
+
+Bryce and Kambhampati [2007]
+
+Bryce, D. and Kambhampati, S. [2007].
+
+A tutorial on planning graph-based reachability heuristics.
+
+AI Magazine , 28(1):47–83.
+
+Brynjolfsson and McAfee [2014]
+
+Brynjolfsson, E. and McAfee, A. [2014].
+
+The Second Machine Age: Work, Progress, and Prosperity in a
+Time of Brilliant Technologies .
+
+W. W. Norton & Co.
+
+Bryson [2011]
+
+Bryson, J. J. [2011].
+
+AI robots should not be considered moral agents.
+
+In Berlatsky, N. (ed.), Artificial Intelligence, Opposing
+Viewpoints , pp. 155–168. Greenhaven Press.
+
+Bryson [2018]
+
+Bryson, J. J. [2018].
+
+Patiency is not a virtue: the design of intelligent systems and
+systems of ethics.
+
+Ethics and Information Technology , 20(1):15–26.
+
+http://dx.doi.org/10.1007/s10676-018-9448-6 .
+
+Buchanan [2005]
+
+Buchanan, B. G. [2005].
+
+A (very) brief history of artificial intelligence.
+
+AI Magazine , 26(4):53–60.
+
+Buchanan and Feigenbaum [1978]
+
+Buchanan, B. G. and Feigenbaum, E. A. [1978].
+
+Dendral and Meta-Dendral: Their applications dimension.
+
+Artificial Intelligence , 11:5–24.
+
+Buchanan and Shortliffe [1984]
+
+Buchanan, B. G. and Shortliffe, E. (eds.) [1984].
+
+Rule-Based Expert Systems: The MYCIN Experiments of the
+Stanford Heuristic Programming Project .
+
+Addison-Wesley.
+
+Buntine [1992]
+
+Buntine, W. [1992].
+
+Learning classification trees.
+
+Statistics and Computing , 2:63–73.
+
+Buntine [1994]
+
+Buntine, W. L. [1994].
+
+Operations for learning with graphical models.
+
+Journal of Artificial Intelligence Research , 2:159–225.
+
+Buolamwini and Gebru [2018]
+
+Buolamwini, J. and Gebru, T. [2018].
+
+Gender shades: Intersectional accuracy disparities in commercial
+gender classification.
+
+In 1st Conference on Fairness, Accountability and
+Transparency .
+
+https://proceedings.mlr.press/v81/buolamwini18a.html .
+
+Burch [2022]
+
+Burch, R. [2022].
+
+Charles Sanders Peirce.
+
+The Stanford Encyclopedia of Philosophy .
+
+http://plato.stanford.edu/archives/sum2022/entries/peirce/ .
+
+Busoniu et al. [2008]
+
+Busoniu, L., Babuska, R., and Schutter, B. D. [2008].
+
+A comprehensive survey of multiagent reinforcement learning.
+
+IEEE Transactions on Systems, Man, and Cybernetics, Part C:
+Applications and Reviews , 38(2):156–172.
+
+Calo [2014]
+
+Calo, R. [2014].
+
+The case for a federal robotics commission.
+
+Brookings Institution Center for Technology Innovation .
+
+Calo et al. [2016]
+
+Calo, R., Froomkin, A. M., and Kerr, I. [2016].
+
+Robot Law .
+
+Edward Elgar.
+
+Campbell et al. [2002]
+
+Campbell, M., Hoane Jr., A. J., and Hse, F.-h. [2002].
+
+Deep Blue.
+
+Artificial Intelligence , 134(1–2):57–83.
+
+Caswell and Liang [2020]
+
+Caswell, I. and Liang, B. [2020].
+
+Recent advances in Google translate.
+
+https://ai.googleblog.com/2020/06/recent-advances-in-google-translate.html .
+
+Cauchy [1847]
+
+Cauchy, A. [1847].
+
+Méthode générale pour la résolution des systèmes
+d’équations simultanées.
+
+C. R. Acad. Sci. Paris , 25:536–538.
+
+Center for AI and Digital Policy [2023]
+
+Center for AI and Digital Policy [2023].
+
+Artificial intelligence and democratic values.
+
+https://www.caidp.org/reports/aidv-2021/ .
+
+Chapman [1987]
+
+Chapman, D. [1987].
+
+Planning for conjunctive goals.
+
+Artificial Intelligence , 32(3):333–377.
+
+Charlton [1998]
+
+Charlton, J. I. [1998].
+
+Nothing About Us Without Us: Disability Oppression and
+Empowerment .
+
+University of California Press, 1st edition.
+
+http://www.jstor.org/stable/10.1525/j.ctt1pnqn9 .
+
+Chaudhri et al. [2022]
+
+Chaudhri, V. K., et al. [2022].
+
+Knowledge graphs: Introduction, history and, perspectives.
+
+AI Magazine , 43(1):17–29.
+
+Cheeseman et al. [1988]
+
+Cheeseman, P., et al. [1988].
+
+Autoclass: A Bayesian classification system.
+
+In Fifth International Conference on Machine Learning , pp.
+54–64.
+
+Reprinted in Shavlik and Dietterich [ 1990 ] .
+
+Chen et al. [2017]
+
+Chen, J., Holte, R. C., Zilles, S., and Sturtevant, N. R. [2017].
+
+Front-to-end bidirectional heuristic search with near-optimal node
+expansions.
+
+In IJCAI-2017 .
+
+Chen and Guestrin [2016]
+
+Chen, T. and Guestrin, C. [2016].
+
+Xgboost: A scalable tree boosting system.
+
+In KDD ’16: 22nd ACM SIGKDD International Conference on
+Knowledge Discovery and Data Mining , pp. 785–794.
+
+https://doi.org/10.1145/2939672.2939785 .
+
+Cheng and Druzdzel [2000]
+
+Cheng, J. and Druzdzel, M. [2000].
+
+AIS-BN: An adaptive importance sampling algorithm for evidential
+reasoning in large Bayesian networks.
+
+Journal of Artificial Intelligence Research , 13:155–188.
+
+http://www.jair.org/papers/paper764.html .
+
+Chesnevar et al. [2000]
+
+Chesnevar, C., Maguitman, A., and Loui, R. [2000].
+
+Logical models of argument.
+
+ACM Computer Surveys , 32(4):337–383.
+
+Choi et al. [2020]
+
+Choi, Y., Vergari, A., and Van den Broeck, G. [2020].
+
+Probabilistic circuits: A unifying framework for tractable
+probabilistic models.
+
+Technical report, UCLA StarAI Lab.
+
+http://starai.cs.ucla.edu/papers/ProbCirc20.pdf .
+
+Chollet [2021]
+
+Chollet, F. [2021].
+
+Deeep Learning with Python .
+
+Manning.
+
+Chomsky [1957]
+
+Chomsky, N. [1957].
+
+Syntactic Structures .
+
+Mouton & Co.
+
+Chowdhery et al. [2022]
+
+Chowdhery, A., et al. [2022].
+
+PaLM: Scaling language modeling with pathways.
+
+http://dx.doi.org/10.48550/arXiv.2204.02311 .
+
+Chrisley and Begeer [2000]
+
+Chrisley, R. and Begeer, S. [2000].
+
+Artificial intelligence: Critical Concepts in Cognitive
+Science .
+
+Routledge.
+
+Christian [2020]
+
+Christian, B. [2020].
+
+The Alignment Problem: Machine Learning and Human Values .
+
+W. W. Norton & Co.
+
+Clark [1978]
+
+Clark, K. L. [1978].
+
+Negation as failure.
+
+In Gallaire, H. and Minker, J. (eds.), Logic and Databases ,
+pp. 293–322. Plenum Press.
+
+Cohen [2005]
+
+Cohen, P. R. [2005].
+
+If not Turing’s test, then what?
+
+AI Magazine , 26(4):61–67.
+
+Colledanchise and Ögren [2018]
+
+Colledanchise, M. and Ögren, P. [2018].
+
+Behavior Trees in Robotics and AI: An Introduction .
+
+CRC Press.
+
+Colmerauer et al. [1973]
+
+Colmerauer, A., Kanoui, H., Roussel, P., and Pasero, R. [1973].
+
+Un système de communication homme-machine en français.
+
+Technical report, Groupe de Researche en Intelligence Artificielle,
+Université d’Aix-Marseille.
+
+Colmerauer and Roussel [1996]
+
+Colmerauer, A. and Roussel, P. [1996].
+
+The birth of Prolog.
+
+In Bergin, T. J. and Gibson, R. G. (eds.), History of
+Programming Languages–II , pp. 331–367. ACM Press/Addison-Wesley.
+
+Conati et al. [2002]
+
+Conati, C., Gertner, A. S., and VanLehn, K. [2002].
+
+Using Bayesian networks to manage uncertainty in student modeling.
+
+User Modeling and User-Adapted Interaction , 12(4):371–417.
+
+http://dx.doi.org/10.1023/A:1021258506583 .
+
+Confucius [500 BCE]
+
+Confucius [500 BCE].
+
+Confucian Analects .
+
+translated by James Legge [1893].
+
+https://www.sacred-texts.com/cfu/conf1.htm .
+
+Cormen et al. [2022]
+
+Cormen, T. H., Leiserson, C. E., Rivest, R. L., and Stein, C. [2022].
+
+Introduction to Algorithms .
+
+MIT Press, 4th edition.
+
+Cover and Thomas [2006]
+
+Cover, T. M. and Thomas, J. A. [2006].
+
+Elements of Information Theory .
+
+Wiley, 2nd edition.
+
+Cramer [2002]
+
+Cramer, J. [2002].
+
+The origins of logistic regression.
+
+Working Paper 2002-119/4, Tinbergen Institute.
+
+http://dx.doi.org/10.2139/ssrn.360300 .
+
+Crawford [2021]
+
+Crawford, K. [2021].
+
+The Atlas of AI: Power, Politics, and the Planetary Costs of
+Artificial Intelligence .
+
+Yale University Press.
+
+Culberson and Schaeffer [1998]
+
+Culberson, J. and Schaeffer, J. [1998].
+
+Pattern databases.
+
+Computational Intelligence , 14(3):318–334.
+
+Dadich [2016]
+
+Dadich, S. [2016].
+
+Barack Obama, neural nets, self-driving cars, and the future of the
+world.
+
+Wired .
+
+Dahl [1994]
+
+Dahl, V. [1994].
+
+Natural language processing and logic programming.
+
+Journal of Logic Programming , 19/20:681–714.
+
+Danaher [2021]
+
+Danaher, J. [2021].
+
+Automation and the future of work.
+
+In The Oxford Handbook of Digital Ethics . Oxford University
+Press.
+
+http://dx.doi.org/10.1093/oxfordhb/9780198857815.013.37 .
+
+Darwiche [2001]
+
+Darwiche, A. [2001].
+
+Recursive conditioning.
+
+Artificial Intelligence , 126(1-2):5–41.
+
+Darwiche [2009]
+
+Darwiche, A. [2009].
+
+Modeling and Reasoning with Bayesian Networks .
+
+Cambridge University Press.
+
+Darwiche [2018]
+
+Darwiche, A. [2018].
+
+Human-level intelligence or animal-like abilities?
+
+Communication of the ACM , 61(10):56–67.
+
+http://dx.doi.org/10.1145/3271625 .
+
+Davis [1990]
+
+Davis, E. [1990].
+
+Representations of Commonsense Knowledge .
+
+Morgan Kaufmann.
+
+Davis [2015]
+
+Davis, E. [2015].
+
+A collection of Winograd schemas.
+
+http://www.cs.nyu.edu/faculty/davise/papers/WinogradSchemas/WSCollection.html .
+
+Davis and Goadrich [2006]
+
+Davis, J. and Goadrich, M. [2006].
+
+The relationship between precision-recall and ROC curves.
+
+In 23rd International Conference on Machine Learning (ICML) ,
+pp. 233–240.
+
+Davis et al. [1962]
+
+Davis, M., Logemann, G., and Loveland, D. [1962].
+
+A machine program for theorem proving.
+
+Communications of the ACM , 5(7):394–397.
+
+Davis and Putnam [1960]
+
+Davis, M. and Putnam, H. [1960].
+
+A computing procedure for quantification theory.
+
+Journal of the ACM , 7(3):201–215.
+
+De Jong [2006]
+
+De Jong, K. A. [2006].
+
+Evolutionary Computation: A Unified Approach .
+
+MIT Press.
+
+de Kleer [1986]
+
+de Kleer, J. [1986].
+
+An assumption-based TMS.
+
+Artificial Intelligence , 28(2):127–162.
+
+de Kleer et al. [1992]
+
+de Kleer, J., Mackworth, A. K., and Reiter, R. [1992].
+
+Characterizing diagnoses and systems.
+
+Artificial Intelligence , 56:197–222.
+
+De Raedt et al. [2008]
+
+De Raedt, L., Frasconi, P., Kersting, K., and Muggleton, S. H. (eds.) [2008].
+
+Probabilistic Inductive Logic Programming .
+
+Springer.
+
+De Raedt et al. [2016]
+
+De Raedt, L., Kersting, K., Natarajan, S., and Poole, D. [2016].
+
+Statistical Relational Artificial Intelligence: Logic,
+Probability, and Computation .
+
+Morgan & Claypool.
+
+http://dx.doi.org/10.2200/S00692ED1V01Y201601AIM032 .
+
+De Raedt et al. [2007]
+
+De Raedt, L., Kimmig, A., and Toivonen, H. [2007].
+
+ProbLog: A probabilistic Prolog and its application in link
+discovery.
+
+In 20th International Joint Conference on Artificial
+Intelligence (IJCAI) , pp. 2462–2467.
+
+Dean and Kanazawa [1989]
+
+Dean, T. and Kanazawa, K. [1989].
+
+A model for reasoning about persistence and causation.
+
+Computational Intelligence , 5(3):142–150.
+
+Dean and Wellman [1991]
+
+Dean, T. L. and Wellman, M. P. [1991].
+
+Planning and Control .
+
+Morgan Kaufmann.
+
+Dechter [1996]
+
+Dechter, R. [1996].
+
+Bucket elimination: A unifying framework for probabilistic inference.
+
+In Twelfth Conference on Uncertainty in Artificial Intelligence
+(UAI-96) , pp. 211–219.
+
+Dechter [2003]
+
+Dechter, R. [2003].
+
+Constraint Processing .
+
+Morgan Kaufmann.
+
+Dechter [2019]
+
+Dechter, R. [2019].
+
+Reasoning with Probabilistic and Deterministic Graphical
+Models .
+
+Morgan & Claypool, 2nd edition.
+
+Dechter and Pearl [1985]
+
+Dechter, R. and Pearl, J. [1985].
+
+Generalized best-first search strategies and the optimality of A*.
+
+Journal of the Association for Computing Machinery ,
+32(3):505–536.
+
+Dellaert et al. [1999]
+
+Dellaert, F., Fox, D., Burgard, W., and Thrun, S. [1999].
+
+Monte Carlo localization for mobile robots.
+
+In IEEE International Conference on Robotics and Automation
+(ICRA) .
+
+Delling et al. [2015]
+
+Delling, D., Goldberg, A. V., Pajor, T., and Werneck, R. F. [2015].
+
+Customizable route planning in road networks.
+
+Transportation Science , 51(2):566–591.
+
+https://doi.org/10.1287/trsc.2014.0579 .
+
+Dempster et al. [1977]
+
+Dempster, A., Laird, N., and Rubin, D. [1977].
+
+Maximum liklihood from incomplete data via the EM algorithm.
+
+Journal of the Royal Statistical Society, Series B , 39:1–38.
+
+With discussion.
+
+Deng et al. [2009]
+
+Deng, J., et al. [2009].
+
+ImageNet: A large-scale hierarchical image database.
+
+In Computer Vision and Pattern Recognition Conference (CVPR) .
+
+Denil et al. [2014]
+
+Denil, M., Matheson, D., and de Freitas, N. [2014].
+
+Narrowing the gap: Random forests in theory and in practice.
+
+In International Conference on Machine Learning (ICML) .
+
+Devlin et al. [2019]
+
+Devlin, J., Chang, M.-W., Lee, K., and Toutanova, K. [2019].
+
+BERT: Pre-training of deep bidirectional transformers for language
+understanding.
+
+In 2019 Conference of the North American Chapter of the
+Association for Computational Linguistics: Human Language Technologies , pp.
+4171–4186.
+
+http://dx.doi.org/10.18653/v1/N19-1423 .
+
+Dietterich [2000a]
+
+Dietterich, T. G. [2000a].
+
+An experimental comparison of three methods for constructing
+ensembles of decision trees: Bagging, boosting, and randomization.
+
+Machine Learning , 40(2):139–158.
+
+Dietterich [2000b]
+
+Dietterich, T. G. [2000b].
+
+Hierarchical reinforcement learning with the MAXQ value function
+decomposition.
+
+Journal of Artificial Intelligence Research , 13:227–303.
+
+Dietterich [2002]
+
+Dietterich, T. G. [2002].
+
+Ensemble learning.
+
+In Arbib, M. (ed.), The Handbook of Brain Theory and Neural
+Networks , pp. 405–408. MIT Press, 2nd edition.
+
+Dijkstra [1959]
+
+Dijkstra, E. W. [1959].
+
+A note on two problems in connexion with graphs.
+
+Numerische Mathematik , 1:269–271.
+
+https://doi.org/10.1007/BF01386390 .
+
+Dijkstra [1976]
+
+Dijkstra, E. W. [1976].
+
+A Discipline of Programming .
+
+Prentice-Hall.
+
+Dolgov et al. [2010]
+
+Dolgov, D., Thrun, S., Montemerlo, M., and Diebel, J. [2010].
+
+Path planning for autonomous vehicles in unknown semi-structured
+environments.
+
+The International Journal of Robotics Research ,
+29(5):485–501.
+
+http://dx.doi.org/10.1177/0278364909359210 .
+
+Domingos and Lowd [2009]
+
+Domingos, P. and Lowd, D. [2009].
+
+Markov Logic: An Interface Layer for Artificial Intelligence .
+
+Synthesis Lectures on Artificial Intelligence and Machine Learning.
+Morgan & Claypool.
+
+http://dx.doi.org/doi:10.2200/S00206ED1V01Y200907AIM007 .
+
+Doucet et al. [2001]
+
+Doucet, A., de Freitas, N., and Gordon, N. (eds.) [2001].
+
+Sequential Monte Carlo in Practice .
+
+Springer-Verlag.
+
+Doyle [1979]
+
+Doyle, J. [1979].
+
+A truth maintenance system.
+
+AI Memo 521, MIT AI Laboratory.
+
+Dresner and Stone [2008]
+
+Dresner, K. and Stone, P. [2008].
+
+A multiagent approach to autonomous intersection management.
+
+Journal of Artificial Intelligence Research , 31:591–656.
+
+du Boulay et al. [2023]
+
+du Boulay, B., Mitrovic, T., and Yacef, K. (eds.) [2023].
+
+Handbook of Artificial Intelligence in Education .
+
+Edward Elgar.
+
+Dua and Graff [2017]
+
+Dua, D. and Graff, C. [2017].
+
+UCI machine learning repository.
+
+http://archive.ics.uci.edu/ml .
+
+Duda et al. [2001]
+
+Duda, R. O., Hart, P. E., and Stork, D. G. [2001].
+
+Pattern Classification .
+
+Wiley-Interscience, 2nd edition.
+
+Dung [1995]
+
+Dung, P. [1995].
+
+On the acceptability of arguments and its fundamental role in
+nonmonotonic reasoning, logic programming and n -person games.
+
+Artificial Intelligence , 77(2):321–357.
+
+Dzeroski et al. [2001]
+
+Dzeroski, S., De Raedt, L., and Driessens, K. [2001].
+
+Relational reinforcement learning.
+
+Machine Learning, , 43:7–52.
+
+Einstein [1934]
+
+Einstein, A. [1934].
+
+On the method of theoretical physics.
+
+Philosophy of Science , 1(2):163–169.
+
+Eubanks [2018]
+
+Eubanks, V. [2018].
+
+Automating Inequality: How High-Tech Tools Profile, Police, and
+Punish the Poor .
+
+St. Martin’s Publishing Group.
+
+European Commission [2021]
+
+European Commission [2021].
+
+The general data protection regulation.
+
+https://commission.europa.eu/law/law-topic/data-protection/data-protection-eu˙en .
+
+European Commission [2022a]
+
+European Commission [2022a].
+
+AI liability directive.
+
+https://www.europarl.europa.eu/RegData/etudes/BRIE/2023/739342/EPRS˙BRI(2023)739342˙EN.pdf .
+
+European Commission [2022b]
+
+European Commission [2022b].
+
+The artificial intelligence act.
+
+https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52021PC0206 .
+
+European Commission [2022c]
+
+European Commission [2022c].
+
+The digital services act package.
+
+https://digital-strategy.ec.europa.eu/en/policies/digital-services-act-package .
+
+European Commission [2022d]
+
+European Commission [2022d].
+
+New liability rules on products and AI to protect consumers.
+
+https://ec.europa.eu/commission/presscorner/detail/en/ip˙22˙5807 .
+
+Falco et al. [2021]
+
+Falco, G., et al. [2021].
+
+Governing AI safety through independent audits.
+
+Nature Machine Intelligence , 3(7):566–571.
+
+http://dx.doi.org/10.1038/s42256-021-00370-7 .
+
+Fanshel and Bush [1970]
+
+Fanshel, S. and Bush, J. [1970].
+
+Health-status index and its application to health-services outcomes.
+
+Operations Research , 18.
+
+Fatemi et al. [2020]
+
+Fatemi, B., Taslakian, P., Vazquez, D., and Poole, D. [2020].
+
+Knowledge hypergraphs: Prediction beyond binary relations.
+
+In 29th International Joint Conference on Artificial
+Intelligence (IJCAI) .
+
+Fedus et al. [2021]
+
+Fedus, W., Zoph, B., and Shazeer, N. [2021].
+
+Switch transformers: Scaling to trillion parameter models with simple
+and efficient sparsity.
+
+http://dx.doi.org/10.48550/arXiv.2101.03961 .
+
+Fellegi and Sunter [1969]
+
+Fellegi, I. and Sunter, A. [1969].
+
+A theory for record linkage.
+
+Journal of the American Statistical Association ,
+64(328):1183–1280.
+
+Felner et al. [2004]
+
+Felner, A., Korf, R. E., and Hanan, S. [2004].
+
+Additive pattern database heuristics.
+
+Journal of Artificial Intelligence Research , 22:279–318.
+
+Feurer and Hutter [2019]
+
+Feurer, M. and Hutter, F. [2019].
+
+Hyperparameter optimization.
+
+In Automated Machine Learning . Springer.
+
+http://dx.doi.org/https://doi.org/10.1007/978-3-030-05318-5˙1 .
+
+Fikes and Nilsson [1971]
+
+Fikes, R. E. and Nilsson, N. J. [1971].
+
+STRIPS: A new approach to the application of theorem proving to
+problem solving.
+
+Artificial Intelligence , 2(3–4):189–208.
+
+Foot [1967]
+
+Foot, P. [1967].
+
+The problem of abortion and the doctrine of the double effect.
+
+Oxford Review , 5:5–15.
+
+https://philpapers.org/archive/FOOTPO-2.pdf .
+
+Forbus [2019]
+
+Forbus, K. [2019].
+
+Qualitative Representations: How People Reason and Learn about
+the Continuous World .
+
+MIT Press.
+
+Forbus and Hinrich [2017]
+
+Forbus, K. D. and Hinrich, T. [2017].
+
+Analogy and relational representations in the companion cognitive
+architecture.
+
+AI Magazine , 38(4):34–42.
+
+http://dx.doi.org/10.1609/aimag.v38i4.2743 .
+
+Ford [2021]
+
+Ford, M. [2021].
+
+Rule of the Robots: How Artificial Intelligence Will Transform
+Everything .
+
+John Murray Press.
+
+François-Lavet et al. [2018]
+
+François-Lavet, V., et al. [2018].
+
+An introduction to deep reinforcement learning.
+
+CoRR , abs/1811.12560.
+
+http://arxiv.org/abs/1811.12560 .
+
+Freuder and Mackworth [2006]
+
+Freuder, E. C. and Mackworth, A. K. [2006].
+
+Constraint satisfaction: An emerging paradigm.
+
+In Rossi, F., Van Beek, P., and Walsh, T. (eds.), Handbook of
+Constraint Programming , pp. 13–28. Elsevier.
+
+Friedman [2001]
+
+Friedman, J. H. [2001].
+
+Greedy function approximation: A gradient boosting machine.
+
+The Annals of Statistics , 29(5):1189–1232.
+
+http://www.jstor.org/stable/2699986 .
+
+Friedman et al. [1997]
+
+Friedman, N., Greiger, D., and Goldszmidt, M. [1997].
+
+Bayesian network classifiers.
+
+Machine Learning , 29:103–130.
+
+Gabrilovich et al. [2014]
+
+Gabrilovich, E., et al. [2014].
+
+Knowledge vault: A web-scale approach to probabilistic knowledge
+fusion.
+
+In 20th ACM SIGKDD Conference on Knowledge Discovery and Data
+Mining .
+
+Gal and Grosz [2022]
+
+Gal, K. and Grosz, B. J. [2022].
+
+Multi-agent systems: Technical & ethical challenges of functioning
+in a mixed group.
+
+Daedalus .
+
+Galton [1886]
+
+Galton, F. [1886].
+
+Regression towards mediocrity in hereditary stature.
+
+Journal of the Anthropological Institute , 15:246–263.
+
+http://galton.org/essays/1880-1889/galton-1886-jaigi-regression-stature.pdf .
+
+Gangemi et al. [2003]
+
+Gangemi, A., Guarino, N., Masolo, C., and Oltramari, A. [2003].
+
+Sweetening WordNet with DOLCE.
+
+AI Magazine , 24(3):13–24.
+
+Garcia-Molina et al. [2009]
+
+Garcia-Molina, H., Ullman, J. D., and Widom, J. [2009].
+
+Database Systems: The Complete Book .
+
+Prentice Hall, 2nd edition.
+
+Gardner [1985]
+
+Gardner, H. [1985].
+
+The Mind’s New Science .
+
+Basic Books.
+
+Gebru et al. [2021]
+
+Gebru, T., et al. [2021].
+
+Datasheets for datasets.
+
+Communication of the ACM , 64(12):86–92.
+
+http://dx.doi.org/10.1145/3458723 .
+
+Geffner and Bonet [2013]
+
+Geffner, H. and Bonet, B. [2013].
+
+A Concise Introduction to Models and Methods for Automated
+Planning .
+
+Springer.
+
+http://dx.doi.org/doi:10.2200/S00513ED1V01Y201306AIM022 .
+
+Geffner et al. [2022]
+
+Geffner, H., Dechter, R., and Halpern, J. Y. (eds.) [2022].
+
+Probabilistic and Causal Inference: The Works of Judea Pearl .
+
+ACM Books.
+
+Gelman et al. [2013]
+
+Gelman, A., Carlin, J. B., Stern, H. S., and Rubin, D. B. [2013].
+
+Bayesian Data Analysis .
+
+Chapman & Hall/CRC, 3rd edition.
+
+http://www.stat.columbia.edu/˜gelman/book/ .
+
+Gelman et al. [2020]
+
+Gelman, A., Hill, J., and Vehtari, A. [2020].
+
+Regression and Other Stories .
+
+Cambridge University Press.
+
+Genesereth and Thielscher [2014]
+
+Genesereth, M. and Thielscher, M. [2014].
+
+General Game Playing .
+
+Morgan & Claypool.
+
+http://dx.doi.org/doi:10.2200/S00564ED1V01Y201311AIM024 .
+
+Gers et al. [2000]
+
+Gers, F. A., Schmidhuber, J., and Cummins, F. [2000].
+
+Learning to forget: Continual prediction with LSTM.
+
+Neural Computation , 12(10):2451–2471.
+
+http://dx.doi.org/https://doi.org/10.1162/089976600300015015 .
+
+Getoor and Taskar [2007]
+
+Getoor, L. and Taskar, B. (eds.) [2007].
+
+Introduction to Statistical Relational Learning .
+
+MIT Press.
+
+Ghahramani [2015]
+
+Ghahramani, Z. [2015].
+
+Probabilistic machine learning and artificial intelligence.
+
+Nature , 521(7553):452–459.
+
+http://dx.doi.org/10.1038/nature14541 .
+
+Ghallab et al. [2004]
+
+Ghallab, M., Nau, D., and Traverso, P. [2004].
+
+Automated Planning: Theory and Practice .
+
+Elsevier.
+
+Gibbard [1973]
+
+Gibbard, A. [1973].
+
+Manipulation of voting schemes: A general result.
+
+Econometrica , 41:587–601.
+
+Gil et al. [2017]
+
+Gil, Y., et al. [2017].
+
+Towards continuous scientific data analysis and hypothesis evolution.
+
+In Thirty-First AAAI Conference on Artificial Intelligence
+(AAAI-17) .
+
+http://www.isi.edu/˜gil/papers/gil-etal-aaai17.pdf .
+
+Gil et al. [2019]
+
+Gil, Y., et al. [2019].
+
+Intelligent systems for geosciences: An essential research agenda.
+
+Communications of the ACM , 62.
+
+http://dx.doi.org/10.1145/3192335 .
+
+Glorot and Bengio [2010]
+
+Glorot, X. and Bengio, Y. [2010].
+
+Understanding the difficulty of training deep feedforward neural
+networks.
+
+In Thirteenth International Conference on Artificial
+Intelligence and Statistics , pp. 249–256.
+
+https://proceedings.mlr.press/v9/glorot10a.html .
+
+Glorot et al. [2011]
+
+Glorot, X., Bordes, A., and Bengio, Y. [2011].
+
+Deep sparse rectifier neural networks.
+
+In 14th International Conference on Artificial Intelligence and
+Statistics , pp. 315–323.
+
+Goble et al. [2020]
+
+Goble, C., et al. [2020].
+
+FAIR Computational Workflows.
+
+Data Intelligence , 2(1-2):108–121.
+
+http://dx.doi.org/10.1162/dint˙a˙00033 .
+
+Goldberg [2002]
+
+Goldberg, D. E. [2002].
+
+The Design of Innovation: Lessons from and for Competent
+Genetic Algorithms .
+
+Addison-Wesley.
+
+Goldberg [2016]
+
+Goldberg, Y. [2016].
+
+A primer on neural network models for natural language processing.
+
+Journal of Artificial Intelligence Research , 57:345–420.
+
+http://dx.doi.org/doi:10.1613/jair.4992 .
+
+Gomes et al. [2019]
+
+Gomes, C., et al. [2019].
+
+Computational sustainability: Computing for a better world and a
+sustainable future.
+
+Communication of the ACM , 62(9):56–65.
+
+http://dx.doi.org/10.1145/3339399 .
+
+Good [1965]
+
+Good, I. J. [1965].
+
+Speculations concerning the first ultraintelligent machine.
+
+In Alt, F. and Ruminoff, M. (eds.), Advances in Computers ,
+volume 6. Academic Press.
+
+Goodfellow et al. [2016]
+
+Goodfellow, I., Bengio, Y., and Courville, A. [2016].
+
+Deep Learning .
+
+MIT Press.
+
+http://www.deeplearningbook.org .
+
+Goodfellow et al. [2014]
+
+Goodfellow, I. J., et al. [2014].
+
+Generative adversarial networks.
+
+In Advances in Neural Information Processing Systems 27 (NIPS
+2014) .
+
+http://dx.doi.org/10.48550/arXiv.1406.2661 .
+
+Gordon et al. [2021]
+
+Gordon, M. L., et al. [2021].
+
+The disagreement deconvolution: Bringing machine learning performance
+metrics in line with reality.
+
+In 2021 CHI Conference on Human Factors in Computing Systems .
+
+http://dx.doi.org/10.1145/3411764.3445423 .
+
+Green [2022]
+
+Green, B. [2022].
+
+The flaws of policies requiring human oversight of government
+algorithms.
+
+Computer Law and Security Review , 45:105681.
+
+http://dx.doi.org/https://doi.org/10.1016/j.clsr.2022.105681 .
+
+Green [1969]
+
+Green, C. [1969].
+
+Application of theorem proving to problem solving.
+
+In 1st International Joint Conference on Artificial
+Intelligence , pp. 219–237.
+
+Grosz [2012]
+
+Grosz, B. [2012].
+
+What question would Turing pose today?
+
+AI Magazine , 33(4):73.
+
+http://dx.doi.org/10.1609/aimag.v33i4.2441 .
+
+Grosz [2018]
+
+Grosz, B. J. [2018].
+
+Smart enough to talk with us? Foundations and challenges for
+dialogue capable AI systems.
+
+Computational Linguistics , 44(1):1–15.
+
+http://dx.doi.org/10.1162/COLI˙a˙00313 .
+
+Grünwald [2007]
+
+Grünwald, P. D. [2007].
+
+The Minimum Description Length Principle .
+
+MIT Press.
+
+Gunkel [2018]
+
+Gunkel, D. [2018].
+
+Robot Rights .
+
+MIT Press.
+
+Halevy et al. [2009]
+
+Halevy, A., Norvig, P., and Pereira, F. [2009].
+
+The unreasonable effectiveness of data.
+
+IEEE Intelligent Systems , 24(2):8–12.
+
+Halpern [2003]
+
+Halpern, J. Y. [2003].
+
+Reasoning about Uncertainty .
+
+MIT Press.
+
+Hamilton [2020]
+
+Hamilton, W. L. [2020].
+
+Graph Representation Learning .
+
+Morgan & Claypool.
+
+Hardin [1968]
+
+Hardin, G. [1968].
+
+The tragedy of the commons: The population problem has no technical
+solution; it requires a fundamental extension in morality.
+
+Science , 162(3859):1243–1248.
+
+Harper and Konstan [2015]
+
+Harper, F. M. and Konstan, J. A. [2015].
+
+The MovieLens datasets: History and context.
+
+ACM Transactions on Interactive Intelligent Systems , 5(4).
+
+http://dx.doi.org/10.1145/2827872 .
+
+Hart et al. [1968]
+
+Hart, P. E., Nilsson, N. J., and Raphael, B. [1968].
+
+A formal basis for the heuristic determination of minimum cost paths.
+
+IEEE Transactions on Systems Science and Cybernetics ,
+4(2):100–107.
+
+Hart and Edwards [1961]
+
+Hart, T. P. and Edwards, D. J. [1961].
+
+The tree prune (TP) algorithm.
+
+Memo 30, MIT Artificial Intelligence Project.
+
+Haslum et al. [2019]
+
+Haslum, P., Lipovetzky, N., Magazzeni, D., and Muise, C. [2019].
+
+An Introduction to the Planning Domain Definition Language .
+
+Morgan & Claypool.
+
+https://doi.org/10.2200/S00900ED2V01Y201902AIM042 .
+
+Hastie et al. [2009]
+
+Hastie, T., Tibshirani, R., and Friedman, J. [2009].
+
+The Elements of Statistical Learning: Data Mining, Inference,
+and Prediction.
+
+Springer, 2nd edition.
+
+Haugeland [1985]
+
+Haugeland, J. [1985].
+
+Artificial Intelligence: The Very Idea .
+
+MIT Press.
+
+Haugeland [1997]
+
+Haugeland, J. (ed.) [1997].
+
+Mind Design II: Philosophy, Psychology, Artificial
+Intelligence .
+
+MIT Press, revised and enlarged edition.
+
+Hayes [1973]
+
+Hayes, P. J. [1973].
+
+Computation and deduction.
+
+In 2nd Symposium on Mathematical Foundations of Computer
+Science , pp. 105–118. Czechoslovak Academy of Sciences.
+
+He et al. [2015]
+
+He, K., Zhang, X., Ren, S., and Sun, J. [2015].
+
+Deep residual learning for image recognition.
+
+CoRR , abs/1512.03385.
+
+http://arxiv.org/abs/1512.03385 .
+
+Heath and Bizer [2011]
+
+Heath, T. and Bizer, C. [2011].
+
+Linked Data: Evolving the Web into a Global Data Space .
+
+Springer.
+
+Heckerman [1999]
+
+Heckerman, D. [1999].
+
+A tutorial on learning with Bayesian networks.
+
+In Jordan, M. (ed.), Learning in Graphical Models . MIT Press.
+
+Hendler et al. [2002]
+
+Hendler, J., Berners-Lee, T., and Miller, E. [2002].
+
+Integrating applications on the semantic web.
+
+Journal of the Institute of Electrical Engineers of Japan ,
+122(10):676–680.
+
+http://www.w3.org/2002/07/swint .
+
+Henrion [1988]
+
+Henrion, M. [1988].
+
+Propagating uncertainty in Bayesian networks by probabilistic logic
+sampling.
+
+In Lemmer, J. F. and Kanal, L. N. (eds.), Uncertainty in
+Artificial Intelligence 2 , pp. 149–163. Elsevier Science.
+
+Hewitt [1969]
+
+Hewitt, C. [1969].
+
+Planner: A language for proving theorems in robots.
+
+In 1st International Joint Conference on Artificial
+Intelligence , pp. 295–301.
+
+Hinton et al. [2012a]
+
+Hinton, G., et al. [2012a].
+
+Deep neural networks for acoustic modeling in speech recognition: The
+shared views of four research groups.
+
+Signal Processing Magazine, IEEE , 29(6):82–97.
+
+http://dx.doi.org/10.1109/MSP.2012.2205597 .
+
+Hinton et al. [2012b]
+
+Hinton, G. E., et al. [2012b].
+
+Improving neural networks by preventing co-adaptation of feature
+detectors.
+
+CoRR , abs/1207.0580.
+
+http://arxiv.org/abs/1207.0580 .
+
+Hitchcock [1927]
+
+Hitchcock, F. L. [1927].
+
+The expression of a tensor or a polyadic as a sum of products.
+
+Studies in Applied Mathematics , 6(1–4):164–189.
+
+Hitzler et al. [2012]
+
+Hitzler, P., et al. (eds.) [2012].
+
+OWL 2 Web Ontology Language Primer (Second Edition) .
+
+W3C Recommendation 11 December 2012.
+
+http://www.w3.org/TR/owl2-primer/ .
+
+Ho et al. [2020]
+
+Ho, J., Jain, A., and Abbeel, P. [2020].
+
+Denoising diffusion probabilistic models.
+
+In Advances in Neural Information Processing Systems ,
+volume 33, pp. 6840–6851.
+
+https://proceedings.neurips.cc/paper˙files/paper/2020/file/4c5bcfec8584af0d967f1ab10179ca4b-Paper.pdf .
+
+Hochreiter and Schmidhuber [1997]
+
+Hochreiter, S. and Schmidhuber, J. [1997].
+
+Long short-term memory.
+
+Neural Computation , 9:1735–1780.
+
+Hoffart et al. [2013]
+
+Hoffart, J., Suchanek, F., Berberich, K., and Weikum, G. [2013].
+
+YAGO2: A spatially and temporally enhanced knowledge base from
+Wikipedia.
+
+Artificial Intelligence , 194:28–61.
+
+Hofstadter [2022]
+
+Hofstadter, D. [2022].
+
+Artificial neural networks today are not conscious, according to
+Douglas Hofstadter.
+
+The Economist , June 11th 2022.
+
+Hogan et al. [2021]
+
+Hogan, A. et al. [2021].
+
+Knowledge graphs.
+
+ACM Computing Surveys , 54(4).
+
+https://doi.org/10.1145/3447772 .
+
+Holland [1975]
+
+Holland, J. H. [1975].
+
+Adaption in Natural and Artificial Systems: An Introductory
+Analysis with Applications to Biology, Control, and Artificial Intelligence .
+
+University of Michigan Press.
+
+Holling [1973]
+
+Holling, C. S. [1973].
+
+Resilience and stability of ecological systems.
+
+Annual Review of Ecology and Systematics , 4(1):1–23.
+
+http://dx.doi.org/10.1146/annurev.es.04.110173.000245 .
+
+Hoos and Stützle [2004]
+
+Hoos, H. H. and Stützle, T. [2004].
+
+Stochastic Local Search: Foundations and Applications .
+
+Morgan Kaufmann.
+
+Horvitz [1989]
+
+Horvitz, E. J. [1989].
+
+Reasoning about beliefs and actions under computational resource
+constraints.
+
+In Kanal, L., Levitt, T., and Lemmer, J. (eds.), Uncertainty in
+Artificial Intelligence 3 , pp. 301–324. Elsevier.
+
+Horvitz [2006]
+
+Horvitz, E. J. [2006].
+
+Eric Horvitz forecasts the future.
+
+New Scientist , 2578:72.
+
+Howard and Matheson [1984]
+
+Howard, R. A. and Matheson, J. E. [1984].
+
+Influence diagrams.
+
+In Howard, R. A. and Matheson, J. E. (eds.), The Principles and
+Applications of Decision Analysis . Strategic Decisions Group.
+
+Howson and Urbach [2006]
+
+Howson, C. and Urbach, P. [2006].
+
+Scientific Reasoning: The Bayesian Approach .
+
+Open Court, 3rd edition.
+
+Huang and Valtorta [2006]
+
+Huang, Y. and Valtorta, M. [2006].
+
+Pearl’s calculus of intervention is complete.
+
+In Conference on Uncertainty in Artificial Intelligence , pp.
+217–224.
+
+Hume [1739–40]
+
+Hume, D. [1739–40].
+
+A Treatise of Human Nature: Being an Attempt to Introduce the
+Experimental Method of Reasoning into Moral Subjects .
+
+https://gutenberg.org/files/4705/4705-h/4705-h.htm .
+
+Hursthouse and Pettigrove [2018]
+
+Hursthouse, R. and Pettigrove, G. [2018].
+
+Virtue ethics.
+
+In Zalta, E. N. (ed.), The Stanford Encyclopedia of
+Philosophy . Winter 2018 edition.
+
+https://plato.stanford.edu/archives/win2018/entries/ethics-virtue/ .
+
+Hutter et al. [2019]
+
+Hutter, F., Kotthoff, L., and Vanschoren, J. (eds.) [2019].
+
+Automated Machine Learning Methods, Systems, Challenges .
+
+Springer.
+
+IEEE [2020]
+
+IEEE [2020].
+
+IEEE code of ethics.
+
+https://www.ieee.org/about/corporate/governance/p7-8.html .
+
+IEEE Global Initiative on Ethics of Autonomous and Intelligent
+Systems [2019]
+
+IEEE Global Initiative on Ethics of Autonomous and Intelligent Systems
+[2019].
+
+Ethically aligned design: A vision for prioritizing human well-being
+with autonomous and intelligent systems.
+
+https://standards.ieee.org/content/ieee-standards/en/industry-connections/ec/autonomous-systems.html .
+
+IHTSDO [2016]
+
+IHTSDO [2016].
+
+SNOMED CT Starter Guide .
+
+International Health Terminology Standards Development Organisation.
+http://snomed.org .
+
+Jackson [2011]
+
+Jackson, M. O. [2011].
+
+A Brief Introduction to the Basics of Game Theory .
+
+SSRN.
+
+http://dx.doi.org/10.2139/ssrn.1968579 .
+
+Jacobs and Wallach [2021]
+
+Jacobs, A. Z. and Wallach, H. [2021].
+
+Measurement and fairness.
+
+In 2021 ACM Conference on Fairness, Accountability, and
+Transparency , FAccT ’21, pp. 375–385.
+
+http://dx.doi.org/10.1145/3442188.3445901 .
+
+Jahrer et al. [2010]
+
+Jahrer, M., Töscher, A., and Legenstein, R. [2010].
+
+Combining predictions for accurate recommender systems.
+
+In 16th ACM SIGKDD International Conference on Knowledge
+Discovery and Data Mining , pp. 693–702.
+
+http://dx.doi.org/10.1145/1835804.1835893 .
+
+Jannach and Bauer [2020]
+
+Jannach, D. and Bauer, C. [2020].
+
+Escaping the McNamara fallacy: Towards more impactful recommender
+systems research.
+
+AI Magazine , 41(4):79–95.
+
+http://dx.doi.org/10.1609/aimag.v41i4.5312 .
+
+Jannach et al. [2021]
+
+Jannach, D., Pu, P., Ricci, F., and Zanker, M. [2021].
+
+Recommender systems: Past, present, future.
+
+AI Magazine , 42(3):3–6.
+
+http://dx.doi.org/10.1609/aimag.v42i3.18139 .
+
+Janowicz et al. [2015]
+
+Janowicz, K., van Harmelen, F., Hendler, J. A., and Hitzler, P. [2015].
+
+Why the data train needs semantic rails.
+
+AI Magazine , 36(1):5–14.
+
+Jarrett et al. [2009]
+
+Jarrett, K., Kavukcuoglu, K., Ranzato, M., and LeCun, Y. [2009].
+
+What is the best multi-stage architecture for object recognition?
+
+In 2009 IEEE 12th International Conference on Computer Vision .
+
+http://dx.doi.org/10.1109/ICCV.2009.5459469 .
+
+Jaynes [2003]
+
+Jaynes, E. T. [2003].
+
+Probability Theory: The Logic of Science .
+
+Cambridge University Press.
+
+https://bayes.wustl.edu/etj/prob/book.pdf .
+
+Jordan [2019]
+
+Jordan, M. I. [2019].
+
+Artificial intelligence – the revolution hasn’t happened yet.
+
+Harvard Data Science Review , 1(1).
+
+https://hdsr.mitpress.mit.edu/pub/wot7mkc1 .
+
+Joy [2000]
+
+Joy, B. [2000].
+
+Why the future doesn’t need us.
+
+Wired .
+
+http://www.wired.com/wired/archive/8.04/joy.html .
+
+Jozefowicz et al. [2015]
+
+Jozefowicz, R., Zaremba, W., and Sutskever, I. [2015].
+
+An empirical exploration of recurrent network architectures.
+
+In 32nd International Conference on Machine Learning , ICML’15,
+pp. 2342–2350.
+
+Jumper et al. [2021]
+
+Jumper, J., et al. [2021].
+
+Highly accurate protein structure prediction with AlphaFold.
+
+Nature , 596(7873):583–589.
+
+http://dx.doi.org/10.1038/s41586-021-03819-2 .
+
+Jurafsky and Martin [2023]
+
+Jurafsky, D. and Martin, J. H. [2023].
+
+Speech and Language Processing .
+
+Unpublished, 3rd edition.
+
+https://web.stanford.edu/˜jurafsky/slp3/ .
+
+Kahneman [2011]
+
+Kahneman, D. [2011].
+
+Thinking, Fast and Slow .
+
+Allen Lane.
+
+Kakas and Denecker [2002]
+
+Kakas, A. and Denecker, M. [2002].
+
+Abduction in logic programming.
+
+In Kakas, A. and Sadri, F. (eds.), Computational Logic: Logic
+Programming and Beyond , pp. 402–436. Springer-Verlag.
+
+Kambhampati et al. [1995]
+
+Kambhampati, S., Knoblock, C. A., and Yang, Q. [1995].
+
+Planning as refinement search: A unified framework for evaluating
+design tradeoffs in partial order planning.
+
+Artificial Intelligence , 76:167–238.
+
+Kant [1787]
+
+Kant, I. [1787].
+
+The Critique of Pure Reason .
+
+https://gutenberg.org/ebooks/4280 .
+
+Karimi et al. [2016]
+
+Karimi, H., Nutini, J., and Schmidt, M. [2016].
+
+Linear convergence of gradient and proximal-gradient methods under
+the Polyak–Łojasiewicz condition.
+
+In European Conference on Machine Learning (ECML) .
+
+Karpathy [2015]
+
+Karpathy, A. [2015].
+
+The unreasonable effectiveness of recurrent neural networks.
+
+http://karpathy.github.io/2015/05/21/rnn-effectiveness/ .
+
+Katoch et al. [2021]
+
+Katoch, S., Chauhan, S. S., and Kumar, V. [2021].
+
+A review on genetic algorithm: past, present, and future.
+
+Multimedia Tools and Applications , 80(5):8091–8126.
+
+http://dx.doi.org/10.1007/s11042-020-10139-6 .
+
+Kautz and Selman [1996]
+
+Kautz, H. and Selman, B. [1996].
+
+Pushing the envelope: Planning, propositional logic and stochastic
+search.
+
+In 13th National Conference on Artificial Intelligence , pp.
+1194–1201.
+
+Kazemi and Poole [2018]
+
+Kazemi, S. M. and Poole, D. [2018].
+
+SimplE embedding for link prediction in knowledge graphs.
+
+In 32nd Conference on Neural Information Processing Systems .
+
+Ke et al. [2017]
+
+Ke, G., et al. [2017].
+
+LightGBM: A highly efficient gradient boosting decision tree.
+
+In Advances in Neural Information Processing Systems 30 .
+
+Kearns et al. [2002]
+
+Kearns, M., Mansour, Y., and Ng, A. [2002].
+
+A sparse sampling algorithm for near-optimal planning in large
+Markovian decision processes.
+
+Machine Learning , 49:193–208.
+
+Keeney and Raiffa [1976]
+
+Keeney, R. L. and Raiffa, H. [1976].
+
+Decisions with Multiple Objectives .
+
+Wiley.
+
+Kendall and McGuinness [2019]
+
+Kendall, E. F. and McGuinness, D. L. [2019].
+
+Ontology Engineering .
+
+Springer.
+
+http://dx.doi.org/10.1007/978-3-031-79486-5 .
+
+Khardon and Sanner [2021]
+
+Khardon, R. and Sanner, S. [2021].
+
+Stochastic planning and lifted inference.
+
+In Van den Broeck, G., Kersting, K., Natarajan, S., and Poole, D.
+(eds.), Introduction to Lifted Inference . MIT Press.
+
+King [2007]
+
+King, G. [2007].
+
+An introduction to the dataverse network as an infrastructure for
+data sharing.
+
+Sociological Methods and Research , 36(2):173–199.
+
+King et al. [2004]
+
+King, R., et al. [2004].
+
+Functional genomic hypothesis generation and experimentation by a
+robot scientist.
+
+Nature , 427:247–252.
+
+http://www.doc.ic.ac.uk/˜shm/Papers/Oliver˙Jan15˙hi.pdf .
+
+King et al. [2009a]
+
+King, R. D., et al. [2009a].
+
+The automation of science.
+
+Science , 324(5923):85–89.
+
+http://dx.doi.org/10.1126/science.1165620 .
+
+King et al. [2009b]
+
+King, R. D., et al. [2009b].
+
+The robot scientist Adam.
+
+Computer , 42(8):46–54.
+
+http://dx.doi.org/10.1109/MC.2009.270 .
+
+Kirkpatrick et al. [1983]
+
+Kirkpatrick, S., Gelatt, C. D., and Vecchi, M. P. [1983].
+
+Optimization by simulated annealing.
+
+Science , 220:671–680.
+
+Kirsh [1991a]
+
+Kirsh, D. [1991a].
+
+Foundations of AI: The big issues.
+
+Artificial Intelligence , 47:3–30.
+
+Kirsh [1991b]
+
+Kirsh, D. [1991b].
+
+Today the earwig, tomorrow man?
+
+Artificial Intelligence , 47:161–184.
+
+Kleinberg et al. [2020]
+
+Kleinberg, J., Ludwig, J., Mullainathan, S., and Sunstein, C. R. [2020].
+
+Algorithms as discrimination detectors.
+
+In National Academy of Sciences .
+
+Knoll et al. [2008]
+
+Knoll, B., et al. [2008].
+
+AIspace: Interactive tools for learning artificial intelligence.
+
+In AAAI 2008 AI Education Workshop , p. 3.
+
+Knox and Stone [2009]
+
+Knox, W. B. and Stone, P. [2009].
+
+Interactively shaping agents via human reinforcement: The TAMER
+framework.
+
+In Fifth International Conference on Knowledge Capture , pp.
+9–16.
+
+http://dx.doi.org/10.1145/1597735.1597738 .
+
+Knublauch et al. [2006]
+
+Knublauch, H., Oberle, D., Tetlow, P., and Wallace, E. [2006].
+
+A semantic web primer for object-oriented software developers.
+
+Working Group Note 9 March 2006, W3C.
+
+http://www.w3.org/TR/sw-oosd-primer/ .
+
+Knuth and Moore [1975]
+
+Knuth, D. E. and Moore, R. W. [1975].
+
+An analysis of alpha-beta pruning.
+
+Artificial Intelligence , 6(4):293–326.
+
+Kochenderfer [2015]
+
+Kochenderfer, M. J. [2015].
+
+Decision Making Under Uncertainty .
+
+MIT Press.
+
+Kochenderfer et al. [2022]
+
+Kochenderfer, M. J., Wheeler, T. A., and Wray, K. H. [2022].
+
+Algorithms for Decision Making .
+
+MIT Press.
+
+https://algorithmsbook.com .
+
+Kocsis and Szepesvári [2006]
+
+Kocsis, L. and Szepesvári, C. [2006].
+
+Bandit based Monte-Carlo planning.
+
+In 17th European Conference on Machine Learning (ECML) , pp.
+282–293.
+
+Koller and Friedman [2009]
+
+Koller, D. and Friedman, N. [2009].
+
+Probabilisitic Graphical Models: Principles and Techniques .
+
+MIT Press.
+
+Koller and Milch [2003]
+
+Koller, D. and Milch, B. [2003].
+
+Multi-agent influence diagrams for representing and solving games.
+
+Games and Economic Behavior , 45(1):181–221.
+
+http://people.csail.mit.edu/milch/papers/geb-maid.pdf .
+
+Koopmans [1972]
+
+Koopmans, T. [1972].
+
+Representations of preference orderings over time.
+
+In McGuire, C. and Radner, R. (eds.), Decisions and
+Organization . North-Holland.
+
+Koren and Bell [2011]
+
+Koren, Y. and Bell, R. [2011].
+
+Advances in collaborative filtering.
+
+In Ricci, F., Rokach, L., Shapira, B., and Kantor, P. B. (eds.),
+Recommender Systems Handbook , pp. 145–186. Springer.
+
+http://dx.doi.org/10.1007/978-0-387-85820-3˙5 .
+
+Koren et al. [2009]
+
+Koren, Y., Bell, R., and Volinsky, C. [2009].
+
+Matrix factorization techniques for recommender systems.
+
+IEEE Computer , 42(8):30–37.
+
+Korf [1985]
+
+Korf, K. E. [1985].
+
+Depth-first iterative deepening: An optimal admissible tree search.
+
+Artificial Intelligence , 27(1):97–109.
+
+Kowalski [1979]
+
+Kowalski, R. [1979].
+
+Algorithm = logic + control.
+
+Communications of the ACM , 22:424–431.
+
+Kowalski [1974]
+
+Kowalski, R. A. [1974].
+
+Predicate logic as a programming language.
+
+In Information Processing 74 , pp. 569–574. North-Holland.
+
+Kowalski [1988]
+
+Kowalski, R. A. [1988].
+
+The early history of logic programming.
+
+Communications of the ACM , 31(1):38–43.
+
+Kowalski [2014]
+
+Kowalski, R. A. [2014].
+
+Logic for Problem Solving, Revisited .
+
+Books on Demand.
+
+Kramár et al. [2022]
+
+Kramár, J., et al. [2022].
+
+Negotiation and honesty in artificial intelligence methods for the
+board game of diplomacy.
+
+Nature Communications , 13(1):7214.
+
+http://dx.doi.org/10.1038/s41467-022-34473-5 .
+
+Krizhevsky et al. [2012]
+
+Krizhevsky, A., Sutskever, I., and Hinton, G. [2012].
+
+Imagenet classification with deep convolutional neural networks.
+
+In Advances in Neural Information Processing Systems 25 , pp.
+1090–1098.
+
+Krötzsch [2012]
+
+Krötzsch, M. [2012].
+
+OWL 2 Profiles: An introduction to lightweight ontology languages.
+
+In Eiter, T. and Krennwallner, T. (eds.), 8th Reasoning Web
+Summer School, Vienna, Austria , pp. 112–183. Springer.
+
+http://korrekt.org/page/OWL˙2˙Profiles .
+
+Kuppe et al. [2019]
+
+Kuppe, M. A., Lamport, L., and Ricketts, D. [2019].
+
+The TLA + toolbox.
+
+Electronic Proceedings in Theoretical Computer Science ,
+310:50–62.
+
+http://dx.doi.org/10.4204/eptcs.310.6 .
+
+Lacroix et al. [2018]
+
+Lacroix, T., Usunier, N., and Obozinski, G. [2018].
+
+Canonical tensor decomposition for knowledge base completion.
+
+In 35th International Conference on Machine Learning (ICML) .
+
+Lakshmanan et al. [2021]
+
+Lakshmanan, V., Görner, M., and Gillard, R. [2021].
+
+Practical Machine Learning for Computer Vision: End-to-End
+Machine Learning for Images .
+
+O’Reilly.
+
+Lally et al. [2012]
+
+Lally, A., et al. [2012].
+
+Question analysis: How Watson reads a clue.
+
+IBM Journal of Research and Development , 56(3/4).
+
+Lamport [2002]
+
+Lamport, L. [2002].
+
+Specifying Systems: The TLA + Language and Tools for Hardware
+and Software Engineers .
+
+Addison-Wesley Longman.
+
+Langley et al. [1992]
+
+Langley, P., Iba, W., and Thompson, K. [1992].
+
+An analysis of Bayesian classifiers.
+
+In 10th National Conference on Artificial Intelligence , pp.
+223–228.
+
+Langton [1997]
+
+Langton, C. G. [1997].
+
+Artificial Life: An Overview .
+
+MIT Press.
+
+Laplace [1812]
+
+Laplace, P. [1812].
+
+Théorie Analytique de Probabilités .
+
+Courcier.
+
+Latombe [1991]
+
+Latombe, J.-C. [1991].
+
+Robot Motion Planning .
+
+Kluwer Academic.
+
+Lawler and Wood [1966]
+
+Lawler, E. L. and Wood, D. E. [1966].
+
+Branch-and-bound methods: A survey.
+
+Operations Research , 14(4):699–719.
+
+LeCun et al. [2015]
+
+LeCun, Y., Bengio, Y., and Hinton, G. [2015].
+
+Deep learning.
+
+Nature , 521(7553):436–444.
+
+LeCun et al. [1998a]
+
+LeCun, Y., Bottou, L., Bengio, Y., and Haffner, P. [1998a].
+
+Gradient-based learning applied to document recognition.
+
+IEEE , 86(11):2278–2324.
+
+http://dx.doi.org/10.1109/5.726791 .
+
+LeCun et al. [1998b]
+
+LeCun, Y., Bottou, L., Orr, G., and Muller, K. [1998b].
+
+Efficient backprop.
+
+In Orr, G. and Muller, K.-R. (eds.), Neural Networks: Tricks of
+the Trade . Springer.
+
+http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf .
+
+Lehman et al. [2018]
+
+Lehman, J., Clune, J., Misevic, D., et al. [2018].
+
+The surprising creativity of digital evolution: A collection of
+anecdotes from the evolutionary computation and artificial life research
+communities.
+
+CoRR .
+
+http://arxiv.org/abs/1803.03453 .
+
+Leibniz [1677]
+
+Leibniz, G. W. [1677].
+
+The Method of Mathematics: Preface to the General Science .
+
+Selections reprinted by Chrisley and Begeer [ 2000 ] .
+
+Leibniz [1705]
+
+Leibniz, G. W. [1705].
+
+New Essays on Human Understanding .
+
+Book 3.
+www.earlymoderntexts.com .
+
+Lenat and Feigenbaum [1991]
+
+Lenat, D. B. and Feigenbaum, E. A. [1991].
+
+On the thresholds of knowledge.
+
+Artificial Intelligence , 47:185–250.
+
+Lepikhin et al. [2021]
+
+Lepikhin, D., et al. [2021].
+
+GShard: Scaling giant models with conditional computation and
+automatic sharding.
+
+In International Conference on Learning Representations .
+
+https://openreview.net/pdf?id=qrwe7XHTmYb .
+
+Lertvittayakumjorn and Toni [2021]
+
+Lertvittayakumjorn, P. and Toni, F. [2021].
+
+Explanation-based human debugging of NLP models: A survey.
+
+Transactions of the Association for Computational Linguistics ,
+9:1508–1528.
+
+http://dx.doi.org/10.1162/tacl˙a˙00440 .
+
+Levesque [1984]
+
+Levesque, H. J. [1984].
+
+Foundations of a functional approach to knowledge representation.
+
+Artificial Intelligence , 23(2):155–212.
+
+Levesque [2012]
+
+Levesque, H. J. [2012].
+
+Thinking as Computation .
+
+MIT Press.
+
+Levesque [2014]
+
+Levesque, H. J. [2014].
+
+On our best behaviour.
+
+Artificial Intelligence , 212:27–35.
+
+Levy [2021]
+
+Levy, R. [2021].
+
+Social media, news consumption, and polarization: Evidence from a
+field experiment.
+
+American Economic Review , 111(3):831–70.
+
+http://dx.doi.org/10.1257/aer.20191777 .
+
+Leyton-Brown et al. [2017]
+
+Leyton-Brown, K., Milgrom, P. R., and Segal, I. [2017].
+
+Economics and computer science of a radio spectrum reallocation.
+
+National Academy of Sciences , 114:7202 – 7209.
+
+Leyton-Brown and Shoham [2008]
+
+Leyton-Brown, K. and Shoham, Y. [2008].
+
+Essentials of Game Theory .
+
+Morgan & Claypool.
+
+Li [2018]
+
+Li, Y. [2018].
+
+Deep reinforcement learning.
+
+CoRR , abs/1810.06339.
+
+http://arxiv.org/abs/1810.06339 .
+
+Li et al. [2016]
+
+Li, Y., et al. [2016].
+
+A survey on truth discovery.
+
+SIGKDD Explorations Newsletter , 17(2):1–16.
+
+http://dx.doi.org/10.1145/2897350.2897352 .
+
+Liao et al. [2021]
+
+Liao, T., Taori, R., Raji, D., and Schmidt, L. [2021].
+
+Are we learning yet? A meta review of evaluation failures across
+machine learning.
+
+In Neural Information Processing Systems (NeurIPS) Track on
+Datasets and Benchmarks .
+
+https://datasets-benchmarks-proceedings.neurips.cc/paper/2021/hash/757b505cfd34c64c85ca5b5690ee5293-Abstract-round2.html .
+
+Lin et al. [2017]
+
+Lin, A. Y., Kuehl, K., Schöning, J., and Hecht, B. [2017].
+
+Understanding ”death by GPS”: A systematic study of catastrophic
+incidents associated with personal navigation technologies.
+
+In CHI Conference on Human Factors in Computing Systems .
+
+http://dx.doi.org/10.1145/3025453.3025737 .
+
+Lindholm et al. [2022]
+
+Lindholm, T., et al. [2022].
+
+The Java Virtual Machine Specification: Java SE 19 Edition .
+
+Oracle America, Inc.
+
+https://docs.oracle.com/javase/specs/jvms/se19/jvms19.pdf .
+
+Little and Rubin [1987]
+
+Little, R. J. A. and Rubin, D. B. [1987].
+
+Statistical Analysis with Missing Data .
+
+Wiley.
+
+Littman et al. [2021]
+
+Littman, M. L., et al. [2021].
+
+Gathering Strength, Gathering Storms: The One Hundred Year
+Study on Artificial Intelligence (AI100) 2021 Study Panel Report .
+
+Stanford University.
+
+http://ai100.stanford.edu/2021-report .
+
+Liu et al. [2006]
+
+Liu, A. L., et al. [2006].
+
+Indoor wayfinding: Developing a functional interface for individuals
+with cognitive impairments.
+
+In 8th International ACM SIGACCESS Conference on Computers and
+Accessibility .
+
+Lloyd [1987]
+
+Lloyd, J. W. [1987].
+
+Foundations of Logic Programming .
+
+Symbolic Computation Series. Springer-Verlag, 2nd edition.
+
+Lloyd [1982]
+
+Lloyd, S. [1982].
+
+Least squares quantization in PCM.
+
+IEEE Transactions on Information Theory , 28(2):129–137.
+
+http://dx.doi.org/10.1109/TIT.1982.1056489 .
+
+Lopez and Bacchus [2003]
+
+Lopez, A. and Bacchus, F. [2003].
+
+Generalizing GraphPlan by formulating planning as a CSP.
+
+In 18th International Joint Conference Artificial Intelligence
+(IJCAI) , pp. 954–960.
+
+Luenberger [1979]
+
+Luenberger, D. G. [1979].
+
+Introduction to Dynamic Systems: Theory, Models and
+Applications .
+
+Wiley.
+
+Lum and Isaac [2016]
+
+Lum, K. and Isaac, W. [2016].
+
+To predict and serve?
+
+Significance , 13(5).
+
+Lundgren [2023]
+
+Lundgren, B. [2023].
+
+In defense of ethical guidelines.
+
+AI and Ethics .
+
+http://dx.doi.org/10.1007/s43681-022-00244-7 .
+
+Ma et al. [2022]
+
+Ma, Y., et al. [2022].
+
+Identification of antimicrobial peptides from the human gut
+microbiome using deep learning.
+
+Nature Biotechnology , 40(6):921–931.
+
+http://dx.doi.org/10.1038/s41587-022-01226-0 .
+
+MacKay [2003]
+
+MacKay, D. [2003].
+
+Information Theory, Inference, and Learning Algorithms .
+
+Cambridge University Press.
+
+Mackworth [1977a]
+
+Mackworth, A. K. [1977a].
+
+Consistency in networks of relations.
+
+Artificial Intelligence , 8:99–118.
+
+Mackworth [1977b]
+
+Mackworth, A. K. [1977b].
+
+On reading sketch maps.
+
+In Fifth International Joint Conference on Artificial
+Intelligence , pp. 598–606.
+
+Mackworth [1993]
+
+Mackworth, A. K. [1993].
+
+On seeing robots.
+
+In Basu, A. and Li, X. (eds.), Computer Vision: Systems,
+Theory, and Applications , pp. 1–13. World Scientific Press.
+
+Mackworth [2009]
+
+Mackworth, A. K. [2009].
+
+Agents, bodies, constraints, dynamics and evolution.
+
+AI Magazine .
+
+Mackworth [2011]
+
+Mackworth, A. K. [2011].
+
+Architectures and ethics for robots: Constraint satisfaction as a
+unitary design framework.
+
+In Anderson, M. and Anderson, S. L. (eds.), Machine Ethics ,
+pp. 335–360. Cambridge University Press.
+
+http://dx.doi.org/10.1017/CBO9780511978036.024 .
+
+Mackworth and Zhang [2003]
+
+Mackworth, A. K. and Zhang, Y. [2003].
+
+A formal approach to agent design: An overview of constraint-based
+agents.
+
+Constraints , 8(3):229–242.
+
+Mackworth [1970]
+
+Mackworth, J. F. [1970].
+
+Vigilance and Attention: A Signal Detection Approach .
+
+Penguin.
+
+Mackworth [1948]
+
+Mackworth, N. H. [1948].
+
+The breakdown of vigilance during prolonged visual search.
+
+Quarterly Journal of Experimental Psychology , 1(1):6–21.
+
+http://dx.doi.org/10.1080/17470214808416738 .
+
+Mahdisoltani et al. [2015]
+
+Mahdisoltani, F., Biega, J., and Suchanek, F. M. [2015].
+
+YAGO3: A knowledge base from multilingual wikipedias.
+
+In Conference on Innovative Data Systems Research (CIDR 2015) .
+
+http://suchanek.name/work/publications/cidr2015.pdf .
+
+Malthus [1798]
+
+Malthus, T. R. [1798].
+
+An Essay on the Principle of Population: As it Affects the
+Future Improvement of Society .
+
+J. Johnson.
+
+Manning and Schütze [1999]
+
+Manning, C. and Schütze, H. [1999].
+
+Foundations of Statistical Natural Language Processing .
+
+MIT Press.
+
+Marcus and Davis [2019]
+
+Marcus, G. and Davis, E. [2019].
+
+Rebooting AI: Building Artificial Intelligence We Can Trust .
+
+Pantheon.
+
+Marlin et al. [2011]
+
+Marlin, B. M., Zemel, R. S., Roweis, S. T., and Slaney, M. [2011].
+
+Recommender systems, missing data and statistical model estimation.
+
+In 22nd International Joint Conference on Artificial
+Intelligence (IJCAI) , pp. 2686–2691.
+
+Matheson [1990]
+
+Matheson, J. E. [1990].
+
+Using influence diagrams to value information and control.
+
+In Oliver, R. M. and Smith, J. Q. (eds.), Influence Diagrams,
+Belief Nets and Decision Analysis , chapter 1, pp. 25–48. Wiley.
+
+Mausam and Kolobov [2012]
+
+Mausam and Kolobov, A. [2012].
+
+Planning with Markov Decision Processes: An AI Perspective .
+
+Morgan & Claypool.
+
+http://dx.doi.org/doi:10.2200/S00426ED1V01Y201206AIM017 .
+
+McAllester and Rosenblitt [1991]
+
+McAllester, D. and Rosenblitt, D. [1991].
+
+Systematic nonlinear planning.
+
+In 9th National Conference on Artificial Intelligence , pp.
+634–639.
+
+McCarthy [1958]
+
+McCarthy, J. [1958].
+
+Programs with common sense.
+
+In Teddington Conference on the Mechanization of Thought
+Processes .
+
+http://jmc.stanford.edu/articles/mcc59/mcc59.pdf .
+
+McCarthy [1986]
+
+McCarthy, J. [1986].
+
+Applications of circumscription to formalizing common-sense
+knowledge.
+
+Artificial Intelligence , 28(1):89–116.
+
+McCarthy and Hayes [1969]
+
+McCarthy, J. and Hayes, P. J. [1969].
+
+Some philosophical problems from the standpoint of artificial
+intelligence.
+
+In Meltzer, M. and Michie, D. (eds.), Machine Intelligence 4 ,
+pp. 463–502. Edinburgh University Press.
+
+McCulloch and Pitts [1943]
+
+McCulloch, W. and Pitts, W. [1943].
+
+A logical calculus of ideas immanent in nervous activity.
+
+Bulletin of Mathematical Biophysics , 5:115–133.
+
+McDermott and Hendler [1995]
+
+McDermott, D. and Hendler, J. [1995].
+
+Planning: What it is, what it could be, an introduction to the
+special issue on planning and scheduling.
+
+Artificial Intelligence , 76:1–16.
+
+McElreath [2020]
+
+McElreath, R. [2020].
+
+Statistical Rethinking: A Bayesian Course with Examples in R
+and STAN .
+
+Chapman & Hall.
+
+https://xcelab.net/rm/statistical-rethinking/ .
+
+McFadden [2000]
+
+McFadden, D. L. [2000].
+
+Prize lecture.
+
+The Sveriges Riksbank Prize in Economic Sciences in Memory of
+Alfred Nobel 2000 .
+
+https://www.nobelprize.org/prizes/economic-sciences/2000/mcfadden/lecture/ .
+
+McGuffie and Newhouse [2020]
+
+McGuffie, K. and Newhouse, A. [2020].
+
+The radicalization risks of GPT-3 and advanced neural language
+model.
+
+Technical report, Center on Terrorism, Extremism, and
+Counterterrorism, Middlebury Institute of International Studies at Monterrey.
+
+https://www.middlebury.edu/institute/sites/www.middlebury.edu.institute/files/2020-09/gpt3-article.pdf .
+
+McLuhan [1962]
+
+McLuhan, M. [1962].
+
+The Gutenberg Galaxy: The Making of Typographic Man .
+
+University of Toronto Press.
+
+Meir and Rätsch [2003]
+
+Meir, R. and Rätsch, G. [2003].
+
+An introduction to boosting and leveraging.
+
+In Advanced Lectures on Machine Learning , pp. 119–184.
+Springer.
+
+Michie [1963]
+
+Michie, D. [1963].
+
+Experiments on the mechanisation of game learning. 1.
+Characterization of the model and its parameters.
+
+Computer Journal , 1:232–263.
+
+Michie et al. [1994]
+
+Michie, D., Spiegelhalter, D. J., and Taylor, C. C. (eds.) [1994].
+
+Machine Learning, Neural and Statistical Classification .
+
+Series in Artificial Intelligence. Ellis Horwood.
+
+Mihailidis et al. [2007]
+
+Mihailidis, A., Boger, J., Candido, M., and Hoey, J. [2007].
+
+The use of an intelligent prompting system for people with dementia.
+
+ACM Interactions , 14(4):34–37.
+
+Mikolov et al. [2013]
+
+Mikolov, T., Chen, K., Corrado, G., and Dean, J. [2013].
+
+Efficient estimation of word representations in vector space.
+
+http://dx.doi.org/10.48550/arXiv.1301.3781 .
+
+Milch et al. [2005]
+
+Milch, B., et al. [2005].
+
+BLOG: Probabilistic models with unknown objects.
+
+In 19th International Joint Conference Artificial Intelligence
+(IJCAI-05) .
+
+Minaee et al. [2021]
+
+Minaee, S., et al. [2021].
+
+Deep learning–based text classification: A comprehensive review.
+
+ACM Computing Surveys , 54(3).
+
+http://dx.doi.org/10.1145/3439726 .
+
+Minsky [1952]
+
+Minsky, M. L. [1952].
+
+A neural-analogue calculator based upon a probability model of
+reinforcement.
+
+Technical report, Harvard University Psychological Laboratories.
+
+Minsky [1961]
+
+Minsky, M. L. [1961].
+
+Steps towards artificial intelligence.
+
+IEEE , 49:8–30.
+
+http://web.media.mit.edu/˜minsky/papers/steps.html .
+
+Minsky [1975]
+
+Minsky, M. L. [1975].
+
+A framework for representing knowledge.
+
+In Winston, P. (ed.), The Psychology of Computer Vision , pp.
+211–277. McGraw-Hill.
+
+Alternative version is in Haugeland [ 1997 ] .
+
+Minsky [1986]
+
+Minsky, M. L. [1986].
+
+The Society of Mind .
+
+Simon & Schuster.
+
+Minsky and Papert [1988]
+
+Minsky, M. L. and Papert, S. [1988].
+
+Perceptrons: An Introduction to Computational Geometry .
+
+MIT Press, expanded edition.
+
+Minton et al. [1992]
+
+Minton, S., Johnston, M. D., Philips, A. B., and Laird, P. [1992].
+
+Minimizing conflicts: A heuristic repair method for constraint
+satisfaction and scheduling problems.
+
+Artificial Intelligence , 58(1–3):161–205.
+
+Mitchell [1996]
+
+Mitchell, M. [1996].
+
+An Introduction to Genetic Algorithms .
+
+MIT Press.
+
+Mitchell [1997]
+
+Mitchell, T. [1997].
+
+Machine Learning .
+
+McGraw-Hill.
+
+http://www.cs.cmu.edu/afs/cs.cmu.edu/user/mitchell/ftp/mlbook.html .
+
+Mnih et al. [2015]
+
+Mnih, V. et al. [2015].
+
+Human-level control through deep reinforcement learning.
+
+Nature , 518:529–533.
+
+http://www.nature.com/nature/journal/v518/n7540/abs/nature14236.html .
+
+Mohan [2022]
+
+Mohan, K. [2022].
+
+Causal graphs for missing data: A gentle introduction.
+
+In Probabilistic and Causal Inference: The Works of Judea
+Pearl . ACM Books.
+
+Mohan et al. [2013]
+
+Mohan, K., Pearl, J., and Tian, J. [2013].
+
+Graphical models for inference with missing data.
+
+In Advances in Neural Information Processing Systems ,
+volume 26, pp. 1277–1285.
+
+Mole [2010]
+
+Mole, C. [2010].
+
+Attention Is Cognitive Unison: An Essay in Philosophical
+Psychology .
+
+Oxford University Press.
+
+http://dx.doi.org/10.1093/acprof:oso/9780195384529.001.0001 .
+
+Moore [1959]
+
+Moore, E. F. [1959].
+
+The shortest path through a maze.
+
+In International Symposium on the Theory of Switching , pp.
+285–292. Harvard University Press.
+
+Moore et al. [2020]
+
+Moore, T. J., Heyward, J., Anderson, G., and Alexander, G. C. [2020].
+
+Variation in the estimated costs of pivotal clinical benefit trials
+supporting the US approval of new therapeutic agents,
+2015–2017: A cross-sectional study.
+
+BMJ Open , 10(6).
+
+http://dx.doi.org/10.1136/bmjopen-2020-038863 .
+
+Morin and Bengio [2005]
+
+Morin, F. and Bengio, Y. [2005].
+
+Hierarchical probabilistic neural network language model.
+
+In international Workshop on Artificial Intelligence and
+Statistics , pp. 246–252,.
+
+Motik et al. [2012]
+
+Motik, B., Patel-Schneider, P. F., and Grau, B. C. (eds.) [2012].
+
+OWL 2 Web Ontology Language: Direct Semantics .
+
+W3C Recommendation 11 December 2012, 2nd edition.
+
+http://www.w3.org/TR/owl2-direct-semantics/ .
+
+Munn [2022]
+
+Munn, L. [2022].
+
+The uselessness of AI ethics.
+
+AI and Ethics .
+
+https://doi.org/10.1007/s43681-022-00209-w .
+
+Murphy [2022]
+
+Murphy, K. P. [2022].
+
+Probabilistic Machine Learning: An Introduction .
+
+MIT Press.
+
+https://probml.github.io/pml-book/book1.html .
+
+Murphy [2023]
+
+Murphy, K. P. [2023].
+
+Probabilistic Machine Learning: Advanced Topics .
+
+MIT Press.
+
+http://probml.github.io/book2 .
+
+Muscettola et al. [1998]
+
+Muscettola, N., Nayak, P., Pell, B., and Williams, B. [1998].
+
+Remote agent: To boldly go where no AI system has gone before.
+
+Artificial Intelligence , 103:5–47.
+
+NASA [2022]
+
+NASA [2022].
+
+EarthData: Open access for open science.
+
+https://www.earthdata.nasa.gov .
+
+Nash [1950]
+
+Nash, J. F. [1950].
+
+Equilibrium points in N-person games.
+
+National Academy of Sciences of the United States of America ,
+36:48–49.
+
+Nau [2007]
+
+Nau, D. S. [2007].
+
+Current trends in automated planning.
+
+AI Magazine , 28(4):43–58.
+
+Neufeld et al. [2019]
+
+Neufeld, X., Mostaghim, S., Sancho-Pradel, D. L., and Brand, S. [2019].
+
+Building a planner: A survey of planning systems used in commercial
+video games.
+
+IEEE Transactions on Games , 11(2):91–108.
+
+http://dx.doi.org/10.1109/TG.2017.2782846 .
+
+Neumann and Morgenstern [1953]
+
+Neumann, J. V. and Morgenstern, O. [1953].
+
+Theory of Games and Economic Behavior .
+
+Princeton University Press, 3rd edition.
+
+Neville and Jensen [2007]
+
+Neville, J. and Jensen, D. [2007].
+
+Relational dependency networks.
+
+Journal of Machine Learning Research (JMLR) , 8:653–692.
+
+New York Times [1958]
+
+New York Times [1958].
+
+New Navy device learns by doing: Psychologist shows embryo of
+computer designed to read and grow wiser.
+
+https://timesmachine.nytimes.com/timesmachine/1958/07/08/83417341.html?pageNumber=25 .
+
+Newell and Simon [1956]
+
+Newell, A. and Simon, H. A. [1956].
+
+The logic theory machine: A complex information processing system.
+
+Technical Report P-868, The Rand Corporation.
+
+http://shelf1.library.cmu.edu/IMLS/MindModels/logictheorymachine.pdf .
+
+Newell and Simon [1976]
+
+Newell, A. and Simon, H. A. [1976].
+
+Computer science as empirical enquiry: Symbols and search.
+
+Communications of the ACM , 19:113–126.
+
+Ng [2018]
+
+Ng, A. [2018].
+
+Machine Learning Yearning .
+
+deeplearning.ai.
+
+https://www.deeplearning.ai/resources/ .
+
+Ng [2004]
+
+Ng, A. Y. [2004].
+
+Feature selection, L1 vs. L2 regularization, and rotational
+invariance.
+
+In Twenty-First International Conference on Machine Learning .
+
+Ng and Russell [2000]
+
+Ng, A. Y. and Russell, S. J. [2000].
+
+Algorithms for inverse reinforcement learning.
+
+In International Conference on Machine Learning (ICML) , pp.
+663–670.
+
+Niles and Pease [2001]
+
+Niles, I. and Pease, A. [2001].
+
+Towards a standard upper ontology.
+
+In Welty, C. and Smith, B. (eds.), 2nd International Conference
+on Formal Ontology in Information Systems (FOIS-2001) .
+
+Nilsson [2007]
+
+Nilsson, N. J. [2007].
+
+The physical symbol system hypothesis: Status and prospects.
+
+In Lungarella, M. et al. (eds.), 50 Years of AI, Festschrift ,
+pp. 9–17. Springer.
+
+http://ai.stanford.edu/˜nilsson/OnlinePubs-Nils/PublishedPapers/pssh.pdf .
+
+Nilsson [2010]
+
+Nilsson, N. J. [2010].
+
+The Quest for Artificial Intelligence: A History of Ideas and
+Achievements .
+
+Cambridge University Press.
+
+Nisan [2007]
+
+Nisan, N. [2007].
+
+Introduction to mechanisn design (for computer scientists).
+
+In Nisan, N. et al. (eds.), Algorithmic Game Theory ,
+chapter 9, pp. 209–242. Cambridge University Press.
+
+Noble [2018]
+
+Noble, S. U. [2018].
+
+Algorithms of Oppression: How Search Engines Reinforce Racism .
+
+NYU Press.
+
+Nocedal and Wright [2006]
+
+Nocedal, J. and Wright, S. [2006].
+
+Numerical Optimization .
+
+Springer-Verlag.
+
+Nyholm [2021]
+
+Nyholm, S. [2021].
+
+The ethics of human-robot interaction and traditional moral theories.
+
+In The Oxford Handbook of Digital Ethics . Oxford University
+Press.
+
+http://dx.doi.org/10.1093/oxfordhb/9780198857815.013.3 .
+
+Obermeyer et al. [2019]
+
+Obermeyer, Z., Powers, B., Vogeli, C., and Mullainathan, S. [2019].
+
+Dissecting racial bias in an algorithm used to manage the health of
+populations.
+
+Science , 366(6464):447–453.
+
+OECD [2019]
+
+OECD [2019].
+
+OECD AI principles.
+
+https://oecd.ai/en/ai-principles .
+
+Office of Science and Technology Policy [2022]
+
+Office of Science and Technology Policy [2022].
+
+The blueprint for an AI bill of rights.
+
+https://www.whitehouse.gov/ostp/ai-bill-of-rights/ .
+
+Olah [2015]
+
+Olah, C. [2015].
+
+Understanding LSTM networks.
+
+https://colah.github.io/posts/2015-08-Understanding-LSTMs/ .
+
+O’Neil [2016]
+
+O’Neil, C. [2016].
+
+Weapons of Math Destruction: How Big Data Increases Inequality
+and Threatens Democracy .
+
+Crown.
+
+OpenAI [2022]
+
+OpenAI [2022].
+
+ChatGPT: Optimizing language models for dialogue.
+
+https://openai.com/blog/chatgpt/ .
+
+OpenAI [2023]
+
+OpenAI [2023].
+
+GPT-4 technical report.
+
+ArXiv e-prints , arXiv:2303.08774.
+
+Ordeshook [1986]
+
+Ordeshook, P. C. [1986].
+
+Game Theory and Political Theory: An Introduction .
+
+Cambridge University Press.
+
+Orkin [2006]
+
+Orkin, J. [2006].
+
+Three states and a plan: The AI of F.E.A.R.
+
+In Game Developers Conference .
+
+Ostrom [1990]
+
+Ostrom, E. [1990].
+
+Governing the Commons: The Evolution of Institutions for
+Collective Action .
+
+Cambridge University Press.
+
+Page et al. [1999]
+
+Page, L., Brin, S., Motwani, R., and Winograd, T. [1999].
+
+The PageRank citation ranking: Bringing order to the Web.
+
+Technical Report SIDL-WP-1999-0120, Stanford InfoLab.
+
+Panton et al. [2006]
+
+Panton, K., et al. [2006].
+
+Common sense reasoning – from Cyc to intelligent assistant.
+
+In Cai, Y. and Abascal, J. (eds.), Ambient Intelligence in
+Everyday Life , pp. 1–31. Springer.
+
+Pasula et al. [2003]
+
+Pasula, H., et al. [2003].
+
+Identity uncertainty and citation matching.
+
+In Advances in Neural Information Processing Systems ,
+volume 15.
+
+Pearl [1984]
+
+Pearl, J. [1984].
+
+Heuristics .
+
+Addison-Wesley.
+
+Pearl [1988]
+
+Pearl, J. [1988].
+
+Probabilistic Reasoning in Intelligent Systems: Networks of
+Plausible Inference .
+
+Morgan Kaufmann.
+
+Pearl [2009]
+
+Pearl, J. [2009].
+
+Causality: Models, Reasoning and Inference .
+
+Cambridge University Press, 2nd edition.
+
+Pearl and Mackenzie [2018]
+
+Pearl, J. and Mackenzie, D. [2018].
+
+The Book of Why: The New Science of Cause and Effect .
+
+Basic Books.
+
+Pease [2011]
+
+Pease, A. [2011].
+
+Ontology: A Practical Guide .
+
+Articulate Software Press.
+
+Peden et al. [2004]
+
+Peden, M. et al. (eds.) [2004].
+
+World Report on Road Traffic Injury Prevention .
+
+World Health Organization.
+
+Pereira and Shieber [2002]
+
+Pereira, F. C. N. and Shieber, S. M. [2002].
+
+Prolog and Natural-Language Analysis .
+
+Microtome Publishing.
+
+Perrault et al. [2020]
+
+Perrault, A., Fang, F., Sinha, A., and Tambe, M. [2020].
+
+Artificial intelligence for social impact: Learning and planning in
+the data-to-deployment pipeline.
+
+AI Magazine , 41(4):3–16.
+
+http://dx.doi.org/10.1609/aimag.v41i4.5296 .
+
+Peters et al. [2018]
+
+Peters, M. E., et al. [2018].
+
+Deep contextualized word representations.
+
+In 2018 Conference of the North American Chapter of the
+Association for Computational Linguistics: Human Language Technologies .
+
+http://dx.doi.org/10.18653/v1/N18-1202 .
+
+Phuong and Hutter [2022]
+
+Phuong, M. and Hutter, M. [2022].
+
+Formal algorithms for transformers.
+
+http://dx.doi.org/10.48550/arXiv.2207.09238 .
+
+Piaget [1953]
+
+Piaget, J. [1953].
+
+The Origin of Intelligence in the Child .
+
+Routledge & Kegan Paul.
+
+Pinker [1997]
+
+Pinker, S. [1997].
+
+How the Mind Works .
+
+Norton.
+
+Pohl [1971]
+
+Pohl, I. [1971].
+
+Bi-directional search.
+
+Machine Intelligence , 6(127–140).
+
+Pollack [2005]
+
+Pollack, M. E. [2005].
+
+Intelligent technology for an aging population: The use of AI to
+assist elders with cognitive impairment.
+
+AI Magazine , 26(2):9–24.
+
+Poole [1993]
+
+Poole, D. [1993].
+
+Probabilistic Horn abduction and Bayesian networks.
+
+Artificial Intelligence , 64(1):81–129.
+
+Poole [2007]
+
+Poole, D. [2007].
+
+Logical generative models for probabilistic reasoning about
+existence, roles and identity.
+
+In 22nd AAAI Conference on AI (AAAI-07) .
+
+http://cs.ubc.ca/˜poole/papers/AAAI07-Poole.pdf .
+
+Poole et al. [1987]
+
+Poole, D., Goebel, R., and Aleliunas, R. [1987].
+
+Theorist: A logical reasoning system for defaults and diagnosis.
+
+In Cercone, N. and McCalla, G. (eds.), The Knowledge Frontier:
+Essays in the Representation of Knowledge , pp. 331–352. Springer-Verlag.
+
+Posner [1989]
+
+Posner, M. I. (ed.) [1989].
+
+Foundations of Cognitive Science .
+
+MIT Press.
+
+Powell [2022]
+
+Powell, W. B. [2022].
+
+Reinforcement Learning and Stochastic Optimization: A Unified
+Framework for Sequential Decisions .
+
+Wiley.
+
+https://castlelab.princeton.edu/RLSO/ .
+
+Prabhu and Birhane [2020]
+
+Prabhu, V. U. and Birhane, A. [2020].
+
+Large image datasets: A pyrrhic win for computer vision?
+
+http://dx.doi.org/10.48550/arXiv.2006.16923 .
+
+Pujara et al. [2015]
+
+Pujara, J., Miao, H., Getoor, L., and Cohen, W. W. [2015].
+
+Using semantics and statistics to turn data into knowledge.
+
+AI Magazine , 36(1):65–74.
+
+http://dx.doi.org/10.1609/aimag.v36i1.2568 .
+
+Puterman [1994]
+
+Puterman, M. [1994].
+
+Markov Decision Processes: Discrete Stochastic Dynamic
+Programming .
+
+Wiley.
+
+Qian et al. [2021]
+
+Qian, K., et al. [2021].
+
+XNLP: A living survey for XAI research in natural language
+processing.
+
+In 26th International Conference on Intelligent User
+Interfaces , pp. 78–80.
+
+http://dx.doi.org/10.1145/3397482.3450728 .
+
+Qiu et al. [2020]
+
+Qiu, X., et al. [2020].
+
+Pre-trained models for natural language processing: A survey.
+
+CoRR , abs/2003.08271.
+
+https://arxiv.org/abs/2003.08271 .
+
+Quinlan [1993]
+
+Quinlan, J. R. [1993].
+
+C4.5 Programs for Machine Learning .
+
+Morgan Kaufmann.
+
+Rabiner [1989]
+
+Rabiner, L. [1989].
+
+A tutorial on hidden Markov models and selected applications in
+speech recognition.
+
+IEEE , 77(2):257–286.
+
+Rae et al. [2021]
+
+Rae, J. W., et al. [2021].
+
+Scaling language models: Methods, analysis & insights from
+training gopher.
+
+CoRR , abs/2112.11446.
+
+https://arxiv.org/abs/2112.11446 .
+
+Rakova et al. [2021]
+
+Rakova, B., Yang, J., Cramer, H., and Chowdhury, R. [2021].
+
+Where responsible AI meets reality: Practitioner perspectives on
+enablers for shifting organizational practices.
+
+Proceedings of the ACM on Human-Computer Interaction , 5.
+
+http://dx.doi.org/10.1145/3449081 .
+
+Randell [1982]
+
+Randell, B. [1982].
+
+From analytical engine to electronic digital computer: The
+contributions of ludgate, torres, and bush.
+
+Annals of the History of Computing , 4(4).
+
+Real et al. [2020]
+
+Real, E., Liang, C., So, D. R., and Le, Q. V. [2020].
+
+AutoML-Zero: Evolving machine learning algorithms from scratch.
+
+In 37th International Conference on Machine Learning .
+
+http://dx.doi.org/10.48550/arXiv.2003.03384 .
+
+Richtel [2014]
+
+Richtel, M. [2014].
+
+A Deadly Wandering: A Mystery, a Landmark Investigation, and
+the Astonishing Science of Attention in the Digital Age .
+
+HarperCollins.
+
+Roberts [1965]
+
+Roberts, L. [1965].
+
+Machine Perception of 3-D Solids .
+
+MIT Press.
+
+Robillard [2021]
+
+Robillard, M. [2021].
+
+The ethics of weaponized AI.
+
+In The Oxford Handbook of Digital Ethics . Oxford University
+Press.
+
+http://dx.doi.org/10.1093/oxfordhb/9780198857815.013.29 .
+
+Robinson [1965]
+
+Robinson, J. A. [1965].
+
+A machine-oriented logic based on the resolution principle.
+
+Journal ACM , 12(1):23–41.
+
+Rockström et al. [2009]
+
+Rockström, J., et al. [2009].
+
+A safe operating space for humanity.
+
+Nature , 461(7263):472–475.
+
+Rogers et al. [2023]
+
+Rogers, Y., Sharp, H., and Preece, J. [2023].
+
+Interaction Design: Beyond Human-Computer Interaction .
+
+Wiley, 6th edition.
+
+Rosenblatt [1958]
+
+Rosenblatt, F. [1958].
+
+The perceptron: A probabilistic model for information storage and
+organization in the brain.
+
+Psychological Review , 65(6):386–408.
+
+Rosenschein and Kaelbling [1995]
+
+Rosenschein, S. J. and Kaelbling, L. P. [1995].
+
+A situated view of representation and control.
+
+Artificial Intelligence , 73:149–173.
+
+Rossi et al. [2011]
+
+Rossi, F., Venable, K. B., and Walsh, T. [2011].
+
+A Short Introduction to Preferences: Between Artificial
+Intelligence and Social Choice .
+
+Morgan & Claypool.
+
+http://dx.doi.org/doi:10.2200/S00372ED1V01Y201107AIM014 .
+
+Rubin [1976]
+
+Rubin, D. B. [1976].
+
+Inference and missing data.
+
+Biometrika , 63(3):581–592.
+
+Rubinstein [1981]
+
+Rubinstein, R. Y. [1981].
+
+Simulation and the Monte Carlo Method .
+
+Wiley.
+
+Ruder [2016]
+
+Ruder, S. [2016].
+
+An overview of gradient descent optimization algorithms.
+
+CoRR , abs/1609.04747.
+
+http://arxiv.org/abs/1609.04747 .
+
+Rudin et al. [2022]
+
+Rudin, C., et al. [2022].
+
+Interpretable machine learning: Fundamental principles and 10 grand
+challenges.
+
+Statistics Surveys , 16:1–85.
+
+http://dx.doi.org/10.1214/21-SS133 .
+
+Rumelhart et al. [1986]
+
+Rumelhart, D. E., Hinton, G. E., and Williams, R. J. [1986].
+
+Learning internal representations by error propagation.
+
+In Rumelhart, D. E. and McClelland, J. L. (eds.), Parallel
+Distributed Processing , chapter 8, pp. 318–362. MIT Press.
+
+Russakovsky
+et al. [2014]
+
+Russakovsky, O., et al. [2014].
+
+Imagenet large scale visual recognition challenge.
+
+CoRR , abs/1409.0575.
+
+http://arxiv.org/abs/1409.0575 .
+
+Russell [1997]
+
+Russell, S. [1997].
+
+Rationality and intelligence.
+
+Artificial Intelligence , 94:57–77.
+
+Russell [2019]
+
+Russell, S. [2019].
+
+Human Compatible: AI and the Problem of Control .
+
+Penguin Books Limited.
+
+Russell and Norvig [2020]
+
+Russell, S. and Norvig, P. [2020].
+
+Artificial Intelligence: A Modern Approach (4th Edition) .
+
+Pearson.
+
+http://aima.cs.berkeley.edu/ .
+
+Russo et al. [2018]
+
+Russo, D., et al. [2018].
+
+A tutorial on Thompson sampling.
+
+Foundations and Trends in Machine Learning, , 11(1):1–96.
+
+http://dx.doi.org/10.48550/arXiv.1707.02038 .
+
+Sacerdoti [1975]
+
+Sacerdoti, E. D. [1975].
+
+The nonlinear nature of plans.
+
+In 4th International Joint Conference on Artificial
+Intelligence , pp. 206–214.
+
+Salimans et al. [2017]
+
+Salimans, T., et al. [2017].
+
+Evolution strategies as a scalable alternative to reinforcement
+learning.
+
+http://dx.doi.org/10.48550/arXiv.1703.03864 .
+
+Samuel [1959]
+
+Samuel, A. L. [1959].
+
+Some studies in machine learning using the game of checkers.
+
+IBM Journal on Research and Development , 3(3):210–229.
+
+Sandholm [2007]
+
+Sandholm, T. [2007].
+
+Expressive commerce and its application to sourcing: How we conducted
+$35 billion of generalized combinatorial auctions.
+
+AI Magazine , 28(3):45–58.
+
+Satterthwaite [1975]
+
+Satterthwaite, M. [1975].
+
+Strategy-proofness and Arrow’s conditions: Existence and
+correspondence theorems for voting procedures and social welfare functions.
+
+Journal of Economic Theory , 10:187–217.
+
+Savage [1972]
+
+Savage, L. J. [1972].
+
+The Foundation of Statistics .
+
+Dover, 2nd edition.
+
+Schank [1990]
+
+Schank, R. C. [1990].
+
+What is AI, anyway?
+
+In Partridge, D. and Wilks, Y. (eds.), The Foundations of
+Artificial Intelligence , pp. 3–13. Cambridge University Press.
+
+Schapire [2002]
+
+Schapire, R. E. [2002].
+
+The boosting approach to machine learning: An overview.
+
+In MSRI Workshop on Nonlinear Estimation and Classification .
+Springer-Verlag.
+
+Schlichtkrull et al. [2018]
+
+Schlichtkrull, M., et al. [2018].
+
+Modeling relational data with graph convolutional networks.
+
+In European Semantic Web Conference (ESWC 2018) , pp. 593–607.
+Springer.
+
+https://arxiv.org/abs/1703.06103 .
+
+Schmidhuber [1990]
+
+Schmidhuber, J. [1990].
+
+Making the world differentiable: On using fully recurrent
+self-supervised neural networks for dynamic reinforcement learning and
+planning in non-stationary environments.
+
+Technical Report FKI-126-90, T.U. Munich.
+
+Schmidhuber [2015]
+
+Schmidhuber, J. [2015].
+
+Deep learning in neural networks: An overview.
+
+Neural Networks , 61:85–117.
+
+http://dx.doi.org/10.1016/j.neunet.2014.09.003 .
+
+Schubert [2022]
+
+Schubert, E. [2022].
+
+Stop using the elbow criterion for k-means and how to choose the
+number of clusters instead.
+
+http://dx.doi.org/10.48550/arXiv.2212.12189 .
+
+Schwarz [1978]
+
+Schwarz, G. [1978].
+
+Estimating the dimension of a model.
+
+Annals of Statistics , 6(2):461–464.
+
+https://projecteuclid.org/euclid.aos/1176344136 .
+
+Seger [2021]
+
+Seger, C.-J. H. [2021].
+
+Formal verification of complex data paths: An industrial experience.
+
+In FM .
+
+Selinger and Leong [2021]
+
+Selinger, E. and Leong, B. [2021].
+
+The ethics of facial recognition technology.
+
+In The Oxford Handbook of Digital Ethics . Oxford University
+Press.
+
+http://dx.doi.org/10.1093/oxfordhb/9780198857815.013.32 .
+
+Senior et al. [2020]
+
+Senior, A. W., et al. [2020].
+
+Improved protein structure prediction using potentials from deep
+learning.
+
+Nature , 577(7792):706–710.
+
+http://dx.doi.org/10.1038/s41586-019-1923-7 .
+
+Settles [2012]
+
+Settles, B. [2012].
+
+Active Learning .
+
+Synthesis Lectures on Artificial Intelligence and Machine Learning.
+Morgan & Claypool.
+
+http://dx.doi.org/doi:10.2200/S00429ED1V01Y201207AIM018 .
+
+Shachter and Peot [1992]
+
+Shachter, R. and Peot, M. A. [1992].
+
+Decision making using probabilistic inference methods.
+
+In Eighth Conference on Uncertainty in Artificial Intelligence
+(UAI-92) , pp. 276–283.
+
+Shahriari et al. [2016]
+
+Shahriari, B., et al. [2016].
+
+Taking the human out of the loop: A review of Bayesian
+optimization.
+
+IEEE , 104(1):148–175.
+
+http://dx.doi.org/10.1109/JPROC.2015.2494218 .
+
+Shanahan [2022]
+
+Shanahan, M. [2022].
+
+Talking about large language models.
+
+http://dx.doi.org/10.48550/arXiv.2212.03551 .
+
+Shannon and Weaver [1949]
+
+Shannon, C. E. and Weaver, W. [1949].
+
+The Mathematical Theory of Communication .
+
+University of Illinois Press.
+
+Sharkey [2008]
+
+Sharkey, N. [2008].
+
+The ethical frontiers of robotics.
+
+Science , 322(5909):1800–1801.
+
+DOI:10.1126/science.1164582 .
+
+Shavlik and Dietterich [1990]
+
+Shavlik, J. W. and Dietterich, T. G. (eds.) [1990].
+
+Readings in Machine Learning .
+
+Morgan Kaufmann.
+
+Shelley [1818]
+
+Shelley, M. W. [1818].
+
+Frankenstein; or, The Modern Prometheus .
+
+Lackington, Hughes, Harding, Mavor & Jones.
+
+Shneiderman [2022]
+
+Shneiderman, B. [2022].
+
+Human-Centered AI .
+
+Oxford University Press.
+
+Shoeybi et al. [2019]
+
+Shoeybi, M., et al. [2019].
+
+Megatron-LM: Training multi-billion parameter language models using
+model parallelism.
+
+CoRR , abs/1909.08053.
+
+http://arxiv.org/abs/1909.08053 .
+
+Shoham [2016]
+
+Shoham, Y. [2016].
+
+Why knowledge representation matters.
+
+Communications of the ACM , 59(1):47–49.
+
+Shoham and Leyton-Brown [2008]
+
+Shoham, Y. and Leyton-Brown, K. [2008].
+
+Multiagent Systems: Algorithmic, Game Theoretic, and Logical
+Foundations .
+
+Cambridge University Press.
+
+Shpitser and Pearl [2008]
+
+Shpitser, I. and Pearl, J. [2008].
+
+Complete identification methods for the causal hierarchy.
+
+Journal of Machine Learning Research , 9:1941–1979.
+
+Sikos et al. [2021]
+
+Sikos, L., Seneviratne, O., and McGuinness, D. L. [2021].
+
+Provenance in Data Science: From Data Models to Context-Aware
+Knowledge Graphs .
+
+Springer.
+
+https://www.springer.com/gp/book/9783030676803 .
+
+Silver et al. [2021]
+
+Silver, D., Singh, S., Precup, D., and Sutton, R. S. [2021].
+
+Reward is enough.
+
+Artificial Intelligence , 299.
+
+http://dx.doi.org/https://doi.org/10.1016/j.artint.2021.103535 .
+
+Silver et al. [2016]
+
+Silver, D., et al. [2016].
+
+Mastering the game of Go with deep neural networks and tree search.
+
+Nature , 529(7587):484–489.
+
+Silver et al. [2017]
+
+Silver, D., et al. [2017].
+
+Mastering chess and shogi by self-play with a general reinforcement
+learning algorithm.
+
+CoRR , abs/1712.01815.
+
+http://arxiv.org/abs/1712.01815 .
+
+Simon [1971]
+
+Simon, H. A. [1971].
+
+Designing organizations for an information rich world.
+
+In Greenberger, M. (ed.), Computers, Communications, and the
+Public Interest , pp. 37–72. Johns Hopkins Press.
+
+Simon [1995]
+
+Simon, H. A. [1995].
+
+Artificial intelligence: An empirical science.
+
+Artificial Intelligence , 77(1):95–127.
+
+Simon [1996]
+
+Simon, H. A. [1996].
+
+The Sciences of the Artificial .
+
+MIT Press, 3rd edition.
+
+Singer [2009a]
+
+Singer, P. W. [2009a].
+
+Robots at war: The new battlefield.
+
+The Wilson Quarterly .
+
+Singer [2009b]
+
+Singer, P. W. [2009b].
+
+Wired for War: The Robotics Revolution and Conflict in the 21st
+Century .
+
+Penguin.
+
+Sinz et al. [2003]
+
+Sinz, C., Kaiser, A., and Küchlin, W. [2003].
+
+Formal methods for the validation of automotive product configuration
+data.
+
+Artificial Intelligence for Engineering Design, Analysis and
+Manufacturing , 17:75 – 97.
+
+Siu et al. [2021]
+
+Siu, H. C., et al. [2021].
+
+Evaluation of human-AI teams for learned and rule-based agents in
+Hanabi.
+
+In Neural Information Processing Systems (NeurIPS) .
+
+http://dx.doi.org/10.48550/arXiv.2107.07630 .
+
+Smith [2003]
+
+Smith, B. [2003].
+
+Ontology.
+
+In Floridi, L. (ed.), Blackwell Guide to the Philosophy of
+Computing and Information , pp. 155–166. Blackwell.
+
+http://ontology.buffalo.edu/smith/articles/ontologies.htm .
+
+Smith [2015]
+
+Smith, B. [2015].
+
+Basic formal ontology 2.0: Specification and user’s guide.
+
+Technical report, Institute for Formal Ontology and Medical
+Information Science (IFOMIS).
+
+https://github.com/bfo-ontology/BFO/wiki .
+
+Smith [1996]
+
+Smith, B. C. [1996].
+
+On the Origin of Objects .
+
+MIT Press.
+
+Sohl-Dickstein et al. [2015]
+
+Sohl-Dickstein, J., Weiss, E., Maheswaranathan, N., and Ganguli, S. [2015].
+
+Deep unsupervised learning using nonequilibrium thermodynamics.
+
+In 32nd International Conference on Machine Learning , pp.
+2256–2265.
+
+https://proceedings.mlr.press/v37/sohl-dickstein15.html .
+
+Sowa [2000]
+
+Sowa, J. F. [2000].
+
+Knowledge Representation: Logical, Philosophical, and
+Computational Foundations .
+
+Brooks Cole.
+
+Sowa [2011]
+
+Sowa, J. F. [2011].
+
+Future directions for semantic systems.
+
+In Tolk, A. and Jain, L. C. (eds.), Intelligence-Based Software
+Engineering , pp. 23–47. Springer-Verlag.
+
+http://www.jfsowa.com/pubs/futures.pdf .
+
+Spall [2003]
+
+Spall, J. C. [2003].
+
+Introduction to Stochastic Search and Optimization: Estimation,
+Simulation .
+
+Wiley.
+
+Sparkes et al. [2010]
+
+Sparkes, A., et al. [2010].
+
+Towards robot scientists for autonomous scientific discovery.
+
+Automated Experimentation , 2(1):1.
+
+http://dx.doi.org/10.1186/1759-4499-2-1 .
+
+Spencer et al. [2022]
+
+Spencer, A., et al. [2022].
+
+The QALY at 50: One story many voices.
+
+Social Science and Medicine , 296:114653.
+
+http://dx.doi.org/https://doi.org/10.1016/j.socscimed.2021.114653 .
+
+Spiegelhalter et al. [1990]
+
+Spiegelhalter, D. J., Franklin, R. C. G., and Bull, K. [1990].
+
+Assessment, criticism and improvement of imprecise subjective
+probabilities for a medical expert system.
+
+In Henrion, M., Shachter, R. D., Kanal, L., and Lemmer, J. (eds.),
+Uncertainty in Artificial Intelligence 5 , pp. 285–294. North-Holland.
+
+Spirtes et al. [2001]
+
+Spirtes, P., Glymour, C., and Scheines, R. [2001].
+
+Causation, Prediction, and Search .
+
+MIT Press, 2nd edition.
+
+Springer Nature [2022]
+
+Springer Nature [2022].
+
+SN SciGraph: A linked open data platform for the scholarly domain.
+
+https://www.springernature.com/gp/researchers/scigraph .
+
+Sreedharan et al. [2022]
+
+Sreedharan, S., Kulkarni, A., and Kambhampati, S. [2022].
+
+Explainable Human–AI Interaction: A Planning Perspective .
+
+Morgan & Claypool.
+
+https://doi.org/10.2200/S01152ED1V01Y202111AIM050 .
+
+Srivastava et al. [2022]
+
+Srivastava, A. et al. [2022].
+
+Beyond the imitation game: Quantifying and extrapolating the
+capabilities of language models.
+
+http://dx.doi.org/10.48550/arXiv.2206.04615 .
+
+Stanley et al. [2019]
+
+Stanley, K. O., Clune, J., Lehman, J., and Miikkulainen, R. [2019].
+
+Designing neural networks through neuroevolution.
+
+Nature Machine Intelligence , 1(1):24–35.
+
+http://dx.doi.org/10.1038/s42256-018-0006-z .
+
+Steck
+et al. [2021]
+
+Steck, H., et al. [2021].
+
+Deep learning for recommender systems: A netflix case study.
+
+AI Magazine , 42(3):7–18.
+
+http://dx.doi.org/10.1609/aimag.v42i3.18140 .
+
+Sterling and Shapiro [1994]
+
+Sterling, L. S. and Shapiro, E. Y. [1994].
+
+The Art of Prolog: Advanced Programming Techniques .
+
+MIT Press, 2nd edition.
+
+Stevenson and Lindberg [2010]
+
+Stevenson, A. and Lindberg, C. A. (eds.) [2010].
+
+The New Oxford American Dictionary .
+
+Oxford University Press.
+
+Stillings et al. [1987]
+
+Stillings, N. A., et al. [1987].
+
+Cognitive Science: An Introduction .
+
+MIT Press.
+
+Stodden et al. [2016]
+
+Stodden, V., et al. [2016].
+
+Enhancing reproducibility for computational methods.
+
+Science , 354.
+
+http://dx.doi.org/10.1126/science.aah6168 .
+
+Stone [2007]
+
+Stone, P. [2007].
+
+Learning and multiagent reasoning for autonomous agents.
+
+In The 20th International Joint Conference on Artificial
+Intelligence (IJCAI-07) , pp. 13–30.
+
+http://www.cs.utexas.edu/˜pstone/Papers/bib2html-links/IJCAI07-award.pdf .
+
+Stone and Veloso [2000]
+
+Stone, P. and Veloso, M. [2000].
+
+Multiagent systems: A survey from a machine learning perspective.
+
+Autonomous Robots , 8:345–383.
+
+Such et al. [2017]
+
+Such, F. P., et al. [2017].
+
+Deep neuroevolution: Genetic algorithms are a competitive alternative
+for training deep neural networks for reinforcement learning.
+
+CoRR , abs/1712.06567.
+
+http://arxiv.org/abs/1712.06567 .
+
+Suchanek et al. [2007]
+
+Suchanek, F. M., Kasneci, G., and Weikum, G. [2007].
+
+YAGO: A core of semantic knowledge – unifying WordNet and
+Wikipedia.
+
+In 16th International World Wide Web Conference (WWW 2007) .
+
+Sundermann et al. [2021]
+
+Sundermann, C., et al. [2021].
+
+Applications of #SAT solvers on feature models.
+
+15th International Working Conference on Variability Modelling
+of Software-Intensive Systems .
+
+Sunstein [2018]
+
+Sunstein, C. R. [2018].
+
+#Republic: Divided Democracy in the Age of Social Media .
+
+Princeton University Press.
+
+http://www.jstor.org/stable/j.ctv8xnhtd .
+
+Sutton [1988]
+
+Sutton, R. S. [1988].
+
+Learning to predict by the methods of temporal differences.
+
+Machine Learning , 3(1):9–44.
+
+http://dx.doi.org/10.1007/BF00115009 .
+
+Sutton and Barto [2018]
+
+Sutton, R. S. and Barto, A. G. [2018].
+
+Reinforcement Learning: An Introduction .
+
+MIT Press, 2nd edition.
+
+Szepesvári [2010]
+
+Szepesvári, C. [2010].
+
+Algorithms for Reinforcement Learning .
+
+Morgan & Claypool.
+
+http://dx.doi.org/doi:10.2200/S00268ED1V01Y201005AIM009 .
+
+Tarski [1956]
+
+Tarski, A. [1956].
+
+Logic, Semantics, Metamathematics .
+
+Clarendon Press.
+
+Papers from 1923 to 1938 collected and translated by J. H. Woodger.
+
+Tate [1977]
+
+Tate, A. [1977].
+
+Generating project networks.
+
+In 5th International Joint Conference on Artificial
+Intelligence , pp. 888–893.
+
+Tay et al. [2022]
+
+Tay, Y., Dehghani, M., Bahri, D., and Metzler, D. [2022].
+
+Efficient transformers: A survey.
+
+ACM Computing Surveys .
+
+http://dx.doi.org/10.1145/3530811 .
+
+Thompson [1933]
+
+Thompson, W. [1933].
+
+On the likelihood that one unknown probability exceeds another in
+view of the evidence of two samples”.
+
+Biometrika , 25(3/4):285–294.
+
+Thrun [2006]
+
+Thrun, S. [2006].
+
+Winning the DARPA grand challenge.
+
+In Innovative Applications of Artificial Intelligence
+Conference (IAAI-06) , pp. 16–20.
+
+Thrun et al. [2005]
+
+Thrun, S., Burgard, W., and Fox, D. [2005].
+
+Probabilistic Robotics .
+
+MIT Press.
+
+Torrance [1970]
+
+Torrance, G. [1970].
+
+A generalized cost-effectiveness model for the evaluation of health
+programs.
+
+Technical report, Faculty of Business, McMaster University.
+
+http://hdl.handle.net/11375/5559 .
+
+Trouillon et al. [2016]
+
+Trouillon, T., et al. [2016].
+
+Complex embeddings for simple link prediction.
+
+In ICML , volume abs/1606.06357.
+
+http://arxiv.org/abs/1606.06357 .
+
+Turing [1950]
+
+Turing, A. [1950].
+
+Computing machinery and intelligence.
+
+Mind , 59:433–460.
+
+https://doi.org/10.1093/mind/LIX.236.433 .
+
+Tversky and Kahneman [1974]
+
+Tversky, A. and Kahneman, D. [1974].
+
+Judgment under uncertainty: Heuristics and biases.
+
+Science , 185:1124–1131.
+
+UNESCO [2022]
+
+UNESCO [2022].
+
+Recommendation on the ethics of artificial intelligence.
+
+https://unesdoc.unesco.org/ark:/48223/pf0000381137 .
+
+United Nations [2015a]
+
+United Nations [2015a].
+
+Transforming our world: The UN 2030 agenda for sustainable
+development.
+
+https://sdgs.un.org/2030agenda .
+
+United Nations [2015b]
+
+United Nations [2015b].
+
+The UN sustainable development goals.
+
+https://sdgs.un.org/goals .
+
+U.S. Government [2022]
+
+U.S. Government [2022].
+
+GPS accuracy.
+
+https://www.gps.gov/systems/gps/performance/accuracy/ .
+
+Vallor [2021]
+
+Vallor, S. [2021].
+
+Virtues in the digital age.
+
+In The Oxford Handbook of Digital Ethics . Oxford University
+Press.
+
+http://dx.doi.org/10.1093/oxfordhb/9780198857815.013.2 .
+
+van Beek and Chen [1999]
+
+van Beek, P. and Chen, X. [1999].
+
+Cplan: A constraint programming approach to planning.
+
+In AAAI-99 , pp. 585–590.
+
+van de Meent et al. [2018]
+
+van de Meent, J.-W., Paige, B., Yang, H., and Wood, F. [2018].
+
+An introduction to probabilistic programming.
+
+https://arxiv.org/abs/1809.10756 .
+
+Van den Broeck et al. [2021]
+
+Van den Broeck, G., Kersting, K., Natarajan, S., and Poole, D. (eds.) [2021].
+
+Introduction to Lifted Inference .
+
+MIT Press.
+
+van Diggelen and Enge [2015]
+
+van Diggelen, F. and Enge, P. [2015].
+
+The world’s first GPS MOOC and worldwide laboratory using
+smartphones.
+
+In 28th International Technical Meeting of the Satellite
+Division of The Institute of Navigation .
+
+van Emden and Kowalski [1976]
+
+van Emden, M. H. and Kowalski, R. A. [1976].
+
+The semantics of predicate logic as a programming language.
+
+Journal ACM , 23(4):733–742.
+
+Vaswani et al. [2017]
+
+Vaswani, A., et al. [2017].
+
+Attention is all you need.
+
+In 31st Conference on Neural Information Processing Systems .
+
+https://arxiv.org/abs/1706.03762 .
+
+Veitch and D’Amour [2023]
+
+Veitch, V. and D’Amour, A. [2023].
+
+Causality.
+
+In Murphy [ 2023 ] , chapter 36. MIT Press.
+
+Visser and Burkhard [2007]
+
+Visser, U. and Burkhard, H.-D. [2007].
+
+Robocup: 10 years of achievements and challenges.
+
+AI Magazine , 28(2):115–130.
+
+Viswanathan et al. [2011]
+
+Viswanathan, P., Little, J., Mackworth, A. K., and Mihailidis, A. [2011].
+
+Navigation and obstacle avoidance help (NOAH) for older adults with
+cognitive impairment: A pilot study.
+
+In International ACM SIGACCESS Conference on Computers and
+Accessibility .
+
+Vlassis [2007]
+
+Vlassis, N. [2007].
+
+A Concise Introduction to Multiagent Systems and Distributed
+Artificial Intelligence .
+
+Morgan & Claypool.
+
+http://dx.doi.org/doi:10.2200/S00091ED1V01Y200705AIM002 .
+
+Vrandečić and Krötzsch [2014]
+
+Vrandečić, D. and Krötzsch, M. [2014].
+
+Wikidata: A free collaborative knowledgebase.
+
+Communications of the ACM , 57(10):78–85.
+
+W3C OWL Working Group [2012]
+
+W3C OWL Working Group (ed.) [2012].
+
+OWL 2 Web Ontology Language Document Overview .
+
+W3C Recommendation 11 December 2012, 2nd edition.
+
+http://www.w3.org/TR/owl2-overview/ .
+
+Wakker [2010]
+
+Wakker, P. P. [2010].
+
+Prospect Theory: For Risk and Ambiguity .
+
+Cambridge University Press.
+
+Waldinger [1977]
+
+Waldinger, R. [1977].
+
+Achieving several goals simultaneously.
+
+In Elcock, E. and Michie, D. (eds.), Machine Intelligence 8:
+Machine Representations of Knowledge , pp. 94–136. Ellis Horwood.
+
+Walsh [2007]
+
+Walsh, T. [2007].
+
+Representing and reasoning with preferences.
+
+AI Magazine , 28(4):59–69.
+
+Walter [1950]
+
+Walter, W. G. [1950].
+
+An imitation of life.
+
+Scientific American , 182(5):42–45.
+
+Walter [1951]
+
+Walter, W. G. [1951].
+
+A machine that learns.
+
+Scientific American , 185(2):60–63.
+
+Wang [1960]
+
+Wang, H. [1960].
+
+Toward mechanical mathematics.
+
+IBM Journal of Research and Development , 4(1):2–22.
+
+http://dx.doi.org/doi:10.1147/rd.41.0002 .
+
+Warren and Pereira [1982]
+
+Warren, D. H. D. and Pereira, F. C. N. [1982].
+
+An efficient easily adaptable system for interpreting natural
+language queries.
+
+Computational Linguistics , 8(3–4):110–122.
+
+http://portal.acm.org/citation.cfm?id=972944 .
+
+Watkins and Dayan [1992]
+
+Watkins, C. J. C. H. and Dayan, P. [1992].
+
+Q-learning.
+
+Machine Learning , 8(3):279–292.
+
+http://dx.doi.org/10.1007/BF00992698 .
+
+Weidinger et al. [2021]
+
+Weidinger, L., et al. [2021].
+
+Ethical and social risks of harm from language models.
+
+http://dx.doi.org/10.48550/arXiv.2112.04359 .
+
+Weizenbaum [1976]
+
+Weizenbaum, J. [1976].
+
+Computer Power and Human Reason: From Judgment to Calculation .
+
+Freeman.
+
+Weld [1994]
+
+Weld, D. S. [1994].
+
+An introduction to least commitment planning.
+
+AI Magazine , 15(4):27–61.
+
+Weld [1999]
+
+Weld, D. S. [1999].
+
+Recent advances in AI planning.
+
+AI Magazine , 20(2).
+
+Wellman [2011]
+
+Wellman, M. P. [2011].
+
+Trading Agents .
+
+Morgan & Claypool.
+
+http://dx.doi.org/doi:10.2200/S00370ED1V01Y201107AIM012 .
+
+Whitehead and Russell [1925, 1927]
+
+Whitehead, A. N. and Russell, B. [1925, 1927].
+
+Principia Mathematica .
+
+Cambridge University Press, 2nd edition.
+
+Wikidata [2021]
+
+Wikidata [2021].
+
+Q262802 – wikidata.
+
+https://www.wikidata.org/wiki/Q262802 .
+
+Wilkins [1988]
+
+Wilkins, D. E. [1988].
+
+Practical Planning: Extending the Classical AI Planning
+Paradigm .
+
+Morgan Kaufmann.
+
+Wilkinson et al. [2016]
+
+Wilkinson, M. D., et al. [2016].
+
+The fair guiding principles for scientific data management and
+stewardship.
+
+Scientific Data , 3(1):160018.
+
+http://dx.doi.org/10.1038/sdata.2016.18 .
+
+Winograd [1972]
+
+Winograd, T. [1972].
+
+Understanding Natural Language .
+
+Academic Press.
+
+Winograd [1990]
+
+Winograd, T. [1990].
+
+Thinking machines: Can there be? Are we?
+
+In Partridge, D. and Wilks, Y. (eds.), The Foundations of
+Artificial Intelligence: A Sourcebook , pp. 167–189. Cambridge University
+Press.
+
+Wolpert [1996]
+
+Wolpert, D. H. [1996].
+
+The lack of a priori distinctions between learning algorithms.
+
+Neural Computation , 8(7):1341–1390.
+
+http://dx.doi.org/10.1162/neco.1996.8.7.1341 .
+
+Woods [2007]
+
+Woods, W. A. [2007].
+
+Meaning and links.
+
+AI Magazine , 28(4):71–92.
+
+Wooldridge [2009]
+
+Wooldridge, M. [2009].
+
+An Introduction to MultiAgent Systems .
+
+Wiley.
+
+World Economic Forum [2021]
+
+World Economic Forum [2021].
+
+Responsible use of technology: The IBM case study.
+
+https://www.weforum.org/whitepapers/responsible-use-of-technology-the-ibm-case-study/ .
+
+Xu et al. [2019]
+
+Xu, K., Hu, W., Leskovec, J., and Jegelka, S. [2019].
+
+How powerful are graph neural networks?
+
+In ICLR .
+
+Xu et al. [2008]
+
+Xu, L., Hutter, F., Hoos, H. H., and Leyton-Brown, K. [2008].
+
+SATzilla: Portfolio-based algorithm selection for SAT.
+
+Journal of Artificial Intelligence Research , 32:565–606.
+
+https://www.aaai.org/Papers/JAIR/Vol32/JAIR-3214.pdf .
+
+Yang [1997]
+
+Yang, Q. [1997].
+
+Intelligent Planning: A Decomposition and Abstraction-Based
+Approach .
+
+Springer-Verlag.
+
+Yang and Mackworth [2007]
+
+Yang, S. and Mackworth, A. K. [2007].
+
+Hierarchical shortest pathfinding applied to route-planning for
+wheelchair users.
+
+In Canadian Conference on Artificial Intelligence, AI-2007 .
+
+Yannakakis and Togelius [2018]
+
+Yannakakis, G. N. and Togelius, J. [2018].
+
+Artificial Intelligence and Games .
+
+Springer.
+
+http://gameaibook.org .
+
+Zador et al. [2023]
+
+Zador, A., et al. [2023].
+
+Catalyzing next-generation artificial intelligence through NeuroAI.
+
+Nature Communications , 14(1):1597.
+
+http://dx.doi.org/10.1038/s41467-023-37180-x .
+
+Zhang et al. [2018]
+
+Zhang, B. H., Lemoine, B., and Mitchell, M. [2018].
+
+Mitigating unwanted biases with adversarial learning.
+
+In 2018 AAAI/ACM Conference on AI, Ethics, and Society , pp.
+335–340.
+
+http://dx.doi.org/10.1145/3278721.3278779 .
+
+Zhang et al. [2022a]
+
+Zhang, D., et al. [2022a].
+
+The AI Index 2022 Annual Report .
+
+AI Index Steering Committee, Stanford Institute for Human-Centered
+AI, Stanford University.
+
+https://aiindex.stanford.edu/wp-content/uploads/2022/03/2022-AI-Index-Report˙Master.pdf .
+
+Zhang et al. [2022b]
+
+Zhang, H., et al. [2022b].
+
+On the paradox of learning to reason from data.
+
+http://starai.cs.ucla.edu/papers/ZhangArxiv22.pdf .
+
+Zhang [2004]
+
+Zhang, N. L. [2004].
+
+Hierarchical latent class models for cluster analysis.
+
+Journal of Machine Learning Research , 5(6):697–723.
+
+Zhang and Poole [1994]
+
+Zhang, N. L. and Poole, D. [1994].
+
+A simple approach to Bayesian network computations.
+
+In 10th Canadian Conference on Artificial Intelligence , pp.
+171–178.
+
+Zhang and Mackworth [1995]
+
+Zhang, Y. and Mackworth, A. K. [1995].
+
+Constraint nets: A semantic model for hybrid dynamic systems.
+
+Theoretical Computer Science , 138:211–239.
+
+Zilberstein [1996]
+
+Zilberstein, S. [1996].
+
+Using anytime algorithms in intelligent systems.
+
+AI Magazine , 17(3):73–83.
+
+Zimmer [2022]
+
+Zimmer, M. [2022].
+
+A celebrated AI has learned a new trick: How to do chemistry.
+
+The Conversation .
+
+https://theconversation.com/a-celebrated-ai-has-learned-a-new-trick-how-to-do-chemistry-182031 .
+
+Zuboff [2019]
+
+Zuboff, S. [2019].
+
+The Age of Surveillance Capitalism : The Fight for a Human
+Future at the New Frontier of Power .
+
+Profile Books.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

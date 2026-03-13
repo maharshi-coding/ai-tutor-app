@@ -1,0 +1,15 @@
+{
+  "id": "python-official-tutorial",
+  "type": "web",
+  "title": "Python Official Tutorial",
+  "description": "The core Python tutorial published by the Python documentation team.",
+  "license": "PSF documentation license",
+  "seedUrls": [
+    "https://docs.python.org/3/tutorial/index.html"
+  ],
+  "allowPrefixes": [
+    "https://docs.python.org/3/tutorial/"
+  ],
+  "maxPages": 42,
+  "documentCount": 17
+}

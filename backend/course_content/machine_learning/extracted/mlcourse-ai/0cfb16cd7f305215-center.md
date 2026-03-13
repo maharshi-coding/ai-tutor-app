@@ -1,0 +1,1203 @@
+# <center>
+
+Source: mlcourse.ai
+Original URL: https://github.com/Yorko/mlcourse.ai/blob/HEAD/jupyter_english/projects_indiv/Happiness_and_Turnover.ipynb
+Original Path: jupyter_english/projects_indiv/Happiness_and_Turnover.ipynb
+Course: Machine Learning
+
+<center>
+<img src="../../img/ods_stickers.jpg" />
+
+## [mlcourse.ai](mlcourse.ai) – Open Machine Learning Course
+### <center> Author: Andrei Rem, Andr Rem
+
+## <center> Individual data analysis project
+### <center> Daily Happiness & Employee Turnover
+
+**Research plan**
+
+[Part 1. Dataset and task explanation](#part1)<br>
+
+[Part 2. Сomplete raw data analysis](#part2)<br>
+
+[Part 2.1. Churn](#part2.1)<br>
+[Part 2.1.1. Churn. Dataset and features description](#part2.1.1)<br>
+[Part 2.1.2. Churn. Exploratory data analysis, visual analysis of the features](#part2.1.2)<br>
+[Part 2.1.3. Churn. Patterns, insights, pecularities of data](#part2.1.3)<br>
+
+[Part 2.2. Votes](#part2.2)<br>
+[Part 2.2.1. Votes. Dataset and features description](#part2.2.1)<br>
+[Part 2.2.2. Votes. Exploratory data analysis, visual analysis of the features](#part2.2.2)<br>
+[Part 2.2.3. Votes. Patterns, insights, pecularities of data](#part2.2.3)<br>
+
+[Part 2.3. Anonimized clean comments](#part2.3)<br>
+[Part 2.3.1. Anonimized clean comments. Dataset and features description](#part2.3.1)<br>
+[Part 2.3.2. Anonimized clean comments. Exploratory data analysis, visual analysis of the features](#part2.3.2)<br>
+[Part 2.3.3. Anonimized clean comments. Patterns, insights, pecularities of data](#part2.3.3)<br>
+
+[Part 2.4. Interactions with comments](#part2.4)<br>
+[Part 2.4.1. Interactions with comments. Dataset and features description](#part2.4.1)<br>
+[Part 2.4.2. Interactions with comments. Exploratory data analysis, visual analysis of the features](#part2.4.2)<br>
+[Part 2.4.3. Interactions with comments. Patterns, insights, pecularities of data](#part2.4.3)<br>
+
+[Part 2.5. Employee. Collect all data in one dataset](#part2.5)<br>
+[Part 2.5.1. Employee. Dataset and features description](#part2.5.1)<br>
+[Part 2.5.2. Employee. Feature engineering and description](#part2.5.2)<br>
+[Part 2.5.3. Employee. Exploratory data analysis, visual analysis of the features](#part2.5.3)<br>
+[Part 2.5.4. Employee. Patterns, insights, pecularities of data](#part2.5.4)<br>
+
+[Part 3. Visual analysis of the features](#part3)<br>
+[Part 4. Patterns, insights, pecularities of data](#part4)<br>
+[Part 5. Data preprocessing](#part5)<br>
+[Part 6. Feature engineering and description](#part6)<br>
+
+[Part 7. Cross-validation, hyperparameter tuning](#part7)<br>
+[Part 8. Validation and learning curves](#part8)<br>
+[Part 9. Prediction for hold-out and test samples](#part9)<br>
+[Part 10. Model evaluation with metrics description](#part10)<br>
+[Part 11. Conclusions](#part11)<br>
+
+### Part 1. Dataset and task explanation<a id='part1'></a>
+
+<p>This project uses the dataset from site <a href="https://www.myhappyforce.com/en/" target=__blank>Happyforce</a>. The data is publicly available through <a href="https://www.kaggle.com/harriken/employeeturnover#commentInteractions.csv" target=__blank>Kaggle Datasets</a>.</p>
+
+<p>The Dataset description on Kaggle states:</p>
+<blockquote cite="https://www.kaggle.com/harriken/employeeturnover/home">The data consists of four tables: votes, comments, interactions and churn. A vote was obtained when an employee opened the app and answered the question: How happy are you at work today? To vote the employee indicates their feeling by touching one of four icons that appeared on the screen. After the employee indicates their happiness level, a second screen appears where they can input a text explanation (usually a complaint, suggestion or comment), this is the comments table. Out of 4,356 employees, 2,638 employees commented at least once. Finally, in a third screen the employee can see their peers’ comments and like or dislike them, this data is stored in the interactions table. 3,516 employees liked or disliked at least one of their peers’ comments. The churn table contains when an employee churned (quit or was fired).</blockquote>
+
+In this individual project, I will develop a model for predicting employee dismissal. For this, I will use data on employee happiness in the company. <br>
+**My target variable is negative stillExists fields in churn.csv**.
+
+<p>The dataset consists of four files:</p>
+<ul>
+<li>churn.csv</li>
+<li>votes.csv</li>
+<li>comments_clean_anonimized.csv</li>
+<li>commentInteractions.csv</li>
+</ul>
+
+**I have 4 data files and for clarity I will conduct all stages of analysis on each file sequentially. Later, I will collect all the data in 1 file and will analyze it.**
+
+### Part 2. Сomplete raw data analysis<a id='part2'></a>
+
+#### Part 2.1. Churn<a id='part2.1'></a>
+
+##### Part 2.1.1. Churn. Dataset and features description<a id='part2.1.1'></a>
+
+The **churn.csv** file contains information about the date of the last interaction of an employee with the app.
+
+- **employee**: An integer id that identifies an employee inside a company.
+- **companyAlias**: A hash id for a given company.
+- **numVotes**: Total number of happyness votes emited by the user.
+- **lastParticipationDate**: Date of the last interaction of the user with the app.
+- **stillExists**: Boolean that is True if the user is still registered in the app.
+
+```python
+import pandas as pd
+import numpy as np
+import seaborn as sns
+from matplotlib import pyplot as plt
+import warnings
+warnings.simplefilter('ignore')
+# from pylab import rcParams
+# rcParams['figure.figsize'] = 15, 10
+```
+
+```python
+churn = pd.read_csv('data/indiv/churn.csv', parse_dates=[3],
+dtype={
+'employee': np.int32, 'numVotes': np.int32, 'stillExists': np.bool
+}
+).drop_duplicates()
+churn.head()
+```
+
+```python
+churn.describe().T
+```
+
+```python
+churn.info()
+```
+
+##### Part 2.1.2. Churn. Exploratory data analysis, visual analysis of the features<a id='part2.1.2'></a>
+
+```python
+churn.head()
+```
+
+In the table above, we can see that there are employees with negative identifiers. Let's explore this question
+
+```python
+churn[churn['employee'] < 0].head()
+```
+
+You may notice that these employees have 0 votes, respectively, I cannot use them for my task. Also, these employees have a negative target variable.
+
+```python
+churn[churn['employee'] < 0][['numVotes', 'stillExists']].nunique()
+```
+
+Yes, indeed, these employees did not vote and they all do not work. In my opinion, this is an onomaly and I will delete all information about employees with a negative identifier.
+
+```python
+churn = churn[churn['employee'] > 0]
+```
+
+We do not need employees without votes, check whether there are such and remove, if there is.
+
+```python
+churn[churn['numVotes'] == 0]
+```
+
+```python
+churn = churn[churn['numVotes'] > 0]
+```
+
+We also know from the dataset description that employee identifiers are unique only within the company. We will now analyze the companies and, for short, change the hash to numbers.
+
+```python
+companies = churn['companyAlias'].unique()
+print('We have a %s companies' % len(companies))
+```
+
+```python
+companies_map = {company: i for i, company in enumerate(companies)}
+churn['companyAlias'] = churn['companyAlias'].map(companies_map).astype('int')
+```
+
+So, we recoded companies. Now we can make unique identifiers for employees. Let's do that.
+
+```python
+churn['employee'] = churn['companyAlias'].astype(str)+"_"+churn['employee'].astype(str)
+```
+
+Now we can see how many unique employees are left in our data set.
+
+```python
+print('We have %s unique employees' % churn['employee'].nunique())
+```
+
+Let's check whether all of our employees are truly unique.
+
+```python
+churn[churn['companyAlias'] == 10]['employee'].value_counts().head(10)
+```
+
+Here we see, that employees in churn table can be repeated
+
+```python
+churn[(churn['employee'] == '10_118')].sort_values('lastParticipationDate')
+```
+
+I think, than is somethink wrong, let's stay only latest
+
+```python
+emp_ids = churn['employee'].value_counts().index
+emp_count = churn['employee'].value_counts()
+removing_emps_ids = []
+for emp_id, count in zip(emp_ids, emp_count):
+if count > 1:
+removing_emps_ids.append(emp_id)
+
+for emp_id in removing_emps_ids:
+churn.drop(
+index=churn[churn['employee'] == emp_id].sort_values('lastParticipationDate').index[:-1],
+inplace=True
+)
+```
+
+```python
+churn[(churn['employee'] == '10_118')].sort_values('lastParticipationDate')
+```
+
+Now all is well
+
+```python
+churn.head()
+```
+
+Let's explore how many employees in companies
+
+```python
+churn.groupby('companyAlias').size().sort_values(ascending=False).head(),\
+churn.groupby('companyAlias').size().sort_values(ascending=True).head()
+```
+
+```python
+churn.groupby('companyAlias').size().sort_values(ascending=False).plot(kind='bar');
+```
+
+It can be seen that the number of employees is distributed exponentially from 585 to 2. Let's find out how many mean employees are in companies.
+
+```python
+print('Mean count of employees %.2f' % churn.groupby('companyAlias').size().mean())
+```
+
+Let's look at the distribution of number votes among employees.
+
+```python
+churn['numVotes'].describe()
+```
+
+```python
+churn['numVotes'].hist(bins=20);
+```
+
+Note that 75 percent of employees passed less than 66 votes. Number of votes is distributed exponentially.
+Let's explore the people with the most votes.
+
+```python
+churn.sort_values('numVotes', ascending=False).head(10)
+```
+
+You can see that they work in one company and most of them are not fired yet, this can be a good feature.
+Let's see other companies.
+
+```python
+churn[churn['companyAlias'] != 10].sort_values('numVotes', ascending=False).head(10)
+```
+
+We can observe quite a large scatter: 404 in company - 0, and 740 in company - 10. **And in other companies, people with a large number of votes work**
+
+**lastParticipationDate** field is the date of the last vote, let's consider it
+
+```python
+churn.groupby('lastParticipationDate').size().plot();
+```
+
+Let's look at the same data, but with a weekly sliding window.
+
+```python
+churn.groupby('lastParticipationDate').size().rolling(window=7).mean().plot();
+```
+
+```python
+churn[churn['lastParticipationDate'] > '2017-03-07 00:00:00'].groupby('lastParticipationDate').size().plot();
+```
+
+```python
+print('The first record date - ', churn['lastParticipationDate'].min())
+print('The last record date - ', churn['lastParticipationDate'].max())
+td = (churn['lastParticipationDate'].max() - churn['lastParticipationDate'].min())
+print('We have data for %.2f years' % (td.days/365))
+```
+
+We can see that the number of votes at the end is growing strongly. This may be due to the growing popularity of the application or something else.
+
+Ok, let's create our **target attribute from stillExists**
+
+```python
+churn['target'] = (-churn['stillExists']).astype('int')
+churn.drop('stillExists', axis=1, inplace=True)
+```
+
+```python
+churn.head()
+```
+
+Correlations with other features.
+
+```python
+churn['target'].value_counts()
+```
+
+### Please note that our target variable is whether the person is still working. 1 - the employee does not work, 0 - the employee works.
+
+```python
+churn['target'].hist();
+```
+
+Let's look at the average number of votes for different classes.
+
+```python
+churn.groupby('target')['numVotes'].mean().plot(kind='bar');
+```
+
+```python
+churn[churn['target'] == 0]['numVotes'].mean(), \
+churn[churn['target'] == 1]['numVotes'].mean()
+```
+
+As we can see, it is not much different in classes, although it should be noted that it is still higher for those who work
+
+```python
+churn[churn['target'] == 1].hist('numVotes', bins=20);
+```
+
+```python
+churn[churn['target'] == 0].hist('numVotes', bins=20);
+```
+
+Let's look at the ratio of classes in companies
+
+```python
+churn.groupby(['companyAlias', 'target'])['employee'].count().plot(kind='bar', figsize=(15, 10));
+```
+
+In my opinion, this is a **very interesting** graph, here we can immediately notice 2 interesting facts.
+First, in large companies there are more retired employees. Later we look at correlation happiness with the number of employees in the company.
+Second, there are companies in which all employees work.
+
+```python
+churn.groupby('companyAlias')['numVotes'].mean().sort_values(ascending=False).plot(kind='bar', figsize=(15, 10));
+```
+
+##### 2.1.3. Churn. Patterns, insights, pecularities of data<a id='part2.1.3'></a>
+
+In this data set, we noticed several important observations:
+1. Employees with negative identifiers and zero votes are not suitable for our task, as they have no votes.
+2. We have both large companies (585 employees) and small ones (9 employees), and with the help of a diagram, we have established that the turnover in large companies is larger.
+3. There are companies in which all employees work.
+4. The required class has lower number of votes.
+5. The number of votes increases over time.
+6. No data gaps.
+
+#### Part 2.2.Votes<a id='part2.2'></a>
+
+##### Part 2.2.1. Votes. Dataset and features description<a id='part2.2.1'></a>
+
+The data about the votes of the app users is stored in **votes.csv**. This file containg 4 different columns:
+
+- **employee**: An integer id that identifies an employee inside a company.
+- **companyAlias**: A hash id for a given company.
+- **voteDate**: String representing the date a given vote was emited.
+- **vote**: The numeric value of the vote emited ranging from 1 to 4.
+
+```python
+votes = pd.read_csv(
+'data/indiv/votes.csv',parse_dates=[2],
+dtype={
+'employee': np.int32, 'vote': np.int32
+}).drop_duplicates()
+votes.head()
+```
+
+It is necessary to bring identifiers of employees and companies in a general view.
+
+```python
+votes = votes[votes['employee'] > 0]
+votes['companyAlias'] = votes['companyAlias'].map(companies_map).astype('int')
+votes['employee'] = votes['companyAlias'].astype(str)+"_"+votes['employee'].astype(str)
+```
+
+```python
+votes.head()
+```
+
+```python
+votes.describe().T
+```
+
+```python
+votes.info()
+```
+
+Let's see what number of votes are employees of companies
+
+```python
+print(votes['companyAlias'].value_counts().head());
+```
+
+##### Part 2.2.2. Votes. Exploratory data analysis, visual analysis of the features<a id='part2.2.2'></a>
+
+Look at the distribution of votes
+
+```python
+votes.groupby('vote').size().plot(kind='bar');
+```
+
+We see that people are mostly **almost happy** in their companies.<br>
+It is interesting to look at the distribution of votes for different time periods, add a couple of features.
+
+```python
+votes['day_of_week'] = votes['voteDate'].dt.dayofweek
+votes['month'] = votes['voteDate'].dt.month
+votes['year'] = votes['voteDate'].dt.year
+```
+
+How much time do we have a votes stats?
+
+```python
+print(votes['voteDate'].min(), votes['voteDate'].max())
+```
+
+In this period we have votes - **2014.06 - 2017.03**.
+
+```python
+votes.groupby('voteDate').size().plot();
+```
+
+On this graph, we are convinced of the hypothesis that the popularity of the application is growing.<br>
+Let's look at the same graph but with a sliding window.
+
+```python
+votes.groupby('voteDate').size().rolling(window=31).mean().plot();
+```
+
+Let's try to build a schedule for months.
+
+```python
+votes.groupby('month').size().plot();
+```
+
+```python
+votes.groupby(['month', 'vote']).size().plot(kind='bar');
+```
+
+As we can see, the schedule is very similar to the last year, because last year was the largest audience increase.<br>
+Build a schedule for the days of the week.
+
+```python
+votes.groupby(['day_of_week', 'vote']).size().plot(kind='bar');
+```
+
+In general, every day reflects the setting as a whole, but you can see that on Friday more people put 4, which means that they are happier before the weekend. And some strange people are voting on weekends and their vote 1 frequency is higher than usual.
+
+Look at the distribution of votes by year.
+
+```python
+votes.groupby('year').size().plot(kind='bar');
+```
+
+```python
+votes.groupby(['year', 'vote']).size().plot(kind='bar');
+```
+
+The application is growing very actively, we can see that in just 3 months of 2017, the application has already gained about half of the votes in 2016.
+
+Let's see how employees vote on average
+
+```python
+votes.groupby('employee')['vote'].mean().sort_values().plot();
+```
+
+I wonder how the average vote in the company.
+
+```python
+votes.groupby('companyAlias')['vote'].mean().sort_values().plot(kind='bar', figsize=(12, 8));
+```
+
+```python
+plt.scatter(x=votes.groupby('companyAlias')['vote'].mean(), y=churn.groupby('companyAlias')['employee'].size());
+plt.ylabel('Employees count')
+plt.xlabel('Mean employees happiness')
+plt.show()
+```
+
+In this graph, we see an important **relationship between employee happiness and company size**; the higher the number of employees, the less happy the employee.
+
+Plot the average churn and happiness level for the company
+
+```python
+plt.scatter(x=votes.groupby('companyAlias')['vote'].mean(), y=churn.groupby('companyAlias')['target'].mean());
+plt.xlabel('Mean employees happiness')
+plt.ylabel('Mean churn')
+plt.show()
+```
+
+It seems intuitively that not happy people quit more often, but there is no strict dependence
+
+##### 2.2.3. Votes. Patterns, insights, pecularities of data<a id='part2.2.3'></a>
+
+In this data set, we noticed several important observations:
+1. Data collected for the period 2014.06 - 2017.03.
+2. Application is growing very actively
+3. People are mostly almost happy in their companies and choose 3.
+4. On Friday more people put 4.
+5. Correlation between employee happiness and company size is negative.
+6. No data gaps.
+
+#### Part 2.3. Anonimized clean comments<a id='part2.3'></a>
+
+##### Part 2.3.1. Anonimized clean comments. Dataset and features description<a id='part2.3.1'></a>
+
+It is possible to find data about the comments written in the app in the **comments_clean_anonimized.csv** file, and it has the following structure:
+
+- **employee**: An integer id that identifies an employee inside a company.
+- **companyAlias**: A hash id for a given company.
+- **commentDate**: String representing the date a given comment was written.
+- **commentId**: A unique id for a given comment.
+- **comment**: Anonimized comment. It has the same length as the original comment.
+- **likes**: Number of likes that the comment received.
+- **dislikes**: Number of dislikes that the comment received.
+
+```python
+comments = pd.read_csv(
+'data/indiv/comments_clean_anonimized.csv', parse_dates=[-1],
+dtype={
+'employee': np.int32, 'likes': np.float, 'dislikes': np.float
+}).drop_duplicates()
+comments.head()
+```
+
+```python
+comments.describe()
+```
+
+```python
+comments.info()
+```
+
+```python
+comments['txt'].fillna('', inplace=True)
+```
+
+It is necessary to bring identifiers of employees and companies in a general view.
+
+```python
+comments = comments[comments['employee'] > 0]
+comments['companyAlias'] = comments['companyAlias'].map(companies_map).astype('int')
+comments['employee'] = comments['companyAlias'].astype(str)+"_"+comments['employee'].astype(str)
+```
+
+```python
+comments.head()
+```
+
+We can notice that the comment text is encoded, but we can use it, we can take its length and create an indication of the presence of the text. <br>
+and add a couple of time-related features
+
+```python
+def get_len(txt):
+if type(txt) == str:
+return len(txt)
+else:
+return 0
+
+def text_exist(txt):
+if type(txt) == str and len(txt) > 0:
+return 1
+else:
+return 0
+
+comments['txt_len'] = comments['txt'].apply(get_len)
+comments['txt_exist'] = comments['txt'].apply(text_exist)
+
+comments['day_of_week'] = comments['commentDate'].dt.dayofweek
+comments['month'] = comments['commentDate'].dt.month
+comments['year'] = comments['commentDate'].dt.year
+
+comments.drop(columns=['txt'], axis=1, inplace=True)
+```
+
+```python
+comments.dropna(inplace=True)
+```
+
+```python
+comments['likes'] = comments['likes'].astype('int64')
+comments['dislikes'] = comments['dislikes'].astype('int64')
+```
+
+```python
+comments.head()
+```
+
+##### Part 2.3.2. Anonimized clean comments. Exploratory data analysis, visual analysis of the features<a id='part2.3.2'></a>
+
+Let's see how comments are distributed by time.
+
+```python
+comments.groupby('commentDate').size().plot(figsize=(12, 8));
+```
+
+This is usually 1 or 2 comments. Here we do not see the growth of comments over time, but there is some kind of surge, you can explore it.
+
+```python
+comments[(comments['commentDate'] > '2016-09-01') & (comments['commentDate'] < '2016-10-01')].groupby('employee').size().sort_values(ascending=False).head()
+```
+
+```python
+comments[
+(comments['commentDate'] > '2016-09-01') &
+(comments['commentDate'] < '2016-10-01') &
+(comments['employee'] == '22_278')
+]
+```
+
+The employee actually writes messages of different lengths, and judging by likes, his colleagues like them.<br>
+Let's see, does he still work?
+
+```python
+churn[churn['employee'] == '22_278']
+```
+
+Yes, this employee is still working. I assume that the **presence and length of the text** are good features
+
+How many comments can be written per day?
+
+```python
+comments.groupby(['commentDate', 'employee']).size().max()
+```
+
+Let's look at a couple of graphs with likes and dislikes.
+
+```python
+sns.boxplot(x='month', y='likes', data=comments);
+```
+
+```python
+sns.boxplot(x='month', y='dislikes', data=comments);
+```
+
+```python
+sns.boxplot(x='day_of_week', y='likes', data=comments);
+```
+
+Interestingly, there are not so many votes on weekends, but comments written on weekends collect a lot of likes, as seen in the diagram above.
+
+```python
+comments['likes'].hist(bins=20);
+```
+
+```python
+comments['dislikes'].hist(bins=20);
+```
+
+Let's check the relationship between lenght text and the number of likes.
+
+```python
+plt.scatter(x=comments['txt_len'], y=comments['likes'])
+# plt.label(label='Correlation bitween length of text and likes')
+plt.xlabel('Lenght of text')
+plt.ylabel('Number of likes')
+plt.show()
+```
+
+We cannot interpret the graph because of the text 30k long. Let's fix it.
+
+```python
+plt.scatter(x=comments[comments['txt_len'] < 3000]['txt_len'], y=comments[comments['txt_len'] < 3000]['likes'])
+plt.xlabel('Lenght of text')
+plt.ylabel('Number of likes')
+plt.show()
+```
+
+There is no clear relationship. A large number of likes can get short comments, and a little long ones.
+
+```python
+comments.info()
+```
+
+There is one dirty record, I know what this record is, it is the last one in this dataset
+
+```python
+comments[-1:]
+```
+
+Perhaps, when downloading data from the application, it appeared.
+
+```python
+comments.dropna(inplace=True)
+```
+
+Lastly, we look at the correlation of features
+
+```python
+sns.heatmap(comments.corr());
+```
+
+The dependence of likes and length of the text is highlighted.
+
+##### 2.3.3. Anonimized clean comments. Patterns, insights, pecularities of data<a id='part2.3.3'></a>
+
+In this data set, we noticed several important observations:
+
+1. There is a text with a very long one.
+2. There is a slight relationship between likes and long text.
+3. There are no people in the data who would write more than 2 comments per day.
+4. Comments written on the weekend, collect more likes.
+5. No data gaps.
+
+#### Part 2.4. Interactions with comments<a id='part2.4'></a>
+
+##### Part 2.4.1. Interactions with comments. Dataset and features description<a id='part2.4.1'></a>
+
+The file **commentInteractions.csv** contains information about which employee liked or disliked a given comment.
+
+- **employee**: An integer id that identifies an employee inside a company.
+- **companyAlias**: A hash id for a given company.
+- **commentId**: A unique id for a given comment that allows us to relate it with the comments in anon_comments.csv.
+- **liked**: A boolean that is True if the employee liked the comment.
+- **disliked**: A boolean that is True if the employee disliked the comment.
+
+```python
+comments_inters = pd.read_csv('data/indiv/commentInteractions.csv',
+dtype={
+'employee': np.int32,
+'liked': np.int32,
+'disliked': np.int32
+}).drop_duplicates().dropna()
+comments_inters.head()
+```
+
+```python
+comments_inters.info()
+```
+
+```python
+comments_inters['companyAlias'] = comments_inters['companyAlias'].map(companies_map).astype('int')
+comments_inters = comments_inters[comments_inters['employee'] >= 0]
+```
+
+Create unique employees ids<p>
+
+```python
+comments_inters['employee'] = comments_inters['companyAlias'].astype(str)+"_"+comments_inters['employee'].astype(str)
+```
+
+```python
+comments_inters.head()
+```
+
+How many likes and dislikes by companies
+
+```python
+comments_inters['companyAlias'].value_counts().head()
+```
+
+Distribution of **likes** by company
+
+By one record employee can liked or disliked, but not together
+
+```python
+len(comments_inters[
+(comments_inters['liked'] == False) & (comments_inters['disliked'] == False)
+])
+```
+
+##### Part 2.4.2. Interactions with comments. Exploratory data analysis, visual analysis of the features<a id='part2.4.2'></a>
+
+```python
+comments_inters[comments_inters['liked'] == True].groupby('companyAlias').size().sort_values().plot(kind='bar');
+```
+
+Distribution of **dislikes** by company
+
+```python
+comments_inters[comments_inters['liked'] == False].groupby('companyAlias').size().sort_values().plot(kind='bar');
+```
+
+In big companies expectedly most like and dislike
+
+Look at the number of employees in the company and how many likes and dislikes per employee
+
+```python
+churn.groupby('companyAlias')['employee'].size().sort_values().plot(kind='bar');
+```
+
+key - Interactions per employee, value - number employees
+
+```python
+dict(zip((comments_inters.groupby('companyAlias').size() // churn.groupby('companyAlias').size()), churn.groupby('companyAlias').size()))
+```
+
+We may notice that very small companies have no records
+
+```python
+plt.scatter(
+x=comments_inters.groupby('companyAlias').size() // churn.groupby('companyAlias').size(),
+y=churn.groupby('companyAlias').size()
+)
+plt.title('Interactions per employee and number employees in company')
+plt.xlabel('likes and dislikes per employee')
+plt.ylabel('number employees in company')
+plt.show()
+```
+
+Let's see how much an employee can do interactions
+
+```python
+comments_inters.groupby('employee').size().sort_values(ascending=False).head(50).plot(kind='bar');
+```
+
+```python
+comments_inters.groupby('employee').size().mean()
+```
+
+There is an assumption that the more active the employee, the higher the likelihood that he works. Let's see if these employees work yet.
+
+```python
+so_active_employees = comments_inters.groupby('employee').size().sort_values(ascending=False).keys()[:20]
+churn[churn['employee'].isin(so_active_employees)]
+```
+
+Indeed, almost all employees still work.
+
+##### 2.4.3. Interactions with comments. Patterns, insights, pecularities of data<a id='part2.4.3'></a>
+
+In this data set, we noticed several important observations:
+
+1. There are companies in which employees made 200 interactions per employee.
+2. On average, the staff did 109 interactions
+3. There are employees who have done 3,500 interactions.
+4. There is a correlation between employee activity and that he works.
+5. No data gaps.
+
+#### Part 2.5. Employee. Collect all data in one dataset<a id='part2.5'></a>
+
+##### Part 2.5.1. Employee. Dataset and features description<a id='part2.5.1'></a>
+
+Let me remind you that we plan to predict the churnout of employees. <br>
+To do this, we need to aggregate the data for each employee and add them to a single set of data.<br>
+The following signs seemed interesting to me:
+1. Voices (min, max, mean, std)
+2. Length and presence of comments (max, mean, std, sum)
+3. Reaction to comments of other employees(likes, dislikes) (min, max, mean, std)
+4. Reaction to employee comments (likes, dislikes) (min, max, mean, std)
+5. The average level of happiness in the company
+6. The number of people in the company
+7. The number of days between the first and last vote
+
+**'employee'** - unique identifier of the employee<br>
+**'companyAlias'** - unique company identifier<br>
+**'numVotes'** - the number of votes passed<br>
+**'target'** - is the target variable. Still working - 0, Not working - 1<br>
+
+**('vote', 'mean')** - the mean vote of the employee<br>
+**('vote', 'min')** - minimum employee’s vote<br>
+**('vote', 'max')** - maximum employee vote<br>
+
+**('dislikes', 'mean')** - the mean number of dislikes received for comments from colleagues<br>
+**('dislikes', 'sum')** - the total number of dislikes received for comments from colleagues<br>
+**('dislikes', 'min')** - the minimum number of dislikes received for comments from colleagues<br>
+**('dislikes', 'max')** - the maximum number of dislikes received for comments from colleagues<br>
+
+**('likes', 'mean')** - the mean number of likes received for comments from colleagues<br>
+**('likes', 'sum')** - the total number of likes received on their comments from colleagues<br>
+**('likes', 'min')** - the minimum number of likes received for comments from colleagues<br>
+**('likes', 'max')** - the maximum number of likes received for comments from colleagues<br>
+
+**('txt_len', 'mean')** - mean length of the comment text<br>
+**('txt_len', 'sum')** - total length of comment texts<br>
+**('txt_len', 'min')** - the minimum length of the comment text<br>
+**('txt_len', 'max')** - maximum comment text length<br>
+
+**('txt_exist', 'mean')** - percentage of votes with a comment<br>
+
+**('disliked', 'mean')** - percentage of dislikes from all interactions with colleagues comments<br>
+**('disliked', 'sum')** - the total number of dislikes that the employee put<br>
+
+**('liked', 'mean')** - percentage of likes from all interactions with colleagues comments<br>
+**('liked', 'sum')** - the total number of likes that the employee put<br>
+
+**'mean_vote_by_company'** - mean happiness of employees in a company<br>
+**'num_emploees_by_company'** - the number of employees in the company<br>
+**'first_last_vote_days'** - the number of days between the first and last vote<br>
+
+##### Part 2.5.2. Employee. Feature engineering and description <a id='part2.5.2'></a>
+
+```python
+employee = pd.DataFrame()
+employee = churn[['employee', 'companyAlias', 'numVotes', 'target']]
+```
+
+```python
+agg_votes = votes[['employee', 'vote']].groupby('employee', as_index=False).agg({'vote': [np.mean, min, max]})
+
+agg_comments = comments[['employee', 'txt_len', 'likes', 'dislikes', 'txt_exist']]\
+.groupby('employee', as_index=False).agg(
+{
+'txt_len': [np.mean, np.sum, min, max],
+'likes': [np.mean, np.sum, min, max],
+'dislikes': [np.mean, np.sum, min, max],
+'txt_exist': [np.mean]
+}
+)
+
+agg_employee_likes_dislokes = comments_inters[['employee', 'liked', 'disliked']].groupby('employee', as_index=False).agg(
+{
+'liked': [np.mean, np.sum],
+'disliked': [np.mean, np.sum],
+}
+)
+
+agg_work_long = votes[['employee', 'voteDate']].groupby('employee', as_index=False).agg({'voteDate': [min, max]})
+
+employee = employee.merge(agg_votes, on=['employee','employee'],how='left')
+employee = employee.merge(agg_comments, on=['employee','employee'],how='left')
+employee = employee.merge(agg_employee_likes_dislokes, on=['employee','employee'],how='left')
+employee = employee.merge(agg_work_long, on=['employee','employee'],how='left')
+
+employee['first_last_vote_days'] = (employee[('voteDate', 'max')] - employee[('voteDate', 'min')]).dt.days
+employee.drop([('voteDate', 'max'), ('voteDate', 'min')], axis=1, inplace=True)
+
+employee.head()
+```
+
+```python
+mean_vote_by_company = votes.groupby('companyAlias')['vote'].mean().to_dict()
+employee['mean_vote_by_company'] = employee['companyAlias'].map(mean_vote_by_company)
+```
+
+```python
+emploies_by_company = churn.groupby('companyAlias')['employee'].count().to_dict()
+employee['num_emploees_by_company'] = employee['companyAlias'].map(emploies_by_company)
+```
+
+```python
+employee.info()
+```
+
+```python
+employee.fillna(0, inplace=True)
+```
+
+```python
+employee.info()
+```
+
+```python
+employee.describe().T
+```
+
+You may notice that the company identifier is a number, so it should not be, we make it a string
+
+```python
+employee['companyAlias'] = employee['companyAlias'].astype('str')
+```
+
+You can also see target class 16%
+
+##### Part 2.5.3. Employee. Exploratory data analysis, visual analysis of the features <a id='part2.5.3'></a>
+
+```python
+employee.hist(figsize=(12, 12));
+```
+
+```python
+from pylab import rcParams
+rcParams['figure.figsize'] = 10, 8
+sns.heatmap(employee.corr())
+plt.title('Features Correlation Heatmap',fontsize=24)
+plt.show()
+```
+
+On this heat map we can see a lot of interesting.
+The target variable correlates well with parameters such as:
+(liked, mean), (txt_exist, mean), (txt_len, mean), (likes, mean), num_emploees_by_company, (vote, mean)
+
+So here we see correlations with the target feature.
+
+```python
+employee.corr()['target'].abs().sort_values(ascending=False)[:10]
+```
+
+```python
+corr_feat = employee.corr()['target'].abs().sort_values(ascending=False)[:10].keys()
+```
+
+```python
+sns.boxplot(y='mean_vote_by_company', x='target', data=employee);
+```
+
+Let's see how representatives of different classes put on dislikes
+
+```python
+sns.boxplot(y=('disliked', 'mean'), x='target', data=employee);
+```
+
+It can be noted that people who want to leave put less dislikes to comments of other employees.
+
+```python
+sns.boxplot(y=('liked', 'mean'), x='target', data=employee);
+```
+
+And put less likes to comments of other employees.
+
+```python
+sns.boxplot(y=('txt_len', 'mean'), x='target', data=employee[employee[('txt_len', 'mean')] < 250]);
+```
+
+And less write comments.
+
+What about getting likes
+
+```python
+sns.boxplot(y=('likes', 'mean'), x='target', data=employee[employee[('likes', 'mean')] < 20]);
+```
+
+```python
+sns.boxplot(y=('dislikes', 'mean'), x='target', data=employee[employee[('dislikes', 'mean')] < 2]);
+```
+
+##### Part 2.5.4. Employee. Patterns, insights, pecularities of data <a id='part2.5.4'></a>
+
+You can make the following assumptions:
+1. People actively participating in this application, presumably, also actively communicate with colleagues and they do not quit.
+2. If a person writes comments, then he most likely wants to work in a company.
+3. The more employees, the higher the turnover.
+
+### Part 3. Visual analysis of the features<a id='part3'></a>
+
+### Part 4. Patterns, insights, pecularities of data <a id='part4'></a>
+
+### Part 5. Data preprocessing<a id='part5'></a>
+
+### Part 6. Feature engineering and description<a id='part6'></a>
+
+Parts 3,4,5,6 are done for each dataset separately, for ease of reading. Sorry, that complicated the assessment of my work, but in my opinion it is logical.
+
+### Part 7. Cross-validation, hyperparameter tuning<a id='part7'></a>
+
+Since we have a strong imbalance in the target feature, we will use train_test_split with stratify.<br>
+And for fit model we will use StratifiedKFold.
+
+```python
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import confusion_matrix, roc_auc_score
+from sklearn.model_selection import StratifiedKFold, train_test_split
+
+y = employee['target']
+X = employee.drop(['target', 'companyAlias'], axis=1).set_index('employee')
+X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.3)
+```
+
+Check that the distribution of classes is the same.
+
+```python
+y.value_counts()[0]/y.value_counts()[1], \
+y_test.value_counts()[0]/y_test.value_counts()[1], \
+y_train.value_counts()[0]/y_train.value_counts()[1]
+```
+
+In our task, we predict the dismissal of an employee. In our problem there are 2 types of errors.
+First, we predicted that the person would quit, and he did not quit, that is, instead of 0, predict 1. This is an error F1.
+Second, we say that the person will remain, and he leaves. **This is a f2 error.** For our task, **it is more important**, because We try to minimize the costs associated with hiring new employees.
+
+```python
+rf = RandomForestClassifier(random_state=17)
+rf.fit(X_train, y_train)
+# false negative - f2
+# [tn, fp]
+# [fn, tp]
+confusion_matrix(y_train, rf.predict(X_train))
+```
+
+```python
+confusion_matrix(y_test, rf.predict(X_test))
+```
+
+```python
+import operator
+sorted(zip(X_train.columns, rf.feature_importances_), key=operator.itemgetter(1), reverse=True)
+```
+
+```python
+skf = StratifiedKFold(n_splits=3)
+
+def fit_grid_rf(params, cv=skf, X_train=X_train, y_train=y_train):
+rf_for_grid = RandomForestClassifier(random_state=17, n_jobs=-1, bootstrap=True)
+rf_grid = GridSearchCV(estimator=rf_for_grid, param_grid=params, cv=skf)
+rf_grid.fit(X_train, y_train)
+return rf_grid
+
+def get_all_stats(grid, X_train=X_train, X_test=X_test, y_train=y_train, y_test=y_test):
+print('Best grid params: ', grid.best_params_)
+print('Best grid score: ', grid.best_score_)
+print('Confusion matrix for train: ', confusion_matrix(y_train, grid.best_estimator_.predict(X_train)))
+print('Confusion matrix for test: ', confusion_matrix(y_test, grid.best_estimator_.predict(X_test)))
+print('ROC AUC for train: ', roc_auc_score(y_train, grid.best_estimator_.predict_proba(X_train)[:, 1]))
+print('ROC AUC for test: ', roc_auc_score(y_test, grid.best_estimator_.predict_proba(X_test)[:, 1]))
+print('Best features', sorted(zip(X_train.columns, grid.best_estimator_.feature_importances_), key=operator.itemgetter(1), reverse=True)[:8])
+```
+
+Let's try to train the first search grid. Here I have given a lot of weight to the examples of our positive class.
+
+## First grid search
+
+```python
+%%time
+rf_params = {
+'n_estimators': [10, 50, 100],
+'max_depth': [5, 10, 15],
+'class_weight': [{0: 1, 1: 5}, {0: 1, 1: 9}],
+'max_features': [0.2, 0.5, 0.7,]
+}
+get_all_stats(fit_grid_rf(rf_params))
+```
+
+# Second grid search
+
+```python
+%%time
+skf = StratifiedKFold(n_splits=3)
+
+rf_params = {
+'n_estimators': [100, 120],
+'max_depth': [15, 16],
+'class_weight': [{0: 1, 1: 5}],
+'max_features': [0.6, 0.7, 0.9],
+'criterion': ['gini', 'entropy']
+}
+get_all_stats(fit_grid_rf(rf_params))
+```
+
+## Third grid search
+
+```python
+%%time
+skf = StratifiedKFold(n_splits=3)
+
+rf_params = {
+'n_estimators': [120],
+'max_depth': [16],
+'max_features': [0.7],
+'class_weight': [{0: 1, 1: 5}]
+}
+final_grid = fit_grid_rf(rf_params)
+get_all_stats(final_grid)
+```
+
+Let's try to leave only awesome features.
+
+```python
+X_train.columns
+```
+
+```python
+y = employee['target']
+
+best_features = sorted(
+zip(
+X_train.columns, final_grid.best_estimator_.feature_importances_), key=operator.itemgetter(1), reverse=True
+)
+feats = []
+for feat in best_features:
+feats.append(feat[0])
+feats[:9]
+```
+
+The result has not changed, 71 f2 errors are quite a lot.
+
+The most important feature for this model are:<br>
+**num_emploees_by_company'** <br>
+**('liked', 'mean')**<br>
+**('liked', 'sum')**<br>
+**first_last_vote_days**<br>
+**mean_vote_by_company**<br>
+**('txt_len', 'min')**<br>
+**numVotes**<br>
+**('vote', 'mean')**<br>
+**('txt_len', 'sum')** <br>
+
+### Part 9. Prediction for hold-out and test samples <a id='part9'></a>
+
+```python
+get_all_stats(final_grid)
+```
+
+ROC AUC for holdout a.k.a test = 0.911
+
+### Part 10. Model evaluation with metrics description<a id='part10'></a>
+
+I chose to use rock auk for simplicity, you can later develop it and use another metric
+
+### Part 11. Conclusions<a id='part11'></a>
+
+This task is very important to reduce the costs of finding and adapting employees. In particular, this task is important for large companies, because the turnover in them is more.
+
+As a result of researching this data set, it was revealed that the dismissal of an employee does not greatly depend on whether he is happy, more dependent on the size of the company, how active the social life of the employee is, whether he receives likes from employees and how much he interacts with the application.
+
+In the future, you can try other models, such as logistic regression, perhaps it will also cope well with this task. You can also improve the predictive model by increasing the size of the data set.

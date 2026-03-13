@@ -1,0 +1,269 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition</title>
+<!--Generated on Sat Jun 28 18:40:00 2025 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+
+<link rel="stylesheet" href="styleBook.css" type="text/css" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3K403C4QY8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3K403C4QY8');
+</script>
+
+
+<link rel="stylesheet" href="LaTeXML.css" type="text/css">
+<link rel="stylesheet" href="ltx-book.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="up" href="ArtInt3e.html" title="Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="start" href="ArtInt3e.html" title="Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="prev" href="ArtInt3e.Ch7.S10.html" title="7.10 Exercises ‣ Chapter 7 Supervised Machine Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="next" href="ArtInt3e.Ch8.S1.html" title="8.1 Feedforward Neural Networks ‣ Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Chx1.html" title="Preface ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch1.html" title="Chapter 1 Artificial Intelligence and Agents ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch2.html" title="Chapter 2 Agent Architectures and Hierarchical Control ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch3.html" title="Chapter 3 Searching for Solutions ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch4.html" title="Chapter 4 Reasoning with Constraints ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch5.html" title="Chapter 5 Propositions and Inference ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch6.html" title="Chapter 6 Deterministic Planning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch7.html" title="Chapter 7 Supervised Machine Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch9.html" title="Chapter 9 Reasoning with Uncertainty ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch10.html" title="Chapter 10 Learning with Uncertainty ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch11.html" title="Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch12.html" title="Chapter 12 Planning with Uncertainty ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch13.html" title="Chapter 13 Reinforcement Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch14.html" title="Chapter 14 Multiagent Systems ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch15.html" title="Chapter 15 Individuals and Relations ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch16.html" title="Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch17.html" title="Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch18.html" title="Chapter 18 The Social Impact of Artificial Intelligence ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch19.html" title="Chapter 19 Retrospect and Prospect ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="appendix" href="ArtInt3e.A1.html" title="Appendix A Mathematical Preliminaries and Notation ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="appendix" href="ArtInt3e.A2.html" title="Appendix B Mapping to Open-Source Packages ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="bibliography" href="ArtInt3e.bib.html" title="References ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="index" href="ArtInt3e.idx.html" title="Index ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch8.S1.html" title="8.1 Feedforward Neural Networks ‣ Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch8.S2.html" title="8.2 Improved Optimization ‣ Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch8.S3.html" title="8.3 Improving Generalization ‣ Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch8.S4.html" title="8.4 Convolutional Neural Networks ‣ Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch8.S5.html" title="8.5 Neural Models for Sequences ‣ Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch8.S6.html" title="8.6 Other Neural Network Models ‣ Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch8.S7.html" title="8.7 Social Impact ‣ Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch8.S8.html" title="8.8 Review ‣ Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch8.S9.html" title="8.9 References and Further Reading ‣ Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch8.S10.html" title="8.10 Exercises ‣ Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<meta name="keywords" lang="en" content="deep, feature engineering, learning, neural network, neural networks, neuron, representation learning, unit (neural network)">
+</head>
+<body>
+<div id="wrap">
+
+	<!--header -->
+	<div id="header">		
+        <p id="logo-author">David L. Poole & Alan K. Mackworth</p>	
+		<h1 id="logo-text"><a href="https://artint.info/" title="">Artificial <br/>Intelligence 3E</a></h1>		
+		<p id="logo-subtext">foundations of computational agents</p>
+	<!--header ends-->					
+	</div>
+	
+	<!-- navigation starts-->	
+	<div id="nav">		
+<a href="ArtInt3e.Ch7.S10.html"><img class="previous" alt="Previous" src="images/arrow-left.gif"/></a><a href="ArtInt3e.html"><img class="up" alt="Up" src="images/arrow-up.gif"/></a><a href="ArtInt3e.Ch8.S1.html"><img class="next" alt="Next" src="images/arrow-right.gif"/></a><ul><li><a href="https://artint.info">Home</a></li><li><a href="ArtInt3e.idx.html">Index</a></li><li><a href="ArtInt3e.html">Contents</a></li></ul>
+	<!-- navigation ends-->	
+	</div>
+
+<div class="ltx_page_main">
+<header class="ltx_page_header">
+<div class="ltx_align_center">
+<a href="ArtInt3e.html" title="" class="ltx_ref" rel="up"><span class="ltx_text ltx_ref_title">Artificial Intelligence: Foundations of Computational Agents,
+ 3rd Edition</span></a><a href="ArtInt3e.Ch7.S10.html" title="In Chapter 7 Supervised Machine Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="prev"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">7.10 </span>Exercises</span></a><a href="ArtInt3e.Ch8.S1.html" title="In Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="next"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">8.1 </span>Feedforward Neural Networks</span></a>
+</div></header>
+<div class="ltx_page_content">
+<section class="ltx_chapter ltx_fleqn">
+<h1 class="ltx_title ltx_title_chapter">
+<span class="ltx_tag ltx_tag_chapter">Chapter 8 </span>Neural Networks and Deep Learning</h1>
+
+<div id="p1" class="ltx_para">
+<blockquote class="ltx_quote">
+<p class="ltx_p"><em class="ltx_emph ltx_font_italic">Deep learning allows computational models that are composed of
+multiple processing layers to learn representations of data with
+multiple levels of abstraction. These methods have dramatically
+improved the state-of-the-art in speech recognition, visual object
+recognition, object detection and many other domains such as drug
+discovery and genomics. Deep learning discovers intricate structure in
+large data sets by using the backpropagation algorithm to indicate how
+a machine should change its internal parameters that are used to
+compute the representation in each layer from the representation in
+the previous layer. Deep convolutional nets have brought about
+breakthroughs in processing images, video, speech and audio, whereas
+recurrent nets have shone light on sequential data such as text and
+speech.</em></p>
+<p class="ltx_p ltx_align_right">– Y. LeCun, Y. Bengio, and G. Hinton [<cite class="ltx_cite ltx_citemacro_citeyear"><a href="ArtInt3e.bib.html#bib339" title="" class="ltx_ref">2015</a></cite>]</p>
+</blockquote>
+<p class="ltx_p">The previous chapter assumed that the input were features; you
+might wonder where the features come from. The inputs to real-world
+agents are diverse, including
+pixels from cameras, sound waves from microphones, or character
+sequences from web requests. Using these directly as inputs to the methods from the previous
+chapter often does not work well; useful features need to be created from the
+raw inputs. This could be done by designing features from the raw
+inputs using <span class="ltx_text ltx_font_bold">feature engineering</span>. Learned features, however, are now
+state-of-the-art for many applications, and can beat engineered features for cases
+that have abundant data.</p>
+</div>
+<div id="p2" class="ltx_para">
+<p class="ltx_p">This chapter is about how to learn
+features. The methods here learn features that are
+useful for the tasks trained on, even though they may not have an interpretation that can be
+easily explained. Often features learned for some tasks are useful for
+other tasks.</p>
+</div>
+<div id="p3" class="ltx_para">
+<p class="ltx_p">Learning the features that are useful for prediction is called
+<span class="ltx_text ltx_font_bold">representation learning</span>. The most common form of
+representation reasoning is in terms of multilayer <span class="ltx_text ltx_font_bold">neural networks</span>.
+These networks are inspired by the <span class="ltx_text ltx_font_bold">neurons</span> in the brain but do not
+actually simulate neurons.
+Artificial neurons are called <span class="ltx_text ltx_font_bold">units</span>. Each unit has many real-valued parameters. Large artificial neural networks (in 2022)
+contain on the order of one hundred billion (<math id="p3.m1" class="ltx_Math" alttext="10^{11}" display="inline"><msup><mn>10</mn><mn>11</mn></msup></math>) trained parameters, which is approximately
+the number of neurons in the human brain.
+Neurons are much more complicated than the units in artificial neural
+networks. For example, the roundworm <em class="ltx_emph ltx_font_italic">Caenorhabditis elegans</em>, which is about
+1 mm long, has
+302 neurons and exhibits complex behavior, which simple models of neurons
+cannot account for.</p>
+</div>
+<div id="p4" class="ltx_para">
+<p class="ltx_p">As pointed out by LeCun et al., above,
+artificial neural networks (ANNs) have had considerable success in
+unstructured and perception tasks
+for which there is abundant training data, such as
+for image interpretation, speech recognition, machine translation, and
+game playing. The models used in state-of-the-art applications are
+trained on
+huge datasets, including more cats than any one person has ever seen,
+more sentences than any one person has ever read, and more games than
+any one person has played.
+They can take advantage of the data because they are very flexible,
+with the capability of inventing low-level features that are useful
+for the higher-level task.</p>
+</div>
+<div id="p5" class="ltx_para">
+<p class="ltx_p">Artificial neural networks are interesting to study for a number of reasons:</p>
+<ul id="S0.I1" class="ltx_itemize">
+<li id="S0.I1.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S0.I1.i1.p1" class="ltx_para">
+<p class="ltx_p">As part of neuroscience, to understand real neural
+systems, researchers are simulating the neural systems of simple
+animals such as worms, which promises to lead to an understanding of
+which aspects of neural systems are necessary to explain the behavior
+of these animals.</p>
+</div>
+</li>
+<li id="S0.I1.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S0.I1.i2.p1" class="ltx_para">
+<p class="ltx_p">Some researchers seek to automate not only the functionality of
+intelligence (which is what the field of artificial intelligence
+is about) but also the mechanism of the brain, suitably abstracted.
+One hypothesis is that the best way to build the
+functionality of the brain is to use the mechanism of the
+brain. This hypothesis can be tested by attempting to build intelligence
+using the mechanism of the brain, as well as attempting it without using the
+mechanism of the brain. </p>
+</div>
+</li>
+<li id="S0.I1.i3" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S0.I1.i3.p1" class="ltx_para">
+<p class="ltx_p">The brain inspires a new way to think about computation that
+contrasts with traditional computers. Unlike conventional computers,
+which have a few processors and a large but essentially inert
+memory, the brain consists of a huge number of asynchronous
+distributed processes, all running concurrently with no master
+controller. Conventional computers are not the
+only architecture available for computation. Current neural
+network systems are often implemented on parallel architectures,
+including GPUs and specialized tensor processing units.</p>
+</div>
+</li>
+<li id="S0.I1.i4" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S0.I1.i4.p1" class="ltx_para">
+<p class="ltx_p">As far as learning is concerned, neural networks provide a
+different measure of simplicity as a learning bias than, for example,
+boosted decision trees. Multilayer neural networks, like decision trees, can
+represent any function of a set of discrete features. However, the
+bias is different;
+functions that correspond to simple
+neural networks do not necessarily correspond to simple ensembles of decision
+trees. In neural networks, low-level features
+that are useful for multiple higher-level features are learned.</p>
+</div>
+</li>
+</ul>
+</div>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch8.S1.html" title="In Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">8.1 </span>Feedforward Neural Networks</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch8.S2.html" title="In Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">8.2 </span>Improved Optimization</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch8.S3.html" title="In Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">8.3 </span>Improving Generalization</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch8.S4.html" title="In Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">8.4 </span>Convolutional Neural Networks</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch8.S5.html" title="In Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">8.5 </span>Neural Models for Sequences</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch8.S6.html" title="In Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">8.6 </span>Other Neural Network Models</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch8.S7.html" title="In Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">8.7 </span>Social Impact</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch8.S8.html" title="In Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">8.8 </span>Review</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch8.S9.html" title="In Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">8.9 </span>References and Further Reading</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch8.S10.html" title="In Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">8.10 </span>Exercises</span></a></li>
+</ol></nav>
+</section>
+</div>
+<footer class="ltx_page_footer">
+<div class="ltx_align_center">
+<a href="ArtInt3e.Ch7.S10.html" title="In Chapter 7 Supervised Machine Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="prev"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">7.10 </span>Exercises</span></a><a href="ArtInt3e.bib.html" title="In Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="bibliography"><span class="ltx_text ltx_ref_title">References</span></a><a href="ArtInt3e.idx.html" title="In Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="index"><span class="ltx_text ltx_ref_title">Index</span></a><a href="ArtInt3e.Ch8.S1.html" title="In Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="next"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">8.1 </span>Feedforward Neural Networks</span></a>
+</div>
+<div class="ltx_page_logo">Generated  on Sat Jun 28 18:40:00 2025 by <a href="http://dlmf.nist.gov/LaTeXML/" class="ltx_LaTeXML_logo"><span style="letter-spacing:-0.2em; margin-right:0.1em;">L<span class="ltx_font_smallcaps" style="position:relative; bottom:2.2pt;">a</span>T<span class="ltx_font_smallcaps" style="font-size:120%;position:relative; bottom:-0.2ex;">e</span></span><span style="font-size:90%; position:relative; bottom:-0.2ex;">XML</span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAOCAYAAAD5YeaVAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wKExQZLWTEaOUAAAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAdpJREFUKM9tkL+L2nAARz9fPZNCKFapUn8kyI0e4iRHSR1Kb8ng0lJw6FYHFwv2LwhOpcWxTjeUunYqOmqd6hEoRDhtDWdA8ApRYsSUCDHNt5ul13vz4w0vWCgUnnEc975arX6ORqN3VqtVZbfbTQC4uEHANM3jSqXymFI6yWazP2KxWAXAL9zCUa1Wy2tXVxheKA9YNoR8Pt+aTqe4FVVVvz05O6MBhqUIBGk8Hn8HAOVy+T+XLJfLS4ZhTiRJgqIoVBRFIoric47jPnmeB1mW/9rr9ZpSSn3Lsmir1fJZlqWlUonKsvwWwD8ymc/nXwVBeLjf7xEKhdBut9Hr9WgmkyGEkJwsy5eHG5vN5g0AKIoCAEgkEkin0wQAfN9/cXPdheu6P33fBwB4ngcAcByHJpPJl+fn54mD3Gg0NrquXxeLRQAAwzAYj8cwTZPwPH9/sVg8PXweDAauqqr2cDjEer1GJBLBZDJBs9mE4zjwfZ85lAGg2+06hmGgXq+j3+/DsixYlgVN03a9Xu8jgCNCyIegIAgx13Vfd7vdu+FweG8YRkjXdWy329+dTgeSJD3ieZ7RNO0VAXAPwDEAO5VKndi2fWrb9jWl9Esul6PZbDY9Go1OZ7PZ9z/lyuD3OozU2wAAAABJRU5ErkJggg==" alt="Mascot Sammy"></a>
+</div></footer>
+
+</div>
+	<!-- footer starts -->		
+	<div id="footer">						
+		<p><a href="https://artint.info">Artificial Intelligence: Foundations of Computational Agents, Poole
+	& Mackworth</a><br/>
+	Copyright &copy; 2023, <a href="https://cs.ubc.ca/~poole/">David L. Poole</a> and <a href="https://cs.ubc.ca/~mack/">Alan K. Mackworth</a>. <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.
+   		</p>	
+	<!-- footer ends-->
+</div>
+</body>
+</html>

@@ -1,0 +1,244 @@
+# Decision Theory in AI
+
+Source: GeeksforGeeks Artificial Intelligence Tutorial
+Original URL: https://www.geeksforgeeks.org/artificial-intelligence/decision-theory-in-ai/
+Original Path: https://www.geeksforgeeks.org/artificial-intelligence/decision-theory-in-ai/
+Course: Artificial Intelligence
+
+Decision Theory in AI
+
+Last Updated : 23 Jul, 2025
+
+Decision theory is a foundational concept in Artificial Intelligence (AI), enabling machines to make rational and informed decisions based on available data. It combines principles from mathematics, statistics, economics, and psychology to model and improve decision-making processes. In AI, decision theory provides the framework to predict outcomes, evaluate choices, and guide actions in uncertain environments.
+
+This article explores the key aspects of decision theory in AI, its significance, and how it is applied in modern AI systems.
+
+Table of Content
+
+- What is Decision Theory?
+
+- Understanding Decision Theory in AI
+
+- Key Components of Decision Theory
+
+- Game Theory and Multi-Agent Systems
+
+- Waymo’s Autonomous Vehicles – Decision Theory for Safe Driving
+
+- IBM Watson for Oncology – AI-Assisted Cancer Treatment Planning
+
+- PayPal – AI-Driven Fraud Detection System
+
+- Challenges in Applying Decision Theory to AI
+
+- Future of Decision Theory in AI
+
+- Conclusion
+
+What is Decision Theory?
+
+At its core, decision theory is the study of choices under uncertainty. It seeks to identify the optimal action from a set of possible actions by evaluating the outcomes of each decision. There are two primary branches of decision theory:
+
+- Normative decision theory focuses on identifying the optimal decision, assuming the decision-maker is rational and has complete information.
+
+- Descriptive decision theory examines how decisions are actually made in practice, often dealing with cognitive limitations and psychological biases.
+
+In AI, decision theory often follows the normative approach, aiming to equip AI systems with the ability to make rational decisions that maximize utility, even when faced with incomplete or noisy data.
+
+Understanding Decision Theory in AI
+
+In artificial intelligence , decision theory uses mathematical models to assess possible outcomes under uncertainty and assist systems in making decisions. To choose courses of action that maximize predicted benefit, it blends probability, or the likelihood of outcomes, and utility, or the worth of outcomes. In this way, AI systems imitate human decision-making, even in the face of erroneous or inadequate evidence.
+
+AI systems often use decision theory in two primary ways: supervised learning and reinforcement learning .
+
+1. Supervised Learning
+
+In supervised learning , AI systems are trained using labeled data to make predictions or decisions. Decision theory helps optimize the classification or regression tasks by evaluating the trade-offs between false positives, false negatives, and other outcomes based on the utility of each result.
+
+For instance, in medical diagnosis, the utility of correctly identifying a disease may be far higher than the cost of a false alarm, leading the AI to favor sensitivity over specificity.
+
+2. Reinforcement Learning
+
+Reinforcement learning (RL) is one of the key areas where decision theory shines in AI. In RL, agents learn to make decisions through trial and error, receiving feedback from their environment in the form of rewards or penalties.
+
+- Markov Decision Processes (MDPs) are a common formalism for decision-making in reinforcement learning, where decision theory principles help in navigating uncertainty and maximizing long-term rewards.
+
+- In MDPs, the agent needs to choose actions that optimize future rewards, which aligns with the decision-theoretic concept of maximizing expected utility.
+
+Key Components of Decision Theory
+
+- Agents and Actions : In decision theory, an agent is an entity that makes decisions. The agent has a set of possible actions or decisions to choose from.
+
+- States of the World : These represent the possible conditions or scenarios that may affect the outcome of the agent’s decision. The agent often has incomplete knowledge about the current or future states of the world.
+
+- Outcomes and Consequences : Every decision leads to an outcome. Outcomes can be desirable, neutral, or undesirable, depending on the goals of the agent.
+
+- Probabilities : Since outcomes are often uncertain, decision theory involves assigning probabilities to different states or outcomes based on available data.
+
+- Utility Function : This is a measure of the desirability of an outcome. A utility function quantifies how much an agent values a specific result, helping in ranking outcomes to guide decisions.
+
+- Decision Rules : These are the guidelines the agent follows to choose the best action. Examples include the Maximization of Expected Utility (MEU) , where an agent selects the action that offers the highest expected utility.
+
+Game Theory and Multi-Agent Systems
+
+In environments where multiple agents (such as robots, autonomous cars, or even financial bots) interact, game theory becomes a crucial extension of decision theory. Game theory deals with scenarios where the outcome of a decision depends not only on the agent’s actions but also on the actions of other agents.
+
+- Nash Equilibrium is a solution concept where no agent has anything to gain by changing their strategy if other agents maintain their strategies. This equilibrium can guide the design of AI systems that interact with human users or other AI agents, ensuring stable and predictable outcomes.
+
+Waymo’s Autonomous Vehicles – Decision Theory for Safe Driving
+
+Problem : Waymo’s self-driving cars must navigate complex environments with real-time decisions, balancing safety and efficiency amidst uncertainties like unpredictable human behavior.
+
+Application of Decision Theory in Waymo's Autonomous Vehicles
+
+Waymo uses decision theory to help its vehicles make safe, rational choices under uncertainty. The AI system processes data from a variety of sensors (LIDAR, radar, and cameras) to assess the vehicle’s environment. By assigning probabilities to different events (such as a pedestrian stepping into the road or a nearby vehicle swerving), the system evaluates multiple actions, such as slowing down, changing lanes, or stopping, and selects the one that maximizes safety while minimizing disruptions.
+
+- States of the world : Traffic signals, vehicle speeds, weather conditions, and positions of other road users.
+
+- Actions : Speed up, slow down, change lanes, stop.
+
+- Probabilities : The likelihood of a pedestrian crossing, a vehicle stopping suddenly, or an emergency braking event.
+
+- Utility : Prioritizing passenger safety and compliance with traffic laws while maintaining a smooth and efficient ride.
+
+Outcome : This approach enables Waymo cars to safely navigate urban environments with fewer accidents and smoother rides, thanks to real-time, calculated decisions.
+
+IBM Watson for Oncology – AI-Assisted Cancer Treatment Planning
+
+Problem : Oncologists face complex decisions when choosing cancer treatments due to uncertain outcomes and incomplete patient data.
+
+Application of Decision Theory in IBM Watson for Oncology
+
+IBM Watson for Oncology uses decision theory to analyze large datasets of medical research, clinical trials, and patient records to provide treatment recommendations. The system uses probabilistic models to assess potential outcomes for various treatments, incorporating factors such as a patient’s medical history, age, type of cancer, and overall health. The AI assigns probabilities to the success of each treatment and uses a utility function to recommend the best course of action, considering both survival rates and quality of life.
+
+- States of the world : Different treatment options, stages of cancer, patient health.
+
+- Actions : Choosing between chemotherapy, radiation, surgery, or a combination.
+
+- Probabilities : Likelihood of treatment success, recurrence rates, and potential side effects.
+
+- Utility : Maximizing patient survival and minimizing discomfort and side effects.
+
+Outcome : IBM Watson helps oncologists create personalized treatment plans, leading to faster decisions and improved patient outcomes in hospitals worldwide.
+
+PayPal – AI-Driven Fraud Detection System
+
+Problem : PayPal must detect fraudulent transactions in real-time while minimizing false positives that inconvenience legitimate users.
+
+Application of Decision Theory in PayPal for AI Driven Fraud Detection System
+
+PayPal employs AI-based decision theory models to evaluate each transaction by calculating the likelihood that it is fraudulent. The system assesses several factors, such as transaction amount, location, device used, user behavior, and transaction history. It assigns probabilities to the likelihood of fraud and calculates the utility of flagging a transaction as fraud versus allowing it to go through. The model balances the need to stop fraud with the need to avoid customer inconvenience (i.e., false positives).
+
+- States of the world : Transaction details, user history, device information.
+
+- Actions : Approve, flag for review, or reject the transaction.
+
+- Probabilities : Likelihood that a transaction is fraudulent based on patterns.
+
+- Utility : Minimizing financial losses from fraud and ensuring a smooth user experience.
+
+Outcome : PayPal’s system effectively reduces fraud and minimizes false positives, improving user experience and significantly lowering fraud-related losses by adapting to evolving threats in real time.
+
+Challenges in Applying Decision Theory to AI
+
+While decision theory provides a robust framework for decision-making in AI, there are several challenges associated with its implementation:
+
+- Complexity and Computation : Calculating optimal decisions based on large-scale data with many variables is computationally expensive. Approximation algorithms and heuristics are often used in practice to overcome these limitations.
+
+- Uncertainty and Incomplete Information : In many real-world scenarios, the probabilities of various outcomes are not known. This requires AI systems to handle uncertainty with limited data and make reasonable decisions based on estimations.
+
+- Ethics and Value Alignment : In applications like healthcare, autonomous vehicles, or defense, decision theory raises ethical concerns. How should AI systems weigh human lives versus property damage, or long-term environmental impact versus short-term gains?
+
+Future of Decision Theory in AI
+
+As AI systems become more advanced and widespread, decision theory will continue to play a critical role in enhancing their decision-making capabilities. Future developments in this area may focus on:
+
+- Hybrid Models : Combining decision theory with other approaches, such as deep learning and symbolic reasoning, to create AI systems capable of complex decision-making in highly dynamic environments.
+
+- Ethical Decision-Making : Developing frameworks that integrate ethical considerations into decision theory, ensuring that AI decisions align with societal values and norms.
+
+Conclusion
+
+Decision theory provides a powerful framework for AI systems to navigate uncertainty, assess outcomes, and make rational choices. From autonomous vehicles to healthcare, its applications are vast and growing. As AI continues to evolve, decision theory will remain a cornerstone in the development of intelligent systems that can act autonomously and adaptively in the real world.
+
+Artificial Intelligence
+
+AI-ML-DS
+
+Introduction to AI
+
+- What is Artificial Intelligence (AI) 10 min read
+
+- Types of Artificial Intelligence (AI) 6 min read
+
+- Types of AI Based on Functionalities 4 min read
+
+- Agents in AI 7 min read
+
+- Artificial intelligence vs Machine Learning vs Deep Learning 3 min read
+
+- Problem Solving in Artificial Intelligence 6 min read
+
+- Top 20 Applications of Artificial Intelligence (AI) in 2025 13 min read
+
+AI Concepts
+
+- Search Algorithms in AI 6 min read
+
+- Local Search Algorithm in Artificial Intelligence 7 min read
+
+- Adversarial Search Algorithms in Artificial Intelligence (AI) 15+ min read
+
+- Constraint Satisfaction Problems (CSP) in Artificial Intelligence 10 min read
+
+- Knowledge Representation in AI 9 min read
+
+- First-Order Logic in Artificial Intelligence 4 min read
+
+- Reasoning Mechanisms in AI 9 min read
+
+Machine Learning in AI
+
+- Machine Learning Tutorial 5 min read
+
+- Deep Learning Tutorial 2 min read
+
+- Natural Language Processing (NLP) Tutorial 2 min read
+
+- Computer Vision Tutorial 3 min read
+
+Robotics and AI
+
+- Artificial Intelligence in Robotics 5 min read
+
+- What is Robotics Process Automation 8 min read
+
+- Automated Planning in AI 8 min read
+
+- AI in Transportation 8 min read
+
+- AI in Manufacturing : Revolutionizing the Industry 6 min read
+
+Generative AI
+
+- What is Generative AI? 7 min read
+
+- Generative Adversarial Network (GAN) 11 min read
+
+- Cycle Generative Adversarial Network (CycleGAN) 7 min read
+
+- StyleGAN - Style Generative Adversarial Networks 5 min read
+
+- Introduction to Generative Pre-trained Transformer (GPT) 4 min read
+
+- BERT Model - NLP 12 min read
+
+- Generative AI Applications 7 min read
+
+AI Practice
+
+- Top Artificial Intelligence(AI) Interview Questions and Answers 15+ min read
+
+- Top Generative AI and LLM Interview Question with Answer 15+ min read
+
+- 30+ Best Artificial Intelligence Project Ideas with Source Code [2026 Updated] 15+ min read

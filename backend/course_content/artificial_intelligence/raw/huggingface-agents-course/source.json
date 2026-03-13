@@ -1,0 +1,19 @@
+{
+  "id": "huggingface-agents-course",
+  "type": "git",
+  "title": "Hugging Face Agents Course",
+  "description": "Focused material on AI agents, tool use, and agent workflows.",
+  "license": "Repository license",
+  "repoUrl": "https://github.com/huggingface/agents-course.git",
+  "maxFiles": 100,
+  "rootPaths": [
+    "."
+  ],
+  "includeExtensions": [
+    ".md",
+    ".mdx",
+    ".ipynb",
+    ".txt"
+  ],
+  "documentCount": 98
+}

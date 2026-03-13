@@ -1,0 +1,348 @@
+# Machine Learning Algorithms
+
+Source: GeeksforGeeks Machine Learning Tutorial
+Original URL: https://www.geeksforgeeks.org/machine-learning/machine-learning-algorithms/
+Original Path: https://www.geeksforgeeks.org/machine-learning/machine-learning-algorithms/
+Course: Machine Learning
+
+- Machine Learning Algorithms
+
+- EDA
+
+- Math for Machine Learning
+
+- Machine Learning Interview Questions
+
+- ML Projects
+
+- Deep Learning
+
+- NLP
+
+- Computer vision
+
+- Data Science
+
+- Artificial Intelligence
+
+Machine Learning Algorithms
+
+Last Updated : 20 Jan, 2026
+
+Machine learning algorithms are sets of rules that allow computers to learn from data, identify patterns and make predictions without being explicitly programmed. Instead of following fixed instructions, these algorithms improve their performance as they are exposed to more data. Machine learning algorithms are broadly categorized into three types:
+
+- Supervised Learning : Algorithms learn from labeled data, where the input-output relationship is known.
+
+- Unsupervised Learning : Algorithms work with unlabeled data to identify patterns or groupings.
+
+- Reinforcement Learning: Algorithms learn by interacting with an environment and receiving feedback in the form of rewards or penalties.
+Machine Learning Algorithms
+Supervised Learning Algorithms
+
+Supervised learning algos are trained on datasets where each example is paired with a target or response variable, known as the label. The goal is to learn a mapping function from input data to the corresponding output labels, enabling the model to make accurate predictions on unseen data.
+Supervised Learning Algorithms
+Supervised learning problems are mainly divided into:
+
+- Classification : predicting categories
+
+- Regression : predicting continuous values
+
+1. Linear Regression
+
+Linear regression predicts a continuous value by fitting a straight line between input and output variables. Example: Predicting house prices based on area or predicting weight from height.
+
+2. Logistic Regression
+
+Logistic regression is used for classification problems, not regression. Example: Spam detection (spam/not spam), disease prediction (yes/no)
+
+Note: Despite the name, logistic regression is a classification algorithm .
+
+3. Decision Trees
+
+Decision trees split data into branches based on feature values. Popular Decision Tree Algorithms: ID3 , C5. Algorithms, CART
+
+4. Support Vector Machines (SVM)
+
+SVMs find the best boundary (hyperplane) that separates data points into different classes. Uses support vectors to define decision boundaries. Supports linear and non-linear classification using kernels.
+
+5. k-Nearest Neighbors (k-NN)
+
+k-NN predicts outcomes based on the closest data points in the training set. Uses distance metrics like Euclidean or Manhattan. Works for both classification and regression
+
+6. Naive Bayes
+
+Naive Bayes is based on Bayes’ Theorem and assumes features are independent. Common use case : Text classification, spam filtering
+
+7. Random Forest
+
+Random forest is an ensemble technique that combines multiple decision trees. It uses random sampling and feature selection. Reduces overfitting compared to a single tree.
+
+8. Gradient Boosting
+
+Gradient boosting builds models sequentially, where each model corrects errors made by the previous one. Combines weak learners into a strong model. It works for both classification and regression. Popular Variants:
+
+- XGBoost : faster, regularized boosting
+
+- LightGBM : histogram-based, fast for large datasets
+
+- CatBoost : handles categorical data efficiently
+
+9. Neural Networks ( Including Multilayer Perceptron)
+
+Neural Networks learn patterns using layers of connected neurons. It require labeled data. It trained using backpropagation and Used for classification and regression
+
+- Multilayer Perceptron (MLP): Neural network with input, hidden and output layers
+
+- Applications: Image classification, spam detection, price prediction
+
+Unsupervised Learning Algorithms
+
+Unsupervised learning works with unlabeled data to discover hidden patterns or structures without predefined outputs. These are again divided into three main categories based on their purpose: Clustering, Association Rule Mining and Dimensionality Reduction.
+Unsupervised Learning Algorithms
+First we'll see algorithms for Clustering, then dimensionality reduction and at last association.
+
+1. Clustering
+
+Clustering algorithms group data points into clusters based on their similarities or differences. The goal is to identify natural groupings in the data. Clustering algorithms are divided into multiple types based on the methods they use to group data. These types include Centroid-based methods, Distribution-based methods, Connectivity-based methods and Density-based methods.
+
+Types of Clustering Methods:
+
+Centroid-Based Methods
+
+- K-Means : divides data into k clusters
+
+- K-Means++
+
+- K-Mode
+
+- Fuzzy C-Means
+
+Distribution-Based Methods
+
+- Gaussian mixture models (GMMs)
+
+- Expectation-Maximization
+
+- Dirichlet Process Mixture Models (DPMMs)
+
+Connectivity-Based Methods
+
+- Hierarchical clustering
+
+- Agglomerative Clustering
+
+- Divisive clustering
+
+- Affinity propagation
+
+Density-Based Methods
+
+- DBSCAN : detects arbitrary-shaped clusters and noise
+
+- OPTICS
+
+2. Dimensionality Reduction
+
+Dimensionality reduction reduces the number of features while keeping important information.
+
+- PCA : maximizes variance
+
+- t-SNE : visualization of high-dimensional data
+
+- NMF : works with non-negative data
+
+- ICA
+
+- Isomap
+
+- LLE
+
+- LSA (for text data)
+
+- Autoencoders
+
+3. Association Rule
+
+Find patterns (called association rules) between items in large datasets, typically in market basket analysis (e.g., finding that people who buy bread often buy butter). It identifies patterns based solely on the frequency of item occurrences and co-occurrences in the dataset.
+
+Popular Algorithms:
+
+- Apriori
+
+- FP-Growth
+
+- ECLAT
+
+Reinforcement Learning Algorithms
+
+Reinforcement learning trains an agent to make decisions by interacting with an environment.
+
+- Learns through rewards and penalties
+
+- Goal is to maximize long-term reward
+Reinforcement Learning Algorithms
+1. Model-Based Methods
+
+- Markov decision processes (MDPs)
+
+- Bellman equation
+
+- Value Iteration
+
+- Monte Carlo Tree Search
+
+2 . Model-Free Methods
+
+Value-Based Methods
+
+- Q-Learning
+
+- SARSA
+
+- Monte Carlo Methods
+
+Policy-Based Methods
+
+- REINFORCE Algorithm
+
+- Actor-Critic Algorithm
+
+- Asynchronous Advantage Actor-Critic (A3C)
+
+Additional Machine Learning Algorithm
+
+Semi-Supervised Learning Algorithms
+
+Semi-supervised learning algorithms use both labeled and unlabeled data for training. These algorithms are useful when labeling data is expensive, but unlabeled data is easily available.
+
+Common Semi-Supervised Algorithms:
+
+- Self-Training
+
+- Co-Training
+
+- Label Propagation
+
+- Label Spreading
+
+Example: Classifying images when only a small portion of images are labeled.
+
+Self-Supervised Learning Algorithms
+
+Self-supervised learning algorithms automatically generate labels from the data itself and learn meaningful representations without manual annotation.
+
+Common Self-Supervised Algorithms:
+
+- Autoencoders
+
+- Contrastive Learning (SimCLR, MoCo)
+
+- Masked Language Models (BERT-style training)
+
+Example: Predicting missing words in a sentence or hidden parts of an image.
+
+Discover the Top 15 Machine Learning Algorithms for Interview Preparation.
+
+Machine Learning
+
+AI-ML-DS
+
+AI-ML-DS With Python
+
+ML Algorithms
+
+Machine Learning Basics
+
+- Introduction to Machine Learning 8 min read
+
+- Types of Machine Learning 7 min read
+
+- What is Machine Learning Pipeline? 6 min read
+
+- Applications of Machine Learning 3 min read
+
+Python for Machine Learning
+
+- Machine Learning with Python Tutorial 3 min read
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Data Preprocessing in Python 4 min read
+
+- EDA - Exploratory Data Analysis in Python 6 min read
+
+Feature Engineering
+
+- What is Feature Engineering? 5 min read
+
+- Introduction to Dimensionality Reduction 4 min read
+
+- Feature Selection Techniques in Machine Learning 4 min read
+
+Supervised Learning
+
+- Supervised Machine Learning 7 min read
+
+- Linear Regression in Machine learning 14 min read
+
+- Logistic Regression in Machine Learning 10 min read
+
+- Decision Tree in Machine Learning 8 min read
+
+- Random Forest Algorithm in Machine Learning 5 min read
+
+- K-Nearest Neighbor(KNN) Algorithm 8 min read
+
+- Support Vector Machine (SVM) Algorithm 9 min read
+
+- Naive Bayes Classifiers 6 min read
+
+Unsupervised Learning
+
+- What is Unsupervised Learning 5 min read
+
+- K means Clustering – Introduction 6 min read
+
+- Hierarchical Clustering in Machine Learning 6 min read
+
+- DBSCAN Clustering in ML - Density based clustering 6 min read
+
+- Apriori Algorithm 6 min read
+
+- Frequent Pattern Growth Algorithm 4 min read
+
+- ECLAT Algorithm - ML 5 min read
+
+- Principal Component Analysis (PCA) 7 min read
+
+Model Evaluation and Tuning
+
+- Evaluation Metrics in Machine Learning 9 min read
+
+- Regularization in Machine Learning 5 min read
+
+- Cross Validation in Machine Learning 5 min read
+
+- Hyperparameter Tuning 5 min read
+
+- Underfitting and Overfitting in ML 3 min read
+
+- Bias and Variance in Machine Learning 6 min read
+
+Advanced Techniques
+
+- Reinforcement Learning 9 min read
+
+- Semi-Supervised Learning in ML 5 min read
+
+- Self-Supervised Learning (SSL) 6 min read
+
+- Ensemble Learning 7 min read
+
+Machine Learning Practice
+
+- Machine Learning Interview Questions and Answers 15+ min read
+
+- 100+ Machine Learning Projects with Source Code 5 min read

@@ -1,0 +1,15 @@
+{
+  "id": "geeksforgeeks-machine-learning",
+  "type": "web",
+  "title": "GeeksforGeeks Machine Learning Tutorial",
+  "description": "Large tutorial hub spanning ML pipeline, models, metrics, and deployment topics.",
+  "license": "GeeksforGeeks site terms",
+  "seedUrls": [
+    "https://www.geeksforgeeks.org/machine-learning/machine-learning/"
+  ],
+  "allowPrefixes": [
+    "https://www.geeksforgeeks.org/machine-learning/"
+  ],
+  "maxPages": 55,
+  "documentCount": 55
+}

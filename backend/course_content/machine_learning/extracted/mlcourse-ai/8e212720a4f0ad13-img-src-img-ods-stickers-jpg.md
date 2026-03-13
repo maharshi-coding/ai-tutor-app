@@ -1,0 +1,173 @@
+# <img src="../../img/ods_stickers.jpg" />
+
+Source: mlcourse.ai
+Original URL: https://github.com/Yorko/mlcourse.ai/blob/HEAD/jupyter_chinese/assignments_demo/assignment06-红酒质量数据回归探索.ipynb
+Original Path: jupyter_chinese/assignments_demo/assignment06-红酒质量数据回归探索.ipynb
+Course: Machine Learning
+
+<img src="../../img/ods_stickers.jpg" />
+
+## 红酒质量数据回归探索
+
+红酒质量数据集同样来自于 UCI 数据集网站。首先，挑战导入所需模块。
+
+```python
+import warnings
+
+import numpy as np
+import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import Lasso, LassoCV, LinearRegression
+from sklearn.metrics.regression import mean_squared_error
+from sklearn.model_selection import GridSearchCV, cross_val_score, train_test_split
+from sklearn.preprocessing import StandardScaler
+
+warnings.filterwarnings("ignore")
+```
+
+读取并预览数据集，同时查看数据集列属性。
+
+```python
+data = pd.read_csv("../../data/winequality-white.csv", sep=";")
+```
+
+```python
+data.head()
+```
+
+```python
+data.info()
+```
+
+下面，将数据集按 7:3 分割成训练集和测试集，设置 `random_state=17`，同时使用 `StandardScaler` 对特征数据规范化。
+
+```python
+y = data["quality"]
+X = data.drop("quality", axis=1)
+
+X_train, X_holdout, y_train, y_holdout = train_test_split(
+X, y, test_size=0.3, random_state=17
+)
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_holdout_scaled = scaler.transform(X_holdout)
+```
+
+### 线性回归
+
+使用普通最小二乘法线性回归训练一个回归预测模型。
+
+```python
+linreg = LinearRegression()
+linreg.fit(X_train_scaled, y_train)
+```
+
+<i class="fa fa-question-circle" aria-hidden="true"> 问题：</i>训练数据和测试数据上的平均绝对误差 MSE 值是多少？
+
+接下来，你需要将回归系数按绝对值从大到小进行排序。值得注意的是，特征所对应的拟合系数绝对值越大，即代表该特征对目标值的影响越大。这里建议你使用 `pandas.DataFrame` 对数据进行展示。
+
+<i class="fa fa-question-circle" aria-hidden="true"> 问题：</i>该线性回归模型中，哪些特征对目标值的影响更大？
+
+### Lasso 回归
+
+使用规范化后的数据训练一下 Lasso 回归模型，设置 $\alpha = 0.01$，且 `random_state=17`。
+
+```python
+lasso1 = Lasso(alpha=0.01, random_state=17)
+lasso1.fit(X_train_scaled, y_train)
+```
+
+<i class="fa fa-question-circle" aria-hidden="true"> 问题：</i> 该 Lasso 回归模型中，哪些特征对目标值的影响最小？
+
+接下来，使用 LassoCV 来寻找最合适的 $\alpha$ 参数。
+
+```python
+alphas = np.logspace(-6, 2, 200)
+lasso_cv = LassoCV(random_state=17, cv=5, alphas=alphas)
+lasso_cv.fit(X_train_scaled, y_train)
+```
+
+```python
+lasso_cv.alpha_
+```
+
+<i class="fa fa-question-circle" aria-hidden="true"> 问题：</i> 上面调参得到的 Lasso 回归模型中，哪些特征对目标值的影响最小？
+
+<i class="fa fa-question-circle" aria-hidden="true"> 问题：</i> 调参得到的 Lasso 回归模型中，训练数据和测试数据上的平均绝对误差 MSE 值是多少？
+
+### 随机森林
+
+使用默认参数训练一个随机森林回归模型，设置 `random_state=17`。
+
+```python
+forest = RandomForestRegressor(random_state=17)
+forest.fit(X_train_scaled, y_train)
+```
+
+和上面的过程相似，接下来请自行对随机森林回归模型进行调餐，并探索不同特征对目标值的影响程度，最终得到 MSE 值。
+
+```python
+print(
+"Mean squared error (train): %.3f"
+% mean_squared_error(y_train, forest.predict(X_train_scaled))
+)
+print(
+"Mean squared error (cv): %.3f"
+% np.mean(
+np.abs(
+cross_val_score(
+forest, X_train_scaled, y_train, scoring="neg_mean_squared_error"
+)
+print(
+"Mean squared error (test): %.3f"
+% mean_squared_error(y_holdout, forest.predict(X_holdout_scaled))
+)
+```
+
+```python
+forest_params = {"max_depth": list(range(18, 20)), "max_features": list(range(6, 8))}
+
+locally_best_forest = GridSearchCV(
+RandomForestRegressor(n_jobs=-1, random_state=17),
+forest_params,
+scoring="neg_mean_squared_error",
+n_jobs=-1,
+cv=5,
+verbose=True,
+)
+locally_best_forest.fit(X_train_scaled, y_train)
+```
+
+```python
+locally_best_forest.best_params_, locally_best_forest.best_score_
+```
+
+```python
+print(
+"Mean squared error (cv): %.3f"
+% np.mean(
+np.abs(
+cross_val_score(
+locally_best_forest.best_estimator_,
+X_train_scaled,
+y_train,
+scoring="neg_mean_squared_error",
+)
+print(
+"Mean squared error (test): %.3f"
+% mean_squared_error(y_holdout, locally_best_forest.predict(X_holdout_scaled))
+)
+```
+
+```python
+rf_importance = pd.DataFrame(
+locally_best_forest.best_estimator_.feature_importances_,
+columns=["coef"],
+index=data.columns[:-1],
+)
+rf_importance.sort_values(by="coef", ascending=False)
+```
+
+最终，你应该可以发现葡萄酒质量数据集中特征和目标之间呈现较强的非线性关系，所以随机森林在这项任务中工作得更好。
+
+<div style="background-color: #e6e6e6; margin-bottom: 10px; padding: 1%; border: 1px solid #ccc; border-radius: 6px;text-align: center;"><a href="https://nbviewer.jupyter.org/github/shiyanlou/mlcourse-answers/tree/master/" title="挑战参考答案"><i class="fa fa-file-code-o" aria-hidden="true"> 查看挑战参考答案</i></a></div>

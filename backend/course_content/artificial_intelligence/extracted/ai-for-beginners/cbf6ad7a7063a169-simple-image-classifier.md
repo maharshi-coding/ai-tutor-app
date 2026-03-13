@@ -1,0 +1,281 @@
+# Simple Image Classifier
+
+Source: AI for Beginners
+Original URL: https://github.com/microsoft/AI-For-Beginners/blob/HEAD/examples/03-image-classifier.ipynb
+Original Path: examples/03-image-classifier.ipynb
+Course: Artificial Intelligence
+
+# Simple Image Classifier
+
+This notebook shows you how to classify images using a pre-trained neural network.
+
+**What you'll learn:**
+- How to load and use a pre-trained model
+- Image preprocessing
+- Making predictions on images
+- Understanding confidence scores
+
+**Use case:** Identify objects in images (like "cat", "dog", "car", etc.)
+
+## Step 1: Import Required Libraries
+
+Let's import the tools we need. Don't worry if you don't understand all of these yet!
+
+```python
+# Core libraries
+import numpy as np
+from PIL import Image
+import requests
+from io import BytesIO
+
+# TensorFlow for deep learning
+try:
+import tensorflow as tf
+from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input, decode_predictions
+print("✅ TensorFlow loaded successfully!")
+print(f" Version: {tf.__version__}")
+except ImportError:
+print("❌ Please install TensorFlow: pip install tensorflow")
+```
+
+## Step 2: Load Pre-trained Model
+
+We'll use **MobileNetV2**, a neural network already trained on millions of images.
+
+This is called **Transfer Learning** - using a model someone else trained!
+
+```python
+print("📦 Loading pre-trained MobileNetV2 model...")
+print(" This may take a minute on first run (downloading weights)...")
+
+# Load the model
+# include_top=True means we use the classification layer
+# weights='imagenet' means it was trained on ImageNet dataset
+model = MobileNetV2(weights='imagenet', include_top=True)
+
+print("✅ Model loaded!")
+print(f" The model can recognize 1000 different object categories")
+```
+
+## Step 3: Helper Functions
+
+Let's create functions to load and prepare images for our model.
+
+```python
+def load_image_from_url(url):
+"""
+Load an image from a URL.
+
+Args:
+url: Web address of the image
+
+Returns:
+PIL Image object
+"""
+response = requests.get(url)
+img = Image.open(BytesIO(response.content))
+return img
+
+def prepare_image(img):
+"""
+Prepare an image for the model.
+
+Steps:
+1. Resize to 224x224 (model's expected size)
+2. Convert to array
+3. Add batch dimension
+4. Preprocess for MobileNetV2
+
+Args:
+img: PIL Image
+
+Returns:
+Preprocessed image array
+"""
+# Resize to 224x224 pixels
+img = img.resize((224, 224))
+
+# Convert to numpy array
+img_array = np.array(img)
+
+# Add batch dimension (model expects multiple images)
+img_array = np.expand_dims(img_array, axis=0)
+
+# Preprocess for MobileNetV2
+img_array = preprocess_input(img_array)
+
+return img_array
+
+def classify_image(img):
+"""
+Classify an image and return top predictions.
+
+Args:
+img: PIL Image
+
+Returns:
+List of (class_name, confidence) tuples
+"""
+# Prepare the image
+img_array = prepare_image(img)
+
+# Make prediction
+predictions = model.predict(img_array, verbose=0)
+
+# Decode predictions to human-readable labels
+# top=5 means we get the top 5 most likely classes
+decoded = decode_predictions(predictions, top=5)[0]
+
+# Convert to simpler format
+results = [(label, float(confidence)) for (_, label, confidence) in decoded]
+
+return results
+
+print("✅ Helper functions ready!")
+```
+
+## Step 4: Test on Sample Images
+
+Let's try classifying some images from the internet!
+
+```python
+# Sample images to classify
+# These are from Unsplash (free stock photos)
+test_images = [
+{
+"url": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400",
+"description": "A cat"
+},
+{
+"url": "https://images.unsplash.com/photo-1552053831-71594a27632d?w=400",
+"description": "A dog"
+},
+{
+"url": "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=400",
+"description": "A car"
+},
+]
+
+print(f"🧪 Testing on {len(test_images)} images...")
+print("=" * 70)
+```
+
+### Classify Each Image
+
+```python
+for i, img_data in enumerate(test_images, 1):
+print(f"\n📸 Image {i}: {img_data['description']}")
+print("-" * 70)
+
+try:
+# Load image
+img = load_image_from_url(img_data['url'])
+
+# Display image
+display(img.resize((200, 200))) # Show smaller version
+
+# Classify
+results = classify_image(img)
+
+# Show predictions
+print("\n🎯 Top 5 Predictions:")
+for rank, (label, confidence) in enumerate(results, 1):
+# Create a visual bar
+bar_length = int(confidence * 50)
+bar = "█" * bar_length
+
+print(f" {rank}. {label:20s} {confidence*100:5.2f}% {bar}")
+
+except Exception as e:
+print(f"❌ Error: {e}")
+
+print("\n" + "=" * 70)
+```
+
+## Step 5: Try Your Own Images!
+
+Replace the URL below with any image URL you want to classify.
+
+```python
+# Try your own image!
+# Replace this URL with any image URL
+custom_image_url = "https://images.unsplash.com/photo-1472491235688-bdc81a63246e?w=400" # A flower
+
+print("🖼️ Classifying your custom image...")
+print("=" * 70)
+
+try:
+# Load and show image
+img = load_image_from_url(custom_image_url)
+display(img.resize((300, 300)))
+
+# Classify
+results = classify_image(img)
+
+# Show results
+print("\n🎯 Top 5 Predictions:")
+print("-" * 70)
+for rank, (label, confidence) in enumerate(results, 1):
+bar_length = int(confidence * 50)
+bar = "█" * bar_length
+print(f" {rank}. {label:20s} {confidence*100:5.2f}% {bar}")
+
+# Highlight top prediction
+top_label, top_confidence = results[0]
+print("\n" + "=" * 70)
+print(f"\n🏆 Best guess: {top_label} ({top_confidence*100:.2f}% confident)")
+
+except Exception as e:
+print(f"❌ Error: {e}")
+print(" Make sure the URL points to a valid image!")
+```
+
+## 💡 What Just Happened?
+
+1. **We loaded a pre-trained model** - MobileNetV2 was trained on millions of images
+2. **We preprocessed images** - Resized and formatted them for the model
+3. **The model made predictions** - It output probabilities for 1000 object classes
+4. **We decoded the results** - Converted numbers to human-readable labels
+
+### Understanding Confidence Scores
+
+- **90-100%**: Very confident (almost certainly correct)
+- **70-90%**: Confident (probably correct)
+- **50-70%**: Somewhat confident (might be correct)
+- **Below 50%**: Not very confident (uncertain)
+
+### Why might predictions be wrong?
+
+- **Unusual angle or lighting** - Model was trained on typical photos
+- **Multiple objects** - Model expects one main object
+- **Rare objects** - Model only knows 1000 categories
+- **Low quality image** - Blurry or pixelated images are harder
+
+## 🚀 Next Steps
+
+1. **Try different images:**
+- Find images on [Unsplash](https://unsplash.com)
+- Right-click → "Copy image address" to get URL
+
+2. **Experiment:**
+- What happens with abstract art?
+- Can it recognize objects from different angles?
+- How does it handle multiple objects?
+
+3. **Learn more:**
+- Explore [Computer Vision lessons](../lessons/4-ComputerVision/README.md)
+- Learn to train your own image classifier
+- Understand how CNNs (Convolutional Neural Networks) work
+
+## 🎉 Congratulations!
+
+You just built an image classifier using a state-of-the-art neural network!
+
+This same technique powers:
+- Google Photos (organizing your photos)
+- Self-driving cars (recognizing objects)
+- Medical diagnosis (analyzing X-rays)
+- Quality control (detecting defects)
+
+Keep exploring and learning! 🚀

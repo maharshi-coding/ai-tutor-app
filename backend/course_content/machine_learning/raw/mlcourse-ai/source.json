@@ -1,0 +1,18 @@
+{
+  "id": "mlcourse-ai",
+  "type": "git",
+  "title": "mlcourse.ai",
+  "description": "A broad open machine learning course with notebooks and lecture notes.",
+  "license": "Repository license",
+  "repoUrl": "https://github.com/Yorko/mlcourse.ai.git",
+  "maxFiles": 140,
+  "rootPaths": [
+    "."
+  ],
+  "includeExtensions": [
+    ".md",
+    ".ipynb",
+    ".txt"
+  ],
+  "documentCount": 139
+}

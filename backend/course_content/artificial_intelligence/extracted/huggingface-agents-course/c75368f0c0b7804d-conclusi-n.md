@@ -1,0 +1,25 @@
+# Conclusión
+
+Source: Hugging Face Agents Course
+Original URL: https://github.com/huggingface/agents-course/blob/HEAD/units/es/bonus-unit3/conclusion.mdx
+Original Path: units/es/bonus-unit3/conclusion.mdx
+Course: Artificial Intelligence
+
+# Conclusión
+
+Si llegaste hasta aquí, ¡felicidades! 🥳 ¡Has construido con éxito tu propio agente de batalla Pokémon! ⚔️🎮
+
+Has dominado los fundamentos de los **flujos de trabajo agénticos**, conectado un **LLM** a un entorno de juego y desplegado un Agente inteligente listo para enfrentar los desafíos de la batalla.
+
+¡Pero el viaje no termina aquí!
+Ahora que tienes tu primer Agente en funcionamiento, piensa en cómo puedes evolucionarlo aún más:
+- ¿Puedes mejorar su pensamiento estratégico?
+- ¿Cómo cambiaría su rendimiento un mecanismo de memoria o un ciclo de retroalimentación?
+- ¿Qué experimentos podrían ayudar a hacerlo más competitivo en la batalla?
+
+Nos encantaría conocer tu opinión sobre el curso y cómo podemos mejorarlo aún más para futuros estudiantes.
+¿Tienes comentarios? 👉 [Llena este formulario](https://docs.google.com/forms/d/e/1FAIpQLSe9VaONn0eglax0uTwi29rIn4tM7H2sYmmybmG5jJNlE5v0xA/viewform?usp=dialog)
+
+Gracias por aprender con nosotros y recuerda:
+
+**¡Sigue aprendiendo, sigue entrenando, sigue luchando y sigue siendo increíble!** 🤗

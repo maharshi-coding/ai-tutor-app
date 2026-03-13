@@ -1,0 +1,364 @@
+# Expert Systems in AI
+
+Source: GeeksforGeeks Artificial Intelligence Tutorial
+Original URL: https://www.geeksforgeeks.org/artificial-intelligence/expert-systems/
+Original Path: https://www.geeksforgeeks.org/artificial-intelligence/expert-systems/
+Course: Artificial Intelligence
+
+Expert Systems in AI
+
+Last Updated : 21 Feb, 2026
+
+An Expert System is a branch of Artificial Intelligence designed to simulate the decision-making ability of a human expert.
+
+- Works like a human specialist like a doctor, engineer, lawyer, etc.
+
+- Uses stored knowledge and logical rules to solve problems.
+
+- Gives consistent and quick decisions.
+
+- Mostly used in diagnosis, troubleshooting and planning.
+Expert System
+Need of Expert Systems
+
+Expert systems play a major role in AI because they allow computers to use human expertise to solve real-world problems.
+
+- Preserve Expertise: Human knowledge can be stored digitally and reused even after experts retire.
+
+- Better Decision Support: They rely on rules and facts hence giving consistent recommendations.
+
+- Save Time and Cost: Automates tasks that normally require specialists.
+
+- Increase Accessibility: Non-experts can access expert-level guidance.
+
+A famous example is MYCIN which was developed in the 1970s to diagnose bacterial infections. Although it was not deployed in hospitals, it proved that computers could assist doctors in diagnosis.
+
+Components of an Expert System
+
+An expert system is made of several connected parts that work together.
+
+1.  Knowledge Base
+
+The knowledge base is the most important part of an expert system. It contains all the information the system needs to solve problems, similar to how a human expert stores knowledge in their brain. It includes:
+
+- Facts: basic information about the domain. Example: “Fever is a symptom of infection.”
+
+- Rules: logical statements derived from experts. Example: IF fever + cough → possible flu
+
+- Relationships: how different concepts are connected
+
+The quality of an expert system depends heavily on how accurate and complete this knowledge base is. If the knowledge stored is wrong or incomplete, the system’s decisions will also be incorrect.
+
+This module must also be updated regularly. Without updates, the system becomes outdated and unreliable.
+
+2.  Inference Engine
+
+The inference engine is the reasoning unit of the expert system. It works like the thinking process of a human expert and decides how to apply the stored knowledge to a problem. Its main tasks include:
+
+- Matching user input with rules in the knowledge base
+
+- Applying logical reasoning to derive new facts
+
+- Repeating the reasoning process until a conclusion is found
+
+The inference engine mainly uses two reasoning strategies:
+
+1. Forward Chaining: This is a data-driven reasoning approach where the system starts with the available facts and applies rules to infer new facts or conclusions.
+Forward Chaining
+- Starts from available facts
+
+- Applies rules step by step
+
+- Moves toward a conclusion
+
+- Used when all data is available at the start
+
+2. Backward Chaining: This is a goal-driven reasoning approach where the system starts with a hypothesis or a goal to prove and works backward to determine which facts or conditions would support that conclusion.
+Backward Chaining
+- Starts with a possible conclusion
+
+- Works backward to check if supporting facts exist
+
+- Often used in diagnosis systems
+
+Because of this reasoning ability, the inference engine acts as the “decision maker” of the system.
+
+3.  User Interface
+
+The user interface is the communication layer between the user and the expert system. Without it, users would not be able to interact with the system. It allows users to:
+
+- Enter symptoms, data, or questions
+
+- Answer system prompts
+
+- Receive advice, solutions, or predictions
+
+In modern expert systems, the interface may be:
+
+- A command-line interface
+
+- A graphical interface
+
+- A web application
+
+- A chatbot-style interaction
+
+4.  Explanation Module
+
+One of the key advantages of expert systems over many modern AI models is their ability to explain their reasoning. The explanation system helps users understand:
+
+- Why the system asked a particular question
+
+- How it reached a specific conclusion
+
+- Which rules were applied
+
+- What facts influenced the result
+
+For example, a medical expert system may say: “Diagnosis: Flu — because fever, cough and body pain match rule R12.”
+
+How Expert Systems Work
+
+The process of building an expert system is called Knowledge Engineering and its working is:
+Expert Systems Working
+- The user provides input such as symptoms, measurements, or conditions.
+
+- The system stores this input as facts in working memory.
+
+- The inference engine searches the knowledge base for rules that match these facts.
+
+- It applies logical reasoning to infer new information.
+
+- This process continues until a final conclusion or recommendation is reached.
+
+- The explanation system shows how the result was obtained.
+
+This structured reasoning process allows expert systems to produce consistent and explainable decisions.
+
+Famous Expert Systems
+
+Some well-known expert systems include:
+
+- MYCIN: used for diagnosing bacterial infections
+
+- DENDRAL: helped analyze chemical compounds
+
+- XCON : used to configure computer systems
+
+Types of Expert Systems in AI
+
+Expert systems can be classified based on how knowledge is represented.
+
+1. Rule-Based Expert Systems
+
+These are the most common type of expert systems. They represent knowledge using IF–THEN rules such as:
+
+IF temperature high AND cough present → infection likely
+
+They are:
+
+- Easy to understand and implement
+
+- Transparent in reasoning
+
+- Suitable for well-defined problems
+
+Most early expert systems including medical diagnosis tools, were rule-based.
+
+2. Frame-Based Expert Systems
+
+Frame-based systems store knowledge in structured units called frames which are similar to objects in programming. Each frame represents a concept and contains:
+
+- Attributes (properties)
+
+- Values
+
+- Relationships with other frames
+
+For example, a “Car” frame may include:
+
+- Engine type
+
+- Fuel type
+
+- Manufacturer
+
+- Fault conditions
+
+This method is useful when the system must represent complex objects and relationships rather than simple rules.
+
+3. Fuzzy Logic Systems
+
+Traditional expert systems use strict true/false logic. However, many real-world problems involve uncertainty or partial truth. Fuzzy expert systems use fuzzy logic where values can be partial such as:
+
+- Temperature is slightly high
+
+- Risk is moderate
+
+- Pain is very severe
+
+This makes them suitable for:
+
+- Medical diagnosis
+
+- Weather prediction
+
+- Industrial control systems
+
+They are better at handling vague or imprecise information compared to classical rule-based systems.
+
+4. Neural Network-Based Expert Systems
+
+Neural expert systems combine traditional expert systems with Artificial Neural Network models . They use:
+
+- Rules for logical reasoning
+
+- Neural networks for pattern recognition and learning
+
+This hybrid approach is useful when:
+
+- Part of the knowledge can be explicitly defined
+
+- Part must be learned from data
+
+Such systems are used in modern applications like fraud detection, predictive maintenance and intelligent decision support.
+
+5. Neuro-Fuzzy Expert Systems
+
+Neuro-Fuzzy Expert Systems combine fuzzy logic with neural networks to create systems that can both reason with uncertainty and learn from data. In these systems:
+
+- Fuzzy logic handles vague concepts like “high temperature” or “low risk”
+
+- Neural networks learn membership functions and rule parameters automatically
+
+- The system improves performance over time using training data
+
+Unlike normal fuzzy systems where rules are manually defined, neuro-fuzzy systems can adapt and tune themselves. This makes them very useful for real-world decision-making where:
+
+- Data is noisy or incomplete
+
+- Human-like reasoning is required
+
+- Rules are not fixed and must evolve
+
+Expert Systems vs Machine Learning
+
+Lets see a quick difference between Expert Systems and Machine Learning:
+
+Feature Expert Systems Machine Learning
+
+Knowledge source Human experts Uses past data
+
+Learning ability No automatic learning Learns from data
+
+Transparency Easy to explain rules Often hard to explain
+
+Best for Well-defined problems Data-driven problems
+
+Applications
+
+- Medical Diagnosis: Helps in disease detection and treatment suggestion
+
+- Finance: Used by banks for fraud detection, credit scoring and investment guidance
+
+- Technical Support: Provides automated troubleshooting systems
+
+- Manufacturing: Helps in production planning and quality monitoring
+
+- Education: Used in intelligent tutoring systems
+
+Advantages
+
+- Provide expert-level decisions anytime
+
+- Reduce dependence on human specialists
+
+- Handles multiple queries at once
+
+- Give fast and consistent results
+
+- Preserve expert knowledge for long term
+
+- Useful in risky or complex environments
+
+Artificial Intelligence
+
+AI-ML-DS
+
+Introduction to AI
+
+- What is Artificial Intelligence (AI) 10 min read
+
+- Types of Artificial Intelligence (AI) 6 min read
+
+- Types of AI Based on Functionalities 4 min read
+
+- Agents in AI 7 min read
+
+- Artificial intelligence vs Machine Learning vs Deep Learning 3 min read
+
+- Problem Solving in Artificial Intelligence 6 min read
+
+- Top 20 Applications of Artificial Intelligence (AI) in 2025 13 min read
+
+AI Concepts
+
+- Search Algorithms in AI 6 min read
+
+- Local Search Algorithm in Artificial Intelligence 7 min read
+
+- Adversarial Search Algorithms in Artificial Intelligence (AI) 15+ min read
+
+- Constraint Satisfaction Problems (CSP) in Artificial Intelligence 10 min read
+
+- Knowledge Representation in AI 9 min read
+
+- First-Order Logic in Artificial Intelligence 4 min read
+
+- Reasoning Mechanisms in AI 9 min read
+
+Machine Learning in AI
+
+- Machine Learning Tutorial 5 min read
+
+- Deep Learning Tutorial 2 min read
+
+- Natural Language Processing (NLP) Tutorial 2 min read
+
+- Computer Vision Tutorial 3 min read
+
+Robotics and AI
+
+- Artificial Intelligence in Robotics 5 min read
+
+- What is Robotics Process Automation 8 min read
+
+- Automated Planning in AI 8 min read
+
+- AI in Transportation 8 min read
+
+- AI in Manufacturing : Revolutionizing the Industry 6 min read
+
+Generative AI
+
+- What is Generative AI? 7 min read
+
+- Generative Adversarial Network (GAN) 11 min read
+
+- Cycle Generative Adversarial Network (CycleGAN) 7 min read
+
+- StyleGAN - Style Generative Adversarial Networks 5 min read
+
+- Introduction to Generative Pre-trained Transformer (GPT) 4 min read
+
+- BERT Model - NLP 12 min read
+
+- Generative AI Applications 7 min read
+
+AI Practice
+
+- Top Artificial Intelligence(AI) Interview Questions and Answers 15+ min read
+
+- Top Generative AI and LLM Interview Question with Answer 15+ min read
+
+- 30+ Best Artificial Intelligence Project Ideas with Source Code [2026 Updated] 15+ min read

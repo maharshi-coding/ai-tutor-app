@@ -1,0 +1,214 @@
+# Getting started with Classification
+
+Source: GeeksforGeeks Machine Learning Tutorial
+Original URL: https://www.geeksforgeeks.org/machine-learning/getting-started-with-classification/
+Original Path: https://www.geeksforgeeks.org/machine-learning/getting-started-with-classification/
+Course: Machine Learning
+
+Getting started with Classification
+
+Last Updated : 8 Nov, 2025
+
+Classification is a supervised machine learning technique used to predict labels or categories based on input data. The goal is to assign each data point to a predefined class, such as spam vs. non-spam emails or diseased vs. healthy patients.
+
+For example, a classification model might be trained on dataset of images labeled as either dogs or cats and it can be used to predict the class of new and unseen images as dogs or cats based on their features such as colour, texture or shape.
+Getting started with Classification
+Explaining classification in ML, the horizontal axis represents the combined values of colour and texture features. The vertical axis represents the combined values of shape and size features.
+
+- Each coloured dot in the plot represents an individual image, with the colour indicating whether the model predicts the image to be a dog or a cat.
+
+- The shaded areas in the plot show the decision boundary, which is the line or region that the model uses to decide which category (dog or cat) an image belongs to. The model classifies images on one side of the boundary as dogs and on the other side as cats, based on their features.
+
+Types of Classification
+
+When we talk about classification in machine learning, we’re talking about the process of sorting data into categories based on specific features or characteristics. There are different types of classification problems depending on how many categories (or classes) we are working with and how they are organized.
+
+1. Binary Classification
+
+This is the simplest kind of classification. In binary classification, the goal is to sort the data into two distinct categories. Think of it like a simple choice between two options. Imagine a system that sorts emails into either spam or not spam. It works by looking at different features of the email like certain keywords or sender details and decides whether it’s spam or not. It only chooses between these two options.
+
+2. Multiclass Classification
+
+Here, instead of just two categories, the data needs to be sorted into more than two categories. The model picks the one that best matches the input. Think of an image recognition system that sorts pictures of animals into categories like cat, dog and bird.
+Binary classification vs Multi class classification
+3. M ulti-Label Classification
+
+In multi-label classification single piece of data can belong to multiple categories at once. Unlike multiclass classification where each data point belongs to only one class, multi-label classification allows datapoints to belong to multiple classes. A movie recommendation system could tag a movie as both action and comedy. The system checks various features (like movie plot, actors or genre tags) and assigns multiple labels to a single piece of data, rather than just one.
+
+Multilabel classification is relevant in specific use cases, but not as crucial for a starting overview of classification.
+
+How does Classification in Machine Learning Work?
+
+Classification involves training a model using a labeled dataset where each input is paired with its correct output label. The model learns patterns and relationships in the data, so it can later predict labels for new, unseen inputs. Here's how it works:
+
+- Data Collection : We start with a dataset where each item is labeled with the correct class.
+
+- Feature Extraction : The system identifies features like color, shape or texture that help distinguish one class from another. These features are what the model uses to make predictions.
+
+- Model Training : Classification algorithm uses the labeled data to learn how to map the features to the correct class. It looks for patterns and relationships in the data.
+
+- Model Evaluation : Once the model is trained, it's tested on new, unseen data to check how accurately it can classify the items.
+
+- Prediction : After being trained and evaluated, the model can be used to predict the class of new data based on the features it has learned.
+
+- Model Evaluation : Evaluating a classification model is a key step in machine learning. It helps us check how well the model performs and how good it is at handling new, unseen data. Depending on the problem and needs we can use different metrics to measure its performance.
+
+If the quality metric is not satisfactory, the ML algorithm or hyperparameters can be adjusted and the model is retrained. This iterative process continues until a satisfactory performance is achieved.
+
+Classification Algorithms
+
+Now, for implementation of any classification model it is essential to understand Logistic Regression, which is one of the most fundamental and widely used algorithms in machine learning for classification tasks. There are various types of classifiers algorithms. Some of them are :
+
+1. Linear Classifiers : Linear classifier models create a linear decision boundary between classes. They are simple and computationally efficient. Some of the linear classification models are as follows:
+
+- Logistic Regression
+
+- Support Vector Machines having kernel = 'linear'
+
+- Single-layer Perceptron
+
+- Stochastic Gradient Descent (SGD) Classifier
+
+2. Non-linear Classifiers : Non-linear models create a non-linear decision boundary between classes. They can capture more complex relationships between input features and target variable. Some of the non-linear classification models are as follows:
+
+- K-Nearest Neighbours
+
+- Kernel SVM
+
+- Naive Bayes
+
+- Decision Tree Classification
+
+- Ensemble learning classifiers:
+
+- Random Forests,
+
+- AdaBoost,
+
+- Bagging Classifier,
+
+- Voting Classifier,
+
+- Extra Trees Classifier
+
+- Multi-layer Artificial Neural Networks
+
+Examples of Machine Learning Classification in Real Life
+
+Classification algorithms are widely used in many real-world applications across various domains, including:
+
+- Email spam filtering: Filters our emails into spam or not spam based on email content.
+
+- Credit risk assessment: Algorithms predict whether a loan applicant is likely to default by analyzing factors such as credit score, income and loan history. This helps banks make informed lending decisions and minimize financial risk.
+
+- Medical diagnosis : Machine learning models classify whether a patient has a certain condition like cancer or diabetes based on medical data such as test results, symptoms and patient history. This aids doctors in making quicker, more accurate diagnoses, improving patient care.
+
+- Image classification : Applied in fields such as facial recognition, autonomous driving and medical imaging.
+
+- Sentiment analysis: Determining whether the sentiment of a piece of text is positive, negative or neutral. Businesses use this to understand customer opinions, helping to improve products and services.
+
+- Fraud detection : Algorithms detect fraudulent activities by analyzing transaction patterns and identifying anomalies crucial in protecting against credit card fraud and other financial crimes.
+
+- Recommendation systems : Used to recommend products or content based on past user behavior, such as suggesting movies on Netflix or products on Amazon. This personalization boosts user satisfaction and sales for businesses.
+
+Machine Learning
+
+AI-ML-DS
+
+ML-Classification
+
+Machine Learning Basics
+
+- Introduction to Machine Learning 8 min read
+
+- Types of Machine Learning 7 min read
+
+- What is Machine Learning Pipeline? 6 min read
+
+- Applications of Machine Learning 3 min read
+
+Python for Machine Learning
+
+- Machine Learning with Python Tutorial 3 min read
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Data Preprocessing in Python 4 min read
+
+- EDA - Exploratory Data Analysis in Python 6 min read
+
+Feature Engineering
+
+- What is Feature Engineering? 5 min read
+
+- Introduction to Dimensionality Reduction 4 min read
+
+- Feature Selection Techniques in Machine Learning 4 min read
+
+Supervised Learning
+
+- Supervised Machine Learning 7 min read
+
+- Linear Regression in Machine learning 14 min read
+
+- Logistic Regression in Machine Learning 10 min read
+
+- Decision Tree in Machine Learning 8 min read
+
+- Random Forest Algorithm in Machine Learning 5 min read
+
+- K-Nearest Neighbor(KNN) Algorithm 8 min read
+
+- Support Vector Machine (SVM) Algorithm 9 min read
+
+- Naive Bayes Classifiers 6 min read
+
+Unsupervised Learning
+
+- What is Unsupervised Learning 5 min read
+
+- K means Clustering – Introduction 6 min read
+
+- Hierarchical Clustering in Machine Learning 6 min read
+
+- DBSCAN Clustering in ML - Density based clustering 6 min read
+
+- Apriori Algorithm 6 min read
+
+- Frequent Pattern Growth Algorithm 4 min read
+
+- ECLAT Algorithm - ML 5 min read
+
+- Principal Component Analysis (PCA) 7 min read
+
+Model Evaluation and Tuning
+
+- Evaluation Metrics in Machine Learning 9 min read
+
+- Regularization in Machine Learning 5 min read
+
+- Cross Validation in Machine Learning 5 min read
+
+- Hyperparameter Tuning 5 min read
+
+- Underfitting and Overfitting in ML 3 min read
+
+- Bias and Variance in Machine Learning 6 min read
+
+Advanced Techniques
+
+- Reinforcement Learning 9 min read
+
+- Semi-Supervised Learning in ML 5 min read
+
+- Self-Supervised Learning (SSL) 6 min read
+
+- Ensemble Learning 7 min read
+
+Machine Learning Practice
+
+- Machine Learning Interview Questions and Answers 15+ min read
+
+- 100+ Machine Learning Projects with Source Code 5 min read

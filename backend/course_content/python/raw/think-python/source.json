@@ -1,0 +1,21 @@
+{
+  "id": "think-python",
+  "type": "git",
+  "title": "Think Python",
+  "description": "Allen Downey's open textbook and notebooks for learning Python deeply.",
+  "license": "Repository license",
+  "repoUrl": "https://github.com/AllenDowney/ThinkPython.git",
+  "maxFiles": 80,
+  "rootPaths": [
+    "."
+  ],
+  "excludePathPatterns": [
+    "blank/"
+  ],
+  "includeExtensions": [
+    ".md",
+    ".ipynb",
+    ".txt"
+  ],
+  "documentCount": 23
+}

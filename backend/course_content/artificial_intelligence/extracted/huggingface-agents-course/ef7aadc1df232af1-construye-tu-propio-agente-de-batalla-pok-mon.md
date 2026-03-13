@@ -1,0 +1,266 @@
+# Construye tu Propio Agente de Batalla Pokémon
+
+Source: Hugging Face Agents Course
+Original URL: https://github.com/huggingface/agents-course/blob/HEAD/units/es/bonus-unit3/building_your_pokemon_agent.mdx
+Original Path: units/es/bonus-unit3/building_your_pokemon_agent.mdx
+Course: Artificial Intelligence
+
+# Construye tu Propio Agente de Batalla Pokémon
+
+Ahora que has explorado el potencial y las limitaciones de la IA Agéntica en los juegos, es hora de poner manos a la obra. En esta sección, **construirás tu propio Agente de IA para luchar en combates por turnos al estilo Pokémon**, utilizando todo lo que has aprendido a lo largo del curso.
+
+Dividiremos el sistema en cuatro bloques de construcción clave:
+
+- **Poke-env:** Una biblioteca de Python diseñada para entrenar bots de Pokémon basados en reglas o aprendizaje por refuerzo.
+
+- **Pokémon Showdown:** Un simulador de batallas en línea donde luchará tu agente.
+
+- **LLMAgentBase:** Una clase personalizada de Python que hemos construido para conectar tu LLM con el entorno de batalla de Poke-env.
+
+- **TemplateAgent:** Una plantilla de inicio que completarás para crear tu propio agente de batalla único.
+
+Exploremos cada uno de estos componentes con más detalle.
+
+## 🧠 Poke-env
+
+![Gif de batalla](https://github.com/hsahovic/poke-env/raw/master/rl-gif.gif)
+
+[Poke-env](https://github.com/hsahovic/poke-env) es una interfaz de Python construida originalmente para entrenar bots de aprendizaje por refuerzo por [Haris Sahovic](https://huggingface.co/hsahovic), pero la hemos adaptado para la IA Agéntica.
+Permite que tu agente interactúe con Pokémon Showdown a través de una API simple.
+
+Proporciona una clase `Player` de la cual tu Agente heredará, cubriendo todo lo necesario para comunicarse con la interfaz gráfica.
+
+**Documentación**: [poke-env.readthedocs.io](https://poke-env.readthedocs.io/en/stable/)
+**Repositorio**: [github.com/hsahovic/poke-env](https://github.com/hsahovic/poke-env)
+
+## ⚔️ Pokémon Showdown
+
+[Pokémon Showdown](https://pokemonshowdown.com/) es un simulador de batallas [de código abierto](https://github.com/smogon/Pokemon-Showdown) donde tu agente jugará batallas Pokémon en vivo.
+Proporciona una interfaz completa para simular y mostrar batallas en tiempo real. En nuestro desafío, tu bot actuará como un jugador humano, eligiendo movimientos turno por turno.
+
+Hemos desplegado un servidor que todos los participantes usarán para luchar. ¡Veamos quién construye el mejor Agente de batalla de IA!
+
+**Repositorio**: [github.com/smogon/Pokemon-Showdown](https://github.com/smogon/Pokemon-Showdown)
+**Sitio web**: [pokemonshowdown.com](https://pokemonshowdown.com/)
+
+## 🔌 LLMAgentBase
+
+`LLMAgentBase` es una clase de Python que extiende la clase `Player` de **Poke-env**.
+Sirve como puente entre tu **LLM** y el **simulador de batallas Pokémon**, manejando el formato de entrada/salida y manteniendo el contexto de la batalla.
+
+Este agente base proporciona un conjunto de herramientas (definidas en `STANDARD_TOOL_SCHEMA`) para interactuar con el entorno, incluyendo:
+
+- `choose_move`: para seleccionar un ataque durante la batalla
+- `choose_switch`: para cambiar de Pokémon
+
+El LLM debe usar estas herramientas para tomar decisiones durante una partida.
+
+### 🧠 Lógica Central
+
+- `choose_move(battle: Battle)`: Este es el método principal invocado en cada turno. Toma un objeto `Battle` y devuelve una cadena de acción basada en la salida del LLM.
+
+### 🔧 Métodos Internos Clave
+
+- `_format_battle_state(battle)`: Convierte el estado actual de la batalla en una cadena, haciéndolo adecuado para enviarlo al LLM.
+
+- `_find_move_by_name(battle, move_name)`: Encuentra un movimiento por nombre, utilizado en las respuestas del LLM que llaman a `choose_move`.
+
+- `_find_pokemon_by_name(battle, pokemon_name)`: Localiza un Pokémon específico para cambiar, basado en el comando de cambio del LLM.
+
+- `_get_llm_decision(battle_state)`: Este método es abstracto en la clase base. Deberás implementarlo en tu propio agente (ver sección siguiente), donde defines cómo consultar al LLM y analizar su respuesta.
+
+Aquí hay un extracto que muestra cómo funciona esa toma de decisiones:
+
+```python
+STANDARD_TOOL_SCHEMA = {
+"choose_move": {
+...
+},
+"choose_switch": {
+...
+},
+}
+
+class LLMAgentBase(Player):
+def __init__(self, *args, **kwargs):
+super().__init__(*args, **kwargs)
+self.standard_tools = STANDARD_TOOL_SCHEMA
+self.battle_history = []
+
+def _format_battle_state(self, battle: Battle) -> str:
+active_pkmn = battle.active_pokemon
+active_pkmn_info = f"Tu Pokémon activo: {active_pkmn.species} " \
+f"(Tipo: {'/'.join(map(str, active_pkmn.types))}) " \
+f"HP: {active_pkmn.current_hp_fraction * 100:.1f}% " \
+f"Estado: {active_pkmn.status.name if active_pkmn.status else 'Ninguno'} " \
+f"Mejoras: {active_pkmn.boosts}"
+
+opponent_pkmn = battle.opponent_active_pokemon
+opp_info_str = "Desconocido"
+if opponent_pkmn:
+opp_info_str = f"{opponent_pkmn.species} " \
+f"(Tipo: {'/'.join(map(str, opponent_pkmn.types))}) " \
+f"HP: {opponent_pkmn.current_hp_fraction * 100:.1f}% " \
+f"Estado: {opponent_pkmn.status.name if opponent_pkmn.status else 'Ninguno'} " \
+f"Mejoras: {opponent_pkmn.boosts}"
+opponent_pkmn_info = f"El Pokémon activo del oponente: {opp_info_str}"
+
+available_moves_info = "Movimientos disponibles:\n"
+if battle.available_moves:
+available_moves_info += "\n".join(
+[f"- {move.id} (Tipo: {move.type}, BP: {move.base_power}, Precisión: {move.accuracy}, PP: {move.current_pp}/{move.max_pp}, Cat: {move.category.name})"
+for move in battle.available_moves]
+)
+else:
+available_moves_info += "- Ninguno (Debes cambiar o luchar con Struggle)"
+
+available_switches_info = "Cambios disponibles:\n"
+if battle.available_switches:
+available_switches_info += "\n".join(
+[f"- {pkmn.species} (HP: {pkmn.current_hp_fraction * 100:.1f}%, Estado: {pkmn.status.name if pkmn.status else 'Ninguno'})"
+for pkmn in battle.available_switches]
+)
+else:
+available_switches_info += "- Ninguno"
+
+state_str = f"{active_pkmn_info}\n" \
+f"{opponent_pkmn_info}\n\n" \
+f"{available_moves_info}\n\n" \
+f"{available_switches_info}\n\n" \
+f"Clima: {battle.weather}\n" \
+f"Terrenos: {battle.fields}\n" \
+f"Condiciones de tu lado: {battle.side_conditions}\n" \
+f"Condiciones del lado del oponente: {battle.opponent_side_conditions}"
+return state_str.strip()
+
+def _find_move_by_name(self, battle: Battle, move_name: str) -> Optional[Move]:
+normalized_name = normalize_name(move_name)
+# Prioriza la coincidencia exacta de ID
+for move in battle.available_moves:
+if move.id == normalized_name:
+return move
+# Fallback: Verifica el nombre de visualización (menos confiable)
+for move in battle.available_moves:
+if move.name.lower() == move_name.lower():
+print(f"Advertencia: Coincidencia de movimiento por nombre de visualización '{move.name}' en lugar de ID '{move.id}'. Entrada fue '{move_name}'.")
+return move
+return None
+
+def _find_pokemon_by_name(self, battle: Battle, pokemon_name: str) -> Optional[Pokemon]:
+normalized_name = normalize_name(pokemon_name)
+for pkmn in battle.available_switches:
+# Normaliza el nombre de la especie para comparación
+if normalize_name(pkmn.species) == normalized_name:
+return pkmn
+return None
+
+async def choose_move(self, battle: Battle) -> str:
+battle_state_str = self._format_battle_state(battle)
+decision_result = await self._get_llm_decision(battle_state_str)
+print(decision_result)
+decision = decision_result.get("decision")
+error_message = decision_result.get("error")
+action_taken = False
+fallback_reason = ""
+
+if decision:
+function_name = decision.get("name")
+args = decision.get("arguments", {})
+if function_name == "choose_move":
+move_name = args.get("move_name")
+if move_name:
+chosen_move = self._find_move_by_name(battle, move_name)
+if chosen_move and chosen_move in battle.available_moves:
+action_taken = True
+chat_msg = f"Decisión de la IA: Usando movimiento '{chosen_move.id}'."
+print(chat_msg)
+return self.create_order(chosen_move)
+else:
+fallback_reason = f"La IA eligió un movimiento no disponible/no válido '{move_name}'."
+else:
+fallback_reason = "La IA llamó a 'choose_move' sin 'move_name'."
+elif function_name == "choose_switch":
+pokemon_name = args.get("pokemon_name")
+if pokemon_name:
+chosen_switch = self._find_pokemon_by_name(battle, pokemon_name)
+if chosen_switch and chosen_switch in battle.available_switches:
+action_taken = True
+chat_msg = f"Decisión de la IA: Cambiando a '{chosen_switch.species}'."
+print(chat_msg)
+return self.create_order(chosen_switch)
+else:
+fallback_reason = f"La IA eligió un cambio no disponible/no válido '{pokemon_name}'."
+else:
+fallback_reason = "La IA llamó a 'choose_switch' sin 'pokemon_name'."
+else:
+fallback_reason = f"La IA llamó a una función desconocida '{function_name}'."
+
+if not action_taken:
+if not fallback_reason:
+if error_message:
+fallback_reason = f"Error de la API: {error_message}"
+elif decision is None:
+fallback_reason = "La IA no proporcionó una llamada de función válida."
+else:
+fallback_reason = "Error desconocido al procesar la decisión de la IA."
+
+print(f"Advertencia: {fallback_reason} Seleccionando acción aleatoria.")
+
+if battle.available_moves or battle.available_switches:
+return self.choose_random_move(battle)
+else:
+print("Fallback de la IA: No hay movimientos ni cambios disponibles. Usando Struggle/Default.")
+return self.choose_default_move(battle)
+
+async def _get_llm_decision(self, battle_state: str) -> Dict[str, Any]:
+raise NotImplementedError("Las subclases deben implementar _get_llm_decision")
+```
+
+**Código fuente completo**: [agents.py](https://huggingface.co/spaces/Jofthomas/twitch_streaming/blob/main/agents.py)
+
+## 🧪 Plantilla de Agente
+
+¡Ahora viene la parte divertida! Con LLMAgentBase como tu base, es hora de implementar tu propio agente, con tu propia estrategia para escalar en la tabla de clasificación.
+
+Comenzarás desde esta plantilla y construirás tu propia lógica. También hemos proporcionado tres [ejemplos completos](https://huggingface.co/spaces/Jofthomas/twitch_streaming/blob/main/agents.py) usando los modelos **OpenAI**, **Mistral** y **Gemini** para guiarte.
+
+Aquí tienes una versión simplificada de la plantilla:
+
+```python
+class TemplateAgent(LLMAgentBase):
+"""Utiliza la API de Template AI para tomar decisiones."""
+def __init__(self, api_key: str = None, model: str = "model-name", *args, **kwargs):
+super().__init__(*args, **kwargs)
+self.model = model
+self.template_client = TemplateModelProvider(api_key=...)
+self.template_tools = list(self.standard_tools.values())
+
+async def _get_llm_decision(self, battle_state: str) -> Dict[str, Any]:
+"""Envía el estado al LLM y obtiene la decisión de llamada de función."""
+system_prompt = (
+"Eres un ..."
+)
+user_prompt = f"..."
+
+try:
+response = await self.template_client.chat.completions.create(
+model=self.model,
+messages=[
+{"role": "system", "content": system_prompt},
+{"role": "user", "content": user_prompt},
+],
+)
+message = response.choices[0].message
+
+return {"decision": {"name": function_name, "arguments": arguments}}
+
+except Exception as e:
+print(f"Error inesperado durante la llamada: {e}")
+return {"error": f"Error inesperado: {e}"}
+```
+
+Este código no se ejecutará tal cual, es un plano para tu lógica personalizada.
+
+Con todas las piezas listas, es tu turno de construir un agente competitivo. En la próxima sección, mostraremos cómo desplegar tu agente en nuestro servidor y luchar contra otros en tiempo real.
+
+¡Que comience la batalla! 🔥

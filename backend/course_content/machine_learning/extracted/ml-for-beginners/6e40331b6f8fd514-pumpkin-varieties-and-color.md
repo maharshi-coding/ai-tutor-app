@@ -1,0 +1,47 @@
+# Pumpkin Varieties and Color
+
+Source: ML for Beginners
+Original URL: https://github.com/microsoft/ML-For-Beginners/blob/HEAD/2-Regression/4-Logistic/notebook.ipynb
+Original Path: 2-Regression/4-Logistic/notebook.ipynb
+Course: Machine Learning
+
+## Pumpkin Varieties and Color
+
+Load up required libraries and dataset. Convert the data to a dataframe containing a subset of the data:
+
+Let's look at the relationship between color and variety
+
+```python
+import pandas as pd
+import numpy as np
+
+full_pumpkins = pd.read_csv('../data/US-pumpkins.csv')
+
+full_pumpkins.head()
+```
+
+Output:
+```text
+City Name Type Package Variety Sub Variety Grade Date \
+0 BALTIMORE NaN 24 inch bins NaN NaN NaN 4/29/17
+1 BALTIMORE NaN 24 inch bins NaN NaN NaN 5/6/17
+2 BALTIMORE NaN 24 inch bins HOWDEN TYPE NaN NaN 9/24/16
+3 BALTIMORE NaN 24 inch bins HOWDEN TYPE NaN NaN 9/24/16
+4 BALTIMORE NaN 24 inch bins HOWDEN TYPE NaN NaN 11/5/16
+
+Low Price High Price Mostly Low ... Unit of Sale Quality Condition \
+0 270.0 280.0 270.0 ... NaN NaN NaN
+1 270.0 280.0 270.0 ... NaN NaN NaN
+2 160.0 160.0 160.0 ... NaN NaN NaN
+3 160.0 160.0 160.0 ... NaN NaN NaN
+4 90.0 100.0 90.0 ... NaN NaN NaN
+
+Appearance Storage Crop Repack Trans Mode Unnamed: 24 Unnamed: 25
+0 NaN NaN NaN E NaN NaN NaN
+1 NaN NaN NaN E NaN NaN NaN
+2 NaN NaN NaN N NaN NaN NaN
+3 NaN NaN NaN N NaN NaN NaN
+4 NaN NaN NaN N NaN NaN NaN
+
+[5 rows x 26 columns]
+```

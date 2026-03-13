@@ -1,0 +1,28 @@
+# 1. Search
+
+Source: Berkeley CS188 Textbook
+Original URL: https://inst.eecs.berkeley.edu/~cs188/textbook/search/
+Original Path: https://inst.eecs.berkeley.edu/~cs188/textbook/search/
+Course: Artificial Intelligence
+
+1. Search
+
+Author: Nikhil Sharma
+
+Edited by: Matei Gardea, Catherine Chu, and Wesley Zheng
+
+Credit: Some sections adapted from the textbook Artificial Intelligence: A Modern Approach .
+
+Last updated: October 2024
+
+- 1.1 Agents
+
+- 1.2 State Spaces and Search Problems
+
+- 1.3 Uninformed Search
+
+- 1.4 Informed Search
+
+- 1.5 Local Search
+
+- 1.6 Summary

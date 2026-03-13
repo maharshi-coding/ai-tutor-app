@@ -1,0 +1,232 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition</title>
+<!--Generated on Sat Jun 28 18:40:00 2025 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+
+<link rel="stylesheet" href="styleBook.css" type="text/css" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3K403C4QY8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3K403C4QY8');
+</script>
+
+
+<link rel="stylesheet" href="LaTeXML.css" type="text/css">
+<link rel="stylesheet" href="ltx-book.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="up" href="ArtInt3e.html" title="Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="start" href="ArtInt3e.html" title="Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="prev" href="ArtInt3e.Ch16.S7.html" title="16.7 Exercises ‣ Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="next" href="ArtInt3e.Ch17.S1.html" title="17.1 From Relations to Features and Random Variables ‣ Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Chx1.html" title="Preface ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch1.html" title="Chapter 1 Artificial Intelligence and Agents ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch2.html" title="Chapter 2 Agent Architectures and Hierarchical Control ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch3.html" title="Chapter 3 Searching for Solutions ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch4.html" title="Chapter 4 Reasoning with Constraints ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch5.html" title="Chapter 5 Propositions and Inference ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch6.html" title="Chapter 6 Deterministic Planning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch7.html" title="Chapter 7 Supervised Machine Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch8.html" title="Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch9.html" title="Chapter 9 Reasoning with Uncertainty ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch10.html" title="Chapter 10 Learning with Uncertainty ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch11.html" title="Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch12.html" title="Chapter 12 Planning with Uncertainty ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch13.html" title="Chapter 13 Reinforcement Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch14.html" title="Chapter 14 Multiagent Systems ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch15.html" title="Chapter 15 Individuals and Relations ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch16.html" title="Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch18.html" title="Chapter 18 The Social Impact of Artificial Intelligence ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch19.html" title="Chapter 19 Retrospect and Prospect ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="appendix" href="ArtInt3e.A1.html" title="Appendix A Mathematical Preliminaries and Notation ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="appendix" href="ArtInt3e.A2.html" title="Appendix B Mapping to Open-Source Packages ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="bibliography" href="ArtInt3e.bib.html" title="References ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="index" href="ArtInt3e.idx.html" title="Index ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch17.S1.html" title="17.1 From Relations to Features and Random Variables ‣ Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch17.S2.html" title="17.2 Embedding-Based models ‣ Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch17.S3.html" title="17.3 Learning Interdependence of Relations ‣ Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch17.S4.html" title="17.4 Existence and Identity Uncertainty ‣ Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch17.S5.html" title="17.5 Social Impact ‣ Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch17.S6.html" title="17.6 Review ‣ Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch17.S7.html" title="17.7 References and Further Reading ‣ Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch17.S8.html" title="17.8 Exercises ‣ Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<meta name="keywords" lang="en" content="data, entity, existence, identity, learning, neuro-symbolic AI, population, property, relation, relational, statistical relational AI">
+</head>
+<body>
+<div id="wrap">
+
+	<!--header -->
+	<div id="header">		
+        <p id="logo-author">David L. Poole & Alan K. Mackworth</p>	
+		<h1 id="logo-text"><a href="https://artint.info/" title="">Artificial <br/>Intelligence 3E</a></h1>		
+		<p id="logo-subtext">foundations of computational agents</p>
+	<!--header ends-->					
+	</div>
+	
+	<!-- navigation starts-->	
+	<div id="nav">		
+<a href="ArtInt3e.Ch16.S7.html"><img class="previous" alt="Previous" src="images/arrow-left.gif"/></a><a href="ArtInt3e.html"><img class="up" alt="Up" src="images/arrow-up.gif"/></a><a href="ArtInt3e.Ch17.S1.html"><img class="next" alt="Next" src="images/arrow-right.gif"/></a><ul><li><a href="https://artint.info">Home</a></li><li><a href="ArtInt3e.idx.html">Index</a></li><li><a href="ArtInt3e.html">Contents</a></li></ul>
+	<!-- navigation ends-->	
+	</div>
+
+<div class="ltx_page_main">
+<header class="ltx_page_header">
+<div class="ltx_align_center">
+<a href="ArtInt3e.html" title="" class="ltx_ref" rel="up"><span class="ltx_text ltx_ref_title">Artificial Intelligence: Foundations of Computational Agents,
+ 3rd Edition</span></a><a href="ArtInt3e.Ch16.S7.html" title="In Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="prev"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.7 </span>Exercises</span></a><a href="ArtInt3e.Ch17.S1.html" title="In Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="next"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.1 </span>From Relations to Features and Random Variables</span></a>
+</div></header>
+<div class="ltx_page_content">
+<section class="ltx_chapter ltx_fleqn">
+<h1 class="ltx_title ltx_title_chapter">
+<span class="ltx_tag ltx_tag_chapter">Chapter 17 </span>Relational Learning and Probabilistic Reasoning</h1>
+
+<div id="p1" class="ltx_para">
+<blockquote class="ltx_quote">
+<p class="ltx_p"><span class="ltx_text ltx_font_italic">The mind is a neural computer, fitted by natural selection with
+combinatorial algorithms for causal and probabilistic reasoning about
+plants, animals, objects, and people.</span></p>
+<p class="ltx_p"><span class="ltx_text ltx_font_italic">In a universe with any regularities at all, decisions informed about
+the past are better than decisions made at random. That has always
+been true, and we would expect organisms, especially informavores such
+as humans, to have evolved acute intuitions about probability. The
+founders of probability, like the founders of logic, assumed they were
+just formalizing common sense.</span></p>
+<p class="ltx_p ltx_align_right"><span class="ltx_text ltx_font_normal">– Steven <cite class="ltx_cite ltx_citemacro_citet">Pinker [<a href="ArtInt3e.bib.html#bib465" title="" class="ltx_ref">1997</a>, pp. 524, 343]</cite></span></p>
+</blockquote>
+</div>
+<div id="p2" class="ltx_para">
+<p class="ltx_p">In the
+machine learning and probabilistic models presented in earlier
+chapters, the world is made up of features and random
+variables. As Pinker points out, we generally reason about
+things. Things are not features or random variables; it doesn’t make sense to talk
+about the probability of an individual animal, but you
+could reason about the probability that it is sick, based on its symptoms. This
+chapter is about how to learn and make probabilistic predictions about
+things or entities.
+</p>
+</div>
+<div id="p3" class="ltx_para">
+<p class="ltx_p">The <a href="ArtInt3e.Ch1.S5.html#SS3" title="1.5.3 Representation ‣ 1.5 Agent Design Space ‣ Chapter 1 Artificial Intelligence and Agents ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref">representation
+dimension</a> has, as its top level,
+reasoning in terms of individuals (<span class="ltx_text ltx_font_bold">entities</span>) and
+<span class="ltx_text ltx_font_bold">relations</span>. Reasoning in terms of
+relations allows for compact representations that can be built
+independently of the particular entities, but can also be used to
+learn and reason about
+each entity. This
+chapter outlines how feature-based representations as used in learning and probabilistic reasoning can
+be expanded to deal also with entities
+and relations. A relational model can
+benefit from being able to be built before the entities are known
+and, therefore, before the features are known.
+</p>
+</div>
+<div id="p4" class="ltx_para">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Statistical relational AI</span> or
+<span class="ltx_text ltx_font_bold">neuro-symbolic AI</span> involves making predictions about
+relations based on <span class="ltx_text ltx_font_bold">relational data</span> consisting of a relational database,
+and perhaps <a href="ArtInt3e.Ch16.S4.html" title="16.4 Social Impact ‣ Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref">metadata</a>. Statistical relational AI
+is a general term for relational predictions based on data, whereas neuro-symbolic AI involves using neural
+networks and other embedding-based techniques for predictions. This encompasses:</p>
+<ul id="S0.I1" class="ltx_itemize">
+<li id="S0.I1.i1" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S0.I1.i1.p1" class="ltx_para">
+<p class="ltx_p">Predicting attributes of entities based on their other attributes and attributes of
+entities they are related to.</p>
+</div>
+</li>
+<li id="S0.I1.i2" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S0.I1.i2.p1" class="ltx_para">
+<p class="ltx_p">Predicting relations based on properties and
+relations of the entities involved. The simplest case is learning a single binary
+relation (<a href="ArtInt3e.Ch17.S2.html#SS1" title="17.2.1 Learning a Binary Relation ‣ 17.2 Embedding-Based models ‣ Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref">Section <span class="ltx_ref ltx_nolink"><span class="ltx_text ltx_ref_tag">17.2.1</span></span></a>), which is useful for domains like movie recommendations.
+This is extended to learning triples in
+<a href="ArtInt3e.Ch17.S2.html#SS2" title="17.2.2 Learning Knowledge Graphs ‣ 17.2 Embedding-Based models ‣ Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref">Section <span class="ltx_ref ltx_nolink"><span class="ltx_text ltx_ref_tag">17.2.2</span></span></a>, and learning more
+general relations in <a href="ArtInt3e.Ch17.S3.html" title="17.3 Learning Interdependence of Relations ‣ Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref">Section <span class="ltx_ref ltx_nolink"><span class="ltx_text ltx_ref_tag">17.3</span></span></a>.</p>
+</div>
+</li>
+<li id="S0.I1.i3" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S0.I1.i3.p1" class="ltx_para">
+<p class="ltx_p">Predicting <span class="ltx_text ltx_font_bold">identity</span>, whether
+descriptions denote the same entity – the descriptions are
+<a href="ArtInt3e.Ch15.S8.html" title="15.8 Equality ‣ Chapter 15 Individuals and Relations ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref">equal</a> – for example, which citations refer to the
+same papers, or whether two descriptions refer to the same person (<a href="ArtInt3e.Ch17.S4.html" title="17.4 Existence and Identity Uncertainty ‣ Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref">Section <span class="ltx_ref ltx_nolink"><span class="ltx_text ltx_ref_tag">17.4</span></span></a>).</p>
+</div>
+</li>
+<li id="S0.I1.i4" class="ltx_item" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span> 
+<div id="S0.I1.i4.p1" class="ltx_para">
+<p class="ltx_p">Predicting <span class="ltx_text ltx_font_bold">existence</span>, whether an entity exists that fits a
+description, for example whether there is a person in a
+particular room (<a href="ArtInt3e.Ch17.S4.html" title="17.4 Existence and Identity Uncertainty ‣ Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref">Section <span class="ltx_ref ltx_nolink"><span class="ltx_text ltx_ref_tag">17.4</span></span></a>).</p>
+</div>
+</li>
+</ul>
+</div>
+<div id="p5" class="ltx_para">
+<p class="ltx_p">The set of all entities of a type is called the
+<span class="ltx_text ltx_font_bold">population</span>. In this chapter, a property where the range is
+an entity (e.g., a person or a movie) is called a
+<span class="ltx_text ltx_font_bold">relation</span> and the term <span class="ltx_text ltx_font_bold">property</span> is used when the range is a fixed
+set, such as Boolean or the reals.</p>
+</div>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch17.S1.html" title="In Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.1 </span>From Relations to Features and Random Variables</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch17.S2.html" title="In Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.2 </span>Embedding-Based models</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch17.S3.html" title="In Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.3 </span>Learning Interdependence of Relations</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch17.S4.html" title="In Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.4 </span>Existence and Identity Uncertainty</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch17.S5.html" title="In Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.5 </span>Social Impact</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch17.S6.html" title="In Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.6 </span>Review</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch17.S7.html" title="In Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.7 </span>References and Further Reading</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch17.S8.html" title="In Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.8 </span>Exercises</span></a></li>
+</ol></nav>
+</section>
+</div>
+<footer class="ltx_page_footer">
+<div class="ltx_align_center">
+<a href="ArtInt3e.Ch16.S7.html" title="In Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="prev"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.7 </span>Exercises</span></a><a href="ArtInt3e.bib.html" title="In Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="bibliography"><span class="ltx_text ltx_ref_title">References</span></a><a href="ArtInt3e.idx.html" title="In Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="index"><span class="ltx_text ltx_ref_title">Index</span></a><a href="ArtInt3e.Ch17.S1.html" title="In Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="next"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.1 </span>From Relations to Features and Random Variables</span></a>
+</div>
+<div class="ltx_page_logo">Generated  on Sat Jun 28 18:40:00 2025 by <a href="http://dlmf.nist.gov/LaTeXML/" class="ltx_LaTeXML_logo"><span style="letter-spacing:-0.2em; margin-right:0.1em;">L<span class="ltx_font_smallcaps" style="position:relative; bottom:2.2pt;">a</span>T<span class="ltx_font_smallcaps" style="font-size:120%;position:relative; bottom:-0.2ex;">e</span></span><span style="font-size:90%; position:relative; bottom:-0.2ex;">XML</span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAOCAYAAAD5YeaVAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wKExQZLWTEaOUAAAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAdpJREFUKM9tkL+L2nAARz9fPZNCKFapUn8kyI0e4iRHSR1Kb8ng0lJw6FYHFwv2LwhOpcWxTjeUunYqOmqd6hEoRDhtDWdA8ApRYsSUCDHNt5ul13vz4w0vWCgUnnEc975arX6ORqN3VqtVZbfbTQC4uEHANM3jSqXymFI6yWazP2KxWAXAL9zCUa1Wy2tXVxheKA9YNoR8Pt+aTqe4FVVVvz05O6MBhqUIBGk8Hn8HAOVy+T+XLJfLS4ZhTiRJgqIoVBRFIoric47jPnmeB1mW/9rr9ZpSSn3Lsmir1fJZlqWlUonKsvwWwD8ymc/nXwVBeLjf7xEKhdBut9Hr9WgmkyGEkJwsy5eHG5vN5g0AKIoCAEgkEkin0wQAfN9/cXPdheu6P33fBwB4ngcAcByHJpPJl+fn54mD3Gg0NrquXxeLRQAAwzAYj8cwTZPwPH9/sVg8PXweDAauqqr2cDjEer1GJBLBZDJBs9mE4zjwfZ85lAGg2+06hmGgXq+j3+/DsixYlgVN03a9Xu8jgCNCyIegIAgx13Vfd7vdu+FweG8YRkjXdWy329+dTgeSJD3ieZ7RNO0VAXAPwDEAO5VKndi2fWrb9jWl9Esul6PZbDY9Go1OZ7PZ9z/lyuD3OozU2wAAAABJRU5ErkJggg==" alt="Mascot Sammy"></a>
+</div></footer>
+
+</div>
+	<!-- footer starts -->		
+	<div id="footer">						
+		<p><a href="https://artint.info">Artificial Intelligence: Foundations of Computational Agents, Poole
+	& Mackworth</a><br/>
+	Copyright &copy; 2023, <a href="https://cs.ubc.ca/~poole/">David L. Poole</a> and <a href="https://cs.ubc.ca/~mack/">Alan K. Mackworth</a>. <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.
+   		</p>	
+	<!-- footer ends-->
+</div>
+</body>
+</html>

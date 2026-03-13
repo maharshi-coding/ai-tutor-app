@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 from app.config import settings
 from app.database import get_db
 from app.models import Course, User
-from app.rag import retrieve_relevant_chunks
+from app.rag import retrieve_relevant_passages
 from app.routers.auth import get_current_user
 from app.schemas import AskTutorRequest, AskTutorResponse, TutorMessage, TutorResponse
 from app.services.course_bootstrap import ensure_seed_courses, get_blueprint_by_slug
@@ -18,15 +18,18 @@ from app.services.course_bootstrap import ensure_seed_courses, get_blueprint_by_
 router = APIRouter()
 
 TUTOR_SCOPE_INSTRUCTION = (
-    "Answer only the specific question the student asked. Do not add extra sections, "
-    "tangential topics, or 'you might also want to know' content unless the student asks for it. "
-    "Be direct and concise, while still teaching clearly."
+    "Stay focused on the student's question, but go deep enough that they can build real understanding. "
+    "Prefer a clear structure, explain why things work, and avoid rushing past important intuition."
 )
 
 TEACHING_STYLE_INSTRUCTION = (
-    "You are an expert instructor. Explain the topic step by step, use simple language, "
-    "give examples, and occasionally ask the student a short question to check understanding "
-    "when it genuinely helps the lesson."
+    "You are an expert instructor teaching a course. Explain concepts step-by-step using clear language. "
+    "Provide examples when possible and aim to help the student truly understand the topic."
+)
+
+COURSE_MATERIAL_INSTRUCTION = (
+    "When course material is provided, ground your answer in it first, synthesize across the passages, "
+    "and clearly separate supported facts from any extra background knowledge."
 )
 
 
@@ -42,17 +45,30 @@ def _build_rag_enhanced_prompt(
         return message, None
 
     try:
-        chunks = retrieve_relevant_chunks(course_id=course_id, query=message, top_k=4)
+        passages = retrieve_relevant_passages(course_id=course_id, query=message, top_k=5)
     except Exception:
         return message, None
 
-    if not chunks:
+    if not passages:
         return message, None
 
-    joined = "\n\n---\n\n".join(chunks)
+    blocks: list[str] = []
+    for index, passage in enumerate(passages, start=1):
+        metadata = passage.get("metadata") or {}
+        title = metadata.get("title") or f"Course Passage {index}"
+        source = metadata.get("source")
+        path_value = metadata.get("path")
+        label_parts = [title]
+        if source:
+            label_parts.append(f"source: {source}")
+        if path_value:
+            label_parts.append(f"path: {path_value}")
+        blocks.append(f"[{index}] {' | '.join(label_parts)}\n{passage['text']}")
+
+    joined = "\n\n---\n\n".join(blocks)
     rag_block = (
         "Use the following course material context to guide your answer. "
-        "Stay faithful to the content, but still explain things in simple language.\n\n"
+        "Stay faithful to the content, synthesize the relevant sections, and still explain things in simple language.\n\n"
         f"COURSE CONTEXT:\n{joined}\n\n"
         f"STUDENT QUESTION:\n{message}"
     )
@@ -60,7 +76,9 @@ def _build_rag_enhanced_prompt(
 
 
 def _system_prompt(course_context: Optional[str]) -> str:
-    prompt = f"{TEACHING_STYLE_INSTRUCTION} {TUTOR_SCOPE_INSTRUCTION}"
+    prompt = (
+        f"{TEACHING_STYLE_INSTRUCTION} {TUTOR_SCOPE_INSTRUCTION} {COURSE_MATERIAL_INSTRUCTION}"
+    )
     if course_context:
         prompt += f"\nCurrent course context: {course_context}"
     return prompt

@@ -1,0 +1,2061 @@
+{
+  "course": "Python Programming",
+  "slug": "python",
+  "generatedAt": "2026-03-13T06:35:50.720Z",
+  "sourceCount": 8,
+  "documentCount": 217,
+  "topicCount": 6,
+  "sources": [
+    {
+      "id": "python-official-tutorial",
+      "title": "Python Official Tutorial",
+      "type": "web",
+      "license": "PSF documentation license",
+      "description": "The core Python tutorial published by the Python documentation team.",
+      "documentCount": 17
+    },
+    {
+      "id": "google-python-class",
+      "title": "Google's Python Class",
+      "type": "web",
+      "license": "Google documentation terms",
+      "description": "Beginner-to-intermediate Python lessons with exercises and examples.",
+      "documentCount": 13
+    },
+    {
+      "id": "think-python",
+      "title": "Think Python",
+      "type": "git",
+      "license": "Repository license",
+      "description": "Allen Downey's open textbook and notebooks for learning Python deeply.",
+      "documentCount": 23
+    },
+    {
+      "id": "hundred-page-python-intro",
+      "title": "100 Page Python Intro",
+      "type": "web",
+      "license": "Site terms",
+      "description": "Compact Python course notes published as an open educational website.",
+      "documentCount": 1
+    },
+    {
+      "id": "learn-python-repo",
+      "title": "Learn Python",
+      "type": "git",
+      "license": "Repository license",
+      "description": "A structured GitHub learning repository with examples and explanations.",
+      "documentCount": 6
+    },
+    {
+      "id": "geeksforgeeks-python",
+      "title": "GeeksforGeeks Python Tutorial",
+      "type": "web",
+      "license": "GeeksforGeeks site terms",
+      "description": "Broad Python tutorial coverage with lots of beginner and intermediate worked explanations.",
+      "documentCount": 55
+    },
+    {
+      "id": "programiz-python",
+      "title": "Programiz Python Tutorial",
+      "type": "web",
+      "license": "Programiz site terms",
+      "description": "Step-by-step Python lessons with compact examples and reference-style pages.",
+      "documentCount": 45
+    },
+    {
+      "id": "scientific-python-lectures",
+      "title": "Scientific Python Lectures",
+      "type": "git",
+      "license": "Repository license",
+      "description": "Advanced notes that connect Python fundamentals to scientific computing practice.",
+      "documentCount": 57
+    }
+  ],
+  "topics": [
+    {
+      "id": "syntax-and-data-types",
+      "title": "Syntax and Data Types",
+      "documentCount": 78
+    },
+    {
+      "id": "control-flow-and-functions",
+      "title": "Control Flow and Functions",
+      "documentCount": 70
+    },
+    {
+      "id": "data-structures",
+      "title": "Data Structures",
+      "documentCount": 9
+    },
+    {
+      "id": "modules-files-and-packages",
+      "title": "Modules, Files, and Packages",
+      "documentCount": 57
+    },
+    {
+      "id": "objects-errors-and-testing",
+      "title": "Objects, Errors, and Testing",
+      "documentCount": 3
+    },
+    {
+      "id": "advanced-python",
+      "title": "Advanced Python",
+      "documentCount": 0
+    }
+  ],
+  "documents": [
+    {
+      "id": "9f009fef9d9fec3a",
+      "title": "modules |",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/index.html",
+      "extractPath": "extracted/python-official-tutorial/9f009fef9d9fec3a-modules.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "d7f5994b3b7532eb",
+      "title": "1. Whetting Your Appetite ¶",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/appetite.html",
+      "extractPath": "extracted/python-official-tutorial/d7f5994b3b7532eb-1-whetting-your-appetite.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "e9bc18285c297c2d",
+      "title": "2. Using the Python Interpreter ¶",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/interpreter.html",
+      "extractPath": "extracted/python-official-tutorial/e9bc18285c297c2d-2-using-the-python-interpreter.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "56e20a3ab9afc8f4",
+      "title": "3. An Informal Introduction to Python ¶",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/introduction.html",
+      "extractPath": "extracted/python-official-tutorial/56e20a3ab9afc8f4-3-an-informal-introduction-to-python.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "bf5ad49742dfaf3a",
+      "title": "4. More Control Flow Tools ¶",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/controlflow.html",
+      "extractPath": "extracted/python-official-tutorial/bf5ad49742dfaf3a-4-more-control-flow-tools.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "fd7fc74410b49248",
+      "title": "5. Data Structures ¶",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/datastructures.html",
+      "extractPath": "extracted/python-official-tutorial/fd7fc74410b49248-5-data-structures.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "b2df5407daa88638",
+      "title": "6. Modules ¶",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/modules.html",
+      "extractPath": "extracted/python-official-tutorial/b2df5407daa88638-6-modules.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "87dff82f277e488e",
+      "title": "7. Input and Output ¶",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/inputoutput.html",
+      "extractPath": "extracted/python-official-tutorial/87dff82f277e488e-7-input-and-output.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "cac5529e0af18689",
+      "title": "8. Errors and Exceptions ¶",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/errors.html",
+      "extractPath": "extracted/python-official-tutorial/cac5529e0af18689-8-errors-and-exceptions.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "7b622a21ba57fd81",
+      "title": "9. Classes ¶",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/classes.html",
+      "extractPath": "extracted/python-official-tutorial/7b622a21ba57fd81-9-classes.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "4aea720d87b209fc",
+      "title": "10. Brief Tour of the Standard Library ¶",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/stdlib.html",
+      "extractPath": "extracted/python-official-tutorial/4aea720d87b209fc-10-brief-tour-of-the-standard-library.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "dbfee3eab6483dad",
+      "title": "11. Brief Tour of the Standard Library — Part II ¶",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/stdlib2.html",
+      "extractPath": "extracted/python-official-tutorial/dbfee3eab6483dad-11-brief-tour-of-the-standard-library-part-ii.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "f1a4778338872bfa",
+      "title": "12. Virtual Environments and Packages ¶",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/venv.html",
+      "extractPath": "extracted/python-official-tutorial/f1a4778338872bfa-12-virtual-environments-and-packages.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "8f4b954d68592ea0",
+      "title": "13. What Now? ¶",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/whatnow.html",
+      "extractPath": "extracted/python-official-tutorial/8f4b954d68592ea0-13-what-now.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "44c885c20258a338",
+      "title": "14. Interactive Input Editing and History Substitution ¶",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/interactive.html",
+      "extractPath": "extracted/python-official-tutorial/44c885c20258a338-14-interactive-input-editing-and-history-substit.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "375e880990d7ee24",
+      "title": "15. Floating-Point Arithmetic: Issues and Limitations ¶",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/floatingpoint.html",
+      "extractPath": "extracted/python-official-tutorial/375e880990d7ee24-15-floating-point-arithmetic-issues-and-limitati.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "a83fca296e00416e",
+      "title": "16. Appendix ¶",
+      "sourceId": "python-official-tutorial",
+      "sourceTitle": "Python Official Tutorial",
+      "sourceUrl": "https://docs.python.org/3/tutorial/appendix.html",
+      "extractPath": "extracted/python-official-tutorial/a83fca296e00416e-16-appendix.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "0e64583d90405e61",
+      "title": "فئة Python من Google",
+      "sourceId": "google-python-class",
+      "sourceTitle": "Google's Python Class",
+      "sourceUrl": "https://developers.google.com/edu/python",
+      "extractPath": "extracted/google-python-class/0e64583d90405e61-python-google.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "2428ba36e5966461",
+      "title": "Python Set Up",
+      "sourceId": "google-python-class",
+      "sourceTitle": "Google's Python Class",
+      "sourceUrl": "https://developers.google.com/edu/python/set-up",
+      "extractPath": "extracted/google-python-class/2428ba36e5966461-python-set-up.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "34c701cba607c02d",
+      "title": "Python Introduction",
+      "sourceId": "google-python-class",
+      "sourceTitle": "Google's Python Class",
+      "sourceUrl": "https://developers.google.com/edu/python/introduction",
+      "extractPath": "extracted/google-python-class/34c701cba607c02d-python-introduction.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "5ea4b5ea19fe836e",
+      "title": "Python Strings",
+      "sourceId": "google-python-class",
+      "sourceTitle": "Google's Python Class",
+      "sourceUrl": "https://developers.google.com/edu/python/strings",
+      "extractPath": "extracted/google-python-class/5ea4b5ea19fe836e-python-strings.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "3031f7aed3c5b66f",
+      "title": "Listas de Python",
+      "sourceId": "google-python-class",
+      "sourceTitle": "Google's Python Class",
+      "sourceUrl": "https://developers.google.com/edu/python/lists",
+      "extractPath": "extracted/google-python-class/3031f7aed3c5b66f-listas-de-python.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "a36eda38f6272151",
+      "title": "Python 정렬",
+      "sourceId": "google-python-class",
+      "sourceTitle": "Google's Python Class",
+      "sourceUrl": "https://developers.google.com/edu/python/sorting",
+      "extractPath": "extracted/google-python-class/a36eda38f6272151-python.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "509440f9a3360773",
+      "title": "Python Dict and File",
+      "sourceId": "google-python-class",
+      "sourceTitle": "Google's Python Class",
+      "sourceUrl": "https://developers.google.com/edu/python/dict-files",
+      "extractPath": "extracted/google-python-class/509440f9a3360773-python-dict-and-file.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "0da4093ce867b27e",
+      "title": "التعبيرات العادية في بايثون",
+      "sourceId": "google-python-class",
+      "sourceTitle": "Google's Python Class",
+      "sourceUrl": "https://developers.google.com/edu/python/regular-expressions",
+      "extractPath": "extracted/google-python-class/0da4093ce867b27e-document.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "3c304d960c05babd",
+      "title": "Python Utilities",
+      "sourceId": "google-python-class",
+      "sourceTitle": "Google's Python Class",
+      "sourceUrl": "https://developers.google.com/edu/python/utilities",
+      "extractPath": "extracted/google-python-class/3c304d960c05babd-python-utilities.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "268cd3122d52394b",
+      "title": "Latihan Python Dasar",
+      "sourceId": "google-python-class",
+      "sourceTitle": "Google's Python Class",
+      "sourceUrl": "https://developers.google.com/edu/python/exercises/basic",
+      "extractPath": "extracted/google-python-class/268cd3122d52394b-latihan-python-dasar.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "6716b1b71a83ce77",
+      "title": "Baby Names Python Exercise",
+      "sourceId": "google-python-class",
+      "sourceTitle": "Google's Python Class",
+      "sourceUrl": "https://developers.google.com/edu/python/exercises/baby-names",
+      "extractPath": "extracted/google-python-class/6716b1b71a83ce77-baby-names-python-exercise.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "86d1460f7fa3452e",
+      "title": "특수 Python 실습 복사",
+      "sourceId": "google-python-class",
+      "sourceTitle": "Google's Python Class",
+      "sourceUrl": "https://developers.google.com/edu/python/exercises/copy-special",
+      "extractPath": "extracted/google-python-class/86d1460f7fa3452e-python.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "8dc9b989a99acdfb",
+      "title": "記錄解謎 Python 運動",
+      "sourceId": "google-python-class",
+      "sourceTitle": "Google's Python Class",
+      "sourceUrl": "https://developers.google.com/edu/python/exercises/log-puzzle",
+      "extractPath": "extracted/google-python-class/8dc9b989a99acdfb-python.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "effaae48ae3fb70d",
+      "title": "Think Python, 3rd edition",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/README.md",
+      "extractPath": "extracted/think-python/effaae48ae3fb70d-think-python-3rd-edition.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "00ca4aa4c8ba985f",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap00.ipynb",
+      "extractPath": "extracted/think-python/00ca4aa4c8ba985f-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "576966c5f9968f3e",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap01.ipynb",
+      "extractPath": "extracted/think-python/576966c5f9968f3e-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "e1cb51392460fee5",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap02.ipynb",
+      "extractPath": "extracted/think-python/e1cb51392460fee5-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "d854f63a87665343",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap03.ipynb",
+      "extractPath": "extracted/think-python/d854f63a87665343-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "69a194b102b89b20",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap04.ipynb",
+      "extractPath": "extracted/think-python/69a194b102b89b20-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "35ed6246ac48b38c",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap05.ipynb",
+      "extractPath": "extracted/think-python/35ed6246ac48b38c-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "164a758646a02d78",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap06.ipynb",
+      "extractPath": "extracted/think-python/164a758646a02d78-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "f184c8076d61f538",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap07.ipynb",
+      "extractPath": "extracted/think-python/f184c8076d61f538-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "720f6ab135a106b8",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap08.ipynb",
+      "extractPath": "extracted/think-python/720f6ab135a106b8-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "448ec1c7d2e245db",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap09.ipynb",
+      "extractPath": "extracted/think-python/448ec1c7d2e245db-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "82bb58f05cccdbb6",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap10.ipynb",
+      "extractPath": "extracted/think-python/82bb58f05cccdbb6-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "7622e45f12ee4151",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap11.ipynb",
+      "extractPath": "extracted/think-python/7622e45f12ee4151-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "404ffb3ffa8ad2f7",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap12.ipynb",
+      "extractPath": "extracted/think-python/404ffb3ffa8ad2f7-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "eee3514ebc8a43f0",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap13.ipynb",
+      "extractPath": "extracted/think-python/eee3514ebc8a43f0-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "d0798ef089c221c3",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap14.ipynb",
+      "extractPath": "extracted/think-python/d0798ef089c221c3-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "0150ab35ae6df016",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap15.ipynb",
+      "extractPath": "extracted/think-python/0150ab35ae6df016-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "c85758f92ae729ef",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap16.ipynb",
+      "extractPath": "extracted/think-python/c85758f92ae729ef-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "2e76d1e8cdbf2f0f",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap17.ipynb",
+      "extractPath": "extracted/think-python/2e76d1e8cdbf2f0f-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "5971870201307a4a",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap18.ipynb",
+      "extractPath": "extracted/think-python/5971870201307a4a-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "667dd566cfb7dd10",
+      "title": "You can order print and ebook versions of *Think Python 3e* from",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/chap19.ipynb",
+      "extractPath": "extracted/think-python/667dd566cfb7dd10-you-can-order-print-and-ebook-versions-of-think-.md",
+      "topicId": "objects-errors-and-testing"
+    },
+    {
+      "id": "b628ef3a8c66ed63",
+      "title": "Think Python* on Jupyter",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/chapters/jupyter_intro.ipynb",
+      "extractPath": "extracted/think-python/b628ef3a8c66ed63-think-python-on-jupyter.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "6c728c66eeb1fab0",
+      "title": "aa",
+      "sourceId": "think-python",
+      "sourceTitle": "Think Python",
+      "sourceUrl": "https://github.com/AllenDowney/ThinkPython/blob/HEAD/words.txt",
+      "extractPath": "extracted/think-python/6c728c66eeb1fab0-aa.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "eb59dfed77a43b46",
+      "title": "100 Page Python Intro",
+      "sourceId": "hundred-page-python-intro",
+      "sourceTitle": "100 Page Python Intro",
+      "sourceUrl": "https://learnbyexample.github.io/100_page_python_intro/introduction.html",
+      "extractPath": "extracted/hundred-page-python-intro/eb59dfed77a43b46-100-page-python-intro.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "0d8385133218f742",
+      "title": "Playground y Cheatsheet para aprender Python",
+      "sourceId": "learn-python-repo",
+      "sourceTitle": "Learn Python",
+      "sourceUrl": "https://github.com/trekhleb/learn-python/blob/HEAD/README.es-ES.md",
+      "extractPath": "extracted/learn-python-repo/0d8385133218f742-playground-y-cheatsheet-para-aprender-python.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "cf26ff89dfa46f52",
+      "title": "Playground and Cheatsheet for Learning Python",
+      "sourceId": "learn-python-repo",
+      "sourceTitle": "Learn Python",
+      "sourceUrl": "https://github.com/trekhleb/learn-python/blob/HEAD/README.md",
+      "extractPath": "extracted/learn-python-repo/cf26ff89dfa46f52-playground-and-cheatsheet-for-learning-python.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "72308205a2232f00",
+      "title": "Playground e Cheatsheet Para Aprender Python",
+      "sourceId": "learn-python-repo",
+      "sourceTitle": "Learn Python",
+      "sourceUrl": "https://github.com/trekhleb/learn-python/blob/HEAD/README.pt-BR.md",
+      "extractPath": "extracted/learn-python-repo/72308205a2232f00-playground-e-cheatsheet-para-aprender-python.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "546aa0e426b34e48",
+      "title": "學習 Python 的練習場（Playground）和速查表（Cheatsheet）",
+      "sourceId": "learn-python-repo",
+      "sourceTitle": "Learn Python",
+      "sourceUrl": "https://github.com/trekhleb/learn-python/blob/HEAD/README.zh-TW.md",
+      "extractPath": "extracted/learn-python-repo/546aa0e426b34e48-python-playground-cheatsheet.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "6b3191fbbfece87c",
+      "title": "Python Syntax",
+      "sourceId": "learn-python-repo",
+      "sourceTitle": "Learn Python",
+      "sourceUrl": "https://github.com/trekhleb/learn-python/blob/HEAD/src/getting_started/python_syntax.md",
+      "extractPath": "extracted/learn-python-repo/6b3191fbbfece87c-python-syntax.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "b5ec0cc7ec47790f",
+      "title": "What is Python",
+      "sourceId": "learn-python-repo",
+      "sourceTitle": "Learn Python",
+      "sourceUrl": "https://github.com/trekhleb/learn-python/blob/HEAD/src/getting_started/what_is_python.md",
+      "extractPath": "extracted/learn-python-repo/b5ec0cc7ec47790f-what-is-python.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "9377a0d6a06a7686",
+      "title": "Python Tutorial",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-programming-language-tutorial/",
+      "extractPath": "extracted/geeksforgeeks-python/9377a0d6a06a7686-python-tutorial.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "85d26742b0cd73b0",
+      "title": "Python Data Types",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-data-types/",
+      "extractPath": "extracted/geeksforgeeks-python/85d26742b0cd73b0-python-data-types.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "f5785448cbac4145",
+      "title": "Python Interview Questions and Answers",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-interview-questions/",
+      "extractPath": "extracted/geeksforgeeks-python/f5785448cbac4145-python-interview-questions-and-answers.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "910afd6948f042e4",
+      "title": "Python Programs",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-programming-examples/",
+      "extractPath": "extracted/geeksforgeeks-python/910afd6948f042e4-python-programs.md",
+      "topicId": "data-structures"
+    },
+    {
+      "id": "113e8d57dda742af",
+      "title": "Python Quiz",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-quizzes/",
+      "extractPath": "extracted/geeksforgeeks-python/113e8d57dda742af-python-quiz.md",
+      "topicId": "data-structures"
+    },
+    {
+      "id": "fb28165ab185acba",
+      "title": "NumPy Tutorial",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/numpy-tutorial/",
+      "extractPath": "extracted/geeksforgeeks-python/fb28165ab185acba-numpy-tutorial.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "51dae7e74e6c509c",
+      "title": "Django Tutorial | Learn Django Framework",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/django-tutorial/",
+      "extractPath": "extracted/geeksforgeeks-python/51dae7e74e6c509c-django-tutorial-learn-django-framework.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "ccea55f4082b42bb",
+      "title": "Flask Tutorial",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/flask-tutorial/",
+      "extractPath": "extracted/geeksforgeeks-python/ccea55f4082b42bb-flask-tutorial.md",
+      "topicId": "objects-errors-and-testing"
+    },
+    {
+      "id": "d6184fa42ac7cca7",
+      "title": "Python Introduction",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/introduction-to-python/",
+      "extractPath": "extracted/geeksforgeeks-python/d6184fa42ac7cca7-python-introduction.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "2d4a17354ea8ff75",
+      "title": "Download and Install Python 3 Latest Version",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/download-and-install-python-3-latest-version/",
+      "extractPath": "extracted/geeksforgeeks-python/2d4a17354ea8ff75-download-and-install-python-3-latest-version.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "2dc9c6515c540872",
+      "title": "Python Applications and Advantages",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-language-advantages-applications/",
+      "extractPath": "extracted/geeksforgeeks-python/2dc9c6515c540872-python-applications-and-advantages.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "13c26b7d73f8e603",
+      "title": "Input and Output in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/input-and-output-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/13c26b7d73f8e603-input-and-output-in-python.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "f3ae308f2f682c84",
+      "title": "Python Variables",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-variables/",
+      "extractPath": "extracted/geeksforgeeks-python/f3ae308f2f682c84-python-variables.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "75ee4ea0713c7a33",
+      "title": "Python Operators",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-operators/",
+      "extractPath": "extracted/geeksforgeeks-python/75ee4ea0713c7a33-python-operators.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "f9444baeb5ec00e5",
+      "title": "Python Keywords",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-keywords/",
+      "extractPath": "extracted/geeksforgeeks-python/f9444baeb5ec00e5-python-keywords.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "50c95e29e51c5483",
+      "title": "Conditional Statements in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/conditional-statements-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/50c95e29e51c5483-conditional-statements-in-python.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "21c0513adc278b28",
+      "title": "Loops in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/loops-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/21c0513adc278b28-loops-in-python.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "7b0443e4c78fb3db",
+      "title": "Python Functions",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-functions/",
+      "extractPath": "extracted/geeksforgeeks-python/7b0443e4c78fb3db-python-functions.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "82516625f72bc71a",
+      "title": "Python pass Statement",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-pass-statement/",
+      "extractPath": "extracted/geeksforgeeks-python/82516625f72bc71a-python-pass-statement.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "17ad344c43128cfd",
+      "title": "Global and Local Variables in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/global-local-variables-python/",
+      "extractPath": "extracted/geeksforgeeks-python/17ad344c43128cfd-global-and-local-variables-in-python.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "dcfc71c994b73503",
+      "title": "Recursion in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/recursion-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/dcfc71c994b73503-recursion-in-python.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "55ef97209a01a2c4",
+      "title": "args and **kwargs in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/args-kwargs-python/",
+      "extractPath": "extracted/geeksforgeeks-python/55ef97209a01a2c4-args-and-kwargs-in-python.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "c9996c4c65ac6431",
+      "title": "Why Python Uses 'Self' as Default Argument",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/why-python-uses-self-as-default-argument/",
+      "extractPath": "extracted/geeksforgeeks-python/c9996c4c65ac6431-why-python-uses-self-as-default-argument.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "eb712e8dd10ef95e",
+      "title": "First Class functions in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/first-class-functions-python/",
+      "extractPath": "extracted/geeksforgeeks-python/eb712e8dd10ef95e-first-class-functions-in-python.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "db3d04c0c34e772f",
+      "title": "Python Lambda Functions",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-lambda-anonymous-functions-filter-map-reduce/",
+      "extractPath": "extracted/geeksforgeeks-python/db3d04c0c34e772f-python-lambda-functions.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "251daddf224d07ff",
+      "title": "Python map() function",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-map-function/",
+      "extractPath": "extracted/geeksforgeeks-python/251daddf224d07ff-python-map-function.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "264ddb7cdbade48a",
+      "title": "reduce() in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/reduce-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/264ddb7cdbade48a-reduce-in-python.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "3fc14c99c4849d75",
+      "title": "filter() in python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/filter-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/3fc14c99c4849d75-filter-in-python.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "aa85c8bc73f5ace8",
+      "title": "Python Inner Functions",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-inner-functions/",
+      "extractPath": "extracted/geeksforgeeks-python/aa85c8bc73f5ace8-python-inner-functions.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "cd8135f659734688",
+      "title": "Decorators in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/decorators-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/cd8135f659734688-decorators-in-python.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "04bbe826f83ff7a2",
+      "title": "Python String",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-string/",
+      "extractPath": "extracted/geeksforgeeks-python/04bbe826f83ff7a2-python-string.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "203783233d8527f7",
+      "title": "Python Lists",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-lists/",
+      "extractPath": "extracted/geeksforgeeks-python/203783233d8527f7-python-lists.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "69978c350e271cda",
+      "title": "Python Tuples",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-tuples/",
+      "extractPath": "extracted/geeksforgeeks-python/69978c350e271cda-python-tuples.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "5790d39f7cd23a3b",
+      "title": "Python Dictionary",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-dictionary/",
+      "extractPath": "extracted/geeksforgeeks-python/5790d39f7cd23a3b-python-dictionary.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "375e8782fc8e6682",
+      "title": "Python Sets",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-sets/",
+      "extractPath": "extracted/geeksforgeeks-python/375e8782fc8e6682-python-sets.md",
+      "topicId": "data-structures"
+    },
+    {
+      "id": "b314f16a9b3f75ff",
+      "title": "Python Arrays",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-arrays/",
+      "extractPath": "extracted/geeksforgeeks-python/b314f16a9b3f75ff-python-arrays.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "ea1bb2e31140ce41",
+      "title": "List Comprehension in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-list-comprehension/",
+      "extractPath": "extracted/geeksforgeeks-python/ea1bb2e31140ce41-list-comprehension-in-python.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "58569e0529176cea",
+      "title": "Python Collections Counter",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/counters-in-python-set-1/",
+      "extractPath": "extracted/geeksforgeeks-python/58569e0529176cea-python-collections-counter.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "737ea57eb11fabfe",
+      "title": "Heap queue or heapq in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/heap-queue-or-heapq-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/737ea57eb11fabfe-heap-queue-or-heapq-in-python.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "1e9b650927a80efd",
+      "title": "Deque in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/deque-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/1e9b650927a80efd-deque-in-python.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "9530ae0231d37ad1",
+      "title": "OrderedDict in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/ordereddict-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/9530ae0231d37ad1-ordereddict-in-python.md",
+      "topicId": "data-structures"
+    },
+    {
+      "id": "170aeb8ba1867a92",
+      "title": "Defaultdict in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/defaultdict-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/170aeb8ba1867a92-defaultdict-in-python.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "a168576252a0bc78",
+      "title": "Python OOP Concepts",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-oops-concepts/",
+      "extractPath": "extracted/geeksforgeeks-python/a168576252a0bc78-python-oop-concepts.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "2ce7e6d10d6e620b",
+      "title": "Python Classes and Objects",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-classes-and-objects/",
+      "extractPath": "extracted/geeksforgeeks-python/2ce7e6d10d6e620b-python-classes-and-objects.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "afc3e13ea769110d",
+      "title": "Polymorphism in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/polymorphism-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/afc3e13ea769110d-polymorphism-in-python.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "5ca693a400715568",
+      "title": "Inheritance in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/inheritance-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/5ca693a400715568-inheritance-in-python.md",
+      "topicId": "objects-errors-and-testing"
+    },
+    {
+      "id": "20764e4fe7409977",
+      "title": "Data Abstraction in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/data-abstraction-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/20764e4fe7409977-data-abstraction-in-python.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "1b5a4b7a017f3862",
+      "title": "Encapsulation in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/encapsulation-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/1b5a4b7a017f3862-encapsulation-in-python.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "706d4c9dcae14e34",
+      "title": "Iterators in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/iterators-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/706d4c9dcae14e34-iterators-in-python.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "e952d79c916bb35e",
+      "title": "Python Exception Handling",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/python-exception-handling/",
+      "extractPath": "extracted/geeksforgeeks-python/e952d79c916bb35e-python-exception-handling.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "ff8a9260c65a44b5",
+      "title": "Python Built-in Exceptions",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/built-exceptions-python/",
+      "extractPath": "extracted/geeksforgeeks-python/ff8a9260c65a44b5-python-built-in-exceptions.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "a3dfe672acadcb63",
+      "title": "User-defined Exceptions in Python with Examples",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/user-defined-exceptions-python-examples/",
+      "extractPath": "extracted/geeksforgeeks-python/a3dfe672acadcb63-user-defined-exceptions-in-python-with-examples.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "7f6cad1a0a43d78e",
+      "title": "File Handling in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/file-handling-python/",
+      "extractPath": "extracted/geeksforgeeks-python/7f6cad1a0a43d78e-file-handling-in-python.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "11268fd4f57e14f2",
+      "title": "Reading a File in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/how-to-read-from-a-file-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/11268fd4f57e14f2-reading-a-file-in-python.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "20e78924302bdce7",
+      "title": "Writing to file in Python",
+      "sourceId": "geeksforgeeks-python",
+      "sourceTitle": "GeeksforGeeks Python Tutorial",
+      "sourceUrl": "https://www.geeksforgeeks.org/python/writing-to-file-in-python/",
+      "extractPath": "extracted/geeksforgeeks-python/20e78924302bdce7-writing-to-file-in-python.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "6b4c1aeca2fc9962",
+      "title": "Learn Python Programming",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming",
+      "extractPath": "extracted/programiz-python/6b4c1aeca2fc9962-learn-python-programming.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "2b6e727bab7af6fa",
+      "title": "Getting Started with Python",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/getting-started",
+      "extractPath": "extracted/programiz-python/2b6e727bab7af6fa-getting-started-with-python.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "4b9c9e2af64928bc",
+      "title": "Python if...else Statement",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/if-elif-else",
+      "extractPath": "extracted/programiz-python/4b9c9e2af64928bc-python-if-else-statement.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "33d3602354d371cd",
+      "title": "Python while Loop",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/while-loop",
+      "extractPath": "extracted/programiz-python/33d3602354d371cd-python-while-loop.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "2af2964837905a47",
+      "title": "Python List",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/list",
+      "extractPath": "extracted/programiz-python/2af2964837905a47-python-list.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "a7fd6e2c9e169564",
+      "title": "Python Dictionary",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/dictionary",
+      "extractPath": "extracted/programiz-python/a7fd6e2c9e169564-python-dictionary.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "2895b23eedae1d52",
+      "title": "Python Program to Add Two Numbers",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/examples/add-number",
+      "extractPath": "extracted/programiz-python/2895b23eedae1d52-python-program-to-add-two-numbers.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "b6d771ec49f80574",
+      "title": "Python Program to Check Prime Number",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/examples/prime-number",
+      "extractPath": "extracted/programiz-python/b6d771ec49f80574-python-program-to-check-prime-number.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "7af87508dd3b4238",
+      "title": "Python Program to Find the Factorial of a Number",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/examples/factorial",
+      "extractPath": "extracted/programiz-python/7af87508dd3b4238-python-program-to-find-the-factorial-of-a-number.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "144204300ad4225f",
+      "title": "Python Program to Print the Fibonacci sequence",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/examples/fibonacci-sequence",
+      "extractPath": "extracted/programiz-python/144204300ad4225f-python-program-to-print-the-fibonacci-sequence.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "4c6cd599690dc429",
+      "title": "Python Program to Check Leap Year",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/examples/leap-year",
+      "extractPath": "extracted/programiz-python/4c6cd599690dc429-python-program-to-check-leap-year.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "bcd450969d6124c6",
+      "title": "Python Examples",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/examples",
+      "extractPath": "extracted/programiz-python/bcd450969d6124c6-python-examples.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "a1591903daa2f4d1",
+      "title": "Python Built-in Functions",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/methods/built-in",
+      "extractPath": "extracted/programiz-python/a1591903daa2f4d1-python-built-in-functions.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "8dd351097704bcaf",
+      "title": "Python List Methods",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/methods/list",
+      "extractPath": "extracted/programiz-python/8dd351097704bcaf-python-list-methods.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "b47890f390589823",
+      "title": "Python Dictionary Methods",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/methods/dictionary",
+      "extractPath": "extracted/programiz-python/b47890f390589823-python-dictionary-methods.md",
+      "topicId": "data-structures"
+    },
+    {
+      "id": "d859afae1c66b779",
+      "title": "Python String Methods",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/methods/string",
+      "extractPath": "extracted/programiz-python/d859afae1c66b779-python-string-methods.md",
+      "topicId": "data-structures"
+    },
+    {
+      "id": "57a37f7b069b1fb9",
+      "title": "Python References",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/methods",
+      "extractPath": "extracted/programiz-python/57a37f7b069b1fb9-python-references.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "53ca961b92ae1cb2",
+      "title": "Python Online Compiler",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/online-compiler/",
+      "extractPath": "extracted/programiz-python/53ca961b92ae1cb2-python-online-compiler.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "3d69e7bf855e1c29",
+      "title": "Your First Python Program",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/first-program",
+      "extractPath": "extracted/programiz-python/3d69e7bf855e1c29-your-first-python-program.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "0299ba51499dd6f0",
+      "title": "Python Comments",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/comments",
+      "extractPath": "extracted/programiz-python/0299ba51499dd6f0-python-comments.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "e5e19467138b098a",
+      "title": "Python Variables and Literals",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/variables-constants-literals",
+      "extractPath": "extracted/programiz-python/e5e19467138b098a-python-variables-and-literals.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "71be39867099a605",
+      "title": "Python Type Conversion",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/type-conversion-and-casting",
+      "extractPath": "extracted/programiz-python/71be39867099a605-python-type-conversion.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "d72dccfaa1220048",
+      "title": "Python Basic Input and Output",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/input-output-import",
+      "extractPath": "extracted/programiz-python/d72dccfaa1220048-python-basic-input-and-output.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "17b0024d1a693fdf",
+      "title": "Python Operators",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/operators",
+      "extractPath": "extracted/programiz-python/17b0024d1a693fdf-python-operators.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "e335f1760a6dcee3",
+      "title": "Python for Loop",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/for-loop",
+      "extractPath": "extracted/programiz-python/e335f1760a6dcee3-python-for-loop.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "8b8701a705081e0f",
+      "title": "Python break and continue",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/break-continue",
+      "extractPath": "extracted/programiz-python/8b8701a705081e0f-python-break-and-continue.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "9fd290f97c6c18ad",
+      "title": "Python pass Statement",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/pass-statement",
+      "extractPath": "extracted/programiz-python/9fd290f97c6c18ad-python-pass-statement.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "1b9b1a8e793edfdd",
+      "title": "Python Numbers, Type Conversion and Mathematics",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/numbers",
+      "extractPath": "extracted/programiz-python/1b9b1a8e793edfdd-python-numbers-type-conversion-and-mathematics.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "ac9ec310bf859a5c",
+      "title": "Python Tuple",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/tuple",
+      "extractPath": "extracted/programiz-python/ac9ec310bf859a5c-python-tuple.md",
+      "topicId": "data-structures"
+    },
+    {
+      "id": "0d055ea3f341f53a",
+      "title": "Python Sets",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/set",
+      "extractPath": "extracted/programiz-python/0d055ea3f341f53a-python-sets.md",
+      "topicId": "data-structures"
+    },
+    {
+      "id": "5a9f592ebaf5dac8",
+      "title": "Python Functions",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/function",
+      "extractPath": "extracted/programiz-python/5a9f592ebaf5dac8-python-functions.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "dac4b333f0ddc677",
+      "title": "Python Function Arguments",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/function-argument",
+      "extractPath": "extracted/programiz-python/dac4b333f0ddc677-python-function-arguments.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "4c0ee7949655ca1b",
+      "title": "Python Variable Scope",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/global-local-nonlocal-variables",
+      "extractPath": "extracted/programiz-python/4c0ee7949655ca1b-python-variable-scope.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "0ff1e03a80551818",
+      "title": "Python Global Keyword",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/global-keyword",
+      "extractPath": "extracted/programiz-python/0ff1e03a80551818-python-global-keyword.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "a8b1533f2674c25b",
+      "title": "Python Recursion",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/recursion",
+      "extractPath": "extracted/programiz-python/a8b1533f2674c25b-python-recursion.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "7c3276489071fa90",
+      "title": "Python Modules",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/modules",
+      "extractPath": "extracted/programiz-python/7c3276489071fa90-python-modules.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "d9c4b0b5de83ee31",
+      "title": "Python Package",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/package",
+      "extractPath": "extracted/programiz-python/d9c4b0b5de83ee31-python-package.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "ba742d8790aa04f2",
+      "title": "Python Main function",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/main-function",
+      "extractPath": "extracted/programiz-python/ba742d8790aa04f2-python-main-function.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "3ee738bc06977de9",
+      "title": "Python Directory and Files Management",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/directory",
+      "extractPath": "extracted/programiz-python/3ee738bc06977de9-python-directory-and-files-management.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "942a0861735f1c0e",
+      "title": "Python CSV: Read and Write CSV Files",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/csv",
+      "extractPath": "extracted/programiz-python/942a0861735f1c0e-python-csv-read-and-write-csv-files.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "ece4f79940761aaa",
+      "title": "Reading CSV files in Python",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/reading-csv-files",
+      "extractPath": "extracted/programiz-python/ece4f79940761aaa-reading-csv-files-in-python.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "8b193f0a85e85e62",
+      "title": "Writing CSV files in Python",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/writing-csv-files",
+      "extractPath": "extracted/programiz-python/8b193f0a85e85e62-writing-csv-files-in-python.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "c4e5fbdf113ab37f",
+      "title": "Python Exceptions",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/exceptions",
+      "extractPath": "extracted/programiz-python/c4e5fbdf113ab37f-python-exceptions.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "1ef84a5ceb7a0b43",
+      "title": "Python Exception Handling",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/exception-handling",
+      "extractPath": "extracted/programiz-python/1ef84a5ceb7a0b43-python-exception-handling.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "a2028d16b80562ff",
+      "title": "Python Custom Exceptions",
+      "sourceId": "programiz-python",
+      "sourceTitle": "Programiz Python Tutorial",
+      "sourceUrl": "https://www.programiz.com/python-programming/user-defined-exception",
+      "extractPath": "extracted/programiz-python/a2028d16b80562ff-python-custom-exceptions.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "3ee7ae241a88ccf3",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/advanced_numpy/index.md",
+      "extractPath": "extracted/scientific-python-lectures/3ee7ae241a88ccf3-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "8a3067e6c753b617",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/advanced_python/index.md",
+      "extractPath": "extracted/scientific-python-lectures/8a3067e6c753b617-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "2636163b83147c5c",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/debugging/index.md",
+      "extractPath": "extracted/scientific-python-lectures/2636163b83147c5c-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "19e639ac451cd893",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/image_processing/index.md",
+      "extractPath": "extracted/scientific-python-lectures/19e639ac451cd893-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "233d8cd415be11d3",
+      "title": "orphan: true",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/index.md",
+      "extractPath": "extracted/scientific-python-lectures/233d8cd415be11d3-orphan-true.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "d284b1b7aa45f754",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/interfacing_with_c/interfacing_with_c.md",
+      "extractPath": "extracted/scientific-python-lectures/d284b1b7aa45f754-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "12e8035cfdba1ef9",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/mathematical_optimization/index.md",
+      "extractPath": "extracted/scientific-python-lectures/12e8035cfdba1ef9-jupytext.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "6397ee3c463e3ace",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/mathematical_optimization/optimization_examples.md",
+      "extractPath": "extracted/scientific-python-lectures/6397ee3c463e3ace-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "98e3fc4efc921fa0",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/optimizing/index.md",
+      "extractPath": "extracted/scientific-python-lectures/98e3fc4efc921fa0-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "9d96f21dee2e3e35",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/scipy_sparse/bsr_array.md",
+      "extractPath": "extracted/scientific-python-lectures/9d96f21dee2e3e35-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "dc5786ced736fa79",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/scipy_sparse/coo_array.md",
+      "extractPath": "extracted/scientific-python-lectures/dc5786ced736fa79-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "3a4c479b81593359",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/scipy_sparse/csc_array.md",
+      "extractPath": "extracted/scientific-python-lectures/3a4c479b81593359-jupytext.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "ce0c844595afe0d4",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/scipy_sparse/csr_array.md",
+      "extractPath": "extracted/scientific-python-lectures/ce0c844595afe0d4-jupytext.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "fec39429d8f16eac",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/scipy_sparse/dia_array.md",
+      "extractPath": "extracted/scientific-python-lectures/fec39429d8f16eac-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "f06401451d8fbf8e",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/scipy_sparse/dok_array.md",
+      "extractPath": "extracted/scientific-python-lectures/f06401451d8fbf8e-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "d821731526b7e874",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/scipy_sparse/introduction.md",
+      "extractPath": "extracted/scientific-python-lectures/d821731526b7e874-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "93a74f7c1db9972c",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/scipy_sparse/lil_array.md",
+      "extractPath": "extracted/scientific-python-lectures/93a74f7c1db9972c-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "4a4451e8a950aaa4",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/scipy_sparse/solvers.md",
+      "extractPath": "extracted/scientific-python-lectures/4a4451e8a950aaa4-jupytext.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "6073cc77a3babb83",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/advanced/scipy_sparse/storage_schemes.md",
+      "extractPath": "extracted/scientific-python-lectures/6073cc77a3babb83-jupytext.md",
+      "topicId": "data-structures"
+    },
+    {
+      "id": "bcc42a0f41b55bc1",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/help/help.md",
+      "extractPath": "extracted/scientific-python-lectures/bcc42a0f41b55bc1-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "e7f065315d7bc4db",
+      "title": "orphan: true",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/index.md",
+      "extractPath": "extracted/scientific-python-lectures/e7f065315d7bc4db-orphan-true.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "8432b67535c0ae95",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/intro.md",
+      "extractPath": "extracted/scientific-python-lectures/8432b67535c0ae95-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "c1390c8995fb236a",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/language/basic_types.md",
+      "extractPath": "extracted/scientific-python-lectures/c1390c8995fb236a-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "1d1255af875e362e",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/language/control_flow.md",
+      "extractPath": "extracted/scientific-python-lectures/1d1255af875e362e-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "6a8deb6f8e857e9f",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/language/exceptions.md",
+      "extractPath": "extracted/scientific-python-lectures/6a8deb6f8e857e9f-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "5af0f6f411b1e1f9",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/language/first_steps.md",
+      "extractPath": "extracted/scientific-python-lectures/5af0f6f411b1e1f9-jupytext.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "2fdc339c4b03adf1",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/language/functions.md",
+      "extractPath": "extracted/scientific-python-lectures/2fdc339c4b03adf1-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "ee7eef713d00174d",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/language/io.md",
+      "extractPath": "extracted/scientific-python-lectures/ee7eef713d00174d-jupytext.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "4b22f500082f80cf",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/language/oop.md",
+      "extractPath": "extracted/scientific-python-lectures/4b22f500082f80cf-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "1f7f76c2a92c9e05",
+      "title": "The Python language",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/language/python_language.md",
+      "extractPath": "extracted/scientific-python-lectures/1f7f76c2a92c9e05-the-python-language.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "967bb55e44cc4b33",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/language/reusing_code.md",
+      "extractPath": "extracted/scientific-python-lectures/967bb55e44cc4b33-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "260a387816cbc3fa",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/language/standard_library.md",
+      "extractPath": "extracted/scientific-python-lectures/260a387816cbc3fa-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "00b7c302ed82aa2f",
+      "title": "Code samples for Matplotlib",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/matplotlib/examples/README.txt",
+      "extractPath": "extracted/scientific-python-lectures/00b7c302ed82aa2f-code-samples-for-matplotlib.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "560593588a3492e3",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/matplotlib/index.md",
+      "extractPath": "extracted/scientific-python-lectures/560593588a3492e3-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "8162105cc11adafc",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/matplotlib/quick_reference_figures.md",
+      "extractPath": "extracted/scientific-python-lectures/8162105cc11adafc-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "224b95aa06229fb8",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/numpy/advanced_operations.md",
+      "extractPath": "extracted/scientific-python-lectures/224b95aa06229fb8-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "adffeec296d79a17",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/numpy/array_object.md",
+      "extractPath": "extracted/scientific-python-lectures/adffeec296d79a17-jupytext.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "0167fec8c73ea0d2",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/numpy/elaborate_arrays.md",
+      "extractPath": "extracted/scientific-python-lectures/0167fec8c73ea0d2-jupytext.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "e43f6d1de77f87b4",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/numpy/exercises.md",
+      "extractPath": "extracted/scientific-python-lectures/e43f6d1de77f87b4-jupytext.md",
+      "topicId": "syntax-and-data-types"
+    },
+    {
+      "id": "883891694835ca4f",
+      "title": "NumPy: creating and manipulating numerical data",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/numpy/index.md",
+      "extractPath": "extracted/scientific-python-lectures/883891694835ca4f-numpy-creating-and-manipulating-numerical-data.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "2a607a2baddb5c34",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/numpy/operations.md",
+      "extractPath": "extracted/scientific-python-lectures/2a607a2baddb5c34-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "ab7a06d27ad2a0b8",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/scipy/image_processing/image_processing.md",
+      "extractPath": "extracted/scientific-python-lectures/ab7a06d27ad2a0b8-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "31fd17eaeca98db7",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/scipy/index.md",
+      "extractPath": "extracted/scientific-python-lectures/31fd17eaeca98db7-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "222f6344b2565cef",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/scipy/scipy_examples.md",
+      "extractPath": "extracted/scientific-python-lectures/222f6344b2565cef-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "4378147042dc111d",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/scipy/summary-exercises/answers_image_processing.md",
+      "extractPath": "extracted/scientific-python-lectures/4378147042dc111d-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "d1247859e6a7b785",
+      "title": "orphan: true",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/scipy/summary-exercises/image-processing.md",
+      "extractPath": "extracted/scientific-python-lectures/d1247859e6a7b785-orphan-true.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "76096a043f93b62e",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/scipy/summary-exercises/optimize-fit.md",
+      "extractPath": "extracted/scientific-python-lectures/76096a043f93b62e-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "e4e815b151df5219",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/scipy/summary-exercises/stats-interpolate.md",
+      "extractPath": "extracted/scientific-python-lectures/e4e815b151df5219-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "58ce5cac87b7f154",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/intro/scipy/summary-exercises/stats-interpolate_examples.md",
+      "extractPath": "extracted/scientific-python-lectures/58ce5cac87b7f154-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "9ef1997ce98bba6b",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/packages/scikit-image/index.md",
+      "extractPath": "extracted/scientific-python-lectures/9ef1997ce98bba6b-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "4e143c610fd30aac",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/packages/scikit-learn/index.md",
+      "extractPath": "extracted/scientific-python-lectures/4e143c610fd30aac-jupytext.md",
+      "topicId": "control-flow-and-functions"
+    },
+    {
+      "id": "76b6f32c06e108bc",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/packages/scikit-learn/index_examples.md",
+      "extractPath": "extracted/scientific-python-lectures/76b6f32c06e108bc-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "d667d3a638da49e5",
+      "title": "ABE ATL 613.84 3627.18 692 215.77 102.17 188.12 87.06",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/packages/statistics/examples/airfares.txt",
+      "extractPath": "extracted/scientific-python-lectures/d667d3a638da49e5-abe-atl-613-84-3627-18-692-215-77-102-17-188-12-.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "79a79c6599d0a31e",
+      "title": "Determinants of Wages from the 1985 Current Population Survey",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/packages/statistics/examples/wages.txt",
+      "extractPath": "extracted/scientific-python-lectures/79a79c6599d0a31e-determinants-of-wages-from-the-1985-current-popu.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "8b9e8744ae5cc55a",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/packages/statistics/index.md",
+      "extractPath": "extracted/scientific-python-lectures/8b9e8744ae5cc55a-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "9324a143665ef1a3",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/packages/statistics/stats_examples.md",
+      "extractPath": "extracted/scientific-python-lectures/9324a143665ef1a3-jupytext.md",
+      "topicId": "modules-files-and-packages"
+    },
+    {
+      "id": "1d9b5cb50ce46874",
+      "title": "jupytext:",
+      "sourceId": "scientific-python-lectures",
+      "sourceTitle": "Scientific Python Lectures",
+      "sourceUrl": "https://github.com/scipy-lectures/scientific-python-lectures/blob/HEAD/packages/sympy.md",
+      "extractPath": "extracted/scientific-python-lectures/1d9b5cb50ce46874-jupytext.md",
+      "topicId": "syntax-and-data-types"
+    }
+  ]
+}

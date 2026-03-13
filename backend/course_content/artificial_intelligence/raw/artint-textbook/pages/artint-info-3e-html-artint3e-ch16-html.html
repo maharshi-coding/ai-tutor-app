@@ -1,0 +1,148 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition</title>
+<!--Generated on Sat Jun 28 18:40:00 2025 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+
+<link rel="stylesheet" href="styleBook.css" type="text/css" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3K403C4QY8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3K403C4QY8');
+</script>
+
+
+<link rel="stylesheet" href="LaTeXML.css" type="text/css">
+<link rel="stylesheet" href="ltx-book.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="up" href="ArtInt3e.html" title="Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="start" href="ArtInt3e.html" title="Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="prev" href="ArtInt3e.Ch15.S13.html" title="15.13 Exercises ‣ Chapter 15 Individuals and Relations ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="next" href="ArtInt3e.Ch16.S1.html" title="16.1 Knowledge Graphs ‣ Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Chx1.html" title="Preface ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch1.html" title="Chapter 1 Artificial Intelligence and Agents ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch2.html" title="Chapter 2 Agent Architectures and Hierarchical Control ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch3.html" title="Chapter 3 Searching for Solutions ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch4.html" title="Chapter 4 Reasoning with Constraints ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch5.html" title="Chapter 5 Propositions and Inference ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch6.html" title="Chapter 6 Deterministic Planning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch7.html" title="Chapter 7 Supervised Machine Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch8.html" title="Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch9.html" title="Chapter 9 Reasoning with Uncertainty ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch10.html" title="Chapter 10 Learning with Uncertainty ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch11.html" title="Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch12.html" title="Chapter 12 Planning with Uncertainty ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch13.html" title="Chapter 13 Reinforcement Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch14.html" title="Chapter 14 Multiagent Systems ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch15.html" title="Chapter 15 Individuals and Relations ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch17.html" title="Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch18.html" title="Chapter 18 The Social Impact of Artificial Intelligence ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch19.html" title="Chapter 19 Retrospect and Prospect ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="appendix" href="ArtInt3e.A1.html" title="Appendix A Mathematical Preliminaries and Notation ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="appendix" href="ArtInt3e.A2.html" title="Appendix B Mapping to Open-Source Packages ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="bibliography" href="ArtInt3e.bib.html" title="References ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="index" href="ArtInt3e.idx.html" title="Index ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch16.S1.html" title="16.1 Knowledge Graphs ‣ Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch16.S2.html" title="16.2 Classes and Properties ‣ Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch16.S3.html" title="16.3 Ontologies and Knowledge Sharing ‣ Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch16.S4.html" title="16.4 Social Impact ‣ Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch16.S5.html" title="16.5 Review ‣ Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch16.S6.html" title="16.6 References and Further Reading ‣ Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch16.S7.html" title="16.7 Exercises ‣ Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+</head>
+<body>
+<div id="wrap">
+
+	<!--header -->
+	<div id="header">		
+        <p id="logo-author">David L. Poole & Alan K. Mackworth</p>	
+		<h1 id="logo-text"><a href="https://artint.info/" title="">Artificial <br/>Intelligence 3E</a></h1>		
+		<p id="logo-subtext">foundations of computational agents</p>
+	<!--header ends-->					
+	</div>
+	
+	<!-- navigation starts-->	
+	<div id="nav">		
+<a href="ArtInt3e.Ch15.S13.html"><img class="previous" alt="Previous" src="images/arrow-left.gif"/></a><a href="ArtInt3e.html"><img class="up" alt="Up" src="images/arrow-up.gif"/></a><a href="ArtInt3e.Ch16.S1.html"><img class="next" alt="Next" src="images/arrow-right.gif"/></a><ul><li><a href="https://artint.info">Home</a></li><li><a href="ArtInt3e.idx.html">Index</a></li><li><a href="ArtInt3e.html">Contents</a></li></ul>
+	<!-- navigation ends-->	
+	</div>
+
+<div class="ltx_page_main">
+<header class="ltx_page_header">
+<div class="ltx_align_center">
+<a href="ArtInt3e.html" title="" class="ltx_ref" rel="up"><span class="ltx_text ltx_ref_title">Artificial Intelligence: Foundations of Computational Agents,
+ 3rd Edition</span></a><a href="ArtInt3e.Ch15.S13.html" title="In Chapter 15 Individuals and Relations ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="prev"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">15.13 </span>Exercises</span></a><a href="ArtInt3e.Ch16.S1.html" title="In Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="next"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.1 </span>Knowledge Graphs</span></a>
+</div></header>
+<div class="ltx_page_content">
+<section class="ltx_chapter ltx_fleqn">
+<h1 class="ltx_title ltx_title_chapter">
+<span class="ltx_tag ltx_tag_chapter">Chapter 16 </span>Knowledge Graphs and Ontologies</h1>
+
+<div id="p1" class="ltx_para">
+<blockquote class="ltx_quote">
+<p class="ltx_p"><em class="ltx_emph ltx_font_italic">The most serious problems standing in the way of developing an
+adequate theory of computation are as much ontological as they are
+semantical. It is not that the semantic problems go away; they remain
+as challenging as ever. It is just that they are joined – on center
+stage, as it were – by even more demanding problems of ontology.</em></p>
+<p class="ltx_p ltx_align_right">– Brian Cantwell <cite class="ltx_cite ltx_citemacro_citet">Smith [<a href="ArtInt3e.bib.html#bib545" title="" class="ltx_ref">1996</a>, p. 14]</cite></p>
+</blockquote>
+<p class="ltx_p">How do you represent knowledge about a world to make it easy
+to acquire, debug, maintain, communicate, share, and reason with that
+knowledge? This chapter explores flexible methods for storing and
+reasoning with facts, and knowledge and data sharing
+using ontologies. As Smith points out, the problems of
+ontology are central for building intelligent computational agents.</p>
+</div>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch16.S1.html" title="In Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.1 </span>Knowledge Graphs</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch16.S2.html" title="In Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.2 </span>Classes and Properties</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch16.S3.html" title="In Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.3 </span>Ontologies and Knowledge Sharing</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch16.S4.html" title="In Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.4 </span>Social Impact</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch16.S5.html" title="In Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.5 </span>Review</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch16.S6.html" title="In Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.6 </span>References and Further Reading</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch16.S7.html" title="In Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.7 </span>Exercises</span></a></li>
+</ol></nav>
+</section>
+</div>
+<footer class="ltx_page_footer">
+<div class="ltx_align_center">
+<a href="ArtInt3e.Ch15.S13.html" title="In Chapter 15 Individuals and Relations ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="prev"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">15.13 </span>Exercises</span></a><a href="ArtInt3e.bib.html" title="In Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="bibliography"><span class="ltx_text ltx_ref_title">References</span></a><a href="ArtInt3e.idx.html" title="In Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="index"><span class="ltx_text ltx_ref_title">Index</span></a><a href="ArtInt3e.Ch16.S1.html" title="In Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="next"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.1 </span>Knowledge Graphs</span></a>
+</div>
+<div class="ltx_page_logo">Generated  on Sat Jun 28 18:40:00 2025 by <a href="http://dlmf.nist.gov/LaTeXML/" class="ltx_LaTeXML_logo"><span style="letter-spacing:-0.2em; margin-right:0.1em;">L<span class="ltx_font_smallcaps" style="position:relative; bottom:2.2pt;">a</span>T<span class="ltx_font_smallcaps" style="font-size:120%;position:relative; bottom:-0.2ex;">e</span></span><span style="font-size:90%; position:relative; bottom:-0.2ex;">XML</span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAOCAYAAAD5YeaVAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wKExQZLWTEaOUAAAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAdpJREFUKM9tkL+L2nAARz9fPZNCKFapUn8kyI0e4iRHSR1Kb8ng0lJw6FYHFwv2LwhOpcWxTjeUunYqOmqd6hEoRDhtDWdA8ApRYsSUCDHNt5ul13vz4w0vWCgUnnEc975arX6ORqN3VqtVZbfbTQC4uEHANM3jSqXymFI6yWazP2KxWAXAL9zCUa1Wy2tXVxheKA9YNoR8Pt+aTqe4FVVVvz05O6MBhqUIBGk8Hn8HAOVy+T+XLJfLS4ZhTiRJgqIoVBRFIoric47jPnmeB1mW/9rr9ZpSSn3Lsmir1fJZlqWlUonKsvwWwD8ymc/nXwVBeLjf7xEKhdBut9Hr9WgmkyGEkJwsy5eHG5vN5g0AKIoCAEgkEkin0wQAfN9/cXPdheu6P33fBwB4ngcAcByHJpPJl+fn54mD3Gg0NrquXxeLRQAAwzAYj8cwTZPwPH9/sVg8PXweDAauqqr2cDjEer1GJBLBZDJBs9mE4zjwfZ85lAGg2+06hmGgXq+j3+/DsixYlgVN03a9Xu8jgCNCyIegIAgx13Vfd7vdu+FweG8YRkjXdWy329+dTgeSJD3ieZ7RNO0VAXAPwDEAO5VKndi2fWrb9jWl9Esul6PZbDY9Go1OZ7PZ9z/lyuD3OozU2wAAAABJRU5ErkJggg==" alt="Mascot Sammy"></a>
+</div></footer>
+
+</div>
+	<!-- footer starts -->		
+	<div id="footer">						
+		<p><a href="https://artint.info">Artificial Intelligence: Foundations of Computational Agents, Poole
+	& Mackworth</a><br/>
+	Copyright &copy; 2023, <a href="https://cs.ubc.ca/~poole/">David L. Poole</a> and <a href="https://cs.ubc.ca/~mack/">Alan K. Mackworth</a>. <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.
+   		</p>	
+	<!-- footer ends-->
+</div>
+</body>
+</html>

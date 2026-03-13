@@ -1,0 +1,15 @@
+{
+  "id": "google-ml-crash-course",
+  "type": "web",
+  "title": "Google Machine Learning Crash Course",
+  "description": "Applied ML explanations and worked examples from Google.",
+  "license": "Google documentation terms",
+  "seedUrls": [
+    "https://developers.google.com/machine-learning/crash-course"
+  ],
+  "allowPrefixes": [
+    "https://developers.google.com/machine-learning/crash-course"
+  ],
+  "maxPages": 32,
+  "documentCount": 32
+}

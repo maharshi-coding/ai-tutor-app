@@ -1,0 +1,21 @@
+{
+  "id": "scientific-python-lectures",
+  "type": "git",
+  "title": "Scientific Python Lectures",
+  "description": "Advanced notes that connect Python fundamentals to scientific computing practice.",
+  "license": "Repository license",
+  "repoUrl": "https://github.com/scipy-lectures/scientific-python-lectures.git",
+  "maxFiles": 90,
+  "rootPaths": [
+    "intro",
+    "advanced",
+    "packages"
+  ],
+  "includeExtensions": [
+    ".rst",
+    ".md",
+    ".ipynb",
+    ".txt"
+  ],
+  "documentCount": 57
+}

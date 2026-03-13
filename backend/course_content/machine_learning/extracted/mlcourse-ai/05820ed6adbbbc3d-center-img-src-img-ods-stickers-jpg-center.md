@@ -1,0 +1,525 @@
+# <center> <img src="../../img/ods_stickers.jpg"> </center>
+
+Source: mlcourse.ai
+Original URL: https://github.com/Yorko/mlcourse.ai/blob/HEAD/jupyter_english/projects_indiv/predicting_pulsar_aleksei_demin.ipynb
+Original Path: jupyter_english/projects_indiv/predicting_pulsar_aleksei_demin.ipynb
+Course: Machine Learning
+
+<center> <img src="../../img/ods_stickers.jpg"> </center>
+
+## <center> Individual Project </center> ##
+## <center> "Predicting a Pulsar Star" </center> ##
+### <center> Аuthor: Aleksei Demin </center> ###
+
+## Part 1: Feature and data explanation
+
+<center>
+<img src= "../../img/pulsar.PNG">
+</center>
+
+### Introduction
+
+A pulsar is a highly magnetized rotating neutron star that emits a beam of electromagnetic radiation. This radiation can be observed only when the beam of emission is pointing toward Earth (much like the way a lighthouse can be seen only when the light is pointed in the direction of an observer), and is responsible for the pulsed appearance of emission. Neutron stars are very dense, and have short, regular rotational periods. This produces a very precise interval between pulses that ranges from milliseconds to seconds for an individual pulsar. Pulsars are believed to be one of the candidates for the source of ultra-high-energy cosmic rays (see also centrifugal mechanism of acceleration).
+
+Each pulsar produces a slightly different emission pattern, which varies slightly with each rotation . Thus a potential signal detection known as a 'candidate', is averaged over many rotations of the pulsar, as determined by the length of an observation. In the absence of additional info, each candidate could potentially describe a real pulsar. However in practice almost all detections are caused by radio frequency interference (RFI) and noise, making legitimate signals hard to find.
+
+### Dataset information
+
+[Kaggle link](https://www.kaggle.com/pavanraj159/predicting-a-pulsar-star)
+
+Provided dataset contains 16,259 spurious examples caused by RFI/noise, and 1,639 real pulsar examples. Each row lists the variables first, and the class label is the final entry. The class labels used are 0 (negative) and 1 (positive).
+
+### Data explanation
+
+Each object described by 8 continuous variables, and a single class target variable.
+
+The first four are simple statistics obtained from the integrated pulse profile (folded profile). This is an array of continuous variables that describe a longitude-resolved version of the signal that has been averaged in both time and frequency. The remaining four variables are similarly obtained from the DM-SNR curve.
+
+| № | Description |
+| 1 | Mean of the integrated profile |
+| 2 | Standard deviation of the integrated profile |
+| 3| Excess kurtosis of the integrated profile |
+| 4 | Skewness of the integrated profile |
+| 5 | Mean of the DM-SNR curve |
+| 6 | Standard deviation of the DM-SNR curve |
+| 7 | Excess kurtosis of the DM-SNR curve |
+| 8 | Skewness of the DM-SNR curve |
+| **target_class** | **Target variable** - Object is a pulsar or not |
+
+#### Small clarification about skewness and kurtosis
+Skewness assesses the extent to which a variable’s distribution is symmetrical. If the distribution of responses for a variable stretches toward the right or left tail of the distribution, then the distribution is referred to as skewed. Kurtosis is a measure of whether the distribution is too peaked (a very narrow distribution with most of the responses in the center).
+
+#### Small clarification about DM-SNR
+
+<center>
+<img src="../../img/dmsnr.PNG">
+Example of DM-SNR curve
+</center>
+
+One of parameter a space that be described is the Dispersion Measure (DM) of space. Dispersion is caused by the interstellar medium, and is different for every pulsar, depending on its distance and the number of electrons in the interstellar medium in the direction of the pulsar. Dispersion causes the lower frequencies of the signal to arrive later than the higher frequencies. This smears out, or disperses, the pulse. This smearing will completely obliterate the pulse if the signal is not dedispersed before folding.
+
+SNR - Pulse profile signal-to-noise ratio.
+
+## Part 2: Primary data analysis
+
+#### Import the necessary packages
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import warnings
+import itertools
+
+from sklearn.metrics import roc_auc_score
+from sklearn.preprocessing import LabelBinarizer, StandardScaler
+from sklearn.model_selection import train_test_split, GridSearchCV, StratifiedKFold, learning_curve, validation_curve
+from sklearn.ensemble import RandomForestClassifier
+
+import lightgbm as lgb
+
+warnings.filterwarnings("ignore")
+%matplotlib inline
+```
+
+#### Read the data
+
+```python
+data = pd.read_csv('pulsar_stars.csv')
+data.head()
+```
+
+#### Data information
+
+```python
+data.info()
+```
+
+```python
+data.describe()
+```
+
+#### Correlation between fields
+
+```python
+data.corr()
+```
+
+#### Missing values
+
+```python
+data.isnull().sum()
+```
+
+#### Target class
+
+```python
+data['target_class'].value_counts()
+```
+
+#### Some conclusions after primary data analysis
+
+- we can observe quite large maximum values for all features, probably outliers
+- kurtosis and skewness does not correlate with the mean value and standard deviation, which corresponds to the theory
+- data types are all numeric and non-null, there's no need to do any transformations or cleaning
+
+## Part 3: Primary visual data analysis
+
+#### Preprocessing
+
+```python
+df = pd.DataFrame()
+
+columns_old = [' Mean of the integrated profile', ' Standard deviation of the integrated profile', ' Excess kurtosis of the integrated profile', ' Skewness of the integrated profile',
+' Mean of the DM-SNR curve', ' Standard deviation of the DM-SNR curve', ' Excess kurtosis of the DM-SNR curve',
+' Skewness of the DM-SNR curve', 'target_class']
+columns_new = ['mean_profile', 'std_profile', 'kurtosis_profile', 'skewness_profile',
+'mean_dmsnr', 'std_dmsnr', 'kurtosis_dmsnr', 'skewness_dmsnr', 'target_class']
+
+for i in range(len(columns_old)):
+df[columns_new[i]] = data[columns_old[i]]
+
+df.head()
+```
+
+#### First of all let's look at our target proportions
+
+```python
+plt.figure(figsize=(12,6))
+plt.subplot(122)
+plt.pie(data["target_class"].value_counts().values,
+labels=["Non-pulsar stars","Pulsar stars"],
+autopct="%1.0f%%",wedgeprops={"linewidth":4,"edgecolor":"white"})
+plt.subplots_adjust(wspace = .2)
+plt.title("Proportion of target variable in dataset")
+plt.show()
+```
+
+#### Distribution of feature variables
+
+```python
+columns_new = ['mean_profile', 'std_profile', 'kurtosis_profile', 'skewness_profile',
+'mean_dmsnr', 'std_dmsnr', 'kurtosis_dmsnr', 'skewness_dmsnr']
+length = len(columns_new)
+colors = ["r","g","b","m","y","c","k","orange"]
+
+plt.figure(figsize=(13,20))
+for i,j,k in itertools.zip_longest(columns_new,range(length),colors):
+plt.subplot(length/2,length/4,j+1)
+sns.distplot(df[i],color=k)
+plt.title(i)
+plt.subplots_adjust(hspace = .3)
+plt.axvline(df[i].mean(),color = "k",linestyle="dashed",label="MEAN")
+plt.axvline(df[i].std(),color = "b",linestyle="dotted",label="STANDARD DEVIATION")
+plt.legend(loc="upper right")
+```
+
+#### Comparing mean and std beetwen features for target class
+
+```python
+compare = df.groupby("target_class")[['mean_profile', 'std_profile', 'kurtosis_profile', 'skewness_profile',
+'mean_dmsnr', 'std_dmsnr', 'kurtosis_dmsnr', 'skewness_dmsnr']].mean().reset_index()
+compare = compare.drop("target_class",axis =1)
+
+compare.plot(kind="bar",width=.6,figsize=(13,6),colormap="Set2")
+plt.grid(True,alpha=.3)
+plt.title("Comparing mean of features for target class")
+
+compare1 = df.groupby("target_class")[['mean_profile', 'std_profile', 'kurtosis_profile', 'skewness_profile',
+'mean_dmsnr', 'std_dmsnr', 'kurtosis_dmsnr', 'skewness_dmsnr']].std().reset_index()
+compare1 = compare1.drop("target_class",axis=1)
+compare1.plot(kind="bar",width=.6,figsize=(13,6),colormap="Set2")
+plt.grid(True,alpha=.3)
+plt.title("Comparing std of features for target class")
+plt.show()
+```
+
+#### PairPlot of all features
+
+```python
+sns.pairplot(data=df,
+palette="husl",
+hue="target_class",
+vars=['mean_profile', 'std_profile', 'kurtosis_profile', 'skewness_profile',
+'mean_dmsnr', 'std_dmsnr', 'kurtosis_dmsnr', 'skewness_dmsnr'])
+
+plt.tight_layout()
+plt.show()
+```
+
+#### Correlation HeatMap
+
+```python
+plt.figure(figsize=(16,12))
+sns.heatmap(data=df.corr(),annot=True,cmap="bone",linewidths=1,fmt=".2f",linecolor="gray")
+plt.title("Correlation Map",fontsize=20)
+plt.tight_layout()
+plt.show()
+```
+
+#### Some conclusions after visual data analysis
+
+- high mean values of 'Mean of integrated profile' and 'Skewness of the DM-SNR curve' are relate to Non-pulsar objects
+- high mean value of 'Mean of the DM-SNR curve' is relate to Pulsar objects
+- high std value of 'Skewness of the DM-SNR curve' is relate to Non-pulsar objects
+- plots of distribution of kurtosis and skewness of integrated profile and parameters of DM-SNR curve have a long tails. Also we can observe it in table of second part of project (large maximum values in data discription table)
+- like in a part 2 of this project, on HeatMap we see that kurtosis and skewness does not correlate with the mean value and standard deviation, which corresponds to the theory
+
+## Part 4: Insights and found dependencies
+
+#### Let's take a closer look at couple of pair plots
+
+```python
+plt.figure(figsize=(14,7))
+
+plt.subplot(121)
+plt.scatter(x = "kurtosis_profile",y = "skewness_profile",
+data=df[df["target_class"] == 1],alpha=.7,
+label="Pulsar star",s=30,color = "g",linewidths=.4,edgecolors="black")
+plt.scatter(x = "kurtosis_profile",y = "skewness_profile",
+data=df[df["target_class"] == 0],alpha=.6,
+label="Non-pulsar star",s=30,color ="r",linewidths=.4,edgecolors="black")
+
+plt.legend(loc ="best")
+plt.xlabel("Excess kurtosis of the integrated profile")
+plt.ylabel("Skewness of the integrated profile")
+plt.title("Scatter plot for skewness and kurtosis for target classes")
+```
+
+```python
+plt.figure(figsize=(14,7))
+
+plt.subplot(121)
+plt.scatter(x = "skewness_profile",y = "mean_profile",
+data=df[df["target_class"] == 1],alpha=.7,
+label="Pulsar star",s=30,color = "g",linewidths=.4,edgecolors="black")
+plt.scatter(x = "skewness_profile",y = "mean_profile",
+data=df[df["target_class"] == 0],alpha=.6,
+label="Non-pulsar star",s=30,color ="r",linewidths=.4,edgecolors="black")
+
+plt.legend(loc ="best")
+plt.xlabel("Skewness of the integrated profile")
+plt.ylabel("Mean of the integrated profile")
+plt.title("Scatter plot for skewness and kurtosis for target classes")
+```
+
+#### So here we see that target can be easily separate on some features. It's powerfull insight that tell us what features are important.
+
+Thus example object with high value of skewness and kurtosis of integrated profile probably a Pulsar.
+
+## Part 5: Metrics selection
+
+For binary classification we have these metrics:
+- Accuracy
+- Precision
+- Recall
+- F-measure
+- ROC-AUC
+
+#### Current dataset have a significant disbalance in the target class (only 9% of objects are Pulsars). For this case i'll choose Area Under the Receiver Operating Characteristic Curve (ROC AUC) metric.
+
+ROC curve, is a graphical plot that illustrates the diagnostic ability of a binary classifier system as its discrimination threshold is varied.
+
+Area Under Curve (AUC) is one of the most widely used metrics for evaluation. The AUC represents a model’s ability to discriminate between positive and negative classes. An area of 1.0 represents a model that made all predictions perfectly. An area of 0.5 represents a model as good as random.
+
+## Part 6: Model selection
+
+#### These are the most commonly used models for binary classification tasks. Also this dataset have a small number of objects and attributes. In this case I make this choice:
+
+- `RandomForestClassifier` - Composition of the decision trees. This model has good agregation abilities. Easy to configure hyperparameters to get a good result.
+- `Gradient boosting on decision trees (LightGBM)` - Gradient Boosting give us the ability to get better score when configuring hyperparameters.
+
+## Part 7: Data preprocessing
+
+#### Splitting the Feature and Target
+
+```python
+y = df.target_class.values
+df.drop(["target_class"],axis=1,inplace=True)
+X = df.values
+```
+
+#### Scaling
+Scale up the data for the linear model, create a scaler object and train it on the training part. Applying the obtained transformation to both samples
+
+```python
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+```
+
+#### Splitting the Train and Test
+We divide the data into training and test samples. In the test sampling we will take 30% of the data. Check that both train and test samples contains Pulsar objects.
+
+```python
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.3, random_state=512)
+print('Propotion of target class for train sample: ', sum(y_train)/X_train.shape[0])
+print('Propotion of target class for test sample: ',sum(y_test)/X_test.shape[0])
+```
+
+## Part 8: Cross-validation and adjustment of model hyperparameters
+
+#### We will divide the sample taking into account the balance of classes with 5-fold cross-validation
+
+```python
+skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=512)
+```
+
+#### Define parameters for Random Forest
+
+```python
+param_grid_for_forest = { "n_estimators": [10, 50, 70],
+"max_depth": [5, 10, 20],
+"min_samples_split": [5, 10, 20],
+"min_samples_leaf": [5, 10, 20]}
+```
+
+```python
+gs_forest = GridSearchCV(RandomForestClassifier(random_state=512), param_grid = param_grid_for_forest,
+scoring='roc_auc', cv = skf, n_jobs=-1)
+gs_forest.fit(X_train, y_train)
+```
+
+#### Let's look at the best parametrs which found from GridSearchCV and best score for this parameters
+
+```python
+print('Best parameters: ', gs_forest.best_params_)
+print('Best score: ', gs_forest.best_score_)
+```
+
+#### Let's see what the model's score is on the test sample.
+
+```python
+model_rf = RandomForestClassifier(max_depth=10, min_samples_leaf=5, min_samples_split=5,
+n_estimators=70, random_state=512)
+model_rf.fit(X_train, y_train)
+print('ROC-AUC on validation set: ', roc_auc_score(y_test, model_rf.predict_proba(X_test)[:,1]))
+```
+
+#### Define parameters for LightGBM
+
+```python
+param_grid_for_lightgbm = {
+'learning_rate': [0.01, 0.1, 0.5],
+'n_estimators': [40, 200, 1000],
+'num_leaves': [6, 10, 16],
+'boosting_type' : ['gbdt'],
+'objective' : ['binary'],
+'random_state' : [512],
+'colsample_bytree' : [0.66],
+'subsample' : [0.75],
+'reg_alpha' : [1,1.2],
+'reg_lambda' : [1,1.4],
+}
+```
+
+```python
+gs_lightgbm = GridSearchCV(lgb.LGBMClassifier(random_state=512), param_grid_for_lightgbm, verbose=3, cv=skf, n_jobs=-1)
+gs_lightgbm.fit(X_train, y_train)
+```
+
+#### Let's look at best parametrs which found from GridSearchCV and best score for this parameters
+
+```python
+print('Best parameters: ', gs_lightgbm.best_params_)
+print('Best score: ', gs_lightgbm.best_score_)
+```
+
+#### Let's see which score the model gets on the test sample
+
+```python
+model_gbm = lgb.LGBMClassifier(**gs_lightgbm.best_params_)
+model_gbm.fit(X_train, y_train)
+print('ROC-AUC on validation set: ', roc_auc_score(y_test, model_gbm.predict_proba(X_test)[:, 1]))
+```
+
+## Part 9: Creation of new features and description of this process
+
+#### In this dataset I can't create new features. But I can try to drop some insignificant features and look at new scores.
+
+```python
+#For GridSearch from Random Forest
+feat_importance = pd.DataFrame(df.columns, columns = ['features'])
+feat_importance['value'] = gs_forest.best_estimator_.feature_importances_
+feat_importance.sort_values('value')
+```
+
+```python
+#For GridSearch from LightGBM
+feat_importance = pd.DataFrame(df.columns, columns = ['features'])
+feat_importance['value'] = gs_lightgbm.best_estimator_.feature_importances_
+feat_importance.sort_values('value')
+```
+
+#### Let's try to drop kurtosis and skewness of DM-SNR curve and look how much score has changed
+
+```python
+df_dropped = data.drop([' Excess kurtosis of the DM-SNR curve',' Skewness of the DM-SNR curve'], axis=1)
+y_new = df_dropped.target_class.values
+df_dropped.drop(["target_class"],axis=1,inplace=True)
+X_new = df_dropped.values
+```
+
+```python
+X_scaled_new = scaler.fit_transform(X_new)
+X_train1, X_test1, y_train1, y_test1 = train_test_split(X_scaled_new, y_new, test_size=0.3, random_state=512)
+```
+
+```python
+model_rf_wo_2feat = RandomForestClassifier(max_depth=10, min_samples_leaf=5, min_samples_split=5,
+n_estimators=70, random_state=512)
+model_rf_wo_2feat.fit(X_train1, y_train1)
+print('ROC-AUC on validation set: ', roc_auc_score(y_test1, model_rf_wo_2feat.predict_proba(X_test1)[:,1]))
+```
+
+```python
+model_lgb_wo_2feat = lgb.LGBMClassifier(**gs_lightgbm.best_params_)
+model_lgb_wo_2feat.fit(X_train1, y_train1)
+print('ROC-AUC on validation set: ', roc_auc_score(y_test1, model_lgb_wo_2feat.predict_proba(X_test1)[:, 1]))
+```
+
+#### Drop of two features improved the Random Forest model but reduced score of LightGBM model. For now better score have LightGBM fitted on whole dataset (ROC-AUC 0.9830). Further in project I will use only LightGBM fitted on whole dataset.
+
+## Part 10: Plotting training and validation curves
+
+#### Training and validation curves will be drawn from the best model - LightGBM
+
+```python
+def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None,
+n_jobs=1, train_sizes=np.linspace(.1, 1.0, 5)):
+
+plt.figure()
+plt.title(title)
+if ylim is not None:
+plt.ylim(*ylim)
+plt.xlabel("Training examples")
+plt.ylabel("Score")
+train_sizes, train_scores, test_scores = learning_curve(
+estimator, X, y, cv=cv, n_jobs=n_jobs, train_sizes=train_sizes, scoring='roc_auc')
+train_scores_mean = np.mean(train_scores, axis=1)
+train_scores_std = np.std(train_scores, axis=1)
+test_scores_mean = np.mean(test_scores, axis=1)
+test_scores_std = np.std(test_scores, axis=1)
+plt.grid()
+
+plt.fill_between(train_sizes, train_scores_mean - train_scores_std,
+train_scores_mean + train_scores_std, alpha=0.1,
+color="r")
+plt.fill_between(train_sizes, test_scores_mean - test_scores_std,
+test_scores_mean + test_scores_std, alpha=0.1, color="g")
+plt.plot(train_sizes, train_scores_mean, 'o-', color="r",
+label="Training score")
+plt.plot(train_sizes, test_scores_mean, 'o-', color="g",
+label="Cross-validation score")
+
+plt.legend(loc="best")
+return plt
+```
+
+```python
+plt.figure(figsize=(6, 4))
+plot_learning_curve(model_gbm, 'Training curve', X_train, y_train, cv=skf, n_jobs=-1);
+```
+
+```python
+a = np.arange(2, 20)
+val_train, val_test = validation_curve(model_gbm, X_train, y_train, param_name='num_leaves',
+param_range=a, cv=skf, scoring='roc_auc')
+
+def plot_with_err(x, data, **kwargs):
+mu, std = data.mean(1), data.std(1)
+lines = plt.plot(x, mu, '-', **kwargs)
+plt.fill_between(x, mu - std, mu + std, edgecolor='none',
+facecolor=lines[0].get_color(), alpha=0.2)
+```
+
+```python
+fig = plt.figure(figsize=(20, 5))
+ax1 = fig.add_subplot(121)
+ax1.set_title('Validation curve')
+plot_with_err(a, val_train, label='training scores')
+plot_with_err(a, val_test, label='validation scores')
+plt.xlabel(r'num_leaves'); plt.ylabel('ROC-AUC')
+plt.legend();
+```
+
+#### Training curve:
+The curves haven't aligned, adding new data may improve the model.
+#### Validation curve:
+The quality of the model is reduced as the num_leaves value increases. Hyperparameter 'num_leaves' was choosen correctly. Large value of this parameter may cause overfitting.
+
+## Part 11: Prediction for test or hold-out samples
+
+#### The test sample was generated from the source dataset by randomly selecting 30% of the data from the original sample with keeping the proportions of the target variable. Predictions on the test sample are presented in sections 8 and 9 of this project.
+- Random Forest have a ROC-AUC on validation set (without 2 features from Part 9): 0.9817
+- LightGBM have a ROC-AUC on validation set: 0.9830
+
+## Part 12: Conclusions
+
+#### A model with a good aggregation ability has been created. The value of this model is in the fact that it separates well space noise and Pulsars. Potentially, this model may significantly reduce search time for pulsars in space.
+
+Further improvement of the model:
+- Adding new data in dataset
+- Cut large maximum values (outliers) from some features
+- Better hyperparameter tuning (increasing the number of iterations, for example)
+- Implementation of Neural Network

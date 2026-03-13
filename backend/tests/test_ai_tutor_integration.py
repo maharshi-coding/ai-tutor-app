@@ -383,6 +383,43 @@ def test_extract_text_md(tmp_path: Path):
     assert "Heading" in result
 
 
+def test_extract_text_html(tmp_path: Path):
+    from app.routers.uploads import _extract_text_from_file
+
+    f = tmp_path / "lesson.html"
+    f.write_text(
+        "<html><body><nav>Menu</nav><main><h1>Loops</h1><p>Use for and while loops.</p></main></body></html>",
+        encoding="utf-8",
+    )
+    result = _extract_text_from_file(f)
+    assert "Loops" in result
+    assert "Menu" not in result
+
+
+def test_extract_text_ipynb(tmp_path: Path):
+    from app.routers.uploads import _extract_text_from_file
+
+    f = tmp_path / "lesson.ipynb"
+    f.write_text(
+        json.dumps(
+            {
+                "cells": [
+                    {"cell_type": "markdown", "source": ["# Gradient Descent\n", "Intro text."]},
+                    {
+                        "cell_type": "code",
+                        "source": ["print('step')"],
+                        "outputs": [{"output_type": "stream", "text": ["step\n"]}],
+                    },
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    result = _extract_text_from_file(f)
+    assert "Gradient Descent" in result
+    assert "print('step')" in result
+
+
 # ---------------------------------------------------------------------------
 # Config tests
 # ---------------------------------------------------------------------------

@@ -1,0 +1,22 @@
+# Zusammenfassung
+
+Source: Hugging Face Course
+Original URL: https://github.com/huggingface/course/blob/HEAD/chapters/de/chapter1/9.mdx
+Original Path: chapters/de/chapter1/9.mdx
+Course: Artificial Intelligence
+
+# Zusammenfassung
+
+<CourseFloatingBanner
+chapter={1}
+classNames="absolute z-10 right-0 top-0"
+/>
+
+In diesem Kapitel hast du gelernt, wie du verschiedene CL-Aufgaben mit der High-Level-Funktion `pipeline()` aus der 🤗 Transformers-Bibliothek angehen kannst. Du hast auch erfahren, wie du im Hub nach Modellen suchen und sie nutzen kannst, und wie du die Inference API verwenden kannst, um die Modelle direkt in deinem Browser zu testen.
+
+Wir haben besprochen, wie Transformer-Modelle im Großen und Ganzen funktionieren, und haben die Bedeutung von Tranfer Learning und Feintuning erläutert. Ein wichtiger Aspekt ist, dass du entweder die gesamte Architektur, nur den Encoder oder auch nur den Decoder verwenden kannst - je nachdem, welche Art von Aufgabe du lösen willst. Die nachfolgende Tabelle gibt noch einmal einen guten Überblick:
+
+| Modell | Beispiele | Aufgaben (Tasks) |
+| Encoder | ALBERT, BERT, DistilBERT, ELECTRA, RoBERTa | Klassifizierung von Sätzen, Eigennamenerkennung/NER, Extraktive Frage-Antwort-Systeme |
+| Decoder | CTRL, GPT, GPT-2, Transformer XL | Textgenerierung |
+| Encoder-Decoder | BART, T5, Marian, mBART | Automatische Textzusammenfassung, Maschinelle Übersetzung, Generative Frage-Antwort-Systeme |

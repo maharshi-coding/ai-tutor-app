@@ -1,0 +1,65 @@
+# Artificial Intelligence 3E
+
+Source: Artificial Intelligence: Foundations of Computational Agents
+Original URL: https://artint.info/3e/html/ArtInt3e.Ch1.S7.html
+Original Path: https://artint.info/3e/html/ArtInt3e.Ch1.S7.html
+Course: Artificial Intelligence
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+1.7 Social Impact
+
+AI systems are now widely deployed in society. Individuals, corporations,
+governments, and other organizations are using AI for applications as
+varied as voice dictation, text synthesis, text-to-video generation,
+movie recommendations, personal finance, chatbots, credit scoring,
+screening employment applications, social media propagation and monitoring,
+face recognition, semi-autonomous cars, and warehouse automation.
+Many of these systems can be broadly beneficial.
+However, there are often adverse impacts on people in racialized populations and underserved
+communities, and on election results and vaccination campaigns.
+
+There are significant ethical and social impacts of AI systems,
+leading to demands for human-centered AI that is explainable, transparent, and trustworthy.
+The inputs to an AI agent include the goals and preferences of the agent,
+but it is not clear whose preferences they are or should be.
+
+Each chapter concludes with a social impact
+section discussing issues directly relevant to that chapter’s
+topics. The social impact sections are of two types, sometimes
+containing both:
+
+•
+
+broader impacts of AI, which includes intended or unintended
+downstream consequences of upstream decisions on the design of the AI
+system or on the choice of data
+
+•
+
+use cases about user-facing applications of AI that have had
+an impact on society or science, either positive or negative.
+
+Chapter 18
+on the social impact of AI
+considers the effects of AI on the digital economy,
+work and automation, transportation and sustainability.
+It highlights the roles of
+human-centered AI, values, bias, ethics, certification, and regulation.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

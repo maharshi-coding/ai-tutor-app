@@ -1,0 +1,23 @@
+{
+  "id": "d2l-en",
+  "type": "git",
+  "title": "Dive into Deep Learning",
+  "description": "An open deep learning textbook with practical notebooks and explanations.",
+  "license": "Repository license",
+  "repoUrl": "https://github.com/d2l-ai/d2l-en.git",
+  "maxFiles": 140,
+  "rootPaths": [
+    "."
+  ],
+  "excludePathPatterns": [
+    "translations/",
+    "static/",
+    "img/"
+  ],
+  "includeExtensions": [
+    ".md",
+    ".ipynb",
+    ".txt"
+  ],
+  "documentCount": 136
+}

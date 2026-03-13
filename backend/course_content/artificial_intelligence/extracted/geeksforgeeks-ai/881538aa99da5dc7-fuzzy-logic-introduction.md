@@ -1,0 +1,244 @@
+# Fuzzy Logic | Introduction
+
+Source: GeeksforGeeks Artificial Intelligence Tutorial
+Original URL: https://www.geeksforgeeks.org/artificial-intelligence/fuzzy-logic-introduction/
+Original Path: https://www.geeksforgeeks.org/artificial-intelligence/fuzzy-logic-introduction/
+Course: Artificial Intelligence
+
+Fuzzy Logic | Introduction
+
+Last Updated : 12 Dec, 2025
+
+Fuzzy Logic helps work with situations where the information is unclear or partly true. Instead of only 0 or 1 like traditional logic, it allows values between 0 and 1 to represent partial truth. This makes it useful in real-world decision-making where data is not exact.
+
+- Handles uncertainty and vague information.
+
+- Works with partial truth values between 0 and 1.
+
+- Useful in control systems, medical diagnosis, AI and image processing.
+
+- Helps systems take flexible and human-like decisions.
+Fuzzy Logic example
+Key Concepts of Fuzzy Logic
+
+- Membership Function : It defines how much an input belongs to a particular category. For example, in a fuzzy temperature control system, a temperature of 70°F might belong 0.8 to the "warm" category and 0.2 to the "cool" category.
+
+- Fuzzy Sets : These are sets where elements have degrees of membership. For example, the "young" age group might include someone who is 30 with 0.7 membership (mostly young) and someone who is 50 with 0.3 membership (partly young).
+
+- Linguistic Variables : These are variables defined using terms rather than precise numbers. For example, "temperature" could be a linguistic variable with terms like "cold," "warm" and "hot."
+
+Fuzzy Logic Architecture
+Fuzzy Logic systems are made up of four main components that work together to process imprecise or uncertain data:
+
+- Fuzzification : It is the process of converting precise input values(such as temperature or pressure readings) into fuzzy sets. This step is important because real-world inputs like those from sensors aren’t perfect or exact.
+
+- Rule Base : A collection of "if-then" rules created by experts to guide the system's decisions. These rules use natural language terms (like "high," "low," "warm") to describe conditions and actions.
+
+- Inference Engine : It evaluates the fuzzified input data and applies the relevant rules from the rule base. It find which rules are most appropriate and then combines the results to generate a control action.
+
+- Defuzzification : Once the inference engine processes the rules and generates fuzzy outputs, it converts these fuzzy results back into a precise, crisp value. This final step ensures that the system can take clear actions based on the fuzzy logic outputs.
+
+Membership Functions
+
+A membership function describes how much an input value belongs to a fuzzy set. It assigns a value between 0 and 1 to each point in the input space also called the universe of discourse:
+
+- 0 -> the value does not belong to the set
+
+- 1 -> the value fully belongs to the set
+
+- Values in between -> partial membership
+
+These functions are a key part of fuzzification, helping translate precise real-world data into fuzzy values that can be processed by the system.
+
+Common Types of membership functions:
+
+- Singleton: Represents a crisp value as a fuzzy value at one specific point.
+
+- Gaussian: Based on the Gaussian curve, this allows smooth transitions between membership degrees.
+
+- Trapezoidal or Triangular: It uses straight-line shapes to define how membership changes across a range of values.
+
+By choosing the right membership function, we can represent uncertainty more naturally and make fuzzy logic systems respond in a way that feels closer to human reasoning.
+
+Numerical Example
+
+Input: Temperature = 32°C
+Goal: Adjust fan speed (Low / Medium / High)
+
+Step 1: Fuzzification
+
+Define sets:
+
+- Warm = triangular(20, 30, 40)
+
+- Hot = triangular(30, 40, 50)
+
+Warm membership: \mu_{warm}(32)=\frac{40-32}{40-30}=0.8
+
+Hot membership: \mu_{hot}(32)=\frac{32-30}{40-30}=0.2
+
+Step 2: Rule Base
+
+- IF temperature is warm -> fan = medium
+
+- IF temperature is hot -> fan = high
+
+Step 3: Inference
+
+- Medium fan output = 0.8
+
+- High fan output = 0.2
+
+Step 4: Defuzzification (Centroid Method)
+
+Assume:
+
+- Medium = 50
+
+- High = 80
+
+Output = \frac{0.8 \cdot 50 + 0.2 \cdot 80}{0.8 + 0.2}
+
+= \frac{40 + 16}{1.0} =56
+
+Final Output: Fan speed = 56%
+
+Fuzzy Control
+
+Fuzzy control is a method of designing systems that make decisions in a way similar to human reasoning. Instead of depending only on exact values, it works with approximate information to produce results that are practical and acceptable, even if they aren’t perfectly precise. This approach is useful when dealing with uncertainty or incomplete data, situations where traditional control methods might fail.
+
+Example: In an air conditioning system, fuzzy control can adjust the cooling not just as “on” or “off” but based on degrees like “slightly cool” or “very cool,” creating smoother and more comfortable temperature control.
+
+By capturing the flexibility of human decision-making, it helps systems operate effectively in complex, unpredictable environments.
+
+Boolean Logic vs Fuzzy Logic
+
+Concept Boolean Logic Fuzzy Logic
+
+Values 0 or 1 Any value between 0 and 1
+
+Truth Absolute Partial
+
+Useful For Exact systems Real-world uncertain systems
+
+Example Hot or Not Hot Slightly Hot, Warm, Very Hot
+
+Applications of Fuzzy Logic
+
+Fuzzy logic is used in many fields where precision isn’t always possible:
+
+- Aerospace : Fuzzy logic is used in spacecraft and satellite altitude control systems.
+
+- Automotive : It's applied in speed control and traffic management systems.
+
+- Industrial : It is used for processes like pH control, drying and distillation in the chemical industry.
+
+- Artificial Intelligence : In areas like natural language processing and decision-making support systems.
+
+- Control Systems : It is integral to many modern control systems including expert systems and robotics.
+
+Advantages of Fuzzy Logic
+
+Fuzzy logic systems has several benefits which are as follows:
+
+- Handles imprecise or noisy data : Whether the data is distorted or not completely accurate, it can still make sense of it.
+
+- Easy to design and understand : Unlike many complex algorithms, fuzzy logic systems are straightforward and simple to implement.
+
+- Efficient for complex problems : Fuzzy logic mirrors human reasoning, so it’s great for solving problems in many areas like decision-making or control systems.
+
+- Low memory requirements : The algorithms are simple and can operate with little data.
+
+Disadvantages of Fuzzy Logic
+
+While fuzzy logic has many strengths, it also comes with some challenges:
+
+- Ambiguity : Different researchers may propose different solutions to the same problem, making the approach less systematic.
+
+- Difficulty in proving correctness : Since fuzzy logic deals with uncertainty, proving that a system works as expected can be tricky.
+
+- Accuracy compromises : Because fuzzy logic deals with both precise and imprecise data, the system might sacrifice some level of accuracy.
+
+For more related article, refer to Fuzzy Logic | Set 2 (Classical and Fuzzy Sets)
+
+Artificial Intelligence
+
+fuzzy-logic
+
+Introduction to AI
+
+- What is Artificial Intelligence (AI) 10 min read
+
+- Types of Artificial Intelligence (AI) 6 min read
+
+- Types of AI Based on Functionalities 4 min read
+
+- Agents in AI 7 min read
+
+- Artificial intelligence vs Machine Learning vs Deep Learning 3 min read
+
+- Problem Solving in Artificial Intelligence 6 min read
+
+- Top 20 Applications of Artificial Intelligence (AI) in 2025 13 min read
+
+AI Concepts
+
+- Search Algorithms in AI 6 min read
+
+- Local Search Algorithm in Artificial Intelligence 7 min read
+
+- Adversarial Search Algorithms in Artificial Intelligence (AI) 15+ min read
+
+- Constraint Satisfaction Problems (CSP) in Artificial Intelligence 10 min read
+
+- Knowledge Representation in AI 9 min read
+
+- First-Order Logic in Artificial Intelligence 4 min read
+
+- Reasoning Mechanisms in AI 9 min read
+
+Machine Learning in AI
+
+- Machine Learning Tutorial 5 min read
+
+- Deep Learning Tutorial 2 min read
+
+- Natural Language Processing (NLP) Tutorial 2 min read
+
+- Computer Vision Tutorial 3 min read
+
+Robotics and AI
+
+- Artificial Intelligence in Robotics 5 min read
+
+- What is Robotics Process Automation 8 min read
+
+- Automated Planning in AI 8 min read
+
+- AI in Transportation 8 min read
+
+- AI in Manufacturing : Revolutionizing the Industry 6 min read
+
+Generative AI
+
+- What is Generative AI? 7 min read
+
+- Generative Adversarial Network (GAN) 11 min read
+
+- Cycle Generative Adversarial Network (CycleGAN) 7 min read
+
+- StyleGAN - Style Generative Adversarial Networks 5 min read
+
+- Introduction to Generative Pre-trained Transformer (GPT) 4 min read
+
+- BERT Model - NLP 12 min read
+
+- Generative AI Applications 7 min read
+
+AI Practice
+
+- Top Artificial Intelligence(AI) Interview Questions and Answers 15+ min read
+
+- Top Generative AI and LLM Interview Question with Answer 15+ min read
+
+- 30+ Best Artificial Intelligence Project Ideas with Source Code [2026 Updated] 15+ min read

@@ -1,0 +1,121 @@
+# Artificial Intelligence 3E
+
+Source: Artificial Intelligence: Foundations of Computational Agents
+Original URL: https://artint.info/3e/html/ArtInt3e.Ch1.S3.html
+Original Path: https://artint.info/3e/html/ArtInt3e.Ch1.S3.html
+Course: Artificial Intelligence
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+1.3 Agents Situated in Environments
+
+AI is about practical reasoning: reasoning in order to do something. A
+coupling of perception, reasoning, and acting comprises an
+agent . An agent acts in an environment . An agent’s
+environment often includes other agents.
+An
+agent together with its environment is called a world .
+
+An agent could be, for example, a coupling of a computational engine
+with physical sensors and actuators, called a robot , where
+the environment is a physical setting. An
+autonomous agent
+is one that acts in the
+world without human intervention.
+A semi-autonomous agent acts with a
+human-in-the-loop who may
+provide perceptual information and
+carry out the task. An agent could be a program that acts in a
+purely computational environment, a software agent , often
+called a bot .
+
+Figure 1.4: An agent interacting with an environment
+
+Figure 1.4 shows a black-box view of
+an agent in terms of its inputs and outputs.
+At any time, what an agent does depends on:
+
+•
+
+prior knowledge about the agent and the environment
+
+•
+
+stimuli received from the
+environment, which can include observations
+about the environment (e.g., light, sound, keyboard commands, web requests)
+as well as actions that the environment imposes on the agent (e.g.,
+bumping the agent)
+
+•
+
+past experiences , including
+history of interaction with the environment
+(its previous actions and stimuli) and other data, from which
+it can learn
+
+•
+
+goals that it must try to achieve or preferences over
+states of the world
+
+•
+
+abilities , the primitive actions
+the agent is capable of
+carrying out.
+
+Inside the black box, an agent has
+a belief state that can encode beliefs about its
+environment, what it has learned, what it is trying to do, and what it intends to do.
+An agent updates this internal state based on stimuli. It uses
+the belief state and stimuli to decide on its actions. Much of
+this book is about what is inside this black box.
+
+Purposive
+agents have
+preferences or goals. They prefer some
+states of the world to other states, and they act to try to
+achieve the states they prefer most. The non-purposive agents are grouped
+together and called nature . Whether or not an agent is
+purposive is a modeling assumption that may, or may not, be
+appropriate. For example, for some applications it may be appropriate
+to model a dog as purposive, such as drug-sniffing dogs, and for others it may suffice to model a
+dog as non-purposive, such as when they are just part of the environment.
+
+If an agent does not have preferences, by definition it does not care
+what world state it ends up in, and so it does not matter to it
+what it does. The reason to design an agent is to instill
+preferences in it – to make it prefer some world states and try to achieve
+them. An agent does not have to know its preferences explicitly. For example,
+a thermostat for a heater is an agent that senses the world and turns the
+heater either on or off. There are preferences embedded in the thermostat,
+such as to keep the room at a pleasant temperature,
+even though the thermostat arguably does not know these are its
+preferences. The preferences of an agent are often the preferences of
+the designer of the agent, but sometimes an agent can acquire goals
+and preferences at run time.
+
+This is an all-encompassing view
+of intelligent agents varying in complexity from a simple thermostat,
+to a diagnostic advising system whose
+perceptions and actions are mediated by human beings, to a team of mobile robots, to society itself.
+An agent does not have access to anything else; anything that does not affect one
+of these inputs cannot affect the agent’s action.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

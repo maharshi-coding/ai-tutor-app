@@ -1,0 +1,15 @@
+{
+  "id": "artint-textbook",
+  "type": "web",
+  "title": "Artificial Intelligence: Foundations of Computational Agents",
+  "description": "A public AI textbook covering search, knowledge representation, and reasoning.",
+  "license": "CC BY-NC-SA",
+  "seedUrls": [
+    "https://artint.info/3e/html/ArtInt3e.html"
+  ],
+  "allowPrefixes": [
+    "https://artint.info/3e/html/"
+  ],
+  "maxPages": 34,
+  "documentCount": 34
+}

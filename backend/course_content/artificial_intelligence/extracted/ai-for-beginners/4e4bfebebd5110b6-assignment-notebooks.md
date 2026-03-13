@@ -1,0 +1,10 @@
+# Assignment: Notebooks
+
+Source: AI for Beginners
+Original URL: https://github.com/microsoft/AI-For-Beginners/blob/HEAD/lessons/5-NLP/16-RNN/assignment.md
+Original Path: lessons/5-NLP/16-RNN/assignment.md
+Course: Artificial Intelligence
+
+# Assignment: Notebooks
+
+Using the notebooks associated to this lesson (either the PyTorch or the TensorFlow version), rerun them using your own dataset, perhaps one from Kaggle, used with attribution. Rewrite the notebook to underline your own findings. Try a different kind of dataset and document your findings, using text such as [this Kaggle competition dataset about weather tweets](https://www.kaggle.com/competitions/crowdflower-weather-twitter/data?select=train.csv).

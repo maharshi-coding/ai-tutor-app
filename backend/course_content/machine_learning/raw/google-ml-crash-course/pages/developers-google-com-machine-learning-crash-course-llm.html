@@ -1,0 +1,5163 @@
+
+
+
+
+
+
+
+
+
+<!doctype html>
+<html 
+      lang="ar-x-mtfrom-en"
+      dir="rtl">
+  <head>
+    <meta name="google-signin-client-id" content="721724668570-nbkv1cfusk7kk4eni4pjvepaus73b13t.apps.googleusercontent.com"><meta name="google-signin-scope"
+          content="profile email https://www.googleapis.com/auth/developerprofiles https://www.googleapis.com/auth/developerprofiles.award https://www.googleapis.com/auth/devprofiles.full_control.firstparty"><meta property="og:site_name" content="Google for Developers">
+    <meta property="og:type" content="website"><meta name="theme-color" content="#fff"><meta charset="utf-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <link rel="manifest" href="/_pwa/developers/manifest.json"
+          crossorigin="use-credentials">
+    <link rel="preconnect" href="//www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="//fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="//apis.google.com" crossorigin>
+    <link rel="preconnect" href="//www.google-analytics.com" crossorigin><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Google+Sans:400,500|Roboto:400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700&display=swap">
+      <link rel="stylesheet"
+            href="//fonts.googleapis.com/css2?family=Material+Icons&family=Material+Symbols+Outlined&display=block"><link rel="stylesheet" href="//fonts.googleapis.com/earlyaccess/notonaskharabic.css"><link rel="stylesheet" href="https://www.gstatic.com/devrel-devsite/prod/vb35dda8b324a978e97468c8ee7b4541809b385b1c2b0d92afb804c18373b74eb/developers/css/app.css">
+      <link rel="shortcut icon" href="https://www.gstatic.com/devrel-devsite/prod/vb35dda8b324a978e97468c8ee7b4541809b385b1c2b0d92afb804c18373b74eb/developers/images/favicon-new.png">
+    <link rel="apple-touch-icon" href="https://www.gstatic.com/devrel-devsite/prod/vb35dda8b324a978e97468c8ee7b4541809b385b1c2b0d92afb804c18373b74eb/developers/images/touchicon-180-new.png"><link rel="canonical" href="https://developers.google.com/machine-learning/crash-course/llm?hl=ar"><link rel="search" type="application/opensearchdescription+xml"
+            title="Google for Developers" href="https://developers.google.com/s/opensearch.xml?hl=ar">
+      <link rel="alternate" hreflang="en"
+          href="https://developers.google.com/machine-learning/crash-course/llm" /><link rel="alternate" hreflang="x-default" href="https://developers.google.com/machine-learning/crash-course/llm" /><link rel="alternate" hreflang="ar"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=ar" /><link rel="alternate" hreflang="bn"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=bn" /><link rel="alternate" hreflang="zh-Hans"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=zh-cn" /><link rel="alternate" hreflang="zh-Hant"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=zh-tw" /><link rel="alternate" hreflang="fa"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=fa" /><link rel="alternate" hreflang="fr"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=fr" /><link rel="alternate" hreflang="de"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=de" /><link rel="alternate" hreflang="he"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=he" /><link rel="alternate" hreflang="hi"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=hi" /><link rel="alternate" hreflang="id"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=id" /><link rel="alternate" hreflang="it"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=it" /><link rel="alternate" hreflang="ja"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=ja" /><link rel="alternate" hreflang="ko"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=ko" /><link rel="alternate" hreflang="pl"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=pl" /><link rel="alternate" hreflang="pt-BR"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=pt-br" /><link rel="alternate" hreflang="ru"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=ru" /><link rel="alternate" hreflang="es-419"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=es-419" /><link rel="alternate" hreflang="th"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=th" /><link rel="alternate" hreflang="tr"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=tr" /><link rel="alternate" hreflang="uk"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=uk" /><link rel="alternate" hreflang="vi"
+          href="https://developers.google.com/machine-learning/crash-course/llm?hl=vi" /><title>مقدمة عن النماذج اللغوية الكبيرة &nbsp;|&nbsp; Machine Learning &nbsp;|&nbsp; Google for Developers</title>
+
+<meta property="og:title" content="مقدمة عن النماذج اللغوية الكبيرة &nbsp;|&nbsp; Machine Learning &nbsp;|&nbsp; Google for Developers"><meta name="description" content="تقدّم وحدة الدورة التدريبية هذه نظرة عامة على النماذج اللغوية والنماذج اللغوية الكبيرة (LLM)، وهي تتناول مفاهيم مثل الرموز المميّزة والجرامات (n-gram) والمحولات والانتباه الذاتي والاستخلاص والضبط الدقيق وهندسة الطلبات.">
+  <meta property="og:description" content="تقدّم وحدة الدورة التدريبية هذه نظرة عامة على النماذج اللغوية والنماذج اللغوية الكبيرة (LLM)، وهي تتناول مفاهيم مثل الرموز المميّزة والجرامات (n-gram) والمحولات والانتباه الذاتي والاستخلاص والضبط الدقيق وهندسة الطلبات."><meta property="og:url" content="https://developers.google.com/machine-learning/crash-course/llm?hl=ar"><meta property="og:image" content="https://developers.google.com/static/machine-learning/crash-course/images/mlcc-hero.png?hl=ar">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="675"><meta property="og:locale" content="ar"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    
+    "headline": "مقدمة عن النماذج اللغوية الكبيرة"
+  }
+</script><script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Machine Learning",
+      "item": "https://developers.google.com/machine-learning"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "مقدمة عن النماذج اللغوية الكبيرة",
+      "item": "https://developers.google.com/machine-learning/crash-course/llm"
+    }]
+  }
+  </script><link rel="alternate machine-translated-from" hreflang="en"
+        href="https://developers.google.com/machine-learning/crash-course/llm?hl=en">
+  
+
+  
+
+  
+
+  
+
+
+    
+      <link rel="stylesheet" href="/extras.css"></head>
+  <body class="color-scheme--light"
+        template="page"
+        theme="white"
+        type="article"
+        
+        
+        
+        layout="docs"
+        
+        
+        
+        
+        
+          
+            concierge='closed'
+          
+        
+        display-toc
+        pending>
+  
+    <devsite-progress type="indeterminate" id="app-progress"></devsite-progress>
+  
+  
+    <a href="#main-content" class="skip-link button">
+      
+      التخطّي إلى المحتوى الرئيسي
+    </a>
+    <section class="devsite-wrapper">
+      <devsite-cookie-notification-bar></devsite-cookie-notification-bar><devsite-header role="banner">
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="devsite-header--inner" data-nosnippet>
+  <div class="devsite-top-logo-row-wrapper-wrapper">
+    <div class="devsite-top-logo-row-wrapper">
+      <div class="devsite-top-logo-row">
+        <button type="button" id="devsite-hamburger-menu"
+          class="devsite-header-icon-button button-flat material-icons gc-analytics-event"
+          data-category="Site-Wide Custom Events"
+          data-label="Navigation menu button"
+          visually-hidden
+          aria-label="فتح القائمة">
+        </button>
+        
+<div class="devsite-product-name-wrapper">
+
+  
+    
+  
+
+
+
+  
+  
+  <span class="devsite-product-name">
+    <ul class="devsite-breadcrumb-list"
+  >
+  
+  <li class="devsite-breadcrumb-item
+             ">
+    
+    
+    
+      
+      
+        
+  <a href="https://developers.google.com/machine-learning?hl=ar"
+      
+        class="devsite-breadcrumb-link gc-analytics-event"
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Upper Header"
+      
+        data-value="1"
+      
+        track-type="globalNav"
+      
+        track-name="breadcrumb"
+      
+        track-metadata-position="1"
+      
+        track-metadata-eventdetail="Machine Learning"
+      
+    >
+    
+          Machine Learning
+        
+  </a>
+  
+      
+    
+  </li>
+  
+</ul>
+  </span>
+
+</div>
+        <div class="devsite-top-logo-row-middle">
+          <div class="devsite-header-upper-tabs">
+            
+              
+              
+  <devsite-tabs class="upper-tabs">
+
+    <nav class="devsite-tabs-wrapper" aria-label="علامات التبويب العلوية">
+      
+        
+          <tab class="devsite-dropdown
+    
+    devsite-active
+    
+    ">
+  
+    <a href="https://developers.google.com/machine-learning/crash-course?hl=ar"
+    class="devsite-tabs-content gc-analytics-event "
+      track-metadata-eventdetail="https://developers.google.com/machine-learning/crash-course?hl=ar"
+    
+       track-type="nav"
+       track-metadata-position="nav - مفاهيم تعلُّم الآلة"
+       track-metadata-module="primary nav"
+       aria-label="مفاهيم تعلُّم الآلة, selected" 
+       
+         
+           data-category="Site-Wide Custom Events"
+         
+           data-label="Tab: مفاهيم تعلُّم الآلة"
+         
+           track-name="مفاهيم تعلُّم الآلة"
+         
+       >
+    مفاهيم تعلُّم الآلة
+  
+    </a>
+    
+      <button
+         aria-haspopup="menu"
+         aria-expanded="false"
+         aria-label="القائمة المنسدلة لما يلي: مفاهيم تعلُّم الآلة"
+         track-type="nav"
+         track-metadata-eventdetail="https://developers.google.com/machine-learning/crash-course?hl=ar"
+         track-metadata-position="nav - مفاهيم تعلُّم الآلة"
+         track-metadata-module="primary nav"
+         
+          
+            data-category="Site-Wide Custom Events"
+          
+            data-label="Tab: مفاهيم تعلُّم الآلة"
+          
+            track-name="مفاهيم تعلُّم الآلة"
+          
+        
+         class="devsite-tabs-dropdown-toggle devsite-icon devsite-icon-arrow-drop-down"></button>
+    
+  
+  <div class="devsite-tabs-dropdown" role="menu" aria-label="submenu" hidden>
+    <div class="devsite-tabs-dropdown-content">
+      
+      
+        <div class="devsite-tabs-dropdown-column
+                    ">
+          
+            <ul class="devsite-tabs-dropdown-section
+                       ">
+              
+                <li class="devsite-nav-title" role="heading" tooltip>مقدمة</li>
+              
+              
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/intro-to-ml?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/intro-to-ml?hl=ar"
+                     track-metadata-position="nav - مفاهيم تعلُّم الآلة"
+                     track-metadata-module="tertiary nav"
+                     
+                       track-metadata-module_headline="مقدمة"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      مقدمة عن تعلُّم الآلة
+                    </div>
+                    
+                  </a>
+                </li>
+              
+            </ul>
+          
+            <ul class="devsite-tabs-dropdown-section
+                       ">
+              
+                <li class="devsite-nav-title" role="heading" tooltip>نماذج تعلُّم الآلة</li>
+              
+              
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/crash-course/linear-regression?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/crash-course/linear-regression?hl=ar"
+                     track-metadata-position="nav - مفاهيم تعلُّم الآلة"
+                     track-metadata-module="tertiary nav"
+                     
+                       track-metadata-module_headline="مقدمة"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      الانحدار الخطّي
+                    </div>
+                    
+                  </a>
+                </li>
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/crash-course/logistic-regression?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/crash-course/logistic-regression?hl=ar"
+                     track-metadata-position="nav - مفاهيم تعلُّم الآلة"
+                     track-metadata-module="tertiary nav"
+                     
+                       track-metadata-module_headline="مقدمة"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      الانحدار اللوجستي
+                    </div>
+                    
+                  </a>
+                </li>
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/crash-course/classification?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/crash-course/classification?hl=ar"
+                     track-metadata-position="nav - مفاهيم تعلُّم الآلة"
+                     track-metadata-module="tertiary nav"
+                     
+                       track-metadata-module_headline="مقدمة"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      التصنيف
+                    </div>
+                    
+                  </a>
+                </li>
+              
+            </ul>
+          
+            <ul class="devsite-tabs-dropdown-section
+                       ">
+              
+                <li class="devsite-nav-title" role="heading" tooltip>البيانات</li>
+              
+              
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/crash-course/numerical-data?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/crash-course/numerical-data?hl=ar"
+                     track-metadata-position="nav - مفاهيم تعلُّم الآلة"
+                     track-metadata-module="tertiary nav"
+                     
+                       track-metadata-module_headline="مقدمة"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      العمل مع البيانات الرقمية
+                    </div>
+                    
+                  </a>
+                </li>
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/crash-course/categorical-data?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/crash-course/categorical-data?hl=ar"
+                     track-metadata-position="nav - مفاهيم تعلُّم الآلة"
+                     track-metadata-module="tertiary nav"
+                     
+                       track-metadata-module_headline="مقدمة"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      العمل مع البيانات الفئوية
+                    </div>
+                    
+                  </a>
+                </li>
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/crash-course/overfitting?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/crash-course/overfitting?hl=ar"
+                     track-metadata-position="nav - مفاهيم تعلُّم الآلة"
+                     track-metadata-module="tertiary nav"
+                     
+                       track-metadata-module_headline="مقدمة"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      مجموعات البيانات والتعاميم والتخصيص المفرط
+                    </div>
+                    
+                  </a>
+                </li>
+              
+            </ul>
+          
+            <ul class="devsite-tabs-dropdown-section
+                       ">
+              
+                <li class="devsite-nav-title" role="heading" tooltip>نماذج تعلُّم الآلة المتقدّمة</li>
+              
+              
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/crash-course/neural-networks?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/crash-course/neural-networks?hl=ar"
+                     track-metadata-position="nav - مفاهيم تعلُّم الآلة"
+                     track-metadata-module="tertiary nav"
+                     
+                       track-metadata-module_headline="مقدمة"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      الشبكات العصبية
+                    </div>
+                    
+                  </a>
+                </li>
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/crash-course/embeddings?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/crash-course/embeddings?hl=ar"
+                     track-metadata-position="nav - مفاهيم تعلُّم الآلة"
+                     track-metadata-module="tertiary nav"
+                     
+                       track-metadata-module_headline="مقدمة"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      التضمينات
+                    </div>
+                    
+                  </a>
+                </li>
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/crash-course/llm?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/crash-course/llm?hl=ar"
+                     track-metadata-position="nav - مفاهيم تعلُّم الآلة"
+                     track-metadata-module="tertiary nav"
+                     
+                       track-metadata-module_headline="مقدمة"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      مقدمة حول النماذج اللغوية الكبيرة
+                    </div>
+                    
+                  </a>
+                </li>
+              
+            </ul>
+          
+            <ul class="devsite-tabs-dropdown-section
+                       ">
+              
+                <li class="devsite-nav-title" role="heading" tooltip>استخدام الذكاء الاصطناعي في الحياة اليومية</li>
+              
+              
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/crash-course/production-ml-systems?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/crash-course/production-ml-systems?hl=ar"
+                     track-metadata-position="nav - مفاهيم تعلُّم الآلة"
+                     track-metadata-module="tertiary nav"
+                     
+                       track-metadata-module_headline="مقدمة"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      أنظمة تعلُّم الآلة في مرحلة الإنتاج
+                    </div>
+                    
+                  </a>
+                </li>
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/crash-course/automl?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/crash-course/automl?hl=ar"
+                     track-metadata-position="nav - مفاهيم تعلُّم الآلة"
+                     track-metadata-module="tertiary nav"
+                     
+                       track-metadata-module_headline="مقدمة"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      تعلُّم الآلة المبرمَج
+                    </div>
+                    
+                  </a>
+                </li>
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/crash-course/fairness?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/crash-course/fairness?hl=ar"
+                     track-metadata-position="nav - مفاهيم تعلُّم الآلة"
+                     track-metadata-module="tertiary nav"
+                     
+                       track-metadata-module_headline="مقدمة"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      العدالة
+                    </div>
+                    
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </div>
+      
+    </div>
+  </div>
+</tab>
+        
+      
+        
+          <tab  >
+            
+    <a href="https://developers.google.com/machine-learning/foundational-courses?hl=ar"
+    class="devsite-tabs-content gc-analytics-event "
+      track-metadata-eventdetail="https://developers.google.com/machine-learning/foundational-courses?hl=ar"
+    
+       track-type="nav"
+       track-metadata-position="nav - الدورات الأساسية"
+       track-metadata-module="primary nav"
+       
+       
+         
+           data-category="Site-Wide Custom Events"
+         
+           data-label="Tab: الدورات الأساسية"
+         
+           track-name="الدورات الأساسية"
+         
+       >
+    الدورات الأساسية
+  
+    </a>
+    
+  
+          </tab>
+        
+      
+        
+          <tab  >
+            
+    <a href="https://developers.google.com/machine-learning/advanced-courses?hl=ar"
+    class="devsite-tabs-content gc-analytics-event "
+      track-metadata-eventdetail="https://developers.google.com/machine-learning/advanced-courses?hl=ar"
+    
+       track-type="nav"
+       track-metadata-position="nav - الدورات التدريبية المتقدّمة"
+       track-metadata-module="primary nav"
+       
+       
+         
+           data-category="Site-Wide Custom Events"
+         
+           data-label="Tab: الدورات التدريبية المتقدّمة"
+         
+           track-name="الدورات التدريبية المتقدّمة"
+         
+       >
+    الدورات التدريبية المتقدّمة
+  
+    </a>
+    
+  
+          </tab>
+        
+      
+        
+          <tab  >
+            
+    <a href="https://developers.google.com/machine-learning/guides?hl=ar"
+    class="devsite-tabs-content gc-analytics-event "
+      track-metadata-eventdetail="https://developers.google.com/machine-learning/guides?hl=ar"
+    
+       track-type="nav"
+       track-metadata-position="nav - الأدلة"
+       track-metadata-module="primary nav"
+       
+       
+         
+           data-category="Site-Wide Custom Events"
+         
+           data-label="Tab: الأدلة"
+         
+           track-name="الأدلة"
+         
+       >
+    الأدلة
+  
+    </a>
+    
+  
+          </tab>
+        
+      
+        
+          <tab class="devsite-dropdown
+    
+    
+    
+    ">
+  
+    <a href="https://developers.google.com/machine-learning/glossary?hl=ar"
+    class="devsite-tabs-content gc-analytics-event "
+      track-metadata-eventdetail="https://developers.google.com/machine-learning/glossary?hl=ar"
+    
+       track-type="nav"
+       track-metadata-position="nav - مسرد المصطلحات"
+       track-metadata-module="primary nav"
+       
+       
+         
+           data-category="Site-Wide Custom Events"
+         
+           data-label="Tab: مسرد المصطلحات"
+         
+           track-name="مسرد المصطلحات"
+         
+       >
+    مسرد المصطلحات
+  
+    </a>
+    
+      <button
+         aria-haspopup="menu"
+         aria-expanded="false"
+         aria-label="القائمة المنسدلة لما يلي: مسرد المصطلحات"
+         track-type="nav"
+         track-metadata-eventdetail="https://developers.google.com/machine-learning/glossary?hl=ar"
+         track-metadata-position="nav - مسرد المصطلحات"
+         track-metadata-module="primary nav"
+         
+          
+            data-category="Site-Wide Custom Events"
+          
+            data-label="Tab: مسرد المصطلحات"
+          
+            track-name="مسرد المصطلحات"
+          
+        
+         class="devsite-tabs-dropdown-toggle devsite-icon devsite-icon-arrow-drop-down"></button>
+    
+  
+  <div class="devsite-tabs-dropdown" role="menu" aria-label="submenu" hidden>
+    <div class="devsite-tabs-dropdown-content">
+      
+      
+        <div class="devsite-tabs-dropdown-column
+                    ">
+          
+            <ul class="devsite-tabs-dropdown-section
+                       ">
+              
+              
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/glossary?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/glossary?hl=ar"
+                     track-metadata-position="nav - مسرد المصطلحات"
+                     track-metadata-module="tertiary nav"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      جميع المصطلحات
+                    </div>
+                    
+                  </a>
+                </li>
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/glossary/clustering?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/glossary/clustering?hl=ar"
+                     track-metadata-position="nav - مسرد المصطلحات"
+                     track-metadata-module="tertiary nav"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      مجمّع
+                    </div>
+                    
+                  </a>
+                </li>
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/glossary/df?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/glossary/df?hl=ar"
+                     track-metadata-position="nav - مسرد المصطلحات"
+                     track-metadata-module="tertiary nav"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      غابات القرارات
+                    </div>
+                    
+                  </a>
+                </li>
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/glossary/fundamentals?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/glossary/fundamentals?hl=ar"
+                     track-metadata-position="nav - مسرد المصطلحات"
+                     track-metadata-module="tertiary nav"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      الأساسيات
+                    </div>
+                    
+                  </a>
+                </li>
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/glossary/googlecloud?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/glossary/googlecloud?hl=ar"
+                     track-metadata-position="nav - مسرد المصطلحات"
+                     track-metadata-module="tertiary nav"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      Google Cloud Platform
+                    </div>
+                    
+                  </a>
+                </li>
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/glossary/generative?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/glossary/generative?hl=ar"
+                     track-metadata-position="nav - مسرد المصطلحات"
+                     track-metadata-module="tertiary nav"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      الذكاء الاصطناعي التوليدي
+                    </div>
+                    
+                  </a>
+                </li>
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/glossary/metrics?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/glossary/metrics?hl=ar"
+                     track-metadata-position="nav - مسرد المصطلحات"
+                     track-metadata-module="tertiary nav"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      المقاييس
+                    </div>
+                    
+                  </a>
+                </li>
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/glossary/responsible-ai?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/glossary/responsible-ai?hl=ar"
+                     track-metadata-position="nav - مسرد المصطلحات"
+                     track-metadata-module="tertiary nav"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      استخدام الذكاء الاصطناعي بشكل مسؤول
+                    </div>
+                    
+                  </a>
+                </li>
+              
+                <li class="devsite-nav-item">
+                  <a href="https://developers.google.com/machine-learning/glossary/tensorflow?hl=ar"
+                    
+                     track-type="nav"
+                     track-metadata-eventdetail="https://developers.google.com/machine-learning/glossary/tensorflow?hl=ar"
+                     track-metadata-position="nav - مسرد المصطلحات"
+                     track-metadata-module="tertiary nav"
+                     
+                     tooltip
+                  >
+                    
+                    <div class="devsite-nav-item-title">
+                      TensorFlow
+                    </div>
+                    
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </div>
+      
+    </div>
+  </div>
+</tab>
+        
+      
+    </nav>
+
+  </devsite-tabs>
+
+            
+           </div>
+          
+<devsite-search
+    enable-signin
+    enable-search
+    enable-suggestions
+      enable-query-completion
+    
+    enable-search-summaries
+    project-name="Machine Learning"
+    tenant-name="Google for Developers"
+    project-scope="/machine-learning"
+    url-scoped="https://developers.google.com/s/results/machine-learning?hl=ar"
+    
+    
+    
+    >
+  <form class="devsite-search-form" action="https://developers.google.com/s/results?hl=ar" method="GET">
+    <div class="devsite-search-container">
+      <button type="button"
+              search-open
+              class="devsite-search-button devsite-header-icon-button button-flat material-icons"
+              
+              aria-label="فتح مربّع البحث"></button>
+      <div class="devsite-searchbox">
+        <input
+          aria-activedescendant=""
+          aria-autocomplete="list"
+          
+          aria-label="البحث"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          autocomplete="off"
+          class="devsite-search-field devsite-search-query"
+          name="q"
+          
+          placeholder="البحث"
+          role="combobox"
+          type="text"
+          value=""
+          >
+          <div class="devsite-search-image material-icons" aria-hidden="true">
+            
+              <svg class="devsite-search-ai-image" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_6641_386)">
+                    <path d="M19.6 21L13.3 14.7C12.8 15.1 12.225 15.4167 11.575 15.65C10.925 15.8833 10.2333 16 9.5 16C7.68333 16 6.14167 15.375 4.875 14.125C3.625 12.8583 3 11.3167 3 9.5C3 7.68333 3.625 6.15 4.875 4.9C6.14167 3.63333 7.68333 3 9.5 3C10.0167 3 10.5167 3.05833 11 3.175C11.4833 3.275 11.9417 3.43333 12.375 3.65L10.825 5.2C10.6083 5.13333 10.3917 5.08333 10.175 5.05C9.95833 5.01667 9.73333 5 9.5 5C8.25 5 7.18333 5.44167 6.3 6.325C5.43333 7.19167 5 8.25 5 9.5C5 10.75 5.43333 11.8167 6.3 12.7C7.18333 13.5667 8.25 14 9.5 14C10.6667 14 11.6667 13.625 12.5 12.875C13.35 12.1083 13.8417 11.15 13.975 10H15.975C15.925 10.6333 15.7833 11.2333 15.55 11.8C15.3333 12.3667 15.05 12.8667 14.7 13.3L21 19.6L19.6 21ZM17.5 12C17.5 10.4667 16.9667 9.16667 15.9 8.1C14.8333 7.03333 13.5333 6.5 12 6.5C13.5333 6.5 14.8333 5.96667 15.9 4.9C16.9667 3.83333 17.5 2.53333 17.5 0.999999C17.5 2.53333 18.0333 3.83333 19.1 4.9C20.1667 5.96667 21.4667 6.5 23 6.5C21.4667 6.5 20.1667 7.03333 19.1 8.1C18.0333 9.16667 17.5 10.4667 17.5 12Z" fill="#5F6368"/>
+                  </g>
+                <defs>
+                <clipPath id="clip0_6641_386">
+                <rect width="24" height="24" fill="white"/>
+                </clipPath>
+                </defs>
+              </svg>
+            
+          </div>
+          <div class="devsite-search-shortcut-icon-container" aria-hidden="true">
+            <kbd class="devsite-search-shortcut-icon">/</kbd>
+          </div>
+      </div>
+    </div>
+  </form>
+  <button type="button"
+          search-close
+          class="devsite-search-button devsite-header-icon-button button-flat material-icons"
+          
+          aria-label="إغلاق مربّع البحث"></button>
+</devsite-search>
+
+        </div>
+
+        
+
+          
+
+          
+
+          
+
+          
+
+          
+<devsite-language-selector>
+  <ul role="presentation">
+    
+    
+    <li role="presentation">
+      <a role="menuitem" lang="en"
+        >English</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="de"
+        >Deutsch</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="es"
+        >Español</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="es_419"
+        >Español – América Latina</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="fr"
+        >Français</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="id"
+        >Indonesia</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="it"
+        >Italiano</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="pl"
+        >Polski</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="pt_br"
+        >Português – Brasil</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="vi"
+        >Tiếng Việt</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="tr"
+        >Türkçe</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="ru"
+        >Русский</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="uk"
+        >Українська</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="he"
+        >עברית</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="ar"
+        >العربيّة</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="fa"
+        >فارسی</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="hi"
+        >हिंदी</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="bn"
+        >বাংলা</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="th"
+        >ภาษาไทย</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="zh_cn"
+        >中文 – 简体</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="zh_tw"
+        >中文 – 繁體</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="ja"
+        >日本語</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="ko"
+        >한국어</a>
+    </li>
+    
+  </ul>
+</devsite-language-selector>
+
+
+          
+
+        
+
+        
+          <devsite-user 
+                        
+                        
+                          enable-profiles
+                        
+                        
+                          fp-auth
+                        
+                        id="devsite-user">
+            
+              
+              <span class="button devsite-top-button" aria-hidden="true" visually-hidden>تسجيل الدخول</span>
+            
+          </devsite-user>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="devsite-collapsible-section
+    ">
+    <div class="devsite-header-background">
+      
+        
+          <div class="devsite-product-id-row"
+           >
+            <div class="devsite-product-description-row">
+              
+                
+                <div class="devsite-product-id">
+                  
+                  
+                  
+                    <ul class="devsite-breadcrumb-list"
+  >
+  
+  <li class="devsite-breadcrumb-item
+             ">
+    
+    
+    
+      
+        
+  <a href="https://developers.google.com/machine-learning/crash-course?hl=ar"
+      
+        class="devsite-breadcrumb-link gc-analytics-event"
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Lower Header"
+      
+        data-value="1"
+      
+        track-type="globalNav"
+      
+        track-name="breadcrumb"
+      
+        track-metadata-position="1"
+      
+        track-metadata-eventdetail=""
+      
+    >
+    
+          مفاهيم تعلُّم الآلة
+        
+  </a>
+  
+      
+    
+  </li>
+  
+</ul>
+                </div>
+                
+              
+              
+            </div>
+            
+          </div>
+          
+        
+      
+      
+        <div class="devsite-doc-set-nav-row">
+          
+          
+            
+            
+  <devsite-tabs class="lower-tabs">
+
+    <nav class="devsite-tabs-wrapper" aria-label="علامات التبويب السفلية">
+      
+        
+          <tab  >
+            
+    <a href="https://developers.google.com/machine-learning/crash-course?hl=ar"
+    class="devsite-tabs-content gc-analytics-event "
+      track-metadata-eventdetail="https://developers.google.com/machine-learning/crash-course?hl=ar"
+    
+       track-type="nav"
+       track-metadata-position="nav - الرئيسية"
+       track-metadata-module="primary nav"
+       
+       
+         
+           data-category="Site-Wide Custom Events"
+         
+           data-label="Tab: الرئيسية"
+         
+           track-name="الرئيسية"
+         
+       >
+    الرئيسية
+  
+    </a>
+    
+  
+          </tab>
+        
+      
+        
+          <tab  class="devsite-active">
+            
+    <a href="https://developers.google.com/machine-learning/crash-course/prereqs-and-prework?hl=ar"
+    class="devsite-tabs-content gc-analytics-event "
+      track-metadata-eventdetail="https://developers.google.com/machine-learning/crash-course/prereqs-and-prework?hl=ar"
+    
+       track-type="nav"
+       track-metadata-position="nav - crash course"
+       track-metadata-module="primary nav"
+       aria-label="Crash Course, selected" 
+       
+         
+           data-category="Site-Wide Custom Events"
+         
+           data-label="Tab: Crash Course"
+         
+           track-name="crash course"
+         
+       >
+    Crash Course
+  
+    </a>
+    
+  
+          </tab>
+        
+      
+    </nav>
+
+  </devsite-tabs>
+
+          
+          
+        </div>
+      
+    </div>
+  </div>
+
+</div>
+
+
+
+  
+
+  
+</devsite-header>
+      <devsite-book-nav scrollbars >
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="devsite-book-nav-filter"
+     >
+  <span class="filter-list-icon material-icons" aria-hidden="true"></span>
+  <input type="text"
+         placeholder="فلتر"
+         
+         aria-label="إدخال نص لفلترة النتائج"
+         role="searchbox">
+  
+  <span class="filter-clear-button hidden"
+        data-title="محو الفلتر"
+        aria-label="محو الفلتر"
+        role="button"
+        tabindex="0"></span>
+</div>
+
+<nav class="devsite-book-nav devsite-nav nocontent"
+     aria-label="القائمة الجانبية">
+  <div class="devsite-mobile-header">
+    <button type="button"
+            id="devsite-close-nav"
+            class="devsite-header-icon-button button-flat material-icons gc-analytics-event"
+            data-category="Site-Wide Custom Events"
+            data-label="Close navigation"
+            aria-label="إغلاق قائمة التنقل">
+    </button>
+    <div class="devsite-product-name-wrapper">
+
+  
+    
+  
+
+
+  
+      <span class="devsite-product-name">
+        
+        
+        <ul class="devsite-breadcrumb-list"
+  >
+  
+  <li class="devsite-breadcrumb-item
+             ">
+    
+    
+    
+      
+      
+        
+  <a href="https://developers.google.com/machine-learning?hl=ar"
+      
+        class="devsite-breadcrumb-link gc-analytics-event"
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Upper Header"
+      
+        data-value="1"
+      
+        track-type="globalNav"
+      
+        track-name="breadcrumb"
+      
+        track-metadata-position="1"
+      
+        track-metadata-eventdetail="Machine Learning"
+      
+    >
+    
+          Machine Learning
+        
+  </a>
+  
+      
+    
+  </li>
+  
+</ul>
+      </span>
+    
+
+</div>
+  </div>
+
+  <div class="devsite-book-nav-wrapper">
+    <div class="devsite-mobile-nav-top">
+      
+        <ul class="devsite-nav-list">
+          
+            <li class="devsite-nav-item">
+              
+  
+  <a href="/machine-learning/crash-course"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              devsite-nav-active"
+    
+
+    
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Tab: مفاهيم تعلُّم الآلة"
+      
+        track-name="مفاهيم تعلُّم الآلة"
+      
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: مفاهيم تعلُّم الآلة"
+     track-type="globalNav"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      مفاهيم تعلُّم الآلة
+   </span>
+    
+  
+  </a>
+  
+
+  
+    <ul class="devsite-nav-responsive-tabs devsite-nav-has-menu
+               ">
+      
+<li class="devsite-nav-item">
+
+  
+  <span
+    
+       class="devsite-nav-title"
+       tooltip
+    
+    
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Tab: مفاهيم تعلُّم الآلة"
+      
+        track-name="مفاهيم تعلُّم الآلة"
+      
+    >
+  
+    <span class="devsite-nav-text" tooltip menu="مفاهيم تعلُّم الآلة">
+      المزيد
+   </span>
+    
+    <span class="devsite-nav-icon material-icons" data-icon="forward"
+          menu="مفاهيم تعلُّم الآلة">
+    </span>
+    
+  
+  </span>
+  
+
+</li>
+
+    </ul>
+  
+              
+                <ul class="devsite-nav-responsive-tabs">
+                  
+                    
+                    
+                    
+                    <li class="devsite-nav-item">
+                      
+  
+  <a href="/machine-learning/crash-course"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Tab: الرئيسية"
+      
+        track-name="الرئيسية"
+      
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: الرئيسية"
+     track-type="globalNav"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      الرئيسية
+   </span>
+    
+  
+  </a>
+  
+
+  
+                    </li>
+                  
+                    
+                    
+                    
+                    <li class="devsite-nav-item">
+                      
+  
+  <a href="/machine-learning/crash-course/prereqs-and-prework"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              devsite-nav-active"
+    
+
+    
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Tab: Crash Course"
+      
+        track-name="crash course"
+      
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: Crash Course"
+     track-type="globalNav"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip menu="_book">
+      Crash Course
+   </span>
+    
+  
+  </a>
+  
+
+  
+                    </li>
+                  
+                </ul>
+              
+            </li>
+          
+            <li class="devsite-nav-item">
+              
+  
+  <a href="/machine-learning/foundational-courses"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Tab: الدورات الأساسية"
+      
+        track-name="الدورات الأساسية"
+      
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: الدورات الأساسية"
+     track-type="globalNav"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      الدورات الأساسية
+   </span>
+    
+  
+  </a>
+  
+
+  
+              
+            </li>
+          
+            <li class="devsite-nav-item">
+              
+  
+  <a href="/machine-learning/advanced-courses"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Tab: الدورات التدريبية المتقدّمة"
+      
+        track-name="الدورات التدريبية المتقدّمة"
+      
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: الدورات التدريبية المتقدّمة"
+     track-type="globalNav"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      الدورات التدريبية المتقدّمة
+   </span>
+    
+  
+  </a>
+  
+
+  
+              
+            </li>
+          
+            <li class="devsite-nav-item">
+              
+  
+  <a href="/machine-learning/guides"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Tab: الأدلة"
+      
+        track-name="الأدلة"
+      
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: الأدلة"
+     track-type="globalNav"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      الأدلة
+   </span>
+    
+  
+  </a>
+  
+
+  
+              
+            </li>
+          
+            <li class="devsite-nav-item">
+              
+  
+  <a href="/machine-learning/glossary"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Tab: مسرد المصطلحات"
+      
+        track-name="مسرد المصطلحات"
+      
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: مسرد المصطلحات"
+     track-type="globalNav"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      مسرد المصطلحات
+   </span>
+    
+  
+  </a>
+  
+
+  
+    <ul class="devsite-nav-responsive-tabs devsite-nav-has-menu
+               ">
+      
+<li class="devsite-nav-item">
+
+  
+  <span
+    
+       class="devsite-nav-title"
+       tooltip
+    
+    
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Tab: مسرد المصطلحات"
+      
+        track-name="مسرد المصطلحات"
+      
+    >
+  
+    <span class="devsite-nav-text" tooltip menu="مسرد المصطلحات">
+      المزيد
+   </span>
+    
+    <span class="devsite-nav-icon material-icons" data-icon="forward"
+          menu="مسرد المصطلحات">
+    </span>
+    
+  
+  </span>
+  
+
+</li>
+
+    </ul>
+  
+              
+            </li>
+          
+          
+          
+        </ul>
+      
+    </div>
+    
+      <div class="devsite-mobile-nav-bottom">
+        
+          
+          <ul class="devsite-nav-list" menu="_book">
+            <li class="devsite-nav-item
+           devsite-nav-heading"><div class="devsite-nav-title devsite-nav-title-no-path">
+        <span class="devsite-nav-text" tooltip>ارتباطات سريعة</span>
+      </div></li>
+
+  <li class="devsite-nav-item"><a href="/machine-learning/crash-course/prereqs-and-prework"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/prereqs-and-prework"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/prereqs-and-prework"
+      ><span class="devsite-nav-text" tooltip>المتطلّبات الأساسية</span></a></li>
+
+  <li class="devsite-nav-item"><a href="/machine-learning/crash-course/exercises"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/exercises"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/exercises"
+      ><span class="devsite-nav-text" tooltip>تمارين رياضية</span></a></li>
+
+  <li class="devsite-nav-item"><a href="https://support.google.com/machinelearningeducation?utm_source=mlcc&amp;utm_campaign=helpcenter&amp;utm_medium=referral&amp;utm_content=leftnav"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: https://support.google.com/machinelearningeducation?utm_source=mlcc&amp;utm_campaign=helpcenter&amp;utm_medium=referral&amp;utm_content=leftnav"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="https://support.google.com/machinelearningeducation?utm_source=mlcc&amp;utm_campaign=helpcenter&amp;utm_medium=referral&amp;utm_content=leftnav"
+      ><span class="devsite-nav-text" tooltip>مركز المساعدة</span></a></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-heading"><div class="devsite-nav-title devsite-nav-title-no-path">
+        <span class="devsite-nav-text" tooltip>نماذج تعلُّم الآلة</span>
+      </div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-expandable"><div class="devsite-expandable-nav">
+      <a class="devsite-nav-toggle" aria-hidden="true"></a><div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+        <span class="devsite-nav-text" tooltip>الانحدار الخطي (80 دقيقة)</span>
+      </div><ul class="devsite-nav-section"><li class="devsite-nav-item"><a href="/machine-learning/crash-course/linear-regression"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/linear-regression"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/linear-regression"
+      ><span class="devsite-nav-text" tooltip>الانحدار الخطي (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/linear-regression/loss"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/linear-regression/loss"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/linear-regression/loss"
+      ><span class="devsite-nav-text" tooltip>الخسارة (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/linear-regression/parameters-exercise"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/linear-regression/parameters-exercise"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/linear-regression/parameters-exercise"
+      ><span class="devsite-nav-text" tooltip>تمرين تفاعلي: المَعلمات (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/linear-regression/gradient-descent"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/linear-regression/gradient-descent"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/linear-regression/gradient-descent"
+      ><span class="devsite-nav-text" tooltip>النزول المتدرّج (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/linear-regression/hyperparameters"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/linear-regression/hyperparameters"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/linear-regression/hyperparameters"
+      ><span class="devsite-nav-text" tooltip>المَعلمات الفائقة (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/linear-regression/gradient-descent-exercise"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/linear-regression/gradient-descent-exercise"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/linear-regression/gradient-descent-exercise"
+      ><span class="devsite-nav-text" tooltip>تمرين تفاعلي: انحدار التدرج (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/linear-regression/programming-exercise"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/linear-regression/programming-exercise"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/linear-regression/programming-exercise"
+      ><span class="devsite-nav-text" tooltip>تمرين برمجة (20 دقيقة)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/linear-regression/test-your-knowledge"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/linear-regression/test-your-knowledge"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/linear-regression/test-your-knowledge"
+      ><span class="devsite-nav-text" tooltip>اختبار معلوماتك (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/linear-regression/test-your-knowledge#whats_next"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/linear-regression/test-your-knowledge#whats_next"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/linear-regression/test-your-knowledge#whats_next"
+      ><span class="devsite-nav-text" tooltip>الخطوات التالية</span></a></li></ul></div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-expandable"><div class="devsite-expandable-nav">
+      <a class="devsite-nav-toggle" aria-hidden="true"></a><div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+        <span class="devsite-nav-text" tooltip>الانحدار اللوجستي (35 دقيقة)</span>
+      </div><ul class="devsite-nav-section"><li class="devsite-nav-item"><a href="/machine-learning/crash-course/logistic-regression"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/logistic-regression"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/logistic-regression"
+      ><span class="devsite-nav-text" tooltip>المقدّمة (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/logistic-regression/sigmoid-function"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/logistic-regression/sigmoid-function"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/logistic-regression/sigmoid-function"
+      ><span class="devsite-nav-text" tooltip>احتساب احتمالية (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/logistic-regression/loss-regularization"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/logistic-regression/loss-regularization"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/logistic-regression/loss-regularization"
+      ><span class="devsite-nav-text" tooltip>الخسارة والتسويات (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/logistic-regression/test-your-knowledge"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/logistic-regression/test-your-knowledge"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/logistic-regression/test-your-knowledge"
+      ><span class="devsite-nav-text" tooltip>اختبار معلوماتك (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/logistic-regression/test-your-knowledge#whats_next"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/logistic-regression/test-your-knowledge#whats_next"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/logistic-regression/test-your-knowledge#whats_next"
+      ><span class="devsite-nav-text" tooltip>الخطوات التالية</span></a></li></ul></div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-expandable"><div class="devsite-expandable-nav">
+      <a class="devsite-nav-toggle" aria-hidden="true"></a><div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+        <span class="devsite-nav-text" tooltip>التصنيف (70 دقيقة)</span>
+      </div><ul class="devsite-nav-section"><li class="devsite-nav-item"><a href="/machine-learning/crash-course/classification"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/classification"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/classification"
+      ><span class="devsite-nav-text" tooltip>المقدّمة (3 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/classification/thresholding"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/classification/thresholding"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/classification/thresholding"
+      ><span class="devsite-nav-text" tooltip>الحدود الدنيا ومصفّفة الارتباك (12 دقيقة)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/classification/accuracy-precision-recall"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/classification/accuracy-precision-recall"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/classification/accuracy-precision-recall"
+      ><span class="devsite-nav-text" tooltip>الدقة واكتمال التوقعات الإيجابية والدقة والمقاييس ذات الصلة (15 دقيقة)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/classification/roc-and-auc"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/classification/roc-and-auc"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/classification/roc-and-auc"
+      ><span class="devsite-nav-text" tooltip>ROC وAUC (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/classification/prediction-bias"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/classification/prediction-bias"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/classification/prediction-bias"
+      ><span class="devsite-nav-text" tooltip>انحياز التوقّعات (3 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/classification/multiclass"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/classification/multiclass"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/classification/multiclass"
+      ><span class="devsite-nav-text" tooltip>التصنيف المتعدّد الفئات (دقيقتان)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/classification/programming-exercise"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/classification/programming-exercise"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/classification/programming-exercise"
+      ><span class="devsite-nav-text" tooltip>تمرين برمجة (15 دقيقة)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/classification/test-your-knowledge"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/classification/test-your-knowledge"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/classification/test-your-knowledge"
+      ><span class="devsite-nav-text" tooltip>اختبار معلوماتك (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/classification/test-your-knowledge#whats_next"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/classification/test-your-knowledge#whats_next"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/classification/test-your-knowledge#whats_next"
+      ><span class="devsite-nav-text" tooltip>الخطوات التالية</span></a></li></ul></div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-heading"><div class="devsite-nav-title devsite-nav-title-no-path">
+        <span class="devsite-nav-text" tooltip>البيانات</span>
+      </div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-expandable"><div class="devsite-expandable-nav">
+      <a class="devsite-nav-toggle" aria-hidden="true"></a><div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+        <span class="devsite-nav-text" tooltip>العمل مع البيانات الرقمية (85 دقيقة)</span>
+      </div><ul class="devsite-nav-section"><li class="devsite-nav-item"><a href="/machine-learning/crash-course/numerical-data"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/numerical-data"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/numerical-data"
+      ><span class="devsite-nav-text" tooltip>المقدّمة (3 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/numerical-data/feature-vectors"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/numerical-data/feature-vectors"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/numerical-data/feature-vectors"
+      ><span class="devsite-nav-text" tooltip>كيفية نقل النموذج للبيانات باستخدام ناقلات السمات (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/numerical-data/first-steps"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/numerical-data/first-steps"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/numerical-data/first-steps"
+      ><span class="devsite-nav-text" tooltip>الخطوات الأولى (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/numerical-data/programming-exercises"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/numerical-data/programming-exercises"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/numerical-data/programming-exercises"
+      ><span class="devsite-nav-text" tooltip>تمارين البرمجة (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/numerical-data/normalization"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/numerical-data/normalization"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/numerical-data/normalization"
+      ><span class="devsite-nav-text" tooltip>التسويّة (20 دقيقة)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/numerical-data/binning"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/numerical-data/binning"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/numerical-data/binning"
+      ><span class="devsite-nav-text" tooltip>الربط (15 دقيقة)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/numerical-data/scrubbing"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/numerical-data/scrubbing"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/numerical-data/scrubbing"
+      ><span class="devsite-nav-text" tooltip>التقديم والترجيع (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/numerical-data/qualities-of-good-numerical-features"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/numerical-data/qualities-of-good-numerical-features"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/numerical-data/qualities-of-good-numerical-features"
+      ><span class="devsite-nav-text" tooltip>صفات السمات الرقمية الجيدة (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/numerical-data/polynomial-transforms"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/numerical-data/polynomial-transforms"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/numerical-data/polynomial-transforms"
+      ><span class="devsite-nav-text" tooltip>عمليات التحويل متعددة الحدود (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/numerical-data/test-your-knowledge"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/numerical-data/test-your-knowledge"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/numerical-data/test-your-knowledge"
+      ><span class="devsite-nav-text" tooltip>اختبار معلوماتك (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/numerical-data/conclusion"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/numerical-data/conclusion"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/numerical-data/conclusion"
+      ><span class="devsite-nav-text" tooltip>الخاتمة (دقيقتان)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/numerical-data/conclusion#whats_next"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/numerical-data/conclusion#whats_next"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/numerical-data/conclusion#whats_next"
+      ><span class="devsite-nav-text" tooltip>الخطوات التالية</span></a></li></ul></div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-expandable"><div class="devsite-expandable-nav">
+      <a class="devsite-nav-toggle" aria-hidden="true"></a><div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+        <span class="devsite-nav-text" tooltip>العمل مع البيانات الفئوية (50 دقيقة)</span>
+      </div><ul class="devsite-nav-section"><li class="devsite-nav-item"><a href="/machine-learning/crash-course/categorical-data"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/categorical-data"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/categorical-data"
+      ><span class="devsite-nav-text" tooltip>المقدّمة (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/categorical-data/one-hot-encoding"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/categorical-data/one-hot-encoding"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/categorical-data/one-hot-encoding"
+      ><span class="devsite-nav-text" tooltip>المفردات والترميز الأحادي (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/categorical-data/issues"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/categorical-data/issues"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/categorical-data/issues"
+      ><span class="devsite-nav-text" tooltip>المشاكل الشائعة في البيانات الفئوية (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/categorical-data/feature-crosses"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/categorical-data/feature-crosses"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/categorical-data/feature-crosses"
+      ><span class="devsite-nav-text" tooltip>تقاطعات العناصر (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/categorical-data/feature-cross-exercises"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/categorical-data/feature-cross-exercises"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/categorical-data/feature-cross-exercises"
+      ><span class="devsite-nav-text" tooltip>تمارين مضروب مجموعات الخصائص (15 دقيقة)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/categorical-data/test-your-knowledge"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/categorical-data/test-your-knowledge"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/categorical-data/test-your-knowledge"
+      ><span class="devsite-nav-text" tooltip>اختبار معلوماتك (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/categorical-data/test-your-knowledge#whats_next"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/categorical-data/test-your-knowledge#whats_next"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/categorical-data/test-your-knowledge#whats_next"
+      ><span class="devsite-nav-text" tooltip>الخطوات التالية</span></a></li></ul></div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-expandable"><div class="devsite-expandable-nav">
+      <a class="devsite-nav-toggle" aria-hidden="true"></a><div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+        <span class="devsite-nav-text" tooltip>مجموعات البيانات والتخصيص المفرط (105 دقيقة)</span>
+      </div><ul class="devsite-nav-section"><li class="devsite-nav-item"><a href="/machine-learning/crash-course/overfitting"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/overfitting"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/overfitting"
+      ><span class="devsite-nav-text" tooltip>المقدّمة (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/overfitting/data-characteristics"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/overfitting/data-characteristics"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/overfitting/data-characteristics"
+      ><span class="devsite-nav-text" tooltip>خصائص البيانات (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/overfitting/labels"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/overfitting/labels"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/overfitting/labels"
+      ><span class="devsite-nav-text" tooltip>التصنيفات (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/overfitting/imbalanced-datasets"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/overfitting/imbalanced-datasets"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/overfitting/imbalanced-datasets"
+      ><span class="devsite-nav-text" tooltip>مجموعات البيانات غير المتوازنة (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/overfitting/dividing-datasets"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/overfitting/dividing-datasets"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/overfitting/dividing-datasets"
+      ><span class="devsite-nav-text" tooltip>تقسيم مجموعة البيانات الأصلية (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/overfitting/transforming-data"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/overfitting/transforming-data"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/overfitting/transforming-data"
+      ><span class="devsite-nav-text" tooltip>تحويل البيانات (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/overfitting/generalization"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/overfitting/generalization"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/overfitting/generalization"
+      ><span class="devsite-nav-text" tooltip>التعميم (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/overfitting/overfitting"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/overfitting/overfitting"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/overfitting/overfitting"
+      ><span class="devsite-nav-text" tooltip>فرط التخصيص (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/overfitting/model-complexity"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/overfitting/model-complexity"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/overfitting/model-complexity"
+      ><span class="devsite-nav-text" tooltip>تعقيد النموذج (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/overfitting/regularization"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/overfitting/regularization"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/overfitting/regularization"
+      ><span class="devsite-nav-text" tooltip>تسوية L2 (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/overfitting/interpreting-loss-curves"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/overfitting/interpreting-loss-curves"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/overfitting/interpreting-loss-curves"
+      ><span class="devsite-nav-text" tooltip>تفسير منحنيات الخسارة (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/overfitting/test-your-knowledge"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/overfitting/test-your-knowledge"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/overfitting/test-your-knowledge"
+      ><span class="devsite-nav-text" tooltip>اختبار معلوماتك (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/overfitting/test-your-knowledge#whats_next"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/overfitting/test-your-knowledge#whats_next"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/overfitting/test-your-knowledge#whats_next"
+      ><span class="devsite-nav-text" tooltip>الخطوات التالية</span></a></li></ul></div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-heading"><div class="devsite-nav-title devsite-nav-title-no-path">
+        <span class="devsite-nav-text" tooltip>نماذج تعلُّم الآلة المتقدّمة</span>
+      </div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-expandable"><div class="devsite-expandable-nav">
+      <a class="devsite-nav-toggle" aria-hidden="true"></a><div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+        <span class="devsite-nav-text" tooltip>الشبكات العصبية (75 دقيقة)</span>
+      </div><ul class="devsite-nav-section"><li class="devsite-nav-item"><a href="/machine-learning/crash-course/neural-networks"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/neural-networks"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/neural-networks"
+      ><span class="devsite-nav-text" tooltip>المقدّمة (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/neural-networks/nodes-hidden-layers"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/neural-networks/nodes-hidden-layers"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/neural-networks/nodes-hidden-layers"
+      ><span class="devsite-nav-text" tooltip>العقد والطبقات المخفية (15 دقيقة)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/neural-networks/activation-functions"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/neural-networks/activation-functions"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/neural-networks/activation-functions"
+      ><span class="devsite-nav-text" tooltip>دوالّ التفعيل (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/neural-networks/backpropagation"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/neural-networks/backpropagation"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/neural-networks/backpropagation"
+      ><span class="devsite-nav-text" tooltip>التدريب باستخدام تقنية الانتشار العكسي (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/neural-networks/interactive-exercises"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/neural-networks/interactive-exercises"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/neural-networks/interactive-exercises"
+      ><span class="devsite-nav-text" tooltip>التمارين التفاعلية (15 دقيقة)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/neural-networks/multi-class"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/neural-networks/multi-class"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/neural-networks/multi-class"
+      ><span class="devsite-nav-text" tooltip>التصنيف المتعدّد الفئات (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/neural-networks/test-your-knowledge"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/neural-networks/test-your-knowledge"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/neural-networks/test-your-knowledge"
+      ><span class="devsite-nav-text" tooltip>اختبار معلوماتك (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/neural-networks/test-your-knowledge#whats_next"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/neural-networks/test-your-knowledge#whats_next"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/neural-networks/test-your-knowledge#whats_next"
+      ><span class="devsite-nav-text" tooltip>الخطوات التالية</span></a></li></ul></div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-expandable"><div class="devsite-expandable-nav">
+      <a class="devsite-nav-toggle" aria-hidden="true"></a><div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+        <span class="devsite-nav-text" tooltip>التضمينات (45 دقيقة)</span>
+      </div><ul class="devsite-nav-section"><li class="devsite-nav-item"><a href="/machine-learning/crash-course/embeddings"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/embeddings"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/embeddings"
+      ><span class="devsite-nav-text" tooltip>المقدّمة (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/embeddings/embedding-space"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/embeddings/embedding-space"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/embeddings/embedding-space"
+      ><span class="devsite-nav-text" tooltip>مساحة التضمين والتضمينات الثابتة (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/embeddings/interactive-exercises"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/embeddings/interactive-exercises"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/embeddings/interactive-exercises"
+      ><span class="devsite-nav-text" tooltip>التمارين التفاعلية (15 دقيقة)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/embeddings/obtaining-embeddings"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/embeddings/obtaining-embeddings"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/embeddings/obtaining-embeddings"
+      ><span class="devsite-nav-text" tooltip>الحصول على البيانات المضمّنة (15 دقيقة)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/embeddings/test-your-knowledge"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/embeddings/test-your-knowledge"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/embeddings/test-your-knowledge"
+      ><span class="devsite-nav-text" tooltip>اختبار معلوماتك (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/embeddings/test-your-knowledge#whats_next"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/embeddings/test-your-knowledge#whats_next"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/embeddings/test-your-knowledge#whats_next"
+      ><span class="devsite-nav-text" tooltip>الخطوات التالية</span></a></li></ul></div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-expandable"><div class="devsite-expandable-nav">
+      <a class="devsite-nav-toggle" aria-hidden="true"></a><div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+        <span class="devsite-nav-text" tooltip>مقدمة حول النماذج اللغوية الكبيرة (45 دقيقة)</span>
+      </div><ul class="devsite-nav-section"><li class="devsite-nav-item"><a href="/machine-learning/crash-course/llm"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/llm"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/llm"
+      ><span class="devsite-nav-text" tooltip>ما هو النموذج اللغوي؟ (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/llm/transformers"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/llm/transformers"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/llm/transformers"
+      ><span class="devsite-nav-text" tooltip>ما هو النموذج اللغوي الكبير؟ (15 دقيقة)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/llm/tuning"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/llm/tuning"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/llm/tuning"
+      ><span class="devsite-nav-text" tooltip>التحسين والتركيز وهندسة الطلبات (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/llm/test-your-knowledge"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/llm/test-your-knowledge"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/llm/test-your-knowledge"
+      ><span class="devsite-nav-text" tooltip>اختبار معلوماتك (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/llm/test-your-knowledge#whats_next"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/llm/test-your-knowledge#whats_next"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/llm/test-your-knowledge#whats_next"
+      ><span class="devsite-nav-text" tooltip>الخطوات التالية</span></a></li></ul></div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-heading"><div class="devsite-nav-title devsite-nav-title-no-path">
+        <span class="devsite-nav-text" tooltip>استخدام الذكاء الاصطناعي في الحياة اليومية</span>
+      </div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-expandable"><div class="devsite-expandable-nav">
+      <a class="devsite-nav-toggle" aria-hidden="true"></a><div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+        <span class="devsite-nav-text" tooltip>أنظمة تعلُّم الآلة في مرحلة الإنتاج (80 دقيقة)</span>
+      </div><ul class="devsite-nav-section"><li class="devsite-nav-item"><a href="/machine-learning/crash-course/production-ml-systems"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/production-ml-systems"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/production-ml-systems"
+      ><span class="devsite-nav-text" tooltip>المقدّمة (دقيقتان)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/production-ml-systems/static-vs-dynamic-training"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/production-ml-systems/static-vs-dynamic-training"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/production-ml-systems/static-vs-dynamic-training"
+      ><span class="devsite-nav-text" tooltip>التدريب الثابت مقابل التدريب الديناميكي (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/production-ml-systems/static-vs-dynamic-inference"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/production-ml-systems/static-vs-dynamic-inference"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/production-ml-systems/static-vs-dynamic-inference"
+      ><span class="devsite-nav-text" tooltip>الاستنتاج الثابت مقابل الاستنتاج الديناميكي (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/production-ml-systems/transforming-data"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/production-ml-systems/transforming-data"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/production-ml-systems/transforming-data"
+      ><span class="devsite-nav-text" tooltip>متى يجب تحويل البيانات؟ (3 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/production-ml-systems/deployment-testing"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/production-ml-systems/deployment-testing"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/production-ml-systems/deployment-testing"
+      ><span class="devsite-nav-text" tooltip>اختبار النشر (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/production-ml-systems/monitoring"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/production-ml-systems/monitoring"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/production-ml-systems/monitoring"
+      ><span class="devsite-nav-text" tooltip>مراقبة مسارات الإحالة الناجحة (25 دقيقة)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/production-ml-systems/questions"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/production-ml-systems/questions"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/production-ml-systems/questions"
+      ><span class="devsite-nav-text" tooltip>أسئلة يجب طرحها (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/production-ml-systems/test-your-knowledge"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/production-ml-systems/test-your-knowledge"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/production-ml-systems/test-your-knowledge"
+      ><span class="devsite-nav-text" tooltip>اختبار معلوماتك (15 دقيقة)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/production-ml-systems/test-your-knowledge#whats_next"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/production-ml-systems/test-your-knowledge#whats_next"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/production-ml-systems/test-your-knowledge#whats_next"
+      ><span class="devsite-nav-text" tooltip>الخطوات التالية</span></a></li></ul></div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-expandable"><div class="devsite-expandable-nav">
+      <a class="devsite-nav-toggle" aria-hidden="true"></a><div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+        <span class="devsite-nav-text" tooltip>تعلُّم الآلة المبرمَج (30 دقيقة)</span>
+      </div><ul class="devsite-nav-section"><li class="devsite-nav-item"><a href="/machine-learning/crash-course/automl"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/automl"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/automl"
+      ><span class="devsite-nav-text" tooltip>المقدّمة (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/automl/benefits-limitations"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/automl/benefits-limitations"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/automl/benefits-limitations"
+      ><span class="devsite-nav-text" tooltip>المزايا والقيود (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/automl/getting-started"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/automl/getting-started"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/automl/getting-started"
+      ><span class="devsite-nav-text" tooltip>بدء الاستخدام (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/automl/getting-started#whats_next"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/automl/getting-started#whats_next"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/automl/getting-started#whats_next"
+      ><span class="devsite-nav-text" tooltip>الخطوات التالية</span></a></li></ul></div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-expandable"><div class="devsite-expandable-nav">
+      <a class="devsite-nav-toggle" aria-hidden="true"></a><div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+        <span class="devsite-nav-text" tooltip>Fairness (110 min)</span>
+      </div><ul class="devsite-nav-section"><li class="devsite-nav-item"><a href="/machine-learning/crash-course/fairness"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/fairness"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/fairness"
+      ><span class="devsite-nav-text" tooltip>المقدّمة (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/fairness/types-of-bias"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/fairness/types-of-bias"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/fairness/types-of-bias"
+      ><span class="devsite-nav-text" tooltip>أنواع التحيز (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/fairness/identifying-bias"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/fairness/identifying-bias"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/fairness/identifying-bias"
+      ><span class="devsite-nav-text" tooltip>تحديد التحيز (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/fairness/mitigating-bias"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/fairness/mitigating-bias"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/fairness/mitigating-bias"
+      ><span class="devsite-nav-text" tooltip>الحدّ من التحيز (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/fairness/evaluating-for-bias"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/fairness/evaluating-for-bias"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/fairness/evaluating-for-bias"
+      ><span class="devsite-nav-text" tooltip>تقييم التحيز (5 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/fairness/demographic-parity"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/fairness/demographic-parity"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/fairness/demographic-parity"
+      ><span class="devsite-nav-text" tooltip>التكافؤ الديمغرافي (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/fairness/equality-of-opportunity"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/fairness/equality-of-opportunity"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/fairness/equality-of-opportunity"
+      ><span class="devsite-nav-text" tooltip>تكافؤ الفرص (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/fairness/counterfactual-fairness"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/fairness/counterfactual-fairness"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/fairness/counterfactual-fairness"
+      ><span class="devsite-nav-text" tooltip>العدالة في الحالات الافتراضية (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/fairness/programming-exercise"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/fairness/programming-exercise"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/fairness/programming-exercise"
+      ><span class="devsite-nav-text" tooltip>تمرين حول البرمجة (40 دقيقة)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/fairness/test-your-knowledge"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/fairness/test-your-knowledge"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/fairness/test-your-knowledge"
+      ><span class="devsite-nav-text" tooltip>اختبار معلوماتك (10 دقائق)</span></a></li><li class="devsite-nav-item"><a href="/machine-learning/crash-course/fairness/test-your-knowledge#whats_next"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /machine-learning/crash-course/fairness/test-your-knowledge#whats_next"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/machine-learning/crash-course/fairness/test-your-knowledge#whats_next"
+      ><span class="devsite-nav-text" tooltip>الخطوات التالية</span></a></li></ul></div></li>
+          </ul>
+        
+        
+          
+    
+      
+      <ul class="devsite-nav-list" menu="مفاهيم تعلُّم الآلة"
+          aria-label="القائمة الجانبية" hidden>
+        
+          
+            
+              
+<li class="devsite-nav-item devsite-nav-heading">
+
+  
+  <span
+    
+       class="devsite-nav-title"
+       tooltip
+    
+    >
+  
+    <span class="devsite-nav-text" tooltip >
+      مقدمة
+   </span>
+    
+  
+  </span>
+  
+
+</li>
+
+            
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/intro-to-ml"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: مقدمة عن تعلُّم الآلة"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      مقدمة عن تعلُّم الآلة
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+          
+            
+              
+<li class="devsite-nav-item devsite-nav-heading">
+
+  
+  <span
+    
+       class="devsite-nav-title"
+       tooltip
+    
+    >
+  
+    <span class="devsite-nav-text" tooltip >
+      نماذج تعلُّم الآلة
+   </span>
+    
+  
+  </span>
+  
+
+</li>
+
+            
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/crash-course/linear-regression"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: الانحدار الخطّي"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      الانحدار الخطّي
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/crash-course/logistic-regression"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: الانحدار اللوجستي"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      الانحدار اللوجستي
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/crash-course/classification"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: التصنيف"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      التصنيف
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+          
+            
+              
+<li class="devsite-nav-item devsite-nav-heading">
+
+  
+  <span
+    
+       class="devsite-nav-title"
+       tooltip
+    
+    >
+  
+    <span class="devsite-nav-text" tooltip >
+      البيانات
+   </span>
+    
+  
+  </span>
+  
+
+</li>
+
+            
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/crash-course/numerical-data"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: العمل مع البيانات الرقمية"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      العمل مع البيانات الرقمية
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/crash-course/categorical-data"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: العمل مع البيانات الفئوية"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      العمل مع البيانات الفئوية
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/crash-course/overfitting"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: مجموعات البيانات والتعاميم والتخصيص المفرط"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      مجموعات البيانات والتعاميم والتخصيص المفرط
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+          
+            
+              
+<li class="devsite-nav-item devsite-nav-heading">
+
+  
+  <span
+    
+       class="devsite-nav-title"
+       tooltip
+    
+    >
+  
+    <span class="devsite-nav-text" tooltip >
+      نماذج تعلُّم الآلة المتقدّمة
+   </span>
+    
+  
+  </span>
+  
+
+</li>
+
+            
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/crash-course/neural-networks"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: الشبكات العصبية"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      الشبكات العصبية
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/crash-course/embeddings"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: التضمينات"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      التضمينات
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/crash-course/llm"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: مقدمة حول النماذج اللغوية الكبيرة"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      مقدمة حول النماذج اللغوية الكبيرة
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+          
+            
+              
+<li class="devsite-nav-item devsite-nav-heading">
+
+  
+  <span
+    
+       class="devsite-nav-title"
+       tooltip
+    
+    >
+  
+    <span class="devsite-nav-text" tooltip >
+      استخدام الذكاء الاصطناعي في الحياة اليومية
+   </span>
+    
+  
+  </span>
+  
+
+</li>
+
+            
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/crash-course/production-ml-systems"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: أنظمة تعلُّم الآلة في مرحلة الإنتاج"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      أنظمة تعلُّم الآلة في مرحلة الإنتاج
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/crash-course/automl"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: تعلُّم الآلة المبرمَج"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      تعلُّم الآلة المبرمَج
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/crash-course/fairness"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: العدالة"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      العدالة
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+          
+        
+      </ul>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+      <ul class="devsite-nav-list" menu="مسرد المصطلحات"
+          aria-label="القائمة الجانبية" hidden>
+        
+          
+            
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/glossary"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: جميع المصطلحات"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      جميع المصطلحات
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/glossary/clustering"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: مجمّع"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      مجمّع
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/glossary/df"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: غابات القرارات"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      غابات القرارات
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/glossary/fundamentals"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: الأساسيات"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      الأساسيات
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/glossary/googlecloud"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: Google Cloud Platform"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      Google Cloud Platform
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/glossary/generative"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: الذكاء الاصطناعي التوليدي"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      الذكاء الاصطناعي التوليدي
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/glossary/metrics"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: المقاييس"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      المقاييس
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/glossary/responsible-ai"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: استخدام الذكاء الاصطناعي بشكل مسؤول"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      استخدام الذكاء الاصطناعي بشكل مسؤول
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+              
+<li class="devsite-nav-item">
+
+  
+  <a href="/machine-learning/glossary/tensorflow"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: TensorFlow"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      TensorFlow
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+            
+          
+        
+      </ul>
+    
+  
+        
+        
+          
+    
+  
+    
+  
+        
+      </div>
+    
+  </div>
+</nav>
+        
+      </devsite-book-nav>
+      <section id="gc-wrapper">
+        <main role="main" id="main-content" class="devsite-main-content"
+            
+              has-book-nav
+              has-sidebar
+            >
+          <div class="devsite-sidebar">
+            <div class="devsite-sidebar-content">
+                
+                <devsite-toc class="devsite-nav"
+                            role="navigation"
+                            aria-label="على هذه الصفحة"
+                            depth="2"
+                            scrollbars
+                  ></devsite-toc>
+                <devsite-recommendations-sidebar class="nocontent devsite-nav">
+                </devsite-recommendations-sidebar>
+            </div>
+          </div>
+          <devsite-content>
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+<article class="devsite-article"><style>
+      /* Styles inlined from /machine-learning/ml.css */
+/**
+ * Left navigation icons indicating the type of lesson.
+ * 
+ * 
+ */
+
+/**
+ * Default icon.
+ */
+ nav a.devsite-nav-title::before {
+  content: 'subject';
+  display: inline-block;
+  font-family: 'Material Icons';
+  font-size: 16px;
+  text-transform: none;
+  width: 21px;
+  min-width: 21px;
+  vertical-align: middle;
+} 
+
+nav a.devsite-nav-title > span {
+  vertical-align: middle;
+}
+
+/**
+ * Match programming-exercise or programming exercises.
+ */
+nav a.devsite-nav-title[href*='programming-exercise']::before {
+  content: 'code';
+}
+
+/**
+ * In Practica, use code icon for generic "exercise" page.
+ */
+nav a.devsite-nav-title[href*='/exercise']::before {
+  content: 'code';
+}
+
+/**
+ * Match playground-exercise, playground-exercises,
+ * interactive-exercise, and interactive-exercises.
+ */
+nav a.devsite-nav-title[href*='playground-exercise']::before,
+nav a.devsite-nav-title[href*='interactive-exercise']::before {
+  content: 'touch_app';
+}
+
+/**
+ * Match check-your-intuition, check-your-understanding,
+ * and test-your-knowledge.
+ */
+nav a.devsite-nav-title[href*='check-your-intuition']::before,
+nav a.devsite-nav-title[href*='check-your-understanding']::before,
+nav a.devsite-nav-title[href*='test-your-knowledge']::before {
+  content: 'check_circle';
+}
+
+/**
+ * Match video-lecture.
+ * Uses background image because the video icon is proprietary and can't be
+ *   included as font icon / content attribute.
+ */
+ nav a.devsite-nav-title[href*='video-lecture']::before {
+  background-image: url(images/video_icon.svg);
+  background-repeat: no-repeat;
+  background-size: 16px;
+  height: 16px;
+  content: '';
+}
+
+/* Estimated time callouts */
+aside.note.time::before {
+  content: 'schedule';
+}
+
+/* Prereqs callout */
+aside.caution.prereqs::before {
+  content: 'done_all';
+}
+
+/* Example callouts */
+aside.note.example::before {
+  content: 'event_note';
+}
+
+/* For left-aligning equations where appropriate */
+div.left-align div.MathJax_SVG_Display {
+  text-align: left !important;
+}
+
+/* SVG handling */
+.doc-svg-container svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+/* li elements containing exercise tables should be display: inline,
+   so whitespace is rendered properly */
+li.exercise-table {
+  display: inline;
+}
+
+/* Highlighting for table rows/cells */
+tr.highlight td,
+tr td.highlight,
+tr th.highlight {
+  background-color: #f7f7b0;
+}
+
+tr.highlight-bad td,
+tr td.highlight-bad,
+tr th.highlight-bad {
+  background-color: #f76868;
+}
+
+table.glossary {
+  border-width: 0;
+}
+
+td.glossary {
+  background-color: #fff;
+  color: #000;
+  visited: #9c9;
+}
+
+.learn-action-button,
+.learn-action-button:visited {
+  background-color: #06C;
+  background-image: none;
+  border: blue solid 1px;
+  color: white;
+  display: inline;
+  font-size: 15px;
+  padding: 5px;
+  text-decoration: none;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+  -webkit-border-radius: 2px;
+}
+
+.learn-action-button:hover {
+  background-color: rgb(38, 119, 202);
+  box-shadow: 0px 1px 5px #333;
+}
+
+/* Styling for instructor-led schedules */
+
+/* Module column text in bold */
+table.ml-il-agenda td:first-child {
+  font-weight: bold;
+}
+
+/* Styling for break rows */
+table.ml-il-agenda tr.break td {
+  background-color: #fbe5ce;
+}
+
+/* Styling for "total" (end of day) rows */
+table.ml-il-agenda tr.total td {
+  background-color: #b6b6b6;
+}
+
+/* Text styling for break and total rows */
+table.ml-il-agenda tr.break td.break,
+table.ml-il-agenda tr.total td.total,
+table.ml-il-agenda tr.total p.total {
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Partner Chat Styling */
+table.ml-il-agenda li.partner-chat {
+  color: brown;
+}
+
+table.ml-il-agenda li.playground {
+  color: green;
+}
+
+table.ml-il-agenda li.programming {
+  color: blue;
+}
+
+/**
+ * Styling for content blocks which consist of a colored header and a lightly-
+ * colored body.
+ */
+.content-block-header {
+  color: #fff;
+  font: 500 16px/24px Roboto,sans-serif;
+  height: 48px;
+  line-height: 48px;
+  padding: 0 8px;
+}
+
+.content-block-body {
+  background: rgba(255, 255, 255, 0.95);
+  color: #212121;
+  font: 14px/20px Roboto,sans-serif;
+  padding: 8px;
+}
+
+.content-block.cyan {
+  background: #00acc1;
+}
+
+.content-block.blue {
+  background: #3949ab;
+}
+
+.content-block.green {
+  background: #7cb342;
+}
+
+.expand-background {
+  background-color: rgb(232, 232, 232);
+  border-radius: 0 4px 4px 4px;
+  border-width: 0 1px 1px 1px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+  margin-left: 40px;
+  padding: 5px 5px 5px 9px;
+}
+
+/* Styles for Decision forests */
+
+.tfdf_snippet {
+  overflow-x: auto;
+  margin: 16px -40px;
+  padding: 20px 40px;
+  color: #654100;
+  background-color: #ffefd1;
+}
+
+.tfdf_snippet .tfdf_header {
+  font-weight: bold;
+  padding-bottom: 13px;
+}
+
+table.df-table {
+  /* The table do not take all the page width. */
+  width: auto;
+}
+
+/* Special handling for EdKit "Open in New tab" buttons */
+p.edkit-outlink-para {
+  text-align: right
+}
+
+
+      </style><style>
+      /* Styles inlined from /machine-learning/crash-course/mlcc.css */
+/* Styling for badge callouts on Test Your Knowledge pages */
+aside.badge {
+  padding-inline-start: 5px;
+  padding-inline-end: 5px;
+}
+
+aside.badge p {
+  font-size: large;
+}
+
+aside.badge::before {
+  content: '';
+}
+
+aside.badge img {
+  width: 150px;
+  float: left;
+  position: relative;
+  top: -30px;
+}
+
+aside.badge + * {
+  clear: both;
+}
+
+/* Styling for "Open Quiz" buttons on Test Your Knowledge pages,
+   and "Open Exercise" buttons on Programming exercise pages */
+.open_quiz,
+.open_exercise {
+  text-align: center;
+}
+
+.open_quiz button,
+.open_exercise button {
+  font-size: larger;
+}
+
+/* MLCC-specific nav customizations */
+
+/**
+ * Match "What's next" sections
+ */
+nav li a.devsite-nav-title[href*='whats_next']::before {
+  content: 'forward';
+}
+
+/**
+ * Match "Help Center" leftnav link
+ */
+nav li a.devsite-nav-title[href*='support.google.com']::before {
+  content: 'help_center';
+}
+
+.expand-background pre {
+  background-color: inherit;
+  color: inherit;
+}
+
+.expand-background th {
+  background-color: black;
+  color: white;
+}
+
+pre.mlcc-good {
+  background-color: #cdebdd;
+  color: #000;
+}
+
+pre.mlcc-bad {
+  background-color: #f7d2ce;
+  color: #000;
+}
+
+td.mlcc-bad {
+  background-color: #ff9999;
+}
+
+td.mlcc-good {
+  background-color: #99ff99;
+}
+
+/* Used for Dos and Don'ts bullets in MLCC Instructor Guide */
+span.do, span.dont {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+span.do { color: green }
+span.dont { color: red }
+
+      </style>
+  
+  
+  
+  
+  
+
+  <div class="devsite-article-meta nocontent" role="navigation">
+    
+    
+    <ul class="devsite-breadcrumb-list"
+  
+    aria-label="شريط التنقّل">
+  
+  <li class="devsite-breadcrumb-item
+             ">
+    
+    
+    
+      
+        
+  <a href="https://developers.google.com/?hl=ar"
+      
+        class="devsite-breadcrumb-link gc-analytics-event"
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Breadcrumbs"
+      
+        data-value="1"
+      
+        track-type="globalNav"
+      
+        track-name="breadcrumb"
+      
+        track-metadata-position="1"
+      
+        track-metadata-eventdetail=""
+      
+    >
+    
+          الصفحة الرئيسية
+        
+  </a>
+  
+      
+    
+  </li>
+  
+  <li class="devsite-breadcrumb-item
+             ">
+    
+      
+      <div class="devsite-breadcrumb-guillemet material-icons" aria-hidden="true"></div>
+    
+    
+    
+      
+        
+  <a href="https://developers.google.com/products?hl=ar"
+      
+        class="devsite-breadcrumb-link gc-analytics-event"
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Breadcrumbs"
+      
+        data-value="2"
+      
+        track-type="globalNav"
+      
+        track-name="breadcrumb"
+      
+        track-metadata-position="2"
+      
+        track-metadata-eventdetail=""
+      
+    >
+    
+          المنتجات
+        
+  </a>
+  
+      
+    
+  </li>
+  
+  <li class="devsite-breadcrumb-item
+             ">
+    
+      
+      <div class="devsite-breadcrumb-guillemet material-icons" aria-hidden="true"></div>
+    
+    
+    
+      
+        
+  <a href="https://developers.google.com/machine-learning?hl=ar"
+      
+        class="devsite-breadcrumb-link gc-analytics-event"
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Breadcrumbs"
+      
+        data-value="3"
+      
+        track-type="globalNav"
+      
+        track-name="breadcrumb"
+      
+        track-metadata-position="3"
+      
+        track-metadata-eventdetail="Machine Learning"
+      
+    >
+    
+          Machine Learning
+        
+  </a>
+  
+      
+    
+  </li>
+  
+  <li class="devsite-breadcrumb-item
+             ">
+    
+      
+      <div class="devsite-breadcrumb-guillemet material-icons" aria-hidden="true"></div>
+    
+    
+    
+      
+        
+  <a href="https://developers.google.com/machine-learning/crash-course?hl=ar"
+      
+        class="devsite-breadcrumb-link gc-analytics-event"
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Breadcrumbs"
+      
+        data-value="4"
+      
+        track-type="globalNav"
+      
+        track-name="breadcrumb"
+      
+        track-metadata-position="4"
+      
+        track-metadata-eventdetail=""
+      
+    >
+    
+          مفاهيم تعلُّم الآلة
+        
+  </a>
+  
+      
+    
+  </li>
+  
+  <li class="devsite-breadcrumb-item
+             ">
+    
+      
+      <div class="devsite-breadcrumb-guillemet material-icons" aria-hidden="true"></div>
+    
+    
+    
+      
+        
+  <a href="https://developers.google.com/machine-learning/crash-course/prereqs-and-prework?hl=ar"
+      
+        class="devsite-breadcrumb-link gc-analytics-event"
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Breadcrumbs"
+      
+        data-value="5"
+      
+        track-type="globalNav"
+      
+        track-name="breadcrumb"
+      
+        track-metadata-position="5"
+      
+        track-metadata-eventdetail=""
+      
+    >
+    
+          Crash Course
+        
+  </a>
+  
+      
+    
+  </li>
+  
+</ul>
+    
+      
+    <devsite-thumb-rating position="header">
+    </devsite-thumb-rating>
+  
+    
+  </div>
+  
+    <devsite-feedback
+  position="header"
+  project-name="Machine Learning"
+  product-id="5005867"
+  bucket=""
+  context=""
+  version="t-devsite-webserver-20260305-r00-rc00.475948574168942417"
+  data-label="Send Feedback Button"
+  track-type="feedback"
+  track-name="sendFeedbackLink"
+  track-metadata-position="header"
+  class="nocontent"
+  
+  
+  
+    project-icon="https://www.gstatic.com/devrel-devsite/prod/vb35dda8b324a978e97468c8ee7b4541809b385b1c2b0d92afb804c18373b74eb/developers/images/touchicon-180-new.png"
+  
+  
+  
+  >
+
+  <button>
+  
+    
+    إرسال ملاحظات
+  
+  </button>
+</devsite-feedback>
+  
+    <h1 class="devsite-page-title" tabindex="-1">
+      مقدمة عن النماذج اللغوية الكبيرة<devsite-actions hidden data-nosnippet><devsite-feature-tooltip
+      ack-key="AckCollectionsBookmarkTooltipDismiss"
+      analytics-category="Site-Wide Custom Events"
+      analytics-action-show="Callout Profile displayed"
+      analytics-action-close="Callout Profile dismissed"
+      analytics-label="Create Collection Callout"
+      class="devsite-page-bookmark-tooltip nocontent"
+      dismiss-button="true"
+      id="devsite-collections-dropdown"
+      
+      dismiss-button-text="إغلاق"
+
+      
+      close-button-text="حسنًا">
+
+    
+    
+      <devsite-bookmark></devsite-bookmark>
+    
+
+    <span slot="popout-heading">
+      
+      تنظيم صفحاتك في مجموعات
+    </span>
+    <span slot="popout-contents">
+      
+      يمكنك حفظ المحتوى وتصنيفه حسب إعداداتك المفضّلة.
+    </span>
+  </devsite-feature-tooltip>
+    <devsite-llm-tools></devsite-llm-tools></devsite-actions>
+  
+      
+    </h1>
+  <div class="devsite-page-title-meta"><devsite-view-release-notes></devsite-view-release-notes></div>
+  
+
+  <devsite-toc class="devsite-nav"
+    depth="2"
+    devsite-toc-embedded
+    >
+  </devsite-toc>
+  <div class="devsite-article-body clearfix
+  ">
+
+  
+    
+    
+    
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<devsite-mathjax config="TeX-AMS-MML_SVG"></devsite-mathjax>
+<devsite-engedu-telemetry program="ML_EDU"></devsite-engedu-telemetry></p>
+
+
+
+<aside class="note time"><strong>المدة المقدرة للوحدة:</strong> 45 دقيقة</aside>
+
+<aside class="objective"><b>أهداف التعلّم</b>
+<ul>
+  <li>تحديد بعض الأنواع المختلفة من النماذج اللغوية ومكوناتها</li>
+  <li>شرح كيفية إنشاء النماذج اللغوية الكبيرة وأهمية السياق والمَعلمات</li>
+  <li>تحديد كيفية استفادة النماذج اللغوية الكبيرة من ميزة "الاهتمام الذاتي"</li>
+  <li>توضيح ثلاث مشاكل رئيسية في النماذج اللغوية الكبيرة</li>
+  <li>شرح كيف يمكن أن يؤدي الضبط الدقيق والتقطير إلى تحسين دقة التوقعات وكفاءة النموذج</li>
+</ul>
+</aside>
+
+<aside class="caution prereqs"><b>المتطلّبات الأساسية:</b>
+  <p>نفترض في هذه الوحدة معرفتك بالمبادئ التي تناولتها الوحدات التالية:</p>
+  <ul>
+    <li><a href="https://developers.google.com/machine-learning/intro-to-ml?hl=ar">مقدّمة عن تعلُّم الآلة</a></li>
+    <li><a href="https://developers.google.com/machine-learning/crash-course/linear-regression?hl=ar">الانحدار الخطّي</a></li>
+    <li><a href="https://developers.google.com/machine-learning/crash-course/categorical-data?hl=ar">استخدام البيانات الفئوية</a></li>
+    <li><a href="https://developers.google.com/machine-learning/crash-course/overfitting?hl=ar">مجموعات البيانات والتعميم والتطابق الزائد</a></li>
+    <li><a href="https://developers.google.com/machine-learning/crash-course/neural-networks?hl=ar">الشبكات العصبونية</a></li>
+    <li><a href="https://developers.google.com/machine-learning/crash-course/embeddings?hl=ar">عمليات التضمين</a></li>
+  </ul>
+</aside>
+
+<h2 data-text="ما هو نموذج اللغة؟" id="what_is_a_language_model" tabindex="-1">ما هو نموذج اللغة؟</h2>
+
+<p><a href="https://developers.google.com/machine-learning/glossary?hl=ar#language-model"><strong>النموذج اللغوي</strong></a>
+يقدّر احتمالية ظهور <a href="https://developers.google.com/machine-learning/glossary?hl=ar#token"><strong>رمز مميّز</strong></a>
+أو تسلسل من الرموز المميّزة ضمن تسلسل أطول من الرموز المميّزة. يمكن أن يكون الرمز المميّز كلمة أو كلمة فرعية (مجموعة فرعية من كلمة) أو حتى حرفًا واحدًا.</p>
+
+<section class="expandable">
+
+<h4 class="showalways" data-text=" انقر على الرمز لمعرفة المزيد حول الرموز المميزة. " id="click-the-icon-to-learn-more-about-tokens." tabindex="-1">
+انقر على الرمز لمعرفة المزيد حول الرموز المميزة.
+</h4>
+
+<div class="expand-background">
+<p>تستخدم معظم النماذج اللغوية الحديثة التقطيع إلى رموز مميزة حسب الكلمات الفرعية، أي حسب أجزاء من النص تتضمّن معنى دلاليًا. قد يختلف طول الأجزاء من أحرف مفردة، مثل علامات الترقيم أو حرف <i>s</i> الدال على الملكية، إلى كلمات كاملة.
+قد يتم تمثيل البادئات واللاحقات ككلمات فرعية منفصلة.
+على سبيل المثال، يمكن تمثيل الكلمة <i>لم تتم مشاهدته</i> باستخدام الكلمات الفرعية الثلاث التالية:</p>
+
+<ul>
+<li>un (البادئة)</li>
+<li>مشاهدة (الجذر)</li>
+<li>ed (اللاحقة)</li>
+</ul>
+
+<p>قد يتم تمثيل الكلمة <i>قطط</i> بالكلمتين الفرعيتين التاليتين:</p>
+
+<ul>
+<li>cat (الجذر)</li>
+<li>s (اللاحقة)</li>
+</ul>
+
+<p>قد يتم تمثيل كلمة أكثر تعقيدًا مثل "antidisestablishmentarianism" على شكل ست كلمات فرعية:</p>
+
+<ul>
+<li>anti</li>
+<li>dis</li>
+<li>تحديد</li>
+<li>ment</li>
+<li>آري</li>
+<li>ism</li>
+</ul>
+
+<p>تختلف عملية تقسيم النص إلى رموز مميزة باختلاف اللغة، وبالتالي يختلف عدد الأحرف لكل رمز مميز باختلاف اللغة. في اللغة الإنجليزية، يتوافق الرمز المميز الواحد مع 4 أحرف تقريبًا
+أو حوالي 3/4 من الكلمة، لذا فإنّ 400 رمز مميز ~= 300 كلمة إنجليزية.</p>
+
+<p>الرموز المميزة هي الوحدة الأساسية أو أصغر وحدة في نماذج اللغة.</p>
+
+<p>يتم الآن أيضًا تطبيق الرموز المميزة بنجاح على
+<a href="https://ai.googleblog.com/2023/03/scaling-vision-transformers-to-22.html">
+الرؤية الآلية</a> و
+<a href="https://ai.googleblog.com/2022/10/audiolm-language-modeling-approach-to.html">
+إنشاء الصوت</a>.
+</p>
+
+</div>
+
+</section>
+
+<p>ضَع في اعتبارك الجملة التالية والرموز المميزة التي قد تكملها:</p>
+
+<div></div><devsite-code><pre translate="no" dir="ltr" is-upgraded>
+When I hear rain on my roof, I _______ in my kitchen.
+</pre></devsite-code>
+
+<p>يحدّد النموذج اللغوي احتمالات الرموز المميزة المختلفة أو تسلسلات الرموز المميزة لإكمال الفراغ. على سبيل المثال، يحدّد جدول الاحتمالات التالي بعض الرموز المميزة المحتملة واحتمالاتها:</p>
+
+<table width="50%">
+  <tbody><tr> <th>الاحتمالية</th> <th>الرموز المميزة</th> </tr>
+  <tr> <td>9.4%</td> <td>طهي الحساء</td> </tr>
+  <tr> <td>‫5.2%</td> <td>تسخين غلّاية</td> </tr>
+  <tr> <td>‫3.6%</td> <td>يختبئ</td> </tr>
+  <tr> <td>2.5%</td> <td>قيلولة</td> </tr>
+  <tr> <td>‫2.2%</td> <td>استرخاء</td> </tr>
+</tbody></table>
+
+<p>في بعض الحالات، يمكن أن يكون تسلسل الرموز المميزة جملة كاملة أو فقرة أو حتى مقالة كاملة.</p>
+
+<p>يمكن لأي تطبيق استخدام جدول الاحتمالات لوضع التوقعات.
+قد يكون التوقّع هو الاحتمال الأرجح (على سبيل المثال، "طبخ الحساء")
+أو اختيار عشوائي من الرموز المميزة التي يزيد احتمالها عن حدّ معيّن.</p>
+
+<p>يمكن توسيع نطاق تقدير احتمال ملء الفراغ في تسلسل نصي ليشمل مهامًا أكثر تعقيدًا، بما في ذلك:</p>
+
+<ul>
+<li>جارٍ إنشاء النص</li>
+<li>لترجمة نص من لغة إلى أخرى</li>
+<li>تلخيص المستندات</li>
+</ul>
+
+<p>من خلال وضع نماذج للأنماط الإحصائية للرموز المميزة، تطوّر النماذج اللغوية الحديثة تمثيلات داخلية قوية للغاية للغة، ويمكنها إنشاء لغة معقولة.</p>
+
+<h3 data-text="نماذج لغوية تستند إلى وحدات N-gram" id="n-gram_language_models" tabindex="-1">نماذج لغوية تستند إلى وحدات N-gram</h3>
+
+<p><a href="https://developers.google.com/machine-learning/glossary?hl=ar#n-gram"><strong>النماذج النونية</strong></a> هي تسلسلات مرتبة من الكلمات
+تُستخدم لإنشاء نماذج لغوية، حيث يمثل الحرف N عدد الكلمات في التسلسل.
+على سبيل المثال، عندما تكون قيمة N هي 2، يُطلق على N-gram اسم <strong>2-gram</strong> (أو <a href="https://developers.google.com/machine-learning/glossary?hl=ar#bigram"><strong>bigram</strong></a>)، وعندما تكون قيمة N هي 5، يُطلق على N-gram اسم 5-gram. في ما يلي عبارة في مستند تدريبي:</p>
+
+<div></div><devsite-code><pre translate="no" dir="ltr" is-upgraded>
+you are very nice
+</pre></devsite-code>
+
+<p>في ما يلي ثنائيات الحروف الناتجة:</p>
+
+<ul>
+<li>أنت</li>
+<li>مهمة جدًا</li>
+<li>جميل جدًا!</li>
+</ul>
+
+<p>عندما تكون قيمة N هي 3، يُطلق على N-gram اسم <strong>3-gram</strong> (أو <a href="https://developers.google.com/machine-learning/glossary?hl=ar#trigram"><strong>trigram</strong></a>). بالنظر إلى العبارة نفسها، تكون
+العبارات الثلاثية الناتجة كما يلي:</p>
+
+<ul>
+<li>أنت</li>
+<li>لطيف جدًا</li>
+</ul>
+
+<p>عند إدخال كلمتَين، يمكن لنموذج لغة يستند إلى ثلاثيات الألفاظ أن يتوقّع احتمالية ظهور الكلمة الثالثة. على سبيل المثال، إذا كان لديك الكلمتان التاليتان:</p>
+
+<div></div><devsite-code><pre translate="no" dir="ltr" is-upgraded>
+orange is
+</pre></devsite-code>
+
+<p>يفحص نموذج اللغة كل الأجزاء الثلاثية المختلفة المستمدّة من مجموعة النصوص التدريبية التي تبدأ بـ <code dir="ltr" translate="no">orange is</code> لتحديد الكلمة الثالثة الأكثر احتمالاً.
+يمكن أن تبدأ مئات من ثلاثيات الحروف بالكلمتين <code dir="ltr" translate="no">orange is</code>، ولكن يمكنك التركيز فقط على الاحتمالين التاليين:</p>
+
+<div></div><devsite-code><pre translate="no" dir="ltr" is-upgraded>
+orange is ripe
+orange is cheerful
+</pre></devsite-code>
+
+<p>الاحتمال الأول (<code dir="ltr" translate="no">orange is ripe</code>) يتعلّق بفاكهة البرتقال،
+بينما الاحتمال الثاني (<code dir="ltr" translate="no">orange is cheerful</code>) يتعلّق بلون
+البرتقال.</p>
+
+<h2 data-text="السياق" id="context" tabindex="-1">السياق</h2>
+
+<p>يمكن للبشر الاحتفاظ بسياقات طويلة نسبيًا. أثناء مشاهدة الفصل الثالث من مسرحية، تحتفظ بمعلومات حول الشخصيات التي تم تقديمها في الفصل الأول. وبالمثل، فإنّ
+الجملة الأخيرة من نكتة طويلة تجعلك تضحك لأنّك تتذكّر السياق
+من مقدّمة النكتة.</p>
+
+<p>في نماذج اللغة، يشير <strong>السياق</strong> إلى المعلومات المفيدة التي تسبق الرمز المميز المستهدف أو تليه. يمكن أن يساعد السياق نموذج اللغة في تحديد ما إذا كانت كلمة "برتقالي" تشير إلى فاكهة حمضية أو إلى لون.</p>
+
+<p>يمكن أن يساعد السياق نموذج اللغة في تقديم توقّعات أفضل، ولكن هل يمكن أن يوفّر نموذج ثلاثي الألفاظ سياقًا كافيًا؟ للأسف، السياق الوحيد الذي توفّره ثلاثية الحروف هو الكلمتان الأوليان. على سبيل المثال، لا توفّر الكلمتان <code dir="ltr" translate="no">orange is</code> سياقًا كافيًا ليتوقّع نموذج اللغة الكلمة الثالثة.
+بسبب نقص السياق، ترتكب النماذج اللغوية المستندة إلى 3-grams الكثير من الأخطاء.</p>
+
+<p>من المؤكّد أنّ N-grams الأطول تقدّم سياقًا أكثر من N-grams الأقصر.
+ومع ذلك، كلما زاد عدد N، قلّت نسبة تكرار كل مثيل.
+عندما يصبح N كبيرًا جدًا، لا يحتوي النموذج اللغوي عادةً إلا على مثيل واحد لكل تكرار لـ N من الرموز المميزة، وهو ما لا يساعد كثيرًا في توقّع الرمز المميز المستهدف.</p>
+
+<h3 data-text="الشبكات العصبونية المتكرّرة" id="recurrent_neural_networks" tabindex="-1">الشبكات العصبونية المتكرّرة</h3>
+
+<p><a href="https://developers.google.com/machine-learning/glossary?hl=ar#recurrent-neural-network"><strong>الشبكات العصبية المتكررة</strong></a>
+توفّر سياقًا أكثر من نماذج N-gram. الشبكة العصبونية المتكرّرة هي نوع من
+<a href="https://developers.google.com/machine-learning/glossary?hl=ar#neural-network"><strong>الشبكات العصبونية</strong></a> التي يتم تدريبها على
+سلسلة من الرموز المميزة. على سبيل المثال، يمكن لشبكة عصبونية متكرّرة أن تتعلّم <em>تدريجيًا</em> (وأن تتجاهل) سياقًا محدّدًا من كل كلمة في جملة، تمامًا كما تفعل أنت عندما تستمع إلى شخص يتحدّث.
+يمكن لشبكة عصبية متكررة كبيرة أن تستخلص السياق من فقرة مؤلفة من عدة جمل.</p>
+
+<p>على الرغم من أنّ الشبكات العصبونية المتكرّرة تتعرّف على سياق أكبر من N-grams، إلا أنّ مقدار السياق المفيد الذي يمكن أن تستنتجه الشبكات العصبونية المتكرّرة لا يزال محدودًا نسبيًا. تقيِّم الشبكات العصبية المتكرّرة المعلومات "رمزًا مميزًا تلو الآخر".
+في المقابل، يمكن للنماذج اللغوية الكبيرة، وهي موضوع القسم التالي، تقييم السياق بأكمله في وقت واحد.</p>
+
+<p>يُرجى العِلم أنّ تدريب الشبكات العصبونية المتكرّرة على سياقات طويلة يواجه قيودًا بسبب <a href="https://developers.google.com/machine-learning/glossary?hl=ar#vanishing-gradient-problem"><strong>مشكلة تضاؤل التدرّج</strong></a>.</p>
+
+<h2 data-text="تمرين: التحقّق من فهمك" id="exercise_check_your_understanding" tabindex="-1">تمرين: التحقّق من فهمك</h2>
+
+
+<div>
+  <devsite-multiple-choice>
+    <div>أيّ نموذج لغوي يقدّم توقّعات أفضل للنص الإنجليزي؟
+         <ul>
+           <li>نموذج لغوي يستند إلى 6 أحرف</li>
+           <li>نموذج لغوي مستند إلى 5 غرامات</li>
+         </ul></div>
+    <div correct="">
+      <div>تعتمد الإجابة على حجم مجموعة التدريب وتنوّعها.</div>
+      <div>إذا كانت مجموعة التدريب تتضمّن ملايين المستندات المتنوعة، من المرجّح أن يتفوّق النموذج المستند إلى 6-grams على النموذج المستند إلى 5-grams.</div>
+    </div>
+    <div>
+      <div>نموذج اللغة المستند إلى 6-grams</div>
+      <div>يحتوي هذا النموذج اللغوي على المزيد من السياق، ولكن ما لم يتم تدريب هذا النموذج على الكثير من المستندات، سيكون معظم السداسيات نادرة.</div>
+    </div>
+    <div>
+      <div>نموذج اللغة المستند إلى 5-grams</div>
+      <div>يحتوي نموذج اللغة هذا على سياق أقل، لذا من غير المرجّح أن يتفوّق على نموذج اللغة المستند إلى 6-grams.</div>
+    </div>
+  </devsite-multiple-choice>
+</div>
+
+
+<aside class="key-term"><b>المصطلحات الرئيسية:</b>
+  <ul>
+    <li><a href="https://developers.google.com/machine-learning/glossary?hl=ar#bigram">Bigram</a></li>
+    <li><a href="https://developers.google.com/machine-learning/glossary?hl=ar#language-model">النموذج اللغوي</a></li>
+    <li><a href="https://developers.google.com/machine-learning/glossary?hl=ar#n-gram">N-gram</a></li>
+    <li><a href="https://developers.google.com/machine-learning/glossary?hl=ar#neural-network">الشبكة العصبونية</a></li>
+    <li><a href="https://developers.google.com/machine-learning/glossary?hl=ar#recurrent-neural-network">الشبكة العصبونية المتكرّرة</a></li>
+    <li><a href="https://developers.google.com/machine-learning/glossary?hl=ar#token">الرمز المميّز</a></li>
+    <li><a href="https://developers.google.com/machine-learning/glossary?hl=ar#trigram">Trigram</a></li>
+    <li><a href="https://developers.google.com/machine-learning/glossary?hl=ar#vanishing-gradient-problem">مشكلة التدرّج المتلاشي</a></li>
+  </ul>
+</aside>
+
+
+
+
+
+<div style="text-align: center; padding-top: 20px;">
+  <a class="button button-primary" href="https://support.google.com/machinelearningeducation?hl=ar">مركز المساعدة</a>
+</div>
+
+
+
+  
+  
+
+  
+</div>
+    <div class="devsite-steps">
+  
+  <div class="steps-previous steps-direction">
+    <a href="https://developers.google.com/machine-learning/crash-course/embeddings/test-your-knowledge?hl=ar"
+       class="steps-link gc-analytics-event"
+       data-category="Site-Wide Custom Events"
+       data-action="Previous step"
+       data-label="/machine-learning/crash-course/embeddings/test-your-knowledge">
+      
+      <div class="steps-link-direction">السابق</div>
+      <span class="steps-link-arrow steps-link-arrow-left material-icons" aria-hidden="true">
+        arrow_back
+      </span>
+      <span class="steps-link-title-previous steps-link-title">
+        اختبار معلوماتك (10 دقائق)
+      </span>
+    </a>
+  </div>
+  
+  
+  <div class="steps-next steps-direction">
+    <a href="https://developers.google.com/machine-learning/crash-course/llm/transformers?hl=ar"
+       class="steps-link gc-analytics-event"
+       data-category="Site-Wide Custom Events"
+       data-action="Next step"
+       data-label="/machine-learning/crash-course/llm/transformers">
+      
+      <div class="steps-link-direction">التالي</div>
+      <span class="steps-link-title-next steps-link-title">
+        ما هو النموذج اللغوي الكبير؟ (15 دقيقة)
+      </span>
+      <span class="steps-link-arrow steps-link-arrow-right material-icons" aria-hidden="true">
+        arrow_forward
+      </span>
+    </a>
+  </div>
+  
+</div>
+  
+
+  
+    
+      <devsite-recommendations display="in-page" hidden yield>
+      </devsite-recommendations>
+    
+    
+      
+    <devsite-thumb-rating position="footer">
+    </devsite-thumb-rating>
+  
+       
+         <devsite-feedback
+  position="footer"
+  project-name="Machine Learning"
+  product-id="5005867"
+  bucket=""
+  context=""
+  version="t-devsite-webserver-20260305-r00-rc00.475948574168942417"
+  data-label="Send Feedback Button"
+  track-type="feedback"
+  track-name="sendFeedbackLink"
+  track-metadata-position="footer"
+  class="nocontent"
+  
+  
+  
+    project-icon="https://www.gstatic.com/devrel-devsite/prod/vb35dda8b324a978e97468c8ee7b4541809b385b1c2b0d92afb804c18373b74eb/developers/images/touchicon-180-new.png"
+  
+  
+  
+  >
+
+  <button>
+  
+    
+    إرسال ملاحظات
+  
+  </button>
+</devsite-feedback>
+       
+    
+    
+      <devsite-recommendations id="recommendations-link" yield></devsite-recommendations>
+    
+  
+
+  <div class="devsite-floating-action-buttons"></div></article>
+
+
+<devsite-content-footer class="nocontent">
+  <p>إنّ محتوى هذه الصفحة مرخّص بموجب <a href="https://creativecommons.org/licenses/by/4.0/">ترخيص Creative Commons Attribution 4.0‏</a> ما لم يُنصّ على خلاف ذلك، ونماذج الرموز مرخّصة بموجب <a href="https://www.apache.org/licenses/LICENSE-2.0">ترخيص Apache 2.0‏</a>. للاطّلاع على التفاصيل، يُرجى مراجعة <a href="https://developers.google.com/site-policies?hl=ar">سياسات موقع Google Developers‏</a>. إنّ Java هي علامة تجارية مسجَّلة لشركة Oracle و/أو شركائها التابعين.</p>
+  <p>تاريخ التعديل الأخير: 2026-01-09 (حسب التوقيت العالمي المتفَّق عليه)</p>
+</devsite-content-footer>
+
+
+<devsite-notification
+>
+</devsite-notification>
+
+
+  
+<div class="devsite-content-data">
+  
+    
+    
+    <template class="devsite-thumb-rating-feedback">
+      <devsite-feedback
+  position="thumb-rating"
+  project-name="Machine Learning"
+  product-id="5005867"
+  bucket=""
+  context=""
+  version="t-devsite-webserver-20260305-r00-rc00.475948574168942417"
+  data-label="Send Feedback Button"
+  track-type="feedback"
+  track-name="sendFeedbackLink"
+  track-metadata-position="thumb-rating"
+  class="nocontent"
+  
+  
+  
+    project-icon="https://www.gstatic.com/devrel-devsite/prod/vb35dda8b324a978e97468c8ee7b4541809b385b1c2b0d92afb804c18373b74eb/developers/images/touchicon-180-new.png"
+  
+  
+  
+  >
+
+  <button>
+  
+    هل تريد مشاركة ملاحظاتك معنا؟
+  
+  </button>
+</devsite-feedback>
+    </template>
+  
+  
+    <template class="devsite-content-data-template">
+      [[["يسهُل فهم المحتوى.","easyToUnderstand","thumb-up"],["ساعَدني المحتوى في حلّ مشكلتي.","solvedMyProblem","thumb-up"],["غير ذلك","otherUp","thumb-up"]],[["لا يحتوي على المعلومات التي أحتاج إليها.","missingTheInformationINeed","thumb-down"],["الخطوات معقدة للغاية / كثيرة جدًا.","tooComplicatedTooManySteps","thumb-down"],["المحتوى قديم.","outOfDate","thumb-down"],["ثمة مشكلة في الترجمة.","translationIssue","thumb-down"],["مشكلة في العيّنات / التعليمات البرمجية","samplesCodeIssue","thumb-down"],["غير ذلك","otherDown","thumb-down"]],["تاريخ التعديل الأخير: 2026-01-09 (حسب التوقيت العالمي المتفَّق عليه)"],[],[]]
+    </template>
+  
+</div>
+            
+          </devsite-content>
+        </main>
+        <devsite-footer-promos class="devsite-footer">
+          
+            
+          
+        </devsite-footer-promos>
+        <devsite-footer-linkboxes class="devsite-footer">
+          
+            
+<nav class="devsite-footer-linkboxes nocontent" aria-label="روابط التذييل">
+  
+  <ul class="devsite-footer-linkboxes-list">
+    
+    <li class="devsite-footer-linkbox ">
+    <h3 class="devsite-footer-linkbox-heading no-link">التواصل</h3>
+      <ul class="devsite-footer-linkbox-list">
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="//googledevelopers.blogspot.com"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 1)"
+            >
+            
+          
+            المدوّنة
+          
+          </a>
+          
+          
+        </li>
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="https://goo.gle/3FReQXN"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 2)"
+            >
+            
+          
+            Bluesky
+          
+          </a>
+          
+          
+        </li>
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="https://www.instagram.com/googlefordevs/"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 3)"
+            >
+            
+          
+            Instagram
+          
+          </a>
+          
+          
+        </li>
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="https://www.linkedin.com/showcase/googledevelopers/"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 4)"
+            >
+            
+          
+            LinkedIn
+          
+          </a>
+          
+          
+        </li>
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="//twitter.com/googledevs"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 5)"
+            >
+            
+          
+            ‫X ‏(Twitter سابقًا)
+          
+          </a>
+          
+          
+        </li>
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="//www.youtube.com/user/GoogleDevelopers"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 6)"
+            >
+            
+              
+              
+            
+          
+            YouTube
+          
+          </a>
+          
+          
+        </li>
+        
+      </ul>
+    </li>
+    
+    <li class="devsite-footer-linkbox ">
+    <h3 class="devsite-footer-linkbox-heading no-link">البرامج</h3>
+      <ul class="devsite-footer-linkbox-list">
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="/program"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 1)"
+            >
+            
+          
+            Google Developer Program
+          
+          </a>
+          
+          
+        </li>
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="/community"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 2)"
+            >
+            
+          
+            Google Developer Groups
+          
+          </a>
+          
+          
+        </li>
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="/community/experts"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 3)"
+            >
+            
+          
+            Google Developer Experts
+          
+          </a>
+          
+          
+        </li>
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="/community/accelerators"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 4)"
+            >
+            
+          
+            Accelerators
+          
+          </a>
+          
+          
+        </li>
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="/community/nvidia"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 5)"
+            >
+            
+              
+              
+            
+          
+            Google Cloud & NVIDIA
+          
+          </a>
+          
+          
+        </li>
+        
+      </ul>
+    </li>
+    
+    <li class="devsite-footer-linkbox ">
+    <h3 class="devsite-footer-linkbox-heading no-link">وحدات تحكّم المطوّرين</h3>
+      <ul class="devsite-footer-linkbox-list">
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="//console.developers.google.com"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 1)"
+            >
+            
+          
+            Google API Console
+          
+          </a>
+          
+          
+        </li>
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="//console.cloud.google.com"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 2)"
+            >
+            
+          
+            Google Cloud Platform Console
+          
+          </a>
+          
+          
+        </li>
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="//play.google.com/apps/publish"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 3)"
+            >
+            
+          
+            Google Play Console
+          
+          </a>
+          
+          
+        </li>
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="//console.firebase.google.com"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 4)"
+            >
+            
+          
+            Firebase Console
+          
+          </a>
+          
+          
+        </li>
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="//console.actions.google.com"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 5)"
+            >
+            
+          
+            Actions on Google Console
+          
+          </a>
+          
+          
+        </li>
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="//cast.google.com/publish"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 6)"
+            >
+            
+          
+            Cast SDK Developer Console
+          
+          </a>
+          
+          
+        </li>
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="//chrome.google.com/webstore/developer/dashboard"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 7)"
+            >
+            
+          
+            Chrome Web Store Dashboard
+          
+          </a>
+          
+          
+        </li>
+        
+        <li class="devsite-footer-linkbox-item">
+          
+          <a href="//console.home.google.com"
+             class="devsite-footer-linkbox-link gc-analytics-event"
+             data-category="Site-Wide Custom Events"
+            
+             data-label="Footer Link (index 8)"
+            >
+            
+              
+              
+            
+          
+            Google Home Developer Console
+          
+          </a>
+          
+          
+        </li>
+        
+      </ul>
+    </li>
+    
+  </ul>
+  
+</nav>
+          
+        </devsite-footer-linkboxes>
+        <devsite-footer-utility class="devsite-footer">
+          
+            
+
+<div class="devsite-footer-utility nocontent">
+  
+  
+  <nav class="devsite-footer-sites" aria-label="مواقع Google Developers الإلكترونية الأخرى">
+    <a href="https://developers.google.com/?hl=ar"
+       class="devsite-footer-sites-logo-link gc-analytics-event"
+       data-category="Site-Wide Custom Events"
+       data-label="Footer Google Developers Link">
+      <picture>
+        
+        <img class="devsite-footer-sites-logo"
+             src="https://www.gstatic.com/devrel-devsite/prod/vb35dda8b324a978e97468c8ee7b4541809b385b1c2b0d92afb804c18373b74eb/developers/images/lockup-google-for-developers.svg"
+             loading="lazy"
+             alt="Google Developers">
+      </picture>
+    </a>
+    <ul class="devsite-footer-sites-list">
+      
+      <li class="devsite-footer-sites-item">
+        <a href="//developer.android.com?hl=ar"
+           class="devsite-footer-sites-link
+                  gc-analytics-event"
+           data-category="Site-Wide Custom Events"
+         
+           data-label="Footer Android Link"
+         
+         >
+          Android
+        </a>
+      </li>
+      
+      <li class="devsite-footer-sites-item">
+        <a href="//developer.chrome.com/home?hl=ar"
+           class="devsite-footer-sites-link
+                  gc-analytics-event"
+           data-category="Site-Wide Custom Events"
+         
+           data-label="Footer Chrome Link"
+         
+         >
+          Chrome
+        </a>
+      </li>
+      
+      <li class="devsite-footer-sites-item">
+        <a href="//firebase.google.com?hl=ar"
+           class="devsite-footer-sites-link
+                  gc-analytics-event"
+           data-category="Site-Wide Custom Events"
+         
+           data-label="Footer Firebase Link"
+         
+         >
+          Firebase
+        </a>
+      </li>
+      
+      <li class="devsite-footer-sites-item">
+        <a href="//cloud.google.com?hl=ar"
+           class="devsite-footer-sites-link
+                  gc-analytics-event"
+           data-category="Site-Wide Custom Events"
+         
+           data-label="Footer Google Cloud Platform Link"
+         
+         >
+          Google Cloud Platform
+        </a>
+      </li>
+      
+      <li class="devsite-footer-sites-item">
+        <a href="//ai.google.dev/?hl=ar"
+           class="devsite-footer-sites-link
+                  gc-analytics-event"
+           data-category="Site-Wide Custom Events"
+         
+           data-label="Footer Google AI Link"
+         
+         >
+          Google AI
+        </a>
+      </li>
+      
+      <li class="devsite-footer-sites-item">
+        <a href="https://developers.google.com/products?hl=ar"
+           class="devsite-footer-sites-link
+                  gc-analytics-event"
+           data-category="Site-Wide Custom Events"
+         
+           data-label="Footer All products Link"
+         
+         >
+          كلّ المنتجات
+        </a>
+      </li>
+      
+    </ul>
+  </nav>
+  
+
+  
+  <nav class="devsite-footer-utility-links" aria-label="روابط برامج الخدمات">
+    
+    <ul class="devsite-footer-utility-list">
+      
+      <li class="devsite-footer-utility-item
+                 ">
+        
+        
+        <a class="devsite-footer-utility-link gc-analytics-event"
+           href="https://developers.google.com/terms/site-terms?hl=ar"
+           data-category="Site-Wide Custom Events"
+           data-label="Footer Terms link"
+         >
+          البنود
+        </a>
+        
+      </li>
+      
+      <li class="devsite-footer-utility-item
+                 ">
+        
+        
+        <a class="devsite-footer-utility-link gc-analytics-event"
+           href="//policies.google.com/privacy?hl=ar"
+           data-category="Site-Wide Custom Events"
+           data-label="Footer Privacy link"
+         >
+          الخصوصية
+        </a>
+        
+      </li>
+      
+      <li class="devsite-footer-utility-item
+                 glue-cookie-notification-bar-control">
+        
+        
+        <a class="devsite-footer-utility-link gc-analytics-event"
+           href="#"
+           data-category="Site-Wide Custom Events"
+           data-label="Footer Manage cookies link"
+         
+           aria-hidden="true"
+         >
+          Manage cookies
+        </a>
+        
+      </li>
+      
+    </ul>
+    
+    
+<devsite-language-selector>
+  <ul role="presentation">
+    
+    
+    <li role="presentation">
+      <a role="menuitem" lang="en"
+        >English</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="de"
+        >Deutsch</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="es"
+        >Español</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="es_419"
+        >Español – América Latina</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="fr"
+        >Français</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="id"
+        >Indonesia</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="it"
+        >Italiano</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="pl"
+        >Polski</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="pt_br"
+        >Português – Brasil</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="vi"
+        >Tiếng Việt</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="tr"
+        >Türkçe</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="ru"
+        >Русский</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="uk"
+        >Українська</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="he"
+        >עברית</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="ar"
+        >العربيّة</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="fa"
+        >فارسی</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="hi"
+        >हिंदी</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="bn"
+        >বাংলা</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="th"
+        >ภาษาไทย</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="zh_cn"
+        >中文 – 简体</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="zh_tw"
+        >中文 – 繁體</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="ja"
+        >日本語</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="ko"
+        >한국어</a>
+    </li>
+    
+  </ul>
+</devsite-language-selector>
+
+  </nav>
+</div>
+          
+        </devsite-footer-utility>
+        <devsite-panel>
+          
+        </devsite-panel>
+        
+          <devsite-concierge
+  
+  
+    data-info-panel
+  
+  
+    data-ai-panel
+  
+  
+  
+  
+    data-api-explorer-panel
+  >
+</devsite-concierge>
+        
+      </section></section>
+    <devsite-sitemask></devsite-sitemask>
+    <devsite-snackbar></devsite-snackbar>
+    <devsite-tooltip ></devsite-tooltip>
+    <devsite-heading-link></devsite-heading-link>
+    <devsite-analytics>
+      
+        <script type="application/json" analytics>[{&#34;dimensions&#34;: {&#34;dimension4&#34;: &#34;Machine Learning&#34;, &#34;dimension5&#34;: &#34;ar&#34;, &#34;dimension3&#34;: false, &#34;dimension1&#34;: &#34;Signed out&#34;, &#34;dimension6&#34;: &#34;ar&#34;, &#34;dimension11&#34;: true}, &#34;gaid&#34;: &#34;UA-24532603-1&#34;, &#34;metrics&#34;: {&#34;ratings_value&#34;: &#34;metric1&#34;, &#34;ratings_count&#34;: &#34;metric2&#34;}, &#34;purpose&#34;: 1}, {&#34;dimensions&#34;: {&#34;dimension4&#34;: &#34;Machine Learning&#34;, &#34;dimension5&#34;: &#34;ar&#34;, &#34;dimension3&#34;: false, &#34;dimension1&#34;: &#34;Signed out&#34;, &#34;dimension6&#34;: &#34;ar&#34;, &#34;dimension11&#34;: true}, &#34;gaid&#34;: &#34;UA-76465953-5&#34;, &#34;metrics&#34;: {&#34;ratings_value&#34;: &#34;metric1&#34;, &#34;ratings_count&#34;: &#34;metric2&#34;}, &#34;purpose&#34;: 0}]</script>
+<script type="application/json" tag-management>{&#34;at&#34;: &#34;True&#34;, &#34;ga4&#34;: [{&#34;id&#34;: &#34;G-272J68FCRF&#34;, &#34;purpose&#34;: 1}, {&#34;id&#34;: &#34;G-HFD02D315Q&#34;, &#34;purpose&#34;: 0}], &#34;ga4p&#34;: [{&#34;id&#34;: &#34;G-272J68FCRF&#34;, &#34;purpose&#34;: 1}], &#34;gtm&#34;: [{&#34;id&#34;: &#34;GTM-T98GCPGN&#34;, &#34;purpose&#34;: 1}], &#34;parameters&#34;: {&#34;internalUser&#34;: &#34;False&#34;, &#34;language&#34;: {&#34;machineTranslated&#34;: &#34;True&#34;, &#34;requested&#34;: &#34;ar&#34;, &#34;served&#34;: &#34;ar&#34;}, &#34;pageType&#34;: &#34;article&#34;, &#34;projectName&#34;: &#34;Machine Learning&#34;, &#34;signedIn&#34;: &#34;False&#34;, &#34;tenant&#34;: &#34;developers&#34;, &#34;recommendations&#34;: {&#34;sourcePage&#34;: &#34;&#34;, &#34;sourceType&#34;: 0, &#34;sourceRank&#34;: 0, &#34;sourceIdenticalDescriptions&#34;: 0, &#34;sourceTitleWords&#34;: 0, &#34;sourceDescriptionWords&#34;: 0, &#34;experiment&#34;: &#34;&#34;}, &#34;experiment&#34;: {&#34;ids&#34;: &#34;&#34;}}}</script>
+      
+    </devsite-analytics>
+    
+      <devsite-badger></devsite-badger>
+    
+    
+    
+    
+<script nonce="J6PhFJuJruB6RPWOkiu8l1FAChr7lP">
+  
+  (function(d,e,v,s,i,t,E){d['GoogleDevelopersObject']=i;
+    t=e.createElement(v);t.async=1;t.src=s;E=e.getElementsByTagName(v)[0];
+    E.parentNode.insertBefore(t,E);})(window, document, 'script',
+    'https://www.gstatic.com/devrel-devsite/prod/vb35dda8b324a978e97468c8ee7b4541809b385b1c2b0d92afb804c18373b74eb/developers/js/app_loader.js', '[1,"ar",null,"/js/devsite_app_module.js","https://www.gstatic.com/devrel-devsite/prod/vb35dda8b324a978e97468c8ee7b4541809b385b1c2b0d92afb804c18373b74eb","https://www.gstatic.com/devrel-devsite/prod/vb35dda8b324a978e97468c8ee7b4541809b385b1c2b0d92afb804c18373b74eb/developers","https://developers-dot-devsite-v2-prod.appspot.com",1,null,["/_pwa/developers/manifest.json","https://www.gstatic.com/devrel-devsite/prod/vb35dda8b324a978e97468c8ee7b4541809b385b1c2b0d92afb804c18373b74eb/images/video-placeholder.svg","https://www.gstatic.com/devrel-devsite/prod/vb35dda8b324a978e97468c8ee7b4541809b385b1c2b0d92afb804c18373b74eb/developers/images/favicon-new.png","https://fonts.googleapis.com/css?family=Google+Sans:400,500|Roboto:400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700&display=swap"],1,null,[1,6,8,12,14,17,21,25,50,52,63,70,75,76,80,87,91,92,93,97,98,100,101,102,103,104,105,107,108,109,110,112,113,116,117,118,120,122,124,125,126,127,129,130,131,132,133,134,135,136,138,140,141,147,148,149,151,152,156,157,158,159,161,163,164,168,169,170,179,180,182,183,186,191,193,196],"AIzaSyAP-jjEJBzmIyKR4F-3XITp8yM9T1gEEI8","AIzaSyB6xiKGDR5O3Ak2okS4rLkauxGUG7XP0hg","developers.google.com","AIzaSyAQk0fBONSGUqCNznf6Krs82Ap1-NV6J4o","AIzaSyCCxcqdrZ_7QMeLCRY20bh_SXdAYqy70KY",null,null,null,["Concierge__enable_actions_menu","MiscFeatureFlags__enable_explain_this_code","Concierge__enable_concierge_restricted","DevPro__enable_vertex_credit_card","Profiles__enable_auto_apply_credits","BookNav__enable_tenant_cache_key","MiscFeatureFlags__enable_appearance_cookies","Profiles__enable_recognition_badges","Profiles__require_profile_eligibility_for_signin","SignIn__enable_l1_signup_flow","DevPro__enable_g1_integration","Experiments__reqs_query_experiments","Search__enable_suggestions_from_borg","MiscFeatureFlags__enable_explicit_template_dependencies","Profiles__enable_callout_notifications","DevPro__enable_devpro_offers","Search__enable_ai_search_summaries_restricted","Cloud__enable_legacy_calculator_redirect","DevPro__enable_google_payments_buyflow","Cloud__enable_cloud_shell_fte_user_flow","MiscFeatureFlags__enable_project_variables","DevPro__enable_enterprise","Profiles__enable_release_notes_notifications","DevPro__enable_cloud_innovators_plus","Analytics__enable_clearcut_logging","Profiles__enable_targeted_hero","Search__enable_ai_eligibility_checks","DevPro__enable_nvidia_credits_card","Profiles__enable_completequiz_endpoint","Profiles__enable_user_type","MiscFeatureFlags__enable_variable_operator","EngEduTelemetry__enable_engedu_telemetry","Analytics__enable_devpro_interaction_logging","Concierge__enable_devsite_llm_tools","CloudShell__cloud_code_overflow_menu","MiscFeatureFlags__remove_cross_domain_tracking_params","DevPro__enable_embed_profile_creation","TpcFeatures__proxy_prod_host","Profiles__enable_developer_profile_pages_as_content","MiscFeatureFlags__emergency_css","MiscFeatureFlags__enable_variable_operator_index_yaml","Profiles__enable_profile_collections","CloudShell__cloud_shell_button","Concierge__enable_remove_info_panel_tags","Profiles__enable_completecodelab_endpoint","DevPro__remove_eu_tax_intake_form","DevPro__enable_payments_second_batch","MiscFeatureFlags__developers_footer_dark_image","Cloud__enable_free_trial_server_call","Cloud__fast_free_trial","Profiles__enable_public_developer_profiles","Concierge__enable_concierge","Cloud__enable_cloud_dlp_service","MiscFeatureFlags__enable_framebox_badge_methods","DevPro__enable_firebase_workspaces_card","Profiles__enable_awarding_url","Search__enable_dynamic_content_confidential_banner","Cloud__cache_serialized_dynamic_content","Profiles__enable_complete_playlist_endpoint","Concierge__enable_pushui","Concierge__enable_key_takeaways_new_ui","TpcFeatures__enable_unmirrored_page_left_nav","Profiles__enable_join_program_group_endpoint","Cloud__enable_llm_concierge_chat","DevPro__enable_code_assist","MiscFeatureFlags__developers_footer_image","Profiles__enable_stripe_subscription_management","Profiles__enable_playlist_community_acl","Concierge__enable_tutorial_this_code","DevPro__enable_developer_subscriptions","MiscFeatureFlags__fix_lower_breadcrumbs","MiscFeatureFlags__gdp_dashboard_reskin_enabled","Concierge__enable_key_takeaways","Profiles__enable_page_saving","Significatio__enable_by_tenant","MiscFeatureFlags__enable_firebase_utm","Search__enable_page_map","Search__enable_ai_search_summaries_for_all","Profiles__enable_dashboard_curated_recommendations","Search__enable_ai_search_summaries","DevPro__enable_free_benefits","MiscFeatureFlags__enable_view_transitions","Profiles__enable_purchase_prompts","Cloud__enable_cloud_shell","Cloud__enable_cloudx_experiment_ids","Profiles__enable_developer_profile_benefits_ui_redesign","DevPro__enable_google_one_card","Profiles__enable_developer_profiles_callout"],null,null,"AIzaSyBLEMok-5suZ67qRPzx0qUtbnLmyT_kCVE","https://developerscontentserving-pa.clients6.google.com","AIzaSyCM4QpTRSqP5qI4Dvjt4OAScIN8sOUlO-k","https://developerscontentsearch-pa.clients6.google.com",1,4,null,"https://developerprofiles-pa.clients6.google.com",[1,"developers","Google for Developers","developers.google.com",null,"developers-dot-devsite-v2-prod.appspot.com",null,null,[1,1,[1],null,null,null,null,null,null,null,null,[1],null,null,null,null,null,null,[1],[1,null,null,[1,20],"/recommendations/information"],null,null,null,[1,1,1],[1,1,null,1,1,null,null,["/meridian"]],[1,null,null,null,null,null,null,["/admob","/ad-manager/mobile-ads-sdk","/ml-kit"]],null,[null,["/meridian","/youtube/devices/"]],1,null,[1]],null,[null,null,null,null,null,null,"/images/lockup-new.svg","/images/touchicon-180-new.png",null,null,null,null,1,null,null,null,null,null,null,null,null,1,null,null,null,"/images/lockup-dark-theme-new.svg",[]],[],null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,[6,1,14,15,20,22,23,29,32,36],null,[[null,null,null,[3,7,10,2,39,17,4,32,24,11,12,13,34,15,25],null,null,[1,[["docType","Choose a content type",[["Tutorial",null,null,null,null,null,null,null,null,"Tutorial"],["Guide",null,null,null,null,null,null,null,null,"Guide"],["Sample",null,null,null,null,null,null,null,null,"Sample"]]],["product","Choose a product",[["Android",null,null,null,null,null,null,null,null,"Android"],["ARCore",null,null,null,null,null,null,null,null,"ARCore"],["ChromeOS",null,null,null,null,null,null,null,null,"ChromeOS"],["Firebase",null,null,null,null,null,null,null,null,"Firebase"],["Flutter",null,null,null,null,null,null,null,null,"Flutter"],["Assistant",null,null,null,null,null,null,null,null,"Google Assistant"],["GoogleCloud",null,null,null,null,null,null,null,null,"Google Cloud"],["GoogleMapsPlatform",null,null,null,null,null,null,null,null,"Google Maps Platform"],["GooglePay",null,null,null,null,null,null,null,null,"Google Pay & Google Wallet"],["GooglePlay",null,null,null,null,null,null,null,null,"Google Play"],["Tensorflow",null,null,null,null,null,null,null,null,"TensorFlow"]]],["category","Choose a topic",[["AiAndMachineLearning",null,null,null,null,null,null,null,null,"AI and Machine Learning"],["Data",null,null,null,null,null,null,null,null,"Data"],["Enterprise",null,null,null,null,null,null,null,null,"Enterprise"],["Gaming",null,null,null,null,null,null,null,null,"Gaming"],["Mobile",null,null,null,null,null,null,null,null,"Mobile"],["Web",null,null,null,null,null,null,null,null,"Web"]]]]]],[1,1],null,1],[[["UA-24532603-1"],["UA-22084204-5"],null,null,["UA-24532603-5"],["GTM-T98GCPGN"],null,[["G-272J68FCRF"],null,null,[["G-272J68FCRF",2]]],[["UA-24532603-1",2]],null,[["UA-24532603-5",2]],[["GTM-T98GCPGN",2]],1],[[13,10],[6,5],[11,8],[16,13],[1,1],[12,9],[14,11],[3,2],[5,4],[4,3],[15,12]],[[1,1],[2,2]]],null,4,null,null,null,null,null,null,null,null,null,null,null,null,null,"developers.devsite.google",null,null,null,null,null,[]],null,"pk_live_5170syrHvgGVmSx9sBrnWtA5luvk9BwnVcvIi7HizpwauFG96WedXsuXh790rtij9AmGllqPtMLfhe2RSwD6Pn38V00uBCydV4m",1,1,"https://developerscontentinsights-pa.clients6.google.com","AIzaSyCg-ZUslalsEbXMfIo9ZP8qufZgo3LSBDU","AIzaSyDxT0vkxnY_KeINtA4LSePJO-4MAZPMRsE","https://developers.clients6.google.com",["https://codeassist.google.com","https://code-assist-free-tier.corp.google.com"],null,"AIzaSyBQom12tzI-rybN7Sf-KfeL4nwm-Rf7PmI\n",null,null,"https://developers.googleapis.com"]')
+  
+</script>
+
+    <devsite-a11y-announce></devsite-a11y-announce>
+  </body>
+</html>

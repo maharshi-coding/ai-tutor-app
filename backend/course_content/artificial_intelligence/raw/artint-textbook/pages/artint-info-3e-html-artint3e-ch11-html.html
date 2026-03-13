@@ -1,0 +1,216 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition</title>
+<!--Generated on Sat Jun 28 18:40:00 2025 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+
+<link rel="stylesheet" href="styleBook.css" type="text/css" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3K403C4QY8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3K403C4QY8');
+</script>
+
+
+<link rel="stylesheet" href="LaTeXML.css" type="text/css">
+<link rel="stylesheet" href="ltx-book.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="up" href="ArtInt3e.html" title="Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="start" href="ArtInt3e.html" title="Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="prev" href="ArtInt3e.Ch10.S8.html" title="10.8 Exercises ‣ Chapter 10 Learning with Uncertainty ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="next" href="ArtInt3e.Ch11.S1.html" title="11.1 Probabilistic Causal Models ‣ Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Chx1.html" title="Preface ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch1.html" title="Chapter 1 Artificial Intelligence and Agents ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch2.html" title="Chapter 2 Agent Architectures and Hierarchical Control ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch3.html" title="Chapter 3 Searching for Solutions ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch4.html" title="Chapter 4 Reasoning with Constraints ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch5.html" title="Chapter 5 Propositions and Inference ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch6.html" title="Chapter 6 Deterministic Planning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch7.html" title="Chapter 7 Supervised Machine Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch8.html" title="Chapter 8 Neural Networks and Deep Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch9.html" title="Chapter 9 Reasoning with Uncertainty ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch10.html" title="Chapter 10 Learning with Uncertainty ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch12.html" title="Chapter 12 Planning with Uncertainty ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch13.html" title="Chapter 13 Reinforcement Learning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch14.html" title="Chapter 14 Multiagent Systems ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch15.html" title="Chapter 15 Individuals and Relations ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch16.html" title="Chapter 16 Knowledge Graphs and Ontologies ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch17.html" title="Chapter 17 Relational Learning and Probabilistic Reasoning ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch18.html" title="Chapter 18 The Social Impact of Artificial Intelligence ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="chapter" href="ArtInt3e.Ch19.html" title="Chapter 19 Retrospect and Prospect ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="appendix" href="ArtInt3e.A1.html" title="Appendix A Mathematical Preliminaries and Notation ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="appendix" href="ArtInt3e.A2.html" title="Appendix B Mapping to Open-Source Packages ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="bibliography" href="ArtInt3e.bib.html" title="References ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="index" href="ArtInt3e.idx.html" title="Index ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch11.S1.html" title="11.1 Probabilistic Causal Models ‣ Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch11.S2.html" title="11.2 Missing Data ‣ Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch11.S3.html" title="11.3 Inferring Causality ‣ Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch11.S4.html" title="11.4 Instrumental Variables ‣ Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch11.S5.html" title="11.5 Counterfactual Reasoning ‣ Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch11.S6.html" title="11.6 Social Impact ‣ Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch11.S7.html" title="11.7 Review ‣ Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch11.S8.html" title="11.8 References and Further Reading ‣ Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<link rel="section" href="ArtInt3e.Ch11.S9.html" title="11.9 Exercises ‣ Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition">
+<meta name="keywords" lang="en" content="causal, causality, intervention, model">
+</head>
+<body>
+<div id="wrap">
+
+	<!--header -->
+	<div id="header">		
+        <p id="logo-author">David L. Poole & Alan K. Mackworth</p>	
+		<h1 id="logo-text"><a href="https://artint.info/" title="">Artificial <br/>Intelligence 3E</a></h1>		
+		<p id="logo-subtext">foundations of computational agents</p>
+	<!--header ends-->					
+	</div>
+	
+	<!-- navigation starts-->	
+	<div id="nav">		
+<a href="ArtInt3e.Ch10.S8.html"><img class="previous" alt="Previous" src="images/arrow-left.gif"/></a><a href="ArtInt3e.html"><img class="up" alt="Up" src="images/arrow-up.gif"/></a><a href="ArtInt3e.Ch11.S1.html"><img class="next" alt="Next" src="images/arrow-right.gif"/></a><ul><li><a href="https://artint.info">Home</a></li><li><a href="ArtInt3e.idx.html">Index</a></li><li><a href="ArtInt3e.html">Contents</a></li></ul>
+	<!-- navigation ends-->	
+	</div>
+
+<div class="ltx_page_main">
+<header class="ltx_page_header">
+<div class="ltx_align_center">
+<a href="ArtInt3e.html" title="" class="ltx_ref" rel="up"><span class="ltx_text ltx_ref_title">Artificial Intelligence: Foundations of Computational Agents,
+ 3rd Edition</span></a><a href="ArtInt3e.Ch10.S8.html" title="In Chapter 10 Learning with Uncertainty ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="prev"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">10.8 </span>Exercises</span></a><a href="ArtInt3e.Ch11.S1.html" title="In Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="next"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">11.1 </span>Probabilistic Causal Models</span></a>
+</div></header>
+<div class="ltx_page_content">
+<section class="ltx_chapter ltx_fleqn">
+<h1 class="ltx_title ltx_title_chapter">
+<span class="ltx_tag ltx_tag_chapter">Chapter 11 </span>Causality</h1>
+
+<div id="p1" class="ltx_para">
+<blockquote class="ltx_quote">
+<p class="ltx_p"><em class="ltx_emph ltx_font_italic">The word <em class="ltx_emph ltx_font_upright">cause</em> is not in the vocabulary of standard probability
+theory. It is an embarrassing yet inescapable fact that probability
+theory, the official mathematical language of many empirical sciences,
+does not permit us to express sentences such as “Mud does not cause
+rain”; all we can say are that the two events are mutually
+correlated, or dependent – meaning that if we find one, we can expect
+to encounter the other. Scientists seeking causal explanations for
+complex phenomenon or rationales for policy decisions must therefore
+supplement the language of probability with a vocabulary for
+causality, one in which the symbolic representation for “Mud does not
+cause rain” is distinct from the symbolic representation for “Mud is
+independent of rain”. Oddly, such distinctions have yet to be
+incorporated into standard scientific analysis.</em></p>
+<p class="ltx_p ltx_align_right">– Judea <cite class="ltx_cite ltx_citemacro_citet">Pearl [<a href="ArtInt3e.bib.html#bib456" title="" class="ltx_ref">2009</a>]</cite></p>
+</blockquote>
+<p class="ltx_p">In the example from Pearl (above), mud and rain are correlated, but
+the relationship between mud and rain is not symmetric. Creating
+mud (e.g., by pouring water on dirt) does not make rain. However,
+if you were to cause rain (e.g., by seeding clouds), mud will result.
+There is a causal relationship between mud and rain: rain causes
+mud, and mud does not cause rain. This causal relationship holds even
+when you ignore the other necessary conditions, such as the existence
+of dirt, and the absence of a cover on the dirt to prevent it getting
+wet. It also depends on the level of abstraction: arguably, rain
+causes dirt to get wet, which in turn makes mud.</p>
+</div>
+<div id="p2" class="ltx_para">
+<p class="ltx_p">It is known that ice-cream consumption and drowning deaths are positively correlated. But that doesn’t mean that if one wanted to reduce drowning deaths one should ban ice-cream.</p>
+</div>
+<div id="p3" class="ltx_para">
+<p class="ltx_p">As another example, taking marijuana and taking hard drugs are
+positively correlated. This has led to the theory that marijuana is a
+gateway drug; taking marijuana leads to harder drugs. But the correlation doesn’t tell us what happens when you
+intervene to force taking marijuana false or true. It is indeed possible that
+the use of hard drugs will decrease if you give people marijuana. You can
+get indirect evidence from places where marijuana has been legalized,
+but you can’t determine the causal relationship just from passive
+observation, without making assumptions that go beyond the data.</p>
+</div>
+<div id="p4" class="ltx_para">
+<p class="ltx_p">A <a href="ArtInt3e.Ch5.S9.html" title="5.9 Causal Models ‣ Chapter 5 Propositions and Inference ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref ltx_font_bold">causal model</a> is a
+model that predicts the effects of interventions, where an <span class="ltx_text ltx_font_bold">intervention</span>
+on a variable is the action of setting the
+variable to a particular value,
+in some way other than manipulating other variables in the model.
+For example, when a light is connected to a switch, as in
+<a href="ArtInt3e.Ch5.S9.html#Ch5.Thmciexamplered34" title="Example 5.34. ‣ 5.9 Causal Models ‣ Chapter 5 Propositions and Inference ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref">Example <span class="ltx_ref ltx_nolink"><span class="ltx_text ltx_ref_tag">5.34</span></span></a>, intervening to
+make the light off might involve unscrewing the bulb or breaking it,
+if these are not modeled,
+but would not include flipping the switch, if the switch position is
+part of the model.</p>
+</div>
+<div id="p5" class="ltx_para">
+<p class="ltx_p">A causal model is obtained from observational data, interventional
+data, and modeling assumptions. Observational data alone is not
+sufficient to determine causality;
+knowing a probability distribution is not enough information to
+determine the consequences of actions.
+Drug manufacturers, for example, spend billions of dollars on
+controlled randomized trials in order to determine causality; namely,
+the effects of giving someone a drug.</p>
+</div>
+<div id="p6" class="ltx_para">
+<p class="ltx_p">This is <em class="ltx_emph ltx_font_italic">not</em> referring to “the (unique) cause” of an effect, but all
+of the factors that together lead to the effect.
+An effect typically has multiple causes. For example, to cause mud, you
+need water, dirt, and for them to actually mix. None by itself
+is <em class="ltx_emph ltx_font_italic">the</em> cause. The variables in a causal model need not be
+observable; most of the challenges arise because some variables cannot
+be observed.</p>
+</div>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch11.S1.html" title="In Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">11.1 </span>Probabilistic Causal Models</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch11.S2.html" title="In Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">11.2 </span>Missing Data</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch11.S3.html" title="In Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">11.3 </span>Inferring Causality</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch11.S4.html" title="In Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">11.4 </span>Instrumental Variables</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch11.S5.html" title="In Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">11.5 </span>Counterfactual Reasoning</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch11.S6.html" title="In Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">11.6 </span>Social Impact</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch11.S7.html" title="In Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">11.7 </span>Review</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch11.S8.html" title="In Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">11.8 </span>References and Further Reading</span></a></li>
+</ol></nav>
+<nav class="ltx_TOC">
+<ol class="ltx_toclist ltx_toclist_chapter">
+<li class="ltx_tocentry"><a href="ArtInt3e.Ch11.S9.html" title="In Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">11.9 </span>Exercises</span></a></li>
+</ol></nav>
+</section>
+</div>
+<footer class="ltx_page_footer">
+<div class="ltx_align_center">
+<a href="ArtInt3e.Ch10.S8.html" title="In Chapter 10 Learning with Uncertainty ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="prev"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">10.8 </span>Exercises</span></a><a href="ArtInt3e.bib.html" title="In Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="bibliography"><span class="ltx_text ltx_ref_title">References</span></a><a href="ArtInt3e.idx.html" title="In Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="index"><span class="ltx_text ltx_ref_title">Index</span></a><a href="ArtInt3e.Ch11.S1.html" title="In Chapter 11 Causality ‣ Artificial Intelligence: Foundations of Computational Agents, 3rd Edition" class="ltx_ref" rel="next"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">11.1 </span>Probabilistic Causal Models</span></a>
+</div>
+<div class="ltx_page_logo">Generated  on Sat Jun 28 18:40:00 2025 by <a href="http://dlmf.nist.gov/LaTeXML/" class="ltx_LaTeXML_logo"><span style="letter-spacing:-0.2em; margin-right:0.1em;">L<span class="ltx_font_smallcaps" style="position:relative; bottom:2.2pt;">a</span>T<span class="ltx_font_smallcaps" style="font-size:120%;position:relative; bottom:-0.2ex;">e</span></span><span style="font-size:90%; position:relative; bottom:-0.2ex;">XML</span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAOCAYAAAD5YeaVAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wKExQZLWTEaOUAAAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAdpJREFUKM9tkL+L2nAARz9fPZNCKFapUn8kyI0e4iRHSR1Kb8ng0lJw6FYHFwv2LwhOpcWxTjeUunYqOmqd6hEoRDhtDWdA8ApRYsSUCDHNt5ul13vz4w0vWCgUnnEc975arX6ORqN3VqtVZbfbTQC4uEHANM3jSqXymFI6yWazP2KxWAXAL9zCUa1Wy2tXVxheKA9YNoR8Pt+aTqe4FVVVvz05O6MBhqUIBGk8Hn8HAOVy+T+XLJfLS4ZhTiRJgqIoVBRFIoric47jPnmeB1mW/9rr9ZpSSn3Lsmir1fJZlqWlUonKsvwWwD8ymc/nXwVBeLjf7xEKhdBut9Hr9WgmkyGEkJwsy5eHG5vN5g0AKIoCAEgkEkin0wQAfN9/cXPdheu6P33fBwB4ngcAcByHJpPJl+fn54mD3Gg0NrquXxeLRQAAwzAYj8cwTZPwPH9/sVg8PXweDAauqqr2cDjEer1GJBLBZDJBs9mE4zjwfZ85lAGg2+06hmGgXq+j3+/DsixYlgVN03a9Xu8jgCNCyIegIAgx13Vfd7vdu+FweG8YRkjXdWy329+dTgeSJD3ieZ7RNO0VAXAPwDEAO5VKndi2fWrb9jWl9Esul6PZbDY9Go1OZ7PZ9z/lyuD3OozU2wAAAABJRU5ErkJggg==" alt="Mascot Sammy"></a>
+</div></footer>
+
+</div>
+	<!-- footer starts -->		
+	<div id="footer">						
+		<p><a href="https://artint.info">Artificial Intelligence: Foundations of Computational Agents, Poole
+	& Mackworth</a><br/>
+	Copyright &copy; 2023, <a href="https://cs.ubc.ca/~poole/">David L. Poole</a> and <a href="https://cs.ubc.ca/~mack/">Alan K. Mackworth</a>. <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.
+   		</p>	
+	<!-- footer ends-->
+</div>
+</body>
+</html>

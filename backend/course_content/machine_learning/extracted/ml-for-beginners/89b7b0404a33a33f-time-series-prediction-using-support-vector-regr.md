@@ -1,0 +1,249 @@
+# Time series prediction using Support Vector Regressor
+
+Source: ML for Beginners
+Original URL: https://github.com/microsoft/ML-For-Beginners/blob/HEAD/7-TimeSeries/3-SVR/working/notebook.ipynb
+Original Path: 7-TimeSeries/3-SVR/working/notebook.ipynb
+Course: Machine Learning
+
+# Time series prediction using Support Vector Regressor
+
+In this notebook, we demonstrate how to:
+
+- prepare 2D time series data for training an SVM regressor model
+- implement SVR using RBF kernel
+- evaluate the model using plots and MAPE
+
+## Importing modules
+
+```python
+import sys
+sys.path.append('../../')
+```
+
+```python
+import os
+import warnings
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import datetime as dt
+import math
+
+from sklearn.svm import SVR
+from sklearn.preprocessing import MinMaxScaler
+from common.utils import load_data, mape
+```
+
+## Preparing data
+
+### Load data
+
+```python
+energy = load_data('../../data')[['load']]
+energy.head(5)
+```
+
+Output:
+```text
+load
+2012-01-01 00:00:00 2698.0
+2012-01-01 01:00:00 2558.0
+2012-01-01 02:00:00 2444.0
+2012-01-01 03:00:00 2402.0
+2012-01-01 04:00:00 2403.0
+```
+
+### Plot the data
+
+```python
+energy.plot(y='load', subplots=True, figsize=(15, 8), fontsize=12)
+plt.xlabel('timestamp', fontsize=12)
+plt.ylabel('load', fontsize=12)
+plt.show()
+```
+
+### Create training and testing data
+
+```python
+train_start_dt = '2014-11-01 00:00:00'
+test_start_dt = '2014-12-30 00:00:00'
+```
+
+```python
+energy[(energy.index < test_start_dt) & (energy.index >= train_start_dt)][['load']].rename(columns={'load':'train'}) \
+.join(energy[test_start_dt:][['load']].rename(columns={'load':'test'}), how='outer') \
+.plot(y=['train', 'test'], figsize=(15, 8), fontsize=12)
+plt.xlabel('timestamp', fontsize=12)
+plt.ylabel('load', fontsize=12)
+plt.show()
+```
+
+### Preparing data for training
+
+Now, you need to prepare the data for training by performing filtering and scaling of your data.
+
+```python
+train = energy.copy()[(energy.index >= train_start_dt) & (energy.index < test_start_dt)][['load']]
+test = energy.copy()[energy.index >= test_start_dt][['load']]
+
+print('Training data shape: ', train.shape)
+print('Test data shape: ', test.shape)
+```
+
+Scale the data to be in the range (0, 1).
+
+```python
+scaler = MinMaxScaler()
+train['load'] = scaler.fit_transform(train)
+train.head(5)
+```
+
+```python
+test['load'] = scaler.transform(test)
+test.head(5)
+```
+
+### Creating data with time-steps
+
+For our SVR, we transform the input data to be of the form `[batch, timesteps]`. So, we reshape the existing `train_data` and `test_data` such that there is a new dimension which refers to the timesteps. For our example, we take `timesteps = 5`. So, the inputs to the model are the data for the first 4 timesteps, and the output will be the data for the 5<sup>th</sup> timestep.
+
+```python
+# Converting to numpy arrays
+
+train_data = train.values
+test_data = test.values
+```
+
+```python
+# Selecting the timesteps
+
+timesteps=None
+```
+
+```python
+# Converting data to 2D tensor
+
+train_data_timesteps=None
+```
+
+```python
+# Converting test data to 2D tensor
+
+test_data_timesteps=None
+```
+
+```python
+x_train, y_train = None
+x_test, y_test = None
+
+print(x_train.shape, y_train.shape)
+print(x_test.shape, y_test.shape)
+```
+
+## Creating SVR model
+
+```python
+# Create model using RBF kernel
+
+model = None
+```
+
+```python
+# Fit model on training data
+```
+
+### Make model prediction
+
+```python
+# Making predictions
+
+y_train_pred = None
+y_test_pred = None
+```
+
+## Analyzing model performance
+
+```python
+# Scaling the predictions
+
+y_train_pred = scaler.inverse_transform(y_train_pred)
+y_test_pred = scaler.inverse_transform(y_test_pred)
+```
+
+```python
+# Scaling the original values
+
+y_train = scaler.inverse_transform(y_train)
+y_test = scaler.inverse_transform(y_test)
+```
+
+```python
+# Extract the timesteps for x-axis
+
+train_timestamps = None
+test_timestamps = None
+```
+
+```python
+plt.figure(figsize=(25,6))
+# plot original output
+# plot predicted output
+plt.legend(['Actual','Predicted'])
+plt.xlabel('Timestamp')
+plt.title("Training data prediction")
+plt.show()
+```
+
+```python
+print('MAPE for training data: ', mape(y_train_pred, y_train)*100, '%')
+```
+
+```python
+plt.figure(figsize=(10,3))
+# plot original output
+# plot predicted output
+plt.legend(['Actual','Predicted'])
+plt.xlabel('Timestamp')
+plt.show()
+```
+
+```python
+print('MAPE for testing data: ', mape(y_test_pred, y_test)*100, '%')
+```
+
+## Full dataset prediction
+
+```python
+# Extracting load values as numpy array
+data = None
+
+# Scaling
+data = None
+
+# Transforming to 2D tensor as per model input requirement
+data_timesteps=None
+
+# Selecting inputs and outputs from data
+X, Y = None, None
+```
+
+```python
+# Make model predictions
+
+# Inverse scale and reshape
+Y_pred = None
+Y = None
+```
+
+```python
+plt.figure(figsize=(30,8))
+# plot original output
+# plot predicted output
+plt.legend(['Actual','Predicted'])
+plt.xlabel('Timestamp')
+plt.show()
+```
+
+```python
+print('MAPE: ', mape(Y_pred, Y)*100, '%')
+```

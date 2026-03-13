@@ -1,0 +1,15 @@
+{
+  "id": "programiz-python",
+  "type": "web",
+  "title": "Programiz Python Tutorial",
+  "description": "Step-by-step Python lessons with compact examples and reference-style pages.",
+  "license": "Programiz site terms",
+  "seedUrls": [
+    "https://www.programiz.com/python-programming"
+  ],
+  "allowPrefixes": [
+    "https://www.programiz.com/python-programming"
+  ],
+  "maxPages": 45,
+  "documentCount": 45
+}

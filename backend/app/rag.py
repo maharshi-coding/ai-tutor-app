@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 from typing import Any, List, Optional, Tuple
 
 import chromadb
@@ -17,6 +18,35 @@ _CHROMA_DIR = Path("./rag_data")
 _embedder: Optional[SentenceTransformer] = None
 _client: Optional[chromadb.Client] = None
 _text_splitter: Optional[Any] = None
+_STOPWORDS = {
+    "a",
+    "an",
+    "and",
+    "are",
+    "as",
+    "at",
+    "be",
+    "by",
+    "for",
+    "from",
+    "how",
+    "in",
+    "is",
+    "it",
+    "of",
+    "on",
+    "or",
+    "that",
+    "the",
+    "this",
+    "to",
+    "what",
+    "when",
+    "where",
+    "which",
+    "why",
+    "with",
+}
 
 
 def get_embedder() -> SentenceTransformer:
@@ -106,7 +136,7 @@ def get_course_collection(course_id: int):
 
 def ingest_course_chunks(
     course_id: int,
-    chunks: List[Tuple[str, str]],
+    chunks: List[Tuple[str, str] | Tuple[str, str, dict[str, Any]]],
 ) -> None:
     """
     Ingest text chunks for a course into Chroma.
@@ -121,16 +151,28 @@ def ingest_course_chunks(
     collection = get_course_collection(course_id)
     embedder = get_embedder()
 
-    ids = [cid for cid, _ in chunks]
-    texts = [txt for _, txt in chunks]
+    ids: List[str] = []
+    texts: List[str] = []
+    metadatas: List[dict[str, Any]] = []
+    for item in chunks:
+        if len(item) == 2:
+            chunk_id, text = item
+            metadata = {}
+        else:
+            chunk_id, text, metadata = item
+        ids.append(chunk_id)
+        texts.append(text)
+        metadatas.append(metadata)
 
     embeddings = embedder.encode(texts).tolist()
+    cleaned_metadatas = [metadata or {} for metadata in metadatas]
 
     if hasattr(collection, "upsert"):
         collection.upsert(
             ids=ids,
             documents=texts,
             embeddings=embeddings,
+            metadatas=cleaned_metadatas,
         )
         return
 
@@ -138,6 +180,7 @@ def ingest_course_chunks(
         ids=ids,
         documents=texts,
         embeddings=embeddings,
+        metadatas=cleaned_metadatas,
     )
 
 
@@ -159,10 +202,18 @@ def retrieve_relevant_chunks(
     query: str,
     top_k: int = 4,
 ) -> List[str]:
+    return [passage["text"] for passage in retrieve_relevant_passages(course_id, query, top_k)]
+
+
+def retrieve_relevant_passages(
+    course_id: int,
+    query: str,
+    top_k: int = 4,
+) -> List[dict[str, Any]]:
     """
     Retrieve the most relevant text chunks for a course & query.
 
-    Returns a list of raw text snippets (may be empty).
+    Returns a list of passage payloads with text and metadata.
     """
     collection = get_course_collection(course_id)
     if collection.count() == 0:
@@ -173,8 +224,74 @@ def retrieve_relevant_chunks(
 
     results = collection.query(
         query_embeddings=[query_vec],
-        n_results=top_k,
+        n_results=max(top_k * 3, top_k),
+        include=["documents", "metadatas", "distances"],
     )
 
-    return results.get("documents", [[]])[0]
+    documents = results.get("documents", [[]])[0]
+    metadatas = results.get("metadatas", [[]])[0]
+    distances = results.get("distances", [[]])[0]
+    if not documents:
+        return []
+
+    query_terms = _tokenize(query)
+    candidates: List[dict[str, Any]] = []
+    for index, document in enumerate(documents):
+        metadata = metadatas[index] if index < len(metadatas) else {}
+        distance = distances[index] if index < len(distances) else None
+        lexical = _keyword_overlap_score(query_terms, document, metadata)
+        distance_penalty = float(distance) if isinstance(distance, (float, int)) else 1.0
+        score = lexical + (1 / (1 + max(distance_penalty, 0.0)))
+        candidates.append(
+            {
+                "text": document,
+                "metadata": metadata or {},
+                "distance": distance,
+                "score": score,
+            }
+        )
+
+    candidates.sort(key=lambda item: item["score"], reverse=True)
+
+    deduped: List[dict[str, Any]] = []
+    seen_keys: set[str] = set()
+    for candidate in candidates:
+        text = candidate["text"].strip()
+        key = text[:180]
+        if not text or key in seen_keys:
+            continue
+        seen_keys.add(key)
+        deduped.append(candidate)
+        if len(deduped) >= top_k:
+            break
+    return deduped
+
+
+def _tokenize(value: str) -> set[str]:
+    return {
+        token
+        for token in re.findall(r"[a-zA-Z][a-zA-Z0-9_+-]{1,}", value.lower())
+        if token not in _STOPWORDS
+    }
+
+
+def _keyword_overlap_score(
+    query_terms: set[str],
+    document: str,
+    metadata: dict[str, Any] | None,
+) -> float:
+    if not query_terms:
+        return 0.0
+    metadata = metadata or {}
+    metadata_text = " ".join(
+        str(metadata.get(key, ""))
+        for key in ("title", "source", "path")
+    )
+    document_terms = _tokenize(f"{metadata_text} {document[:2000]}")
+    if not document_terms:
+        return 0.0
+    overlap = len(query_terms & document_terms)
+    if overlap == 0:
+        return 0.0
+    return overlap / max(len(query_terms), 1)
 

@@ -1,0 +1,412 @@
+# Python Tuple
+
+Source: Programiz Python Tutorial
+Original URL: https://www.programiz.com/python-programming/tuple
+Original Path: https://www.programiz.com/python-programming/tuple
+Course: Python Programming
+
+- Python Tuple
+
+- Python String
+
+- Python Set
+
+- Python Dictionary
+
+Python Functions
+
+- Python Functions
+
+- Python Function Arguments
+
+- Python Variable Scope
+
+- Python Global Keyword
+
+- Python Recursion
+
+- Python Modules
+
+- Python Package
+
+- Python Main function
+
+Python Files
+
+- Python Directory and Files Management
+
+- Python CSV: Read and Write CSV files
+
+- Reading CSV files in Python
+
+- Writing CSV files in Python
+
+Python Exception Handling
+
+- Python Exceptions
+
+- Python Exception Handling
+
+- Python Custom Exceptions
+
+Python Object & Class
+
+- Python Objects and Classes
+
+- Python Inheritance
+
+- Python Multiple Inheritance
+
+- Polymorphism in Python
+
+- Python Operator Overloading
+
+Python Advanced Topics
+
+- List comprehension
+
+- Python Lambda/Anonymous Function
+
+- Python Iterators
+
+- Python Generators
+
+- Python Namespace and Scope
+
+- Python Closures
+
+- Python Decorators
+
+- Python @property decorator
+
+- Python RegEx
+
+Python Date and Time
+
+- Python datetime
+
+- Python strftime()
+
+- Python strptime()
+
+- How to get current date
+and time in Python?
+
+- Python Get Current Time
+
+- Python timestamp to
+datetime and vice-versa
+
+- Python time Module
+
+- Python sleep()
+
+Additional Topic
+
+- Precedence and Associativity of Operators in Python
+
+- Python Keywords and Identifiers
+
+- Python Asserts
+
+- Python Json
+
+- Python pip
+
+- Python *args and **kwargs
+
+Python Tutorials
+
+Python tuple()
+
+Python Tuple index()
+
+Python Tuple count()
+
+Python Lists Vs Tuples
+
+Python del Statement
+
+Python Dictionary items()
+
+Python Tuple
+
+A tuple is a collection similar to a Python list . The primary difference is that we cannot modify a tuple once it is created.
+
+Create a Python Tuple
+
+We create a tuple by placing items inside parentheses
+()
+. For example,
+
+numbers = (1, 2, -5)
+
+print(numbers)
+
+# Output: (1, 2, -5)
+
+More on Tuple Creation
+
+Create a Tuple Using tuple() Constructor
+
+We can also create a tuple using a tuple() constructor. For example,
+
+tuple_constructor = tuple(('Jack', 'Maria', 'David'))
+print(tuple_constructor)
+
+# Output: ('Jack', 'Maria', 'David')
+
+Different Types of Python Tuples
+
+Here are the different types of tuples we can create in Python.
+
+Empty Tuple
+
+# create an empty tuple
+empty_tuple = ()
+print(empty_tuple)
+
+# Output: ()
+
+Tuple of different data types
+
+# tuple of string types
+names = ('James', 'Jack', 'Eva')
+print (names)
+
+# tuple of float types
+float_values = (1.2, 3.4, 2.1)
+print(float_values)
+
+Tuple of mixed data types
+
+# tuple including string and integer
+mixed_tuple = (2, 'Hello', 'Python')
+print(mixed_tuple)
+
+# Output: (2, 'Hello', 'Python')
+
+Tuple Characteristics
+
+Tuples are:
+
+- Ordered - They maintain the order of elements.
+
+- Immutable - They cannot be changed after creation.
+
+- Allow duplicates - They can contain duplicate values.
+
+Access Tuple Items
+
+Each item in a tuple is associated with a number, known as a index .
+
+The index always starts from 0 , meaning the first item of a tuple is at index 0 , the second item is at index 1, and so on.
+
+Index of Tuple Item
+
+Access Items Using Index
+
+We use index numbers to access tuple items. For example,
+
+languages = ('Python', 'Swift', 'C++')
+
+# access the first item
+print(languages[0]) # Python
+
+# access the third item
+print(languages[2]) # C++
+
+Access Tuple Items
+
+Tuple Cannot be Modified
+
+Python tuples are immutable (unchangeable). We cannot add, change, or delete items of a tuple.
+
+If we try to modify a tuple, we will get an error. For example,
+
+cars = ('BMW', 'Tesla', 'Ford', 'Toyota')
+
+# trying to modify a tuple
+cars[0] = 'Nissan' # error
+
+print(cars)
+
+Python Tuple Length
+
+We use the len() function to find the number of items present in a tuple. For example,
+
+cars = ('BMW', 'Tesla', 'Ford', 'Toyota')
+print('Total Items:', len(cars))
+
+# Output: Total Items: 4
+
+Iterate Through a Tuple
+
+We use the for loop to iterate over the items of a tuple. For example,
+
+fruits = ('apple','banana','orange')
+
+# iterate through the tuple
+for fruit in fruits:
+print(fruit)
+
+Output
+
+apple
+banana
+orange
+
+More on Python Tuple
+
+Check if an Item Exists in the Tuple
+
+We use the
+in
+keyword to check if an item exists in the tuple. For example,
+
+colors = ('red', 'orange', 'blue')
+
+print('yellow' in colors) # False
+print('red' in colors) # True
+
+Here,
+
+- yellow is not present in
+colors
+, so,
+'yellow' in colors
+evaluates to
+False
+
+- red is present in
+colors
+, so,
+'red' in colors
+evaluates to
+True
+
+Change Tuple Items
+
+Python Tuples are immutable - we cannot change the items of a tuple once created.
+
+If we try to do so, we will get an error. For example,
+
+fruits = ('apple', 'cherry', 'orange')
+
+# trying to change the second item to 'banana'
+fruits[1] = 'banana'
+
+print(fruits)
+
+# Output: TypeError: 'tuple' object does not support item assignment
+
+Delete Tuples
+
+We cannot delete individual items of a tuple. However, we can delete the tuple itself using the del statement. For example,
+
+animals = ('dog', 'cat', 'rat')
+
+# deleting the tuple
+del animals
+
+Here, we have deleted the animals tuple.
+
+Create a Python Tuple With One Item
+
+When we want to create a tuple with a single item, we might do the following:
+
+var = ('Hello')
+print(var) # string
+
+But this would not create a tuple; instead, it would be considered a string .
+
+To solve this, we need to include a trailing comma after the item. For example,
+
+var = ('Hello',)
+print(var) # tuple
+
+# Output: ('Hello',)
+
+Also Read:
+
+- Python Tuple Methods
+
+- Introduction
+
+- Create a Python Tuple
+
+- Access Tuple Items
+
+- Python Tuple Length
+
+- Iterate Through a Tuple
+
+Before we wrap up, let’s put your knowledge of Python tuple to the test! Can you solve the following challenge?
+
+Challenge:
+
+Write a function to modify a tuple by adding an element at the end of it.
+
+- For inputs with tuple
+(1, 2, 3)
+and element 4 , the return value should be
+(1, 2, 3, 4)
+.
+
+- Hint: You need to first convert the tuple to another data type, such as a list.
+
+Check Code
+
+Video: Python Lists and Tuples
+
+Previous Tutorial:
+
+Python List
+
+Next Tutorial:
+
+Python Sets
+
+Share on:
+
+Did you find this article helpful?
+
+Sorry about that.
+
+How can we improve it?
+
+Feedback *
+
+Leave this field blank
+
+Your builder path starts here. Builders don't just know how to code, they create solutions that matter.
+
+Escape tutorial hell and ship real projects.
+
+Try Programiz PRO
+
+Real-World Projects
+
+On-Demand Learning
+
+- AI Mentor
+
+Builder Community
+
+Related Tutorials
+
+Python Library
+
+Python tuple()
+
+Python Library
+
+Python Tuple count()
+
+Python Library
+
+Python Tuple index()
+
+Python Tutorial
+
+Python del Statement

@@ -1,0 +1,18 @@
+{
+  "id": "aima-python",
+  "type": "git",
+  "title": "AIMA Python",
+  "description": "Algorithm-focused AI notebooks and explanations inspired by AIMA.",
+  "license": "Repository license",
+  "repoUrl": "https://github.com/aimacode/aima-python.git",
+  "maxFiles": 120,
+  "rootPaths": [
+    "."
+  ],
+  "includeExtensions": [
+    ".md",
+    ".ipynb",
+    ".txt"
+  ],
+  "documentCount": 50
+}

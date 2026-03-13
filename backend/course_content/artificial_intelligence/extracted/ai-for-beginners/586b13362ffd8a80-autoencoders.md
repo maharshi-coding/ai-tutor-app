@@ -1,0 +1,554 @@
+# Autoencoders
+
+Source: AI for Beginners
+Original URL: https://github.com/microsoft/AI-For-Beginners/blob/HEAD/lessons/4-ComputerVision/09-Autoencoders/AutoencodersTF.ipynb
+Original Path: lessons/4-ComputerVision/09-Autoencoders/AutoencodersTF.ipynb
+Course: Artificial Intelligence
+
+# Autoencoders
+
+When training CNNs, one of the problems is that we need a lot of labeled data. In the case of image classification, we need to separate images into different classes, which is a manual effort.
+
+However, we might want to use raw (unlabeled) data for training CNN feature extractors, which is called **self-supervised learning**. Instead of labels, we will use training images as both network input and output. The main idea of **autoencoder** is that we will have an **encoder network** that converts input image into some **latent space** (normally it is just a vector of some smaller size), then the **decoder network**, whose goal would be to reconstruct the original image.
+
+Since we are training autoencoder to capture as much of the information from the original image as possible for accurate reconstruction, the network tries to find the best **embedding** of input images to capture the meaning.
+
+![AutoEncoder Diagram](images/autoencoder_schema.jpg)
+
+*Image from [Keras blog](https://blog.keras.io/building-autoencoders-in-keras.html)*
+
+Most of the examples below are inspired by [this article](https://blog.keras.io/building-autoencoders-in-keras.html).
+
+Let's create simplest autoencoder for MNIST:
+
+```python
+import tensorflow as tf
+from tensorflow.keras.datasets import mnist
+import numpy as np
+import matplotlib.pyplot as plt
+
+(x_train, y_trainclass), (x_test, y_testclass) = mnist.load_data()
+```
+
+```python
+def plotn(n,x):
+fig,ax = plt.subplots(1,n)
+for i,z in enumerate(x[0:n]):
+ax[i].imshow(z.reshape(28,28) if z.size==28*28 else z.reshape(14,14) if z.size==14*14 else z)
+plt.show()
+
+plotn(5,x_train)
+```
+
+Output:
+```text
+<Figure size 432x288 with 5 Axes>
+```
+
+```python
+from tensorflow.keras.layers import Input, Dense, Conv2D, MaxPooling2D, UpSampling2D, Lambda
+from tensorflow.keras.models import Model
+from tensorflow.keras.losses import binary_crossentropy,mse
+
+input_img = Input(shape=(28, 28, 1))
+
+x = Conv2D(16, (3, 3), activation='relu', padding='same')(input_img)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+encoded = MaxPooling2D((2, 2), padding='same')(x)
+
+encoder = Model(input_img,encoded)
+
+input_rep = Input(shape=(4,4,8))
+
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(input_rep)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(16, (3, 3), activation='relu')(x)
+x = UpSampling2D((2, 2))(x)
+decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
+
+decoder = Model(input_rep,decoded)
+
+autoencoder = Model(input_img, decoder(encoder(input_img)))
+autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
+```
+
+```python
+x_train = x_train.astype('float32') / 255.
+x_test = x_test.astype('float32') / 255.
+x_train = np.reshape(x_train, (len(x_train), 28, 28, 1))
+x_test = np.reshape(x_test, (len(x_test), 28, 28, 1))
+```
+
+```python
+autoencoder.fit(x_train, x_train,
+epochs=25,
+batch_size=128,
+shuffle=True,
+validation_data=(x_test, x_test))
+```
+
+Output:
+```text
+Train on 60000 samples, validate on 10000 samples
+Epoch 1/25
+59648/60000 [============================>.] - ETA: 0s - loss: 0.2134
+
+/usr/local/lib/python3.7/dist-packages/tensorflow/python/keras/engine/training.py:2325: UserWarning: `Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
+warnings.warn('`Model.state_updates` will be removed in a future version. '
+
+60000/60000 [==============================] - 6s 99us/sample - loss: 0.2130 - val_loss: 0.1454
+Epoch 2/25
+60000/60000 [==============================] - 5s 86us/sample - loss: 0.1353 - val_loss: 0.1258
+Epoch 3/25
+60000/60000 [==============================] - 5s 87us/sample - loss: 0.1225 - val_loss: 0.1177
+Epoch 4/25
+60000/60000 [==============================] - 5s 85us/sample - loss: 0.1163 - val_loss: 0.1126
+Epoch 5/25
+60000/60000 [==============================] - 5s 87us/sample - loss: 0.1120 - val_loss: 0.1091
+Epoch 6/25
+60000/60000 [==============================] - 5s 86us/sample - loss: 0.1093 - val_loss: 0.1070
+Epoch 7/25
+60000/60000 [==============================] - 5s 87us/sample - loss: 0.1072 - val_loss: 0.1055
+Epoch 8/25
+60000/60000 [==============================] - 5s 87us/sample - loss: 0.1057 - val_loss: 0.1041
+Epoch 9/25
+60000/60000 [==============================] - 5s 85us/sample - loss: 0.1045 - val_loss: 0.1028
+Epoch 10/25
+60000/60000 [==============================] - 5s 84us/sample - loss: 0.1035 - val_loss: 0.1022
+Epoch 11/25
+60000/60000 [==============================] - 5s 84us/sample - loss: 0.1026 - val_loss: 0.1011
+Epoch 12/25
+60000/60000 [==============================] - 5s 83us/sample - loss: 0.1018 - val_loss: 0.1003
+Epoch 13/25
+60000/60000 [==============================] - 5s 83us/sample - loss: 0.1012 - val_loss: 0.0996
+Epoch 14/25
+60000/60000 [==============================] - 5s 83us/sample - loss: 0.1005 - val_loss: 0.0991
+Epoch 15/25
+60000/60000 [==============================] - 5s 83us/sample - loss: 0.1000 - val_loss: 0.0988
+
+```
+
+```python
+y_test = autoencoder.predict(x_test[0:5])
+plotn(5,x_test)
+plotn(5,y_test)
+```
+
+Output:
+```text
+/usr/local/lib/python3.7/dist-packages/tensorflow/python/keras/engine/training.py:2325: UserWarning: `Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
+warnings.warn('`Model.state_updates` will be removed in a future version. '
+
+<Figure size 432x288 with 5 Axes>
+
+```
+
+```python
+encoder = Model(input_img, encoded)
+encoded_imgs = encoder.predict(x_test[0:5])
+```
+
+Output:
+```text
+/usr/local/lib/python3.7/dist-packages/tensorflow/python/keras/engine/training.py:2325: UserWarning: `Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
+warnings.warn('`Model.state_updates` will be removed in a future version. '
+```
+
+```python
+plotn(5,encoded_imgs.reshape(5,-1,8))
+```
+
+Output:
+```text
+<Figure size 432x288 with 5 Axes>
+```
+
+```python
+print(encoded_imgs.max(),encoded_imgs.min())
+res = decoder.predict(7*np.random.rand(7,4,4,8))
+plotn(7,res)
+```
+
+Output:
+```text
+6.3110805 0.0
+
+<Figure size 432x288 with 7 Axes>
+```
+
+> **Task 1**: Try to train autoencoder with very small latent vector size, eg. 2, and plot the dots corresponding to different digits. *Hint: Use fully-connected dense layer after the convoluitonal part to reduce the vector size to the required value.*
+
+> **Task 2**: Starting from different digits, obtain their latent space representations, and see what effect adding some noise to the latent space has on the resulting digits.
+
+## Denoising
+
+Autoencoders can be effectively used to remove noise from images. In order to train denoiser, we will start with noise-free images, and add artificial noise to them. Then, we will feed autoencoder with noisy images as input, and noise-free images as output.
+
+Let's see how this works for MNIST:
+
+```python
+def noisify(data):
+return np.clip(data+np.random.normal(loc=0.5,scale=0.5,size=data.shape),0.,1.)
+
+x_train_noise = noisify(x_train)
+x_test_noise = noisify(x_test)
+
+plotn(5,x_train_noise)
+```
+
+Output:
+```text
+<Figure size 432x288 with 5 Axes>
+```
+
+```python
+autoencoder.fit(x_train_noise, x_train,
+epochs=25,
+batch_size=128,
+shuffle=True,
+validation_data=(x_test_noise, x_test))
+```
+
+Output:
+```text
+Train on 60000 samples, validate on 10000 samples
+Epoch 1/25
+60000/60000 [==============================] - 6s 101us/sample - loss: 0.1576 - val_loss: 0.1566
+Epoch 2/25
+60000/60000 [==============================] - 6s 95us/sample - loss: 0.1564 - val_loss: 0.1553
+Epoch 3/25
+60000/60000 [==============================] - 6s 94us/sample - loss: 0.1555 - val_loss: 0.1539
+Epoch 4/25
+60000/60000 [==============================] - 6s 95us/sample - loss: 0.1545 - val_loss: 0.1530
+Epoch 5/25
+60000/60000 [==============================] - 6s 95us/sample - loss: 0.1538 - val_loss: 0.1517
+Epoch 6/25
+60000/60000 [==============================] - 6s 93us/sample - loss: 0.1528 - val_loss: 0.1506
+Epoch 7/25
+60000/60000 [==============================] - 6s 93us/sample - loss: 0.1521 - val_loss: 0.1499
+Epoch 8/25
+60000/60000 [==============================] - 5s 92us/sample - loss: 0.1514 - val_loss: 0.1495
+Epoch 9/25
+60000/60000 [==============================] - 6s 92us/sample - loss: 0.1508 - val_loss: 0.1487
+Epoch 10/25
+60000/60000 [==============================] - 6s 93us/sample - loss: 0.1500 - val_loss: 0.1483
+Epoch 11/25
+60000/60000 [==============================] - 6s 92us/sample - loss: 0.1495 - val_loss: 0.1484
+Epoch 12/25
+60000/60000 [==============================] - 6s 94us/sample - loss: 0.1487 - val_loss: 0.1468
+Epoch 13/25
+60000/60000 [==============================] - 6s 92us/sample - loss: 0.1482 - val_loss: 0.1467
+Epoch 14/25
+60000/60000 [==============================] - 6s 92us/sample - loss: 0.1476 - val_loss: 0.1459
+Epoch 15/25
+60000/60000 [=====================
+
+<tensorflow.python.keras.callbacks.History at 0x7f3fa612c4d0>
+```
+
+```python
+y_test = autoencoder.predict(x_test_noise[0:5])
+plotn(5,x_test_noise)
+plotn(5,y_test)
+```
+
+Output:
+```text
+<Figure size 432x288 with 5 Axes>
+
+```
+
+> **Exercise:** See how denoiser trained on MNIST digits works for different images. As an example, you can take [Fashion MNIST](https://keras.io/api/datasets/fashion_mnist/) dataset, which has the same image size. Note that denoiser works well only on the same image type that it was trained on (i.e. for the same probability distribution of input data).
+
+## Super-resolution
+
+Similarly to denoiser, we can train autoencoders to increase the resolution of the image. To train super-resolution network, we will start with high-resolution images, and automatically downscale them to produce network inputs. We will then feed autoencoder with small images as inputs and high-res images as outputs.
+
+Let's downscale MNIST to 14x14:
+
+```python
+x_train_lr = tf.keras.layers.AveragePooling2D()(x_train).numpy()
+x_test_lr = tf.keras.layers.AveragePooling2D()(x_test).numpy()
+plotn(5,x_train_lr)
+```
+
+Output:
+```text
+<Figure size 432x288 with 5 Axes>
+```
+
+```python
+from tensorflow.keras.layers import Input, Dense, Conv2D, MaxPooling2D, UpSampling2D, Lambda
+from tensorflow.keras.models import Model
+from tensorflow.keras.losses import binary_crossentropy,mse
+
+input_img = Input(shape=(14, 14, 1))
+
+x = Conv2D(16, (3, 3), activation='relu', padding='same')(input_img)
+x = MaxPooling2D((2, 2), padding='same')(x)
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+encoded = MaxPooling2D((2, 2), padding='same')(x)
+
+encoder = Model(input_img,encoded)
+
+input_rep = Input(shape=(4,4,8))
+
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(input_rep)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+x = UpSampling2D((2, 2))(x)
+x = Conv2D(16, (3, 3), activation='relu')(x)
+x = UpSampling2D((2, 2))(x)
+decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
+
+decoder = Model(input_rep,decoded)
+
+autoencoder = Model(input_img, decoder(encoder(input_img)))
+autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
+```
+
+```python
+autoencoder.fit(x_train_lr, x_train,
+epochs=25,
+batch_size=128,
+shuffle=True,
+validation_data=(x_test_lr, x_test))
+```
+
+Output:
+```text
+Epoch 1/25
+469/469 [==============================] - 6s 10ms/step - loss: 0.3413 - val_loss: 0.1519
+Epoch 2/25
+469/469 [==============================] - 4s 9ms/step - loss: 0.1457 - val_loss: 0.1292
+Epoch 3/25
+469/469 [==============================] - 4s 9ms/step - loss: 0.1273 - val_loss: 0.1202
+Epoch 4/25
+469/469 [==============================] - 4s 9ms/step - loss: 0.1189 - val_loss: 0.1142
+Epoch 5/25
+469/469 [==============================] - 4s 9ms/step - loss: 0.1148 - val_loss: 0.1107
+Epoch 6/25
+469/469 [==============================] - 4s 9ms/step - loss: 0.1115 - val_loss: 0.1083
+Epoch 7/25
+469/469 [==============================] - 4s 9ms/step - loss: 0.1093 - val_loss: 0.1063
+Epoch 8/25
+469/469 [==============================] - 4s 9ms/step - loss: 0.1071 - val_loss: 0.1046
+Epoch 9/25
+469/469 [==============================] - 4s 9ms/step - loss: 0.1060 - val_loss: 0.1037
+Epoch 10/25
+469/469 [==============================] - 4s 9ms/step - loss: 0.1048 - val_loss: 0.1026
+Epoch 11/25
+469/469 [==============================] - 4s 9ms/step - loss: 0.1039 - val_loss: 0.1019
+Epoch 12/25
+469/469 [==============================] - 4s 9ms/step - loss: 0.1030 - val_loss: 0.1012
+Epoch 13/25
+469/469 [==============================] - 4s 9ms/step - loss: 0.1024 - val_loss: 0.1004
+Epoch 14/25
+469/469 [==============================] - 4s 9ms/step - loss: 0.1017 - val_loss: 0.0999
+Epoch 15/25
+469/469 [==============================] - 4s 9ms/step - loss: 0.1010 - val_loss: 0.0993
+Epoch 16/25
+469/469 [==============================] - 4s 9ms/step - loss: 0.1005 - val_loss:
+
+<tensorflow.python.keras.callbacks.History at 0x7f66790ada90>
+```
+
+```python
+y_test_lr = autoencoder.predict(x_test_lr[0:5])
+plotn(5,x_test_lr)
+plotn(5,y_test_lr)
+```
+
+Output:
+```text
+<Figure size 432x288 with 5 Axes>
+
+```
+
+> **Exercise**: Try to train super-resolution network on [CIFAR-10](https://keras.io/api/datasets/cifar10/) for 2x and 4x upscaling. Use noise as input to 4x upscaling model and observe the result.
+
+## Variational Auto-Encoders (VAE)
+
+Traditional autoencoders reduce the dimension of the input data somehow, figuring out the important features of input images. However, latent vectors often do not make much sense. In other words, taking MNIST dataset as an example, figuring out which digits correspond to different latent vectors is not an easy task, because close latent vectors would not necessarily correspond to the same digits.
+
+On the other hand, to train *generative* models it is better to have some understanding of the latent space. This idea leads us to **variational auto-encoder** (VAE).
+
+VAE is the autoencoder that learns to predict *statistical distribution* of the latent parameters, so-called **latent distribution**. For example, we can assume that latent vectors would be distributed as $N(\mathrm{z\_mean},e^{\mathrm{z\_log\_sigma}})$, where $\mathrm{z\_mean}, \mathrm{z\_log\_sigma} \in\mathbb{R}^d$. Encoder in VAE learns to predict those parameters, and then decoder takes a random vector from this distribution to reconstruct the object.
+
+To summarize:
+
+* From input vector, we predict `z_mean` and `z_log_sigma` (instead of predicting the standard deviation itself, we predict it's logarithm)
+* We sample a vector `sample` from the distribution $N(\mathrm{z\_mean},e^{\mathrm{z\_log\_sigma}})$
+* Decoder tries to decode the original image using `sample` as an input vector
+
+<img src="images/vae.png" width="50%">
+
+```python
+intermediate_dim = 512
+latent_dim = 2
+batch_size = 128
+
+tf.compat.v1.disable_eager_execution()
+
+inputs = Input(shape=(784,))
+h = Dense(intermediate_dim, activation='relu')(inputs)
+z_mean = Dense(latent_dim)(h)
+z_log_sigma = Dense(latent_dim)(h)
+```
+
+```python
+@tf.function
+def sampling(args):
+z_mean, z_log_sigma = args
+bs = tf.shape(z_mean)[0]
+epsilon = tf.random.normal(shape=(bs, latent_dim))
+return z_mean + tf.exp(z_log_sigma) * epsilon
+
+z = Lambda(sampling)([z_mean, z_log_sigma])
+```
+
+```python
+encoder = Model(inputs, [z_mean, z_log_sigma, z])
+
+latent_inputs = Input(shape=(latent_dim,))
+x = Dense(intermediate_dim, activation='relu')(latent_inputs)
+outputs = Dense(784, activation='sigmoid')(x)
+
+decoder = Model(latent_inputs, outputs)
+
+outputs = decoder(encoder(inputs)[2])
+
+vae = Model(inputs, outputs)
+```
+
+Variational auto-encoders use complex loss function that consists of two parts:
+* **Reconstruction loss** is the loss function that shows how close reconstructed image is to the target (can be MSE). It is the same loss function as in normal autoencoders.
+* **KL loss**, which ensures that latent variable distributions stays close to normal distribution. It is based on the notion of [Kullback-Leibler divergence](https://www.countbayesie.com/blog/2017/5/9/kullback-leibler-divergence-explained) - a metric to estimate how similar two statistical distributions are.
+
+```python
+@tf.function
+def vae_loss(x1,x2):
+reconstruction_loss = mse(x1,x2)*784
+tmp = 1 + z_log_sigma - tf.square(z_mean) - tf.exp(z_log_sigma)
+kl_loss = -0.5*tf.reduce_sum(tmp, axis=-1)
+return tf.convert_to_tensor(tf.reduce_mean(reconstruction_loss + kl_loss))
+
+vae.compile(optimizer='rmsprop', loss=vae_loss)
+```
+
+```python
+x_train_flat = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
+x_test_flat = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+
+vae.fit(x_train_flat, x_train_flat,
+shuffle=True,
+epochs=25,
+batch_size=batch_size,
+validation_data=(x_test_flat, x_test_flat))
+```
+
+Output:
+```text
+Train on 60000 samples, validate on 10000 samples
+Epoch 1/25
+59520/60000 [============================>.] - ETA: 0s - loss: 48.6396
+
+/usr/local/lib/python3.7/dist-packages/tensorflow/python/keras/engine/training.py:2325: UserWarning: `Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
+warnings.warn('`Model.state_updates` will be removed in a future version. '
+
+60000/60000 [==============================] - 4s 64us/sample - loss: 48.5874 - val_loss: 41.8877
+Epoch 2/25
+60000/60000 [==============================] - 3s 57us/sample - loss: 41.1296 - val_loss: 40.2556
+Epoch 3/25
+60000/60000 [==============================] - 3s 56us/sample - loss: 40.0063 - val_loss: 39.3692
+Epoch 4/25
+60000/60000 [==============================] - 3s 56us/sample - loss: 39.2531 - val_loss: 38.7666
+Epoch 5/25
+60000/60000 [==============================] - 3s 57us/sample - loss: 38.7147 - val_loss: 38.6124
+Epoch 6/25
+60000/60000 [==============================] - 3s 57us/sample - loss: 38.2962 - val_loss: 38.1867
+Epoch 7/25
+60000/60000 [==============================] - 3s 56us/sample - loss: 37.9756 - val_loss: 37.9831
+Epoch 8/25
+60000/60000 [==============================] - 3s 57us/sample - loss: 37.6933 - val_loss: 37.5475
+Epoch 9/25
+60000/60000 [==============================] - 3s 57us/sample - loss: 37.4323 - val_loss: 37.2913
+Epoch 10/25
+60000/60000 [==============================] - 3s 56us/sample - loss: 37.2133 - val_loss: 37.1992
+Epoch 11/25
+60000/60000 [==============================] - 3s 57us/sample - loss: 36.9966 - val_loss: 36.9521
+Epoch 12/25
+60000/60000 [==============================] - 3s 57us/sample - loss: 36.8204 - val_loss: 36.8431
+Epoch 13/25
+60000/60000 [==============================] - 3s 57us/sample - loss: 36.6490 - val_loss: 36.6979
+Epoch 14/25
+60000/60000 [==============================] - 3s 57us/sample - loss: 36.5023 - val_loss: 36.6661
+Epoch 15/25
+60000/60000 [==============================] - 3s 57us/sample - loss
+```
+
+```python
+y_test = vae.predict(x_test_flat[0:5])
+plotn(5,x_test_flat)
+plotn(5,y_test)
+```
+
+Output:
+```text
+/usr/local/lib/python3.7/dist-packages/tensorflow/python/keras/engine/training.py:2325: UserWarning: `Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
+warnings.warn('`Model.state_updates` will be removed in a future version. '
+
+<Figure size 432x288 with 5 Axes>
+
+```
+
+```python
+x_test_encoded = encoder.predict(x_test_flat)[0]
+plt.figure(figsize=(6, 6))
+plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 1], c=y_testclass)
+plt.colorbar()
+plt.show()
+```
+
+Output:
+```text
+/usr/local/lib/python3.7/dist-packages/tensorflow/python/keras/engine/training.py:2325: UserWarning: `Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
+warnings.warn('`Model.state_updates` will be removed in a future version. '
+
+<Figure size 432x432 with 2 Axes>
+```
+
+```python
+def plotsample(n):
+dx = np.linspace(-1,1,n)
+dy = np.linspace(-1,1,n)
+fig,ax = plt.subplots(n,n)
+for i,xi in enumerate(dx):
+for j,xj in enumerate(dy):
+res = decoder.predict(np.array([xi,xj]).reshape(-1,2))[0]
+ax[i,j].imshow(res.reshape(28,28))
+ax[i,j].axis('off')
+plt.show()
+
+plotsample(10)
+```
+
+Output:
+```text
+/usr/local/lib/python3.7/dist-packages/tensorflow/python/keras/engine/training.py:2325: UserWarning: `Model.state_updates` will be removed in a future version. This property should not be used in TensorFlow 2.0, as `updates` are applied automatically.
+warnings.warn('`Model.state_updates` will be removed in a future version. '
+
+<Figure size 432x288 with 100 Axes>
+```
+
+> **Task**: In our sample, we have trained fully-connected VAE. Now take the CNN from traditional auto-encoder above and create CNN-based VAE.
+
+## Additional Materials
+
+* [Blog post on NeuroHive](https://neurohive.io/ru/osnovy-data-science/variacionnyj-avtojenkoder-vae/)
+* [Variational Autoencoders Explained](https://kvfrans.com/variational-autoencoders-explained/)

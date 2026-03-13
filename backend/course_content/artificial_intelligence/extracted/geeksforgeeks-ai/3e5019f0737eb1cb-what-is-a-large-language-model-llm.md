@@ -1,0 +1,184 @@
+# What is a Large Language Model (LLM)
+
+Source: GeeksforGeeks Artificial Intelligence Tutorial
+Original URL: https://www.geeksforgeeks.org/artificial-intelligence/large-language-model-llm/
+Original Path: https://www.geeksforgeeks.org/artificial-intelligence/large-language-model-llm/
+Course: Artificial Intelligence
+
+What is a Large Language Model (LLM)
+
+Last Updated : 23 Feb, 2026
+
+Large Language Models (LLMs) are advanced AI systems built on deep neural networks designed to process, understand and generate human-like text.
+
+- LLMs Learn patterns, grammar and context from text and can answer questions, write content, translate languages and many more.
+
+- By using massive datasets and billions of parameters, LLMs have transformed the way humans interact with technology.
+
+- Modern LLMs include ChatGPT (OpenAI), Google Gemini, Anthropic Claude, etc.
+LLM
+Working of LLM
+
+LLMs are primarily based on the Transformer architecture which enables them to learn long-range dependencies and contextual meaning in text. At a high level, they work through:
+Working
+- Input Embeddings : Converting text into numerical vectors.
+
+- Positional Encoding : Adding sequence/order information.
+
+- Self-Attention : Understanding relationships between words in context.
+
+- Feed-Forward Layers : Capturing complex patterns.
+
+- Decoding: Generating responses step-by-step.
+
+- Multi-Head Attention : Parallel reasoning over multiple relationships.
+
+Popular LLMs
+
+Some of the most widely used LLMs include:
+
+- GPT-4 and GPT-4o (OpenAI) : Advanced multimodal reasoning and dialogue capabilities.
+
+- Gemini 1.5 (Google DeepMind) : Long-context reasoning, capable of handling 1M+ tokens.
+
+- Claude 3 (Anthropic) : Safety-focused, strong at reasoning and summarization.
+
+- LLaMA 3 (Meta) : Open-weight model, popular in research and startups.
+
+- Mistral 7B / Mixtral (Mistral AI) : Efficient open-source alternatives for developers.
+
+- BERT and RoBERTa (Google/Facebook) : Strong embedding models for NLP tasks.
+
+- mBERT and XLM-R : Early multilingual LLMs.
+
+- BLOOM : Large open-source multilingual model, collaboratively developed.
+
+Use Cases
+
+- Code Generation : LLMs can generate accurate code based on user instructions for specific tasks.
+
+- Debugging and Documentation : They assist in identifying code errors, suggesting fixes and even automating project documentation.
+
+- Question Answering : Users can ask both casual and complex questions, receiving detailed, context-aware responses.
+
+- Language Translation and Correction : LLMs can translate text between over 50 languages and correct grammatical errors.
+
+- Prompt-Based Versatility : By crafting creative prompts, users can unlock endless possibilities, as LLMs excel in one-shot and zero-shot learning scenarios.
+
+Advantages
+
+Large Language Models (LLMs) come with several advantages that contribute to their widespread adoption and success in various applications:
+
+- Zero-Shot and Few-Shot Learning : Can perform new tasks without explicit retraining.
+
+- Scalable Knowledge : Efficiently process and understand vast text corpora.
+
+- Fine-Tuning Flexibility : Adaptable to specific industries and datasets.
+
+- Automation of Language Tasks : Frees human effort from repetitive or time-consuming tasks.
+
+- Versatility : Effective across multiple domains—healthcare, education, business and research.
+
+Challenges
+
+- High Costs : Training requires millions of dollars in compute resources.
+
+- Time-Intensive : Training large models can take weeks or months.
+
+- Data Challenges : Limited availability of high-quality, legal and unbiased text data.
+
+- Environmental Impact : High energy consumption leading to significant carbon footprint.
+
+- Ethical Concerns : Bias, misinformation risks and responsible deployment remains a major issue.
+
+Must Read:
+
+- To explore the technical concepts behind LLMs refer to: Large Language Model (LLM) Tutorial
+
+- Working of Transformers in Deep Learning
+
+- LLM Architecture
+
+Artificial Intelligence
+
+data-science
+
+ChatGPT
+
+Introduction to AI
+
+- What is Artificial Intelligence (AI) 10 min read
+
+- Types of Artificial Intelligence (AI) 6 min read
+
+- Types of AI Based on Functionalities 4 min read
+
+- Agents in AI 7 min read
+
+- Artificial intelligence vs Machine Learning vs Deep Learning 3 min read
+
+- Problem Solving in Artificial Intelligence 6 min read
+
+- Top 20 Applications of Artificial Intelligence (AI) in 2025 13 min read
+
+AI Concepts
+
+- Search Algorithms in AI 6 min read
+
+- Local Search Algorithm in Artificial Intelligence 7 min read
+
+- Adversarial Search Algorithms in Artificial Intelligence (AI) 15+ min read
+
+- Constraint Satisfaction Problems (CSP) in Artificial Intelligence 10 min read
+
+- Knowledge Representation in AI 9 min read
+
+- First-Order Logic in Artificial Intelligence 4 min read
+
+- Reasoning Mechanisms in AI 9 min read
+
+Machine Learning in AI
+
+- Machine Learning Tutorial 5 min read
+
+- Deep Learning Tutorial 2 min read
+
+- Natural Language Processing (NLP) Tutorial 2 min read
+
+- Computer Vision Tutorial 3 min read
+
+Robotics and AI
+
+- Artificial Intelligence in Robotics 5 min read
+
+- What is Robotics Process Automation 8 min read
+
+- Automated Planning in AI 8 min read
+
+- AI in Transportation 8 min read
+
+- AI in Manufacturing : Revolutionizing the Industry 6 min read
+
+Generative AI
+
+- What is Generative AI? 7 min read
+
+- Generative Adversarial Network (GAN) 11 min read
+
+- Cycle Generative Adversarial Network (CycleGAN) 7 min read
+
+- StyleGAN - Style Generative Adversarial Networks 5 min read
+
+- Introduction to Generative Pre-trained Transformer (GPT) 4 min read
+
+- BERT Model - NLP 12 min read
+
+- Generative AI Applications 7 min read
+
+AI Practice
+
+- Top Artificial Intelligence(AI) Interview Questions and Answers 15+ min read
+
+- Top Generative AI and LLM Interview Question with Answer 15+ min read
+
+- 30+ Best Artificial Intelligence Project Ideas with Source Code [2026 Updated] 15+ min read

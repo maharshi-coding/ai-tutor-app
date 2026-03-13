@@ -1,0 +1,114 @@
+# Artificial Intelligence 3E
+
+Source: Artificial Intelligence: Foundations of Computational Agents
+Original URL: https://artint.info/3e/html/ArtInt3e.Ch1.S8.html
+Original Path: https://artint.info/3e/html/ArtInt3e.Ch1.S8.html
+Course: Artificial Intelligence
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+1.8 Overview of the Book
+
+The rest of the book explores the design space defined by the dimensions of
+complexity. It considers each dimension separately,
+where this can be done sensibly.
+
+Part I considers the big view of agents as a coherent
+vision of AI.
+
+Chapter 2 analyzes what is inside the black box of
+Figure 1.4 and discusses the modular and hierarchical decomposition of
+intelligent agents.
+
+Part II considers the case of no uncertainty, which
+is a useful abstraction of many domains.
+
+Chapter 3 considers the simplest case of determining
+what to do in the case of a single agent that reasons with explicit
+states, no uncertainty, and has goals to be achieved, but with an
+indefinite horizon. In this case, the
+task of solving the goal can be abstracted to
+searching for a path in a graph. It is shown how extra knowledge of the
+domain can help the search.
+
+Chapters 4 and 5 show how to exploit
+features. In particular, Chapter 4 considers how to find
+possible states given constraints on the assignments of values to
+features represented as variables.
+Chapter 5 presents reasoning with propositions in
+various forms.
+
+Chapter 6 considers the task of planning, in
+particular determining sequences of actions to solve a goal in
+deterministic domains.
+
+Part III considers learning and reasoning with
+uncertainty. In particular, it considers sensing uncertainty and
+effect uncertainty.
+
+Chapter 7 shows how an agent can learn from past
+experiences and data. It covers the most common case of learning,
+namely supervised learning with features, where a function from
+input features into target
+features is learned from observational
+data. Chapter 8 studies neural networks
+and deep learning and how features themselves can be learned from
+sensory observation.
+
+Chapter 9 shows how to reason with uncertainty, in
+particular with probability and graphical models of independence.
+Chapter 10 introduces learning with
+uncertainty. Chapter 11 shows how to model
+causality and learn the effects of interventions (which cannot be
+learned from observation alone).
+
+Part IV considers planning and acting with
+uncertainty.
+
+Chapter 12 considers the task of planning
+with uncertainty.
+Chapter 13 deals with reinforcement learning, where
+agents learn what to do. Chapter 14
+expands planning to deal with issues arising from multiple agents.
+
+Part V extends the state and feature-based
+representations to deal with relational representations, in terms of
+relations and individuals.
+
+Chapter 15 shows how to reason in terms of individuals and relations.
+Chapter 16 discusses how to enable semantic interoperability
+using knowledge graphs and ontologies.
+Chapter 17 shows how reasoning about individuals and
+relations can be combined with learning and probabilistic reasoning.
+
+Part VI steps back from the details and gives the big picture.
+
+In Chapter 18 on the social impact of AI, further
+ethical and social concerns are addressed, by considering various
+questions, such as: What are the effects, benefits, costs, and risks of deployed
+AI systems for society? What are the ethical, equity, and regulatory
+considerations involved in building intelligent agents? How can you ensure
+that AI systems are fair, transparent, explainable, and trustworthy?
+How can AI systems be human-centered? What is the impact on
+sustainability?
+
+Chapter 19 reviews the design space of AI and shows how
+the material presented can fit into that design space. It also
+considers some likely and possible future scenarios for the development of AI science and technology.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

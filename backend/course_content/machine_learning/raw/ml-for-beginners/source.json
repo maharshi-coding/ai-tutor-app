@@ -1,0 +1,24 @@
+{
+  "id": "ml-for-beginners",
+  "type": "git",
+  "title": "ML for Beginners",
+  "description": "Microsoft's open beginner-friendly machine learning curriculum.",
+  "license": "Repository license",
+  "repoUrl": "https://github.com/microsoft/ML-For-Beginners.git",
+  "maxFiles": 120,
+  "rootPaths": [
+    "."
+  ],
+  "excludePathPatterns": [
+    "translations/",
+    "translated_images/",
+    "binder/",
+    "etc/"
+  ],
+  "includeExtensions": [
+    ".md",
+    ".ipynb",
+    ".txt"
+  ],
+  "documentCount": 91
+}

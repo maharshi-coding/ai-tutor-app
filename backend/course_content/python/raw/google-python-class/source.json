@@ -1,0 +1,15 @@
+{
+  "id": "google-python-class",
+  "type": "web",
+  "title": "Google's Python Class",
+  "description": "Beginner-to-intermediate Python lessons with exercises and examples.",
+  "license": "Google documentation terms",
+  "seedUrls": [
+    "https://developers.google.com/edu/python"
+  ],
+  "allowPrefixes": [
+    "https://developers.google.com/edu/python"
+  ],
+  "maxPages": 18,
+  "documentCount": 13
+}

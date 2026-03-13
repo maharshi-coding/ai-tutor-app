@@ -1,0 +1,97 @@
+# Artificial Intelligence 3E
+
+Source: Artificial Intelligence: Foundations of Computational Agents
+Original URL: https://artint.info/3e/html/ArtInt3e.Ch7.html
+Original Path: https://artint.info/3e/html/ArtInt3e.Ch7.html
+Course: Artificial Intelligence
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+Chapter 7 Supervised Machine Learning
+
+Who so neglects learning in his youth,
+loses the past and is dead for the future.
+
+– Euripides (484 BCE – 406 BCE), Phrixus, Frag. 927
+
+From 2016 to 2020, the entire machine learning and data science
+industry has been dominated by two approaches: deep learning and
+gradient boosted trees. Specifically, gradient boosted trees is used
+for problems where structured data is available, whereas deep learning
+is used for perceptual problems such as image
+classification. …These are the two techniques you should be most
+familiar with in order to be successful in applied machine learning
+today.
+
+– Chollet [ 2021 , pp. 19,20]
+
+Learning
+is the ability of an agent to improve its behavior based on experience. This
+could mean the following:
+
+•
+
+The range of behaviors is expanded; the agent
+can do more.
+
+•
+
+The accuracy on tasks is improved; the agent can do
+things better.
+
+•
+
+The speed is improved; the agent can do things faster.
+
+The most common goal of machine learning is for an agent to understand
+the world using data .
+The aim is not to model the data, but to
+model the world that generates the data. Having better models of the
+world allows the agent to make better decisions and to carry out
+better actions.
+
+Learning is an important aspect of acting intelligently . As
+Euripides pointed out, learning involves an agent
+remembering its past in a way that is useful for its future. Learning
+is one of the fundamental skills of an intelligent agent; however, it
+is usually not an end in itself. For example, a bank may learn from who has
+defaulted on a loan, in order to make decisions about who to give a loan
+to, but the bank may not want future decisions to be based purely on the
+inequities of the past. A self-driving car may learn to recognize
+people and faces in order to drive safely and recognize its owners,
+but the cost of being wrong – running over a person or opening for
+the wrong person – can be very high. For a smart watch predicting the
+activity, location, or health of a person, if it is just suggesting measuring
+activity or tracking a run, a good guess might be adequate; however,
+if it is calling an ambulance, it needs to be accurate and reliable.
+
+This chapter considers general issues of learning and the problem of making a prediction as supervised learning:
+given a collection of training examples made up of input–output pairs,
+predict the output of a new example where only the inputs are
+given. What we call examples are sometimes
+called samples . The output – what is being
+predicted – is often called the target . Two predominant base algorithms from which other more
+sophisticated algorithms are built are presented. Section 7.5
+presents more sophisticated models based on these, including one of
+the
+dominant approaches in Chollet’s quote above. The other dominant
+approach is presented in the next chapter.
+Future chapters include other learning paradigms, as well
+as how to reason and make decisions with learned models.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

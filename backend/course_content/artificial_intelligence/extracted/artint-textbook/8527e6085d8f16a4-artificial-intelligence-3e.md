@@ -1,0 +1,1015 @@
+# Artificial Intelligence 3E
+
+Source: Artificial Intelligence: Foundations of Computational Agents
+Original URL: https://artint.info/3e/html/ArtInt3e.Ch1.S5.html
+Original Path: https://artint.info/3e/html/ArtInt3e.Ch1.S5.html
+Course: Artificial Intelligence
+
+David L. Poole & Alan K. Mackworth
+
+Artificial
+Intelligence 3E
+
+foundations of computational agents
+
+- Home
+
+- Index
+
+- Contents
+
+1.5 Agent Design Space
+
+Agents acting in environments range in complexity from
+thermostats to companies with multiple goals acting in competitive
+environments. The ten dimensions of complexity in the design of
+intelligent agents below are designed to help us understand
+work that has been done, as well as the potential and limits of
+AI. These dimensions may be considered
+separately but must be combined to build an intelligent
+agent. These dimensions define a design space for AI;
+different points in this space are obtained by varying the values
+on each dimension.
+
+These dimensions give a coarse division of the
+design space for intelligent agents. There are many other design
+choices that must also be made
+to build an intelligent agent.
+
+1.5.1 Modularity
+
+The first dimension is the level of modularity.
+
+Modularity is the extent to which a system can be decomposed
+into interacting modules that can be understood separately.
+
+Modularity is important for reducing complexity. It is apparent in the
+structure of the brain, serves as a foundation of computer science,
+and is an important aspect of any large organization.
+
+Modularity is typically expressed in terms of a hierarchical
+decomposition.
+
+In the modularity dimension , an agent’s structure is one of
+the following:
+
+•
+
+flat – there is no organizational structure
+
+•
+
+modular – the system is decomposed into interacting
+modules that can be understood on their own
+
+•
+
+hierarchical – the system is modular, and the modules themselves are decomposed
+into simpler modules, each of which are hierarchical systems or
+simple components.
+
+In a flat or modular structure the agent typically reasons at a single
+level of abstraction. In a hierarchical structure the agent
+reasons at multiple levels of abstraction. The lower levels of the
+hierarchy involve reasoning at a lower level of abstraction.
+
+Example 1.6 .
+
+The delivery robot at the highest level has to plan its day, making
+sure it can deliver coffee on time, but still has time for longer
+trips and cleaning a room.
+At the lowest level, it needs to choose what motor controls to send to
+its wheels,
+and what movement its gripper should do. Even a task like picking up
+a glass involves many precise movements that need to be
+coordinated. Picking up a glass may be just one part of the larger
+task of cleaning part of a room. Cleaning the room might be one task
+that has to be scheduled into the robot’s day.
+
+In a flat
+representation, the agent chooses one level of abstraction and reasons at
+that level. A modular representation would divide the task into a number of
+subtasks that can be solved separately (e.g., pick up coffee, move from
+the corridor to lab B, put down coffee). In a hierarchical representation, the agent will solve
+these subtasks in a hierarchical way, until the task is reduced to simple
+tasks such a sending an http request or making a particular motor control.
+
+Example 1.7 .
+
+A tutoring agent may have high-level teaching strategies, where it needs
+to decide which topics are taught and in what order.
+At a much lower level, it must design the
+details of concrete examples and specific questions for a test. At
+the lowest level it needs to combine words and lines in diagrams to
+express the examples and questions. Students can also be treated as
+learning in a hierarchical way, with detailed examples as well as higher-level
+concepts.
+
+Example 1.8 .
+
+For the trading agent, consider the task of making all of the
+arrangements and purchases for a custom holiday for a traveler. The agent
+should be able to make bookings for flights that fit together. Only
+when it knows where the traveller is staying and when, can it make
+more detailed arrangements such as dinner and event reservations.
+
+A hierarchical decomposition is important for reducing the complexity
+of building an intelligent agent that acts in a complex environment. Large organizations
+have a hierarchical organization so that the top-level decision makers
+are not overwhelmed by details and do not have to micromanage all activities of the organization. Procedural abstraction and
+object-oriented programming in computer science are designed to enable
+simplification of a system by exploiting modularity and abstraction.
+There is much evidence that biological systems are also hierarchical.
+
+To explore
+the other dimensions, initially ignore the hierarchical structure and
+assume a flat representation. Ignoring hierarchical decomposition is
+often fine for small or moderately sized tasks, as it is for simple
+animals, small organizations, or small to moderately sized computer
+programs. When tasks or systems become complex, some
+hierarchical organization is required.
+
+How to build hierarchically organized agents is discussed in
+Section 2.2 .
+
+1.5.2 Planning Horizon
+
+The planning horizon dimension is how far ahead in time the agent plans. For
+example, consider a dog as an agent.
+When a dog is called to come, it should turn around to start running
+in order to get a reward in the future. It does not act only to get an
+immediate reward. Plausibly, a dog does not act for goals
+arbitrarily far in the future (e.g., in a few months), whereas people do
+(e.g., working hard now to get a holiday next year).
+
+How far the agent “looks into the future” when deciding what to do
+is called the planning horizon .
+For completeness, let’s include
+the non-planning case where the agent is not reasoning in time. The time
+points considered by an agent when planning are called stages .
+
+In the planning horizon dimension , an agent is one of the following:
+
+•
+
+A non-planning agent is an agent that does not consider the future when it decides
+what to do or when time is not involved.
+
+•
+
+A finite horizon planner is an agent that looks for a
+fixed finite number of stages. For example, a doctor may have to treat a
+patient but may have time for a test and so there may be two
+stages to plan for: a testing stage and a treatment stage. In the
+simplest case, a greedy
+or myopic agent only looks one time step ahead.
+
+•
+
+An indefinite horizon planner is an agent that looks
+ahead some finite, but not predetermined, number of stages. For
+example, an agent that must get to some location may not know
+a priori how many steps it will take to get there, but, when
+planning, it does not consider what it will do after it gets to the location.
+
+•
+
+An infinite horizon planner is an agent that
+plans on going
+on forever. This is often called a process . For example,
+the stabilization module of a legged robot should go on forever; it
+cannot stop when it has achieved stability, because the robot has
+to keep from falling over.
+
+The modules in a hierarchical decomposition may
+have different horizons, as in the following example.
+
+Example 1.9 .
+
+For the delivery and helping agent, at the lowest level the module
+that keeps the robot stable, safe, and attentive to requests may be on an infinite horizon,
+assuming it is running forever. The task of delivering coffee to a particular
+person may be an indefinite horizon problem. Planning for a fixed number of hours may be a finite horizon problem.
+
+Example 1.10 .
+
+In a tutoring agent , for some subtasks, a
+finite horizon may be appropriate, such as in a fixed teach,
+test, re-teach sequence. For other cases, there may be an indefinite
+horizon where the system may not know at design time how many steps
+it will take until the student has mastered some concept. It may
+also be possible to model teaching as an ongoing process
+of learning and testing with appropriate breaks, with no expectation
+of the system finishing.
+
+1.5.3 Representation
+
+The representation dimension concerns how the world is described.
+
+The different ways the world
+could be are called states . A state of the world
+specifies the
+agent’s internal state (its belief state) and the
+environment state.
+
+At the simplest level, an agent can reason explicitly in terms of
+individually identified states.
+
+Example 1.11 .
+
+A thermostat for a heater
+may have two belief states: off and heating . The environment may have three
+states: cold , comfortable , and hot . There are thus six states corresponding
+to the different combinations of belief and environment states. These
+states may not fully describe the world, but they are adequate to describe
+what a thermostat should do. The thermostat should move to, or stay in,
+heating if the environment is cold and move to, or stay in,
+off if the environment is hot . If the
+environment is comfortable , the thermostat should stay in its
+current state. The thermostat agent turns or keeps the heater on in the
+heating state and turns or keeps the heater off in the off state.
+
+Instead of enumerating states, it is often easier to reason in terms
+of features of the state or propositions that are true or false of the
+state.
+A state may be described in terms of
+features , where a feature has a value
+in each state [see Section 4.1 ].
+
+Example 1.12 .
+
+Consider designing an agent to diagnose electrical problems in the
+home of Figure 1.6 . It may
+have features for the position of each switch, the status of each
+switch (whether it is working okay, whether it is shorted, or whether
+it is broken), and whether each
+light works. The feature p ⁢ o ⁢ s ⁢ i ⁢ t ⁢ i ⁢ o ⁢ n ⁢ _ ⁢ s 2 may be a feature that
+has value u ⁢ p when switch s 2 is up and has value d ⁢ o ⁢ w ⁢ n when the
+switch is down. The state of the home’s lighting may be
+described in terms of values for each of these features. These
+features depend on each other, but not in arbitrarily complex ways;
+for example, whether a light is on may just depend on whether it is okay,
+whether the switch is turned on, and whether there is electricity.
+
+A proposition is a Boolean feature, which
+means that its value is either t ⁢ r ⁢ u ⁢ e or f ⁢ a ⁢ l ⁢ s ⁢ e . Thirty propositions can encode 2 30 = 1 , 073 , 741 , 824 states. It may be easier to specify and reason with the
+thirty propositions than with more than a billion states. Moreover, having
+a compact representation of the states indicates understanding, because
+it means that an agent has captured some regularities in the domain.
+
+Example 1.13 .
+
+Consider an agent that has to recognize digits. Suppose the agent observes a binary
+image, a 28 × 28 grid of pixels, where each of the 28 2 = 784
+grid points is either black or white. The action is to determine which of the
+digits { 0 , … , 9 } is shown in the image. There are 2 784
+different possible states of the image, and so 10 2 784 different
+functions from the image state into the characters
+{ a , … , z } . You cannot represent such functions in terms
+of the state space. Instead, handwriting recognition systems define features of the image,
+such as line segments, and define
+the function from images to characters in terms of these
+features. Modern implementations learn the features that are useful;
+see Example 8.3 .
+
+When describing a complex world, the features can depend on relations
+and individuals . An
+individual is also called a thing , an object ,
+or an entity . A relation on a single individual is a property . There is a feature for each possible relationship
+among the individuals.
+
+Example 1.14 .
+
+The agent that looks after a home in Example 1.12
+could have the lights and switches as individuals, and
+relations p ⁢ o ⁢ s ⁢ i ⁢ t ⁢ i ⁢ o ⁢ n and c ⁢ o ⁢ n ⁢ n ⁢ e ⁢ c ⁢ t ⁢ e ⁢ d ⁢ _ ⁢ t ⁢ o . Instead of the feature
+p ⁢ o ⁢ s ⁢ i ⁢ t ⁢ i ⁢ o ⁢ n ⁢ _ ⁢ s 2 = u ⁢ p , it could use the relation p ⁢ o ⁢ s ⁢ i ⁢ t ⁢ i ⁢ o ⁢ n ⁢ ( s 2 , u ⁢ p ) . This
+relation enables the agent to reason about all switches or for an
+agent to have general knowledge
+about switches that can be used when the agent encounters a switch.
+
+Example 1.15 .
+
+If an agent is enrolling
+students in courses, there could be a feature that gives the grade of a
+student in a course, for every student–course
+pair where the student took the course. There would be a p ⁢ a ⁢ s ⁢ s ⁢ e ⁢ d feature for every student–course pair, which
+depends on the g ⁢ r ⁢ a ⁢ d ⁢ e feature for that pair. It may be easier to
+reason in terms of individual students, courses, and grades, and the relations
+g ⁢ r ⁢ a ⁢ d ⁢ e and p ⁢ a ⁢ s ⁢ s ⁢ e ⁢ d . By defining how p ⁢ a ⁢ s ⁢ s ⁢ e ⁢ d depends on g ⁢ r ⁢ a ⁢ d ⁢ e
+once, the agent can apply the definition for each student and course. Moreover, this can be
+done before the agent knows which individuals exist, and so before it knows
+any of the features.
+
+The two-argument relation p ⁢ a ⁢ s ⁢ s ⁢ e ⁢ d , with 1000 students
+and 100 courses,
+can represent 1000 ∗ 100 = 100 , 000 propositions and so 2 100 , 000 states.
+
+By reasoning in terms of relations and individuals, an agent can reason about whole classes of individuals without ever
+enumerating the features or propositions, let alone the states. An
+agent may have to reason about infinite sets of individuals, such as the set of all numbers or the set of all sentences. To reason
+about an unbounded or infinite number of individuals, an agent cannot reason in terms of
+states or features; it must reason at the relational level.
+
+In the representation dimension , the agent reasons in terms of
+
+•
+
+states
+
+•
+
+features, or
+
+•
+
+individuals and relations (often called relational representations ).
+
+Some of the frameworks will be developed in terms of states, some in
+terms of features, and some in terms of individuals and relations.
+
+Reasoning in terms of states is introduced in
+Chapter 3 . Reasoning in terms of features is
+introduced in Chapter 4 .
+Relational reasoning is considered starting from
+Chapter 15 .
+
+1.5.4 Computational Limits
+
+Sometimes an agent can decide on its best action quickly
+enough for it to act.
+Often there are computational resource limits that prevent an agent
+from carrying out the best action. That is, the agent may not be able to find the best
+action quickly enough within its memory limitations to act while that action is still the best thing
+to do. For example, it may not be much use to take 10 minutes to
+derive what was the best
+thing to do 10 minutes ago, when the agent has to act
+now . Often, instead, an agent
+must trade off how long it takes to get a solution with how good
+the solution is; it may be better to find a reasonable solution
+quickly than to find a better solution later because the world will have
+changed during the computation.
+
+The computational limits dimension determines whether an agent has
+
+•
+
+perfect rationality , where an agent reasons about the
+best action without taking into account its limited computational resources, or
+
+•
+
+bounded rationality , where an agent decides on the best
+action that it can find given its computational limitations.
+
+Computational resource limits include computation time, memory, and
+numerical accuracy caused by computers not representing real numbers exactly.
+
+An anytime algorithm is an
+algorithm where the
+solution quality improves with time. In particular, it is one that
+can produce its current best solution at any time, but given more time
+it could produce even better solutions. To ensure that the quality
+does not decrease, the agent can store
+the best solution found so far, and return that when asked for a
+solution.
+Although the solution quality may increase with time, waiting to act has a cost;
+it may be better for an
+agent to act before it has found what would be the best solution.
+
+Example 1.16 .
+
+The delivery robot cannot think for a long time about how to avoid a
+person. There might be a best way to avoid the person and to achieve
+its other goals, however it might take time to determine that optimal
+path, and it might be better to act quickly and then recover from a non-optimal
+action. In the simplest case, a robot could just stop if it encounters
+a person, but even that is error prone as robots have momentum, so it
+cannot stop immediately and people behind may run into it if it
+stops suddenly.
+
+Example 1.17 .
+
+Even a tutoring agent that can act at longer scales than a robot sometimes has to
+act quickly.
+When a student has completed a task and wants a new task, the agent
+needs to decide whether it should
+assign the student the best task it
+has found so far, or compute for longer, trying to find an
+even better task. As the
+student waits, they might become distracted, which might be worse than
+giving them a non-optimal task. The computer can be planning the next
+task when the student is working. Modern computers, as fast as they may be,
+cannot find optimal solutions to difficult problems quickly.
+
+Figure 1.7: Solution quality as a function of time for an anytime
+algorithm. The meaning is described in Example 1.18
+
+Example 1.18 .
+
+Figure 1.7 shows how the computation time of an anytime
+algorithm can affect the solution quality. The agent has to carry out
+an action but can do some computation to decide what to do. The absolute solution
+quality, had the action been carried out at time zero,
+shown as the dashed line at the top, is
+improving as the agent takes time to reason. However, there is a penalty associated with taking time
+to act. In this figure, the penalty, shown as the dotted line
+at the bottom, is negative and proportional to the time taken before the agent acts. These two values can be added to get the discounted quality,
+the time-dependent value
+of computation; this is the solid line in the middle of the graph. For
+the example of Figure 1.7 , an agent
+should compute for about 2.5 time units, and then act, at which point the discounted
+quality achieves its maximum value. If the computation lasts
+for longer than 4.3 time units, the resulting discounted solution quality is worse
+than if the algorithm outputs the initial guess it can produce with
+virtually no computation. It is typical that the solution
+quality improves in jumps; when the current best solution changes,
+there is a jump in the quality.
+The penalty associated with
+waiting is rarely a straight line; it is typically a function of
+deadlines, which may not be known by the agent.
+
+To take into account bounded rationality, an agent must decide whether
+it should act or reason for longer.
+This is
+challenging because an agent typically does not know how much better
+off it would be if it only spent a little bit more time reasoning. Moreover, the time spent thinking
+about whether it should reason may detract from actually
+reasoning about the domain.
+
+1.5.5 Learning
+
+In some cases, a designer of an agent may have a good model of
+the agent and its environment. But often a designer does not have a
+good model, and so an agent should use data from its past experiences
+and other sources to help it decide what to do.
+
+The learning dimension determines whether
+
+•
+
+knowledge is given , or
+
+•
+
+knowledge is learned (from prior knowledge and data or past experience).
+
+Learning typically means finding the best model that fits the
+data. Sometimes this is as simple as tuning a fixed set of parameters, but it can
+also mean choosing the best representation out of a class of
+representations. Learning is a huge field in itself but does not stand in
+isolation from the rest of AI. There are many issues beyond fitting
+data, including how to incorporate background
+knowledge, what data to collect, how to represent the
+data and the resulting representations, what learning biases are
+appropriate, and how the learned knowledge can be used to affect how
+the agent acts.
+
+Learning is considered in Chapters 7 , 8 ,
+10 , 13 , and 17 .
+
+Example 1.19 .
+
+A robot has a great deal to learn, such as
+how slippery floors are as a function of their shininess,
+where each person hangs out at different parts of the day, when they will
+ask for coffee, and which actions result in the highest rewards.
+
+Modern vision systems are trained to learn good features (such as lines and
+textures) on millions if not billions of
+images and videos. These features can be used to
+recognize objects and for other tasks, even if there have been few
+examples of the higher-level concepts. A robot might not have seen a
+baby crawling on a highway, or a particular mug, but should be able
+to deal with such situations.
+
+Example 1.20 .
+
+Learning is fundamental to diagnosis. It is through learning and science
+that medical professionals understand the progression of diseases and how well
+treatments work or do not work. Diagnosis is a challenging domain
+for learning, because all patients are different, and each individual
+doctor’s experience is only with a few patients with any particular
+set of symptoms. Doctors also see a biased sample of the population;
+those who come to see them usually have unusual or painful
+symptoms. Drugs are not given to people randomly. You cannot learn
+the effect of treatment by observation alone, but need a causal model
+of the causes and effects; see Chapter 11 for
+details on building causal models. To overcome the limitations of
+learning from observations alone, drug companies spend billions of
+dollars doing randomized controlled
+trials in order to learn the efficacy of drugs.
+
+1.5.6 Uncertainty
+
+An agent could assume there is no uncertainty, or it could
+take uncertainty in the domain into
+consideration. Uncertainty is divided into two dimensions: one for
+uncertainty from
+sensing and one for uncertainty about the effects of
+actions.
+
+Sensing Uncertainty
+
+In some cases,
+an agent can observe the state of the world directly. For example, in some board
+games or on a factory floor, an agent may know exactly the state of the world. In many other
+cases, it may have some noisy perception of the state and the best
+it can do is to have a probability distribution over the set of
+possible states
+based on what it perceives. For example, given a patient’s symptoms, a medical doctor may not
+actually know which disease a patient has and may have only
+a probability distribution over the diseases the patient may have.
+
+The sensing uncertainty dimension concerns whether the agent can determine the state from
+the stimuli:
+
+•
+
+Fully observable means the agent knows the state of
+the world from the stimuli.
+
+•
+
+Partially observable means the agent does not
+directly observe
+the state of the world. This occurs when many possible
+states can result in the same stimuli or when stimuli
+are misleading.
+
+Assuming the world is fully observable is a common simplifying
+assumption to keep reasoning tractable.
+
+Example 1.21 .
+
+The delivery robot does not know
+exactly where it is, or what else there is, based on its limited sensors. Looking
+down a corridor does not provide enough information to know where it
+is or who is behind the doors. Knowing where it was a second ago will
+help determine where it is now, but even robots can get lost. It
+may not know where the person who requested coffee is. When it
+is introduced into a new environment, it may have much more uncertainty.
+
+Example 1.22 .
+
+The tutoring agent cannot
+directly observe the knowledge of the student. All it has is some
+sensing input, based on questions the student asks or does not
+ask, facial expressions, distractedness, and
+test results. Even test results are very noisy, as a mistake may be due to distraction or test anxiety instead of lack
+of knowledge, and a correct answer might be due to a lucky guess
+instead of real understanding.
+Sometimes students make mistakes in testing situations they wouldn’t make at
+other times.
+
+Example 1.23 .
+
+A trading agent does not know all
+available options and their availability, but must find
+out information that can become outdated quickly (e.g., if a hotel
+becomes booked up). A travel agent does not know whether a flight will
+be canceled or delayed, or whether the passenger’s luggage will be
+lost. This uncertainty means that the agent must plan for the
+unanticipated.
+
+Effect Uncertainty
+
+A model of the dynamics of the world is a model of how the
+world changes as a result of actions, including the case of how it
+changes if the action were to do nothing.
+In some cases an agent knows the effects of its action. That is, given a state
+and an action, the agent can accurately predict the state resulting from carrying out that action
+in that state. For example, a software agent interacting with the file
+system of a computer may be able to predict the effects of
+deleting a file given the state of the file system. However, in many
+cases, it is difficult to predict the effects of an action, and the
+best an agent can do is to have a probability distribution over the
+effects. For example, a teacher may not know the effects explaining a concept,
+even if the state of the students is known. At the other extreme, if
+the teacher has no inkling of the effect of its actions, there would be no
+reason to choose one action over another.
+
+The dynamics in the effect uncertainty dimension can be
+
+•
+
+deterministic when the state resulting from an action
+is determined by an action and the prior state, or
+
+•
+
+stochastic when there is a probability
+distribution over the resulting states.
+
+Example 1.24 .
+
+For the delivery robot, there can be uncertainty about the effects of an action, both at
+the low level, say due to slippage of the wheels, or at the
+high level because the agent might not know whether putting the coffee on
+a person’s desk succeeded in delivering coffee to the person. This may
+depend on the individual preferences of users.
+
+Example 1.25 .
+
+Even a trading agent does not know the effect of putting in a trade
+order, such as booking a flight or a hotel room. These can become
+unavailable at very short notice (consider two trading agents trying
+to book the same room at the same time), or the price can vary.
+
+The effect dimension only makes sense when the world is fully observable. If
+the world is partially observable, a stochastic system can be modeled
+as a deterministic system where the effect of an action depends on
+unobserved features. It is a separate dimension because many of the
+frameworks developed are for the fully observable, stochastic action case.
+
+Planning with deterministic actions is considered in
+Chapter 6 . Planning with stochastic actions is
+considered in Chapter 12 .
+
+1.5.7 Preference
+
+Agents normally act to have better outcomes. The only reason
+to choose one action over another is because the preferred action leads
+to more desirable outcomes.
+
+An agent may have a simple goal, which is a
+proposition the agent wants to be true in a final state. For example, the
+goal of getting Sam coffee means the agent wants to reach a state
+where Sam has coffee. Other agents may have more complex
+preferences. For example, a medical doctor may be expected to take
+into account suffering, life expectancy, quality of life, monetary
+costs (for the patient, the doctor, and society), and the ability to
+justify decisions in case of a lawsuit. The
+doctor must
+trade these considerations off when they conflict, as they invariably do.
+
+The preference dimension considers whether the agent has goals or
+richer preferences:
+
+•
+
+A goal is either an
+achievement goal , which is a proposition to be true in
+some final state, or a maintenance goal , a proposition that must be true in all
+visited states. For
+example, the goals for a robot may be to deliver a cup of coffee and a
+banana to Sam, and not to make a mess or hurt anyone.
+
+•
+
+Complex preferences involve trade-offs among the
+desirability of
+various outcomes, perhaps at different times.
+An ordinal
+preference is where only the ordering of the preferences is
+important. A cardinal preference
+is where the magnitude of the values
+matters. For example,
+an ordinal preference may be that Sam prefers cappuccino over black
+coffee and prefers black coffee over tea. A cardinal preference may
+give a trade-off between the wait time and the type of beverage, and
+a mess versus taste trade-off, where Sam is prepared to put up with more
+mess in the preparation of the coffee if the taste of the coffee is
+exceptionally good.
+
+Example 1.26 .
+
+The delivery robot could be given goals, such as “deliver coffee to Chris
+and make sure you always have power.” A more
+complex goal may be to “clean up the lab, and put everything where
+it belongs”, which can only be achieved to some degree. There can be complex preferences, such as
+“deliver mail when it arrives and service coffee requests as soon
+as possible, but it
+is more important to deliver messages marked as urgent, and Chris
+needs her coffee quickly when she asks for it.”
+
+Example 1.27 .
+
+For the diagnostic assistant, the goal may be as simple as “fix what is wrong,” but often
+there are complex trade-offs involving costs, pain, life expectancy,
+and preferences related
+to the uncertainty that the diagnosis is correct and uncertainty
+as to efficacy and side-effects of the treatment. There is also a
+problem of whose preferences are to be taken into account; the
+patient, the doctor, the payer, and society may all have different
+preferences that must be reconciled.
+
+Example 1.28 .
+
+Although it may be possible for the tutoring agent to have a simple goal such, as to teach
+some particular concept, it is more likely that complex
+preferences must be taken into account. One reason is that,
+with uncertainty, there may be no way to guarantee that the
+student knows the concept being taught; any method that tries to maximize the
+probability that the student knows a concept will be very annoying, because it will
+repeatedly teach and test if there is a slight chance that the
+student’s errors are due to
+misunderstanding as opposed to fatigue or boredom.
+More complex preferences would enable a trade-off among fully
+teaching a concept, boring the student, the time taken, and the
+amount of retesting. The student may also have a
+preference for a teaching style that could be taken into
+account. The student, the teacher, the parents, and future
+employers may have different preferences. The student may have
+incompatible preferences, for example, to not work hard and to get a
+good mark. If the teacher is optimizing student evaluations, it
+might both allow the student to not work hard, and also give good
+marks. But that might undermine the goal of the student actually
+learning something.
+
+Example 1.29 .
+
+For a trading agent,
+preferences of users are typically in terms of functionality, not
+components. For example, typical computer buyers have no idea of
+what hardware to buy, but they know what functionality they want and
+they also want the flexibility to be able to use new software features that
+might not even exist yet. Similarly, in a travel domain, what activities
+a user wants may depend on the location. Users also may want the
+ability to participate in a local custom at their destination, even though they may
+not know what those customs are. Even a simple path-finding
+algorithm, such as Google Maps, which, at the time of writing, assumes all users’
+preferences are to minimize travel time, could take into account
+each individual user’s
+preferences for diverse views or avoiding going too close to where
+some particular relative lives.
+
+Goals are considered in Chapters 3 and 6 .
+Complex preferences are considered in Chapter 12 , and
+the following chapters.
+
+1.5.8 Number of Agents
+
+An agent reasoning about what it should do in an environment where
+it is the only agent is difficult enough. However, reasoning about
+what to do when there are other agents who are also reasoning is much
+more difficult. An agent in a multiagent setting may need to
+reason strategically about other agents; the other agents may act to trick or manipulate
+the agent or may be available to cooperate with the agent. With
+multiple agents, it is often
+optimal to act randomly because other agents can exploit deterministic
+strategies. Even when the agents are cooperating and have a common
+goal, the task of coordination and communication makes multiagent
+reasoning more challenging. However, many domains contain
+multiple agents and ignoring other agents’ strategic reasoning is
+not always the best way for an agent to reason.
+
+Taking the point of view of a single agent, the number of
+agents dimension considers whether the agent explicitly considers
+other agents:
+
+•
+
+Single agent reasoning means the agent
+assumes that there are
+no other agents in the environment or that all other agents
+are part of nature , and so are non-purposive. This is a reasonable assumption if
+there are no other agents or if the
+other agents
+are not going to change what they do based on the agent’s action.
+
+•
+
+Adversarial reasoning
+considers another agent, where when one agent wins, the other loses. This
+is sometimes called a two-player zero-sum game , as the
+payoffs for the agents (e.g., + 1 for a win and − 1 for a loss) sum to zero. This is a
+simpler case than allowing for arbitrary agents as there is no need to
+cooperate or otherwise coordinate.
+
+•
+
+Multiple agent reasoning (or
+multiagent reasoning ) means the agent takes the reasoning of
+other agents into account. This occurs when there
+are other
+intelligent agents whose goals or preferences depend, in part, on what the
+agent does or if the agent must communicate with other
+agents. Agents may need to cooperate because coordinated actions can
+result in outcomes that are better for all agents than each
+agent considering the other agents as part of nature.
+
+Reasoning in the presence of other agents is much more difficult if
+the agents can act simultaneously or if the environment
+is only partially observable. Multiagent systems are considered in
+Chapter 14 . Note that the adversarial case is
+separate as there are some methods that only work for that case.
+
+Example 1.30 .
+
+There can be multiple delivery robots, which can coordinate to deliver
+coffee and parcels more efficiently. They can compete for power
+outlets or for space to move. Only one might be able to go closest to the wall
+when turning a corner. There may also be
+children out to trick the robot, or pets that get in the way.
+
+When automated vehicles
+have to go on a highway, it may be much more efficient and safer for
+them to travel in a coordinated manner, say one centimeter apart in a
+convoy, than to travel three vehicle lengths apart. It is more
+efficient because they can reduce wind drag, and many more vehicles can
+fit on a highway. It is safer because the difference in speeds is small; if one vehicle
+slams on its brakes or has engine problems, the car that might crash
+into the back is going approximately
+the same speed.
+
+Example 1.31 .
+
+A trading agent has to reason about other agents. In
+commerce, prices are governed by supply and demand;
+this means that it is important to reason about the other competing agents. This happens particularly in a world where many items are
+sold by auction. Such reasoning becomes particularly difficult when
+there are items that must complement each other, such as flights and
+hotel bookings, and items that can substitute for each other, such as bus
+transport or taxis. You don’t want to book the flights if there is
+no accommodation, or book accommodation if there are no flights.
+
+1.5.9 Interactivity
+
+In deciding what an agent will
+do, there are three aspects of computation that must be
+distinguished: (1) the design-time
+computation that goes into the design of the agent, carried out by the designer of the agent, not the agent itself;
+(2) the computation that the agent can do before it observes the world and needs to act;
+and (3) the computation that is done by the agent as it is acting.
+
+The interactivity dimension considers whether the agent does
+
+•
+
+only offline
+reasoning, where offline
+reasoning is the computation
+done by the agent before it has to act, and can include compilation,
+learning or finding solutions from every state the agent could find
+itself in; under this assumption, the agent can carry out simple fixed-cost computation while
+acting, sometimes even just looking up the action in a table
+
+•
+
+significant online
+reasoning, where online computation is the computation
+done by the agent between observing the
+environment and acting.
+
+An agent acting in the world usually does not have the luxury of
+having the world wait for it to consider the best
+option. However, offline reasoning, where the agent can reason about
+the best thing to do before having to act, is often a simplifying
+assumption.
+Online reasoning can
+include long-range strategic reasoning as well as determining how to react in a
+timely manner to the environment; see Chapter 2 .
+
+Example 1.32 .
+
+A delivery robot may be able to compute a plan for its day offline,
+but then it needs to be able to adapt to changes, for example, when
+someone wants coffee early or something urgent needs to be delivered. It
+cannot plan for who it will meet and need to avoid in the
+corridors. It either needs to be able to anticipate and plan for all
+possible eventualities, or it needs to reason online when it finds
+something unexpected.
+
+Example 1.33 .
+
+A tutoring agent can determine the general outline of what should be
+taught offline. But then it needs to be able to react to unexpected
+behavior online when it occurs. It is difficult to be able to
+anticipate all eventualities, and might be easier to deal with them
+online when it encounters them.
+
+1.5.10 Interaction of the Dimensions
+
+Figure 1.8
+summarizes the dimensions of complexity.
+
+Dimension
+Values
+
+Modularity
+flat, modular, hierarchical
+
+Planning horizon
+non-planning, finite stage,
+
+indefinite stage, infinite stage
+
+Representation
+states, features, relations
+
+Computational limits
+perfect rationality, bounded rationality
+
+Learning
+knowledge is given, knowledge is learned
+
+Sensing uncertainty
+fully observable, partially observable
+
+Effect uncertainty
+deterministic, stochastic
+
+Preference
+goals, complex preferences
+
+Number of agents
+single agent, adversaries, multiple agents
+
+Interactivity
+offline, online
+
+Figure 1.8: Dimensions of complexity
+
+In terms of the dimensions of complexity, the simplest case for the
+robot is a
+flat system, represented in terms of states, with no uncertainty, with achievement
+goals, with no other agents, with given knowledge, and with perfect rationality. In
+this case, with an indefinite stage planning horizon, the problem of
+deciding what to do is reduced to the problem of finding a path in a
+graph of states. This is explored in Chapter 3 .
+
+In going beyond the simplest cases, these dimensions cannot be considered independently because
+they interact in complex ways. Consider the following examples of the
+interactions.
+
+The representation dimension interacts with the modularity dimension in that some
+modules in a hierarchy may be simple enough to reason in terms
+of a finite set of states, whereas other levels of abstraction may
+require reasoning about individuals and relations. For example, in a
+delivery robot, a module that maintains balance may only have a few
+states. A module that must prioritize the delivery of multiple
+parcels to multiple people may have to reason about multiple
+individuals (e.g., people, packages, and rooms) and the relations between
+them. At a higher level, a module that reasons about the activity over
+the day may only require a few states to cover the different phases of
+the day (e.g., there might be three states of the robot: busy, available for
+requests, and recharging).
+
+The planning horizon interacts with the modularity dimension. For
+example, at a high level, a dog may be
+getting an immediate reward when it comes and gets a treat. At the
+level of deciding where to place its paws, there may be a long time
+until it gets the reward, and so at this level it may have to plan for
+an indefinite stage.
+
+Sensing uncertainty probably has the greatest impact on the complexity
+of reasoning. It is much easier for an agent to reason when it knows
+the state of the world than when it does not.
+
+The uncertainty dimensions interact with the modularity
+dimension: at one level in a hierarchy, an action
+may be deterministic, whereas at another level, it may be
+stochastic. As an example, consider the result of flying to a particular
+overseas destination with a
+companion you are trying to impress. At one
+level you may know which country you are in. At a lower
+level, you may be quite lost and not know where you are
+on a map of the airport. At an even lower level responsible for maintaining balance, you
+may know where you are: you are standing on the ground. At the highest
+level, you may be very unsure whether you have impressed
+your companion.
+
+Preference models interact with uncertainty because an agent needs to
+trade off between satisfying a very desirable
+goal with low probability or a less desirable goal with a higher
+probability. This issue is explored in Section 12.1 .
+
+Multiple agents can also be used for modularity; one way to
+design a single agent is to build multiple interacting agents that
+share a common goal of making the higher-level agent act intelligently.
+Some researchers, such as Minsky [ 1986 ] , argue that
+intelligence is an emergent feature from a “society” of
+unintelligent agents.
+
+Learning is often cast in terms of learning with features – determining
+which feature values best predict the value of another
+feature. However, learning can also be carried out with individuals and
+relations. Learning with hierarchies, sometimes called
+deep learning , has enabled the learning of more complex concepts.
+Much work has been done on learning in
+partially observable domains, and learning with multiple agents.
+Each of these is challenging in its own right without
+considering interactions with multiple dimensions.
+
+The interactivity dimension interacts with the planning horizon dimension in
+that when the agent is reasoning and acting online, it also needs to
+reason about the long-term horizon. The interactivity dimension also
+interacts with the computational limits; even if an agent is reasoning
+offline, it cannot take hundreds of years to compute an
+answer. However, when it has to reason about what to do in, say, 1 / 10 of a
+second, it needs to be concerned about the time taken to reason, and
+the trade-off between thinking and acting.
+
+Two of these dimensions, modularity and
+bounded rationality, promise to make reasoning more efficient. Although
+they make the formalism more complicated, breaking the system into
+smaller components, and making the approximations needed to act in a
+timely fashion and within memory limitations, should help build more
+complex systems.
+
+Artificial Intelligence: Foundations of Computational Agents, Poole
+& Mackworth
+
+Copyright &copy; 2023, David L. Poole and Alan K. Mackworth .
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License .

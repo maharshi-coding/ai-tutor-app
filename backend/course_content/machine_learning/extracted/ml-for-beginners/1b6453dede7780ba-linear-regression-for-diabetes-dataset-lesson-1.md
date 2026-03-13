@@ -1,0 +1,200 @@
+# Linear Regression for Diabetes dataset - Lesson 1
+
+Source: ML for Beginners
+Original URL: https://github.com/microsoft/ML-For-Beginners/blob/HEAD/2-Regression/1-Tools/solution/notebook.ipynb
+Original Path: 2-Regression/1-Tools/solution/notebook.ipynb
+Course: Machine Learning
+
+## Linear Regression for Diabetes dataset - Lesson 1
+
+Import needed libraries
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn import datasets, linear_model, model_selection
+```
+
+Load the diabetes dataset, divided into `X` data and `y` features
+
+```python
+X, y = datasets.load_diabetes(return_X_y=True)
+print(X.shape)
+print(X[0])
+```
+
+Output:
+```text
+(442, 10)
+[ 0.03807591 0.05068012 0.06169621 0.02187239 -0.0442235 -0.03482076
+-0.04340085 -0.00259226 0.01990749 -0.01764613]
+```
+
+Select just one feature to target for this exercise
+
+```python
+# Selecting the 3rd feature
+X = X[:, 2]
+print(X.shape)
+```
+
+Output:
+```text
+(442,)
+```
+
+```python
+#Reshaping to get a 2D array
+X = X.reshape(-1, 1)
+print(X.shape)
+print(X)
+```
+
+Output:
+```text
+(442, 1)
+[[ 0.06169621]
+[-0.05147406]
+[ 0.04445121]
+[-0.01159501]
+[-0.03638469]
+[-0.04069594]
+[-0.04716281]
+[-0.00189471]
+[ 0.06169621]
+[ 0.03906215]
+[-0.08380842]
+[ 0.01750591]
+[-0.02884001]
+[-0.00189471]
+[-0.02560657]
+[-0.01806189]
+[ 0.04229559]
+[ 0.01211685]
+[-0.0105172 ]
+[-0.01806189]
+[-0.05686312]
+[-0.02237314]
+[-0.00405033]
+[ 0.06061839]
+[ 0.03582872]
+[-0.01267283]
+[-0.07734155]
+[ 0.05954058]
+[-0.02129532]
+[-0.00620595]
+[ 0.04445121]
+[-0.06548562]
+[ 0.12528712]
+[-0.05039625]
+[-0.06332999]
+[-0.03099563]
+[ 0.02289497]
+[ 0.01103904]
+[ 0.07139652]
+[ 0.01427248]
+[-0.00836158]
+[-0.06764124]
+[-0.0105172 ]
+[-0.02345095]
+[ 0.06816308]
+[-0.03530688]
+[-0.01159501]
+[-0.0730303 ]
+[-0.04177375]
+[ 0.01427248]
+[-0.00728377]
+[ 0.0164281 ]
+[-0.00943939]
+[-0.01590626]
+[ 0.0250506 ]
+[-0.04931844]
+[ 0.04121778]
+[-0.06332999]
+[-0.06440781]
+[-0.02560657]
+[-0.00405033]
+[ 0.00457217]
+[-0.00728377]
+[-0.0374625 ]
+[-0.02560657]
+[-0.02452876]
+[-0.01806189]
+[-0.01482845]
+[-0.02991782]
+[-0.046085 ]
+[-0.06979687]
+[ 0.03367309]
+[-0.00405033]
+[-0.02021751]
+[ 0.00241654]
+[-0.03099563]
+[ 0.02828403]
+[-0.03638469]
+[-0.05794093]
+[-0.0374625 ]
+[ 0.01211685]
+[-0.02237314]
+[-0.03530688]
+[ 0.00996123]
+[-0.03961813]
+[ 0.07139652]
+[-0.07518593]
+[-0.00620595]
+[-0.04069594]
+[-0.04824063]
+[-0.02560657]
+[ 0.0519959 ]
+[ 0.00457217]
+[-0.06440781]
+[-0.01698407]
+[-0.05794093]
+[ 0.00996123]
+[ 0.08864151]
+[-0.00512814]
+[-0.06440781]
+[ 0.01750591]
+[-0.04500719]
+[ 0.02828403]
+[ 0.04121778]
+[ 0.06492964]
+[-0.03207344]
+
+```
+
+Split the training and test data for both `X` and `y`
+
+```python
+X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.33)
+```
+
+Select the model and fit it with the training data
+
+```python
+model = linear_model.LinearRegression()
+model.fit(X_train, y_train)
+```
+
+Output:
+```text
+LinearRegression()
+```
+
+Use test data to predict a line
+
+```python
+y_pred = model.predict(X_test)
+```
+
+Display the results in a plot
+
+```python
+plt.scatter(X_test, y_test, color='black')
+plt.plot(X_test, y_pred, color='blue', linewidth=3)
+plt.show()
+```
+
+Output:
+```text
+<Figure size 640x480 with 1 Axes>
+```

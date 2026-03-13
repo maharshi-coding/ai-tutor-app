@@ -1,0 +1,20 @@
+# Conclusión [[conclusion]]
+
+Source: Hugging Face Agents Course
+Original URL: https://github.com/huggingface/agents-course/blob/HEAD/units/es/bonus-unit1/conclusion.mdx
+Original Path: units/es/bonus-unit1/conclusion.mdx
+Course: Artificial Intelligence
+
+# Conclusión [[conclusion]]
+
+¡Felicidades por terminar esta primera Unidad Bonus 🥳
+
+¡Acabas de **dominar la comprensión de las llamadas a funciones y cómo hacer fine-tuning de tu modelo para realizar llamadas a funciones**!
+
+Si tenemos un consejo ahora, es intentar **hacer fine-tuning de diferentes modelos**. La **mejor manera de aprender es intentándolo.**
+
+En la siguiente Unidad, aprenderás a usar **frameworks de última generación como `smolagents`, `LlamaIndex` y `LangGraph`**.
+
+Finalmente, nos encantaría **escuchar lo que piensas del curso y cómo podemos mejorarlo**. Si tienes algun comentario, por favor 👉 [completa este formulario](https://docs.google.com/forms/d/e/1FAIpQLSe9VaONn0eglax0uTwi29rIn4tM7H2sYmmybmG5jJNlE5v0xA/viewform?usp=dialog)
+
+### Sigue Aprendiendo, Mantente Genial 🤗

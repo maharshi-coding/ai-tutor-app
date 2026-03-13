@@ -1,0 +1,88 @@
+# Lab Overview
+
+Source: Full Stack Deep Learning 2022
+Original URL: https://fullstackdeeplearning.com/course/2022/lab-0-overview/
+Original Path: https://fullstackdeeplearning.com/course/2022/lab-0-overview/
+Course: Machine Learning
+
+Lab Overview
+
+By Charles Frye . Published July 25, 2022.
+
+What are these labs for?
+
+In the lab portion of Full Stack Deep Learning 2022,
+we will incrementally develop a complete codebase
+to train a deep neural network to recognize characters in hand-written paragraphs
+and deploy it inside a simple web application.
+
+These labs act as an opportunity to work through the nitty-gritty details that come up
+when implementing some of the recommendations given in the lectures in a concrete system.
+It's also a chance for you to gain familiarity with some of the tools we recommend
+in the lectures.
+
+This lab reviews the overall architecture of the system.
+
+Architecture of the Text Recognizer
+
+Software architectures are inherently about trade-offs:
+decisions that make for better scaling might make for worse security or
+tools that encourage faster iteration might reduce transparency.
+
+We design our architecture with agility and simplicity as the prime directives.
+We choose simplicity in order to empower individuals to understand the "full stack" of the application,
+from GPUs crunching tensors in model development up to serverless cloud functions acting on requests in production.
+And we choose agility so that individual is able to quickly iterate on the application,
+especially in response to user feedback.
+
+Architecture Diagram
+
+We put together a handy architecture diagram summarizing the application here:
+
+For a guided tour of this architecture, watch the video at the top of the page or
+click the badge below to open an interactive Jupyter notebook on Google Colab:
+
+Running the labs
+
+One-click setup on Colab
+
+To make it as easy as possible to run the labs,
+we've made them compatible with
+Google Colab .
+
+Wherever you see an "Open in Colab" badge, like the one below,
+just click on it and you'll be dropped into a hosted notebook environment for the lab,
+complete with free GPU.
+The badge below opens the first main-track lab,
+Lab 4 on experiment management .
+
+You can read more
+here .
+
+Setup on your own Linux machine
+
+If you have a Linux machine with an NVIDIA GPU and drivers,
+either locally or in the cloud,
+you can also run the labs there.
+The video above and text instructions
+here
+should be enough to get you going.
+
+Don't get stuck on setup!
+
+Remember that Google Colab is always there as an option if you run into issues while setting up.
+
+Rather than getting frustrated with some obnoxious library linking or driver issue that's irrelevant
+to the material you are really trying to learn and getting stuck in an installation quagmire,
+just run the labs on Colab so you can get back to learning about machine learning!
+
+We are excited to share this course with you for free .
+
+We have more upcoming great content.
+Subscribe to stay up to date as we release it.
+
+Enter
+
+We take your privacy and attention very seriously and will never spam you.
+
+I am already a subscriber

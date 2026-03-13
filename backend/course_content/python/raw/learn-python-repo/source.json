@@ -1,0 +1,18 @@
+{
+  "id": "learn-python-repo",
+  "type": "git",
+  "title": "Learn Python",
+  "description": "A structured GitHub learning repository with examples and explanations.",
+  "license": "Repository license",
+  "repoUrl": "https://github.com/trekhleb/learn-python.git",
+  "maxFiles": 60,
+  "rootPaths": [
+    "."
+  ],
+  "includeExtensions": [
+    ".md",
+    ".ipynb",
+    ".txt"
+  ],
+  "documentCount": 6
+}

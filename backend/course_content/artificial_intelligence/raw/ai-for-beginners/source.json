@@ -1,0 +1,24 @@
+{
+  "id": "ai-for-beginners",
+  "type": "git",
+  "title": "AI for Beginners",
+  "description": "Microsoft's open AI curriculum spanning symbolic and modern AI topics.",
+  "license": "Repository license",
+  "repoUrl": "https://github.com/microsoft/AI-For-Beginners.git",
+  "maxFiles": 120,
+  "rootPaths": [
+    "."
+  ],
+  "excludePathPatterns": [
+    "translations/",
+    "translated_images/",
+    "binder/",
+    "etc/"
+  ],
+  "includeExtensions": [
+    ".md",
+    ".ipynb",
+    ".txt"
+  ],
+  "documentCount": 111
+}

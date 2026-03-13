@@ -1,0 +1,283 @@
+# Conditional Statements in Python
+
+Source: GeeksforGeeks Python Tutorial
+Original URL: https://www.geeksforgeeks.org/python/conditional-statements-in-python/
+Original Path: https://www.geeksforgeeks.org/python/conditional-statements-in-python/
+Course: Python Programming
+
+Conditional Statements in Python
+
+Last Updated : 8 Oct, 2025
+
+Conditional statements in Python are used to execute certain blocks of code based on specific conditions. These statements help control the flow of a program, making it behave differently in different situations.
+
+If Conditional Statement
+
+If statement is the simplest form of a conditional statement. It executes a block of code if the given condition is true.
+If Statement
+Python
+
+age = 20
+if age >= 18 :
+print ( "Eligible to vote." )
+
+Output
+Eligible to vote.
+
+Short Hand if
+
+Short-hand if statement allows us to write a single-line if statement.
+
+Python
+
+age = 19
+if age > 18 : print ( "Eligible to Vote." )
+
+Output
+Eligible to Vote.
+
+This is a compact way to write an if statement. It executes print statement if the condition is true.
+
+If else Conditional Statement
+
+If Else allows us to specify a block of code that will execute if the condition(s) associated with an if or elif statement evaluates to False. Else block provides a way to handle all other cases that don't meet the specified conditions.
+If Else Statement
+Python
+
+age = 10
+if age <= 12 :
+print ( "Travel for free." )
+else :
+print ( "Pay for ticket." )
+
+Output
+Travel for free.
+
+Short Hand if-else
+
+The short-hand if-else statement allows us to write a single-line if-else statement.
+
+Python
+
+marks = 45
+res = "Pass" if marks >= 40 else "Fail"
+print ( f "Result: { res } " )
+
+Output
+Result: Pass
+
+Note: This method is also known as ternary operator. Ternary Operator essentially a shorthand for the if-else statement that allows us to write more compact and readable code, especially for simple conditions.
+
+elif Statement
+
+elif statement in Python stands for "else if." It allows us to check multiple conditions, providing a way to execute different blocks of code based on which condition is true. Using elif statements makes our code more readable and efficient by eliminating the need for multiple nested if statements.
+
+Python
+
+age = 25
+
+if age <= 12 :
+print ( "Child." )
+elif age <= 19 :
+print ( "Teenager." )
+elif age <= 35 :
+print ( "Young adult." )
+else :
+print ( "Adult." )
+
+Output
+Young adult.
+
+The code checks the value of age using if-elif-else. Since age is 25, it skips the first two conditions (age <= 12 and age <= 19), and the third condition (age <= 35) is True, so it prints "Young adult.".
+
+Nested if..else Conditional Statement
+
+Nested if..else means an if-else statement inside another if statement. We can use nested if statements to check conditions within conditions.
+Nested If Else
+Python
+
+age = 70
+is_member = True
+
+if age >= 60 :
+if is_member :
+print ( "30 % s enior discount!" )
+else :
+print ( "20 % s enior discount." )
+else :
+print ( "Not eligible for a senior discount." )
+
+Output
+30% senior discount!
+
+Ternary Conditional Statement
+
+A ternary conditional statement is a compact way to write an if-else condition in a single line. It’s sometimes called a "conditional expression."
+
+Python
+
+# Assign a value based on a condition
+age = 20
+s = "Adult" if age >= 18 else "Minor"
+print ( s )
+
+Output
+Adult
+
+Here:
+
+- If age >= 18 is True, status is assigned "Adult".
+
+- Otherwise, status is assigned "Minor".
+
+Match-Case Statement
+
+match-case statement is Python's version of a switch-case found in other languages. It allows us to match a variable's value against a set of patterns.
+
+Python
+
+number = 2
+
+match number :
+case 1 :
+print ( "One" )
+case 2 | 3 :
+print ( "Two or Three" )
+case _ :
+print ( "Other number" )
+
+Output:
+
+Two or Three
+
+Related Links:
+
+- Python Control Flow Quiz
+
+- Check multiple conditions in if statement
+
+- Python if AND
+
+Recommended Problems:
+
+- If conditional statement
+
+- Mark Even and Odd
+
+- The Else Statement
+
+- Odd or Even
+
+- Greatest of Three
+
+- Calculator
+
+- Closest Number
+
+- Factorial
+
+- Check Prime
+
+- Fibonacci Number
+
+- Check Strong Number
+
+Python
+
+Python Fundamentals
+
+- Python Introduction 2 min read
+
+- Input and Output in Python 4 min read
+
+- Python Variables 4 min read
+
+- Python Operators 4 min read
+
+- Python Keywords 2 min read
+
+- Python Data Types 8 min read
+
+- Conditional Statements in Python 3 min read
+
+- Loops in Python 5 min read
+
+- Python Functions 5 min read
+
+Python Data Structures
+
+- Python String 5 min read
+
+- Python Lists 4 min read
+
+- Python Tuples 4 min read
+
+- Python Dictionary 4 min read
+
+- Python Sets 6 min read
+
+- Python Arrays 7 min read
+
+Advanced Python
+
+- Python OOP Concepts 4 min read
+
+- Python Exception Handling 5 min read
+
+- File Handling in Python 4 min read
+
+- Python Database Tutorial 4 min read
+
+- Python MongoDB Tutorial 3 min read
+
+- Python MySQL 9 min read
+
+- Python Packages 10 min read
+
+- Python Modules 3 min read
+
+- Python DSA Libraries 5 min read
+
+- List of Python GUI Library and Packages 3 min read
+
+Data Science with Python
+
+- NumPy Tutorial 3 min read
+
+- Pandas Tutorial 4 min read
+
+- Matplotlib Tutorial 3 min read
+
+- Python Seaborn Tutorial 3 min read
+
+- StatsModel Library - Tutorial 2 min read
+
+- Learning Model Building in Scikit-learn 6 min read
+
+- TensorFlow Tutorial 2 min read
+
+- PyTorch Tutorial 5 min read
+
+Web Development with Python
+
+- Flask Tutorial 4 min read
+
+- Django Tutorial | Learn Django Framework 6 min read
+
+- Django ORM - Inserting, Updating & Deleting Data 4 min read
+
+- Templating With Jinja2 in Flask 6 min read
+
+- Django Templates 5 min read
+
+- Build a REST API using Flask - Python 3 min read
+
+- Building a Simple API with Django REST Framework 3 min read
+
+Python Practice
+
+- Python Quiz 1 min read
+
+- Python Coding Practice 1 min read
+
+- Python Interview Questions and Answers 15+ min read

@@ -1,0 +1,15 @@
+{
+  "id": "hundred-page-python-intro",
+  "type": "web",
+  "title": "100 Page Python Intro",
+  "description": "Compact Python course notes published as an open educational website.",
+  "license": "Site terms",
+  "seedUrls": [
+    "https://learnbyexample.github.io/100_page_python_intro/introduction.html"
+  ],
+  "allowPrefixes": [
+    "https://learnbyexample.github.io/100_page_python_intro/"
+  ],
+  "maxPages": 26,
+  "documentCount": 1
+}
