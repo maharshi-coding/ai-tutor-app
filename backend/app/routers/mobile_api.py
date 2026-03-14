@@ -1,6 +1,6 @@
 """Root-level aliases for the React Native mobile app."""
 
-from fastapi import APIRouter, Depends, File, UploadFile
+from fastapi import APIRouter, BackgroundTasks, Depends, File, UploadFile
 from sqlalchemy.orm import Session
 
 from app.database import get_db
@@ -38,11 +38,13 @@ async def ask_tutor_alias(
 @router.post("/upload-photo")
 async def upload_photo_alias(
     file: UploadFile = File(...),
+    background_tasks: BackgroundTasks = None,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
     return await upload_photo_and_generate_avatar(
         file=file,
+        background_tasks=background_tasks,
         current_user=current_user,
         db=db,
     )
@@ -51,11 +53,13 @@ async def upload_photo_alias(
 @router.post("/avatar/create", response_model=AvatarCreateResponse)
 async def create_avatar_alias(
     file: UploadFile = File(...),
+    background_tasks: BackgroundTasks = None,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
     return await create_avatar(
         file=file,
+        background_tasks=background_tasks,
         current_user=current_user,
         db=db,
     )

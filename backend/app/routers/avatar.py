@@ -1,8 +1,8 @@
-"""Talking avatar endpoints backed by D-ID."""
+"""Talking avatar endpoints backed by Hedra and Coqui."""
 
 from typing import Optional
 
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+from fastapi import APIRouter, BackgroundTasks, Depends, File, HTTPException, UploadFile
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
@@ -11,8 +11,9 @@ from app.models import User
 from app.routers.auth import get_current_user
 from app.routers.uploads import _save_uploaded_photo
 from app.schemas import AvatarCreateResponse, AvatarJobResponse, AvatarSpeakRequest
-from app.services.did_avatar import (
-    DIdAvatarError,
+from app.services.daily_video_scheduler import spawn_detached_daily_video_job
+from app.services.hedra_avatar import (
+    AvatarPipelineError,
     create_avatar_speech_job,
     ensure_avatar_for_user,
     get_avatar_job_status,
@@ -28,12 +29,11 @@ class LegacyAvatarSpeakRequest(BaseModel):
     image_url: Optional[str] = None
 
 
-def _avatar_service_error(exc: DIdAvatarError) -> HTTPException:
+def _avatar_service_error(exc: AvatarPipelineError) -> HTTPException:
     message = str(exc)
     if (
         "Upload a photo" in message
         or "Create an avatar" in message
-        or "Text or audio_url" in message
         or "could not be found" in message
         or "does not match" in message
     ):
@@ -44,6 +44,7 @@ def _avatar_service_error(exc: DIdAvatarError) -> HTTPException:
 @router.post("/avatar/create", response_model=AvatarCreateResponse)
 async def create_avatar(
     file: UploadFile = File(...),
+    background_tasks: BackgroundTasks = None,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
@@ -51,15 +52,18 @@ async def create_avatar(
 
     try:
         avatar_result = await ensure_avatar_for_user(current_user, db)
-    except DIdAvatarError as exc:
+    except AvatarPipelineError as exc:
         raise _avatar_service_error(exc)
+
+    if background_tasks is not None:
+        background_tasks.add_task(spawn_detached_daily_video_job, current_user.id, False)
 
     return AvatarCreateResponse(
         avatar_id=avatar_result["avatar_id"],
         avatar_provider=avatar_result["avatar_provider"],
         avatar_image_url=avatar_result.get("avatar_image_url"),
         cached=avatar_result.get("cached", False),
-        message="Avatar ready for Live Tutor mode.",
+        message="Avatar ready for Hedra-powered video updates.",
     )
 
 
@@ -76,7 +80,7 @@ async def speak_with_avatar(
             avatar_id=req.avatar_id,
             text=req.text,
         )
-    except DIdAvatarError as exc:
+    except AvatarPipelineError as exc:
         raise _avatar_service_error(exc)
 
     return AvatarJobResponse(
@@ -112,7 +116,7 @@ async def generate_avatar_video_legacy(
             avatar_id=avatar_result["avatar_id"],
             text=req.text,
         )
-    except DIdAvatarError as exc:
+    except AvatarPipelineError as exc:
         raise _avatar_service_error(exc)
 
     return AvatarJobResponse(
@@ -132,7 +136,7 @@ async def get_avatar_job(
 ):
     try:
         job = await get_avatar_job_status(job_id=job_id, user=current_user, db=db)
-    except DIdAvatarError as exc:
+    except AvatarPipelineError as exc:
         raise _avatar_service_error(exc)
 
     if job is None:

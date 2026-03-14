@@ -169,7 +169,7 @@ export default function ProfilePage() {
                     <div className="text-xs text-slate-300">
                       <p className="font-medium text-slate-100">Your tutor avatar</p>
                       <p className="text-[0.7rem] text-slate-400">
-                        This is the uploaded photo D-ID reuses for Visual Tutor replies.
+                        This is the uploaded photo your Hedra avatar flow reuses for Visual Tutor replies.
                       </p>
                     </div>
                   </div>
@@ -198,7 +198,7 @@ export default function ProfilePage() {
                 Visual tutor setup
               </p>
               <p className="mb-4 text-xs text-slate-300">
-                Upload a clear face photo to power D-ID video replies. Voice samples stay optional and are kept only for future customization.
+                Upload a clear face photo to power Hedra video replies and daily update clips. Voice samples stay optional and are kept only for future customization.
               </p>
 
               <div className="mb-5">
@@ -266,7 +266,7 @@ export default function ProfilePage() {
               {avatarConfig?.avatar_ready ? (
                 <div className="mt-5 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-xs text-emerald-100">
                   <p className="font-medium">
-                    OK Your avatar is ready. Visual Tutor can now animate your uploaded photo with D-ID video replies.
+                    OK Your avatar is ready. Visual Tutor can now animate your uploaded photo with Hedra video replies.
                   </p>
                   <Link
                     href="/dashboard"

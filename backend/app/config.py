@@ -55,7 +55,7 @@ class Settings(BaseSettings):
     OLLAMA_MODEL: str = "llama3"
 
     # TTS provider selection: auto | piper | coqui | kokoro
-    TTS_PROVIDER: str = "piper"
+    TTS_PROVIDER: str = "coqui"
     TTS_REQUEST_TIMEOUT_SECONDS: int = 120
     PIPER_MODEL_PATH: str = "./models/en_US-lessac-medium.onnx"
     PIPER_TTS_URL: Optional[str] = None  # e.g. http://localhost:5001/synthesize
@@ -67,12 +67,34 @@ class Settings(BaseSettings):
     KOKORO_API_URL: str = "http://localhost:8880"
     KOKORO_DEFAULT_VOICE: str = "af_heart"
 
-    # D-ID avatar video generation
-    DID_API_KEY: Optional[str] = None
-    DID_API_BASE_URL: str = "https://api.d-id.com"
-    DID_DEFAULT_VOICE: str = "en-US-JennyNeural"
-    DID_VOICE_PROVIDER: str = "microsoft"
-    DID_REQUEST_TIMEOUT_SECONDS: int = 120
+    # Hedra avatar video generation
+    HEDRA_API_KEY: Optional[str] = None
+    HEDRA_API_BASE_URL: str = "https://api.hedra.com/web-app/public"
+    HEDRA_VIDEO_MODEL_ID: str = "d1dd37a3-e39a-4854-a298-6510289f9cf2"
+    HEDRA_VIDEO_RESOLUTION: str = "540p"
+    HEDRA_VIDEO_ASPECT_RATIO: str = "9:16"
+    HEDRA_VIDEO_PROMPT: str = (
+        "A friendly tech presenter speaking clearly to camera with natural head "
+        "movement, clean eye contact, and subtle expressive motion."
+    )
+    HEDRA_REQUEST_TIMEOUT_SECONDS: int = 120
+    VIDEO_STORAGE_PATH: str = "./uploads/generated_videos"
+    MAX_AVATAR_VIDEO_DURATION_SECONDS: int = 60
+    AVATAR_TTS_SPEED: float = 1.08
+
+    # Daily tech briefing automation
+    ENABLE_DAILY_VIDEO_SCHEDULER: bool = True
+    DAILY_VIDEO_RUN_ON_STARTUP: bool = False
+    DAILY_VIDEO_HOUR: int = 8
+    DAILY_VIDEO_MINUTE: int = 0
+    DAILY_VIDEO_TIMEZONE: str = "America/Chicago"
+    TECH_UPDATES_LOOKBACK_DAYS: int = 2
+    TECH_UPDATES_MAX_ITEMS: int = 4
+    TECH_UPDATES_FEEDS: str = (
+        "https://techcrunch.com/feed/,"
+        "https://www.theverge.com/rss/index.xml,"
+        "https://feeds.arstechnica.com/arstechnica/index"
+    )
 
     # File Upload Settings
     UPLOAD_DIR: str = "./uploads"

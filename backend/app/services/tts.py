@@ -35,9 +35,14 @@ class GeneratedAudio:
     provider: str
 
 
-def _provider_order() -> list[str]:
-    configured = (settings.TTS_PROVIDER or "auto").strip().lower()
+def _provider_order(
+    preferred_provider: Optional[str] = None,
+    strict_provider: bool = False,
+) -> list[str]:
+    configured = (preferred_provider or settings.TTS_PROVIDER or "auto").strip().lower()
     default_order = ["piper", "coqui", "kokoro"]
+    if strict_provider and configured not in {"", "auto"}:
+        return [configured]
     if not configured or configured in {"auto", "piper"}:
         return default_order
     if configured == "coqui":
@@ -224,13 +229,18 @@ async def _request_audio_bytes(
     text: str,
     voice: Optional[str],
     speed: float,
+    preferred_provider: Optional[str] = None,
+    strict_provider: bool = False,
 ) -> tuple[bytes, str]:
     if not text.strip():
         raise HTTPException(status_code=400, detail="Text must not be empty")
 
     provider_errors: list[str] = []
 
-    for provider in _provider_order():
+    for provider in _provider_order(
+        preferred_provider=preferred_provider,
+        strict_provider=strict_provider,
+    ):
         try:
             if provider == "piper":
                 audio_bytes = await _request_piper_audio_bytes(text, voice, speed)
@@ -264,11 +274,15 @@ async def ensure_voice_audio(
     text: str,
     voice: Optional[str] = None,
     speed: float = 1.0,
+    preferred_provider: Optional[str] = None,
+    strict_provider: bool = False,
 ) -> GeneratedAudio:
     VOICE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     cache_key = hashlib.sha256(
-        f"{user_id}|{text}|{voice or ''}|{speed}".encode("utf-8")
+        f"{user_id}|{text}|{voice or ''}|{speed}|{preferred_provider or ''}|{strict_provider}".encode(
+            "utf-8"
+        )
     ).hexdigest()[:20]
     filename = f"{user_id}_{cache_key}.wav"
     output_path = VOICE_OUTPUT_DIR / filename
@@ -282,7 +296,13 @@ async def ensure_voice_audio(
             provider="cache",
         )
 
-    audio_bytes, provider = await _request_audio_bytes(text, voice, speed)
+    audio_bytes, provider = await _request_audio_bytes(
+        text,
+        voice,
+        speed,
+        preferred_provider=preferred_provider,
+        strict_provider=strict_provider,
+    )
     if not audio_bytes:
         raise HTTPException(status_code=502, detail="TTS provider returned empty audio")
 

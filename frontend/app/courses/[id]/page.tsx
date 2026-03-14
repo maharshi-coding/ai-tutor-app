@@ -182,7 +182,7 @@ export default function CoursePage() {
         if (avatarResp.video_url) {
           resolvedVideoUrl = avatarResp.video_url
         } else if (avatarResp.job_id) {
-          setAvatarStatus('Waiting for D-ID to finish the tutor video...')
+          setAvatarStatus('Waiting for Hedra to finish the tutor video...')
           resolvedVideoUrl = await pollAvatarJob(avatarResp.job_id)
         } else {
           throw new Error('Local avatar generation did not return a video job id.')
@@ -319,8 +319,8 @@ export default function CoursePage() {
               </p>
               <ul className="mt-2 space-y-1 text-slate-300">
                 <li>- Ask a question and the tutor answers in text first.</li>
-                <li>- The app generates speech audio locally from that answer.</li>
-                <li>- D-ID turns your saved avatar photo into a tutor video.</li>
+                <li>- The app generates Coqui speech audio from that answer.</li>
+                <li>- Hedra animates your saved avatar photo into a tutor video.</li>
               </ul>
             </motion.div>
           </div>
@@ -343,7 +343,7 @@ export default function CoursePage() {
                   </span>
                 </div>
                 <span className="rounded-full bg-slate-900/80 px-2 py-0.5 text-[0.6rem]">
-                  D-ID video pipeline
+                  Hedra video pipeline
                 </span>
               </div>
 

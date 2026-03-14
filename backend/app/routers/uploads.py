@@ -2,7 +2,16 @@ import hashlib
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    Depends,
+    File,
+    Form,
+    HTTPException,
+    Query,
+    UploadFile,
+)
 from sqlalchemy.orm import Session
 
 from app.config import settings
@@ -11,7 +20,8 @@ from app.models import Course, User
 from app.rag import ingest_course_chunks, split_text_for_rag
 from app.routers.auth import get_current_user
 from app.services.course_content import TEXT_FILE_EXTENSIONS, extract_text_from_file
-from app.services.did_avatar import DIdAvatarError, ensure_avatar_for_user
+from app.services.daily_video_scheduler import spawn_detached_daily_video_job
+from app.services.hedra_avatar import AvatarPipelineError, ensure_avatar_for_user
 
 
 router = APIRouter()
@@ -21,6 +31,7 @@ UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 (UPLOAD_DIR / "photos").mkdir(exist_ok=True)
 (UPLOAD_DIR / "voices").mkdir(exist_ok=True)
 (UPLOAD_DIR / "course_docs").mkdir(exist_ok=True)
+(UPLOAD_DIR / "avatars").mkdir(exist_ok=True)
 
 
 def _to_public_upload_url(path_value: str | Path | None) -> Optional[str]:
@@ -66,12 +77,21 @@ async def _save_uploaded_photo(
     config.update(
         {
             "avatar_ready": False,
-            "avatar_provider": "d-id",
+            "avatar_provider": "hedra",
             "avatar_image_url": photo_url,
             "character_image_url": photo_url,
             "last_generated_clip_url": None,
             "last_script": None,
-            "last_talk_id": None,
+            "last_job_id": None,
+            "daily_video_job_id": None,
+            "daily_video_status": "idle",
+            "daily_video_url": None,
+            "daily_video_error": None,
+            "daily_video_title": None,
+            "daily_video_summary": None,
+            "daily_video_highlights": [],
+            "daily_video_source_urls": [],
+            "daily_video_generated_at": None,
         }
     )
     current_user.avatar_config = config
@@ -88,6 +108,7 @@ async def _save_uploaded_photo(
 @router.post("/photo")
 async def upload_photo(
     file: UploadFile = File(...),
+    background_tasks: BackgroundTasks = None,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
@@ -95,8 +116,11 @@ async def upload_photo(
 
     try:
         avatar_result = await ensure_avatar_for_user(current_user, db)
-    except DIdAvatarError as exc:
+    except AvatarPipelineError as exc:
         raise HTTPException(status_code=503, detail=str(exc))
+
+    if background_tasks is not None:
+        background_tasks.add_task(spawn_detached_daily_video_job, current_user.id, False)
 
     return {
         **upload_result,
@@ -166,6 +190,14 @@ async def get_avatar_config(current_user: User = Depends(get_current_user)):
         "character_image_url": avatar_image_url,
         "last_generated_clip_url": config.get("last_generated_clip_url"),
         "last_script": config.get("last_script"),
+        "daily_video_url": config.get("daily_video_url"),
+        "daily_video_title": config.get("daily_video_title"),
+        "daily_video_summary": config.get("daily_video_summary"),
+        "daily_video_highlights": config.get("daily_video_highlights") or [],
+        "daily_video_source_urls": config.get("daily_video_source_urls") or [],
+        "daily_video_status": config.get("daily_video_status"),
+        "daily_video_generated_at": config.get("daily_video_generated_at"),
+        "daily_video_error": config.get("daily_video_error"),
     }
 
 
@@ -176,11 +208,11 @@ async def generate_character_avatar(
 ) -> Dict[str, Any]:
     try:
         avatar_result = await ensure_avatar_for_user(current_user, db)
-    except DIdAvatarError as exc:
+    except AvatarPipelineError as exc:
         raise HTTPException(status_code=503, detail=str(exc))
 
     return {
-        "message": "Avatar registered with D-ID",
+        "message": "Stylized avatar generated for Hedra.",
         "avatar_id": avatar_result["avatar_id"],
         "avatar_provider": avatar_result["avatar_provider"],
         "character_image_url": avatar_result.get("avatar_image_url"),
@@ -191,6 +223,7 @@ async def generate_character_avatar(
 @router.post("/upload-photo")
 async def upload_photo_and_generate_avatar(
     file: UploadFile = File(...),
+    background_tasks: BackgroundTasks = None,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ) -> Dict[str, Any]:
@@ -199,8 +232,14 @@ async def upload_photo_and_generate_avatar(
 
     try:
         avatar_result = await ensure_avatar_for_user(current_user, db)
+        if background_tasks is not None:
+            background_tasks.add_task(
+                spawn_detached_daily_video_job,
+                current_user.id,
+                False,
+            )
         return {
-            "message": "Photo uploaded and D-ID avatar is ready",
+            "message": "Photo uploaded and Hedra avatar is ready",
             "photo_url": photo_url,
             "avatar_url": avatar_result.get("avatar_image_url"),
             "avatar_id": avatar_result["avatar_id"],
@@ -210,13 +249,13 @@ async def upload_photo_and_generate_avatar(
             else "ready",
             "cached": avatar_result.get("cached", False),
         }
-    except DIdAvatarError as exc:
+    except AvatarPipelineError as exc:
         return {
-            "message": "Photo uploaded, but D-ID avatar setup is not ready yet",
+            "message": "Photo uploaded, but the avatar setup is not ready yet",
             "photo_url": photo_url,
             "avatar_url": photo_url,
             "avatar_id": None,
-            "avatar_provider": "d-id",
+            "avatar_provider": "hedra",
             "avatar_generation_status": "failed",
             "avatar_error": str(exc),
         }
@@ -226,7 +265,7 @@ async def upload_photo_and_generate_avatar(
             "photo_url": photo_url,
             "avatar_url": photo_url,
             "avatar_id": None,
-            "avatar_provider": "d-id",
+            "avatar_provider": "hedra",
             "avatar_generation_status": "failed",
             "avatar_error": repr(exc),
         }

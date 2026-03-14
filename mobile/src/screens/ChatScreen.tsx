@@ -464,7 +464,7 @@ export default function ChatScreen() {
 
       setAvatarRetry(null);
       setIsGeneratingAvatar(true);
-      setAvatarStatus('Sending the final explanation to D-ID...');
+      setAvatarStatus('Sending the final explanation to Hedra...');
 
       try {
         const speakResponse = await avatarAPI.speak({
@@ -504,7 +504,7 @@ export default function ChatScreen() {
           setIsGeneratingAvatar(false);
           setAvatarStatus('');
           setAvatarRetry({text: assistantResponse, messageId: assistantMessageId});
-          setChatError('D-ID did not return a video job id.');
+          setChatError('Hedra did not return a video job id.');
         }
       } catch (error) {
         if (
@@ -842,7 +842,7 @@ export default function ChatScreen() {
                 {avatarConfig?.avatar_ready
                   ? isGeneratingAvatar
                     ? avatarStatus || 'Generating tutor video...'
-                    : 'Your D-ID tutor video will appear here after each answer.'
+                    : 'Your Hedra tutor video will appear here after each answer.'
                   : 'Open Avatar Setup and upload a photo before using Live Tutor video.'}
               </Text>
             </View>

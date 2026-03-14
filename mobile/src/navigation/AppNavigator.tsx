@@ -28,7 +28,7 @@ const LiveTutorStack = createNativeStackNavigator<TutorStackParamList>();
 const TAB_LABELS: Record<keyof MainTabParamList, string> = {
   Home: 'HM',
   Chat: 'AI',
-  Avatar: 'LT',
+  Avatar: 'UP',
   Profile: 'ME',
 };
 
@@ -95,7 +95,7 @@ function MainTabs() {
       <Tab.Screen
         name="Avatar"
         component={LiveTutorNavigator}
-        options={{tabBarLabel: 'Live Tutor'}}
+        options={{tabBarLabel: 'Updates'}}
       />
       <Tab.Screen
         name="Profile"

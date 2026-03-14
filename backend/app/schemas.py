@@ -125,6 +125,21 @@ class AvatarJobResponse(BaseModel):
     error: Optional[str] = None
 
 
+class DailyVideoResponse(BaseModel):
+    avatar_ready: bool
+    avatar_id: Optional[str] = None
+    avatar_image_url: Optional[str] = None
+    status: str
+    job_id: Optional[str] = None
+    title: Optional[str] = None
+    summary: Optional[str] = None
+    highlights: List[str] = []
+    source_urls: List[str] = []
+    video_url: Optional[str] = None
+    generated_at: Optional[str] = None
+    error: Optional[str] = None
+
+
 # Quiz Schemas
 class Question(BaseModel):
     question: str

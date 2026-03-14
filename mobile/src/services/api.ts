@@ -9,6 +9,7 @@ import {NativeModules} from 'react-native';
 import {
   AskTutorResponse,
   AvatarCreateResponse,
+  DailyVideoStatus,
   AvatarJob,
   TutorHistoryMessage,
 } from '../types';
@@ -301,4 +302,10 @@ export const avatarAPI = {
     }),
   getJobStatus: (jobId: string) =>
     apiClient.get<AvatarJob>(`/avatar/job/${jobId}`, {retryable: true}),
+};
+
+export const dailyVideoAPI = {
+  getLatest: () => apiClient.get<DailyVideoStatus>('/api/daily-video', {retryable: true}),
+  generate: () =>
+    apiClient.post<AvatarJob>('/api/daily-video/generate', {}, {timeout: 120000}),
 };

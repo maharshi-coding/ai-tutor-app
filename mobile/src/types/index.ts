@@ -72,6 +72,29 @@ export interface AvatarConfig {
   character_image_url?: string;
   last_generated_clip_url?: string;
   last_script?: string;
+  daily_video_url?: string;
+  daily_video_title?: string;
+  daily_video_summary?: string;
+  daily_video_highlights?: string[];
+  daily_video_source_urls?: string[];
+  daily_video_status?: 'idle' | 'pending' | 'processing' | 'done' | 'failed';
+  daily_video_generated_at?: string;
+  daily_video_error?: string;
+}
+
+export interface DailyVideoStatus {
+  avatar_ready: boolean;
+  avatar_id?: string;
+  avatar_image_url?: string;
+  status: 'idle' | 'pending' | 'processing' | 'done' | 'failed';
+  job_id?: string;
+  title?: string;
+  summary?: string;
+  highlights: string[];
+  source_urls: string[];
+  video_url?: string;
+  generated_at?: string;
+  error?: string;
 }
 
 export type TutorMode = 'chat' | 'liveTutor';

@@ -14,7 +14,7 @@ export async function generateAndPollAvatar(
   text: string,
   onStatusUpdate?: (status: string) => void,
 ): Promise<string> {
-  onStatusUpdate?.('Sending final answer to D-ID...');
+  onStatusUpdate?.('Sending the script to Hedra...');
 
   const genResp = await avatarAPI.speak({avatarId, text});
   const {job_id, video_url} = genResp.data;
@@ -25,10 +25,10 @@ export async function generateAndPollAvatar(
   }
 
   if (!job_id) {
-    throw new Error('D-ID did not return a job_id');
+    throw new Error('The video service did not return a job id');
   }
 
-  onStatusUpdate?.('D-ID is preparing the tutor video...');
+  onStatusUpdate?.('Hedra is preparing the video...');
 
   return pollAvatarJob(job_id, onStatusUpdate);
 }
@@ -57,10 +57,10 @@ export async function pollAvatarJob(
       case 'failed':
         throw new Error(job.error || 'Tutor video generation failed');
       case 'processing':
-        onStatusUpdate?.(`D-ID is rendering the tutor video... (${i + 1}/${MAX_POLLS})`);
+        onStatusUpdate?.(`Hedra is rendering the video... (${i + 1}/${MAX_POLLS})`);
         break;
       default:
-        onStatusUpdate?.('Waiting for D-ID...');
+        onStatusUpdate?.('Waiting for Hedra...');
     }
   }
 

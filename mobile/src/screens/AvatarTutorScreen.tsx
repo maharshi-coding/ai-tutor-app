@@ -15,57 +15,73 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import NoticeBanner from '../components/NoticeBanner';
 import {
   coursesAPI,
+  dailyVideoAPI,
   extractErrorMessage,
   getApiBaseUrl,
   uploadAPI,
 } from '../services/api';
-import {AvatarConfig, Course, TutorStackParamList} from '../types';
+import {pollAvatarJob} from '../services/avatarService';
+import {AvatarConfig, Course, DailyVideoStatus, TutorStackParamList} from '../types';
 
 type Nav = NativeStackNavigationProp<TutorStackParamList, 'AvatarTutor'>;
+
+async function toAbsUrl(path?: string | null): Promise<string | null> {
+  if (!path) {
+    return null;
+  }
+
+  if (path.startsWith('http')) {
+    return path;
+  }
+
+  const baseUrl = await getApiBaseUrl();
+  return `${baseUrl}${path}`;
+}
 
 export default function AvatarTutorScreen() {
   const navigation = useNavigation<Nav>();
   const [courses, setCourses] = useState<Course[]>([]);
   const [avatarConfig, setAvatarConfig] = useState<AvatarConfig | null>(null);
+  const [dailyVideo, setDailyVideo] = useState<DailyVideoStatus | null>(null);
   const [avatarImageUrl, setAvatarImageUrl] = useState<string | null>(null);
+  const [dailyVideoUrl, setDailyVideoUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [screenMessage, setScreenMessage] = useState<string | null>(null);
+  const [isRefreshingVideo, setIsRefreshingVideo] = useState(false);
 
   const loadData = useCallback(async () => {
     setLoading(true);
     setScreenMessage(null);
 
     try {
-      const [coursesResponse, avatarResponse] = await Promise.all([
+      const [coursesResponse, avatarResponse, dailyVideoResponse] = await Promise.all([
         coursesAPI.getAll(),
         uploadAPI.getAvatarConfig(),
+        dailyVideoAPI.getLatest(),
       ]);
 
       const nextCourses = Array.isArray(coursesResponse.data)
         ? coursesResponse.data
         : [];
       const nextConfig = avatarResponse.data as AvatarConfig;
+      const nextDaily = dailyVideoResponse.data as DailyVideoStatus;
+
       setCourses(nextCourses);
       setAvatarConfig(nextConfig);
-
-      const imageUrl =
-        nextConfig.avatar_image_url ||
-        nextConfig.character_image_url ||
-        nextConfig.photo_path;
-
-      if (imageUrl) {
-        const baseUrl = await getApiBaseUrl();
-        setAvatarImageUrl(
-          imageUrl.startsWith('http') ? imageUrl : `${baseUrl}${imageUrl}`,
-        );
-      } else {
-        setAvatarImageUrl(null);
-      }
+      setDailyVideo(nextDaily);
+      setAvatarImageUrl(
+        await toAbsUrl(
+          nextConfig.avatar_image_url ||
+            nextConfig.character_image_url ||
+            nextConfig.photo_path,
+        ),
+      );
+      setDailyVideoUrl(await toAbsUrl(nextDaily.video_url));
     } catch (error) {
       setScreenMessage(
         extractErrorMessage(
           error,
-          'Could not load your live tutor workspace right now.',
+          'Could not load your daily tech update workspace right now.',
         ),
       );
     } finally {
@@ -84,11 +100,48 @@ export default function AvatarTutorScreen() {
       mode: 'liveTutor',
     });
 
+  const generateLatestVideo = useCallback(async () => {
+    if (!avatarConfig?.avatar_ready) {
+      navigation.navigate('AvatarSetup');
+      return;
+    }
+
+    setIsRefreshingVideo(true);
+    setScreenMessage(null);
+
+    try {
+      const response = await dailyVideoAPI.generate();
+      if (!response.data.video_url) {
+        await pollAvatarJob(response.data.job_id);
+      }
+      await loadData();
+      setScreenMessage("Today's tech briefing has been refreshed.");
+    } catch (error) {
+      setScreenMessage(
+        extractErrorMessage(
+          error,
+          'Could not refresh the daily tech briefing right now.',
+        ),
+      );
+    } finally {
+      setIsRefreshingVideo(false);
+    }
+  }, [avatarConfig?.avatar_ready, loadData, navigation]);
+
   const avatarStatus = avatarConfig?.avatar_ready
-    ? 'Avatar ready for Live Tutor'
+    ? 'Avatar ready for daily briefings'
     : avatarConfig?.has_photo
-      ? 'Photo saved and ready for D-ID'
-      : 'Upload a photo to unlock Live Tutor';
+      ? 'Photo saved, stylized avatar pending'
+      : 'Upload a photo to unlock daily briefings';
+
+  const dailyStatusLabel =
+    dailyVideo?.status === 'done'
+      ? dailyVideo.title || "Today's briefing is ready"
+      : dailyVideo?.status === 'processing'
+        ? "Generating today's briefing"
+        : avatarConfig?.avatar_ready
+          ? 'Generate your first daily tech update'
+          : 'Upload a photo to begin';
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -97,20 +150,21 @@ export default function AvatarTutorScreen() {
         style={styles.container}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>Live tutor</Text>
+        <Text style={styles.title}>Daily tech updates</Text>
         <Text style={styles.sub}>
-          Learn with a talking D-ID avatar tutor that answers with video and step-by-step teaching.
+          Watch a fresh daily briefing animated with your avatar, then jump into
+          course chat whenever you want deeper tutoring.
         </Text>
 
         <NoticeBanner message={screenMessage} style={styles.banner} />
 
         <View style={styles.heroCard}>
           <View style={styles.heroCopy}>
-            <Text style={styles.heroLabel}>Tutor status</Text>
-            <Text style={styles.heroTitle}>{avatarStatus}</Text>
+            <Text style={styles.heroLabel}>Briefing status</Text>
+            <Text style={styles.heroTitle}>{dailyStatusLabel}</Text>
             <Text style={styles.heroText}>
-              Your Live Tutor uses the photo you uploaded, a text explanation from the AI tutor,
-              and a D-ID talking video for the final response.
+              {dailyVideo?.summary ||
+                'The app fetches current technology headlines, summarizes them into a one-minute script, and renders a new avatar video for you.'}
             </Text>
           </View>
 
@@ -118,7 +172,7 @@ export default function AvatarTutorScreen() {
             <Image source={{uri: avatarImageUrl}} style={styles.avatarPreview} />
           ) : (
             <View style={styles.avatarPlaceholder}>
-              <Text style={styles.avatarPlaceholderText}>Tutor</Text>
+              <Text style={styles.avatarPlaceholderText}>Tech</Text>
             </View>
           )}
         </View>
@@ -127,18 +181,72 @@ export default function AvatarTutorScreen() {
           <TouchableOpacity
             activeOpacity={0.88}
             style={[styles.actionBtn, styles.primaryBtn]}
-            onPress={() =>
-              navigation.navigate('CourseSelection', {mode: 'liveTutor'})
-            }>
-            <Text style={styles.primaryBtnText}>Choose course</Text>
+            onPress={generateLatestVideo}
+            disabled={isRefreshingVideo}>
+            {isRefreshingVideo ? (
+              <ActivityIndicator size="small" color="#FFFFFF" />
+            ) : (
+              <Text style={styles.primaryBtnText}>Refresh briefing</Text>
+            )}
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.88}
             style={[styles.actionBtn, styles.secondaryBtn]}
-            onPress={() => openChat()}>
-            <Text style={styles.secondaryBtnText}>Start live tutor</Text>
+            onPress={() => navigation.navigate('AvatarSetup')}>
+            <Text style={styles.secondaryBtnText}>Avatar setup</Text>
           </TouchableOpacity>
         </View>
+
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Avatar pipeline</Text>
+          <Text style={styles.cardText}>
+            {avatarStatus}. Hedra handles animation, while Coqui generates the
+            speech track for each saved update.
+          </Text>
+          {avatarConfig?.avatar_id ? (
+            <Text style={styles.metaText}>Avatar ID: {avatarConfig.avatar_id}</Text>
+          ) : null}
+        </View>
+
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Latest highlights</Text>
+          {loading ? (
+            <View style={styles.loadingRow}>
+              <ActivityIndicator color="#6C63FF" />
+              <Text style={styles.loadingText}>Loading today's briefing...</Text>
+            </View>
+          ) : dailyVideo?.highlights?.length ? (
+            dailyVideo.highlights.map((item, index) => (
+              <View key={`${item}-${index}`} style={styles.highlightRow}>
+                <View style={styles.highlightDot} />
+                <Text style={styles.highlightText}>{item}</Text>
+              </View>
+            ))
+          ) : (
+            <Text style={styles.cardText}>
+              Generate today's update to see the latest saved highlights here.
+            </Text>
+          )}
+        </View>
+
+        {dailyVideoUrl ? (
+          <TouchableOpacity
+            activeOpacity={0.92}
+            style={styles.videoCard}
+            onPress={() =>
+              navigation.navigate('AvatarVideoPlayer', {
+                videoUrl: dailyVideoUrl,
+                title: dailyVideo?.title || 'Daily tech briefing',
+              })
+            }>
+            <Text style={styles.cardTitle}>Watch latest video</Text>
+            <Text style={styles.cardText}>
+              {dailyVideo?.generated_at
+                ? `Generated ${new Date(dailyVideo.generated_at).toLocaleString()}`
+                : 'Tap to open the latest generated briefing.'}
+            </Text>
+          </TouchableOpacity>
+        ) : null}
 
         <View style={styles.card}>
           <View style={styles.cardHeader}>
@@ -163,26 +271,26 @@ export default function AvatarTutorScreen() {
                 <View style={styles.courseMeta}>
                   <Text style={styles.courseTitle}>{course.title}</Text>
                   <Text style={styles.courseSubtitle}>
-                    {course.subject} · {course.difficulty_level}
+                    {course.subject} - {course.difficulty_level}
                   </Text>
                 </View>
-                <Text style={styles.courseCta}>Start</Text>
+                <Text style={styles.courseCta}>Open</Text>
               </TouchableOpacity>
             ))
           )}
         </View>
 
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Need to update your tutor face?</Text>
+          <Text style={styles.cardTitle}>Need deeper help?</Text>
           <Text style={styles.cardText}>
-            Use the Avatar Setup screen to upload a new photo, replace your saved avatar image,
-            and preview a talking tutor video before you start teaching sessions.
+            Open Live Tutor chat to turn your avatar into an on-demand teaching
+            assistant for course questions and follow-up explanations.
           </Text>
           <TouchableOpacity
             activeOpacity={0.88}
             style={[styles.actionBtn, styles.secondaryBtn, styles.setupBtn]}
-            onPress={() => navigation.navigate('AvatarSetup')}>
-            <Text style={styles.secondaryBtnText}>Open avatar setup</Text>
+            onPress={() => openChat()}>
+            <Text style={styles.secondaryBtnText}>Start live tutor</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -287,6 +395,14 @@ const styles = StyleSheet.create({
     borderColor: '#1E1E40',
     marginBottom: 16,
   },
+  videoCard: {
+    backgroundColor: '#161633',
+    borderRadius: 22,
+    padding: 20,
+    borderWidth: 1,
+    borderColor: '#312E81',
+    marginBottom: 16,
+  },
   cardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -294,6 +410,8 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   cardTitle: {color: '#FFFFFF', fontWeight: '700', fontSize: 18},
+  cardText: {color: '#9CA3AF', fontSize: 14, lineHeight: 21, marginTop: 8},
+  metaText: {color: '#A5B4FC', fontSize: 12, marginTop: 10},
   refreshLink: {color: '#6C63FF', fontWeight: '700', fontSize: 13},
   loadingRow: {
     flexDirection: 'row',
@@ -302,6 +420,20 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
   },
   loadingText: {color: '#9CA3AF', fontSize: 14},
+  highlightRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+    marginBottom: 10,
+  },
+  highlightDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#6C63FF',
+    marginTop: 7,
+  },
+  highlightText: {flex: 1, color: '#E5E7EB', fontSize: 14, lineHeight: 21},
   courseCard: {
     backgroundColor: '#1B1B34',
     borderRadius: 16,
@@ -321,5 +453,4 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   courseCta: {color: '#A5B4FC', fontSize: 13, fontWeight: '700'},
-  cardText: {color: '#9CA3AF', fontSize: 14, lineHeight: 21, marginTop: 8},
 });

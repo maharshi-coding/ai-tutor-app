@@ -14,8 +14,14 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Video from 'react-native-video';
 import NoticeBanner from '../components/NoticeBanner';
-import {avatarAPI, extractErrorMessage, getApiBaseUrl, uploadAPI} from '../services/api';
-import {generateAndPollAvatar} from '../services/avatarService';
+import {
+  avatarAPI,
+  dailyVideoAPI,
+  extractErrorMessage,
+  getApiBaseUrl,
+  uploadAPI,
+} from '../services/api';
+import {pollAvatarJob} from '../services/avatarService';
 import {useAuthStore} from '../store/authStore';
 import {AvatarConfig} from '../types';
 
@@ -30,6 +36,9 @@ export default function AvatarSetupScreen() {
   const [screenMessage, setScreenMessage] = useState<string | null>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [avatarImageUrl, setAvatarImageUrl] = useState<string | null>(null);
+  const [dailyTitle, setDailyTitle] = useState<string | null>(null);
+  const [dailySummary, setDailySummary] = useState<string | null>(null);
+  const [dailyGeneratedAt, setDailyGeneratedAt] = useState<string | null>(null);
   const [isLoadingConfig, setIsLoadingConfig] = useState(true);
   const refreshCurrentUser = useAuthStore(state => state.refreshCurrentUser);
 
@@ -38,6 +47,9 @@ export default function AvatarSetupScreen() {
   const hydrateFromConfig = useCallback(async (config: AvatarConfig) => {
     setPhotoUploaded(Boolean(config.has_photo));
     setAvatarId(config.avatar_ready ? config.avatar_id ?? null : null);
+    setDailyTitle(config.daily_video_title ?? null);
+    setDailySummary(config.daily_video_summary ?? null);
+    setDailyGeneratedAt(config.daily_video_generated_at ?? null);
 
     const avatarImage =
       config.avatar_image_url || config.character_image_url || config.photo_path;
@@ -50,7 +62,7 @@ export default function AvatarSetupScreen() {
       setAvatarImageUrl(null);
     }
 
-    const clip = config.last_generated_clip_url;
+    const clip = config.daily_video_url || config.last_generated_clip_url;
     if (clip) {
       const baseUrl = await getApiBaseUrl();
       setVideoUrl(clip.startsWith('http') ? clip : `${baseUrl}${clip}`);
@@ -80,7 +92,7 @@ export default function AvatarSetupScreen() {
   const pickPhoto = async () => {
     const result = await launchImageLibrary({
       mediaType: 'photo',
-      quality: 0.8,
+      quality: 0.9,
       selectionLimit: 1,
     });
 
@@ -94,17 +106,20 @@ export default function AvatarSetupScreen() {
     }
 
     const asset = result.assets?.[0];
-
-    if (asset?.uri) {
-      setPhotoUri(asset.uri);
-      setPhotoUploaded(false);
-      setAvatarId(null);
-      setVideoUrl(null);
-      setAvatarImageUrl(asset.uri);
-      setStepStatus('idle');
-      setStatusMessage('');
-      setScreenMessage(null);
+    if (!asset?.uri) {
+      return;
     }
+
+    setPhotoUri(asset.uri);
+    setPhotoUploaded(false);
+    setAvatarId(null);
+    setVideoUrl(null);
+    setDailyTitle(null);
+    setDailySummary(null);
+    setAvatarImageUrl(asset.uri);
+    setStepStatus('idle');
+    setStatusMessage('');
+    setScreenMessage(null);
   };
 
   const uploadPhoto = async () => {
@@ -113,7 +128,7 @@ export default function AvatarSetupScreen() {
     }
 
     setStepStatus('uploading');
-    setStatusMessage('Uploading photo and registering your D-ID tutor avatar...');
+    setStatusMessage('Uploading your photo and building a stylized avatar...');
     setScreenMessage(null);
 
     try {
@@ -138,40 +153,51 @@ export default function AvatarSetupScreen() {
       setScreenMessage(
         extractErrorMessage(
           error,
-          'Could not save the avatar photo for D-ID.',
+          'Could not save the avatar photo for Hedra.',
         ),
       );
       await loadAvatarConfig();
     }
   };
 
-  const generateAvatarPreview = async () => {
+  const generateTodayBriefing = async () => {
     if (!avatarId) {
       Alert.alert(
         'Upload a photo first',
-        'Please upload your avatar photo before generating a preview video.',
+        "Please upload your avatar photo before generating today's tech briefing.",
       );
       return;
     }
 
     setStepStatus('polling');
-    setStatusMessage('Preparing tutor intro video...');
+    setStatusMessage("Collecting today's technology updates...");
     setScreenMessage(null);
 
     try {
-      const relativeUrl = await generateAndPollAvatar(
-        avatarId,
-        'Hello. I am your live AI tutor, and I am ready to teach step by step.',
-        message => setStatusMessage(message),
-      );
-      const baseUrl = await getApiBaseUrl();
-      const fullUrl = relativeUrl.startsWith('http')
-        ? relativeUrl
-        : `${baseUrl}${relativeUrl}`;
-      setVideoUrl(fullUrl);
+      const response = await dailyVideoAPI.generate();
+      const immediateVideo = response.data.video_url;
+
+      if (immediateVideo) {
+        const baseUrl = await getApiBaseUrl();
+        setVideoUrl(
+          immediateVideo.startsWith('http')
+            ? immediateVideo
+            : `${baseUrl}${immediateVideo}`,
+        );
+      } else {
+        const relativeUrl = await pollAvatarJob(
+          response.data.job_id,
+          message => setStatusMessage(message),
+        );
+        const baseUrl = await getApiBaseUrl();
+        setVideoUrl(
+          relativeUrl.startsWith('http') ? relativeUrl : `${baseUrl}${relativeUrl}`,
+        );
+      }
+
       setStepStatus('done');
       setStatusMessage('');
-      setScreenMessage('Live Tutor preview generated successfully.');
+      setScreenMessage("Today's tech briefing is ready.");
       await loadAvatarConfig();
     } catch (error) {
       setStepStatus('error');
@@ -179,7 +205,7 @@ export default function AvatarSetupScreen() {
       setScreenMessage(
         extractErrorMessage(
           error,
-          'Could not generate the Live Tutor preview video.',
+          "Could not generate today's tech briefing video.",
         ),
       );
     }
@@ -191,134 +217,146 @@ export default function AvatarSetupScreen() {
       <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}>
-
-      <Text style={styles.pageTitle}>Avatar setup</Text>
-      <Text style={styles.pageSub}>
-        Upload a photo once, save it to your profile, and preview the D-ID tutor video pipeline.
-      </Text>
-
-      {isLoadingConfig ? (
-        <View style={styles.loadingCard}>
-          <ActivityIndicator color="#6C63FF" />
-          <Text style={styles.loadingText}>Loading saved avatar settings...</Text>
-        </View>
-      ) : null}
-
-      <NoticeBanner
-        message={screenMessage}
-        tone={stepStatus === 'error' ? 'error' : 'info'}
-        style={styles.banner}
-      />
-
-      <View style={styles.card}>
-        <View style={styles.stepRow}>
-          <View style={[styles.stepBadge, photoUploaded && styles.stepDone]}>
-            <Text style={styles.stepNum}>{photoUploaded ? 'OK' : '1'}</Text>
-          </View>
-          <Text style={styles.stepTitle}>Upload your tutor photo</Text>
-        </View>
-        <Text style={styles.stepDesc}>
-          Use a clear, front-facing image. The same uploaded photo is stored on your profile and reused for every D-ID tutor video.
+        <Text style={styles.pageTitle}>Avatar setup</Text>
+        <Text style={styles.pageSub}>
+          Upload one photo, create a reusable stylized avatar, and generate a
+          daily tech briefing powered by Coqui voice and Hedra animation.
         </Text>
 
-        <TouchableOpacity
-          activeOpacity={0.9}
-          style={styles.photoBox}
-          onPress={pickPhoto}
-          disabled={isWorking}>
-          {avatarImageUrl ? (
-            <Image source={{uri: avatarImageUrl}} style={styles.photoImg} />
-          ) : (
-            <View style={styles.photoPlaceholder}>
-              <Text style={styles.photoPlaceholderTitle}>Select a photo</Text>
-              <Text style={styles.photoPlaceholderText}>
-                Tap here to choose the image you want to use for your Live Tutor.
+        {isLoadingConfig ? (
+          <View style={styles.loadingCard}>
+            <ActivityIndicator color="#6C63FF" />
+            <Text style={styles.loadingText}>Loading saved avatar settings...</Text>
+          </View>
+        ) : null}
+
+        <NoticeBanner
+          message={screenMessage}
+          tone={stepStatus === 'error' ? 'error' : 'info'}
+          style={styles.banner}
+        />
+
+        <View style={styles.card}>
+          <View style={styles.stepRow}>
+            <View style={[styles.stepBadge, photoUploaded && styles.stepDone]}>
+              <Text style={styles.stepNum}>{photoUploaded ? 'OK' : '1'}</Text>
+            </View>
+            <Text style={styles.stepTitle}>Upload your photo</Text>
+          </View>
+          <Text style={styles.stepDesc}>
+            Use a clear, front-facing photo. The backend stores the original
+            upload and generates a stylized avatar image for every future
+            briefing.
+          </Text>
+
+          <TouchableOpacity
+            activeOpacity={0.9}
+            style={styles.photoBox}
+            onPress={pickPhoto}
+            disabled={isWorking}>
+            {avatarImageUrl ? (
+              <Image source={{uri: avatarImageUrl}} style={styles.photoImg} />
+            ) : (
+              <View style={styles.photoPlaceholder}>
+                <Text style={styles.photoPlaceholderTitle}>Select a photo</Text>
+                <Text style={styles.photoPlaceholderText}>
+                  Tap here to choose the image you want to animate each day.
+                </Text>
+              </View>
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            activeOpacity={0.85}
+            style={[
+              styles.btn,
+              styles.btnPrimary,
+              (!photoUri || isWorking) && styles.btnOff,
+            ]}
+            onPress={uploadPhoto}
+            disabled={!photoUri || isWorking}>
+            {stepStatus === 'uploading' ? (
+              <View style={styles.btnRow}>
+                <ActivityIndicator size="small" color="#FFFFFF" />
+                <Text style={styles.btnText}>Saving avatar...</Text>
+              </View>
+            ) : (
+              <Text style={styles.btnText}>
+                {avatarId ? 'Replace saved avatar' : 'Save avatar photo'}
               </Text>
-            </View>
-          )}
-        </TouchableOpacity>
+            )}
+          </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity
-          activeOpacity={0.85}
-          style={[
-            styles.btn,
-            styles.btnPrimary,
-            (!photoUri || isWorking) && styles.btnOff,
-          ]}
-          onPress={uploadPhoto}
-          disabled={!photoUri || isWorking}>
-          {stepStatus === 'uploading' ? (
-            <View style={styles.btnRow}>
-              <ActivityIndicator size="small" color="#FFFFFF" />
-              <Text style={styles.btnText}>Creating avatar...</Text>
+        <View style={styles.card}>
+          <View style={styles.stepRow}>
+            <View style={[styles.stepBadge, avatarId && styles.stepDone]}>
+              <Text style={styles.stepNum}>{avatarId ? 'OK' : '2'}</Text>
             </View>
-          ) : (
-            <Text style={styles.btnText}>
-              {avatarId ? 'Replace saved avatar' : 'Save avatar photo'}
+            <Text style={styles.stepTitle}>Pipeline status</Text>
+          </View>
+          <Text style={styles.stepDesc}>
+            {avatarId
+              ? 'Your stylized avatar is ready. Hedra will animate it with Coqui-generated speech for each tech update.'
+              : 'Upload a photo first so the app can build your reusable avatar.'}
+          </Text>
+
+          <View style={styles.statusPanel}>
+            <Text style={styles.statusLabel}>Avatar provider</Text>
+            <Text style={styles.statusValue}>
+              {avatarId ? 'Hedra + Coqui' : 'Waiting for photo'}
             </Text>
-          )}
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.card}>
-        <View style={styles.stepRow}>
-          <View style={[styles.stepBadge, avatarId && styles.stepDone]}>
-            <Text style={styles.stepNum}>{avatarId ? 'OK' : '2'}</Text>
+            {avatarId ? (
+              <Text style={styles.statusMeta}>Avatar ID: {avatarId}</Text>
+            ) : null}
           </View>
-          <Text style={styles.stepTitle}>Live Tutor status</Text>
         </View>
-        <Text style={styles.stepDesc}>
-          {avatarId
-            ? 'Your D-ID avatar is ready. Upload a new photo any time to replace it for future tutor videos.'
-            : 'After the photo upload completes, Live Tutor will reuse that saved image for every D-ID response.'}
-        </Text>
 
-        <View style={styles.statusPanel}>
-          <Text style={styles.statusLabel}>Avatar provider</Text>
-          <Text style={styles.statusValue}>{avatarId ? 'D-ID' : 'Waiting for photo'}</Text>
-          {avatarId ? (
-            <Text style={styles.statusMeta}>Avatar ID: {avatarId}</Text>
-          ) : null}
-        </View>
-      </View>
-
-      <View style={styles.card}>
-        <View style={styles.stepRow}>
-          <View style={[styles.stepBadge, stepStatus === 'done' && styles.stepDone]}>
-            <Text style={styles.stepNum}>{stepStatus === 'done' ? 'OK' : '3'}</Text>
-          </View>
-          <Text style={styles.stepTitle}>Generate intro preview</Text>
-        </View>
-        <Text style={styles.stepDesc}>
-          This creates a short talking tutor video using the same D-ID flow that Live Tutor mode uses after each lesson response.
-        </Text>
-
-        <TouchableOpacity
-          activeOpacity={0.85}
-          style={[
-            styles.btn,
-            styles.btnPrimary,
-            (!avatarId || isWorking) && styles.btnOff,
-          ]}
-          onPress={generateAvatarPreview}
-          disabled={!avatarId || isWorking}>
-          {isWorking ? (
-            <View style={styles.btnRow}>
-              <ActivityIndicator size="small" color="#FFFFFF" />
-              <Text style={styles.btnText}>{statusMessage || 'Processing...'}</Text>
+        <View style={styles.card}>
+          <View style={styles.stepRow}>
+            <View style={[styles.stepBadge, stepStatus === 'done' && styles.stepDone]}>
+              <Text style={styles.stepNum}>{stepStatus === 'done' ? 'OK' : '3'}</Text>
             </View>
-          ) : (
-            <Text style={styles.btnText}>Generate preview video</Text>
-          )}
-        </TouchableOpacity>
-      </View>
+            <Text style={styles.stepTitle}>Generate today's briefing</Text>
+          </View>
+          <Text style={styles.stepDesc}>
+            Fetch the latest technology headlines, summarize them into a
+            one-minute script, convert that script to Coqui audio, and animate
+            your avatar through Hedra.
+          </Text>
+
+          <TouchableOpacity
+            activeOpacity={0.85}
+            style={[
+              styles.btn,
+              styles.btnPrimary,
+              (!avatarId || isWorking) && styles.btnOff,
+            ]}
+            onPress={generateTodayBriefing}
+            disabled={!avatarId || isWorking}>
+            {isWorking ? (
+              <View style={styles.btnRow}>
+                <ActivityIndicator size="small" color="#FFFFFF" />
+                <Text style={styles.btnText}>{statusMessage || 'Processing...'}</Text>
+              </View>
+            ) : (
+              <Text style={styles.btnText}>Generate today's tech update</Text>
+            )}
+          </TouchableOpacity>
+        </View>
 
         {videoUrl ? (
           <View style={styles.card}>
-            <Text style={styles.stepTitle}>Preview video</Text>
+            <Text style={styles.stepTitle}>{dailyTitle || 'Latest briefing'}</Text>
             <Text style={styles.stepDesc}>
-              This is the same kind of talking response users will see in Live Tutor mode after the AI generates an explanation.
+              {dailySummary ||
+                'Your latest saved daily tech briefing is ready to watch.'}
             </Text>
+            {dailyGeneratedAt ? (
+              <Text style={styles.generatedAt}>
+                Generated: {new Date(dailyGeneratedAt).toLocaleString()}
+              </Text>
+            ) : null}
             <View style={styles.videoWrapper}>
               <Video
                 source={{uri: videoUrl}}
@@ -396,6 +434,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   stepDesc: {color: '#9CA3AF', fontSize: 14, lineHeight: 21, marginBottom: 16},
+  generatedAt: {
+    color: '#A5B4FC',
+    fontSize: 12,
+    marginBottom: 12,
+  },
   photoBox: {
     height: 210,
     backgroundColor: '#1C1C3A',

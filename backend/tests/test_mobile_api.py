@@ -5,7 +5,8 @@ The current mobile contract depends on:
 - Auth (register, login, me)
 - Courses (list)
 - Tutor text responses
-- D-ID avatar create / speak / poll routes
+- Hedra avatar create / speak / poll routes
+- Daily tech video routes
 - Photo upload alias
 
 Runs without Docker or heavyweight ML dependencies by patching optional imports.
@@ -52,6 +53,9 @@ sys.modules["replicate"] = replicate_mock
 
 pil_mock = _make_mock_module("PIL")
 pil_mock.Image = MagicMock()
+pil_mock.ImageEnhance = MagicMock()
+pil_mock.ImageFilter = MagicMock()
+pil_mock.ImageOps = MagicMock()
 sys.modules["PIL"] = pil_mock
 
 os.environ.setdefault("DATABASE_URL", "sqlite:///./test_mobile.db")
@@ -270,6 +274,33 @@ class TestAvatarAsync(unittest.TestCase):
         self.assertEqual(poll_data["job_id"], "talk-123")
         self.assertEqual(poll_data["status"], "done")
         self.assertEqual(poll_data["video_url"], "https://example.com/talk.mp4")
+
+    def test_daily_video_requires_auth(self):
+        resp = client.get("/api/daily-video")
+        self.assertEqual(resp.status_code, 401, msg=resp.text)
+
+    def test_daily_video_generate_returns_job(self):
+        with patch(
+            "app.routers.daily_video.create_daily_update_video_job",
+            new=AsyncMock(
+                return_value={
+                    "job_id": "generation-123",
+                    "avatar_id": "avatar-123",
+                    "status": "pending",
+                    "video_url": None,
+                    "error": None,
+                }
+            ),
+        ):
+            resp = client.post(
+                "/api/daily-video/generate",
+                headers=self.headers,
+            )
+
+        self.assertEqual(resp.status_code, 200, msg=resp.text)
+        data = resp.json()
+        self.assertEqual(data["job_id"], "generation-123")
+        self.assertEqual(data["status"], "pending")
 
 
 class TestHealthAndRoot(unittest.TestCase):

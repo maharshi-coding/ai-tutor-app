@@ -320,6 +320,36 @@ async def test_avatar_speak_returns_job(ac):
     assert data["status"] == "pending"
 
 
+@pytest.mark.asyncio
+async def test_daily_video_requires_auth(ac):
+    resp = await ac.get("/api/daily-video")
+    assert resp.status_code in (401, 403)
+
+
+@pytest.mark.asyncio
+async def test_daily_video_generate_returns_job(ac):
+    headers = await _auth_header(ac)
+
+    with patch(
+        "app.routers.daily_video.create_daily_update_video_job",
+        new=AsyncMock(
+            return_value={
+                "job_id": "generation-123",
+                "avatar_id": "avatar-123",
+                "status": "pending",
+                "video_url": None,
+                "error": None,
+            }
+        ),
+    ):
+        resp = await ac.post("/api/daily-video/generate", headers=headers)
+
+    assert resp.status_code == 200, resp.text
+    data = resp.json()
+    assert data["job_id"] == "generation-123"
+    assert data["status"] == "pending"
+
+
 # ---------------------------------------------------------------------------
 # Streaming endpoint tests
 # ---------------------------------------------------------------------------
@@ -494,12 +524,12 @@ def test_config_has_kokoro_settings():
     assert hasattr(settings, "KOKORO_API_URL")
 
 
-def test_config_has_did_settings():
+def test_config_has_hedra_settings():
     from app.config import settings
 
-    assert hasattr(settings, "DID_API_KEY")
-    assert hasattr(settings, "DID_API_BASE_URL")
-    assert hasattr(settings, "DID_DEFAULT_VOICE")
+    assert hasattr(settings, "HEDRA_API_KEY")
+    assert hasattr(settings, "HEDRA_API_BASE_URL")
+    assert hasattr(settings, "VIDEO_STORAGE_PATH")
 
 
 def test_config_does_not_have_sadtalker_settings():

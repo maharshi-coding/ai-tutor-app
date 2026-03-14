@@ -135,7 +135,7 @@ export const voiceAPI = {
   },
 }
 
-// Avatar Video API (D-ID)
+// Avatar Video API (Hedra)
 export const avatarVideoAPI = {
   generate: async (params: { audio_url?: string; text?: string; image_url?: string }) => {
     const response = await api.post('/api/avatar', params)
