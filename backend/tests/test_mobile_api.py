@@ -60,7 +60,6 @@ os.environ.setdefault("UPLOAD_DIR", "/tmp/test_uploads")
 os.environ.setdefault("GEMINI_API_KEY", "")
 os.environ.setdefault("OPENAI_API_KEY", "")
 os.environ.setdefault("OPENROUTER_API_KEY", "")
-os.environ.setdefault("DID_API_KEY", "")
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 

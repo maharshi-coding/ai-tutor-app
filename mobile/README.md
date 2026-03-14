@@ -1,7 +1,7 @@
 # AI Tutor – React Native Mobile App
 
 A **React Native Android app** for your AI-powered personal tutor. Users upload a photo to generate a
-talking avatar via SadTalker, ask questions in a chat interface, and receive AI responses with
+talking avatar via D-ID, ask questions in a chat interface, and receive AI responses with
 animated avatar video replies. Learning materials (PDF / DOCX / TXT) can be uploaded to give the
 tutor context-specific knowledge.
 
@@ -30,7 +30,7 @@ ai-tutor-app/
         │   ├── RegisterScreen.tsx
         │   ├── HomeScreen.tsx     Course list + quick actions
         │   ├── ChatScreen.tsx     AI chat + live avatar video panel
-        │   ├── AvatarSetupScreen.tsx  Photo upload → async SadTalker job
+        │   ├── AvatarSetupScreen.tsx  Photo upload → async D-ID job
         │   └── ProfileScreen.tsx  Material upload + account settings
         ├── services/
         │   ├── api.ts             Axios client + all API helpers
@@ -49,7 +49,7 @@ ai-tutor-app/
 |---|---|
 | Auth | JWT login / register, token persisted in AsyncStorage |
 | Chat | AI tutor Q&A (Ollama → OpenRouter → Gemini → OpenAI waterfall) |
-| Avatar generation | Photo upload → async SadTalker job → polling → video playback |
+| Avatar generation | Photo upload → async D-ID job → polling → video playback |
 | RAG | Upload PDF/DOCX/TXT; ChromaDB indexes it; tutor answers from it |
 | Courses | Browse & open course-specific chat sessions |
 | Talking avatar video | Displayed in hero panel above chat messages |
@@ -59,7 +59,7 @@ ai-tutor-app/
 ## Avatar async flow
 
 ```
-Mobile                          Backend (FastAPI)              SadTalker
+Mobile                          Backend (FastAPI)              D-ID
 ──────                          ─────────────────              ─────────
 POST /api/avatar/generate ───► creates background job ──────► animates photo
                           ◄─── {job_id}
@@ -193,7 +193,7 @@ Course grid with quick-action buttons for *Ask AI Tutor*, *My Avatar*, and *Mate
 ### Avatar Setup
 Step-by-step:
 1. Pick & upload a front-facing photo
-2. Tap "Generate Avatar" — job queued asynchronously
+2. Tap "Generate Avatar" — D-ID job queued asynchronously
 3. App polls every 2.5 s until the video is ready, then previews it
 
 ### Profile

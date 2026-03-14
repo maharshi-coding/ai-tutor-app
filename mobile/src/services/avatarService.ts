@@ -14,7 +14,7 @@ export async function generateAndPollAvatar(
   text: string,
   onStatusUpdate?: (status: string) => void,
 ): Promise<string> {
-  onStatusUpdate?.('Starting live tutor video...');
+  onStatusUpdate?.('Sending final answer to D-ID...');
 
   const genResp = await avatarAPI.speak({avatarId, text});
   const {job_id, video_url} = genResp.data;
@@ -25,10 +25,10 @@ export async function generateAndPollAvatar(
   }
 
   if (!job_id) {
-    throw new Error('Backend did not return a job_id');
+    throw new Error('D-ID did not return a job_id');
   }
 
-  onStatusUpdate?.('Animating avatar...');
+  onStatusUpdate?.('D-ID is preparing the tutor video...');
 
   return pollAvatarJob(job_id, onStatusUpdate);
 }
@@ -55,16 +55,16 @@ export async function pollAvatarJob(
         }
         throw new Error('Job done but no video_url returned');
       case 'failed':
-        throw new Error(job.error || 'Avatar generation failed');
+        throw new Error(job.error || 'Tutor video generation failed');
       case 'processing':
-        onStatusUpdate?.(`Rendering video... (${i + 1}/${MAX_POLLS})`);
+        onStatusUpdate?.(`D-ID is rendering the tutor video... (${i + 1}/${MAX_POLLS})`);
         break;
       default:
-        onStatusUpdate?.('Waiting in queue...');
+        onStatusUpdate?.('Waiting for D-ID...');
     }
   }
 
-  throw new Error('Avatar generation timed out after 3 minutes');
+  throw new Error('Tutor video generation timed out after 3 minutes');
 }
 
 function sleep(ms: number): Promise<void> {

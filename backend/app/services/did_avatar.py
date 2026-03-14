@@ -3,6 +3,7 @@ from __future__ import annotations
 import base64
 import hashlib
 import mimetypes
+import re
 from pathlib import Path
 from typing import Any, Optional
 
@@ -14,8 +15,6 @@ from app.models import User
 
 
 UPLOAD_DIR = Path(settings.UPLOAD_DIR)
-TALK_POLL_TIMEOUT_SECONDS = 180
-TALK_POLL_INTERVAL_SECONDS = 2
 
 # Maps job_id -> state for authenticated polling.
 _jobs: dict[str, dict[str, Any]] = {}
@@ -108,6 +107,18 @@ def _extract_error_message(payload: Any) -> str:
     return "D-ID request failed"
 
 
+def _normalize_speech_text(text: str) -> str:
+    # D-ID should receive only the final spoken explanation, not markdown or code.
+    normalized = re.sub(r"```.*?```", " ", text, flags=re.DOTALL)
+    normalized = re.sub(r"`([^`]*)`", r"\1", normalized)
+    normalized = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", normalized)
+    normalized = re.sub(r"(^|\n)\s{0,3}#{1,6}\s*", r"\1", normalized)
+    normalized = re.sub(r"(^|\n)\s*[-*+]\s+", r"\1", normalized)
+    normalized = re.sub(r"(^|\n)\s*\d+\.\s+", r"\1", normalized)
+    normalized = re.sub(r"\s+", " ", normalized)
+    return normalized.strip()
+
+
 async def _upload_image_to_did(photo_path: Path) -> dict[str, Any]:
     async with _did_client() as client:
         response = await client.post(
@@ -132,11 +143,15 @@ async def _upload_image_to_did(photo_path: Path) -> dict[str, Any]:
 
 
 async def _create_talk(source_url: str, text: str) -> dict[str, Any]:
+    speech_text = _normalize_speech_text(text)
+    if not speech_text:
+        raise DIdAvatarError("Text is required to generate an avatar video.")
+
     payload = {
         "source_url": source_url,
         "script": {
             "type": "text",
-            "input": text,
+            "input": speech_text,
             "provider": {
                 "type": settings.DID_VOICE_PROVIDER,
                 "voice_id": settings.DID_DEFAULT_VOICE,
@@ -329,7 +344,7 @@ async def create_avatar_speech_job(
     _update_avatar_runtime_state(
         db,
         user,
-        last_script=text,
+        last_script=_normalize_speech_text(text),
         last_generated_clip_url=video_url if isinstance(video_url, str) else None,
         last_talk_id=talk_id,
     )

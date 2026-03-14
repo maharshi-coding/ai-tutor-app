@@ -87,7 +87,7 @@ export default function AvatarTutorScreen() {
   const avatarStatus = avatarConfig?.avatar_ready
     ? 'Avatar ready for Live Tutor'
     : avatarConfig?.has_photo
-      ? 'Photo saved, finish D-ID setup in Avatar Setup'
+      ? 'Photo saved and ready for D-ID'
       : 'Upload a photo to unlock Live Tutor';
 
   return (
@@ -99,7 +99,7 @@ export default function AvatarTutorScreen() {
         showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>Live tutor</Text>
         <Text style={styles.sub}>
-          Learn with a talking D-ID tutor that answers with video, voice, and step-by-step teaching.
+          Learn with a talking D-ID avatar tutor that answers with video and step-by-step teaching.
         </Text>
 
         <NoticeBanner message={screenMessage} style={styles.banner} />
@@ -110,7 +110,7 @@ export default function AvatarTutorScreen() {
             <Text style={styles.heroTitle}>{avatarStatus}</Text>
             <Text style={styles.heroText}>
               Your Live Tutor uses the photo you uploaded, a text explanation from the AI tutor,
-              and D-ID video generation for the final response.
+              and a D-ID talking video for the final response.
             </Text>
           </View>
 
@@ -175,8 +175,8 @@ export default function AvatarTutorScreen() {
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Need to update your tutor face?</Text>
           <Text style={styles.cardText}>
-            Use the Avatar Setup screen to upload a new photo, refresh your cached D-ID avatar,
-            and preview an intro video before you start teaching sessions.
+            Use the Avatar Setup screen to upload a new photo, replace your saved avatar image,
+            and preview a talking tutor video before you start teaching sessions.
           </Text>
           <TouchableOpacity
             activeOpacity={0.88}

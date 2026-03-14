@@ -16,7 +16,6 @@ export default function ProfilePage() {
   const { user, isAuthenticated, fetchUser, logout } = useAuthStore()
   const [avatarConfig, setAvatarConfig] = useState<any>(null)
   const [isUploading, setIsUploading] = useState(false)
-  const [isGeneratingCharacter, setIsGeneratingCharacter] = useState(false)
 
   useEffect(() => {
     fetchUser()
@@ -31,8 +30,8 @@ export default function ProfilePage() {
     const loadAvatarConfig = async () => {
       try {
         const config = await uploadAPI.getAvatarConfig()
-        setAvatarConfig(config)
-      } catch (error) {
+        setAvatarConfig({ ...config, _timestamp: Date.now() })
+      } catch {
         console.error('Failed to load avatar config')
       }
     }
@@ -40,7 +39,12 @@ export default function ProfilePage() {
     if (isAuthenticated) {
       loadAvatarConfig()
     }
-  }, [isAuthenticated, user, router])
+  }, [isAuthenticated, router, user])
+
+  const refreshAvatarConfig = useCallback(async () => {
+    const config = await uploadAPI.getAvatarConfig()
+    setAvatarConfig({ ...config, _timestamp: Date.now() })
+  }, [])
 
   const handlePhotoUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -54,16 +58,15 @@ export default function ProfilePage() {
     setIsUploading(true)
     try {
       await uploadAPI.uploadPhoto(file)
-      toast.success('Photo uploaded successfully!')
-      const config = await uploadAPI.getAvatarConfig()
-      setAvatarConfig(config)
+      toast.success('Avatar photo uploaded successfully!')
+      await refreshAvatarConfig()
       await fetchUser()
     } catch (error: any) {
       toast.error(error.response?.data?.detail || 'Failed to upload photo')
     } finally {
       setIsUploading(false)
     }
-  }, [fetchUser])
+  }, [fetchUser, refreshAvatarConfig])
 
   const handleVoiceUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -79,62 +82,31 @@ export default function ProfilePage() {
     try {
       await uploadAPI.uploadVoice(file)
       toast.success('Voice sample uploaded successfully!')
-      const config = await uploadAPI.getAvatarConfig()
-      setAvatarConfig(config)
+      await refreshAvatarConfig()
       await fetchUser()
     } catch (error: any) {
       toast.error(error.response?.data?.detail || 'Failed to upload voice')
     } finally {
       setIsUploading(false)
     }
-  }, [fetchUser])
-
-  const handleGenerateCharacter = useCallback(async () => {
-    if (!avatarConfig?.has_photo) {
-      toast.error('Please upload a profile photo first.')
-      return
-    }
-    if (isGeneratingCharacter) return
-
-    setIsGeneratingCharacter(true)
-    try {
-      const result = await uploadAPI.generateCharacterAvatar()
-      console.log('Avatar generation result:', result)
-      
-      // Fetch fresh config to get the updated character_image_url
-      const config = await uploadAPI.getAvatarConfig()
-      console.log('Updated avatar config:', config)
-      
-      // Force state update with new object reference
-      setAvatarConfig({ ...config, _timestamp: Date.now() })
-      
-      if (config?.character_image_url) {
-        toast.success('Character avatar generated successfully!')
-      } else {
-        toast.error('Avatar generated but image URL not found. Please refresh the page.')
-      }
-    } catch (error: any) {
-      console.error('Avatar generation error:', error)
-      toast.error(
-        error.response?.data?.detail ||
-          'Avatar generation failed. Check your Stable Diffusion API settings.',
-      )
-    } finally {
-      setIsGeneratingCharacter(false)
-    }
-  }, [avatarConfig?.has_photo, isGeneratingCharacter])
+  }, [fetchUser, refreshAvatarConfig])
 
   if (!isAuthenticated || !user) {
     return null
   }
 
+  const previewPath =
+    avatarConfig?.avatar_image_url ||
+    avatarConfig?.character_image_url ||
+    avatarConfig?.photo_path ||
+    null
+
   return (
     <div className="min-h-screen">
-      {/* Navigation */}
       <nav className="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
           <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-2xl bg-gradient-to-tr from-sky-500 via-cyan-400 to-emerald-400 shadow-[0_0_20px_rgba(56,189,248,0.7)] flex items-center justify-center text-[0.65rem] font-black text-slate-950">
+            <div className="flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-tr from-sky-500 via-cyan-400 to-emerald-400 text-[0.65rem] font-black text-slate-950 shadow-[0_0_20px_rgba(56,189,248,0.7)]">
               AI
             </div>
             <div className="flex flex-col leading-tight">
@@ -142,20 +114,20 @@ export default function ProfilePage() {
                 Profile & Avatar
               </span>
               <span className="text-[0.65rem] text-slate-500">
-                Identity · Voice · Presence
+                Identity | Voice | Tutor photo
               </span>
             </div>
           </Link>
           <div className="flex items-center gap-3 text-sm">
             <Link
               href="/dashboard"
-              className="rounded-full border border-slate-700 bg-slate-900/60 px-4 py-2 text-slate-100 hover:border-sky-500 hover:text-sky-100 transition-colors"
+              className="rounded-full border border-slate-700 bg-slate-900/60 px-4 py-2 text-slate-100 transition-colors hover:border-sky-500 hover:text-sky-100"
             >
               Back to dashboard
             </Link>
             <button
               onClick={logout}
-              className="rounded-full border border-red-500/60 bg-red-500/10 px-4 py-2 text-xs font-medium text-red-200 hover:bg-red-500/20 transition-colors"
+              className="rounded-full border border-red-500/60 bg-red-500/10 px-4 py-2 text-xs font-medium text-red-200 transition-colors hover:bg-red-500/20"
             >
               Logout
             </button>
@@ -169,27 +141,25 @@ export default function ProfilePage() {
           animate={{ opacity: 1, y: 0 }}
           className="mx-auto flex flex-col gap-6 lg:flex-row"
         >
-          {/* Left: account info */}
           <div className="flex-1 space-y-4">
             <h1 className="text-3xl font-semibold text-slate-50">
               Profile & identity
             </h1>
-            <p className="text-sm text-slate-400 max-w-md">
-              Tune how your AI tutor presents itself: your name, your avatar, and your
-              voice.
+            <p className="max-w-md text-sm text-slate-400">
+              Manage the avatar photo and optional voice sample your tutor uses across chat and Visual Tutor mode.
             </p>
 
             <div className="glass-panel rounded-2xl border border-slate-700/70 p-5 text-sm text-slate-100">
-              <p className="text-[0.65rem] uppercase tracking-[0.18em] text-slate-400 mb-3">
+              <p className="mb-3 text-[0.65rem] uppercase tracking-[0.18em] text-slate-400">
                 Account information
               </p>
               <div className="space-y-3">
-                {avatarConfig?.character_image_url && (
+                {previewPath ? (
                   <div className="flex items-center gap-3">
                     <div className="h-14 w-14 overflow-hidden rounded-full border border-sky-500/60 shadow-[0_0_15px_rgba(56,189,248,0.6)]">
                       <Image
-                        src={`${API_URL}${avatarConfig.character_image_url}?t=${avatarConfig._timestamp || Date.now()}`}
-                        alt="Character avatar"
+                        src={`${API_URL}${previewPath}?t=${avatarConfig?._timestamp || Date.now()}`}
+                        alt="Tutor avatar"
                         width={56}
                         height={56}
                         className="h-full w-full object-cover"
@@ -197,52 +167,49 @@ export default function ProfilePage() {
                       />
                     </div>
                     <div className="text-xs text-slate-300">
-                      <p className="font-medium text-slate-100">Your tutor persona</p>
+                      <p className="font-medium text-slate-100">Your tutor avatar</p>
                       <p className="text-[0.7rem] text-slate-400">
-                        Generated from your photo in a stylized, lesson-ready look.
+                        This is the uploaded photo D-ID reuses for Visual Tutor replies.
                       </p>
                     </div>
                   </div>
-                )}
+                ) : null}
                 <div>
-                  <p className="text-[0.7rem] text-slate-400 mb-0.5">Username</p>
+                  <p className="mb-0.5 text-[0.7rem] text-slate-400">Username</p>
                   <p className="text-sm text-slate-100">{user.username}</p>
                 </div>
                 <div>
-                  <p className="text-[0.7rem] text-slate-400 mb-0.5">Email</p>
+                  <p className="mb-0.5 text-[0.7rem] text-slate-400">Email</p>
                   <p className="text-sm text-slate-100">{user.email}</p>
                 </div>
-                {user.full_name && (
+                {user.full_name ? (
                   <div>
-                    <p className="text-[0.7rem] text-slate-400 mb-0.5">Full name</p>
+                    <p className="mb-0.5 text-[0.7rem] text-slate-400">Full name</p>
                     <p className="text-sm text-slate-100">{user.full_name}</p>
                   </div>
-                )}
+                ) : null}
               </div>
             </div>
           </div>
 
-          {/* Right: avatar setup */}
           <div className="flex-1 space-y-4">
             <div className="glass-panel rounded-2xl border border-slate-700/70 p-5 text-sm text-slate-100">
-              <p className="text-[0.65rem] uppercase tracking-[0.18em] text-slate-400 mb-2">
-                AI avatar setup
+              <p className="mb-2 text-[0.65rem] uppercase tracking-[0.18em] text-slate-400">
+                Visual tutor setup
               </p>
               <p className="mb-4 text-xs text-slate-300">
-                Upload a face and a short voice sample to let your tutor mirror you more
-                closely in lessons.
+                Upload a clear face photo to power D-ID video replies. Voice samples stay optional and are kept only for future customization.
               </p>
 
-              {/* Photo Upload */}
               <div className="mb-5">
                 <label className="mb-1 block text-xs font-medium uppercase tracking-[0.18em] text-slate-400">
-                  Profile photo
+                  Avatar photo
                 </label>
                 <div className="flex items-center gap-4">
                   {avatarConfig?.has_photo ? (
-                    <div className="flex items-center gap-2 text-emerald-300 text-xs">
-                      <span>✓</span>
-                      <span>Photo uploaded</span>
+                    <div className="flex items-center gap-2 text-xs text-emerald-300">
+                      <span>OK</span>
+                      <span>Photo saved</span>
                     </div>
                   ) : (
                     <div className="flex items-center gap-2 text-xs text-slate-500">
@@ -250,7 +217,7 @@ export default function ProfilePage() {
                     </div>
                   )}
                   <label className="cursor-pointer rounded-full bg-gradient-to-r from-sky-500 via-cyan-400 to-emerald-400 px-4 py-2 text-xs font-semibold text-slate-950 shadow-[0_0_20px_rgba(34,211,238,0.7)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60">
-                    {isUploading ? 'Uploading…' : 'Upload photo'}
+                    {isUploading ? 'Uploading...' : 'Upload photo'}
                     <input
                       type="file"
                       accept="image/*"
@@ -260,17 +227,19 @@ export default function ProfilePage() {
                     />
                   </label>
                 </div>
+                <p className="mt-2 text-[0.7rem] text-slate-500">
+                  Uploading a new photo replaces the previous tutor avatar image for future video generation.
+                </p>
               </div>
 
-              {/* Voice Upload */}
               <div>
                 <label className="mb-1 block text-xs font-medium uppercase tracking-[0.18em] text-slate-400">
-                  Voice sample
+                  Voice sample (optional)
                 </label>
                 <div className="flex items-center gap-4">
                   {avatarConfig?.has_voice ? (
-                    <div className="flex items-center gap-2 text-emerald-300 text-xs">
-                      <span>✓</span>
+                    <div className="flex items-center gap-2 text-xs text-emerald-300">
+                      <span>OK</span>
                       <span>Voice sample uploaded</span>
                     </div>
                   ) : (
@@ -279,7 +248,7 @@ export default function ProfilePage() {
                     </div>
                   )}
                   <label className="cursor-pointer rounded-full bg-gradient-to-r from-sky-500 via-cyan-400 to-emerald-400 px-4 py-2 text-xs font-semibold text-slate-950 shadow-[0_0_20px_rgba(34,211,238,0.7)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60">
-                    {isUploading ? 'Uploading…' : 'Upload voice'}
+                    {isUploading ? 'Uploading...' : 'Upload voice'}
                     <input
                       type="file"
                       accept="audio/*"
@@ -290,50 +259,23 @@ export default function ProfilePage() {
                   </label>
                 </div>
                 <p className="mt-2 text-[0.7rem] text-slate-500">
-                  Record a short clip (wav, mp3, or webm) of you explaining something you
-                  care about.
+                  Visual Tutor already works with generated speech audio, so this sample is optional.
                 </p>
               </div>
 
-              <div className="mt-5 border-t border-slate-800/80 pt-4">
-                <p className="mb-2 text-[0.65rem] uppercase tracking-[0.18em] text-slate-400">
-                  Stylized tutor character
-                </p>
-                <p className="mb-3 text-[0.7rem] text-slate-300">
-                  Once you&apos;ve uploaded a photo, you can ask the backend to create a
-                  Ghibli-style full-body caricature of you using your Stable Diffusion
-                  server.
-                </p>
-                <button
-                  type="button"
-                  onClick={handleGenerateCharacter}
-                  disabled={isGeneratingCharacter}
-                  className="rounded-full bg-gradient-to-r from-sky-500 via-cyan-400 to-emerald-400 px-4 py-2 text-xs font-semibold text-slate-950 shadow-[0_0_20px_rgba(34,211,238,0.7)] hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60 transition"
-                >
-                  {isGeneratingCharacter ? 'Generating avatar…' : 'Generate my character'}
-                </button>
-                {avatarConfig?.character_image_url && (
-                  <p className="mt-2 text-[0.7rem] text-slate-400">
-                    Character image generated. It will be used in future animated lesson
-                    views.
-                  </p>
-                )}
-              </div>
-
-              {avatarConfig?.has_photo && avatarConfig?.has_voice && (
+              {avatarConfig?.avatar_ready ? (
                 <div className="mt-5 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-xs text-emerald-100">
                   <p className="font-medium">
-                    ✓ Your avatar is ready. Your tutor will now appear and speak more like
-                    you in sessions.
+                    OK Your avatar is ready. Visual Tutor can now animate your uploaded photo with D-ID video replies.
                   </p>
                   <Link
                     href="/dashboard"
                     className="mt-2 inline-block font-semibold text-emerald-200 hover:text-emerald-100"
                   >
-                    Jump into a course →
+                    Jump into a course ->
                   </Link>
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
         </motion.div>

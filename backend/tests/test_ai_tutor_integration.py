@@ -222,19 +222,34 @@ async def test_voice_empty_text(ac):
         json={"text": "   "},
         headers=headers,
     )
-    assert resp.status_code == 410
+    assert resp.status_code == 400
 
 
 @pytest.mark.asyncio
-async def test_voice_route_is_disabled(ac):
+async def test_voice_route_returns_audio(ac):
     headers = await _auth_header(ac)
-    resp = await ac.post(
-        "/api/voice",
-        json={"text": "Hello world"},
-        headers=headers,
-    )
-    assert resp.status_code == 410, resp.text
-    assert "D-ID" in resp.json()["detail"]
+    from app.services.tts import GeneratedAudio
+
+    with patch(
+        "app.routers.voice.ensure_voice_audio",
+        new=AsyncMock(
+            return_value=GeneratedAudio(
+                audio_url="/uploads/voice_output/test.wav",
+                absolute_path=Path("test.wav"),
+                duration_ms=1000,
+                provider="piper",
+            )
+        ),
+    ):
+        resp = await ac.post(
+            "/api/voice",
+            json={"text": "Hello world"},
+            headers=headers,
+        )
+
+    assert resp.status_code == 200, resp.text
+    assert resp.json()["audio_url"] == "/uploads/voice_output/test.wav"
+    assert resp.json()["provider"] == "piper"
 
 
 # ---------------------------------------------------------------------------
@@ -479,14 +494,16 @@ def test_config_has_kokoro_settings():
     assert hasattr(settings, "KOKORO_API_URL")
 
 
-def test_config_has_sadtalker_settings():
-    from app.config import settings
-
-    assert hasattr(settings, "SADTALKER_API_URL")
-
-
 def test_config_has_did_settings():
     from app.config import settings
 
     assert hasattr(settings, "DID_API_KEY")
+    assert hasattr(settings, "DID_API_BASE_URL")
     assert hasattr(settings, "DID_DEFAULT_VOICE")
+
+
+def test_config_does_not_have_sadtalker_settings():
+    from app.config import settings
+
+    assert not hasattr(settings, "SADTALKER_API_URL")
+    assert not hasattr(settings, "SADTALKER_TIMEOUT_SECONDS")

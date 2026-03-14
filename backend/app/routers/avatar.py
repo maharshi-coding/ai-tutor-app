@@ -30,7 +30,13 @@ class LegacyAvatarSpeakRequest(BaseModel):
 
 def _avatar_service_error(exc: DIdAvatarError) -> HTTPException:
     message = str(exc)
-    if "Upload a photo" in message or "Create an avatar" in message:
+    if (
+        "Upload a photo" in message
+        or "Create an avatar" in message
+        or "Text or audio_url" in message
+        or "could not be found" in message
+        or "does not match" in message
+    ):
         return HTTPException(status_code=400, detail=message)
     return HTTPException(status_code=503, detail=message)
 
@@ -82,6 +88,7 @@ async def speak_with_avatar(
     )
 
 
+@router.post("/avatar", response_model=AvatarJobResponse)
 @router.post("/avatar/generate", response_model=AvatarJobResponse)
 @router.post("/generate-avatar-video", response_model=AvatarJobResponse)
 async def generate_avatar_video_legacy(
@@ -97,18 +104,23 @@ async def generate_avatar_video_legacy(
     if not req.text or not req.text.strip():
         raise HTTPException(status_code=400, detail="text is required for avatar speech.")
 
-    config = current_user.avatar_config or {}
-    avatar_id = config.get("avatar_id")
-    if not isinstance(avatar_id, str) or not avatar_id.strip():
-        raise HTTPException(
-            status_code=400,
-            detail="Create an avatar before requesting live tutor video.",
+    try:
+        avatar_result = await ensure_avatar_for_user(current_user, db)
+        result = await create_avatar_speech_job(
+            user=current_user,
+            db=db,
+            avatar_id=avatar_result["avatar_id"],
+            text=req.text,
         )
+    except DIdAvatarError as exc:
+        raise _avatar_service_error(exc)
 
-    return await speak_with_avatar(
-        req=AvatarSpeakRequest(avatar_id=avatar_id, text=req.text),
-        current_user=current_user,
-        db=db,
+    return AvatarJobResponse(
+        job_id=result["job_id"],
+        avatar_id=result.get("avatar_id"),
+        status=result["status"],
+        video_url=result.get("video_url"),
+        error=result.get("error"),
     )
 
 

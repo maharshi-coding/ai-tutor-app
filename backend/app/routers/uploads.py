@@ -47,6 +47,10 @@ async def _save_uploaded_photo(
     filename = f"{current_user.id}_photo{file_extension}"
     file_path = UPLOAD_DIR / "photos" / filename
 
+    for existing_photo in (UPLOAD_DIR / "photos").glob(f"{current_user.id}_photo.*"):
+        if existing_photo != file_path:
+            existing_photo.unlink(missing_ok=True)
+
     current_size = 0
     with open(file_path, "wb") as buffer:
         while chunk := await file.read(1024 * 1024):
@@ -57,12 +61,26 @@ async def _save_uploaded_photo(
             buffer.write(chunk)
 
     current_user.avatar_photo_path = str(file_path)
+    photo_url = _to_public_upload_url(file_path)
+    config = dict(current_user.avatar_config or {})
+    config.update(
+        {
+            "avatar_ready": False,
+            "avatar_provider": "d-id",
+            "avatar_image_url": photo_url,
+            "character_image_url": photo_url,
+            "last_generated_clip_url": None,
+            "last_script": None,
+            "last_talk_id": None,
+        }
+    )
+    current_user.avatar_config = config
     db.commit()
     db.refresh(current_user)
 
     return {
         "message": "Photo uploaded successfully",
-        "file_path": _to_public_upload_url(file_path),
+        "file_path": photo_url,
         "user_id": current_user.id,
     }
 
@@ -73,7 +91,21 @@ async def upload_photo(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    return await _save_uploaded_photo(file, current_user, db)
+    upload_result = await _save_uploaded_photo(file, current_user, db)
+
+    try:
+        avatar_result = await ensure_avatar_for_user(current_user, db)
+    except DIdAvatarError as exc:
+        raise HTTPException(status_code=503, detail=str(exc))
+
+    return {
+        **upload_result,
+        "avatar_id": avatar_result["avatar_id"],
+        "avatar_provider": avatar_result["avatar_provider"],
+        "avatar_image_url": avatar_result.get("avatar_image_url"),
+        "avatar_ready": True,
+        "cached": avatar_result.get("cached", False),
+    }
 
 
 @router.post("/voice")
@@ -124,7 +156,11 @@ async def get_avatar_config(current_user: User = Depends(get_current_user)):
         "photo_path": photo_url,
         "voice_path": _to_public_upload_url(current_user.voice_sample_path),
         "avatar_id": config.get("avatar_id"),
-        "avatar_ready": bool(config.get("avatar_ready") and config.get("avatar_id")),
+        "avatar_ready": bool(
+            current_user.avatar_photo_path
+            and config.get("avatar_ready")
+            and config.get("avatar_id")
+        ),
         "avatar_provider": config.get("avatar_provider"),
         "avatar_image_url": avatar_image_url,
         "character_image_url": avatar_image_url,

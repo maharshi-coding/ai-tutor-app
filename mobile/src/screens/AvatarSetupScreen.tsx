@@ -113,7 +113,7 @@ export default function AvatarSetupScreen() {
     }
 
     setStepStatus('uploading');
-    setStatusMessage('Uploading photo and creating D-ID avatar...');
+    setStatusMessage('Uploading photo and registering your D-ID tutor avatar...');
     setScreenMessage(null);
 
     try {
@@ -138,7 +138,7 @@ export default function AvatarSetupScreen() {
       setScreenMessage(
         extractErrorMessage(
           error,
-          'Could not create the D-ID avatar from the selected photo.',
+          'Could not save the avatar photo for D-ID.',
         ),
       );
       await loadAvatarConfig();
@@ -148,8 +148,8 @@ export default function AvatarSetupScreen() {
   const generateAvatarPreview = async () => {
     if (!avatarId) {
       Alert.alert(
-        'Create an avatar first',
-        'Please upload your photo and finish D-ID avatar setup before generating a preview.',
+        'Upload a photo first',
+        'Please upload your avatar photo before generating a preview video.',
       );
       return;
     }
@@ -194,7 +194,7 @@ export default function AvatarSetupScreen() {
 
       <Text style={styles.pageTitle}>Avatar setup</Text>
       <Text style={styles.pageSub}>
-        Upload a photo once, cache the D-ID avatar for your account, and preview the live tutor video pipeline.
+        Upload a photo once, save it to your profile, and preview the D-ID tutor video pipeline.
       </Text>
 
       {isLoadingConfig ? (
@@ -218,7 +218,7 @@ export default function AvatarSetupScreen() {
           <Text style={styles.stepTitle}>Upload your tutor photo</Text>
         </View>
         <Text style={styles.stepDesc}>
-          Use a clear, front-facing image. The same uploaded photo is cached and reused for D-ID avatar generation.
+          Use a clear, front-facing image. The same uploaded photo is stored on your profile and reused for every D-ID tutor video.
         </Text>
 
         <TouchableOpacity
@@ -254,7 +254,7 @@ export default function AvatarSetupScreen() {
             </View>
           ) : (
             <Text style={styles.btnText}>
-              {avatarId ? 'Refresh D-ID avatar' : 'Create D-ID avatar'}
+              {avatarId ? 'Replace saved avatar' : 'Save avatar photo'}
             </Text>
           )}
         </TouchableOpacity>
@@ -269,13 +269,13 @@ export default function AvatarSetupScreen() {
         </View>
         <Text style={styles.stepDesc}>
           {avatarId
-            ? 'Your D-ID avatar is cached and ready. You only need to regenerate it when you upload a new photo.'
-            : 'After the photo upload completes, the backend stores the D-ID avatar id for reuse.'}
+            ? 'Your D-ID avatar is ready. Upload a new photo any time to replace it for future tutor videos.'
+            : 'After the photo upload completes, Live Tutor will reuse that saved image for every D-ID response.'}
         </Text>
 
         <View style={styles.statusPanel}>
           <Text style={styles.statusLabel}>Avatar provider</Text>
-          <Text style={styles.statusValue}>{avatarId ? 'D-ID ready' : 'Waiting for setup'}</Text>
+          <Text style={styles.statusValue}>{avatarId ? 'D-ID' : 'Waiting for photo'}</Text>
           {avatarId ? (
             <Text style={styles.statusMeta}>Avatar ID: {avatarId}</Text>
           ) : null}
@@ -290,7 +290,7 @@ export default function AvatarSetupScreen() {
           <Text style={styles.stepTitle}>Generate intro preview</Text>
         </View>
         <Text style={styles.stepDesc}>
-          This creates a short talking tutor video using the same D-ID avatar flow that Live Tutor mode uses after each lesson response.
+          This creates a short talking tutor video using the same D-ID flow that Live Tutor mode uses after each lesson response.
         </Text>
 
         <TouchableOpacity

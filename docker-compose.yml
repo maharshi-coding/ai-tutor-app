@@ -40,10 +40,15 @@ services:
       GEMINI_MODEL: gemini-1.5-flash
       OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
       OLLAMA_MODEL: ${OLLAMA_MODEL:-llama3}
+      TTS_PROVIDER: ${TTS_PROVIDER:-auto}
+      PIPER_TTS_URL: ${PIPER_TTS_URL:-}
+      COQUI_TTS_URL: ${COQUI_TTS_URL:-}
+      KOKORO_API_URL: ${KOKORO_API_URL:-http://host.docker.internal:8880}
       DID_API_KEY: ${DID_API_KEY:-}
       DID_API_BASE_URL: ${DID_API_BASE_URL:-https://api.d-id.com}
       DID_DEFAULT_VOICE: ${DID_DEFAULT_VOICE:-en-US-JennyNeural}
       DID_VOICE_PROVIDER: ${DID_VOICE_PROVIDER:-microsoft}
+      DID_REQUEST_TIMEOUT_SECONDS: ${DID_REQUEST_TIMEOUT_SECONDS:-120}
       UPLOAD_DIR: /app/uploads
       MAX_FILE_SIZE: 10485760
       HOST: 0.0.0.0

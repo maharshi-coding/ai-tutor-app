@@ -131,6 +131,10 @@ export default function ChatScreen() {
   const [heroVideoUrl, setHeroVideoUrl] = useState<string | null>(null);
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
   const [avatarConfig, setAvatarConfig] = useState<AvatarConfig | null>(null);
+  const [avatarRetry, setAvatarRetry] = useState<{
+    text: string;
+    messageId: string;
+  } | null>(null);
 
   const listRef = useRef<FlatList<Message>>(null);
   const pulseAnim = useRef(new Animated.Value(1)).current;
@@ -262,6 +266,7 @@ export default function ChatScreen() {
     setStreamingMessageId(null);
     setIsGeneratingAvatar(false);
     setAvatarStatus('');
+    setAvatarRetry(null);
     latestAvatarTokenRef.current = null;
     clearStreamTimer();
 
@@ -314,7 +319,12 @@ export default function ChatScreen() {
   );
 
   const startAvatarPolling = useCallback(
-    async (jobId: string, messageId: string, expectedSessionKey: string) => {
+    async (
+      jobId: string,
+      messageId: string,
+      retryText: string,
+      expectedSessionKey: string,
+    ) => {
       const token = `${messageId}-${Date.now()}`;
       latestAvatarTokenRef.current = token;
       setIsGeneratingAvatar(true);
@@ -343,6 +353,7 @@ export default function ChatScreen() {
 
         const fullUrl = await toAbsUrl(videoUrl);
         setHeroVideoUrl(fullUrl);
+        setAvatarRetry(null);
         setMessages(current =>
           current.map(message =>
             message.id === messageId ? {...message, videoUrl: fullUrl} : message,
@@ -354,6 +365,7 @@ export default function ChatScreen() {
           latestAvatarTokenRef.current === token &&
           sessionKeyRef.current === expectedSessionKey
         ) {
+          setAvatarRetry({text: retryText, messageId});
           setChatError(
             extractErrorMessage(
               error,
@@ -442,15 +454,17 @@ export default function ChatScreen() {
 
       if (!currentAvatarId) {
         if (sessionKeyRef.current === expectedSessionKey) {
+          setAvatarRetry({text: assistantResponse, messageId: assistantMessageId});
           setChatError(
-            'Live Tutor needs a D-ID avatar first. Open Avatar Setup, upload a photo, and try again.',
+            'Live Tutor needs a saved avatar photo first. Open Avatar Setup, upload a photo, and try again.',
           );
         }
         return;
       }
 
+      setAvatarRetry(null);
       setIsGeneratingAvatar(true);
-      setAvatarStatus('Sending explanation to D-ID...');
+      setAvatarStatus('Sending the final explanation to D-ID...');
 
       try {
         const speakResponse = await avatarAPI.speak({
@@ -469,6 +483,7 @@ export default function ChatScreen() {
         if (videoUrl) {
           const fullUrl = await toAbsUrl(videoUrl);
           setHeroVideoUrl(fullUrl);
+          setAvatarRetry(null);
           setMessages(current =>
             current.map(message =>
               message.id === assistantMessageId
@@ -482,12 +497,14 @@ export default function ChatScreen() {
           await startAvatarPolling(
             speakResponse.data.job_id,
             assistantMessageId,
+            assistantResponse,
             expectedSessionKey,
           );
         } else {
           setIsGeneratingAvatar(false);
           setAvatarStatus('');
-          setChatError('Live Tutor did not return a video job id.');
+          setAvatarRetry({text: assistantResponse, messageId: assistantMessageId});
+          setChatError('D-ID did not return a video job id.');
         }
       } catch (error) {
         if (
@@ -499,6 +516,7 @@ export default function ChatScreen() {
 
         setIsGeneratingAvatar(false);
         setAvatarStatus('');
+        setAvatarRetry({text: assistantResponse, messageId: assistantMessageId});
         setChatError(
           extractErrorMessage(
             error,
@@ -509,6 +527,19 @@ export default function ChatScreen() {
     },
     [avatarConfig, isLiveTutor, startAvatarPolling],
   );
+
+  const retryLatestAvatar = useCallback(() => {
+    if (!avatarRetry || isGeneratingAvatar) {
+      return;
+    }
+
+    setChatError(null);
+    generateAvatarReply(
+      avatarRetry.text,
+      avatarRetry.messageId,
+      sessionKeyRef.current,
+    ).catch(() => {});
+  }, [avatarRetry, generateAvatarReply, isGeneratingAvatar]);
 
   const sendMessage = useCallback(
     async (text: string) => {
@@ -831,6 +862,17 @@ export default function ChatScreen() {
           textStyle={styles.bannerText}
         />
 
+        {isLiveTutor && avatarRetry && !isGeneratingAvatar ? (
+          <View style={styles.retryRow}>
+            <TouchableOpacity
+              activeOpacity={0.88}
+              style={styles.retryButton}
+              onPress={retryLatestAvatar}>
+              <Text style={styles.retryButtonText}>Retry tutor video</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+
         <FlatList
           ref={listRef}
           data={messages}
@@ -1007,6 +1049,20 @@ const styles = StyleSheet.create({
   modeBannerText: {color: '#CBD5E1', fontSize: 13, lineHeight: 19},
   banner: {marginHorizontal: 14, marginTop: 12},
   bannerText: {fontSize: 12},
+  retryRow: {
+    paddingHorizontal: 14,
+    paddingTop: 10,
+  },
+  retryButton: {
+    alignSelf: 'flex-start',
+    borderRadius: 16,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    backgroundColor: '#1E1B4B',
+    borderWidth: 1,
+    borderColor: '#3730A3',
+  },
+  retryButtonText: {color: '#DDD6FE', fontSize: 12, fontWeight: '700'},
   messageList: {flex: 1},
   msgContent: {padding: 14, paddingBottom: 6},
   msgContentEmpty: {flexGrow: 1},

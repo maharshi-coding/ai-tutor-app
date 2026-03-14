@@ -135,10 +135,14 @@ export const voiceAPI = {
   },
 }
 
-// Avatar Video API (SadTalker)
+// Avatar Video API (D-ID)
 export const avatarVideoAPI = {
   generate: async (params: { audio_url?: string; text?: string; image_url?: string }) => {
     const response = await api.post('/api/avatar', params)
+    return response.data
+  },
+  getJobStatus: async (jobId: string) => {
+    const response = await api.get(`/api/avatar/job/${jobId}`)
     return response.data
   },
 }

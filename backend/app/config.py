@@ -50,15 +50,6 @@ class Settings(BaseSettings):
     # Option 3: Other cloud services (Civitai, etc.) - can be added later
     CIVITAI_API_KEY: Optional[str] = None  # If Civitai adds img2img support
     
-    # Optional avatar video generation service (image + text/audio -> video)
-    AVATAR_VIDEO_API_URL: Optional[AnyHttpUrl] = None
-    AVATAR_VIDEO_API_KEY: Optional[str] = None
-    DID_API_KEY: Optional[str] = None
-    DID_API_BASE_URL: str = "https://api.d-id.com"
-    DID_DEFAULT_VOICE: str = "en-US-JennyNeural"
-    DID_VOICE_PROVIDER: str = "microsoft"
-    DID_REQUEST_TIMEOUT_SECONDS: int = 120
-
     # Ollama (local LLM – free, open-source)
     OLLAMA_BASE_URL: str = _default_ollama_base_url()
     OLLAMA_MODEL: str = "llama3"
@@ -76,14 +67,12 @@ class Settings(BaseSettings):
     KOKORO_API_URL: str = "http://localhost:8880"
     KOKORO_DEFAULT_VOICE: str = "af_heart"
 
-    # SadTalker (local talking-head avatar video)
-    SADTALKER_API_URL: str = "http://localhost:8870"
-    SADTALKER_REF_IMAGE: Optional[str] = None  # Path to default avatar reference image
-    SADTALKER_TIMEOUT_SECONDS: int = 300
-    ENABLE_VIDEO_COMPRESSION: bool = True
-    FFMPEG_BINARY: str = "ffmpeg"
-    VIDEO_COMPRESSION_CRF: int = 30
-    VIDEO_COMPRESSION_TIMEOUT_SECONDS: int = 120
+    # D-ID avatar video generation
+    DID_API_KEY: Optional[str] = None
+    DID_API_BASE_URL: str = "https://api.d-id.com"
+    DID_DEFAULT_VOICE: str = "en-US-JennyNeural"
+    DID_VOICE_PROVIDER: str = "microsoft"
+    DID_REQUEST_TIMEOUT_SECONDS: int = 120
 
     # File Upload Settings
     UPLOAD_DIR: str = "./uploads"

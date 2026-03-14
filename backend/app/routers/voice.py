@@ -1,12 +1,13 @@
-"""Deprecated local voice endpoints kept only to return a clear migration message."""
+"""Local text-to-speech endpoints used by the avatar pipeline and web preview flows."""
 
 from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
 from app.models import User
 from app.routers.auth import get_current_user
+from app.services.tts import ensure_voice_audio
 
 
 router = APIRouter()
@@ -24,21 +25,21 @@ class VoiceResponse(BaseModel):
     provider: Optional[str] = None
 
 
-def _voice_disabled() -> None:
-    raise HTTPException(
-        status_code=410,
-        detail=(
-            "Local voice generation has been removed. "
-            "Use the D-ID avatar endpoints for Live Tutor mode."
-        ),
-    )
-
-
 @router.post("/voice", response_model=VoiceResponse)
 @router.post("/generate-voice", response_model=VoiceResponse)
 async def generate_voice(
     req: VoiceRequest,
     current_user: User = Depends(get_current_user),
 ):
-    _ = (req, current_user)
-    _voice_disabled()
+    speed = req.speed if req.speed is not None else 1.0
+    artifact = await ensure_voice_audio(
+        current_user.id,
+        req.text,
+        voice=req.voice,
+        speed=speed,
+    )
+    return VoiceResponse(
+        audio_url=artifact.audio_url,
+        duration_ms=artifact.duration_ms,
+        provider=artifact.provider,
+    )
